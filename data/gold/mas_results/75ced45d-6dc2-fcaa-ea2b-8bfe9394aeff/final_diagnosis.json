@@ -1,0 +1,157 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (DKD)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 5.7\u202fmL/min/1.73\u202fm\u00b2 with severe proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "glucosuria, ketonuria, high urine protein",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "longstanding type\u202f2 diabetes on insulin therapy",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD with massive proteinuria in a patient with insulin\u2011requiring diabetes strongly points to diabetic nephropathy as the primary driver of renal failure."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic cardiovascular disease (sub\u2011clinical CAD / PAD / cerebrovascular disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "high cardiovascular risk profile (diabetes, hypertension, CKD stage\u202f4)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "elevated 10\u2011year ASCVD risk (not quantified in report)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of diabetes, hypertension, and advanced CKD confers a high pre\u2011test probability for sub\u2011clinical atherosclerosis despite lack of imaging."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "long\u2011standing hypertension documented in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD with proteinuria, though proteinuria level exceeds typical for isolated hypertensive disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension contributes to CKD progression; however, the degree of proteinuria makes pure hypertensive nephrosclerosis less likely than diabetic nephropathy."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 (eGFR <15) which commonly leads to reduced erythropoietin production",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "absence of hemoglobin/hematocrit values (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to anemia, but confirmation requires CBC; probability lowered pending lab results."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 with expected disturbances in calcium\u2011phosphate metabolism",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "isolated low alkaline phosphatase (22.6\u202fU/L) \u2013 atypical for high\u2011turnover bone disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal osteodystrophy is common in advanced CKD, yet the low ALP makes high\u2011turnover disease less likely; diagnosis remains speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Cardiorenal syndrome (undetected heart failure)",
+      "icd10": "I13.0",
+      "snomed": "302810001",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "high cardiovascular risk but no documented cardiac evaluation",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "potential volume overload risk in CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the lack of ECG, echo, or BNP data, heart failure cannot be confirmed; probability remains low pending cardiac workup."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (DKD)",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease (eGFR 5.7) and massive proteinuria in the context of insulin\u2011requiring type\u202f2 diabetes, making diabetic nephropathy the dominant etiology. Hypertension and the overall cardiovascular risk profile raise the likelihood of sub\u2011clinical atherosclerotic disease and contribute to CKD progression, while hypertensive nephrosclerosis remains a secondary contributor. Advanced CKD predisposes to anemia and mineral\u2011bone disorder, but laboratory confirmation is lacking, lowering confidence. Cardiac involvement is possible but unsubstantiated without imaging or biomarkers.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (1.2\u202fmg/dL) with no serum bilirubin reported",
+    "Implausibly low hemoglobin A1c of 3.0\u202f% (possible assay error)",
+    "Low alkaline phosphatase (22.6\u202fU/L) \u2013 isolated and atypical",
+    "Missing recent blood pressure readings, BMI, and eGFR trend data",
+    "Absence of anemia laboratory parameters (Hb, Hct, iron studies)",
+    "No calcium, phosphate, or PTH values to confirm secondary hyperparathyroidism",
+    "No cardiac evaluation (ECG, echo, BNP) despite high CV risk"
+  ],
+  "recommended_workup": [
+    "Repeat hemoglobin A1c assay to verify glucose control",
+    "Repeat urine bilirubin and obtain serum bilirubin, liver function panel",
+    "Complete anemia workup: CBC, iron studies, ferritin, reticulocyte count",
+    "Mineral\u2011bone disorder panel: serum calcium, phosphate, PTH, vitamin D, repeat ALP",
+    "Ambulatory blood pressure monitoring and updated BMI",
+    "Cardiac assessment: ECG, transthoracic echocardiogram, BNP or NT\u2011proBNP",
+    "Initiate or optimize RAAS blockade (ACE inhibitor or ARB) if not contraindicated",
+    "Dialysis access planning and transplant evaluation given eGFR <6\u202fmL/min/1.73\u202fm\u00b2"
+  ]
+}

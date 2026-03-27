@@ -1,0 +1,172 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome driven insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "302810001",
+      "probability": 0.41,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemic profile with high LDL, low HDL, borderline high total cholesterol",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Presence of hypertension and elevated fasting glucose (prediabetes)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of hypertension, dyslipidemia, and prediabetes fulfills criteria for metabolic syndrome, driving insulin resistance as the primary pathophysiologic process."
+    },
+    {
+      "rank": 2,
+      "name": "Essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.19,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented elevated blood pressure readings consistent with hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension is a core component of metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is both a component of metabolic syndrome and an independent cardiovascular risk factor, supported by documented elevated BP."
+    },
+    {
+      "rank": 3,
+      "name": "Prediabetes / early type\u20112 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose or HbA1c in prediabetic range (implied by risk profile)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Insulin resistance suggested by metabolic syndrome features",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to impaired glucose tolerance; labs suggest early dysglycemia."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild hyperkalaemia trending upward",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and prediabetes increase risk for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given hypertension, prediabetes, and rising potassium, early CKD is plausible, though renal function labs are missing."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep\u2011disordered breathing (OSA)",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors present: obesity (implied by metabolic syndrome) and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in obese patients with metabolic syndrome; lack of documented symptoms lowers certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome is a major risk factor for NAFLD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s metabolic profile predisposes to hepatic steatosis, though liver enzymes were not provided."
+    },
+    {
+      "rank": 7,
+      "name": "Polycythemia / erythrocytosis",
+      "icd10": "D75.1",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin (16.1 g/dL) conflicting with chronic anemia history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Discrepant hemoglobin may reflect true erythrocytosis or lab error; further evaluation needed."
+    },
+    {
+      "rank": 8,
+      "name": "Depressive / anxiety disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented stress and social isolation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors are present; formal screening not yet performed, making this a lower\u2011confidence consideration."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome driven insulin resistance",
+  "primary_probability": 0.41,
+  "clinical_reasoning_summary": "The patient exhibits classic features of metabolic syndrome\u2014hypertension, dyslipidemia, and early glucose dysregulation\u2014making insulin resistance the most likely unifying diagnosis. This drives secondary conditions such as essential hypertension and prediabetes. Early CKD is plausible given the hypertensive and prediabetic milieu, though renal labs are lacking. Co\u2011morbidities common in this phenotype, including OSA and NAFLD, are retained as plausible but lower\u2011ranked differentials. Polycythemia and mood disorder are considered due to isolated lab and psychosocial findings, respectively, but carry low confidence pending further evaluation.",
+  "unresolved_findings": [
+    "Elevated hemoglobin (16.1\u202fg/dL) conflicting with documented chronic anemia \u2013 requires repeat CBC and evaluation for dehydration or polycythemia.",
+    "Abnormally high PDW (173.1\u202ffL) and RDW (43.7\u202ffL) \u2013 values outside physiologic range, likely lab error; need verification.",
+    "Borderline high total calcium (10.2\u202fmg/dL) without accompanying PTH, vitamin D, or renal data \u2013 etiology unclear.",
+    "Rising potassium trend (5.2\u202fmmol/L) without known potassium\u2011sparing medication or documented renal impairment \u2013 warrants further renal work\u2011up."
+  ],
+  "recommended_workup": [
+    "Repeat complete blood count with differential to confirm hemoglobin and platelet indices.",
+    "Comprehensive metabolic panel including serum creatinine, eGFR, and urine albumin\u2011creatinine ratio.",
+    "Thyroid function tests (TSH, free T4) to definitively exclude hypothyroidism.",
+    "Overnight polysomnography to assess for obstructive sleep apnea.",
+    "Liver ultrasound or FibroScan to evaluate for fatty liver disease.",
+    "Fasting plasma glucose and HbA1c if not already obtained.",
+    "Lipid panel repeat to monitor dyslipidemia.",
+    "Psychosocial screening using PHQ\u20119 and GAD\u20117 questionnaires.",
+    "Serum calcium with PTH and 25\u2011OH vitamin D levels if hypercalcemia persists."
+  ]
+}

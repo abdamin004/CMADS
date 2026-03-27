@@ -1,0 +1,216 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease on maintenance dialysis",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.68,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 5.8 mL/min/1.73 m\u00b2, severe creatinine elevation, proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient requires nephrology management and dialysis",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Laboratory values confirm end-stage renal disease, necessitating maintenance dialysis, making this the dominant and virtually certain diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Ischemic heart disease / coronary artery disease (CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Patient likely has cardiovascular risk factors associated with ESRD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac imaging available, but CAD remains plausible",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Patients with ESRD have high prevalence of CAD; however, lack of objective cardiac data lowers certainty."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive heart disease / left ventricular hypertrophy (HFpEF)",
+      "icd10": "I11.0",
+      "snomed": "38341003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing blood pressure measurements; hypertension common in ESRD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is frequent in dialysis patients and can lead to LVH and HFpEF, but absence of BP data and imaging limits confidence."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hyperparathyroidism / CKD\u2011Mineral\u2011Bone Disorder",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD-MBD is present in >80% of patients with eGFR <15",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Calcium, phosphate, PTH labs not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given advanced CKD, secondary hyperparathyroidism is highly likely despite missing laboratory confirmation."
+    },
+    {
+      "rank": 5,
+      "name": "ESA\u2011induced erythrocytosis (over\u2011correction of CKD\u2011related anemia)",
+      "icd10": "",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Borderline high hemoglobin (17.2 g/dL) despite anemia flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient likely receiving ESA therapy for CKD anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated hemoglobin in a dialysis patient suggests possible over\u2011correction from ESA treatment."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome features common in dialysis population",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High prevalence of NAFLD in patients with diabetes and CKD makes this plausible, though no imaging or liver enzymes are provided."
+    },
+    {
+      "rank": 7,
+      "name": "Dialysis\u2011related metabolic derangements (low bicarbonate or glucose\u2011free dialysate)",
+      "icd10": "",
+      "snomed": "",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Urine ketones with low\u2011normal glucose; possible low bicarbonate exposure",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing data on dialysate composition and Kt/V",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic abnormalities can arise from dialysate composition; the observed ketonuria and glucose findings raise suspicion."
+    },
+    {
+      "rank": 8,
+      "name": "Chronic hemolysis (micro\u2011angiopathic or paraneoplastic)",
+      "icd10": "",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Positive urine bilirubin without serum bilirubin",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Urine bilirubin could indicate hemolysis, but lack of hemolysis panel makes this diagnosis uncertain."
+    },
+    {
+      "rank": 9,
+      "name": "Malignancy\u2011associated hypercoagulable state",
+      "icd10": "D68.59",
+      "snomed": "399923001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No overt thrombotic events documented; diagnosis remains speculative",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without evidence of thrombosis or malignancy, this remains a low\u2011probability consideration."
+    },
+    {
+      "rank": 10,
+      "name": "Undiagnosed thyroid dysfunction",
+      "icd10": "",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Thyroid function tests not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absence of thyroid testing leaves this as a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease on maintenance dialysis",
+  "primary_probability": 0.68,
+  "clinical_reasoning_summary": "Laboratory data unequivocally demonstrate end\u2011stage renal disease (eGFR 5.8, severe creatinine elevation, proteinuria), establishing it as the primary diagnosis. Adjusted probabilities reflect the reviewer\u2019s confidence and the prevalence of comorbid conditions in dialysis patients. Cardiovascular disease, hypertensive heart disease, CKD\u2011MBD, and ESA\u2011related erythrocytosis are the next most plausible contributors, each supported by known epidemiology and limited available findings. Metabolic derangements related to dialysate composition and NAFLD are also plausible. Less supported entities (hemolysis, malignancy\u2011associated hypercoagulability, thyroid dysfunction) remain in the differential but with low probabilities.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without serum bilirubin or hemolysis work\u2011up",
+    "Low hemoglobin A1c (2.9\u202f%) discordant with glucose",
+    "Borderline high hemoglobin (17.2\u202fg/dL) despite anemia flag",
+    "Urine ketones with low-normal glucose",
+    "Missing blood pressure measurements and antihypertensive regimen",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No complete blood count, iron studies, or vitamin D level",
+    "No calcium, phosphate, or PTH values",
+    "No thyroid function tests",
+    "No cardiac imaging (ECG, echo, stress test) or peripheral vascular assessment"
+  ],
+  "recommended_workup": [
+    "Obtain pre\u2011dialysis labs: calcium, phosphate, PTH, 25\u2011OH vitamin D, iron studies, ferritin, transferrin saturation",
+    "Thyroid panel (TSH, free T4)",
+    "Comprehensive lipid profile",
+    "Blood pressure monitoring and review of antihypertensive medications",
+    "Cardiac evaluation: ECG, transthoracic echocardiogram, consider stress testing",
+    "Hemolysis work\u2011up: LDH, haptoglobin, peripheral smear, direct antiglobulin test",
+    "Coagulation panel and cancer screening if clinically indicated",
+    "Assess dialysis adequacy: Kt/V, urea reduction ratio, review dialysate composition (bicarbonate, glucose)",
+    "Liver imaging (ultrasound) and liver function tests to evaluate NAFLD/NASH",
+    "Review ESA dosing and recent hemoglobin trends"
+  ]
+}

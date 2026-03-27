@@ -1,0 +1,248 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (SNOMED 59621000) \u2013 long\u2011standing onset 1964",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple antihypertensive agents (ACE\u2011I, \u03b2\u2011blocker duplication) \u2013 polypharmacy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 94\u202fy and female gender \u2013 very high cardiovascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Decades of documented hypertension explain the development of chronic kidney disease, coronary artery disease, and likely heart failure; it is the primary driver of the patient's vascular injury."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2 \u2013 implicit from diabetic kidney disease and insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria (351\u202fmg/dL) and microalbuminuria \u2013 diabetic nephropathy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HbA1c 3.1\u202f% (markedly low) and urine ketones 12.4\u202fmg/dL \u2013 suggests overtreatment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes underlies the diabetic nephropathy (CKD stage\u202f4) and contributes to hypoglycemia risk due to reduced insulin clearance in renal failure."
+    },
+    {
+      "rank": 3,
+      "name": "Acute\u2011on\u2011chronic kidney injury (volume depletion/NSAID exposure)",
+      "icd10": "N17.9",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine rise from 2.3\u202fmg/dL to 3.2\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.0 \u2013 very dilute urine",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chloride 109.5\u202fmmol/L (borderline\u2011high) \u2013 hyperchloremia suggesting volume\u2011related acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent viral sinusitis (possible NSAID or decongestant use)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The abrupt creatinine increase, dilute urine, and hyperchloremia point to an acute insult superimposed on chronic CKD, likely from volume depletion or nephrotoxic medication."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure (HFrEF or HFpEF) secondary to CAD and hypertension",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction (1995) and recent NSTEMI",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Nitroglycerin listed in medication regimen (used for angina and HF symptom relief)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dilute urine and rising creatinine could reflect aggressive diuresis for volume overload",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given extensive coronary disease, hypertension, and CKD, heart failure is highly probable and explains volume\u2011status changes and need for nitroglycerin."
+    },
+    {
+      "rank": 5,
+      "name": "Acute coronary syndrome \u2013 NSTEMI (type\u20111 MI)",
+      "icd10": "I21.4",
+      "snomed": "401314000",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute non\u2011ST\u2011segment elevation myocardial infarction (NSTEMI) \u2013 recent event",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Antiplatelet agents (aspirin, clopidogrel) on medication list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease \u2013 chronic coronary artery disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The recent NSTEMI is an acute driver of the current clinical picture and requires immediate cardiac management."
+    },
+    {
+      "rank": 6,
+      "name": "Iatrogenic hypoglycemia (insulin overtreatment in CKD)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood glucose 66.7\u202fmg/dL \u2013 mild hypoglycemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.1\u202f% \u2013 markedly low, discordant with diabetes history",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 12.4\u202fmg/dL despite low serum glucose",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy listed in medication regimen",
+          "strength": "moderate"
+        },
+        {
+          "source": "renal_pattern",
+          "finding": "CKD stage\u202f4 reduces insulin clearance, increasing hypoglycemia risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced renal clearance of insulin combined with possibly excessive dosing explains the low glucose and ketonuria, posing a safety risk."
+    },
+    {
+      "rank": 7,
+      "name": "Polypharmacy\u2011related adverse drug events",
+      "icd10": "Z91.14",
+      "snomed": "314529007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple antihypertensive agents with duplication of ACE\u2011I and \u03b2\u2011blocker",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Antiplatelet agents increasing bleeding risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication review flagged due to polypharmacy risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The extensive medication list raises the likelihood of drug\u2011drug interactions, over\u2011diuresis, and bleeding, contributing to renal and hematologic abnormalities."
+    },
+    {
+      "rank": 8,
+      "name": "CKD\u2011related non\u2011anion\u2011gap metabolic acidosis",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chloride 109.5\u202fmmol/L \u2013 mild hyperchloremia consistent with non\u2011anion\u2011gap acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage\u202f4 (eGFR 24.6\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to a hyperchloremic metabolic acidosis; however, it is a downstream consequence of the primary renal injury."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s decades\u2011long hypertension and type\u202f2 diabetes are the root causes of her chronic kidney disease, coronary artery disease, and likely heart failure. Recent acute events\u2014an NSTEMI, a rise in creatinine with dilute urine, and hypoglycemia despite insulin therapy\u2014represent reversible threats that must be addressed urgently. Polypharmacy further complicates volume status, renal perfusion, and bleeding risk. The differential was weighted to reflect the certainty of chronic drivers (hypertension, diabetes) and the immediacy of acute, treatable conditions (AKI, heart failure, NSTEMI, hypoglycemia).",
+  "unresolved_findings": [
+    "Urine specific gravity 1.0 \u2013 extremely dilute, unclear if due to diuretics or intrinsic concentrating defect",
+    "Serum albumin 5.4\u202fg/dL \u2013 borderline high, atypical for CKD",
+    "Positive urine ketones with low serum glucose \u2013 suggests possible insulin overdose or prolonged fasting",
+    "HbA1c 3.1\u202f% \u2013 likely laboratory artifact or severe hypoglycemia effect",
+    "Duplicate ACE\u2011I and \u03b2\u2011blocker agents \u2013 exact agents/doses not specified",
+    "Absence of full electrolyte panel (Na\u207a, K\u207a, HCO\u2083\u207b) and acid\u2011base status",
+    "No coagulation parameters (PT/INR, platelet count) despite antiplatelet therapy",
+    "No cardiac imaging (echocardiogram) or functional data",
+    "No neurologic or frailty assessment"
+  ],
+  "recommended_workup": [
+    "Daily weight, orthostatic vitals, bedside IVC ultrasound to assess volume status and guide AKI management",
+    "Comprehensive electrolyte panel with bicarbonate and arterial blood gas to characterize acid\u2011base disturbance",
+    "Transthoracic echocardiogram with measurement of ejection fraction and diastolic parameters; obtain BNP/NT\u2011proBNP",
+    "Medication reconciliation by a clinical pharmacist focusing on nephrotoxic agents, duplicate antihypertensives, and insulin dosing",
+    "24\u2011hour glucose monitoring or continuous glucose monitoring to evaluate hypoglycemia patterns",
+    "Repeat HbA1c and consider point\u2011of\u2011care fructosamine to verify glycemic control",
+    "CBC with differential, CRP/ESR, and repeat nasal/sinus imaging to assess for ongoing infection that could precipitate type\u20112 MI",
+    "Frailty assessment (Clinical Frailty Scale) and cognitive screening (MoCA/MMSE) to inform treatment goals and transplant eligibility",
+    "Renal ultrasound to evaluate for obstructive causes or structural changes",
+    "Iron studies (ferritin, transferrin saturation) to further characterize anemia"
+  ]
+}

@@ -1,0 +1,374 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.2202,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2019, on lisinopril, amlodipine, HCTZ",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4/5 (renal failure) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR = 4.1 mL/min/1.73m\u00b2 (stage 5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_hypertension, has_ckd",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension with advanced CKD and heavy proteinuria is classic for hypertensive nephrosclerosis, especially in the absence of confirmed diabetes control."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic kidney disease",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.1468,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria & microalbuminuria attributed to type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein \u2248 272 mg/dL (\u22483+) heavy proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose trace (1 mg/dL)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones positive (5.7 mg/dL)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Proteinuria and microalbuminuria are documented as diabetic complications, but lack of confirmatory glucose testing creates uncertainty; still a plausible contributor to CKD."
+    },
+    {
+      "rank": 3,
+      "name": "Ischemic heart disease / Atherosclerotic cardiovascular disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1468,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C = 179.4 mg/dL (severe hyper\u2011LDL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol = 265.3 mg/dL (marked hyper\u2011cholesterolemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension, obesity, CKD, OSA \u2013 high atherosclerotic risk profile",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index = 3 (moderate overall disease burden)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe dyslipidemia combined with hypertension, obesity, CKD, and OSA yields a high 10\u2011year ASCVD risk, making coronary artery disease a leading concern."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure (CKD\u2011related)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.0734,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and CKD stage 5 \u2013 common precursors to HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis (CO\u2082 = 21.4 mmol/L) indicating volume\u2011status challenges",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD and uncontrolled hypertension predispose to volume overload and heart failure, though no cardiac imaging is yet available."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011MBD (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.0826,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR = 4.1 mL/min/1.73m\u00b2 (stage 5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum CO\u2082 borderline low (21.4 mmol/L) \u2013 early metabolic derangement common in CKD\u2011MBD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients with eGFR <15 almost universally develop secondary hyperparathyroidism; labs are pending but the condition is physiologically expected."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral arterial disease / Cerebrovascular disease",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.055,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, dyslipidemia, CKD \u2013 major PAD/CVA risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical complexity = moderate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Atherosclerotic burden likely extends to peripheral and cerebral vessels; no exam data yet."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea \u2013 suboptimal treatment",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.055,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea syndrome documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and hypertension \u2013 OSA contributes to resistant HTN",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA worsens hypertension, insulin resistance, and dyslipidemia; adherence to CPAP is unknown, raising the possibility of suboptimal control."
+    },
+    {
+      "rank": 8,
+      "name": "Primary/secondary glomerulonephritis",
+      "icd10": "N02.9",
+      "snomed": "236423003",
+      "probability": 0.0642,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Heavy proteinuria (\u22483+), stable trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Rapid eGFR decline despite antihypertensive therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Proteinuria disproportionate to hypertension alone suggests a primary glomerular process; biopsy would clarify."
+    },
+    {
+      "rank": 9,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.0367,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of chronic kidney disease onset 2024\u201106\u201125",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin = 10.8 g/dL (normocytic anemia, falling trend)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD stage 5 commonly causes anemia via reduced erythropoietin; labs confirm."
+    },
+    {
+      "rank": 10,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "372087006",
+      "probability": 0.0367,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe LDL\u2011C elevation (179.4 mg/dL) and obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented, no thyroid evaluation yet",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated hypothyroidism can cause severe dyslipidemia and weight gain; thyroid testing is pending."
+    },
+    {
+      "rank": 11,
+      "name": "Protein\u2011energy wasting / Malnutrition",
+      "icd10": "R64",
+      "snomed": "271327008",
+      "probability": 0.0183,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones positive (5.7 mg/dL)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum CO\u2082 borderline low (21.4 mmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Catabolic state suggested by ketonuria and mild metabolic acidosis may reflect protein\u2011energy wasting in ESRD."
+    },
+    {
+      "rank": 12,
+      "name": "Secondary hypertension (renal\u2011artery stenosis, primary aldosteronism, pheochromocytoma)",
+      "icd10": "I15.0",
+      "snomed": "236423003",
+      "probability": 0.0367,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three agents",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 41 \u2013 relatively young for refractory HTN",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant HTN in a young adult warrants evaluation for secondary causes such as renal\u2011artery stenosis."
+    },
+    {
+      "rank": 13,
+      "name": "Malignancy screen (renal cell carcinoma, urothelial carcinoma)",
+      "icd10": "C64.9",
+      "snomed": "363406005",
+      "probability": 0.0092,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive (0.9 mg/dL) \u2013 atypical, could hint at urothelial pathology",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although low probability, urine bilirubin warrants imaging to exclude renal or urothelial malignancy."
+    },
+    {
+      "rank": 14,
+      "name": "Hemolysis / Early cholestasis",
+      "icd10": "R74.0",
+      "snomed": "271442005",
+      "probability": 0.0092,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive (0.9 mg/dL) with normal serum bilirubin",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated urine bilirubin may reflect low\u2011grade hemolysis or early biliary obstruction; further labs needed."
+    },
+    {
+      "rank": 15,
+      "name": "Psychosocial non\u2011adherence (modifier)",
+      "icd10": "Z91.14",
+      "snomed": "160603005",
+      "probability": 0.0092,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Victim of intimate partner abuse, unemployment, criminal record",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors can impair medication adherence and follow\u2011up, influencing all other conditions."
+    }
+  ],
+  "primary_diagnosis": "Hypertensive nephrosclerosis",
+  "primary_probability": 0.2202,
+  "clinical_reasoning_summary": "The patient is a 41\u2011year\u2011old male with longstanding hypertension, severe dyslipidemia, obesity, OSA, and end\u2011stage renal disease (eGFR 4.1). The convergence of resistant hypertension, advanced CKD, and heavy proteinuria makes hypertensive nephrosclerosis the most likely primary driver of renal decline, though diabetic kidney disease remains plausible given documented proteinuria attributed to type\u202f2 diabetes and low\u2011level glucosuria/ketonuria. The profound lipid abnormalities and cumulative atherosclerotic risk factors raise the probability of ischemic heart disease, while CKD\u2011related metabolic bone disease, peripheral arterial disease, and heart failure are expected sequelae. Secondary hypertension, primary glomerulonephritis, hypothyroidism, and malnutrition are included to address gaps such as resistant BP, disproportionate proteinuria, and unexplained ketonuria. Psychosocial adversity is flagged as a modifier that may affect adherence across the spectrum.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (0.9 mg/dL) with normal serum bilirubin",
+    "Urine ketones positive (5.7 mg/dL)",
+    "Urine specific gravity = 1.00 (very dilute)",
+    "Missing confirmatory diabetes testing (fasting glucose, HbA1c)",
+    "Missing recent blood pressure measurements (office, ABPM)",
+    "Missing current BMI value",
+    "Missing CKD\u2011MBD labs (Ca, PO4, PTH, 25\u2011OH\u2011D)",
+    "Missing thyroid function tests (TSH, free T4)",
+    "Missing iron studies, B12, folate for anemia work\u2011up",
+    "Missing hemolysis labs (LDH, haptoglobin, indirect bilirubin, peripheral smear)",
+    "Unclear adherence to CPAP for OSA",
+    "No peripheral vascular exam or ABI",
+    "No renal or cardiac imaging performed",
+    "Psychosocial safety concerns (intimate partner abuse, unemployment)"
+  ],
+  "recommended_workup": [
+    "Fasting plasma glucose, HbA1c, and oral glucose tolerance test to confirm or exclude diabetes mellitus",
+    "24\u2011hour ambulatory blood pressure monitoring or home BP log to assess resistant hypertension",
+    "Renal ultrasound with Doppler and urine microscopy with protein/creatinine ratio to differentiate hypertensive vs. glomerular vs. renovascular disease",
+    "Electrocardiogram, BNP, and transthoracic echocardiogram; consider stress test if indicated for ASCVD evaluation",
+    "CKD\u2011MBD panel: serum calcium, phosphate, intact PTH, 25\u2011OH vitamin D, alkaline phosphatase",
+    "Thyroid function tests: TSH and free T4",
+    "Anemia work\u2011up: ferritin, transferrin saturation, vitamin B12, folate, reticulocyte count",
+    "Hemolysis evaluation: LDH, haptoglobin, indirect bilirubin, peripheral blood smear",
+    "Serum albumin/pre\u2011albumin and dietitian assessment for protein\u2011energy wasting",
+    "Review CPAP prescription, download usage data, and assess adherence to OSA therapy",
+    "Peripheral arterial exam with ankle\u2011brachial index; duplex ultrasound if abnormal",
+    "Renal imaging (ultrasound or contrast\u2011enhanced CT) to screen for RCC or urothelial carcinoma",
+    "Social work referral for intimate partner violence safety planning, mental\u2011health counseling, and assistance with employment/housing",
+    "Repeat urine specific gravity and review dialysis schedule to clarify dilute urine finding"
+  ]
+}

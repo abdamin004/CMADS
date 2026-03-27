@@ -1,0 +1,157 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (full cluster)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.43,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 5.8%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension (SBP 135 mmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets three core components of metabolic syndrome\u2014central obesity, elevated fasting glucose/prediabetes, and low HDL\u2014plus hypertension, fulfilling diagnostic criteria."
+    },
+    {
+      "rank": 2,
+      "name": "Untreated primary hypertension (stage 1)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.235,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Single office SBP 135 mmHg (stage\u20111 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A solitary elevated SBP reading places the patient in stage\u20111 hypertension; lack of antihypertensive therapy reinforces the untreated status."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic dyslipidemia (high triglycerides / low HDL)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of recorded triglyceride value but high pre\u2011test risk given metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low HDL in the context of metabolic syndrome strongly suggests an atherogenic lipid pattern; triglyceride elevation is inferred."
+    },
+    {
+      "rank": 4,
+      "name": "Subclinical atherosclerotic cardiovascular disease (silent CAD/PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.095,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple risk factors (hypertension, metabolic syndrome, obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented symptomatic CAD or PAD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The clustering of risk factors makes silent atherosclerosis plausible, though no imaging evidence is available."
+    },
+    {
+      "rank": 5,
+      "name": "Mild leukopenia of uncertain etiology",
+      "icd10": "D70.9",
+      "snomed": "271442005",
+      "probability": 0.055,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "WBC 3.7\u202f\u00d710\u00b3/\u00b5L with downward trend",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Leukopenia is present and worsening; without further work\u2011up the cause remains unclear."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea (probable)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.045,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, middle\u2011aged male, high pre\u2011test risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s phenotype, OSA is likely, but lack of objective testing reduces certainty."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (full cluster)",
+  "primary_probability": 0.43,
+  "clinical_reasoning_summary": "The patient\u2019s cardiometabolic profile\u2014obesity, prediabetes, low HDL, and stage\u20111 hypertension\u2014fulfills criteria for metabolic syndrome, which the reviewer identified as the most probable diagnosis. Untreated hypertension remains a significant comorbidity, while the dyslipidemic pattern and accumulated risk factors raise concern for subclinical atherosclerosis. Mild leukopenia is an unexplained laboratory abnormality that warrants separate consideration. Obstructive sleep apnea is plausible given the phenotype but lacks confirmatory testing.",
+  "unresolved_findings": [
+    "Leukopenia (WBC 3.7\u202f\u00d710\u00b3/\u00b5L, trending down)",
+    "Missing confirmatory blood pressure measurements",
+    "Absence of exact triglyceride level",
+    "Smoking status unknown",
+    "No documented antihypertensive, statin, or antidiabetic therapy",
+    "No formal screening for obstructive sleep apnea"
+  ],
+  "recommended_workup": [
+    "Repeat blood pressure measurements on separate visits",
+    "Comprehensive fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Renal function panel (eGFR, serum creatinine) and urine albumin/creatinine ratio",
+    "Thyroid function tests (TSH, free T4)",
+    "Iron studies, vitamin D, uric acid",
+    "Polysomnography or home sleep apnea testing",
+    "Repeat CBC with differential to monitor leukopenia",
+    "If leukopenia persists, consider vitamin B12/folate levels and viral serologies",
+    "Non\u2011invasive cardiovascular imaging (coronary calcium score, ankle\u2011brachial index) to assess subclinical atherosclerosis"
+  ]
+}

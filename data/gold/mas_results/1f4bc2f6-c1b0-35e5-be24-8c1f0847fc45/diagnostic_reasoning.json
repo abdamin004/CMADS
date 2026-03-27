@@ -1,0 +1,265 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 5 chronic kidney disease (hypertensive/diabetic nephrosclerosis)",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) 9.5\u202fmL/min/1.73\u202fm\u00b2 \u2013 stage\u202f5 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.7\u202fmg/dL \u2013 consistent with severe renal impairment",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension on four agents \u2013 major cause of CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (SNOMED 271737000) \u2013 likely anemia of CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index\u202f=\u202f1 (high clinical complexity)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Extremely low eGFR and elevated creatinine unequivocally indicate stage\u20115 CKD. Hypertension, anemia, and the Charlson score reinforce chronic renal disease as the dominant chronic condition."
+    },
+    {
+      "rank": 2,
+      "name": "Acute coronary syndrome (type\u20111 MI) or type\u20112 MI with demand ischemia",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity Troponin I 37.6\u202fng/L (elevated) \u2013 possible ongoing myocardial injury",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute non\u2011ST elevation myocardial infarction (NSTEMI) in 2017",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f=\u202f57\u202fy, male, Hawaiian ethnicity \u2013 high baseline ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 187.9\u202fmg/dL and total cholesterol 262.6\u202fmg/dL \u2013 markedly atherogenic",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications for secondary prevention: aspirin, prasugrel, high\u2011intensity atorvastatin",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin in a patient with prior NSTEMI, severe dyslipidaemia, and high ASCVD risk raises the probability of an acute coronary event, either plaque\u2011rupture (type\u20111) or demand\u2011related (type\u20112). Absence of symptom data makes both possibilities plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Heterozygous familial hypercholesterolaemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "414916001",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 187.9\u202fmg/dL \u2013 severe hyperlipidaemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 262.6\u202fmg/dL \u2013 severe dyslipidaemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction (SNOMED 399211009) \u2013 early ASCVD event",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Polypharmacy (7 active meds) \u2013 suggests aggressive lipid\u2011lowering therapy already in place",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Very high LDL\u2011C in a 57\u2011year\u2011old male with premature MI is classic for heterozygous FH. Confirmation would require family history and possibly genetic testing, but the phenotype is highly suggestive."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic heart failure (post\u2011MI, reduced ejection fraction)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications for secondary prevention: atenolol, lisinopril \u2013 standard heart\u2011failure therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated high\u2011sensitivity troponin I (37.6\u202fng/L) \u2013 may reflect myocardial strain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI (2017) \u2013 risk for systolic dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Polypharmacy (7 active meds) \u2013 reflects complex cardiovascular regimen",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prior MI, use of \u03b2\u2011blocker and ACE\u2011I, and persistent troponin elevation raise suspicion for sub\u2011clinical or overt systolic dysfunction. Lack of echo or BNP data limits certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30\u202fkg/m\u00b2) \u2013 major OSA risk factor",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite four antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Male, age 57 \u2013 demographic high prevalence of OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, resistant hypertension, and male gender makes OSA highly probable. Confirmation with sleep study would guide therapy and may improve BP and CKD progression."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.06,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum calcium 8.6\u202fmg/dL \u2013 low\u2011normal in stage\u202f5 CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u202f5 CKD (eGFR 9.5\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and CKD \u2013 typical setting for CKD\u2011MBD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low\u2011normal calcium in the context of advanced CKD suggests disturbed mineral metabolism. Confirmation requires phosphate, PTH, and vitamin\u202fD levels."
+    },
+    {
+      "rank": 7,
+      "name": "Hyperbilirubinemia (Gilbert syndrome vs. early alcoholic liver disease)",
+      "icd10": "R17",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin 9.2\u202fmg/dL \u2013 severe hyperbilirubinemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal ALT, AST, ALP \u2013 no overt hepatocellular injury",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol drinking behavior \u2013 possible contributor",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Marked isolated bilirubin elevation with normal transaminases points to a benign conjugation defect (Gilbert) or early alcohol\u2011related cholestasis. Fractionated bilirubin and alcohol quantification are needed."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (SNOMED 271737000) \u2013 moderate problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u202f5 CKD (eGFR 9.5\u202fmL/min/1.73\u202fm\u00b2) \u2013 common cause of anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.7\u202fmg/dL \u2013 supports CKD\u2011related erythropoietin deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In advanced CKD, anemia is typically due to reduced erythropoietin production. Absence of iron studies leaves open a co\u2011existing iron\u2011deficiency component."
+    }
+  ],
+  "primary_diagnosis": "Stage 5 chronic kidney disease (hypertensive/diabetic nephrosclerosis)",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient presents with stage\u20115 CKD confirmed by eGFR <10\u202fmL/min/1.73\u202fm\u00b2 and high creatinine, making renal failure the dominant chronic condition. Concurrent cardiovascular risk factors (prior NSTEMI, severe dyslipidaemia, high ASCVD risk) and an elevated high\u2011sensitivity troponin suggest an acute coronary syndrome or ongoing myocardial injury. The lipid profile and early MI are also compatible with heterozygous familial hypercholesterolaemia. Obesity, resistant hypertension, and male gender raise the likelihood of obstructive sleep apnea, which can exacerbate both hypertension and CKD. Low\u2011normal calcium in end\u2011stage renal disease points toward secondary hyperparathyroidism, while isolated hyperbilirubinemia without liver enzyme elevation raises the differential of Gilbert syndrome versus alcohol\u2011related disease. Anemia is most plausibly CKD\u2011related, though iron studies are lacking. The probabilities were calibrated using Bayesian reasoning, normalising the likelihood ratios derived from the available evidence.",
+  "unresolved_findings": [
+    "Low\u2011normal serum calcium (8.6\u202fmg/dL) with no phosphate or PTH data",
+    "Absence of urine protein/albumin measurements despite stage\u20115 CKD",
+    "Missing iron studies, vitamin B12, folate, and reticulocyte count to fully characterize anemia",
+    "No ECG or cardiac imaging data to delineate the cause of troponin elevation",
+    "No bilirubin fractionation, LDH, haptoglobin, or peripheral smear to differentiate Gilbert syndrome from hemolysis or cholestasis",
+    "Unquantified alcohol intake and lack of liver ultrasound"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG and serial high\u2011sensitivity troponins to confirm or exclude acute MI",
+    "Transthoracic echocardiogram (EF, wall\u2011motion, diastolic function) to assess for chronic heart failure",
+    "Urine albumin\u2011to\u2011creatinine ratio or 24\u2011hour protein excretion to define CKD aetiology",
+    "Serum phosphate, intact PTH, 25\u2011OH vitamin D, and alkaline phosphatase for CKD\u2011MBD evaluation",
+    "Iron studies (ferritin, transferrin saturation), vitamin B12, folate, reticulocyte count, and consider erythropoiesis\u2011stimulating agent use",
+    "Bilirubin fractionation (direct vs. indirect), LDH, haptoglobin, peripheral blood smear to evaluate hyperbilirubinemia",
+    "Polysomnography or at\u2011least STOP\u2011BANG questionnaire to diagnose obstructive sleep apnea",
+    "Detailed alcohol use assessment (AUDIT\u2011C) and liver ultrasound to explore alcoholic liver disease",
+    "Family history inquiry for premature ASCVD or hypercholesterolaemia; consider genetic testing for FH if indicated",
+    "Renal artery Doppler ultrasound or CTA if hypertension remains refractory, to rule out renovascular disease"
+  ]
+}

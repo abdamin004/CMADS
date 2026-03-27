@@ -1,0 +1,403 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced diabetic kidney disease (CKD stage 4)",
+      "icd10": "N18.4",
+      "snomed": "431857002",
+      "probability": 0.32,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (onset 1987\u201105\u201131) documented as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Disorder of kidney due to diabetes mellitus (onset 1978\u201102\u201126)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria due to type 2 diabetes (onset 1983\u201106\u201119)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Awaiting kidney transplantation (onset 1987\u201106\u201123)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High renal\u2011risk flag in summary (very high)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple documented CKD stages culminating in stage 4, together with diabetic kidney disease and proteinuria, indicate advanced diabetic nephropathy as the most certain diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive heart disease / left ventricular hypertrophy",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (onset 1977\u201102\u201120)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Antihypertensive therapy with amlodipine and hydrochlorothiazide",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular\u2011risk flag in summary",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity (BMI \u226530) documented, though BMI value missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension combined with obesity and high CV risk predisposes to LVH; absence of BP readings limits confirmation but the risk profile is strong."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease (silent/clinical)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome\u2011X and insulin\u2011requiring type\u20112 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension and obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin therapy documented despite high risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular\u2011risk flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of diabetes, hypertension, obesity, and lack of lipid\u2011lowering therapy makes silent CAD highly probable even without ECG or stress testing."
+    },
+    {
+      "rank": 4,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus (insulin\u2011treated) and CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide use (raises uric acid, vascular risk)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes, CKD, and hypertension are major risk factors for PAD; absence of ABI data creates uncertainty but prevalence is high."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Mention of an \u201cepoetin link\u201d in clinical impression",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson index includes CKD (risk of anemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to anemia; the presence of an epoetin reference supports this diagnosis despite missing CBC."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, and CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular\u2011risk flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "No beta\u2011blocker or ACE\u2011I/ARB documented (potential undertreatment)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The phenotype of older, hypertensive, obese women with CKD predisposes to HFpEF; lack of echo data limits certainty."
+    },
+    {
+      "rank": 7,
+      "name": "CKD\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High renal\u2011risk flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Stage\u20114 CKD frequently leads to disturbances in calcium\u2011phosphate metabolism; labs are missing but the pathophysiology is clear."
+    },
+    {
+      "rank": 8,
+      "name": "Silent cerebrovascular disease",
+      "icd10": "I69.3",
+      "snomed": "230690007",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High overall cardiovascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and diabetes increase risk of silent lacunar infarcts; no neuroimaging available to confirm."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension (no BP values, multiple antihypertensives)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and uncontrolled hypertension raise OSA prevalence; screening not performed."
+    },
+    {
+      "rank": 10,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Refugee status, unsatisfactory housing, part\u2011time employment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic multimorbidity (diabetes, CKD, HTN)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Social stressors and chronic disease burden make mood disorder likely, though no mental\u2011health screening documented."
+    },
+    {
+      "rank": 11,
+      "name": "Undiagnosed dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome\u2011X and obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Lipid panel missing (total_cholesterol_latest, ldl_latest = null)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predicts dyslipidaemia; absence of labs prevents confirmation."
+    },
+    {
+      "rank": 12,
+      "name": "Thyroid dysfunction",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Female, age \u226560 (higher prevalence of hypothyroidism)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Thyroid panel not available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Age\u2011related risk exists; no labs to support or refute."
+    },
+    {
+      "rank": 13,
+      "name": "Medication\u2011related adverse effects",
+      "icd10": "T88.6",
+      "snomed": "442083009",
+      "probability": 0.008,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy (risk of hypoglycaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide (risk of hyperuricaemia, electrolyte shifts)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of ACE\u2011I/ARB or SGLT2\u2011i despite CKD (potential missed renoprotective benefit)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Polypharmacy and missing guideline\u2011directed agents raise possibility of drug\u2011related complications."
+    },
+    {
+      "rank": 14,
+      "name": "Infectious\u2011screening positives (TB, Hepatitis C, HIV)",
+      "icd10": "Z22.0",
+      "snomed": "442083009",
+      "probability": 0.008,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Refugee background and awaiting transplant (requires infectious screening)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "No infectious screening labs provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Higher prevalence of latent TB and viral hepatitis in refugee populations; screening not documented."
+    },
+    {
+      "rank": 15,
+      "name": "Cancer\u2011screening gaps (colonoscopy, mammogram, renal imaging)",
+      "icd10": "Z12.31",
+      "snomed": "108252007",
+      "probability": 0.004,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 60, chronic inflammation (CKD, metabolic syndrome)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "No cancer screening records in data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Age\u2011appropriate cancer screening is indicated but not documented; missed screens could uncover malignancy."
+    }
+  ],
+  "primary_diagnosis": "Advanced diabetic kidney disease (CKD stage 4)",
+  "primary_probability": 0.32,
+  "clinical_reasoning_summary": "The patient is a 60\u2011year\u2011old woman with long\u2011standing hypertension, insulin\u2011requiring type\u20112 diabetes, obesity, and metabolic syndrome. EHR data document progressive CKD from stage 1 to stage 4, proteinuria, and a pending kidney transplant, establishing advanced diabetic nephropathy as the most certain diagnosis. The combination of uncontrolled\u2011appearing hypertension, obesity, and lack of renoprotective agents raises the likelihood of hypertensive heart disease, CAD, PAD, HFpEF, and CKD\u2011related anemia. Missing objective data (BP readings, eGFR, lipid panel, CBC, imaging) force reliance on epidemiologic priors for several conditions, resulting in moderate\u2011to\u2011low confidence for many entries. Social determinants (refugee status, housing insecurity) introduce additional considerations such as depression, infectious disease screening, and cancer\u2011screening gaps. Overall confidence in the differential is moderate (\u224868/100) pending targeted investigations.",
+  "unresolved_findings": [
+    "HbA1c reported as 3.1% (implausible low value)",
+    "Missing eGFR, serum creatinine, electrolytes, calcium\u2011phosphate\u2011PTH values",
+    "No recorded blood\u2011pressure measurements (sbp_latest, dbp_latest null)",
+    "Absent lipid panel (total cholesterol, LDL)",
+    "BMI value missing despite documented obesity",
+    "No ACE\u2011I/ARB or SGLT2\u2011i therapy documented despite CKD stage 4",
+    "No documentation of dialysis or pre\u2011dialysis preparation",
+    "Absence of CBC, iron studies, urinalysis quantification"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, BUN, electrolytes, calcium, phosphate, PTH",
+    "Urine albumin\u2011to\u2011creatinine ratio (quantitative)",
+    "Complete blood count with iron studies and vitamin B12/folate",
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Blood pressure measurement series (clinic and home/ambulatory monitoring)",
+    "ECG and transthoracic echocardiogram (evaluate LVH, diastolic function, EF)",
+    "Ankle\u2011brachial index or toe\u2011brachial index for PAD assessment",
+    "Retinal examination and monofilament foot exam for diabetic micro\u2011vascular complications",
+    "STOP\u2011BANG questionnaire and overnight polysomnography or home sleep test",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screening",
+    "Infectious disease screening: IGRA (TB), hepatitis C antibody, HIV Ag/Ab",
+    "Age\u2011appropriate cancer screening: colonoscopy, mammogram, pap smear, renal ultrasound",
+    "Initiate guideline\u2011directed renoprotective therapy (ACE\u2011I or ARB, consider SGLT2\u2011i)",
+    "Uric acid level to assess gout risk from thiazide use"
+  ]
+}

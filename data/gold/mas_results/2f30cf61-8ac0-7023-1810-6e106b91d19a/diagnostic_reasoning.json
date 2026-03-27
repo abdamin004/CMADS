@@ -1,0 +1,372 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Prerenal acute kidney injury (volume depletion, ACE\u2011I unmasked)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.24,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood\u2011pressure reading 97/82\u202fmmHg (low systolic)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.5\u202fmg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 20.8\u202fmmol/L (low, mild metabolic acidosis)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing volume status and orthostatic vitals",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A low systolic BP in a patient on an ACE\u2011I can reduce glomerular perfusion, leading to a rapid rise in creatinine. The accompanying mild metabolic acidosis supports reduced renal clearance. Absence of other clear intrinsic renal pathology makes a prerenal process the most likely explanation."
+    },
+    {
+      "rank": 2,
+      "name": "Undiagnosed type\u202f2 diabetes mellitus / early diabetic nephropathy",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f59\u202fyr, male, white \u2013 high baseline diabetes risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 136.6\u202fmg/dL and triglycerides 189.5\u202fmg/dL (borderline dyslipidaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia listed as active problem",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing fasting glucose, HbA1c, and BMI data",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine could reflect early diabetic kidney injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s age, sex, and dyslipidaemia place him at substantial risk for type\u202f2 diabetes, which often presents initially with renal involvement. Absence of documented glucose testing is a critical data gap, making undiagnosed diabetes a plausible contributor to the renal abnormality."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease stage\u202f3\u20114 (vascular/HTN\u2011related)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.5\u202fmg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 20.8\u202fmmol/L (mild metabolic acidosis) consistent with reduced renal acid excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) often used for renal protection in CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension flag (stage\u202f1) despite low measured BP \u2013 suggests chronic BP issues",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior documented CKD diagnosis (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A creatinine of 3.5\u202fmg/dL in a 59\u2011year\u2011old male corresponds to an eGFR well below 60\u202fmL/min/1.73\u202fm\u00b2, indicating at least stage\u202f3 CKD. The metabolic acidosis and ACE\u2011I use support a chronic, likely vascular etiology."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with cardiorenal syndrome (low\u2011output state)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f59, male, dyslipidaemia, hypertension flag \u2013 classic HF risk profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) commonly prescribed for HF",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low systolic BP (97\u202fmmHg) could reflect low cardiac output",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine and metabolic acidosis consistent with renal hypoperfusion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented edema or JVP findings (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cardiac dysfunction can cause renal hypoperfusion, producing the observed AKI/CKD picture. The low BP and ACE\u2011I therapy raise suspicion for an underlying low\u2011output state, even though overt HF signs are not documented."
+    },
+    {
+      "rank": 5,
+      "name": "Statin\u2011associated rhabdomyolysis / myopathy",
+      "icd10": "M62.82",
+      "snomed": "302810001",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 10\u202fmg (lipid\u2011lowering therapy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "AST 38.2\u202fU/L (high\u2011normal, rising) with normal ALT \u2013 pattern seen in muscle injury",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.5\u202fmg/dL (could be secondary to rhabdomyolysis\u2011induced AKI)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing serum CK level (data gap)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented muscle pain or weakness (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Statins can cause muscle breakdown leading to elevated AST and AKI. Although the dose is low, the AST rise and high creatinine warrant consideration, especially pending CK measurement."
+    },
+    {
+      "rank": 6,
+      "name": "Renal\u2011artery stenosis (ACE\u2011I\u2011unmasked)",
+      "icd10": "I70.1",
+      "snomed": "235719002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) \u2013 can precipitate AKI in RAS",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f59, male, hyperlipidaemia \u2013 typical RAS demographic",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood\u2011pressure flag \u201cstage\u202f1 hypertension\u201d despite low measured BP",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine with discordant eGFR (possible calculation error)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing smoking status (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In patients with atherosclerotic risk factors, ACE\u2011I therapy can unmask renal hypoperfusion due to renal\u2011artery stenosis, leading to a rise in creatinine. The hypertension flag and low BP reading are compatible with this mechanism."
+    },
+    {
+      "rank": 7,
+      "name": "Acute interstitial nephritis (drug\u2011 or infection\u2011related)",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia 3.8\u202f\u00d710\u00b3/\u00b5L (falling trend)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising AST with normal ALT \u2013 possible inflammatory component",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) \u2013 known, though rare, cause of AIN",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Thrombocytosis 406.5\u202f\u00d710\u00b3/\u00b5L (reactive)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing urinalysis with eosinophils (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Leukopenia, rising inflammatory markers (AST), and a potential drug trigger (ACE\u2011I) raise suspicion for AIN. Confirmation requires urine studies."
+    },
+    {
+      "rank": 8,
+      "name": "Acute tubular necrosis (ischemic ATN)",
+      "icd10": "N17.0",
+      "snomed": "236423003",
+      "probability": 0.055,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.5\u202fmg/dL (severe rise)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis (CO\u2082 20.8\u202fmmol/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low systolic BP (97\u202fmmHg) \u2013 possible prolonged hypoperfusion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented nephrotoxic drug exposure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If a prerenal insult persisted, it could evolve into ischemic ATN. Lack of granular urine data limits certainty."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive uropathy",
+      "icd10": "N13.30",
+      "snomed": "236423003",
+      "probability": 0.045,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine without clear etiology",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing renal imaging (ultrasound/CT)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No reported flank pain or urinary symptoms (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obstruction can cause abrupt renal dysfunction, but the clinical picture lacks typical symptoms; imaging is required to rule in/out."
+    },
+    {
+      "rank": 10,
+      "name": "Ischemic heart disease (stable coronary artery disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f59, male, hyperlipidaemia, hypertension flag \u2013 high ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stress & social isolation \u2013 known CAD risk modifiers",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low systolic BP could reflect low cardiac output from CAD",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented CAD history (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s risk profile, undiagnosed CAD is plausible and could contribute to low output and renal hypoperfusion, though no cardiac symptoms are recorded."
+    }
+  ],
+  "primary_diagnosis": "Prerenal acute kidney injury (volume depletion, ACE\u2011I unmasked)",
+  "primary_probability": 0.24,
+  "clinical_reasoning_summary": "The patient presents with a markedly elevated creatinine and mild metabolic acidosis. Low systolic blood pressure, ACE\u2011I therapy, and missing volume status point toward a prerenal AKI as the most likely cause. However, substantial data gaps (baseline renal function, urinalysis, glucose/HbA1c, medication reconciliation, imaging) prevent exclusion of chronic kidney disease, undiagnosed diabetes, heart failure, statin\u2011related rhabdomyolysis, renal\u2011artery stenosis, and other intrinsic renal processes. The differential was calibrated using population\u2011based priors for a 59\u2011year\u2011old male with dyslipidaemia and psychosocial stress, then weighted by the specific abnormal findings. Probabilities were normalized to sum to 1.0.",
+  "unresolved_findings": [
+    "Creatinine 3.5\u202fmg/dL vs. eGFR 85\u202fmL/min/1.73\u202fm\u00b2 (discordant values)",
+    "Blood\u2011pressure flag \u201cstage\u202f1 hypertension\u201d despite a single low systolic reading (97\u202fmmHg)",
+    "Isolated thrombocytosis (406.5\u202f\u00d710\u00b3/\u00b5L) without clear cause",
+    "Mild metabolic acidosis (low CO\u2082, high chloride) without documented acid\u2011base disorder",
+    "Rising AST with normal and falling ALT (possible non\u2011hepatic source)",
+    "Leukopenia without fever, infection, or known immunosuppressive medication",
+    "Missing key data: prior creatinine/eGFR trend, urine albumin\u2011to\u2011creatinine ratio, serum CK, fasting glucose/HbA1c, BMI, smoking status, orthostatic vitals, urinalysis, renal imaging"
+  ],
+  "recommended_workup": [
+    "Retrieve prior serum creatinine/eGFR values to establish chronic vs. acute change",
+    "Comprehensive urinalysis with microscopy and urine albumin\u2011to\u2011creatinine ratio",
+    "Full medication and over\u2011the\u2011counter reconciliation (including NSAIDs, supplements, recent contrast)",
+    "Renal ultrasound with Doppler assessment for obstruction and renal\u2011artery stenosis",
+    "Serum creatine kinase (CK) and myoglobin levels to evaluate rhabdomyolysis",
+    "Fasting glucose, HbA1c, and BMI/waist circumference measurement",
+    "BNP, ECG, and bedside transthoracic echocardiogram to assess for heart failure or ischemic disease",
+    "CRP and ESR (or procalcitonin) to gauge systemic inflammation/infection",
+    "Hepatitis C antibody with reflex RNA testing",
+    "Serum protein electrophoresis, urine protein electrophoresis, and free\u2011light\u2011chain assay for multiple myeloma",
+    "Peripheral blood smear for dysplastic cells or blasts",
+    "Orthostatic vital signs and physical exam for JVP, edema, and volume status",
+    "STOP\u2011BANG questionnaire and, if positive, sleep study referral for obstructive sleep apnea",
+    "Dental examination and CRP to evaluate chronic periodontal inflammation"
+  ]
+}

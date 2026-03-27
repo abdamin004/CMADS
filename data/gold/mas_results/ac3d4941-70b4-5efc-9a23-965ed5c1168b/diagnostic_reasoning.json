@@ -1,0 +1,333 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 diabetes mellitus CKD)",
+      "icd10": "E11.21",
+      "snomed": "127013003",
+      "probability": 0.31,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus diagnosed 2016 (inferred from micro\u2011albuminuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 2 progressing to stage 3",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.0\u202fmg/dL and eGFR 60.3\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose 2.1\u202fmg/dL (glucosuria)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "\"has_ckd\": true and \"glycemic_control\": unknown",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011I (lisinopril) prescribed for renal protection",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing type 2 diabetes with micro\u2011albuminuria, progressive CKD, and glucosuria strongly point to diabetic nephropathy as the most common cause of CKD in this demographic, especially when no other glomerular disease has been confirmed."
+    },
+    {
+      "rank": 2,
+      "name": "Primary glomerular disease (e.g., membranous, IgA\u2011GN, FSGS, lupus, amyloid)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Massive proteinuria on dipstick (345.2\u202fmg/dL, nephrotic\u2011range)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.5\u202fmg/dL (bilirubinuria)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD progression despite ACE\u2011I therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk but no lipid\u2011lowering therapy (possible untreated dyslipidemia)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Nephrotic\u2011range proteinuria exceeds what is typical for diabetic nephropathy alone, raising suspicion for a superimposed primary glomerular process. Bilirubinuria further suggests a non\u2011diabetic etiology. Confirmation requires quantitative protein measurement and renal biopsy."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (silent CAD, PAD, heart failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension since 1995 with uncontrolled diastolic pressure",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus and CKD (major ASCVD risk factors)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk in risk\u2011factor summary; age 53, male, white",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin or lipid\u2011lowering therapy documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing hypertension, diabetes, CKD, and lack of statin therapy places the patient at high risk for subclinical coronary artery disease, peripheral arterial disease, and heart failure, which may be silent at this stage."
+    },
+    {
+      "rank": 4,
+      "name": "Renovascular hypertension / hypertensive nephrosclerosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Isolated diastolic hypertension (122/92 mmHg) despite ACE\u2011I and CCB",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Discrepancy between serum creatinine (2.0\u202fmg/dL) and eGFR (60\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "\"bp_category\": stage2_hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension with a modest rise in creatinine and borderline eGFR may indicate renal artery stenosis contributing to both blood pressure resistance and CKD progression."
+    },
+    {
+      "rank": 5,
+      "name": "Uncontrolled/untreated type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No antidiabetic medication listed in medication list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucosuria on urine dipstick (2.1\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "\"glycemic_control\": unknown (missing A1c)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Absence of documented glucose\u2011lowering therapy together with glucosuria suggests poor glycemic control, which also fuels CKD progression and cardiovascular risk."
+    },
+    {
+      "rank": 6,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "12404008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic fatigue not documented but common in this profile; no thyroid labs available",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing thyroid function data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can contribute to dyslipidemia, hypertension, and proteinuria; however, no direct evidence is present, making this a low\u2011probability consideration."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.5\u202fmg/dL (bilirubinuria) without documented liver disease",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing liver function tests and BMI",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Bilirubinuria may reflect hepatic dysfunction; NAFLD is common in diabetics, but lack of liver labs and imaging limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Paraproteinemia / AL amyloidosis / light\u2011chain deposition disease",
+      "icd10": "E85.4",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria with atypical urine findings (bilirubinuria)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior hematologic work\u2011up",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Certain plasma\u2011cell dyscrasias can cause massive proteinuria and atypical urine constituents; low probability without supporting serology."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "18286008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain and sedentary lifestyle (possible risk factor)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing STOP\u2011BANG or polysomnography data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA can exacerbate hypertension and metabolic syndrome, but no clinical clues are documented."
+    },
+    {
+      "rank": 10,
+      "name": "Anemia of chronic kidney disease / hemolysis",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential anemia of chronic disease/CKD mentioned in risk summary (no CBC data)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.5\u202fmg/dL (could suggest hemolysis)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD often leads to anemia; bilirubinuria raises a remote possibility of hemolysis, but lack of CBC limits assessment."
+    },
+    {
+      "rank": 11,
+      "name": "Medication\u2011induced nephropathy (NSAIDs, contrast, herbal agents)",
+      "icd10": "N99.0",
+      "snomed": "4421005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acetaminophen PRN only; no NSAID or contrast exposure documented",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing recent medication reconciliation for nephrotoxins",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While possible, there is no evidence of exposure to known nephrotoxic agents."
+    },
+    {
+      "rank": 12,
+      "name": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3 with no calcium/phosphate/PTH labs",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing CKD\u2011MBD labs (calcium, phosphate, PTH)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD stage \u22653 commonly leads to disturbances in mineral metabolism, but without labs the diagnosis remains speculative."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes mellitus CKD)",
+  "primary_probability": 0.31,
+  "clinical_reasoning_summary": "The patient is a 53\u2011year\u2011old White male with long\u2011standing hypertension, type 2 diabetes, and progressive CKD. Persistent diastolic hypertension despite ACE\u2011I/CCB, massive proteinuria on dipstick, and glucosuria point toward diabetic nephropathy as the most likely cause of his renal disease, while the nephrotic\u2011range proteinuria also raises the possibility of a superimposed primary glomerular disorder. Cardiovascular risk is high given the combination of hypertension, diabetes, CKD, and lack of statin therapy, making silent atherosclerotic disease a strong secondary consideration. Gaps in glycemic, lipid, and renal imaging data limit certainty and shift probabilities across the differential.",
+  "unresolved_findings": [
+    "Massive proteinuria (nephrotic\u2011range) on dipstick \u2013 exceeds typical diabetic albuminuria",
+    "Urine bilirubin (bilirubinuria) without documented liver disease",
+    "Glucosuria without recent serum glucose or HbA1c data",
+    "Missing recent HbA1c, lipid panel, BMI, and CKD\u2011MBD labs",
+    "No antidiabetic medication documented despite diabetes diagnosis",
+    "Social isolation, criminal record, and part\u2011time employment potentially affecting adherence"
+  ],
+  "recommended_workup": [
+    "Quantitative urine protein assessment (UPCR or 24\u2011hour protein) to confirm nephrotic\u2011range proteinuria",
+    "Serum HbA1c (or fasting glucose) to evaluate glycemic control",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Renal artery Doppler ultrasound or CTA/MRA to assess for renovascular stenosis",
+    "Serum/urine protein electrophoresis with free\u2011light\u2011chain assay for paraproteinemia",
+    "Autoimmune serology (ANA, dsDNA, complement levels) and hepatitis C antibody",
+    "Urine microscopy for active sediment (RBC casts, dysmorphic RBCs)",
+    "CBC with reticulocyte count, haptoglobin, LDH to evaluate anemia/hemolysis",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, total and direct bilirubin)",
+    "Thyroid function tests (TSH, free T4)",
+    "BMI measurement and STOP\u2011BANG questionnaire; consider polysomnography if indicated",
+    "Echocardiogram and/or stress test or coronary calcium scoring for silent CAD/HF",
+    "Serum calcium, phosphate, PTH, 25\u2011OH vitamin D for CKD\u2011MBD assessment",
+    "Medication reconciliation focusing on NSAIDs, contrast agents, herbal supplements"
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Essential Hypertension",
+      "original_probability": 0.3,
+      "verified_probability": 0.22,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Metabolic syndrome flag implies presence of hypertension",
+        "Age > 80 with IHD, CKD, and diabetes makes hypertension highly likely"
+      ],
+      "evidence_gaps": [
+        "No recorded blood pressure measurements",
+        "No antihypertensive medication list"
+      ],
+      "concerns": [
+        "Diagnosis relies on inference without objective BP data"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Chronic Kidney Disease, stage 3",
+      "original_probability": 0.25,
+      "verified_probability": 0.28,
+      "confidence_score": 80,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "CKD flag present in EHR",
+        "Anemia and diabetes are common contributors to CKD"
+      ],
+      "evidence_gaps": [
+        "No serum creatinine/eGFR values",
+        "No urine albumin\u2011to\u2011creatinine ratio"
+      ],
+      "concerns": [
+        "Stage is assumed; actual eGFR could be higher or lower"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "original_probability": 0.18,
+      "verified_probability": 0.07,
+      "confidence_score": 40,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Risk factors (age, hypertension, CKD, IHD, metabolic syndrome) are typical for HFpEF"
+      ],
+      "evidence_gaps": [
+        "No symptoms documented (dyspnea, edema)",
+        "No BNP/NT\u2011proBNP values",
+        "No echocardiogram"
+      ],
+      "concerns": [
+        "Diagnosis is speculative without cardiac imaging or biomarker data"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Atherosclerotic Coronary Artery Disease (stable)",
+      "original_probability": 0.1,
+      "verified_probability": 0.15,
+      "confidence_score": 85,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "IHD flag explicitly documents known coronary artery disease"
+      ],
+      "evidence_gaps": [
+        "No recent stress test or coronary imaging to assess stability"
+      ],
+      "concerns": [],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Anemia of Chronic Kidney Disease",
+      "original_probability": 0.07,
+      "verified_probability": 0.12,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Anemia flag present",
+        "CKD flag present, making CKD\u2011related anemia the most likely cause"
+      ],
+      "evidence_gaps": [
+        "No CBC, iron studies, B12/folate, reticulocyte count",
+        "No FOBT to exclude occult GI bleed"
+      ],
+      "concerns": [
+        "Cannot exclude iron\u2011deficiency or GI loss without labs"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Atrial Fibrillation, unspecified",
+      "original_probability": 0.04,
+      "verified_probability": 0.04,
+      "confidence_score": 30,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Advanced age and cardiovascular comorbidities increase prevalence"
+      ],
+      "evidence_gaps": [
+        "No ECG or ambulatory rhythm monitoring"
+      ],
+      "concerns": [
+        "Diagnosis is purely probabilistic; no rhythm data available"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Peripheral Arterial Disease (PAD)",
+      "original_probability": 0.02,
+      "verified_probability": 0.03,
+      "confidence_score": 30,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Diabetes, dyslipidemia, and metabolic syndrome are risk factors"
+      ],
+      "evidence_gaps": [
+        "No peripheral pulse exam, ABI/TBI, or imaging"
+      ],
+      "concerns": [
+        "No clinical exam findings to support PAD"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Aortic Stenosis, moderate\u2011to\u2011severe",
+      "original_probability": 0.02,
+      "verified_probability": 0.03,
+      "confidence_score": 30,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Age and CKD are risk factors for calcific aortic stenosis"
+      ],
+      "evidence_gaps": [
+        "No cardiac auscultation findings or echocardiogram"
+      ],
+      "concerns": [
+        "Speculative without valve imaging"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Occult Gastro\u2011Intestinal Bleed / Colorectal Cancer",
+      "original_probability": 0.02,
+      "verified_probability": 0.06,
+      "confidence_score": 30,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Anemia could be due to chronic GI loss, especially if antiplatelet therapy is used (unknown)"
+      ],
+      "evidence_gaps": [
+        "No FOBT/FIT, colonoscopy, iron studies"
+      ],
+      "concerns": [
+        "Anemia more likely CKD\u2011related; GI bleed remains low probability"
+      ],
+      "verdict": "questionable"
+    }
+  ],
+  "overall_confidence": 73,
+  "consistency_checks": [
+    {
+      "area": "Blood pressure data",
+      "status": "inconsistent",
+      "detail": "Hypertension is listed as a likely diagnosis but no BP measurements or antihypertensive medications are documented."
+    },
+    {
+      "area": "Renal function labs",
+      "status": "missing",
+      "detail": "CKD stage is assigned without serum creatinine, eGFR, or urine albumin\u2011creatinine ratio."
+    },
+    {
+      "area": "Anemia work\u2011up",
+      "status": "missing",
+      "detail": "No CBC, iron studies, B12/folate, or FOBT to determine anemia etiology."
+    },
+    {
+      "area": "Cardiac imaging",
+      "status": "missing",
+      "detail": "HFpEF and aortic stenosis diagnoses lack supporting echocardiogram or BNP data."
+    },
+    {
+      "area": "Medication reconciliation",
+      "status": "missing",
+      "detail": "Active medication count is given, but specific agents (ACE\u2011I/ARB, statin, antiplatelet, SGLT2\u2011i, osteoporosis therapy) are not listed."
+    }
+  ],
+  "critical_findings_addressed": [
+    "Chronic Kidney Disease",
+    "Anemia",
+    "Ischemic Heart Disease (stable CAD)",
+    "Metabolic syndrome (implies hypertension)"
+  ],
+  "critical_findings_missed": [
+    "Osteoporosis (flagged but not listed as a diagnosis)",
+    "Missing blood pressure measurements (severity 5 data\u2011gap)",
+    "Missing renal function labs (severity 5 data\u2011gap)"
+  ],
+  "top_concerns": [
+    "Absence of objective vital signs and key laboratory values prevents confirmation of most diagnoses.",
+    "Hypertension is ranked higher than documented CKD, despite CKD being a confirmed condition.",
+    "Osteoporosis, a flagged comorbidity, is omitted from the differential.",
+    "Data\u2011quality error in A1c (2.4%) indicates possible broader documentation issues."
+  ],
+  "recommended_primary": "Chronic Kidney Disease, stage 3\u20114",
+  "recommended_primary_confidence": 85,
+  "review_summary": "The diagnostic differential captures the major high\u2011risk comorbidities but relies heavily on inference due to missing objective data. CKD is a confirmed condition and should be prioritized; hypertension, while almost certain, lacks verification. Several diagnoses (HFpEF, AF, PAD, AS, GI bleed) are speculative without supporting labs or imaging. Important omissions include osteoporosis as a separate diagnosis and comprehensive medication reconciliation. Overall, the differential is a reasonable starting point but requires extensive data acquisition before definitive management."
+}

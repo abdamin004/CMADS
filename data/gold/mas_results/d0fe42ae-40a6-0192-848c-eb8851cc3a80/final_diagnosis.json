@@ -1,0 +1,240 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy / proteinuric chronic kidney disease (early stage)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria detected on urinalysis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.6\u202fmg/dL with discordant eGFR",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with insulin therapy",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Chronic hyperglycemia in a long\u2011standing insulin\u2011requiring diabetic patient explains early proteinuric CKD; proteinuria and modest creatinine rise are classic for diabetic nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011requiring Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented insulin regimen for type 2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low fasting glucose values (68\u201177\u202fmg/dL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s need for insulin reflects advanced type 2 diabetes, which underlies many of the renal and metabolic abnormalities observed."
+    },
+    {
+      "rank": 3,
+      "name": "Medication\u2011induced hypoglycaemia (insulin overtreatment)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucosuria (1.5\u202fmg/dL) despite low serum glucose",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Ketonuria (6.6\u202fmg/dL) without hyperglycaemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple documented hypoglycaemia episodes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inappropriate insulin dosing is the most plausible cause of glucosuria and ketonuria in the setting of low serum glucose, necessitating urgent dose review."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease (progressive coronary artery disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction and ongoing hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on age, lipids, and diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s established CAD history and risk factor burden make progressive atherosclerosis a plausible concurrent diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Renal tubular dysfunction (proximal tubulopathy)",
+      "icd10": "N25.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucosuria with low serum glucose and low urine specific gravity (1.00)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Ketonuria without hyperglycaemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.0\u202fmg/dL (possible tubular excretion)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of glucosuria, dilute urine, and ketonuria points toward impaired proximal tubular reabsorption."
+    },
+    {
+      "rank": 6,
+      "name": "Volume depletion / diuretic\u2011related acute kidney injury",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic loop diuretic therapy for hypertension/heart failure",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Discrepancy between serum creatinine (1.6\u202fmg/dL) and eGFR (117\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Aggressive diuretic use can cause intravascular volume depletion, leading to a pre\u2011renal rise in creatinine that may be over\u2011estimated by eGFR equations."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (implicit from CKD context)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 2\u20113",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia of chronic disease via reduced erythropoietin production."
+    },
+    {
+      "rank": 8,
+      "name": "Cholestatic liver disease (bilirubinuria)",
+      "icd10": "K83.0",
+      "snomed": "235719002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.0\u202fmg/dL without documented hepatic disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of known liver pathology, prompting need for hepatobiliary evaluation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Conjugated bilirubin in urine suggests cholestasis; further hepatic work\u2011up is required to identify the underlying cause."
+    },
+    {
+      "rank": 9,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, and prior MI increase HFpEF risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While risk factors are present, no echocardiographic or symptom data are available to substantiate HFpEF at this time."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease / early NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD possible, but there is no imaging or liver enzyme data to support it currently."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy / proteinuric chronic kidney disease (early stage)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing insulin\u2011requiring type 2 diabetes, proteinuria, and modest creatinine elevation point to early diabetic nephropathy as the dominant process. Concurrent insulin overtreatment explains glucosuria, ketonuria, and low serum glucose, while proximal tubular dysfunction accounts for the dilute urine and abnormal urinary findings. Volume depletion from chronic diuretic use likely contributes to the creatinine/eGFR discordance. A prior myocardial infarction and high ASCVD risk support progressive CAD. Mild CKD\u2011related anemia, possible cholestatic liver disease (bilirubinuria), and low\u2011probability entities such as HFpEF and NAFLD round out the differential.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.00 (extremely dilute)",
+    "Glucosuria (1.5\u202fmg/dL) despite low serum glucose (68\u201177\u202fmg/dL)",
+    "Implausibly low HbA1c 3.0% (likely assay interference)",
+    "Ketonuria (6.6\u202fmg/dL) without hyperglycaemia"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR using cystatin C to verify renal function",
+    "Quantitative urine protein/albumin-to-creatinine ratio",
+    "Renal ultrasound to assess kidney size and rule out obstructive causes",
+    "Comprehensive metabolic panel with liver enzymes (AST, ALT, ALP, GGT, total bilirubin)",
+    "Abdominal ultrasound or MRCP to evaluate for cholestasis or biliary obstruction",
+    "Hemolysis panel (LDH, haptoglobin, peripheral smear) if bilirubinuria persists",
+    "Review and adjust insulin dosing; consider continuous glucose monitoring",
+    "Volume status assessment (orthostatic vitals, bedside ultrasound) and diuretic dose review",
+    "Echocardiogram to assess diastolic function and rule out HFpEF",
+    "Fasting lipid profile and repeat ASCVD risk calculation"
+  ]
+}

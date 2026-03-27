@@ -1,0 +1,321 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Primary (essential) hypertension, stage 2 (untreated)",
+      "icd10": "I10",
+      "snomed": "",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Repeated office blood pressure readings >160/100 mmHg",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension identified as primary driver of cardiovascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Consistently elevated BP readings in a 41\u2011year\u2011old male make essential hypertension the most likely explanation for his uncontrolled BP and downstream organ effects."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease stage 3a (hypertensive/diabetic)",
+      "icd10": "N18.3",
+      "snomed": "",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine with estimated GFR ~55\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and pre\u2011diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal dysfunction aligns with chronic hypertension and early diabetic nephropathy, explaining the creatinine rise."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome (\u22653/5 criteria)",
+      "icd10": "E88.81",
+      "snomed": "",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C, borderline LDL, pre\u2011diabetic HbA1c",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Likely obesity (BMI missing but clinical impression suggests excess weight)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Three of five metabolic syndrome components are present, contributing to cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Opioid\u2011use disorder, moderate\u2011severe",
+      "icd10": "F11.20",
+      "snomed": "",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011dose poly\u2011opioid regimen for chronic neck pain",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented functional impairment and tolerance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The opioid regimen meets DSM\u20115 criteria for moderate\u2011severe OUD, driving many downstream issues."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic pain syndrome (opioid\u2011refractory)",
+      "icd10": "G89.2",
+      "snomed": "",
+      "probability": 0.08,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe, longstanding cervical neck pain unresponsive to multiple modalities",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Continued high opioid consumption despite pain chronicity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent pain despite aggressive therapy defines chronic pain syndrome, influencing quality of life and medication burden."
+    },
+    {
+      "rank": 6,
+      "name": "Cervical spondylotic myelopathy / radiculopathy",
+      "icd10": "M48.02",
+      "snomed": "",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "imaging",
+          "finding": "Cervical spine MRI showing degenerative disc disease with foraminal narrowing",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Neck pain radiating to upper extremities with neurologic deficits",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Imaging and clinical picture support a structural cervical etiology for his pain."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High psychosocial stress, chronic pain, and reported mood symptoms",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental\u2011health diagnosis despite red\u2011flag symptoms",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The psychosocial context and symptom burden make depressive or trauma\u2011related disorders plausible contributors."
+    },
+    {
+      "rank": 8,
+      "name": "Type 4 renal tubular acidosis (hypoaldosteronism)",
+      "icd10": "N25.8",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Non\u2011anion\u2011gap metabolic acidosis with hyperchloremia and low bicarbonate",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid exposure known to suppress aldosterone production",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory pattern fits type\u202f4 RTA, likely secondary to opioid\u2011induced hypoaldosteronism."
+    },
+    {
+      "rank": 9,
+      "name": "Nutritional anemia (iron\u2011deficiency, B12/folate)",
+      "icd10": "D50.9",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with microcytic indices (details pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic anemia without work\u2011up suggests a nutritional etiology that must be clarified."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive sleep apnea, moderate\u2011severe",
+      "icd10": "G47.33",
+      "snomed": "",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (presumed), hypertension, and daytime fatigue reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No polysomnography completed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present; OSA could worsen hypertension and metabolic profile."
+    },
+    {
+      "rank": 11,
+      "name": "Opioid\u2011induced secondary adrenal insufficiency",
+      "icd10": "E27.2",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term high\u2011dose opioid therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low morning cortisol (pending) suggested by clinical suspicion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic opioids can suppress the HPA axis, contributing to fatigue and metabolic derangements."
+    },
+    {
+      "rank": 12,
+      "name": "Opioid\u2011induced hypogonadism",
+      "icd10": "E29.1",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid exposure known to lower testosterone",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low libido and decreased muscle mass reported (lab not yet obtained)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Endocrine side\u2011effects of opioids are plausible given the medication profile."
+    },
+    {
+      "rank": 13,
+      "name": "Peripheral arterial disease, unspecified",
+      "icd10": "I70.2",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (HTN, dyslipidemia, smoking status unknown)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk profile permits PAD, but no clinical signs documented."
+    },
+    {
+      "rank": 14,
+      "name": "Stable ischemic heart disease (asymptomatic CAD)",
+      "icd10": "I25.10",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on hypertension, CKD, metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No chest pain, dyspnea, or prior cardiac testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Subclinical CAD is possible given risk burden, though no overt symptoms."
+    }
+  ],
+  "primary_diagnosis": "Primary (essential) hypertension, stage 2 (untreated)",
+  "primary_probability": 0.24,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled stage\u20112 hypertension, early CKD, and metabolic derangements dominate the clinical picture, driven further by high\u2011dose opioid therapy that also explains chronic pain, opioid\u2011use disorder, and secondary endocrine effects (type\u202f4 RTA, adrenal insufficiency, hypogonadism). Cervical spondylosis accounts for the focal neck pain, while mood disturbance and possible sleep apnea add to cardiovascular risk. Less likely entities (PAD, silent CAD) remain in the background.",
+  "unresolved_findings": [
+    "Elevated creatinine without eGFR or proteinuria",
+    "Low HDL\u2011C with normal total cholesterol and incomplete lipid panel",
+    "Rising chloride with falling bicarbonate (non\u2011anion\u2011gap metabolic acidosis)",
+    "Chronic anemia of unknown etiology (no iron studies, B12, folate, retic)",
+    "Poly\u2011opioid regimen without documented opioid\u2011use disorder assessment",
+    "Missing BMI, waist circumference, smoking and alcohol use history",
+    "Absence of documented mental\u2011health diagnoses despite high stress and chronic pain"
+  ],
+  "recommended_workup": [
+    "Renal ultrasound to assess structural disease",
+    "Urine albumin\u2011to\u2011creatinine ratio and 24\u2011hour urine protein",
+    "Serum aldosterone/renin ratio (to rule out primary aldosteronism)",
+    "Polysomnography for obstructive sleep apnea",
+    "Morning serum cortisol and ACTH levels",
+    "Serum testosterone level",
+    "Complete iron studies (ferritin, serum iron, TIBC, transferrin saturation)",
+    "Vitamin B12 and folate levels",
+    "Cervical spine MRI (if not already obtained) for detailed assessment",
+    "Lower\u2011extremity arterial Doppler ultrasound",
+    "Cardiac stress testing (exercise or pharmacologic)",
+    "Repeat fasting lipid panel with full HDL, LDL, triglycerides",
+    "Arterial blood gas or serum electrolytes to confirm type\u202f4 RTA",
+    "Renal artery imaging (CTA or MRA) if suspicion for renovascular hypertension persists"
+  ]
+}

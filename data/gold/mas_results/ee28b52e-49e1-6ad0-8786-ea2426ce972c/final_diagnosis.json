@@ -1,0 +1,209 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypoglycemia due to overtreatment of diabetes",
+      "icd10": "E16.2",
+      "snomed": "",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c = 3.1% in a known T2DM patient (discordantly low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on diabetes medications (details unavailable)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Extremely low A1c in a diabetic patient strongly suggests iatrogenic hypoglycemia, likely from overtreatment. Reviewer confidence is 92% and recommends this as primary."
+    },
+    {
+      "rank": 2,
+      "name": "Active malignant neoplasm (unspecified)",
+      "icd10": "C80.9",
+      "snomed": "",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Patient has active cancer noted in chart, type and stage not specified",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Active cancer is a major comorbidity that impacts fatigue, anemia, and overall prognosis. Reviewer flagged it as a missed critical finding."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease \u2013 diabetic/hypertensive nephropathy (stage 3-4)",
+      "icd10": "N18.3",
+      "snomed": "",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal function labs missing (creatinine, eGFR, ACR)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes and hypertension are leading causes of CKD. Lack of renal labs prevents precise staging, but CKD remains a supported diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease (silent CAD / PAD)",
+      "icd10": "I25.10",
+      "snomed": "",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple vascular risk factors (diabetes, hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented cardiac testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk profile, silent atherosclerotic disease is plausible, though objective testing is lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Uncontrolled / resistant hypertension",
+      "icd10": "I10",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension on multiple agents with suboptimal control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension contributes to fatigue and CKD progression; reviewer added this as a plausible diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related anemia / anemia of chronic disease",
+      "icd10": "D63.1",
+      "snomed": "",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia present (Hb/Hct not provided) in setting of CKD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is common in CKD; without iron studies cannot exclude other causes."
+    },
+    {
+      "rank": 7,
+      "name": "Iron\u2011deficiency anemia (possible occult GI bleed)",
+      "icd10": "D50.9",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Iron studies not available; occult GI bleed not ruled out",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Iron deficiency remains a differential for anemia, especially with possible GI blood loss, but evidence is limited."
+    },
+    {
+      "rank": 8,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea/fatigue reported, but no cardiac imaging or biomarkers",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "HFpEF is plausible in older patients with hypertension and CKD, yet lacks objective confirmation."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / frailty\u2011related fatigue",
+      "icd10": "F32.9",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports fatigue; no formal depression screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial factors can contribute to fatigue; low probability but clinically relevant."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study data; diagnosis speculative",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA could cause daytime fatigue, but no supporting data are available."
+    }
+  ],
+  "primary_diagnosis": "Hypoglycemia due to overtreatment of diabetes",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The markedly low A1c in a patient with known type 2 diabetes points to iatrogenic hypoglycemia as the most likely cause of fatigue and malaise, which the reviewer prioritized. Active malignancy, chronic kidney disease, and atherosclerotic disease are also important contributors. Lack of key laboratory and imaging data limits certainty for several differentials, prompting a balanced probability redistribution and removal of unsupported entities.",
+  "unresolved_findings": [
+    "Missing eGFR, serum creatinine, and urine albumin\u2011creatinine ratio",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No BMI, weight, or recent weight change data",
+    "No complete anemia laboratory parameters (Hb, Hct, iron studies, B12, folate)",
+    "Medication list not provided (cannot assess insulin, sulfonylureas, ACE\u2011I/ARB, statin dose, etc.)",
+    "Cancer type, stage, and current treatment status unknown",
+    "No thyroid function tests (TSH, free T4)",
+    "No cardiac biomarkers or imaging (NT\u2011proBNP, echocardiogram)",
+    "No sleep assessment (STOP\u2011BANG or polysomnography)",
+    "No depression or frailty screening (PHQ\u20119, GDS)",
+    "No gastrointestinal bleeding evaluation (FOBT, endoscopy)"
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation focusing on antidiabetic agents and doses",
+    "Renal panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Complete anemia work\u2011up: CBC, iron studies, ferritin, B12, folate",
+    "Lipid profile",
+    "Thyroid function tests (TSH, free T4)",
+    "Cardiac evaluation: NT\u2011proBNP, transthoracic echocardiogram",
+    "Stress test or coronary calcium scoring for silent CAD",
+    "Blood pressure monitoring and assessment for resistant hypertension",
+    "Cancer staging work\u2011up appropriate to known malignancy (imaging, tumor markers)",
+    "Sleep study (polysomnography) if clinical suspicion for OSA persists",
+    "Depression/frailty screening (PHQ\u20119, GDS)",
+    "GI evaluation for occult bleed (fecal occult blood test, endoscopy if indicated)"
+  ]
+}

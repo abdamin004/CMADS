@@ -1,0 +1,343 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease (diabetic/hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.32,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated serum creatinine 1.9\u202fmg/dL, eGFR ~45\u202fmL/min/1.73\u202fm\u00b2, proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Micro\u2011albuminuria documented",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing insulin\u2011requiring type 2 diabetes and hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of reduced eGFR, proteinuria, and long\u2011standing diabetic and hypertensive disease points to CKD secondary to diabetic/hypertensive nephropathy, which dominates the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Silent coronary artery disease / sub\u2011clinical ASCVD",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on diabetes, hypertension, obesity, CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented chest pain or prior cardiac testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factor burden is high; absence of symptoms does not exclude sub\u2011clinical disease, warranting further cardiac evaluation."
+    },
+    {
+      "rank": 3,
+      "name": "Essential hypertension (possible masked hypertension)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented office BP 145/90\u202fmmHg on multiple visits",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "CKD progression despite ACE\u2011inhibitor therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated office readings with CKD suggest either uncontrolled or masked hypertension contributing to renal decline."
+    },
+    {
+      "rank": 4,
+      "name": "Insulin\u2011requiring type 2 diabetes mellitus (sub\u2011optimal control)",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c >8\u202f% (latest value unavailable but prior trend shows poor control)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Requires basal\u2011bolus insulin regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hyperglycemia drives microvascular complications and accelerates CKD progression."
+    },
+    {
+      "rank": 5,
+      "name": "Obesity\u2011related metabolic syndrome (including dyslipidaemia)",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI >35\u202fkg/m\u00b2, central obesity noted",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lipid panel pending; clinical suspicion high",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity underlies insulin resistance, hypertension, and likely dyslipidaemia, contributing to overall cardiovascular risk."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure with preserved ejection fraction (early)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion reported, but no echocardiogram performed",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and CKD are risk factors for HFpEF",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Symptoms and risk profile raise concern for early HFpEF, but objective cardiac data are lacking."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension present; no sleep study documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High prevalence in obese hypertensive patients, yet no clinical symptoms recorded; needs formal testing."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated ALT/AST noted in prior labs (values not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Metabolic syndrome components present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD likely; imaging or fibrosis assessment pending."
+    },
+    {
+      "rank": 9,
+      "name": "Asymptomatic peripheral arterial disease",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented claudication; ABI not performed",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Diabetes and smoking history (if any) increase PAD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given risk factors, PAD cannot be excluded, but lack of objective data lowers certainty."
+    },
+    {
+      "rank": 10,
+      "name": "Diabetic microvascular complications (retinopathy, neuropathy, foot ulcer)",
+      "icd10": "E11.40",
+      "snomed": "44054006",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented peripheral neuropathy and prior retinal screening showing mild changes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing poorly controlled diabetes predisposes to microvascular disease, already evident on exam."
+    },
+    {
+      "rank": 11,
+      "name": "Secondary hypertension (renal artery stenosis or primary aldosteronism)",
+      "icd10": "I15.0",
+      "snomed": "38341003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite ACE\u2011inhibitor, but no imaging performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possibility exists given refractory BP, but work\u2011up not yet undertaken."
+    },
+    {
+      "rank": 12,
+      "name": "Medication non\u2011adherence / suboptimal dosing",
+      "icd10": "Z91.14",
+      "snomed": "160573003",
+      "probability": 0.015,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pharmacy refill gaps noted for antihypertensive agents",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inconsistent medication intake could explain sub\u2011optimal control of BP and glucose."
+    },
+    {
+      "rank": 13,
+      "name": "Dyslipidaemia (elevated LDL/Triglycerides)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.006,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Lipid panel not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predicts dyslipidaemia; confirmation pending."
+    },
+    {
+      "rank": 14,
+      "name": "Vaccination gaps (influenza, pneumococcal, COVID\u201119, hepatitis B)",
+      "icd10": "Z23",
+      "snomed": "160573003",
+      "probability": 0.006,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Immunization record incomplete for recommended adult vaccines",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Vaccination status is a modifiable risk factor, especially important in CKD."
+    },
+    {
+      "rank": 15,
+      "name": "Cancer surveillance gaps (breast, colorectal, cervical)",
+      "icd10": "Z12.31",
+      "snomed": "160573003",
+      "probability": 0.006,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent screening studies documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Ensuring age\u2011appropriate cancer screening is essential given prior cancer history."
+    },
+    {
+      "rank": 16,
+      "name": "Vitamin D deficiency / secondary hyperparathyroidism",
+      "icd10": "E55.9",
+      "snomed": "160573003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Vitamin D level not measured; CKD predisposes to deficiency",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Common in CKD but unconfirmed without labs."
+    },
+    {
+      "rank": 17,
+      "name": "Other / unknown (unexplained bilirubinuria, dilute urine, creatinine discrepancy)",
+      "icd10": "R79.9",
+      "snomed": "118234003",
+      "probability": 0.006,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.0\u202fmg/dL without hepatic disease; urine specific gravity 1.0; serum vs whole\u2011blood creatinine mismatch",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "These atypical findings warrant targeted repeat testing to rule out hemolysis, tubular dysfunction, or laboratory error."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease (diabetic/hypertensive nephropathy)",
+  "primary_probability": 0.32,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is early CKD driven by longstanding insulin\u2011requiring diabetes and hypertension. This underlies most of the metabolic derangements and raises cardiovascular risk, explaining the need to prioritize CKD management. Secondary considerations include sub\u2011clinical coronary disease, uncontrolled hypertension (including possible masked or secondary forms), and sub\u2011optimal diabetes control, all of which compound renal injury. Metabolic syndrome, early HFpEF, OSA, NAFLD, and peripheral arterial disease are plausible but lack objective confirmation. Preventive gaps (vaccinations, cancer screening) and modifiable factors (medication adherence, dyslipidaemia, vitamin D status) are also highlighted. Unexplained urine findings remain unresolved and require focused repeat testing.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.0\u202fmg/dL without documented hepatic disease",
+    "Urine specific gravity 1.0 (very dilute) \u2013 unclear etiology",
+    "Discrepancy between serum creatinine (1.9\u202fmg/dL) and whole\u2011blood creatinine (1.2\u202fmg/dL)"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel",
+    "Resting ECG and cardiac biomarkers (BNP, troponin)",
+    "Transthoracic echocardiogram",
+    "Polysomnography or home sleep apnea testing",
+    "Ankle\u2011brachial index (ABI)",
+    "Renal artery duplex ultrasound or CT angiography",
+    "Thyroid function tests (TSH, free T4)",
+    "Iron studies and complete blood count",
+    "25\u2011hydroxy vitamin D level",
+    "Repeat urinalysis with microscopy and urine culture",
+    "Renal ultrasound to assess structural abnormalities",
+    "Medication adherence assessment (pharmacy refill review, patient interview)"
+  ]
+}

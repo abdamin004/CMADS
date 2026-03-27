@@ -1,0 +1,186 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Untreated essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension documented in recent visit",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk due to obesity and prediabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic alkalosis (bicarbonate 21.4 mmol/L) suggesting early renal sodium handling changes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient has documented stage 1 hypertension without any antihypertensive therapy. Combined with obesity and prediabetes, untreated hypertension is the most immediate driver of her cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Obesity (class I\u2011III)",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinical impression notes describe the patient as obese with a high\u2011impact metabolic cluster",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity is a central driver of hypertension, metabolic syndrome, NAFLD, and OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity is explicitly noted in the chart and underlies most of the other metabolic abnormalities; its prevalence and impact merit a high probability."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of obesity, hypertension, and prediabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing current lipid panel but prior data suggest dyslipidemia risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The triad of central obesity, elevated blood pressure, and impaired glucose regulation fulfills criteria for metabolic syndrome, driving cardiovascular and hepatic risk."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes progressing toward type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented prediabetes in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and metabolic syndrome increase conversion risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, the patient is at substantial risk of progressing to overt diabetes; recent glucose metrics are lacking, warranting close monitoring."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (suspected)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.11,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted; no documented sleep study",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High prevalence of OSA in obese middle\u2011aged women",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA, which could contribute to hypertension and metabolic dysregulation, but no direct symptoms or testing are recorded."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "197321007",
+      "probability": 0.11,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome and obesity present; no liver imaging yet",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "NAFLD prevalence >30% in similar phenotypes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic risk profile, NAFLD is likely but unconfirmed without imaging or liver enzymes."
+    },
+    {
+      "rank": 7,
+      "name": "Early hypertensive nephropathy / subclinical chronic kidney disease",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly low bicarbonate (21.4 mmol/L) with falling sodium/chloride trends, rising potassium trend",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent eGFR or urine albumin/creatinine ratio available",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Electrolyte trends may reflect early renal handling changes from hypertension; lack of renal labs prevents definitive staging."
+    }
+  ],
+  "primary_diagnosis": "Untreated essential hypertension",
+  "primary_probability": 0.2,
+  "clinical_reasoning_summary": "The patient is a middle\u2011aged Asian woman with documented stage 1 hypertension, obesity, and prediabetes, forming a high\u2011risk metabolic cluster. Untreated hypertension is the most immediate threat and is therefore ranked first. Obesity is a central driver of the metabolic derangements and is given a high probability. Metabolic syndrome, prediabetes, OSA, NAFLD, and early hypertensive nephropathy are all plausible sequelae of this phenotype, with probabilities adjusted per the senior reviewer\u2019s guidance. Data gaps (missing BMI, current lipids, renal function, sleep study, liver imaging, medication list) limit precise quantification but do not alter the overall hierarchy.",
+  "unresolved_findings": [
+    "Mildly low bicarbonate (21.4 mmol/L) with falling trend",
+    "Falling sodium and chloride trends (still within normal limits)",
+    "Rising potassium trend (still normal)",
+    "Missing current BMI value",
+    "Absent eGFR and urine albumin/creatinine ratio",
+    "Lipid panel dated 2016; current lipid status unknown",
+    "No documented smoking or alcohol use",
+    "No medication list (unclear if truly untreated)",
+    "No family history of cardiovascular, renal, or metabolic disease",
+    "No physical activity or dietary information",
+    "No mental\u2011health diagnoses despite documented stress and isolation",
+    "No thyroid function tests"
+  ],
+  "recommended_workup": [
+    "Obtain current weight, height, and calculate BMI",
+    "Repeat fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Measure HbA1c and fasting glucose",
+    "Check serum creatinine, calculate eGFR, and obtain urine albumin/creatinine ratio",
+    "Polysomnography or home sleep apnea testing",
+    "Liver ultrasound or FibroScan to assess for steatosis/fibrosis",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "Comprehensive medication reconciliation and review of over\u2011the\u2011counter agents",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Standardized mental\u2011health screening (PHQ\u20119, GAD\u20117)",
+    "Lifestyle assessment: diet, physical activity, smoking/alcohol use"
+  ]
+}

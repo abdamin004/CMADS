@@ -1,0 +1,171 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 5 chronic kidney disease (pre-dialysis)",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.65,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 7.3\u202fmL/min/1.73\u202fm\u00b2 and serum creatinine 2.9\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "EHR impression notes chronic renal failure and need for pre\u2011dialysis management",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The markedly reduced eGFR and elevated creatinine are diagnostic of stage\u202f5 CKD. The clinical note emphasizes chronic renal failure, supporting a pre\u2011dialysis state as the most likely primary problem."
+    },
+    {
+      "rank": 2,
+      "name": "Acute NSTEMI (type 1 or type 2 pending work\u2011up)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "EHR impression describes an acute NSTEMI superimposed on extensive atherosclerotic disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated high\u2011sensitivity troponin",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The clinical narrative and troponin elevation indicate myocardial injury consistent with an NSTEMI. The type (1 vs 2) remains uncertain, but the event is clearly present."
+    },
+    {
+      "rank": 3,
+      "name": "Statin\u2011associated cholestatic liver injury",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on simvastatin (duplicate entry noted)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe total bilirubin 7.5\u202fmg/dL (cholestatic pattern suspected)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Statins can cause cholestatic/mixed liver injury. The presence of a markedly elevated bilirubin without clear hepatocellular enzyme data raises suspicion, though further liver panel results are needed."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive cholestasis (biliary obstruction)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe hyperbilirubinemia (total bilirubin 7.5\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of bilirubin fractionation and cholestatic enzyme data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A high total bilirubin could be due to obstructive biliary disease. Lack of ALP/GGT and imaging prevents confirmation, so this remains a less likely but plausible alternative."
+    },
+    {
+      "rank": 5,
+      "name": "Sepsis\u2011associated cholestasis",
+      "icd10": "K71.5",
+      "snomed": "441862003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia (WBC 3.5\u202f\u00d710\u00b3/\u00b5L) and borderline thrombocytopenia (144\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe hyperbilirubinemia without clear etiology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cytopenias together with unexplained hyperbilirubinemia raise the possibility of an underlying infection or sepsis causing cholestasis. No definitive infection data are present, so this diagnosis is kept low\u2011probability."
+    },
+    {
+      "rank": 6,
+      "name": "Acute decompensated heart failure with reduced ejection fraction (cardiorenal syndrome)",
+      "icd10": "I50.23",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "EHR mentions prior MI and reduced EF, but no current objective HF data",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low BUN relative to creatinine (13.9\u202fvs\u202f2.9\u202fmg/dL) \u2013 possible lab error, not supportive of volume overload",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While the patient has cardiovascular disease, there is insufficient objective evidence (e.g., BNP, pulmonary edema) to support active decompensated HF at this time."
+    },
+    {
+      "rank": 7,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypothyroidism noted in problem list",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Bilirubin level far exceeds typical values seen in hypothyroidism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism is documented but does not explain the severe hyperbilirubinemia; therefore its contribution to the current presentation is minimal."
+    }
+  ],
+  "primary_diagnosis": "Stage 5 chronic kidney disease (pre-dialysis)",
+  "primary_probability": 0.65,
+  "clinical_reasoning_summary": "The patient\u2019s critically low eGFR and high creatinine unequivocally place him in stage\u202f5 CKD, which the reviewer identified as the dominant problem. An acute NSTEMI is clearly present based on troponin elevation and the EHR narrative. Severe hyperbilirubinemia is a major unresolved finding; the most plausible explanations are statin\u2011related cholestatic injury, obstructive biliary disease, or sepsis\u2011associated cholestasis, each retained with lower probabilities due to limited supporting data. Cytopenias further suggest a possible infectious or marrow process, but evidence is insufficient for a definitive diagnosis. Heart failure and hypothyroidism remain possible contributors but lack objective corroboration, so they are kept low in the hierarchy.",
+  "unresolved_findings": [
+    "Severe total bilirubin = 7.5\u202fmg/dL without fractionation",
+    "Low BUN relative to creatinine (13.9\u202fvs\u202f2.9\u202fmg/dL) \u2013 possible lab error",
+    "Leukopenia (WBC 3.5\u202f\u00d710\u00b3/\u00b5L)",
+    "Borderline thrombocytopenia (144\u202f\u00d710\u00b3/\u00b5L)",
+    "Missing ALP, GGT, direct/indirect bilirubin, and imaging of the hepatobiliary system"
+  ],
+  "recommended_workup": [
+    "Fractionated bilirubin (direct and indirect) and full liver panel (ALT, AST, ALP, GGT, INR)",
+    "Abdominal ultrasound with Doppler to assess biliary tree and hepatic vasculature",
+    "Repeat CBC with trend analysis and peripheral smear",
+    "Blood cultures and inflammatory markers (CRP, procalcitonin) to evaluate for sepsis",
+    "Viral hepatitis serologies (HAV, HBV, HCV) and autoimmune liver disease panel",
+    "Repeat high\u2011sensitivity troponin and 12\u2011lead ECG",
+    "Transthoracic echocardiogram to assess EF and volume status",
+    "Renal ultrasound to rule out obstructive uropathy"
+  ]
+}

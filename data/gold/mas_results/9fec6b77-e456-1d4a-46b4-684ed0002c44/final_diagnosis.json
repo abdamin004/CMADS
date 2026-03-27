@@ -1,0 +1,173 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension with metabolic syndrome (stage\u20112)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled stage\u20112 hypertension documented in recent visit",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and pre\u2011diabetes (impaired fasting glucose)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Cluster of metabolic\u2011syndrome components (hypertension, obesity, dysglycemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets criteria for stage\u20112 hypertension and has multiple metabolic\u2011syndrome risk factors, making essential hypertension with metabolic syndrome the most certain diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and resistant hypertension noted",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "High pre\u2011test probability for OSA given BMI >30 and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and poorly controlled hypertension raise the pre\u2011test likelihood of OSA, though no sleep study has been performed yet."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia / occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "CBC shows anemia (low hemoglobin/hematocrit) without definitive iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinical note mentions concern for occult GI blood loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is present; in the absence of iron studies, iron\u2011deficiency from occult GI loss remains plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Acute bronchitis (active infection)",
+      "icd10": "J20.9",
+      "snomed": "195662009",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent diagnosis of acute bronchitis documented in encounter note",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Cough and mild fever reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The chart explicitly records an episode of acute bronchitis, making it a current active diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic kidney disease (early hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and pre\u2011diabetes noted",
+          "strength": "weak"
+        },
+        {
+          "source": "unresolved",
+          "finding": "Renal function labs (eGFR, urine albumin) are missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors exist, but lack of renal labs makes CKD a low\u2011probability, weakly supported possibility."
+    },
+    {
+      "rank": 6,
+      "name": "Intimate partner violence (safety concern)",
+      "icd10": "Z63.0",
+      "snomed": "225337009",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chart flags intimate\u2011partner abuse as a psychosocial stressor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The reviewer highlighted intimate\u2011partner abuse as a critical, unaddressed safety issue requiring attention."
+    },
+    {
+      "rank": 7,
+      "name": "Silent atherosclerotic cardiovascular disease (sub\u2011clinical CAD)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (stage\u20112 HTN, obesity, pre\u2011diabetes, anemia)",
+          "strength": "weak"
+        },
+        {
+          "source": "unresolved",
+          "finding": "No cardiac imaging or stress testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk profile, sub\u2011clinical CAD cannot be excluded, but there is no direct evidence, so probability remains low."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension with metabolic syndrome (stage\u20112)",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage\u20112 hypertension, obesity, and pre\u2011diabetes, fulfilling criteria for metabolic syndrome and making essential hypertension the most certain diagnosis. Obesity and resistant hypertension raise the likelihood of obstructive sleep apnea, while documented anemia without iron studies suggests possible iron\u2011deficiency from occult GI loss. A recent episode of acute bronchitis is an active infection. Chronic kidney disease and sub\u2011clinical coronary artery disease are possible given the risk factors but lack objective data, resulting in low probabilities. The chart also flags intimate\u2011partner violence, a critical safety issue that must be addressed.",
+  "unresolved_findings": [
+    "Missing renal function data (eGFR, urine albumin\u2011creatinine ratio)",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No iron studies (serum ferritin, iron, TIBC)",
+    "No sleep study or polysomnography to confirm OSA",
+    "No detailed CBC indices (MCV, reticulocyte count) to characterize anemia",
+    "Smoking and alcohol use not recorded",
+    "Family history of cardiovascular disease not documented"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with eGFR and urine albumin\u2011creatinine ratio",
+    "Fasting lipid profile",
+    "Iron studies (serum ferritin, iron, total iron\u2011binding capacity, transferrin saturation)",
+    "Polysomnography or home sleep apnea testing",
+    "Colonoscopy or fecal occult blood testing if GI bleed suspected",
+    "Repeat CBC with indices (MCV, reticulocyte count)",
+    "Screening for intimate\u2011partner violence and referral to social services",
+    "Blood pressure monitoring and lifestyle counseling for metabolic syndrome"
+  ]
+}

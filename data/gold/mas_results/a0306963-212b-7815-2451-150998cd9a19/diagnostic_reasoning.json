@@ -1,0 +1,191 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 5 chronic kidney disease (pre-dialysis)",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR = 7.3\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD) \u2013 critical reduction",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 2.9\u202fmg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical complexity = high; Charlson index = 1 (MI contributes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented renal disease in active problems (gap) \u2013 underscores need to recognize CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The markedly reduced eGFR together with elevated creatinine, stable trend, and the patient's age and cardiovascular comorbidities confirm advanced CKD. This condition dominates medication dosing, cardiovascular risk, and future management."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 myocardial infarction (demand ischemia)",
+      "icd10": "I21.A1",
+      "snomed": "413444003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u2013 Acute non\u2011ST\u2011segment elevation myocardial infarction (NSTEMI) onset 2025\u201104\u201104",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity Troponin I = 21.1\u202fng/L (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications \u2013 Labetalol, Lisinopril, Aspirin \u2013 suggest ongoing ischemic management",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 71, male, high baseline CV risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin in the setting of recent NSTEMI and multiple supply\u2011demand stressors (CKD, possible anemia, uncontrolled hypertension) points to a type\u202f2 MI rather than plaque rupture. Serial troponins and ECG are needed to confirm."
+    },
+    {
+      "rank": 3,
+      "name": "Acute decompensated heart failure with reduced ejection fraction (cardiorenal syndrome)",
+      "icd10": "I50.2",
+      "snomed": "84114007",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u2013 Acute NSTEMI and prior MI, treated with \u03b2\u2011blocker and ACE\u2011I",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical complexity = high; polypharmacy risk = moderate",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing current blood pressure, heart rate, and volume status \u2013 raises concern for under\u2011treated HF",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Recent MI, CKD, and possible volume overload create a high likelihood of HFrEF exacerbation. Confirmation with BNP/NT\u2011proBNP and echocardiography is required."
+    },
+    {
+      "rank": 4,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f>\u202f30) and hyperlipidemia despite high\u2011intensity statin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low platelets (144.7\u202f\u00d710\u00b3/\u00b5L) and leukopenia (3.5\u202f\u00d710\u00b3/\u00b5L) \u2013 can be seen in hypothyroidism",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin = 7.5\u202fmg/dL (indirect component possible) \u2013 hypothyroidism can cause mild indirect hyperbilirubinemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of refractory hyperlipidemia, obesity, possible mild cytopenias, and unexplained bilirubin elevation is compatible with untreated primary hypothyroidism, which also contributes to hypertension and heart failure."
+    },
+    {
+      "rank": 5,
+      "name": "Statin\u2011associated liver injury (cholestatic/mixed)",
+      "icd10": "K71.1",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011intensity atorvastatin 80\u202fmg plus duplicate simvastatin 10\u202fmg (possible over\u2011exposure)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin = 7.5\u202fmg/dL with normal ALT (8.4\u202fU/L) and AST (23.3\u202fU/L) \u2013 pattern compatible with cholestatic injury",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelets borderline low \u2013 may reflect mild drug\u2011related marrow effect",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High\u2011dose statin therapy, especially with duplicate agents, can cause drug\u2011induced cholestasis presenting as isolated hyperbilirubinemia. Stopping one statin and rechecking liver tests will clarify."
+    },
+    {
+      "rank": 6,
+      "name": "Gilbert syndrome (benign unconjugated hyperbilirubinemia)",
+      "icd10": "E80.0",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Marked total bilirubin = 7.5\u202fmg/dL with normal ALT/AST",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented liver disease, imaging, or hepatitis risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If bilirubin fractionation shows predominantly indirect bilirubin and liver enzymes remain normal, a benign hereditary condition such as Gilbert syndrome becomes plausible."
+    }
+  ],
+  "primary_diagnosis": "Stage 5 chronic kidney disease (pre-dialysis)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient is a 71\u2011year\u2011old male with advanced CKD (eGFR 7.3) that dominates his clinical picture. Recent NSTEMI with elevated high\u2011sensitivity troponin suggests myocardial injury, most likely type\u202f2 MI driven by supply\u2011demand mismatch in the setting of CKD, possible anemia, and uncontrolled hypertension. The combination of prior MI, CKD, and possible volume overload raises the likelihood of acute decompensated HFrEF (cardiorenal syndrome). Additional common contributors\u2014primary hypothyroidism, statin\u2011related liver injury, and benign hyperbilirubinemia (Gilbert syndrome)\u2014explain the persistent hypercholesterolemia, marked bilirubin elevation, and cytopenias. Gaps such as missing blood pressure, BMI, smoking status, bilirubin fractions, and medication adherence limit certainty, prompting targeted work\u2011up.",
+  "unresolved_findings": [
+    "Marked total bilirubin = 7.5\u202fmg/dL without clear direct/indirect fractionation",
+    "Leukopenia (WBC 3.5\u202f\u00d710\u00b3/\u00b5L) and borderline thrombocytopenia (144.7\u202f\u00d710\u00b3/\u00b5L) with no documented cause",
+    "Low BUN relative to creatinine (13.9\u202fmg/dL vs 2.9\u202fmg/dL) \u2013 possible lab error",
+    "Missing current blood pressure, heart rate, BMI, smoking status, and full lipid panel",
+    "Duplicate simvastatin entry \u2013 medication reconciliation error",
+    "Anemia flag true despite documented resolution in 2021",
+    "Psychosocial stress and unstable housing affecting adherence"
+  ],
+  "recommended_workup": [
+    "Serial high\u2011sensitivity troponin measurements (0\u202fh, 3\u202fh) and 12\u2011lead ECG to differentiate type\u202f2 MI from plaque\u2011rupture NSTEMI",
+    "Transthoracic echocardiogram plus BNP/NT\u2011proBNP to assess ejection fraction and volume status",
+    "Fractionated bilirubin (direct vs indirect), ALP, GGT to characterize hyperbilirubinemia",
+    "Thyroid panel (TSH, free T4) to evaluate for primary hypothyroidism",
+    "Comprehensive medication reconciliation with pharmacy fill data; consider holding one statin pending liver re\u2011evaluation",
+    "Liver ultrasound (or MRCP if direct bilirubin predominates) to rule out obstructive biliary disease or assess for NAFLD",
+    "Hemolysis work\u2011up: LDH, haptoglobin, reticulocyte count, peripheral smear, direct Coombs test",
+    "Full vital signs assessment: clinic BP, home BP logs, weight trend, physical exam for JVP/edema",
+    "Repeat CBC after temporary discontinuation of suspect drugs to see if leukopenia/thrombocytopenia improve",
+    "Urine albumin\u2011creatinine ratio and repeat eGFR to monitor CKD progression",
+    "Psychosocial screening (PHQ\u20119, GAD\u20117) and referral to social services for housing support",
+    "STOP\u2011BANG questionnaire and overnight oximetry if sleep apnea is suspected"
+  ]
+}

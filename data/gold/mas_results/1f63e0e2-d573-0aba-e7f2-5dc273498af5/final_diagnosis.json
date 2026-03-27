@@ -1,0 +1,292 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease \u2013 progressive diabetic/vascular (stage 3a)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 57.8\u202fmL/min/1.73\u202fm\u00b2, proteinuria, documented CKD stage 2 progressing to stage 3a",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine 1.9\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing diabetes mellitus and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function decline with diabetic and hypertensive background fits a progressive CKD phenotype; proteinuria and eGFR in the 50\u201160 range confirm stage 3a."
+    },
+    {
+      "rank": 2,
+      "name": "Iatrogenic/over\u2011treated diabetes (possible hypoglycaemia)",
+      "icd10": "E16.2",
+      "snomed": "237599002",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine ketones (19.4\u202fmg/dL) despite low HbA1c (3.2\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elderly patient with high risk for hypoglycaemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Discordance between very low HbA1c and presence of ketonuria suggests excessive insulin dosing leading to relative hypoglycaemia and ketogenesis."
+    },
+    {
+      "rank": 3,
+      "name": "Over\u2011treated essential hypertension / volume depletion / orthostatic hypotension",
+      "icd10": "I95.1",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011normal blood pressure on ACE\u2011I and thiazide diuretic regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine (specific gravity 1.000) suggesting over\u2011hydration or impaired concentrating ability",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "Concurrent ACE\u2011I and thiazide therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination antihypertensives in an elderly patient can cause volume depletion and orthostatic symptoms, supported by low BP and dilute urine."
+    },
+    {
+      "rank": 4,
+      "name": "Silent/atypical coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Advanced age, hypertension, diabetes, CKD \u2013 high atherosclerotic risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented cardiac symptoms or testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk profile is high, but absence of symptoms or investigations makes this diagnosis speculative."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, obesity, CKD \u2013 common HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia and volume depletion could mask typical signs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors present, yet no echocardiogram or clinical signs of congestion; therefore probability remains low."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related anemia / anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia noted in CBC (not fully detailed in summary)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "CKD stage 3a",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal insufficiency commonly leads to decreased erythropoietin production, accounting for modest anemia."
+    },
+    {
+      "rank": 7,
+      "name": "Medication adverse effects (ACE\u2011I creatinine rise, thiazide electrolyte loss)",
+      "icd10": "T88.7",
+      "snomed": "442083009",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011I and thiazide on board",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine consistent with ACE\u2011I effect",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function decline may be partially medication\u2011induced; thiazide can cause electrolyte disturbances contributing to symptoms."
+    },
+    {
+      "rank": 8,
+      "name": "Frailty / sarcopenia",
+      "icd10": "R53.81",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 89, low BMI, functional decline noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced age and chronic illness predispose to frailty, which may explain nonspecific weakness and orthostatic symptoms."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / psychosocial decline",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documentation of mood changes and decreased engagement",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial factors can mimic or worsen fatigue and orthostatic symptoms."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease / early steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.2\u202fmg/dL (though not a reliable liver marker)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors present; urine bilirubin raises suspicion but lacks corroborating liver enzymes."
+    },
+    {
+      "rank": 11,
+      "name": "Peripheral arterial disease (PAD)",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented claudication or vascular exam findings",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors exist but no clinical evidence; retained with low probability."
+    },
+    {
+      "rank": 12,
+      "name": "Renal\u2011artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "414916001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low blood pressure makes significant RAS unlikely",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible but improbable given hemodynamics."
+    },
+    {
+      "rank": 13,
+      "name": "Chronic urinary\u2011tract infection / occult pyelonephritis",
+      "icd10": "N39.0",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "No pyuria or leukocyte esterase reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Lack of urinary symptoms or inflammatory markers makes this unlikely."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease \u2013 progressive diabetic/vascular (stage 3a)",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The elderly patient\u2019s dominant problem is progressive diabetic/vascular CKD, evidenced by eGFR ~58\u202fmL/min, proteinuria, and longstanding diabetes/hypertension. Concurrent insulin therapy appears excessive, as reflected by a discordantly low HbA1c and ketonuria, indicating overtreatment and hypoglycaemia risk. Antihypertensive regimen (ACE\u2011I\u202f+\u202fthiazide) likely contributes to volume depletion and orthostatic hypotension, supported by low\u2011normal BP and dilute urine. Secondary considerations include anemia of chronic disease, medication\u2011related renal effects, frailty, and mood disturbance. Cardiovascular and hepatic possibilities remain but lack objective data, so they are retained with low probabilities. All probabilities have been normalized to sum to 1.0.",
+  "unresolved_findings": [
+    "Urine bilirubin = 1.2\u202fmg/dL (no liver enzymes or hepatobiliary disease documented)",
+    "Positive urine ketones (19.4\u202fmg/dL) despite low HbA1c and no hyperglycemia reported",
+    "Very dilute urine (specific gravity = 1.000) \u2013 could be over\u2011hydration, diuretic effect, or impaired concentrating ability",
+    "Extremely low HbA1c (3.2%) \u2013 possible assay error, shortened RBC lifespan, or overt insulin dosing",
+    "Borderline low serum calcium (8.6\u202fmg/dL) without albumin\u2011corrected value or phosphorus/PTH data",
+    "Discrepancy between documented CKD stage 2 and lab\u2011derived stage 3a (eGFR 57.8)",
+    "Multiple missing key labs (lipid panel, serum liver enzymes, iron studies, full metabolic panel, urine albumin\u2011creatinine ratio, frailty/cognitive screens)"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c assay or use fructosamine to verify glycaemic control",
+    "Comprehensive metabolic panel including corrected calcium, phosphorus, PTH, and vitamin D",
+    "Liver function tests (AST, ALT, ALP, GGT, total bilirubin) and abdominal ultrasound to evaluate bilirubinuria",
+    "Urine microscopy, culture, and repeat urine protein quantification (albumin\u2011creatinine ratio)",
+    "Orthostatic vital signs and volume status assessment",
+    "Medication review with possible reduction of insulin dose and antihypertensive de\u2011escalation",
+    "Echocardiogram and natriuretic peptide (BNP/NT\u2011proBNP) to assess for HFpEF",
+    "Stress testing or coronary CT angiography for silent CAD evaluation",
+    "Renal artery Doppler ultrasound if suspicion for RAS persists",
+    "Complete blood count with iron studies to characterize anemia",
+    "Frailty assessment (gait speed, grip strength) and cognitive screening"
+  ]
+}

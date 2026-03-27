@@ -1,0 +1,182 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertensive nephrosclerosis (CKD stage 3-4)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing poorly controlled hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Reduced estimated glomerular filtration rate consistent with CKD stage 3\u20114",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Severe obesity and prediabetes increasing renal vascular stress",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension together with objective evidence of moderate CKD best explains the patient's blood pressure difficulty and anemia, making hypertensive nephrosclerosis the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic\u2011syndrome\u2011driven resistant hypertension / early ASCVD",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity and prediabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on age, BMI, hypertension, and dyslipidemia (labs missing but presumed)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome contributes to resistant hypertension and early atherosclerotic changes, but the CKD findings outweigh its explanatory power."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity with resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Snoring reported by partner (implicit in social history)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity\u2011related OSA can worsen hypertension control, but lack of polysomnography makes the diagnosis presumptive."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Microcytic anemia (hemoglobin low, MCV low) \u2013 inferred from anemia mention",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No overt bleeding source identified",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia could be due to iron loss; however, CKD\u2011related anemia is also plausible, requiring iron studies to differentiate."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease (CKD\u2011related)",
+      "icd10": "D63.1",
+      "snomed": "271442009",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 3\u20114 with reduced erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammation risk from obesity and CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD is a well\u2011established cause of anemia of chronic disease and likely contributes substantially to the patient\u2019s low hemoglobin."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hyperaldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without aldosterone\u2011renin ratio or electrolyte abnormalities, suspicion remains very low."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity and metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity makes NAFLD likely, but lack of liver enzymes or imaging limits clinical relevance at this stage."
+    },
+    {
+      "rank": 8,
+      "name": "Early coronary artery disease / HFpEF",
+      "icd10": "I25.10",
+      "snomed": "414916001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No cardiac symptoms, imaging, or biomarkers are available; probability remains minimal."
+    }
+  ],
+  "primary_diagnosis": "Hypertensive nephrosclerosis (CKD stage 3-4)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s severe obesity, poorly controlled hypertension, and laboratory evidence of moderate chronic kidney disease best fit hypertensive nephrosclerosis as the primary driver of both resistant hypertension and anemia. Metabolic\u2011syndrome\u2011related hypertension and early atherosclerotic disease are contributory but less explanatory. Obstructive sleep apnea is plausible given obesity but lacks confirmatory testing. Anemia may be multifactorial\u2014CKD\u2011related anemia of chronic disease is strongly supported, while iron\u2011deficiency remains possible pending iron studies. Primary hyperaldosteronism, NAFLD/NASH, and early CAD/HFpEF have low supporting data and are retained only as remote considerations.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW) 158.1\u202ffL without accompanying platelet count or morphology.",
+    "High\u2011normal bicarbonate (28.8\u202fmmol/L) without arterial blood gas or potassium data.",
+    "Missing current blood pressure, heart rate, smoking/alcohol use, and recent BMI.",
+    "Absence of urine albumin\u2011to\u2011creatinine ratio, eGFR calculation, and renal imaging.",
+    "No liver enzyme or imaging data to evaluate NAFLD."
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel with eGFR and electrolytes.",
+    "Urine albumin\u2011to\u2011creatinine ratio and renal ultrasound to stage CKD and assess nephrosclerosis.",
+    "Polysomnography to confirm or exclude obstructive sleep apnea.",
+    "Iron studies (serum ferritin, transferrin saturation) and stool occult blood test to evaluate iron\u2011deficiency anemia.",
+    "Aldosterone\u2011renin ratio with confirmatory suppression testing if indicated.",
+    "Liver function tests and hepatic ultrasound or FibroScan for NAFLD/NASH assessment.",
+    "Lipid panel and fasting glucose/HbA1c to quantify metabolic syndrome severity.",
+    "Resting ECG and transthoracic echocardiogram to screen for early CAD or HFpEF."
+  ]
+}

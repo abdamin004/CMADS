@@ -1,0 +1,240 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic-plus-hypertensive nephropathy (CKD stage 5)",
+      "icd10": "N18.5",
+      "snomed": "431857002",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus onset 1996-10-17 with progressive proteinuria and microalbuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension onset 1996-10-17 on multi\u2011drug regimen (ACE\u2011I, thiazide, CCB, \u03b2\u2011blocker)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease progression from stage 1 (2002) to stage 5 (current)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) 6.5\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing diabetes with documented proteinuria together with decades of poorly controlled hypertension are the classic drivers of progressive CKD. The current eGFR confirms end\u2011stage renal disease, making this combined diabetic\u2011plus\u2011hypertensive nephropathy the most plausible root cause."
+    },
+    {
+      "rank": 2,
+      "name": "Ischemic cardiomyopathy with heart\u2011failure (cardiorenal syndrome type\u202f2)",
+      "icd10": "I25.5",
+      "snomed": "414545008",
+      "probability": 0.14,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease diagnosed 2007-12-20; coronary artery bypass grafting 2008-02-12",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Angina treated with nitroglycerin spray; multiple cardiac medications",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recorded blood pressure 82/44\u202fmmHg suggesting low output or medication effect",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior MI and CABG indicate significant myocardial injury. Ongoing angina and low systemic pressures raise concern for reduced cardiac output, which can worsen renal perfusion (cardiorenal syndrome)."
+    },
+    {
+      "rank": 3,
+      "name": "Uremic high\u2011anion\u2011gap metabolic acidosis (CKD\u2011related)",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Arterial pH\u202f7.00 (severe acidemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR\u202f6.5\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "With GFR <10\u202fmL/min the kidneys cannot excrete non\u2011volatile acids, leading to uremic acidosis. No alternative high\u2011anion\u2011gap causes (lactate, ketoacidosis, toxins) have been documented."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 1985",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (eGFR\u202f6.5)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD leads to reduced erythropoietin production, causing a normocytic anemia that often predates dialysis."
+    },
+    {
+      "rank": 5,
+      "name": "Insulin\u2011induced hypoglycemia (overtreated diabetes)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy (current)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hemoglobin A1c\u202f4.0\u202f% (very low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD reduces insulin clearance, increasing hypoglycemia risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "An A1c of 4\u202f% in a patient on insulin suggests overtreatment, especially in CKD where insulin metabolism is impaired, predisposing to symptomatic hypoglycemia."
+    },
+    {
+      "rank": 6,
+      "name": "Medication\u2011induced profound hypotension (polypharmacy effect)",
+      "icd10": "I95.9",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011I, thiazide, calcium\u2011channel blocker, \u03b2\u2011blocker, nitroglycerin on board",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recorded blood pressure 82/44\u202fmmHg",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The cumulative vasodilatory and negative\u2011inotropic effects of multiple antihypertensives and nitroglycerin can produce symptomatic hypotension, further compromising renal perfusion."
+    },
+    {
+      "rank": 7,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (eGFR\u202f6.5)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing PTH, calcium, phosphate labs (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Patients with eGFR <15\u202fmL/min almost universally develop secondary hyperparathyroidism; labs are needed to confirm and guide therapy."
+    },
+    {
+      "rank": 8,
+      "name": "Metformin\u2011associated lactic acidosis",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe metabolic acidosis (pH\u202f7.00)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list does not confirm whether metformin is still used (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If metformin were still being taken at advanced CKD, lactic acidosis would be a high\u2011yield cause; absence of medication confirmation makes this unlikely but it must be ruled out."
+    },
+    {
+      "rank": 9,
+      "name": "Adrenal insufficiency / autonomic neuropathy",
+      "icd10": "E27.1",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hypotension and metabolic acidosis without clear cardiac or renal cause alone",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes (risk for autonomic neuropathy)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Autonomic dysfunction or adrenal insufficiency could contribute to hypotension and acid\u2011base disturbance, but they are low on the list pending exclusion of more likely etiologies."
+    }
+  ],
+  "primary_diagnosis": "Diabetic-plus-hypertensive nephropathy (CKD stage 5)",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "The patient is a 53\u2011year\u2011old man with a 30\u2011year history of type\u202f2 diabetes and hypertension, both of which have driven progressive chronic kidney disease now at stage\u202f5 (eGFR\u202f6.5). This combined diabetic\u2011plus\u2011hypertensive nephropathy accounts for the majority of his clinical picture, including severe metabolic acidosis, anemia, and the need for eventual renal replacement. Co\u2011existing ischemic cardiomyopathy likely contributes to low cardiac output and further renal hypoperfusion (cardiorenal syndrome). The severe acidemia is most parsimoniously explained by uremic accumulation of non\u2011volatile acids, while anemia reflects erythropoietin deficiency. Low A1c suggests overtreatment with insulin, raising hypoglycemia risk, and the extensive antihypertensive regimen explains the documented hypotension. Secondary hyperparathyroidism is expected in CKD\u20115 but lacks laboratory confirmation. Rare possibilities such as metformin\u2011associated lactic acidosis or adrenal insufficiency remain but are low probability pending additional data.",
+  "unresolved_findings": [
+    "Arterial pH\u202f7.00 without anion\u2011gap, lactate, or ketone measurements",
+    "Absence of documented dialysis despite CKD\u20115 and severe acidosis",
+    "Missing electrolyte panel (Na\u207a, K\u207a, Cl\u207b, HCO\u2083\u207b) and anion\u2011gap calculation",
+    "Unclear whether metformin is still being taken",
+    "No weight/BMI or waist circumference data to quantify metabolic\u2011syndrome severity",
+    "No recent cardiac imaging (echocardiogram, BNP) or volume\u2011status assessment",
+    "No complete anemia work\u2011up (CBC with reticulocyte count, iron studies, ESA use)",
+    "No bone\u2011mineral metabolism labs (PTH, Ca, PO\u2084, vitamin\u202fD)",
+    "Limited psychosocial assessment regarding medication adherence and support"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with serum lactate and calculation of the anion gap",
+    "Serum ketones (\u03b2\u2011hydroxybutyrate) and toxicology screen for salicylates/metformin",
+    "Urgent nephrology consult to assess need for dialysis initiation",
+    "Echocardiogram with ejection fraction measurement and BNP level",
+    "Orthostatic vital signs and bedside ultrasound for volume status",
+    "Full medication reconciliation including doses and confirmation of metformin status",
+    "Continuous glucose monitoring or 72\u2011hour glucose log to evaluate hypoglycemia frequency",
+    "CBC with reticulocyte count, iron studies, vitamin B12/folate, and trial of erythropoiesis\u2011stimulating agent if indicated",
+    "PTH, calcium, phosphate, 25\u2011OH vitamin\u202fD, and alkaline phosphatase to assess secondary hyperparathyroidism",
+    "Weight, height, BMI, and waist circumference measurement",
+    "Formal psychosocial evaluation and referral to social work/psychology for adherence support"
+  ]
+}

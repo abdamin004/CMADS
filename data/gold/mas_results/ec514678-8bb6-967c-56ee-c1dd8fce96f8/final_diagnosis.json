@@ -1,0 +1,183 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome-driven early type 2 diabetes (insulin-resistance core)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.6% indicating prediabetes/early diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Coexisting stage 1 hypertension and dyslipidemia (low HDL, borderline high LDL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Elevated platelet distribution width (PDW 293 fL) suggesting systemic inflammation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of elevated HbA1c, hypertension, and dyslipidemia fits the metabolic syndrome phenotype, making insulin\u2011resistance driven early type 2 diabetes the most unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented stage 1 hypertension on multiple clinic visits",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated systolic/diastolic readings consistent with primary hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Repeated office blood pressure measurements meet criteria for essential hypertension and contribute to cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Iatrogenic Cushing syndrome from chronic inhaled fluticasone",
+      "icd10": "E27.1",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term high\u2011dose inhaled fluticasone therapy for asthma",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No documented cortisol or ACTH measurements",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic high\u2011dose inhaled corticosteroids can cause systemic effects, but lack of dose quantification and biochemical confirmation lowers certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Persistent asthma (modifier)",
+      "icd10": "J45.909",
+      "snomed": "195967001",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of atopic respiratory disease with ongoing inhaler prescriptions",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of epinephrine auto\u2011injector indicating severe allergic potential",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Although the asthma label was previously resolved, continued medication use suggests persistent airway hyperreactivity that may influence metabolic and cardiovascular status."
+    },
+    {
+      "rank": 5,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "1240561009",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available; clinical suspicion based on metabolic slowing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absent laboratory data makes hypothyroidism a low\u2011probability contributor, but it remains a differential for dyslipidemia and mild metabolic derangements."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome components (insulin resistance, dyslipidemia) predispose to hepatic steatosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, NAFLD is plausible but lacks direct hepatic enzyme or imaging evidence."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and metabolic syndrome are risk factors for OSA; no sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA could exacerbate hypertension and metabolic dysfunction, but no clinical or polysomnographic data are available."
+    },
+    {
+      "rank": 8,
+      "name": "Early chronic kidney disease / tubular dysfunction",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low CO\u2082 (22.3 mmol/L) with elevated chloride (109.5 mmol/L) suggesting a mild non\u2011anion\u2011gap metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and prediabetes increase risk for early renal impairment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The acid\u2011base abnormality may reflect early tubular dysfunction; renal function tests are pending."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome-driven early type 2 diabetes (insulin-resistance core)",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient's elevated HbA1c, stage 1 hypertension, dyslipidemia, and inflammatory platelet indices converge on metabolic syndrome as the central driver, making early type 2 diabetes the most likely primary diagnosis. Essential hypertension is a distinct but related condition. Chronic inhaled corticosteroid exposure raises the possibility of iatrogenic Cushing syndrome, though dose and cortisol data are lacking. Persistent asthma remains a modifier of overall risk. Lesser considerations include subclinical hypothyroidism, NAFLD, OSA, and early renal tubular dysfunction, each supported by indirect risk factors or subtle laboratory clues.",
+  "unresolved_findings": [
+    "Markedly elevated PDW (293 fL) without a documented cause",
+    "Borderline low CO\u2082 (22.3 mmol/L) with slightly high chloride (109.5 mmol/L) suggesting a mild non\u2011anion\u2011gap metabolic acidosis",
+    "Absence of BMI, waist circumference, and smoking/alcohol use data",
+    "Presence of epinephrine auto\u2011injector without recorded allergen trigger list"
+  ],
+  "recommended_workup": [
+    "Ambulatory blood pressure monitoring",
+    "Comprehensive lipid panel with LDL particle size",
+    "Fasting glucose and oral glucose tolerance test",
+    "Serum cortisol and ACTH levels to evaluate for iatrogenic Cushing syndrome",
+    "Thyroid function tests (TSH, free T4)",
+    "Liver ultrasound or FibroScan to assess for NAFLD",
+    "Polysomnography for obstructive sleep apnea",
+    "Renal function panel including eGFR, urine albumin-to-creatinine ratio",
+    "Repeat complete blood count with platelet indices",
+    "Measurement of BMI, waist circumference, and detailed lifestyle questionnaire"
+  ]
+}

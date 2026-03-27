@@ -1,0 +1,280 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy leading to end\u2011stage renal disease",
+      "icd10": "E11.21",
+      "snomed": "127013003",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Disorder of kidney due to diabetes mellitus (onset 1994\u201112\u201123)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analist",
+          "finding": "Active problem: Proteinuria due to type 2 diabetes (onset 1998\u201101\u201109)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 4.1\u202fmL/min/1.73\u202fm\u00b2 (stage 5) \u2013 stable trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy (isophane/regular) \u2013 critical",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing type 2 diabetes with documented diabetic kidney disease, proteinuria, and a current eGFR of 4.1\u202fmL/min/1.73\u202fm\u00b2 makes diabetic nephropathy the dominant cause of the patient\u2019s ESRD."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (contributory to CKD)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Essential hypertension (onset 1993\u201112\u201117)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications: Lisinopril 10\u202fmg and Hydrochlorothiazide 25\u202fmg for BP control",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Blood\u2011pressure values missing \u2013 cannot confirm control",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension predates diabetes and is a known cause of CKD. Missing BP data prevents assessment of current control, so hypertensive nephrosclerosis remains a plausible co\u2011factor."
+    },
+    {
+      "rank": 3,
+      "name": "Coronary artery disease (subclinical atherosclerosis)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Risk\u2011factor profile: Age 29\u202fy, male, type 2 diabetes, hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented CAD, but high vascular risk burden",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Even though the patient is young, the combination of diabetes and hypertension confers a non\u2011negligible risk of subclinical CAD; lack of lipid data and BP control data adds uncertainty."
+    },
+    {
+      "rank": 4,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Risk\u2011factor profile: Diabetes, hypertension, CKD \u2013 known PAD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented PAD, but absence of exam data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "PAD prevalence is high in diabetics with CKD; the lack of vascular exam data makes this a plausible but unconfirmed diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and diabetes are risk factors for HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented heart failure; no imaging available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the vascular risk profile, HFpEF is possible, but the patient\u2019s young age reduces its likelihood."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Anemia (onset 1991\u201108\u201130)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No CBC provided \u2013 typical in CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is a common consequence of stage\u202f5 CKD; the problem list confirms its presence."
+    },
+    {
+      "rank": 7,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4\u20115 \u2013 physiologically predisposes to secondary hyperparathyroidism",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Calcium, phosphate, PTH not reported \u2013 data gap",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD almost invariably leads to disordered mineral metabolism; absence of labs creates uncertainty but the diagnosis remains likely."
+    },
+    {
+      "rank": 8,
+      "name": "Electrolyte and acid\u2011base derangements (e.g., hyperkalaemia, metabolic acidosis)",
+      "icd10": "E87.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f5 CKD \u2013 high risk for hyperkalaemia and metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Comprehensive metabolic panel not provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In ESRD, electrolyte disturbances are expected; missing lab values prevent confirmation but the pathophysiology is clear."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / anxiety (psychosocial consequence)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Stress (low priority)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, transport problems, military background \u2013 psychosocial stressors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic illness, transplant waiting, and limited social support predispose to mood disorders."
+    },
+    {
+      "rank": 10,
+      "name": "Uremic peripheral neuropathy",
+      "icd10": "G62.0",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "CKD stage\u202f5 \u2013 uremic toxins can cause neuropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented neuropathy \u2013 exam not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Peripheral neuropathy is common in ESRD and diabetes; lack of neurologic exam data leaves this as a possible but unconfirmed diagnosis."
+    },
+    {
+      "rank": 11,
+      "name": "Atrial fibrillation or other arrhythmia",
+      "icd10": "I48.91",
+      "snomed": "698247007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and CKD increase arrhythmia risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No ECG performed \u2013 data missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD patients have higher arrhythmia prevalence; without ECG data the likelihood remains low."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy leading to end\u2011stage renal disease",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient is a 29\u2011year\u2011old male with long\u2011standing type\u202f2 diabetes, essential hypertension, and a documented progression from CKD stage\u202f1\u20114 to an eGFR of 4.1\u202fmL/min/1.73\u202fm\u00b2, indicating ESRD. The problem list, medication regimen (ACE\u2011inhibitor, insulin), and lab trend collectively point to diabetic nephropathy as the dominant aetiology. Hypertension likely contributes as a co\u2011factor (hypertensive nephrosclerosis). Cardiovascular risk is high, but the patient\u2019s young age tempers the probability of overt CAD, PAD, and HFpEF, which remain possible. Expected sequelae of stage\u202f5 CKD\u2014anemia, secondary hyperparathyroidism, electrolyte/acid\u2011base disturbances, uremic neuropathy, and arrhythmia\u2014are included. Psychosocial stressors justify a mood\u2011disorder diagnosis. Missing vital signs, lipid profile, HbA1c, comprehensive metabolic panel, CBC, ECG, and vascular studies create uncertainty, especially for the cardiovascular and metabolic secondary diagnoses.",
+  "unresolved_findings": [
+    "A1c 2.8\u202f% (implausibly low \u2013 flagged as data entry error)",
+    "CKD stage discrepancy: problem list shows stage\u202f4, labs indicate stage\u202f5",
+    "Missing blood pressure readings",
+    "Missing BMI and weight data",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Missing comprehensive metabolic panel (electrolytes, bicarbonate, calcium, phosphate)",
+    "Missing CBC with iron studies",
+    "No ECG or cardiac imaging",
+    "No peripheral vascular exam or ABI",
+    "No formal mental\u2011health screening scores"
+  ],
+  "recommended_workup": [
+    "Obtain recent seated blood pressure (average of three readings) and calculate control status",
+    "Repeat HbA1c using a validated method to assess glycaemic control",
+    "Fasting lipid profile (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Comprehensive metabolic panel (including K+, Na+, Cl-, HCO3-, Ca2+, PO4\u00b3-, Mg2+, BUN, creatinine trend)",
+    "CBC with iron studies (Hb, Hct, MCV, ferritin, transferrin saturation)",
+    "Serum PTH, calcium, phosphate, and vitamin D levels to evaluate secondary hyperparathyroidism",
+    "12\u2011lead ECG and transthoracic echocardiogram (evaluate LV hypertrophy, diastolic function, EF)",
+    "Coronary calcium score or stress testing if CAD risk remains concerning",
+    "Ankle\u2011brachial index (ABI) and lower\u2011extremity duplex ultrasound for PAD screening",
+    "Focused neurologic exam for peripheral neuropathy; consider nerve conduction studies if symptomatic",
+    "PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety screening",
+    "STOP\u2011BANG questionnaire and, if positive, home sleep apnea testing",
+    "Review transplant evaluation checklist: cardiac clearance, psychosocial assessment, infectious disease screening"
+  ]
+}

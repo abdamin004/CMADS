@@ -1,0 +1,167 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Kidney Disease (DKD)",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.456,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing diabetes mellitus with microalbuminuria (if available)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine consistent with CKD stage 3",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes is the dominant risk factor for CKD in this patient; the adjusted probability reflects reviewer confidence and the presence of renal dysfunction without alternative primary cause."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.171,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension (treated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stable creatinine trend suggesting chronic process",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension contributes to CKD progression; however, lack of current blood pressure data reduces certainty, leading to a modest probability."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.0",
+      "snomed": "302810001",
+      "probability": 0.133,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PTH (if available) or expected rise in CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3\u20114 predisposes to secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reviewer highlighted underestimation; renal dysfunction commonly leads to disturbances in calcium\u2011phosphate metabolism, justifying increased probability."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (sub\u2011clinical)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.095,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (diabetes, hypertension, CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient\u2019s risk factors make sub\u2011clinical atherosclerosis plausible, though no imaging data are available."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia (clinical severity 4) noted in chart",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD present, a common cause of anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reviewer flagged anemia as an uncaptured finding; CKD\u2011related anemia is a logical explanation."
+    },
+    {
+      "rank": 6,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.067,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion (if documented) and risk factors (age, hypertension, diabetes)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No objective cardiac data; probability remains low but retained per reviewer list."
+    },
+    {
+      "rank": 7,
+      "name": "NSAID\u2011induced Acute\u2011on\u2011Chronic Kidney Injury",
+      "icd10": "N17.2",
+      "snomed": "236423003",
+      "probability": 0.029,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "NSAID use noted (dose unknown)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stable creatinine trend argues against acute insult",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Reviewer downgraded this diagnosis; retained with minimal probability."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Kidney Disease (DKD)",
+  "primary_probability": 0.456,
+  "clinical_reasoning_summary": "The patient\u2019s chronic kidney disease is most plausibly driven by longstanding diabetes, as emphasized by the reviewer. Hypertension, CKD\u2011MBD, and sub\u2011clinical atherosclerosis are important co\u2011morbid contributors. Anemia, previously omitted, is now recognized as CKD\u2011related. Cardiac and NSAID\u2011related etiologies remain possible but less likely given the current data gaps.",
+  "unresolved_findings": [
+    "HbA1c reported as 2.9% \u2013 implausibly low, may reflect lab error or overtreatment",
+    "Missing current blood pressure measurements (clinic, home, ABPM)",
+    "No quantitative proteinuria (UACR or 24\u2011h protein) or urinalysis results",
+    "Incomplete medication list (antihypertensives, statins, insulin, NSAID dosing)",
+    "Absent serum calcium, phosphate, PTH, 25\u2011OH vitamin D levels",
+    "No lipid panel, hs\u2011CRP",
+    "No cardiac imaging (echocardiogram) or natriuretic peptide levels",
+    "No renal imaging (ultrasound) to exclude obstruction or vascular disease",
+    "No screening results for depression or sleep apnea"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c measurement or alternative glycemic marker (fructosamine, CGM) to verify result",
+    "Obtain comprehensive blood pressure assessment (clinic readings, home monitoring, or ABPM)",
+    "Quantify proteinuria with urine albumin\u2011creatinine ratio or 24\u2011hour urine protein",
+    "Complete medication reconciliation focusing on antihypertensives, NSAIDs, and diabetes agents",
+    "CBC with iron studies, vitamin B12, folate to characterize anemia",
+    "Serum calcium, phosphate, PTH, 25\u2011OH vitamin D to evaluate CKD\u2011MBD",
+    "Lipid panel and high\u2011sensitivity CRP for cardiovascular risk stratification",
+    "Natriuretic peptide (BNP or NT\u2011proBNP) and transthoracic echocardiogram to assess for HFpEF",
+    "Renal ultrasound to assess kidney size, echogenicity, and rule out obstruction",
+    "Screen for depression (PHQ\u20119) and obstructive sleep apnea (questionnaire or sleep study) as they impact CKD outcomes"
+  ]
+}

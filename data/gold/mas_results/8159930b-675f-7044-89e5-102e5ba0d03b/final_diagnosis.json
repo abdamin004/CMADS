@@ -1,0 +1,133 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease stage 3-4 with possible acute-on-chronic injury",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3\u202fmg/dL indicating severe renal impairment",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic pain, long\u2011term opioid use, and multiple metabolic risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular and renal risk scores based on age, obesity, hyperlipidemia, and pre\u2011diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The markedly elevated creatinine together with the clinical context of chronic comorbidities points to stage 3\u20114 CKD. The discordant eGFR suggests a calculation error, but the absolute creatinine level confirms reduced GFR. Absence of prior baseline makes an acute\u2011on\u2011chronic component plausible."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / early type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.21,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hyperlipidemia, and documented pre\u2011diabetes (elevated fasting glucose/HbA1c)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High calculated risk for cardiovascular disease and diabetes complications",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s weight, dyslipidemia, and borderline glucose values fulfill criteria for metabolic syndrome and suggest early type\u202f2 diabetes, which also contributes to renal risk."
+    },
+    {
+      "rank": 3,
+      "name": "Acute kidney injury (drug\u2011induced or obstructive)",
+      "icd10": "N17.9",
+      "snomed": "709044004",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Sudden rise in creatinine without prior baseline; borderline hyperkalemia and falling bicarbonate",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid therapy and possible NSAID or other nephrotoxic medication exposure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The lack of prior creatinine trends makes it impossible to separate chronic from acute change, but the abrupt elevation and electrolyte shifts raise concern for superimposed AKI, potentially drug\u2011related or obstructive."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin/hematocrit consistent with anemia; no iron studies yet performed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Known CKD stage 3\u20114, a common cause of normocytic anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD impairs erythropoietin production, making anemia a frequent complication; the laboratory pattern aligns with this etiology."
+    },
+    {
+      "rank": 5,
+      "name": "Masked/ambulatory hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Single office blood pressure reading elevated; multiple cardiovascular risk factors present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given obesity, metabolic syndrome, and CKD, out\u2011of\u2011office hypertension is likely even though only one office measurement is documented."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease stage 3-4 with possible acute-on-chronic injury",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The dominant finding is severe renal dysfunction (creatinine 3.3\u202fmg/dL) in a patient with multiple metabolic risk factors and chronic opioid use, supporting stage 3\u20114 CKD with a possible superimposed AKI. Metabolic syndrome explains the cardiovascular risk profile and contributes to renal decline. Anemia is a recognized CKD complication. Limited blood pressure data raise the possibility of masked hypertension, but evidence is weak. The reviewer\u2019s probability adjustments have been incorporated, and diagnoses lacking supporting data (opioid\u2011induced endocrine dysfunction, obstructive sleep apnea) have been removed.",
+  "unresolved_findings": [
+    "Discordant eGFR (87.6\u202fmL/min) vs. creatinine 3.3\u202fmg/dL \u2013 suggests calculation error, acute change, or lab artifact",
+    "Alkaline phosphatase 21.8\u202fU/L \u2013 below reference range, unclear significance",
+    "Platelet distribution width 494.5\u202ffL \u2013 implausible value, likely data entry or instrument error",
+    "Missing BMI value despite known obesity",
+    "Missing baseline creatinine and trend data to confirm AKI",
+    "No urine albumin/creatinine ratio, proteinuria assessment, or renal imaging",
+    "No iron studies to fully characterize anemia",
+    "No ambulatory blood pressure monitoring data"
+  ],
+  "recommended_workup": [
+    "Re\u2011calculate eGFR using correct creatinine and demographic inputs",
+    "Obtain prior outpatient creatinine values to establish baseline renal function",
+    "Urine albumin\u2011to\u2011creatinine ratio and urinalysis for proteinuria assessment",
+    "Renal ultrasound to evaluate for obstructive causes",
+    "Repeat comprehensive metabolic panel including electrolytes, bicarbonate, and alkaline phosphatase",
+    "Iron studies (serum iron, ferritin, TIBC) and reticulocyte count to characterize anemia",
+    "24\u2011hour ambulatory blood pressure monitoring to detect masked hypertension",
+    "Medication review focusing on nephrotoxic agents (NSAIDs, certain antibiotics, high\u2011dose opioids)",
+    "Consider referral to nephrology for CKD staging and AKI evaluation"
+  ]
+}

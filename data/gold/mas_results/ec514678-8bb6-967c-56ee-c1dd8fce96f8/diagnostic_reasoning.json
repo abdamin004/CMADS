@@ -1,0 +1,212 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome\u2013driven early type 2 diabetes (insulin\u2011resistance core)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (BP 133/87 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.6% (diabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 136.2 mg/dL (borderline\u2011high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 33.8 mg/dL (low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list entry: Prediabetes (high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet indices (PDW 293 fL, MPV 12.1 fL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 formal criteria for metabolic syndrome (hypertension, low HDL, elevated HbA1c). These findings together explain the dyslipidemia, glucose dysregulation, and platelet activation, making insulin\u2011resistance the most parsimonious unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Iatrogenic Cushing's syndrome from chronic high\u2011dose inhaled fluticasone",
+      "icd10": "E24.9",
+      "snomed": "23700003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inhaled fluticasone use (dose not specified)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.6% (hyperglycaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidaemia (high LDL, low HDL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Systemic absorption of high\u2011dose inhaled corticosteroids can produce Cushingoid metabolic changes identical to those observed. Absence of dose information creates uncertainty, hence a moderate probability."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 133/87 mmHg (stage 1 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list entry: Hypertension (high)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to ASCVD risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated BP meets criteria for stage\u20111 hypertension and is recorded as an active problem. While metabolic stress may amplify it, primary hypertension remains a distinct driver of cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C (33.8 mg/dL) and borderline\u2011high LDL\u2011C",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing thyroid function tests (data gap flagged)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can cause dyslipidaemia and mild hypertension. Absence of thyroid labs limits certainty, yielding a low\u2011moderate probability."
+    },
+    {
+      "rank": 5,
+      "name": "Persistent asthma with inhaled corticosteroid exposure (modifier)",
+      "icd10": "J45.909",
+      "snomed": "195967001",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications: albuterol, fluticasone inhaler, epinephrine auto\u2011injector, fexofenadine",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Asthma (moderate)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet indices (possible inflammation)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Asthma treatment with inhaled steroids may contribute to systemic metabolic effects, but the respiratory disease itself does not explain the metabolic abnormalities; it acts as a modifier."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "197321007",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome components present (HTN, dyslipidaemia, hyperglycaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing liver enzymes and imaging (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is a common hepatic manifestation of metabolic syndrome. Lack of liver labs/imaging makes this a probable but unconfirmed consequence."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and metabolic syndrome increase OSA risk",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Epidemiologically linked to metabolic syndrome, but no clinical sleep data are available, keeping probability low."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome\u2013driven early type 2 diabetes (insulin\u2011resistance core)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The 20\u2011year\u2011old male meets three formal criteria for metabolic syndrome (stage\u20111 hypertension, low HDL, HbA1c \u22656.5%). These findings, together with dyslipidaemia and platelet activation, point to insulin\u2011resistance as the dominant pathophysiologic driver. Iatrogenic Cushing's from chronic inhaled fluticasone, primary hypertension, hypothyroidism, asthma\u2011related steroid exposure, NAFLD, and OSA are retained as secondary or contributory possibilities, each supported by specific but less definitive evidence. Probabilities were calibrated to reflect prevalence, the strength of available data, and the current gaps.",
+  "unresolved_findings": [
+    "Markedly elevated PDW (293 fL) without a documented cause",
+    "Borderline low CO\u2082 (22.3 mmol/L) with slightly high chloride (109.5 mmol/L) suggesting a mild non\u2011anion\u2011gap metabolic acidosis",
+    "Absence of BMI, waist circumference, and smoking/alcohol use data",
+    "Presence of epinephrine auto\u2011injector without recorded allergen trigger list"
+  ],
+  "recommended_workup": [
+    "Fasting insulin and HOMA\u2011IR calculation; repeat HbA1c in 3 months; oral glucose tolerance test",
+    "24\u2011hour urinary free cortisol, late\u2011night salivary cortisol, and low\u2011dose dexamethasone suppression test to evaluate for Cushing's syndrome",
+    "TSH, free T4, and free T3 to assess thyroid function",
+    "Accurate anthropometrics: weight, height, BMI, waist circumference, body\u2011fat percentage",
+    "Urine albumin\u2011to\u2011creatinine ratio to screen for early nephropathy",
+    "Comprehensive liver panel (ALT, AST, GGT, triglycerides) plus hepatic ultrasound or FibroScan for NAFLD",
+    "STOP\u2011Bang questionnaire followed by home sleep apnea testing or polysomnography if score \u22653",
+    "Full CBC with platelet count and peripheral smear; consider JAK2 V617F, CALR, MPL testing if thrombocytosis persists",
+    "Aldosterone\u2011renin ratio and serum potassium if hypertension remains >140/90 mmHg after lifestyle/medication optimization",
+    "Detailed medication review to document fluticasone dose, frequency, and cumulative exposure"
+  ]
+}

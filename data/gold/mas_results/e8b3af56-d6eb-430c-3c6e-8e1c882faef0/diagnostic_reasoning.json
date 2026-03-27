@@ -1,0 +1,227 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome (cluster)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2248 30.4 kg/m\u00b2) documented since 2005",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 1999, current BP 132/87 mmHg (stage 1)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 30.7 mg/dL (severity 2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides 141.3 mg/dL (upper\u2011normal) and borderline LDL\u2011C 107.1 mg/dL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 ATP\u2011III criteria (obesity, hypertension, low HDL, borderline triglycerides), which defines metabolic syndrome and explains the dyslipidaemia and elevated cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary Hypertension (e.g., primary aldosteronism, renal\u2011artery stenosis)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension >20 years with suboptimal control despite hydrochlorothiazide",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (naproxen) use, which can mask underlying secondary causes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented secondary\u2011hypertension work\u2011up (renin\u2011aldosterone, imaging)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension in a middle\u2011aged woman with obesity and metabolic syndrome raises suspicion for secondary causes; prevalence of primary aldosteronism in resistant HTN is ~10\u201115%."
+    },
+    {
+      "rank": 3,
+      "name": "Essential Hypertension (primary)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed essential hypertension in 1999 with ongoing thiazide therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current BP 132/87 mmHg (stage\u202f1) indicating persistent primary hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "After accounting for possible secondary causes, the remaining probability of primary hypertension is still substantial."
+    },
+    {
+      "rank": 4,
+      "name": "Pre\u2011diabetes / Early Type\u202f2 Diabetes Mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome components (obesity, hypertension, dyslipidaemia) known to precede glucose intolerance",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing fasting glucose/HbA1c flagged as absent",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Asian ethnicity, which carries higher risk of progression to diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, the pre\u2011test probability of impaired fasting glucose is high; lack of labs creates uncertainty, yielding a moderate posterior probability."
+    },
+    {
+      "rank": 5,
+      "name": "Early Chronic Kidney Disease (HTN/NSAID\u2011related)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "20\u2011year history of hypertension and chronic naproxen use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity contributing to hyperfiltration",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal function labs (eGFR, creatinine, urine ACR) flagged as missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High pre\u2011test risk for CKD in this setting; absence of labs reduces confidence but does not eliminate the diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u2248 30 kg/m\u00b2, hypertension, and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep\u2011related symptoms (snoring, daytime sleepiness) \u2013 data gap",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA prevalence rises with obesity and hypertension; without symptom data, probability is modest."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic\u2011syndrome cluster",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides at upper\u2011normal range",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Liver function tests not reported (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in metabolic syndrome; lack of liver labs limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Subclinical Atherosclerotic Cardiovascular Disease (CAD/PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f1 hypertension, low HDL\u2011C, borderline LDL\u2011C, and age 47 (female, Asian)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of coronary imaging or ABI data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk calculators estimate a 5\u20117\u202f% 10\u2011year ASCVD risk; this translates to a modest posterior probability of silent atherosclerosis."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome (cluster)",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient presents with a classic metabolic\u2011syndrome phenotype (obesity, hypertension, low HDL, borderline triglycerides) that drives most downstream risks. Long\u2011standing hypertension combined with chronic NSAID use raises the likelihood of secondary hypertension and early CKD, though objective renal data are missing. The metabolic milieu also predisposes to pre\u2011diabetes, NAFLD, and subclinical atherosclerosis. Psychosocial stressors and chronic pain suggest possible mood disorder, but these are lower in the hierarchy. Probabilities were calibrated using epidemiologic priors, the presence of documented risk factors, and the impact of missing data on confidence.",
+  "unresolved_findings": [
+    "Low HDL\u2011C (30.7\u202fmg/dL) \u2013 no clear etiology beyond metabolic syndrome",
+    "PDW reported in absolute volume (309.7\u202ffL) \u2013 non\u2011standard measurement",
+    "Missing renal function tests (eGFR, creatinine, urine ACR)",
+    "Missing glycemic indices (fasting glucose, HbA1c)",
+    "Absent liver panel (ALT, AST, GGT)",
+    "No documented smoking or alcohol use",
+    "No mental\u2011health screening (PHQ\u20119/GAD\u20117) despite psychosocial stressors"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with serum creatinine, eGFR, electrolytes, and urine albumin\u2011to\u2011creatinine ratio",
+    "Fasting glucose, 2\u2011hour oral glucose tolerance test, and HbA1c",
+    "Comprehensive lipid panel (fasting) to confirm HDL/LDL/triglycerides trends",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase) and hepatic ultrasound if elevated",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism",
+    "Plasma aldosterone concentration and plasma renin activity (ARR) to screen for primary aldosteronism",
+    "Renal\u2011artery duplex ultrasound or CT angiography if ARR abnormal or suspicion persists",
+    "STOP\u2011BANG questionnaire; if \u22653, arrange home sleep apnea testing",
+    "PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety screening",
+    "Detailed social history: smoking status, alcohol intake, diet, physical activity",
+    "Consider low\u2011dose statin therapy per ACC/AHA guidelines for metabolic syndrome"
+  ]
+}

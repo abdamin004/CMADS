@@ -1,0 +1,220 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic Kidney Disease, stage 3-4 (hypertensive/NSAID-related)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.41,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension (stage 2) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated serum creatinine (severity 4)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term NSAID use for chronic musculoskeletal pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperchloremia (110.6 mmol/L) suggesting tubular dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing uncontrolled hypertension, chronic NSAID exposure, and a high creatinine level points to CKD stage 3\u20114 driven by hypertensive nephrosclerosis with an acute\u2011on\u2011chronic NSAID\u2011related tubular injury component."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) Hypertension, uncontrolled",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure consistently >150/95 mmHg on multiple visits",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 65, male, obesity, and prediabetes increase hypertension risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent elevated readings despite low\u2011intensity statin therapy indicate primary hypertension that remains inadequately controlled, contributing to renal injury."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced acute\u2011on\u2011chronic kidney injury (tubulointerstitial)",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID therapy for musculoskeletal pain",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising hyperchloremia and falling bicarbonate suggesting tubular dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs can cause reversible tubular injury superimposed on chronic hypertensive nephropathy, explaining the recent worsening of renal labs."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic Syndrome (obesity\u2011hypertension\u2011dyslipidaemia\u2011prediabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag, prediabetes, dyslipidemia on low\u2011intensity statin",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Combined risk factors elevate cardiovascular and renal disease risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets criteria for metabolic syndrome, which synergistically worsens hypertension and renal outcomes."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of Chronic Disease / CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic normocytic anemia without iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Known CKD stage 3\u20114",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD commonly leads to reduced erythropoietin production, accounting for the persistent anemia."
+    },
+    {
+      "rank": 6,
+      "name": "Atherosclerotic Cardiovascular Disease \u2013 subclinical",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on age, hypertension, dyslipidemia, smoking status unknown",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented prior cardiovascular events but multiple risk factors present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk profile, subclinical atherosclerosis is plausible though not yet manifested clinically."
+    },
+    {
+      "rank": 7,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension and obesity \u2013 major HFpEF risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors exist, but lack of symptoms or cardiac imaging makes HFpEF unlikely; retained with low probability."
+    },
+    {
+      "rank": 8,
+      "name": "Iron\u2011deficiency anemia / occult gastrointestinal bleed",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia present; iron studies not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible but less likely than CKD\u2011related anemia; kept as a low\u2011probability alternative."
+    },
+    {
+      "rank": 9,
+      "name": "Opioid\u2011related complications (sedation, endocrine suppression, fall risk)",
+      "icd10": "T40.2X5A",
+      "snomed": "386661006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid therapy for pain",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioid use may contribute to falls or endocrine effects but does not explain current lab abnormalities."
+    }
+  ],
+  "primary_diagnosis": "Chronic Kidney Disease, stage 3-4 (hypertensive/NSAID-related)",
+  "primary_probability": 0.41,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled hypertension, chronic NSAID exposure, and markedly elevated creatinine point to CKD stage 3\u20114 driven by hypertensive nephrosclerosis with an acute\u2011on\u2011chronic NSAID\u2011related tubular injury. Uncontrolled hypertension remains a major contributor, while the metabolic syndrome framework explains the clustering of obesity, prediabetes, and dyslipidemia. Anemia is most consistent with CKD\u2011related anemia, though iron deficiency cannot be excluded without iron studies. Subclinical atherosclerosis is plausible given the risk profile, whereas HFpEF, opioid complications, and occult GI bleed are retained only as low\u2011probability considerations.",
+  "unresolved_findings": [
+    "Elevated serum albumin 5.4\u202fg/dL \u2013 borderline high, possibly dehydration",
+    "Rising hyperchloremia (110.6\u202fmmol/L) \u2013 etiology unclear",
+    "Low AST 8.2\u202fU/L \u2013 mildly below reference",
+    "Falling bicarbonate (22\u202fmmol/L) \u2013 trend suggests developing metabolic acidosis without clear source",
+    "Missing quantitative BMI value despite obesity flag",
+    "Absent LDL cholesterol and full lipid panel",
+    "No eGFR or creatinine trend data \u2013 hampers CKD staging",
+    "No documented smoking or alcohol use \u2013 unknown contribution to risk",
+    "No family history of cardiovascular, renal, or metabolic disease",
+    "No vaccination status (influenza, pneumococcal, shingles, COVID\u201119)",
+    "No pain severity or functional assessment for chronic pain conditions",
+    "No mental\u2011health screening results (depression, anxiety, PTSD)",
+    "Duplicate entry for simvastatin 10\u202fmg \u2013 possible documentation error"
+  ],
+  "recommended_workup": [
+    "Serial eGFR and serum creatinine measurements to define CKD trajectory",
+    "Urine albumin\u2011to\u2011creatinine ratio (ACR) for proteinuria assessment",
+    "Renal ultrasound to evaluate structural disease and rule out obstruction",
+    "Comprehensive iron panel (serum ferritin, transferrin saturation) to differentiate anemia etiologies",
+    "Complete lipid panel including LDL\u2011C",
+    "HbA1c and fasting glucose to confirm prediabetes status",
+    "Echocardiogram and BNP to assess for HFpEF if symptoms develop",
+    "Blood pressure monitoring (home or ambulatory) to guide antihypertensive titration",
+    "Medication review focusing on NSAID dosing and opioid safety",
+    "Vaccination review and update per age\u2011appropriate guidelines",
+    "Screening for smoking and alcohol use",
+    "BMI calculation and weight management counseling"
+  ]
+}

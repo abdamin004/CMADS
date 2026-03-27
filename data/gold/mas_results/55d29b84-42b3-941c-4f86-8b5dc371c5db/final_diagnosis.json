@@ -1,0 +1,190 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea\u2013related resistant hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented obstructive sleep apnea with severe hypertension (BP 163/123 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose / prediabetes (A1c 6.4%) increasing cardiovascular risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Chronic high\u2011dose opioid therapy contributing to poor sleep quality",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA drives sympathetic activation and sodium retention, leading to resistant hypertension; the patient\u2019s uncontrolled BP despite multiple agents aligns with this mechanism."
+    },
+    {
+      "rank": 2,
+      "name": "Early hypertensive/ischemic chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN and potassium with low CO\u2082 suggesting early metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and prediabetes as risk factors for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and impaired glucose metabolism can cause early renal injury; laboratory trends support subtle renal dysfunction despite missing eGFR data."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Sustained severe hypertension without clear secondary cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Primary hypertension remains a baseline diagnosis; secondary contributors (OSA, CKD) augment but do not replace it."
+    },
+    {
+      "rank": 4,
+      "name": "Renovascular hypertension",
+      "icd10": "I15.0",
+      "snomed": "38341003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension with rising potassium and borderline sodium decline",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age and smoking history (if present) increase likelihood of atherosclerotic renal artery disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal artery stenosis can cause refractory hypertension and electrolyte shifts; lack of renin data limits certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Primary hyperaldosteronism (Conn's syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperkalemia (4.8 mmol/L) without overt hypokalemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absence of hypokalemia and lack of hormonal testing lower likelihood, but it remains a possible secondary cause."
+    },
+    {
+      "rank": 6,
+      "name": "Obesity\u2011related metabolic syndrome",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes and severe hypertension suggest metabolic derangement",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No BMI or waist circumference provided; metabolic syndrome is plausible but not well substantiated."
+    },
+    {
+      "rank": 7,
+      "name": "Ischemic heart disease / coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and prediabetes increase atherosclerotic risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No chest pain, ECG, or imaging data; retained only for completeness."
+    },
+    {
+      "rank": 8,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hypertension can lead to diastolic dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No dyspnea, edema, or echocardiographic data; low probability."
+    },
+    {
+      "rank": 9,
+      "name": "Opioid\u2011induced endocrine suppression",
+      "icd10": "E27.4",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011dose chronic opioid use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioids more commonly cause hypotension or adrenal insufficiency; unlikely to explain hypertension but kept as a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea\u2013related resistant hypertension",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled severe hypertension is best explained by obstructive sleep apnea driving sympathetic overactivity, compounded by early hypertensive kidney injury and baseline essential hypertension. Secondary contributors such as renovascular disease and primary hyperaldosteronism remain possible but less supported by current data. Metabolic syndrome and opioid\u2011related endocrine effects are low\u2011probability considerations. Missing renal function metrics and hormonal panels limit definitive exclusion of some secondary causes.",
+  "unresolved_findings": [
+    "Low total CO\u2082 (21.3 mmol/L) \u2013 etiology unclear",
+    "Elevated platelet distribution width (PDW 452.1 fL) without documented thrombosis or inflammation",
+    "Upper\u2011normal hematocrit (48.8%) despite chronic anemia",
+    "Rising potassium (4.8 mmol/L) and falling sodium (138.5 mmol/L) without diuretic use",
+    "Absence of lipid panel, BMI, smoking/alcohol history",
+    "No urine albumin/creatinine ratio or eGFR data"
+  ],
+  "recommended_workup": [
+    "Repeat polysomnography and assess CPAP adherence",
+    "Comprehensive renal panel: serum creatinine, eGFR, urine albumin/creatinine ratio",
+    "Plasma aldosterone concentration and plasma renin activity (ARR) to evaluate primary hyperaldosteronism",
+    "Renal artery duplex ultrasound or CT angiography for renovascular disease",
+    "Thyroid function tests (TSH, free T4) to definitively rule out hypothyroidism",
+    "Complete metabolic panel with arterial blood gas to clarify low CO\u2082",
+    "Repeat CBC with iron studies to investigate anemia and hematocrit discrepancy",
+    "Lipid profile and calculation of BMI",
+    "Consider pheochromocytoma work\u2011up (plasma metanephrines) if clinical suspicion arises"
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease stage 4 secondary to diabetic and hypertensive nephropathy",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 28.2 mL/min/1.73m\u00b2, creatinine ~2.5 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Heavy proteinuria and metabolic acidosis",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing diabetes mellitus and hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has documented stage 4 CKD with markedly reduced eGFR, proteinuria, and known diabetic and hypertensive disease, making CKD the dominant chronic condition."
+    },
+    {
+      "rank": 2,
+      "name": "Heart failure (mixed HFrEF/HFpEF) secondary to ischemic cardiomyopathy and chronic aortic\u2011valve regurgitation",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.24,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of ischemic heart disease, aortic valve regurgitation, and dyspnea on exertion",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (age >70, hypertension, dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given extensive coronary disease, valvular insufficiency, and clinical symptoms, mixed systolic/diastolic heart failure is plausible despite lack of recent imaging."
+    },
+    {
+      "rank": 3,
+      "name": "Warfarin\u2011related nephropathy (acute\u2011on\u2011chronic kidney injury)",
+      "icd10": "N18.4",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on chronic warfarin therapy for prosthetic valve/AF (indication not explicit)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of INR trend data; potential supratherapeutic episodes suspected",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Warfarin can precipitate acute tubular injury in CKD patients, especially when INR is supratherapeutic; reviewer highlighted under\u2011recognition, warranting a separate diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease (progressive coronary and peripheral arterial disease)",
+      "icd10": "I25.10",
+      "snomed": "55822004",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented coronary artery disease, peripheral arterial disease, hypercholesterolemia (LDL 191.9 mg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk based on age, diabetes, hypertension, dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s risk factor burden and known atherosclerotic disease support ongoing vascular pathology contributing to morbidity."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia / erythropoietin deficiency",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 4 with likely reduced erythropoietin production",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia noted (hemoglobin not provided but implied by CKD context)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to anemia due to decreased erythropoietin; reviewer retained this diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Iatrogenic hypoglycemia / over\u2011treated diabetes",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.1% (discordantly low for known diabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on insulin/antidiabetic agents with CKD (reduced drug clearance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Extremely low HbA1c suggests possible overtreatment and risk of hypoglycemia, especially in CKD where drug clearance is impaired."
+    },
+    {
+      "rank": 7,
+      "name": "Prosthetic\u2011valve thrombosis or subclinical endocarditis",
+      "icd10": "I38.0",
+      "snomed": "233604007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of prosthetic valve (indication not fully documented)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without clinical or laboratory signs (fever, elevated WBC, positive cultures), the likelihood is low, but retained per original list."
+    },
+    {
+      "rank": 8,
+      "name": "Atrial fibrillation (or other arrhythmia) with anticoagulation\u2011related complications",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Warfarin therapy suggests possible AF indication, but no ECG data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Lack of rhythm documentation makes this diagnosis unlikely, but kept as a low\u2011probability possibility."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease stage 4 secondary to diabetic and hypertensive nephropathy",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is advanced CKD (eGFR 28.2) driven by longstanding diabetes and hypertension, which the reviewer endorsed as the primary diagnosis. Concomitant cardiovascular disease (ischemic cardiomyopathy, aortic regurgitation) makes mixed heart failure highly plausible. Warfarin therapy in the setting of CKD raises concern for warfarin\u2011related nephropathy, a distinct acute\u2011on\u2011chronic injury that the reviewer highlighted. Atherosclerotic disease, CKD\u2011related anemia, and potential overtreatment of diabetes further contribute to the clinical picture. Prosthetic\u2011valve thrombosis/endocarditis and atrial fibrillation remain possible but are low\u2011probability given absent supporting data.",
+  "unresolved_findings": [
+    "Missing recent blood pressure readings and trends",
+    "Missing BMI/weight/height measurements",
+    "Only a single eGFR value; no trend data",
+    "No cardiac imaging (echocardiogram) to assess valve function or EF",
+    "No ECG or rhythm monitoring data (AF status unknown)",
+    "Absent complete hematology panel (CBC, INR/PT)",
+    "No inflammatory markers (CRP, ESR, WBC) for infection",
+    "Smoking, alcohol, and physical activity status not documented",
+    "Dialysis status (pre\u2011dialysis vs on dialysis) unclear",
+    "Warfarin indication not explicitly recorded (valve vs AF vs other)",
+    "Vaccination and infection prophylaxis status unknown"
+  ],
+  "recommended_workup": [
+    "Serial INR measurements and review of warfarin dosing",
+    "Comprehensive metabolic panel with repeat eGFR to assess trend",
+    "Transthoracic echocardiogram to evaluate EF, valve function, and regurgitation severity",
+    "12\u2011lead ECG and ambulatory rhythm monitoring for atrial fibrillation detection",
+    "Complete blood count with iron studies, ferritin, transferrin saturation, and ESA level assessment",
+    "Repeat HbA1c and point\u2011of\u2011care glucose monitoring; review insulin regimen",
+    "Renal ultrasound to assess structural changes and rule out obstruction",
+    "Assessment of dialysis eligibility/status",
+    "Inflammatory markers (CRP, ESR) and blood cultures if infection suspected",
+    "Lifestyle documentation (smoking, alcohol, activity) and vaccination review"
+  ]
+}

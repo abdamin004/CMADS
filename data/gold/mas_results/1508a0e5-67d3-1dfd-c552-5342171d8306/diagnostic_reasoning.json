@@ -1,0 +1,261 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome\u2013driven resistant hypertension / early ASCVD",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2017\u201103\u201129; on three antihypertensive agents (hydrochlorothiazide, lisinopril, amlodipine).",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity (BMI\u202f\u2265\u202f40) documented since 1995.",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 138.6\u202fmg/dL and total cholesterol 217.7\u202fmg/dL \u2013 borderline\u2011high.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c\u202f6.4\u202f%).",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f47, male, Asian ethnicity \u2013 demographic risk modifiers for cardiovascular disease.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stressors (chronic stress, intimate partner abuse, unemployment, refugee status).",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factor summary flags high risk for atherosclerotic heart disease, stroke, and heart failure.",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Severe obesity, resistant hypertension on three agents, borderline\u2011high lipids, and pre\u2011diabetes constitute classic metabolic\u2011syndrome physiology that drives both hypertension and early atherosclerotic disease, making this the most parsimonious upstream diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (CKD stage 3\u20114)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.7\u202fmg/dL \u2013 elevated, consistent with at least stage\u202f2 CKD.",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension (since 2017) \u2013 leading cause of CKD progression.",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (moderate) \u2013 could be anemia of chronic disease secondary to CKD.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR and urine protein data \u2013 gap but does not negate CKD suspicion.",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated creatinine in a middle\u2011aged male with poorly controlled hypertension and accompanying anemia strongly suggests hypertensive nephrosclerosis as the primary renal pathology."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity (BMI\u202f\u2265\u202f40) \u2013 prevalence of OSA \u2248\u202f45\u202f% in this group.",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three agents \u2013 classic clue for OSA.",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of morbid obesity and resistant hypertension makes OSA a likely contributor to both blood pressure difficulty and metabolic derangements, despite the absence of documented sleep symptoms."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.7\u202fg/dL \u2013 moderate anemia, with a rapid decline from historical 17.2\u202fg/dL.",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width (PDW) 158.1\u202ffL \u2013 markedly elevated, may reflect reactive changes to blood loss.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies, ferritin, or B12/folate results \u2013 etiology of anemia unclear.",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained rapid hemoglobin drop flagged in UNEXPLAINED FINDINGS.",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A >\u202f6\u202fg/dL drop in hemoglobin over an unspecified interval is too abrupt for CKD\u2011related anemia alone, raising suspicion for occult GI bleeding leading to iron\u2011deficiency anemia."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease (CKD\u2011related)",
+      "icd10": "D63.8",
+      "snomed": "271442009",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.7\u202fg/dL and hematocrit 31.9\u202f% \u2013 normocytic anemia.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease suspected (elevated creatinine).",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies to differentiate iron\u2011deficiency vs. anemia of chronic disease.",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD commonly causes a normocytic, normochromic anemia of chronic disease; however, the magnitude of hemoglobin decline suggests additional contributors."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hyperaldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "236423009",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three agents.",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Carbon dioxide (total) 28.8\u202fmmol/L \u2013 high\u2011normal, may reflect metabolic alkalosis seen in primary aldosteronism.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing potassium and aldosterone\u2011renin data \u2013 gap that limits certainty.",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension plus a high\u2011normal bicarbonate level raises suspicion for aldosterone excess; confirmatory testing is required."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity (BMI\u202f\u2265\u202f40) \u2013 major risk factor for NAFLD.",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (prediabetes, dyslipidemia).",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver enzyme or imaging data \u2013 gap.",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The metabolic milieu makes NAFLD highly probable, though lack of hepatic labs or imaging prevents confirmation."
+    },
+    {
+      "rank": 8,
+      "name": "Early coronary artery disease / HFpEF",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factor summary flags high risk for atherosclerotic heart disease and heart failure.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f47, male, Asian ethnicity with hypertension, dyslipidemia, and severe obesity.",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac symptoms or ECG data \u2013 gap.",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the cumulative cardiovascular risk, sub\u2011clinical CAD or HFpEF cannot be excluded, though current data are insufficient to prioritize higher."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome\u2013driven resistant hypertension / early ASCVD",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with severe obesity, resistant hypertension on three agents, borderline\u2011high lipids, and pre\u2011diabetes, forming a classic metabolic\u2011syndrome picture that drives both hypertension and early atherosclerotic disease (Diagnosis #1). Chronic hypertension likely caused hypertensive nephrosclerosis (Diagnosis #2), reflected by elevated creatinine and anemia. Morbid obesity and resistant hypertension raise suspicion for obstructive sleep apnea (Diagnosis #3). A striking, rapid hemoglobin drop points toward occult gastrointestinal bleeding causing iron\u2011deficiency anemia (Diagnosis #4), while CKD also contributes anemia of chronic disease (Diagnosis #5). Primary hyperaldosteronism remains a treatable cause of resistant hypertension (Diagnosis #6) given the high\u2011normal bicarbonate. The metabolic milieu also predisposes to NAFLD (Diagnosis #7) and early coronary artery disease/HFpEF (Diagnosis #8). Gaps in BP measurements, renal function quantification, iron studies, sleep assessment, and cardiac evaluation limit certainty, reflected in the confidence ratings.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW) 158.1\u202ffL without accompanying platelet count or morphology.",
+    "High\u2011normal bicarbonate (28.8\u202fmmol/L) without arterial blood gas or potassium data.",
+    "Missing current blood pressure, heart rate, smoking/alcohol use, and recent BMI.",
+    "Absence of urine albumin\u2011to\u2011creatinine ratio, eGFR calculation, and renal imaging.",
+    "No liver enzyme or imaging data to evaluate NAFLD."
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel with eGFR calculation (CKD\u2011EPI) and urine albumin\u2011to\u2011creatinine ratio.",
+    "Complete iron studies (serum iron, ferritin, TIBC), vitamin B12, folate, and reticulocyte count.",
+    "Stool guaiac or fecal immunochemical test; consider colonoscopy given rapid Hb decline.",
+    "Full CBC with platelet count and peripheral smear to interpret elevated PDW.",
+    "Home or 24\u2011hour ambulatory blood pressure monitoring.",
+    "Serum potassium, plasma aldosterone concentration, plasma renin activity, and aldosterone\u2011renin ratio; confirmatory suppression testing if indicated.",
+    "Home sleep apnea test or in\u2011lab polysomnography.",
+    "Transthoracic echocardiogram and resting ECG to screen for CAD/HFpEF.",
+    "Liver panel (ALT, AST, GGT, ALP) and abdominal ultrasound or FibroScan for NAFLD assessment.",
+    "Renal ultrasound if CKD progression suspected or structural abnormality suspected.",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) and referral to social services for intimate partner violence and refugee support.",
+    "Detailed lifestyle interview (diet, physical activity, smoking, alcohol) and referral to nutrition and exercise programs."
+  ]
+}

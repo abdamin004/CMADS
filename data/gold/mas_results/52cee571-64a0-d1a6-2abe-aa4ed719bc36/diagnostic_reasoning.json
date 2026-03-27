@@ -1,0 +1,297 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Ischemic heart disease (coronary artery disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.212,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (onset 2017\u201108\u201128)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 1995",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 69, female, white \u2013 demographic CV risk factor",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.2\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Only hydrochlorothiazide prescribed \u2013 no statin or antiplatelet therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglyceride 143.7\u202fmg/dL (borderline\u2011high)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Multiple traditional ASCVD risk factors (age, hypertension, obesity, prediabetes) in a patient not on lipid\u2011lowering or antiplatelet therapy raise the pre\u2011test probability of silent CAD."
+    },
+    {
+      "rank": 2,
+      "name": "Colorectal carcinoma (occult)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.127,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fecal immunochemical test (FIT) hemoglobin 425.1\u202fng/mL \u2013 critical high",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of colon polyp (2020) under surveillance",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 69 \u2013 increased incidence of colorectal cancer",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin (17.0\u202fg/dL) \u2013 may reflect chronic blood loss compensation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A markedly elevated FIT in an older adult strongly suggests an occult colorectal neoplasm, especially with prior polyp history."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease stage \u22653",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.127,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension (risk factor for CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "eGFR and creatinine data missing \u2013 cannot exclude CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented CKD \u2013 data gap",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is a leading cause of CKD; the absence of renal labs creates uncertainty, but the pre\u2011test probability remains appreciable."
+    },
+    {
+      "rank": 4,
+      "name": "Advanced adenomatous polyp / sessile serrated lesion",
+      "icd10": "D12.6",
+      "snomed": "236423003",
+      "probability": 0.085,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented colon polyp in 2020",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "FIT 425\u202fng/mL \u2013 high likelihood of advanced neoplasia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 69 \u2013 higher prevalence of advanced adenomas",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A prior polyp plus a high FIT raises the chance of an advanced adenoma, which can bleed and cause the FIT positivity."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity \u2013 key HFpEF risk factors",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage 1 hypertension, female sex, age >65 \u2013 typical HFpEF demographic",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin (possible volume contraction) \u2013 can accompany HFpEF",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of hypertension, obesity, older age, and female sex makes HFpEF a plausible contributor to dyspnea or exercise intolerance, even if not yet documented."
+    },
+    {
+      "rank": 6,
+      "name": "Diuretic\u2011induced relative polycythemia / volume depletion",
+      "icd10": "D75.1",
+      "snomed": "302810001",
+      "probability": 0.076,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg daily (thiazide diuretic)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 17.0\u202fg/dL with normal RBC count/hematocrit \u2013 suggests hemoconcentration",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage 1 hypertension \u2013 may be over\u2011treated with diuretic",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thiazide diuretics can cause mild volume contraction, leading to relative polycythemia and elevated hemoglobin."
+    },
+    {
+      "rank": 7,
+      "name": "COPD\u2011related secondary polycythemia",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.076,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis noted \u2013 suggests chronic upper airway disease (proxy for possible undiagnosed COPD)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin \u2013 can be secondary to chronic hypoxia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Although no pulmonary function data are available, chronic hypoxia from undiagnosed COPD could explain the hemoglobin rise."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea\u2011related secondary polycythemia",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.059,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) \u2013 major OSA risk factor",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension \u2013 frequently co\u2011exists with OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin \u2013 can result from intermittent nocturnal hypoxia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension raise suspicion for OSA, which can cause secondary polycythemia."
+    },
+    {
+      "rank": 9,
+      "name": "Primary hyper\u2011aldosteronism (or other secondary hypertension cause)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.051,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension despite monotherapy \u2013 raises possibility of resistant HTN",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage 1 hypertension with obesity \u2013 secondary causes should be considered",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In a patient with hypertension not optimally controlled on a single diuretic, primary aldosteronism is a treatable secondary cause."
+    },
+    {
+      "rank": 10,
+      "name": "Colonic angiodysplasia",
+      "icd10": "K55.2",
+      "snomed": "236423003",
+      "probability": 0.076,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "FIT 425\u202fng/mL \u2013 indicates active lower GI bleeding",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of colon polyp \u2013 may coexist with vascular lesions",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Angiodysplasia is a common cause of occult GI bleeding in older adults and can produce a high FIT."
+    }
+  ],
+  "primary_diagnosis": "Ischemic heart disease (coronary artery disease)",
+  "primary_probability": 0.212,
+  "clinical_reasoning_summary": "The patient is a 69\u2011year\u2011old woman with multiple ASCVD risk factors (hypertension, obesity, prediabetes) and no preventive therapy, making silent CAD the most likely diagnosis. A critically elevated FIT together with a prior colon polyp points to occult colorectal carcinoma or advanced adenoma, while chronic hypertension and missing renal labs keep CKD in the differential. Elevated hemoglobin is best explained by volume depletion from hydrochlorothiazide, but secondary polycythemia from COPD, OSA, or angiodysplasia remain plausible. Secondary hypertension (primary aldosteronism) is added given possible resistant HTN. Probabilities were derived from relative weights and normalized to sum to 1.0.",
+  "unresolved_findings": [
+    "Missing renal function data (eGFR, creatinine, urine ACR)",
+    "Missing lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C)",
+    "Missing smoking and alcohol use histories",
+    "No recent colonoscopy or surveillance interval documented",
+    "Absence of full CBC with iron studies",
+    "No pulmonary function testing or documented COPD",
+    "No sleep study or OSA screening",
+    "No mental\u2011health screening despite social isolation",
+    "No family\u2011history information for CVD, diabetes, or colorectal cancer",
+    "Medication list may be incomplete (possible OTC aspirin/NSAIDs)"
+  ],
+  "recommended_workup": [
+    "Colonoscopy (or repeat scope) to evaluate for colorectal cancer or advanced adenoma",
+    "Complete CBC with iron studies (Ferritin, TIBC, transferrin saturation)",
+    "Renal panel: serum creatinine, eGFR, BUN, electrolytes, urine albumin\u2011creatinine ratio",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Cardiac evaluation: ECG, BNP, transthoracic echocardiogram, and stress testing or coronary CTA as indicated",
+    "Sleep study (home oximetry or polysomnography) to assess for obstructive sleep apnea",
+    "Plasma aldosterone concentration and plasma renin activity ratio to screen for primary hyperaldosteronism",
+    "Pulmonary function tests (spirometry) to rule out COPD",
+    "Comprehensive medication reconciliation including OTC agents and supplements",
+    "Standardized mental\u2011health screening (PHQ\u20119, GAD\u20117)",
+    "Family\u2011history interview focusing on cardiovascular, metabolic, and colorectal cancer disorders"
+  ]
+}

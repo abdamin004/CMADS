@@ -1,0 +1,378 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Secondary hypertension (primary aldosteronism / renal artery stenosis / other endocrine causes)",
+      "icd10": "I15.9",
+      "snomed": "237599002",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension stage 2 (BP 147/90 mmHg) despite lisinopril 10 mg",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 71 years, male sex \u2013 high baseline risk for resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk\u2011factor profile",
+          "finding": "Multiple cardiovascular risk factors (obesity, prediabetes, dyslipidemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented secondary hypertension work\u2011up (renin/aldosterone, renal imaging)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent stage\u20112 hypertension on a single ACE\u2011inhibitor in an older male with multiple risk factors raises suspicion for a secondary endocrine or renovascular cause, which would explain refractory BP and downstream organ damage."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (untreated) with obesity",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea syndrome \u2013 untreated/not documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity \u2013 BMI \u226530",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension resistant to monotherapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and full\u2011time employment \u2013 factors that exacerbate OSA\u2011related sympathetic activation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Untreated OSA in an obese patient contributes to sympathetic overactivity, worsening hypertension and metabolic dysregulation; addressing OSA could improve BP control."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity \u2013 BMI \u226530",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 130.2 mg/dL (borderline\u2011high) and HDL\u2011C 36 mg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.4% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient meets \u22655 criteria (obesity, hypertension, dyslipidemia, prediabetes, elevated waist surrogate) defining metabolic syndrome, driving cardiovascular and renal risk."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive/vascular chronic kidney disease (stage 3\u20114)",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.2 mg/dL (severe elevation)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) 71.3 mL/min/1.73 m\u00b2 \u2013 discordant with creatinine, suggesting possible acute\u2011on\u2011chronic injury",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (SNOMED 271737000)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing essential hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011inhibitor therapy (lisinopril) \u2013 renoprotective but possibly sub\u2011optimal dosing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine in the setting of uncontrolled hypertension and anemia points to hypertensive nephropathy; confirmation requires repeat labs and urine albumin assessment."
+    },
+    {
+      "rank": 5,
+      "name": "Alcoholic liver disease",
+      "icd10": "K70.10",
+      "snomed": "235719002",
+      "probability": 0.045,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol drinking behavior",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT 51.7 U/L (mild elevation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and dyslipidemia \u2013 can coexist with alcoholic liver injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Alcohol use combined with isolated ALT rise raises the possibility of alcoholic steatohepatitis; differentiation from NAFLD requires further hepatic work\u2011up."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.045,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT 51.7 U/L (mild elevation) with normal AST reported (not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and dyslipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.4%)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Metabolic risk factors and mild ALT elevation are classic for NAFLD; must be distinguished from alcoholic liver disease."
+    },
+    {
+      "rank": 7,
+      "name": "Iron\u2011deficiency anemia (vs anemia of chronic kidney disease)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (SNOMED 271737000) documented since 1997",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild thrombocytosis (platelet 416 \u00d710\u00b3/\u00b5L) and high MPV (11.9 fL) \u2013 pattern seen in iron deficiency",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies or ferritin reported (missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of chronic anemia and reactive thrombocytosis suggests iron deficiency; distinguishing it from anemia of CKD requires iron panel testing."
+    },
+    {
+      "rank": 8,
+      "name": "Essential thrombocythemia / reactive thrombocytosis",
+      "icd10": "D47.3",
+      "snomed": "237599002",
+      "probability": 0.045,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count 416 \u00d710\u00b3/\u00b5L (mild thrombocytosis)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mean platelet volume 11.9 fL (high) \u2013 suggests increased platelet production",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis (low\u2011level inflammation) \u2013 possible reactive cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent thrombocytosis with elevated MPV warrants evaluation for a myeloproliferative neoplasm; if inflammatory markers are normal, essential thrombocythemia becomes more likely."
+    },
+    {
+      "rank": 9,
+      "name": "Subclinical atherosclerotic coronary artery disease",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.035,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk\u2011factor profile",
+          "finding": "Age 71, male, hypertension, dyslipidemia, obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet count and MPV \u2013 markers of platelet activation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented smoking status (missing) \u2013 potential additional risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High 10\u2011year ASCVD risk in this phenotype makes silent CAD plausible; non\u2011invasive cardiac testing is needed to assess."
+    },
+    {
+      "rank": 10,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.035,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, untreated OSA \u2013 classic HFpEF precipitants",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease \u2013 contributes to volume overload",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac imaging or BNP reported (missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The risk factor cluster suggests possible HFpEF; confirmation requires echocardiography and natriuretic peptide measurement."
+    },
+    {
+      "rank": 11,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemia (high LDL, low HDL) \u2013 can be secondary to hypothyroidism",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension \u2013 may be worsened by thyroid dysfunction",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Thyroid function tests not performed (missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction is a reversible contributor to lipid abnormalities and hypertension; testing is low\u2011yield but inexpensive."
+    },
+    {
+      "rank": 12,
+      "name": "Vitamin D deficiency",
+      "icd10": "E55.9",
+      "snomed": "1602007",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease \u2013 impairs vitamin D activation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity \u2013 associated with lower vitamin D levels",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "25\u2011OH vitamin D not measured (missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Deficiency is common in CKD and contributes to bone and cardiovascular risk; screening is straightforward."
+    }
+  ],
+  "primary_diagnosis": "Secondary hypertension (primary aldosteronism / renal artery stenosis / other endocrine causes)",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient presents with stage\u20112 hypertension refractory to monotherapy, obesity, OSA, dyslipidemia, prediabetes, and a markedly elevated creatinine. The combination of uncontrolled BP, metabolic syndrome features, and renal dysfunction points to secondary hypertension as the most likely driver, with untreated OSA and metabolic syndrome acting as major amplifiers. Renal impairment appears hypertensive in origin but requires confirmation. Liver enzyme elevation, anemia with thrombocytosis, and platelet abnormalities suggest additional overlapping pathologies (alcoholic or non\u2011alcoholic liver disease, iron\u2011deficiency anemia, possible essential thrombocythemia). Cardiovascular risk is high, warranting evaluation for silent CAD and HFpEF. Thyroid dysfunction and vitamin D deficiency are lower\u2011priority but easily reversible contributors.",
+  "unresolved_findings": [
+    "Discordance between serum creatinine 3.2 mg/dL and eGFR 71 mL/min/1.73 m\u00b2",
+    "Missing urine albumin\u2011to\u2011creatinine ratio",
+    "Absent electrolyte panel (Na+, K+, bicarbonate)",
+    "No fasting glucose or oral glucose tolerance test",
+    "Absence of AST, GGT, ALP, bilirubin to fully characterize liver injury",
+    "No viral hepatitis serologies",
+    "Missing inflammatory markers (CRP, ESR, WBC)",
+    "Unrecorded smoking status",
+    "No thyroid function tests (TSH, free T4)",
+    "No 25\u2011OH vitamin D level",
+    "No medication adherence assessment",
+    "No ambulatory/home blood pressure monitoring data"
+  ],
+  "recommended_workup": [
+    "Renin activity and plasma aldosterone concentration with aldosterone\u2011to\u2011renin ratio (screen for primary aldosteronism)",
+    "Renal artery duplex ultrasound or CT angiography (evaluate for renal\u2011artery stenosis)",
+    "Plasma metanephrines or 24\u2011hour urinary catecholamines (rule out pheochromocytoma)",
+    "Repeat serum creatinine and cystatin\u2011C; calculate eGFR using CKD\u2011EPI; obtain urine albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC) and reticulocyte count",
+    "Repeat complete blood count in 4\u20136 weeks; if thrombocytosis persists, order JAK2 V617F, CALR, MPL mutation panel",
+    "Polysomnography report review; initiate or titrate CPAP therapy if not already in use",
+    "Fasting lipid panel after \u22656 weeks of statin therapy; consider high\u2011intensity statin if LDL remains >70 mg/dL",
+    "Fasting glucose and/or 2\u2011hour oral glucose tolerance test",
+    "Liver panel (AST, ALT, GGT, ALP, bilirubin) plus hepatic ultrasound; order hepatitis B/C serologies and calculate AST/ALT ratio",
+    "Alcohol Use Disorders Identification Test (AUDIT\u2011C) to quantify intake",
+    "BNP or NT\u2011proBNP and transthoracic echocardiogram (assess for HFpEF)",
+    "Coronary artery calcium scoring or stress imaging for subclinical CAD",
+    "TSH and free T4 levels",
+    "25\u2011OH vitamin D level",
+    "Structured medication adherence interview and pharmacy refill review",
+    "Home or 24\u2011hour ambulatory blood pressure monitoring",
+    "Smoking status assessment and counseling if applicable"
+  ]
+}

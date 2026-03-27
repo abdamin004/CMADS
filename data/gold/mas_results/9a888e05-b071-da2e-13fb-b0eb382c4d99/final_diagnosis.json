@@ -1,0 +1,180 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease \u2013 active (stable/sub\u2011clinical) post\u2011NSTEMI",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented prior NSTEMI and ongoing secondary prevention therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (hypertension, obesity, metabolic syndrome)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s known history of NSTEMI combined with persistent risk factors makes active atherosclerotic CAD the most likely explanation for his current clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease stage 2\u20113 secondary to hypertension & pre\u2011diabetes",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and pre\u2011diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal function labs not available (eGFR missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and impaired glucose metabolism are common drivers of early CKD; however, lack of recent renal labs makes the diagnosis speculative."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive heart disease / left\u2011ventricular hypertrophy",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "No recent echocardiogram or ECG to confirm LVH",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent hypertension predisposes to LVH, but objective cardiac imaging is lacking to confirm."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors for HFpEF (age, hypertension, obesity, CAD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "No recent echocardiogram to assess diastolic function",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While the risk profile fits HFpEF, the absence of objective cardiac data makes this diagnosis uncertain."
+    },
+    {
+      "rank": 5,
+      "name": "Progression to overt type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented pre\u2011diabetes and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No recent fasting glucose or HbA1c values",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given existing pre\u2011diabetes, progression to overt diabetes is plausible, but recent glycemic labs are missing."
+    },
+    {
+      "rank": 6,
+      "name": "Medication\u2011induced overtreatment hypotension (possible orthostatic intolerance)",
+      "icd10": "I95.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low seated blood pressure readings on current antihypertensive regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of orthostatic vital sign measurements",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient\u2019s BP is low despite therapy, suggesting possible overtreatment; orthostatic testing is needed to confirm."
+    },
+    {
+      "rank": 7,
+      "name": "Aspirin/Prasugrel\u2011related gastrointestinal bleeding (occult anemia)",
+      "icd10": "K92.2",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic dual antiplatelet therapy (aspirin + prasugrel)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No recent complete blood count to assess anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Antiplatelet agents increase bleeding risk; without CBC data, occult GI bleed remains possible but unproven."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease \u2013 active (stable/sub\u2011clinical) post\u2011NSTEMI",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s established NSTEMI, ongoing secondary prevention, and clustering of cardiovascular risk factors make active atherosclerotic CAD the dominant diagnosis. Secondary considerations include early CKD, hypertensive cardiac remodeling, and medication\u2011related hypotension, all supported by the clinical history but limited by missing objective data. Less likely entities such as HFpEF, overt diabetes, and antiplatelet\u2011related GI bleed are retained with low probabilities pending further testing.",
+  "unresolved_findings": [
+    "Missing recent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR, creatinine, and urine albumin\u2011creatinine ratio",
+    "Absent BMI value and weight trend",
+    "No recent echocardiogram or stress test",
+    "No orthostatic blood pressure measurements",
+    "No recent complete blood count or fecal occult blood test",
+    "No sleep\u2011apnea screening data",
+    "No thyroid function tests",
+    "No mental\u2011health screening (PHQ\u20119/GAD\u20117)",
+    "No documented cancer screening (colonoscopy, PSA, low\u2011dose CT chest)"
+  ],
+  "recommended_workup": [
+    "Comprehensive lipid panel",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "BMI calculation and weight trend review",
+    "Transthoracic echocardiogram with diastolic function assessment",
+    "Exercise stress test or coronary CT angiography as indicated",
+    "Orthostatic vital signs measurement",
+    "Complete blood count with iron studies",
+    "Fecal occult blood test",
+    "Home sleep apnea testing or polysomnography",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "PHQ\u20119 and GAD\u20117 questionnaires",
+    "Age\u2011appropriate cancer screening (colonoscopy, PSA, low\u2011dose CT chest)"
+  ]
+}

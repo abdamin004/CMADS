@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy leading to end-stage renal disease",
+      "icd10": "N18.6",
+      "snomed": "236423003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD stage 4 secondary to diabetic nephropathy noted in impression",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria and markedly reduced eGFR consistent with ESRD",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s chart explicitly states diabetic nephropathy as the cause of advanced CKD, and the clinical trajectory toward ESRD is evident, making this the dominant diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin/hematocrit consistent with CKD\u2011related anemia (CBC pending but expected)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia documented in problem list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD stage 4\u20115 commonly causes decreased erythropoietin production, leading to anemia; the reviewer raised strong confidence in this complication."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "404684003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anticipated elevated PTH, calcium\u2011phosphate imbalance in ESRD (labs missing but clinically expected)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u2011related mineral bone disorder noted as a concern",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In ESRD, phosphate retention and reduced vitamin D synthesis drive secondary hyperparathyroidism; reviewer increased its weight."
+    },
+    {
+      "rank": 4,
+      "name": "Electrolyte and acid\u2011base derangements (hyperkalaemia, metabolic acidosis)",
+      "icd10": "E87.9",
+      "snomed": "271442009",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Expected hyperkalaemia and low bicarbonate in advanced CKD (labs pending but highly probable)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD impairs potassium excretion and acid clearance, making these derangements near\u2011certain."
+    },
+    {
+      "rank": 5,
+      "name": "Hypertensive nephrosclerosis (contributory to CKD)",
+      "icd10": "I12.0",
+      "snomed": "38341003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing hypertension documented in history",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as a contributing factor to CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension accelerates renal damage and likely co\u2011exists with diabetic nephropathy, contributing to the CKD burden."
+    },
+    {
+      "rank": 6,
+      "name": "Depression / anxiety (psychosocial consequence of chronic illness)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant psychosocial burden noted in impression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic illness and transplant waiting list stress predispose to mood disorders; reviewer modestly raised its likelihood."
+    },
+    {
+      "rank": 7,
+      "name": "Volume overload (fluid retention, peripheral edema)",
+      "icd10": "R60.0",
+      "snomed": "271442009",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD/ESRD patient awaiting transplantation, high risk for fluid retention",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "ESRD commonly leads to volume overload due to impaired excretion; reviewer highlighted omission of this complication."
+    },
+    {
+      "rank": 8,
+      "name": "Infection risk (catheter\u2011related, peritoneal dialysis, sepsis)",
+      "icd10": "B99",
+      "snomed": "442452003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "ESRD patients have markedly increased susceptibility to infections",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Immunocompromise and potential vascular access in ESRD raise infection risk; added per reviewer\u2019s concern about missing ESRD\u2011specific complications."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy leading to end-stage renal disease",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient is a young adult with documented advanced CKD secondary to diabetic nephropathy, hypertension, and anemia, awaiting kidney transplantation. The reviewer\u2019s probability adjustments emphasize the dominance of diabetic nephropathy and CKD\u2011related sequelae while de\u2011emphasizing cardiovascular comorbidities lacking objective evidence. Additional ESRD\u2011specific complications\u2014fluid overload and heightened infection risk\u2014were incorporated to address gaps identified by the reviewer. Probabilities were renormalized to total 1.0.",
+  "unresolved_findings": [
+    "A1c 2.8% (implausibly low \u2013 flagged as data entry error)",
+    "CKD stage discrepancy: problem list shows stage 4, labs indicate stage 5",
+    "Missing blood pressure readings",
+    "Missing BMI and weight data",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Missing comprehensive metabolic panel (electrolytes, bicarbonate, calcium, phosphate)",
+    "Missing CBC with iron studies",
+    "No ECG or cardiac imaging",
+    "No peripheral vascular exam or ABI",
+    "No formal mental\u2011health screening scores"
+  ],
+  "recommended_workup": [
+    "Repeat hemoglobin A1c with verification of sample",
+    "Obtain accurate blood pressure measurements and assess control",
+    "Measure weight, height, calculate BMI",
+    "Full lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Comprehensive metabolic panel including electrolytes, bicarbonate, calcium, phosphate",
+    "CBC with iron studies to characterize anemia",
+    "Serum PTH, vitamin D, and alkaline phosphatase for mineral bone disorder",
+    "ECG and consider transthoracic echocardiogram to evaluate cardiac status",
+    "Ankle\u2011brachial index and peripheral vascular exam",
+    "PHQ\u20119 and GAD\u20117 for depression/anxiety screening",
+    "Chest X\u2011ray and bedside lung exam to assess volume status",
+    "Cultures of any vascular access sites and routine infection surveillance"
+  ]
+}

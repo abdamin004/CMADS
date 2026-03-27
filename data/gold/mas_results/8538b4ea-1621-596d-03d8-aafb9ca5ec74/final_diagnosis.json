@@ -1,0 +1,196 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Kidney Disease (DKD)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent albuminuria >300 mg/g and eGFR 45 mL/min/1.73m2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine 1.8 mg/dL",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of significant proteinuria, reduced eGFR, and longstanding diabetes strongly points to diabetic nephropathy as the primary driver of CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension with recorded BP ~150/95 mmHg",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild proteinuria ~0.5 g/day",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension contributes to CKD progression, but the degree of proteinuria exceeds what is typical for isolated hypertensive nephrosclerosis, making it a secondary contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic Kidney Disease\u2011related Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "E83.5",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated phosphorus 5.2 mg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low 25\u2011OH vitamin D 18 ng/mL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is common in stage 3\u20114 CKD; available labs suggest early disturbances despite lack of full PTH panel."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (sub\u2011clinical CAD/PAD/CVA)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011year ASCVD risk estimated at 22%",
+          "strength": "weak"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "History of smoking 20 pack\u2011years",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but no objective imaging or symptom data; therefore ASCVD remains a possible but less likely contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / Non\u2011Alcoholic Steato\u2011hepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild ALT elevation 55 U/L",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Ultrasound not performed \u2013 clinical suspicion based on metabolic profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome and mild transaminase rise raise suspicion for NAFLD, but imaging confirmation is lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive Sleep Apnea (untreated or sub\u2011optimally treated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented OSA diagnosis with CPAP prescription",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports daytime sleepiness and loud snoring",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is confirmed and may exacerbate hypertension and CKD progression, especially if adherence is suboptimal."
+    },
+    {
+      "rank": 7,
+      "name": "Suboptimal Disease\u2011Modifying Therapy (absence of ACE\u2011I/ARB, SGLT2\u2011i, statin, ESA)",
+      "icd10": "Z92.21",
+      "snomed": "160573003",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Current medication list lacks ACE\u2011I/ARB, SGLT2\u2011i, and statin",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No ESA therapy despite anemia of CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Therapeutic gaps directly accelerate CKD progression and cardiovascular risk, making this a critical modifiable factor."
+    },
+    {
+      "rank": 8,
+      "name": "Spurious Low HbA1c (analytical artifact or anemia\u2011related bias)",
+      "icd10": "R73.09",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.8% measured in setting of anemia (Hb 10 g/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated reticulocyte count suggesting increased RBC turnover",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The low HbA1c may underestimate true glycemic exposure, potentially leading to undertreatment of diabetes."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Kidney Disease (DKD)",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient\u2019s CKD is most plausibly driven by diabetic kidney disease, supported by marked albuminuria and reduced eGFR in the context of longstanding diabetes. Hypertension, suboptimal renoprotective therapy, and OSA act as important accelerants. Secondary considerations include CKD\u2011MBD, occult ASCVD, NAFLD/NASH, and the possibility that the reported HbA1c is falsely low due to anemia.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.0 (very dilute) \u2013 unclear etiology",
+    "Missing fasting lipid panel and LDL\u2011C values",
+    "Absence of blood pressure trend data or home BP logs",
+    "No cardiac imaging (ECG, transthoracic echo, stress test) to assess occult CAD or heart failure",
+    "Missing CKD\u2011MBD labs (PTH, calcium, phosphate, 25\u2011OH vitamin D)",
+    "No thyroid function tests (TSH, free T4)",
+    "No documented CPAP adherence data for obstructive sleep apnea",
+    "Mild ALT elevation without definitive NAFLD confirmation"
+  ],
+  "recommended_workup": [
+    "Obtain fasting lipid panel with LDL\u2011C",
+    "Repeat HbA1c and consider fructosamine or CGM to verify glycemic control",
+    "Order comprehensive CKD\u2011MBD panel: PTH, calcium, phosphate, 25\u2011OH vitamin D",
+    "Thyroid function tests (TSH, free T4)",
+    "Home blood pressure monitoring log for 2 weeks",
+    "Cardiac evaluation: resting ECG, transthoracic echocardiogram, and stress test if indicated",
+    "Liver imaging (ultrasound or FibroScan) to confirm NAFLD/NASH",
+    "Assess CPAP adherence via device download",
+    "Consider renal ultrasound to evaluate structural contributors"
+  ]
+}

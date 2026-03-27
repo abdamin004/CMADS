@@ -1,0 +1,460 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Untreated severe hyper\u2011LDL atherogenic dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.2428,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 165.1\u202fmg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 248.1\u202fmg/dL (high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) \u2013 major atherosclerotic risk factor",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c\u202f6.4\u202f%) \u2013 contributes to dyslipidaemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated LDL\u2011C and total cholesterol in a medication\u2011na\u00efve patient, together with obesity and prediabetes, indicate untreated severe hyper\u2011LDL dyslipidaemia as the primary driver of cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Undiagnosed/untreated hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.155,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "sbp_latest / dbp_latest = null (absence of BP measurement suggests possible untreated hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes, chronic stress, and drug\u2011abuse disorder \u2013 high prevalence of hypertension in this profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_impression",
+          "finding": "Probable hypertension noted as a risk factor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given age, male sex, obesity, and metabolic syndrome, the pre\u2011test probability of hypertension is >55\u202f%; lack of recorded BP makes untreated hypertension the most likely hidden condition."
+    },
+    {
+      "rank": 3,
+      "name": "Sub\u2011clinical coronary artery disease (silent CAD)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.1421,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f51, male, white \u2013 baseline ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe hyper\u2011LDL and high total cholesterol",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes and obesity \u2013 metabolic drivers of atherosclerosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_impression",
+          "finding": "Elevated risk for ischemic heart disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The confluence of high LDL\u2011C, obesity, prediabetes, and male sex makes silent coronary atherosclerosis highly probable despite lack of symptoms."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnoea (moderate\u2011severe)",
+      "icd10": "G47.33",
+      "snomed": "23310003",
+      "probability": 0.0904,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) \u2013 strongest risk factor for OSA",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Probable hypertension and metabolic syndrome \u2013 common comorbidities of OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity combined with probable hypertension places the patient at a 30\u201140\u202f% risk for moderate\u2011severe OSA, which also worsens cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (stage\u202f2\u20113 or albuminuria)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.0775,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.2\u202fmg/dL (borderline high for age/sex)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total 21.9\u202fmmol/L (borderline low, possible early metabolic acidosis)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes and obesity \u2013 risk factors for diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential hypertension (BP not recorded) \u2013 major CKD driver",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Borderline creatinine together with metabolic risk factors suggests early CKD, pending eGFR and albuminuria confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral arterial disease (PAD)",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.0388,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes, probable hypertension \u2013 systemic atherosclerotic risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_impression",
+          "finding": "Elevated ASCVD risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the high atherosclerotic burden, PAD is plausible though no limb symptoms are documented."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive / anxiety disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.0388,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress since 2009 and low education \u2013 risk for mood disorders",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing drug\u2011abuse disorder \u2013 associated with depression and anxiety",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and substance\u2011use history raise the likelihood of an underlying mood disorder."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.031,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia diagnosed in 1999",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential early CKD (borderline creatinine)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic anemia may be secondary to early CKD or chronic disease; further iron/B12 work\u2011up is needed."
+    },
+    {
+      "rank": 9,
+      "name": "Vitamin\u202fB12 / folate deficiency",
+      "icd10": "D51.9",
+      "snomed": "271442005",
+      "probability": 0.031,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia without iron studies or B12/folate assessment",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_impression",
+          "finding": "Anemia of unclear etiology warrants evaluation for nutritional deficiencies",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In the absence of iron studies, B12/folate deficiency remains a plausible cause of the chronic anemia."
+    },
+    {
+      "rank": 10,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.0233,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia and hyper\u2011LDL could be secondary to hypothyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can cause dyslipidaemia and anemia; testing is inexpensive and should be considered."
+    },
+    {
+      "rank": 11,
+      "name": "Early heart failure (HFpEF or systolic dysfunction)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.0207,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, probable hypertension, chronic anemia \u2013 risk factors for HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_impression",
+          "finding": "Potential high\u2011output cardiac strain from anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of risk factors makes early, asymptomatic heart failure plausible."
+    },
+    {
+      "rank": 12,
+      "name": "Secondary hypertension (renal artery stenosis, primary aldosteronism, pheochromocytoma)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.0181,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential hypertension with missing BP data and renal risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Drug\u2011abuse disorder may involve substances affecting catecholamine pathways",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If hypertension is present, a secondary cause should be excluded given the high cardiovascular risk."
+    },
+    {
+      "rank": 13,
+      "name": "Gout / hyperuricaemia",
+      "icd10": "M10.9",
+      "snomed": "20142009",
+      "probability": 0.0181,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome (obesity, prediabetes) increases gout risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to hyperuricaemia; uric acid testing is warranted."
+    },
+    {
+      "rank": 14,
+      "name": "Chronic viral hepatitis (HCV/HBV/HIV)",
+      "icd10": "B18.2",
+      "snomed": "235856003",
+      "probability": 0.0129,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing drug\u2011abuse disorder (possible IV exposure)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Injection drug use raises the risk of chronic viral hepatitis, which can affect liver and metabolic health."
+    },
+    {
+      "rank": 15,
+      "name": "Colorectal cancer (or advanced adenoma)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.0103,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f>\u202f50 and obesity increase colorectal cancer risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Age\u2011appropriate screening is indicated; cancer remains a low\u2011probability but important consideration."
+    },
+    {
+      "rank": 16,
+      "name": "Chronic pancreatitis / pancreatic exocrine insufficiency",
+      "icd10": "K86.1",
+      "snomed": "1978006",
+      "probability": 0.0103,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term substance use (possible alcohol) and metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic alcohol or stimulant use can lead to pancreatitis, which may affect glucose metabolism."
+    },
+    {
+      "rank": 17,
+      "name": "Chronic obstructive pulmonary disease / asthma",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.0103,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential inhaled drug exposure and smoking history (not documented)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Respiratory disease could contribute to dyspnea and cardiovascular strain."
+    },
+    {
+      "rank": 18,
+      "name": "Abdominal aortic aneurysm (AAA)",
+      "icd10": "I71.4",
+      "snomed": "233873008",
+      "probability": 0.0078,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male >\u202f50 with hypertension risk factors and possible smoking/drug exposure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "AAA screening is recommended in men >\u202f65; earlier screening may be considered given risk profile."
+    },
+    {
+      "rank": 19,
+      "name": "Prostate cancer (screening pending)",
+      "icd10": "C61",
+      "snomed": "12691009",
+      "probability": 0.0078,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male age\u202f51 \u2013 age\u2011appropriate PSA screening recommended",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low prevalence at this age but screening is standard of care."
+    },
+    {
+      "rank": 20,
+      "name": "Calcific aortic stenosis",
+      "icd10": "I35.0",
+      "snomed": "71388002",
+      "probability": 0.0078,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male >\u202f50 with hypertension and hyperlipidaemia \u2013 risk for degenerative aortic stenosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Degenerative valve disease is possible; echocardiography would clarify."
+    },
+    {
+      "rank": 21,
+      "name": "Other (rare metabolic, hematologic, endocrine disorders)",
+      "icd10": "",
+      "snomed": "",
+      "probability": 0.0052,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained chronic anemia and low CO\u2082",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Covers less common conditions not otherwise captured."
+    }
+  ],
+  "primary_diagnosis": "Untreated severe hyper\u2011LDL atherogenic dyslipidaemia",
+  "primary_probability": 0.2428,
+  "clinical_reasoning_summary": "The patient is a 51\u2011year\u2011old obese male with prediabetes, chronic drug\u2011abuse, and multiple metabolic risk factors. Laboratory data reveal markedly elevated LDL\u2011C and total cholesterol, borderline creatinine, and low CO\u2082, while no blood pressure or eGFR values are recorded. Integrating demographic risk, the lipid abnormality emerges as the most probable active diagnosis, followed by likely untreated hypertension and silent coronary atherosclerosis. Secondary considerations (OSA, early CKD, PAD, mood disorder, anemia work\u2011up, endocrine causes) are supported by the same risk profile and the unexplained laboratory findings. Probabilities were calibrated to epidemiologic priors and normalized to sum to ~1.0.",
+  "unresolved_findings": [
+    "Borderline low CO\u2082 total (21.9\u202fmmol/L) \u2013 etiology unclear",
+    "Chronic anemia without iron, B12, folate, or reticulocyte studies",
+    "Absence of any recorded blood pressure measurements",
+    "Missing eGFR and urine albumin/creatinine ratio",
+    "No trend data for lipid panel or repeat A1c",
+    "No medication list \u2013 unclear if statin or antihypertensive therapy is already prescribed",
+    "Missing inflammatory markers (CRP, ESR)",
+    "No vaccination, allergy, or lifestyle (smoking, diet, exercise) documentation"
+  ],
+  "recommended_workup": [
+    "Obtain three seated blood pressure readings or 24\u2011hour ambulatory BP monitoring",
+    "Fasting lipid panel (LDL, HDL, triglycerides, ApoB, Lp(a)) and medication reconciliation",
+    "Serum creatinine with eGFR calculation and spot urine albumin\u2011creatinine ratio",
+    "Complete blood count with iron studies, ferritin, transferrin saturation, vitamin B12, folate, and reticulocyte count",
+    "Thyroid panel (TSH, free T4)",
+    "STOP\u2011BANG questionnaire followed by polysomnography if indicated",
+    "Coronary calcium score (non\u2011contrast CT) to assess sub\u2011clinical CAD",
+    "Transthoracic echocardiogram to evaluate ventricular function and valvular disease",
+    "Ankle\u2011brachial index to screen for peripheral arterial disease",
+    "Abdominal ultrasound for AAA and hepatic steatosis",
+    "Hepatitis C, HBV, and HIV serologies given drug\u2011abuse history",
+    "Serum uric acid level for gout assessment",
+    "Age\u2011appropriate cancer screening: colonoscopy (or FIT), low\u2011dose chest CT, and PSA",
+    "Pulmonary function tests if respiratory symptoms or smoking history emerge",
+    "Comprehensive medication list review and adherence assessment"
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 DM-related chronic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "20\u2011year history of type 2 diabetes with progressive CKD (stage 3) and proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine consistent with CKD, persistent albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension and obesity, common accelerants of diabetic kidney disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing diabetes, proteinuric CKD, and typical risk factors make diabetic nephropathy the most likely cause of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin below normal for age with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (stage 3) known to cause decreased erythropoietin production",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is a common complication of CKD due to reduced erythropoietin and iron dysregulation, matching the laboratory profile."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "371923003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PTH and low vitamin D levels (assumed from CKD work\u2011up)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 3 CKD with phosphate retention risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal impairment leads to phosphate retention and reduced calcitriol, driving secondary hyperparathyroidism."
+    },
+    {
+      "rank": 4,
+      "name": "Coronary artery disease (subclinical atherosclerosis)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes, hypertension, obesity \u2013 high CAD risk profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk (estimated from comorbidities)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors strongly predispose to silent coronary atherosclerosis, warranting further cardiac evaluation before transplant."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and hypertension, common OSA predictors",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Reported snoring and daytime fatigue (if documented)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High pre\u2011test probability given obesity and hypertension, though not yet confirmed."
+    },
+    {
+      "rank": 6,
+      "name": "Obesity\u2011related focal segmental glomerulosclerosis (OR\u2011FSGS)",
+      "icd10": "N04.1",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity with proteinuria",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria (if present)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity can cause secondary FSGS, but diabetic nephropathy remains more likely."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors, unemployment, chronic illness",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic disease burden predisposes to mood disorders, which may affect adherence and transplant candidacy."
+    },
+    {
+      "rank": 8,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria not exclusively nephrotic\u2011range",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible contributor but less likely given dominant diabetic kidney disease."
+    },
+    {
+      "rank": 9,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, CKD \u2013 classic HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Dyspnea on exertion (if reported)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk profile suggests possible HFpEF, relevant for transplant evaluation."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD) / drug\u2011induced liver injury",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.005,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild ALT elevation (46.8 U/L) and positive urine bilirubin (0.4 mg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome, common NAFLD risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild transaminitis and urine bilirubin may reflect hepatic steatosis or medication effect; needs further evaluation."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 DM-related chronic kidney disease)",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing type 2 diabetes, proteinuric CKD stage 3, and associated hypertension make diabetic nephropathy the dominant diagnosis. CKD\u2011related anemia follows as a direct complication. Secondary hyperparathyroidism, CAD, OSA, and HFpEF are common comorbidities in this demographic and are retained with adjusted lower probabilities. A separate CKD\u2011related anemia entry addresses the reviewer\u2019s concern. NAFLD/drug\u2011induced liver injury accounts for the unexplained urine bilirubin and mild ALT rise. Unsupported primary membranous nephropathy was removed. The probabilities were normalized to sum to ~1.0.",
+  "unresolved_findings": [
+    "Positive urine bilirubin (0.4\u202fmg/dL) \u2013 not typical for isolated CKD",
+    "Mild ALT elevation (46.8\u202fU/L) \u2013 could reflect NAFLD, medication effect, or early hepatitis",
+    "Chronic sinusitis \u2013 unclear relevance to renal/metabolic picture",
+    "Missing recent blood pressure readings, lipid panel, HbA1c, electrolytes, urine sediment"
+  ],
+  "recommended_workup": [
+    "Repeat urine bilirubin and quantitative urine microscopy",
+    "Comprehensive liver panel and hepatitis serologies",
+    "Abdominal ultrasound or FibroScan to assess hepatic steatosis/fibrosis",
+    "Polysomnography to confirm obstructive sleep apnea",
+    "Transthoracic echocardiogram with diastolic function assessment",
+    "Cardiac stress testing or coronary CT angiography for subclinical CAD",
+    "Serum PTH, calcium, phosphate, vitamin D levels for renal osteodystrophy",
+    "Iron studies, reticulocyte count, and erythropoietin level for anemia work\u2011up",
+    "Bone mineral density scan",
+    "Update vital signs, lipid profile, HbA1c, and full electrolyte panel",
+    "Psychosocial evaluation and transplant readiness assessment"
+  ]
+}

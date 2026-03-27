@@ -1,0 +1,208 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 diabetes mellitus with diabetic nephropathy",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known diagnosis of type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine with eGFR \u224820\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria documented in prior labs (implied by CKD progression)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing hypertension and dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has established type 2 diabetes, advanced CKD (stage 4) with proteinuric kidney injury, and typical risk factors, making diabetic nephropathy the most likely cause of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease, stage 4 (eGFR \u2248 20\u202fmL/min/1.73\u202fm\u00b2)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR calculated at ~20\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD documented in problem list (stage 3/4 discrepancy noted)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function tests unequivocally place the patient in CKD stage\u202f4; this is a near\u2011certain state irrespective of etiology."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "vital_signs",
+          "finding": "Elevated blood pressure readings on multiple visits",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a chronic comorbidity contributing to both CKD progression and cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic coronary artery disease \u2013 angina (stable/unstable)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease flagged in comorbidity list",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (diabetes, hypertension, CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s risk factors, CAD is plausible and may explain chest discomfort, though objective testing is pending."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia \u2013 CKD\u2011related vs occult blood loss",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia noted on recent CBC (hemoglobin low, microcytic pattern not yet clarified)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented bleeding source",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is common in advanced CKD; occult gastrointestinal loss remains a differential that requires work\u2011up."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea and fatigue reported, risk factors present (age, hypertension, CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BNP/NT\u2011proBNP not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical picture suggests possible HFpEF, but objective cardiac imaging and biomarkers are lacking."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid\u2011induced neurocognitive impairment / sedation",
+      "icd10": "",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid therapy listed in medication list",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Patient reports fatigue and reduced alertness",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renally cleared opioids can accumulate in CKD, contributing to sedation; however, the degree of impact is uncertain."
+    },
+    {
+      "rank": 8,
+      "name": "Major depressive disorder, recurrent (with somatic features)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_note",
+          "finding": "Psychosocial stressors: recent intimate\u2011partner abuse, full\u2011time employment at age 74",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior depression diagnosis or screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Depression is plausible given stressors, but lacks documented screening or prior history."
+    }
+  ],
+  "primary_diagnosis": "Type 2 diabetes mellitus with diabetic nephropathy",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s advanced chronic kidney disease (eGFR ~20) in the setting of long\u2011standing type 2 diabetes, hypertension, and dyslipidemia points to diabetic nephropathy as the dominant pathology. CKD stage 4 is essentially certain. Hypertension, atherosclerotic coronary disease, and anemia are common comorbidities that further shape the clinical picture. HFpEF, opioid\u2011related sedation, and depression remain possible contributors but lack definitive objective data. The differential reflects hierarchical weighting based on reviewer confidence and the need for targeted investigations.",
+  "unresolved_findings": [
+    "Loss of teeth (no clear link to current organ system dysfunction)",
+    "Full\u2011time employment at age 74 (potential stressor not quantified)",
+    "Intimate\u2011partner abuse and recent stress (psychosocial impact)",
+    "Medication\u2011review alerts (details not provided; possible drug\u2011interaction risk)",
+    "Discrepancy between documented CKD stage\u202f3 and laboratory\u2011derived stage\u202f4",
+    "Missing key labs: recent HbA1c, lipid panel, CBC with iron studies, TSH, PHQ\u20119, NT\u2011proBNP, echocardiogram, ABI",
+    "No documented bleeding source despite anemia"
+  ],
+  "recommended_workup": [
+    "HbA1c to assess glycemic control",
+    "Comprehensive lipid panel",
+    "CBC with iron studies and ferritin",
+    "Stool occult blood test",
+    "TSH and free T4",
+    "PHQ\u20119 depression screening",
+    "NT\u2011proBNP or BNP",
+    "Transthoracic echocardiogram with diastolic function assessment",
+    "Ankle\u2011brachial index (ABI) for peripheral arterial disease",
+    "Serum calcium, phosphate, PTH for CKD\u2011Mineral\u2011Bone Disorder",
+    "Medication reconciliation focusing on opioid dosing and renal adjustments",
+    "Renal ultrasound if structural kidney disease is suspected"
+  ]
+}

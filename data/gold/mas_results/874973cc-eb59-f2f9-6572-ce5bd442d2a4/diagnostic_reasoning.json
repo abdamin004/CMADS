@@ -1,0 +1,354 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome complex",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30) \u2013 onset 1995",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.9%) \u2013 onset 1989",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "bp_category = stage1_hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "a1c_latest = 6.9% (prediabetic)",
+          "strength": "moderate"
+        },
+        {
+          "source": "missing_data",
+          "finding": "No lipid panel (total cholesterol, LDL)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity, impaired glucose tolerance, and hypertension fulfill \u22653 ATP\u2011III criteria, making metabolic syndrome the most parsimonious unifying diagnosis and the strongest driver of future cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Essential hypertension with early target\u2011organ effects (possible HFpEF)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension (131/85 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "sbp_latest = 131, dbp_latest = 85",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic naproxen (NSAID) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "hr_latest = 97 bpm (tachycardia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (unspecified) \u2013 onset 1992",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent elevated BP in the setting of obesity and NSAID use suggests sustained hypertension; tachycardia and anemia raise suspicion for early cardiac strain (HFpEF) even without imaging."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced chronic kidney disease (interstitial/ischemic nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (naproxen) use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Prediabetes (A1c 6.9%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of unclear etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "missing_data",
+          "finding": "No eGFR, creatinine, or urine albumin\u2011creatinine ratio",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic NSAID exposure combined with hypertension and early diabetic changes creates a high pre\u2011test probability of CKD, even though renal labs are missing."
+    },
+    {
+      "rank": 4,
+      "name": "Silent/asymptomatic coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 56, female, White",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage\u20111 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "missing_data",
+          "finding": "No lipid panel (likely abnormal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "hr_latest = 97 bpm (tachycardia)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of age, hypertension, obesity, and probable dyslipidemia yields a substantial risk for subclinical CAD, which often presents without chest pain in women."
+    },
+    {
+      "rank": 5,
+      "name": "Iron\u2011deficiency anemia (occult gastrointestinal blood loss)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (onset 1992)",
+          "strength": "strong"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic naproxen (NSAID) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic hydrocodone/acetaminophen use",
+          "strength": "moderate"
+        },
+        {
+          "source": "missing_data",
+          "finding": "No iron studies, ferritin, or fecal occult blood test",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing NSAID therapy predisposes to gastritis/ulcer and occult GI bleeding, a common cause of iron\u2011deficiency anemia in this age group."
+    },
+    {
+      "rank": 6,
+      "name": "Undiagnosed dyslipidaemia / subclinical atherosclerotic disease",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome components (obesity, prediabetes, hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "missing_data",
+          "finding": "No lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic naproxen (NSAID) may affect lipid metabolism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic\u2011syndrome phenotype, the likelihood of an abnormal lipid profile is >80\u202f%; confirming dyslipidaemia is essential for ASCVD risk calculation."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid\u2011related chronic pain syndrome with emerging opioid\u2011use disorder",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low back pain (onset 2014) and knee osteoarthritis (onset 2012)",
+          "strength": "strong"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic hydrocodone/acetaminophen use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate partner abuse (2020) and drug misuse (2019)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent nociceptive pain combined with long\u2011term opioid therapy and psychosocial stressors raises the risk of opioid dependence and tolerance."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage\u20111 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "hr_latest = 97 bpm (tachycardia)",
+          "strength": "weak"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic opioid use (hydrocodone)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are key risk factors for OSA; the tachycardia may reflect nocturnal hypoxia, but no sleep study data are available."
+    },
+    {
+      "rank": 9,
+      "name": "Major depressive disorder / post\u2011traumatic stress disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate partner abuse (2020)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Drug misuse (2019)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain conditions",
+          "strength": "moderate"
+        },
+        {
+          "source": "missing_data",
+          "finding": "No PHQ\u20119, GAD\u20117, or PTSD screening completed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and chronic pain predispose to mood and anxiety disorders, yet lack of formal screening limits certainty."
+    },
+    {
+      "rank": 10,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (unspecified) and weight gain (obesity)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage\u20111 hypertension (often diastolic predominant in hypothyroidism)",
+          "strength": "weak"
+        },
+        {
+          "source": "missing_data",
+          "finding": "No thyroid function tests",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can mimic several observed findings, but without thyroid labs the diagnosis remains low probability."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome complex",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient presents with classic components of metabolic syndrome\u2014obesity, prediabetes, and stage\u20111 hypertension\u2014creating a high baseline cardiovascular risk. This syndrome drives the top\u2011ranked diagnosis and underlies many secondary problems (hypertension, possible CKD, dyslipidaemia, and silent CAD). Chronic NSAID and opioid use raise the likelihood of renal injury, iron\u2011deficiency anemia, and opioid\u2011use disorder. Missing key laboratory data (lipids, renal function, iron studies, mental\u2011health screens) limit certainty, prompting a Bayesian re\u2011weighting that elevates CKD, CAD, and dyslipidaemia while still keeping metabolic syndrome as the most probable active condition.",
+  "unresolved_findings": [
+    "Etiology of chronic anemia (iron deficiency vs CKD vs chronic disease)",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing renal function data (eGFR, creatinine, urine albumin\u2011creatinine ratio)",
+    "No iron studies or fecal occult blood testing",
+    "Absence of mental\u2011health screening (PHQ\u20119, GAD\u20117, PCL\u20115)",
+    "Smoking status not documented",
+    "Physical activity, diet, and alcohol use not recorded",
+    "No bone\u2011density assessment (DEXA) despite age, sex, and opioid use",
+    "No gastro\u2011protective therapy documented with chronic NSAID/opioid use",
+    "No sleep\u2011study or STOP\u2011Bang assessment for OSA"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with serum creatinine, eGFR, electrolytes",
+    "Urine albumin\u2011creatinine ratio (micro\u2011albuminuria screen)",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "CBC with indices, ferritin, serum iron, TIBC, transferrin saturation",
+    "Fecal occult blood test (FIT) and consider upper endoscopy if positive",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Resting ECG; if abnormal or high risk, proceed to stress test or coronary calcium scoring",
+    "Transthoracic echocardiogram to assess LV mass and diastolic function",
+    "Home sleep apnea test or polysomnography if STOP\u2011Bang positive",
+    "PHQ\u20119, GAD\u20117, and PTSD screening questionnaires",
+    "Thyroid panel (TSH, free T4)",
+    "DEXA scan for bone density evaluation",
+    "Review and consider initiation of gastro\u2011protective therapy (PPI or H2 blocker) given chronic NSAID/opioid use"
+  ]
+}

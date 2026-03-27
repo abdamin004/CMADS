@@ -1,0 +1,212 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive biliary disease (choledocholithiasis, biliary stricture, pancreatic head mass)",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Total bilirubin 15\u202fmg/dL (direct predominance suspected)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Right upper quadrant pain absent but risk factors for gallstone disease present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated alkaline phosphatase (pending) expected in cholestasis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Marked hyperbilirubinemia with a cholestatic pattern strongly suggests biliary obstruction; common etiologies include choledocholithiasis, stricture, or a pancreatic head mass."
+    },
+    {
+      "rank": 2,
+      "name": "Acute coronary syndrome (type 1 MI or type 2 demand ischemia)",
+      "icd10": "I21.9",
+      "snomed": "22298006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ST\u2011segment elevation flag on ECG",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin (value not provided but noted as abnormal)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (HTN, diabetes, high Charlson comorbidity index)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "ST\u2011segment changes together with troponin rise in a patient with significant CV risk indicate an acute coronary syndrome, which may also contribute to hepatic hypoperfusion."
+    },
+    {
+      "rank": 3,
+      "name": "Drug\u2011induced cholestatic liver injury (high\u2011dose atorvastatin \u00b1 opioid interaction)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011dose atorvastatin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent opioid use (possible CYP interaction)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated bilirubin elevation without transaminase data (suggests cholestasis)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Statins can cause cholestatic injury, especially when combined with drugs that affect hepatic metabolism; the pattern fits the available labs."
+    },
+    {
+      "rank": 4,
+      "name": "Acute cholangitis",
+      "icd10": "K83.0",
+      "snomed": "235719002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hyperbilirubinemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential biliary obstruction pending imaging",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obstruction predisposes to infection; although fever or leukocytosis not yet documented, cholangitis remains a concern."
+    },
+    {
+      "rank": 5,
+      "name": "Congestive hepatopathy (cardiac\u2011related liver congestion)",
+      "icd10": "K76.0",
+      "snomed": "236423003",
+      "probability": 0.042,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of heart failure with preserved ejection fraction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated central venous pressure (not yet measured)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Right\u2011sided congestion can cause mild cholestasis; however, the degree of bilirubin elevation makes this less likely as the sole cause."
+    },
+    {
+      "rank": 6,
+      "name": "Pancreatic head neoplasm causing painless obstructive jaundice",
+      "icd10": "C25.0",
+      "snomed": "93880001",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe unexplained jaundice in a patient with risk factors for malignancy (age, smoking history not listed but common)",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Pending abdominal CT/MRCP to evaluate pancreatic head",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A pancreatic head tumor can produce a Courvoisier sign\u2011like picture with marked bilirubin elevation; needs imaging confirmation."
+    },
+    {
+      "rank": 7,
+      "name": "Ischemic (shock) hepatitis",
+      "icd10": "K72.0",
+      "snomed": "236423003",
+      "probability": 0.014,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent acute coronary syndrome suggesting possible hepatic hypoperfusion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Marked bilirubin rise with absent transaminase data (pending) \u2013 typical pattern may be delayed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe cardiac ischemia can cause transient hepatic injury leading to a cholestatic picture; considered given the ACS."
+    },
+    {
+      "rank": 8,
+      "name": "Pulmonary embolism with right\u2011ventricular strain",
+      "icd10": "I26.99",
+      "snomed": "233935002",
+      "probability": 0.004,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated troponin could be from RV strain",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No respiratory symptoms documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While possible, lack of dyspnea, hypoxia, or risk factors makes PE unlikely but not impossible."
+    }
+  ],
+  "primary_diagnosis": "Obstructive biliary disease (choledocholithiasis, biliary stricture, pancreatic head mass)",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient presents with a markedly elevated total bilirubin (15\u202fmg/dL) in the setting of cardiovascular risk factors and an ST\u2011segment elevation flag with troponin rise. The magnitude of hyperbilirubinemia points to a mechanical biliary obstruction, making obstructive biliary disease the leading diagnosis. Acute coronary syndrome is the next most likely, given ECG and troponin findings, and may also contribute to secondary ischemic hepatitis. Drug\u2011induced cholestasis, acute cholangitis, congestive hepatopathy, pancreatic head neoplasm, and less likely entities such as pulmonary embolism complete the differential. Missing fractionated bilirubin, imaging, and full hepatic panel limit definitive categorisation, prompting targeted work\u2011up.",
+  "unresolved_findings": [
+    "Fractionated bilirubin (direct vs indirect) not available",
+    "Complete liver enzyme panel (AST, ALT, ALP, GGT, INR) missing",
+    "Renal function (eGFR, albuminuria) absent",
+    "BMI measurement absent",
+    "12\u2011lead ECG and serial troponin trend not yet obtained",
+    "Abdominal imaging (RUQ ultrasound, MRCP/CT) pending",
+    "Echocardiogram data absent",
+    "Hemolysis work\u2011up (LDH, haptoglobin, retic count, DAT) not performed",
+    "Viral hepatitis serologies and autoimmune hepatitis panel not ordered"
+  ],
+  "recommended_workup": [
+    "Urgent right upper quadrant ultrasound with Doppler",
+    "If ultrasound inconclusive, obtain MRCP or contrast\u2011enhanced CT abdomen",
+    "Serial high\u2011sensitivity troponin measurements and full 12\u2011lead ECG interpretation",
+    "Echocardiogram to assess ventricular function and possible right\u2011ventricular strain",
+    "Comprehensive hepatic panel (AST, ALT, ALP, GGT, INR, direct/indirect bilirubin)",
+    "Hemolysis evaluation: LDH, haptoglobin, reticulocyte count, direct antiglobulin test",
+    "Viral hepatitis serologies (HBsAg, anti\u2011HBc, anti\u2011HCV) and autoimmune hepatitis panel (ANA, ASMA, IgG)",
+    "Consider CT chest/abdomen/pelvis if pancreatic neoplasm suspected",
+    "Assess renal function: serum creatinine, eGFR, urine albumin\u2011creatinine ratio"
+  ]
+}

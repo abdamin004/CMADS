@@ -1,0 +1,346 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease due to diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) 5.8\u202fmL/min/1.73\u202fm\u00b2 \u2013 indicates CKD stage\u202f5",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage\u202f4 (onset 2005\u201106\u201111)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 448.9\u202fmg/dL \u2013 nephrotic\u2011range proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type\u202f2 \u2013 major cause of diabetic nephropathy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension \u2013 contributes to CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Very low eGFR together with massive proteinuria in a long\u2011standing diabetic hypertensive patient confirms progression to ESRD."
+    },
+    {
+      "rank": 2,
+      "name": "Hyperkalaemia (risk in CKD\u20115 on ACE\u2011inhibitor)",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg daily \u2013 ACE\u2011inhibitor increases serum K\u207a in advanced CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (eGFR 5.8) \u2013 impaired K\u207a excretion",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High comorbidity burden (Charlson\u202f=\u202f5) \u2013 predicts electrolyte disturbances",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In CKD\u20115 patients on ACE\u2011inhibitors, hyperkalaemia is common and potentially life\u2011threatening; absence of a K\u207a value raises immediate concern."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia \u2013 chronic, onset 1992\u201112\u201105",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 \u2013 reduced erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list lacks epoetin alfa despite data\u2011quality flag linking it to anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic kidney disease at stage\u202f5 commonly causes anemia of chronic disease; lack of ESA therapy suggests untreated CKD\u2011related anemia."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "237599002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (eGFR 5.8) \u2013 high risk for secondary hyperparathyroidism",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No phosphate binders, vitamin\u202fD analogues, or calcimimetics listed",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum CO\u2082 22.2\u202fmmol/L \u2013 mild metabolic acidosis, often accompanies CKD\u2011MBD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD without mineral\u2011bone disease management makes secondary hyperparathyroidism highly probable."
+    },
+    {
+      "rank": 5,
+      "name": "Hypertensive heart disease with heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I11.0",
+      "snomed": "302810001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension \u2013 long\u2011standing",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u226530) and metabolic syndrome \u2013 predispose to LVH and diastolic dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type\u202f2 \u2013 contributes to myocardial stiffening",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination of hypertension, obesity, and diabetes in a middle\u2011aged male makes hypertensive heart disease with HFpEF likely, even without documented cardiac imaging."
+    },
+    {
+      "rank": 6,
+      "name": "Silent atherosclerotic coronary artery disease",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type\u202f2, hypertension, dyslipidemia (total cholesterol 205.5\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex, age 47 \u2013 increased CAD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index\u202f=\u202f5 \u2013 predicts higher cardiovascular mortality",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High burden of traditional CAD risk factors makes silent coronary disease probable despite lack of symptoms."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (known)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.06,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "analysis",
+          "finding": "Obstructive sleep apnea listed as a known diagnosis in the critique summary",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome \u2013 strong risk factors for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is already documented; its presence contributes to hypertension and CKD progression."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, diabetes, hypertriglyceridemia, metabolic syndrome \u2013 classic NAFLD risk profile",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.7\u202fmg/dL \u2013 may reflect hepatic excretion abnormality",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors strongly suggest NAFLD/NASH, which could explain the unexplained urine bilirubin."
+    },
+    {
+      "rank": 9,
+      "name": "Alcoholic liver disease",
+      "icd10": "K70.30",
+      "snomed": "235856004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Alcoholism \u2013 chronic, onset 2002\u201105\u201125",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.7\u202fmg/dL \u2013 could indicate hepatic dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic alcohol use together with abnormal urine bilirubin raises suspicion for alcoholic liver injury."
+    },
+    {
+      "rank": 10,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes, hypertension, obesity \u2013 major PAD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Smoking status not documented \u2013 unknown, but PAD prevalence is still notable in this cohort",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the vascular risk profile, PAD is possible and relevant for transplant candidacy."
+    },
+    {
+      "rank": 11,
+      "name": "Paroxysmal atrial fibrillation",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "CKD and hypertension increase AF risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented arrhythmia \u2013 absence does not exclude undetected AF",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "AF may be silent; its presence would affect anticoagulation decisions."
+    },
+    {
+      "rank": 12,
+      "name": "Uremic pericarditis",
+      "icd10": "I30.0",
+      "snomed": "302810001",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 \u2013 known complication is uremic pericarditis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal CO\u2082 (22.2\u202fmmol/L) \u2013 may reflect metabolic acidosis accompanying uremia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced renal failure predisposes to pericardial inflammation; needs cardiac evaluation."
+    },
+    {
+      "rank": 13,
+      "name": "Dialysis\u2011related issues (access, modality, timing)",
+      "icd10": "Z99.2",
+      "snomed": "702110001",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u201cAwaiting transplantation of kidney\u201d but no dialysis documented despite eGFR 5.8",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 5.8\u202fmL/min/1.73\u202fm\u00b2 \u2013 indicates need for renal replacement therapy",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The gap between CKD stage and lack of dialysis documentation suggests pending or missed dialysis planning."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease due to diabetic nephropathy",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is a 47\u2011year\u2011old male with long\u2011standing type\u202f2 diabetes, hypertension, obesity, and metabolic syndrome. Laboratory data reveal an eGFR of 5.8\u202fmL/min/1.73\u202fm\u00b2, nephrotic\u2011range proteinuria, and markedly elevated creatinine, confirming progression to end\u2011stage renal disease. The combination of CKD\u20115, ACE\u2011inhibitor therapy, and absent electrolyte data raises immediate concern for hyperkalaemia. Chronic kidney disease explains the anemia, secondary hyperparathyroidism, and risk of uremic pericarditis. Cardiovascular risk is extremely high given diabetes, hypertension, dyslipidemia, and obesity, making hypertensive heart disease, HFpEF, and silent coronary artery disease likely. Metabolic syndrome and documented alcoholism account for possible NAFLD/NASH and alcoholic liver disease, which may explain the unexplained urine bilirubin. Missing key labs (K\u207a, PTH, vitamin\u202fD, iron studies, HbA1c) and the absence of dialysis documentation create uncertainty, lowering overall confidence and prompting a focused work\u2011up.",
+  "unresolved_findings": [
+    "Urine bilirubin 0.7\u202fmg/dL without documented liver disease",
+    "Urine specific gravity 1.000 (extremely dilute)",
+    "Contradictory serum creatinine values (2.8\u202fmg/dL vs 2.2\u202fmg/dL)",
+    "Implausibly low HbA1c 4.3\u202f% (likely data error)",
+    "Missing recent blood pressure readings",
+    "Missing LDL cholesterol and full lipid panel",
+    "No documented dialysis or renal replacement therapy despite eGFR 5.8",
+    "Absence of phosphate binders, vitamin\u202fD analogues, ESA, iron studies, statin, antiplatelet, SGLT2\u2011i"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel including serum K\u207a, Na\u207a, Cl\u207b, CO\u2082, Ca\u00b2\u207a, PO\u2084, Mg\u00b2\u207a",
+    "Parathyroid hormone (PTH) and 25\u2011OH vitamin\u202fD levels",
+    "Complete blood count with reticulocyte count, ferritin, transferrin saturation, B12, folate",
+    "Repeat HbA1c (or fructosamine) and fasting glucose to verify glycemic control",
+    "Lipid panel with LDL\u2011C, HDL\u2011C, triglycerides, non\u2011HDL\u2011C",
+    "ECG and transthoracic echocardiogram (evaluate LVH, diastolic function, pericardial effusion)",
+    "Stress test or coronary CTA if echo normal to assess silent CAD",
+    "Abdominal ultrasound with Doppler and liver function tests (AST, ALT, ALP, GGT, total/direct bilirubin) to evaluate NAFLD/alcoholic liver disease",
+    "Office blood pressure (average of three readings) and 24\u2011hour ambulatory BP monitoring",
+    "Ankle\u2011brachial index or peripheral duplex ultrasound to screen for PAD",
+    "Sleep study (home or polysomnography) if not recently performed",
+    "Assessment of dialysis readiness: vascular access evaluation, education status, transplant work\u2011up review",
+    "Smoking history verification (questionnaire or urine cotinine)",
+    "Medication reconciliation to identify missing ESA, iron, phosphate binders, vitamin\u202fD analogues, statin, antiplatelet, SGLT2\u2011i"
+  ]
+}

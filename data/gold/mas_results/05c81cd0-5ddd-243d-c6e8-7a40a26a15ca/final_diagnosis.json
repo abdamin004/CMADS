@@ -1,0 +1,223 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic cardiovascular disease (post-MI stable CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.33,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior myocardial infarction with documented stable coronary artery disease",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple high\u2011risk factors (age, hypertension, hyperlipidemia, prediabetes, prior MI)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s established prior MI and ongoing cardiovascular risk factors make recurrent ischemic events the most likely active problem."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease, stage 3\u20114 (hypertensive/ischemic)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.2\u202fmg/dL with estimated GFR ~70\u202fmL/min (stage 3\u20114 range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dilute urine specific gravity 1.00 suggesting impaired concentrating ability",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension noted in chart",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal dysfunction is evident from labs and is likely driven by chronic hypertension and prior ischemic injury."
+    },
+    {
+      "rank": 3,
+      "name": "Essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.14,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of hypertension as a chronic condition",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension is a primary driver of both CKD progression and HFpEF risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a pervasive comorbidity that underlies the patient\u2019s renal disease and contributes to cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia \u2013 mixed CKD\u2011related and iron\u2011deficiency",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia noted in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No iron studies available; anemia could be multifactorial given CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal insufficiency commonly causes anemia; iron deficiency cannot be excluded without iron studies."
+    },
+    {
+      "rank": 5,
+      "name": "Prediabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Impaired fasting glucose documented in recent labs",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic risk factors (obesity unknown, hypertension, dyslipidemia) support early glucose dysregulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory trends indicate glucose levels in the pre\u2011diabetic range, warranting monitoring and lifestyle intervention."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age, hypertension, CKD, and prior MI are classic HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No echocardiogram or natriuretic peptide results available to confirm",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While risk factors are present, objective cardiac data are lacking, making HFpEF a less certain diagnosis."
+    },
+    {
+      "rank": 7,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Combination of hypertension, prediabetes, and presumed dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk profile consistent with metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of metabolic risk factors justifies a unifying diagnosis to guide lifestyle and pharmacologic therapy."
+    },
+    {
+      "rank": 8,
+      "name": "Substance\u2011use disorder (drug dependence)",
+      "icd10": "F19.20",
+      "snomed": "365981007",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documentation of ongoing substance dependence in social history",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential impact on medication adherence and blood pressure control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Substance use may exacerbate hypertension and impede disease management."
+    },
+    {
+      "rank": 9,
+      "name": "Peripheral arterial disease (PAD)",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of atherosclerotic disease (CAD, CKD) raises PAD risk",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented ankle\u2011brachial index or peripheral vascular exam",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but objective vascular assessment is missing, keeping probability low."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic cardiovascular disease (post-MI stable CAD)",
+  "primary_probability": 0.33,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is established atherosclerotic cardiovascular disease, supported by a prior myocardial infarction and multiple high\u2011risk comorbidities. Chronic kidney disease driven by hypertension and ischemic injury follows closely in likelihood. Hypertension itself is a pivotal modifiable factor that underlies both renal decline and potential heart failure. Anemia, prediabetes, and metabolic syndrome reflect the systemic impact of his vascular disease. HFpEF, substance\u2011use disorder, and PAD are plausible but less certain given the lack of confirmatory testing. Probabilities were adjusted per the senior reviewer\u2019s expert weighting, ensuring the total sums to 1.0.",
+  "unresolved_findings": [
+    "Missing current eGFR value and urine albumin\u2011to\u2011creatinine ratio",
+    "Absent recent blood\u2011pressure measurements",
+    "No lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No hemoglobin/hematocrit, iron studies, B12/folate levels",
+    "Smoking status unknown",
+    "No cardiac imaging (echocardiogram) or natriuretic peptide levels",
+    "No ankle\u2011brachial index or peripheral vascular exam results",
+    "No neuroimaging to assess silent cerebrovascular disease"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine with calculated eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive lipid panel",
+    "Blood pressure measurement (multiple readings) and home BP monitoring",
+    "Complete blood count with iron studies, ferritin, transferrin saturation, B12 and folate",
+    "HbA1c and fasting glucose to clarify glycemic status",
+    "Echocardiogram with assessment of ejection fraction and diastolic function",
+    "BNP or NT\u2011proBNP to evaluate for heart failure",
+    "Ankle\u2011brachial index and peripheral vascular examination",
+    "Carotid duplex ultrasound or brain MRI if neurologic symptoms develop",
+    "Sleep study if clinical suspicion for obstructive sleep apnea emerges"
+  ]
+}

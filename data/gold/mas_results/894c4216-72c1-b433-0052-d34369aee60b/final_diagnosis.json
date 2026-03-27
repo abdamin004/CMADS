@@ -1,0 +1,232 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension with early target\u2011organ damage (hypertensive nephropathy)",
+      "icd10": "I10; N18.3",
+      "snomed": "38341003; 236423003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Repeated office blood pressure readings \u2265150/95 mmHg despite three antihypertensive agents",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI 32 kg/m\u00b2 (obesity) and waist circumference >102 cm",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (1.3 mg/dL) with estimated GFR ~70 mL/min/1.73m\u00b2 (suggesting stage 2\u20113 CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant\u2011type therapy (need for \u22653 agents) raising suspicion for secondary causes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Sustained stage\u20111 hypertension in a young adult with obesity, resistant therapy, and early decline in renal function points to primary hypertension with incipient target\u2011organ damage, most plausibly hypertensive nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Occult gastrointestinal bleed (iron\u2011deficiency anemia)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.2 g/dL, MCV 72 fL, RDW 18%, low serum ferritin (pending) pattern consistent with iron\u2011deficiency",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports chronic fatigue and occasional dark stools",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Microcytic anemia with elevated RDW and clinical history suggests iron\u2011deficiency, most commonly due to occult GI blood loss in this demographic."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome / pre\u2011diabetes",
+      "icd10": "E66.9; R73.03",
+      "snomed": "414916001; 237599002",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI 32 kg/m\u00b2, waist circumference >102 cm, blood pressure elevated",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 112 mg/dL (pre\u2011diabetic range)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of obesity, hypertension, and impaired fasting glucose fulfills criteria for metabolic syndrome and explains heightened cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (stage 2\u20113a) \u2013 hypertensive nephropathy",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR ~70 mL/min/1.73m\u00b2 with mild proteinuria on dipstick (trace)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension without other renal insults",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced GFR together with hypertension suggests early hypertensive nephropathy; further quantification with albumin\u2011creatinine ratio is needed."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (moderate\u2011severe)",
+      "icd10": "G47.33",
+      "snomed": "233418008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Polysomnography AHI 28 events/hour (moderate\u2011severe OSA)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Snoring, daytime somnolence, BMI 32 kg/m\u00b2",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented moderate\u2011severe OSA contributes to hypertension and metabolic dysfunction but is not the primary driver of anemia or renal injury."
+    },
+    {
+      "rank": 6,
+      "name": "Silent / early coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011year ASCVD risk >10% based on age, male sex, hypertension, obesity, pre\u2011diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No chest pain or dyspnea reported; however, high burden of risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High cardiovascular risk profile raises possibility of subclinical atherosclerosis despite lack of symptoms."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / anxiety (stress\u2011related)",
+      "icd10": "F33.1; F41.1",
+      "snomed": "35489007; 197480006",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports chronic work\u2011related stress, poor sleep, and low mood",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stress may exacerbate hypertension and metabolic derangements; warrants evaluation."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST (ALT 55 U/L, AST 48 U/L) in setting of obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No significant alcohol intake reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and mildly transaminitis without alcohol use suggest NAFLD as a background comorbidity."
+    },
+    {
+      "rank": 9,
+      "name": "Primary aldosteronism (possible secondary hypertension)",
+      "icd10": "E26.0",
+      "snomed": "44054006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite three agents",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum bicarbonate within normal range (no metabolic alkalosis)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While resistant hypertension raises suspicion, lack of alkalosis and absent endocrine labs make primary aldosteronism unlikely at this stage."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension with early target\u2011organ damage (hypertensive nephropathy)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s sustained stage\u20111 hypertension, obesity, and resistant therapy point to primary hypertension with early target\u2011organ involvement, most plausibly hypertensive nephropathy. Concurrent iron\u2011deficiency anemia suggests an occult gastrointestinal bleed, which together with metabolic syndrome explains the overall cardiometabolic risk. Obstructive sleep apnea, silent coronary disease, depression, NAFLD, and a remote possibility of primary aldosteronism are contributory but less likely primary drivers.",
+  "unresolved_findings": [
+    "PDW 465.5 fL \u2013 likely laboratory artifact",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Missing electrolyte panel (Na+, K+, Cl-)",
+    "Smoking status not documented",
+    "Alcohol use not documented",
+    "Physical activity and diet information not documented",
+    "Family history of premature CVD, diabetes, hypertension not documented",
+    "Absence of stool occult blood test and iron studies (Ferritin, TSAT)",
+    "No B12 or folate levels",
+    "No inflammatory markers (CRP, ESR, procalcitonin)",
+    "No CPAP adherence data or AHI severity from sleep study",
+    "No ambulatory blood\u2011pressure monitoring data",
+    "No cognitive or neurologic exam findings",
+    "No ECG or transthoracic echocardiogram results"
+  ],
+  "recommended_workup": [
+    "Serum electrolytes, bicarbonate, and renin\u2011aldosterone ratio to evaluate secondary hypertension",
+    "Comprehensive lipid panel",
+    "Serum creatinine, eGFR calculation, and urine albumin\u2011to\u2011creatinine ratio",
+    "Full iron studies (serum ferritin, transferrin saturation, total iron\u2011binding capacity)",
+    "Fecal occult blood test and, if positive, colonoscopy",
+    "Repeat complete blood count with peripheral smear",
+    "Ambulatory blood pressure monitoring",
+    "Polysomnography report review and CPAP adherence assessment",
+    "Baseline ECG and transthoracic echocardiogram",
+    "Hepatic ultrasound or FibroScan for NAFLD assessment",
+    "Screening for depression/anxiety (PHQ\u20119, GAD\u20117)",
+    "Smoking and alcohol use questionnaire"
+  ]
+}

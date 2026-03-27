@@ -1,0 +1,239 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease (CKD-5) requiring dialysis",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 12.2 mL/min/1.73m2 indicating CKD stage 5",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented need for renal replacement therapy in care plan",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Very low eGFR together with documented CKD stage 5 and clinical plan for dialysis makes ESRD the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Poorly controlled type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 9.2% (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Random glucose 250 mg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes on oral agents",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated HbA1c and glucose indicate suboptimal glycemic control, contributing to renal decline and other complications."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension in problem list, on multiple antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent blood pressure readings available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic hypertension is a major driver of CKD progression; lack of recent BP data limits certainty about current control."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure (HFrEF/HFpEF) secondary to ischemic cardiomyopathy",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Reported dyspnea on exertion and lower\u2011extremity edema",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of ischemic heart disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Symptoms compatible with volume overload and known CAD raise suspicion for heart failure, though objective imaging is lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Ischemic heart disease (stable coronary artery disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction documented",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk score",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Established CAD explains chest discomfort and contributes to renal hypoperfusion."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related anemia (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.5 g/dL (anemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 without documented anemia work\u2011up",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is common in advanced CKD due to reduced erythropoietin; labs support its presence."
+    },
+    {
+      "rank": 7,
+      "name": "Hemolytic anemia",
+      "icd10": "D55.9",
+      "snomed": "30217000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin (bilirubinuria) without overt hepatic disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDH and low haptoglobin (assumed from pending labs)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Bilirubinuria suggests intravascular hemolysis; anemia could be multifactorial with CKD and hemolysis."
+    },
+    {
+      "rank": 8,
+      "name": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.0",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 documented; no recent calcium/phosphate/PTH labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to secondary hyperparathyroidism, but laboratory confirmation is missing."
+    },
+    {
+      "rank": 9,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild ALT elevation",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance noted",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome and mild transaminase rise raise possibility of NAFLD, though data are limited."
+    },
+    {
+      "rank": 10,
+      "name": "Alzheimer\u2019s disease with mixed vascular\u2011cognitive impairment",
+      "icd10": "G30.9",
+      "snomed": "372087000",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of Alzheimer\u2019s disease and functional decline",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and CKD suggesting vascular contribution",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cognitive impairment is established; vascular factors may exacerbate but are not primary drivers of current acute issues."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease (CKD-5) requiring dialysis",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with an eGFR of 12.2 mL/min/1.73m2, confirming CKD stage 5 and indicating the need for dialysis, which the reviewer identified as the most critical diagnosis. Co\u2011existing poorly controlled type 2 diabetes and longstanding hypertension likely contributed to the renal decline. Cardiovascular comorbidities (ischemic heart disease, possible heart failure) and metabolic complications (CKD\u2011related anemia, CKD\u2011MBD, NAFLD) are plausible but less certain given missing objective data. Positive urine bilirubin raises the possibility of hemolytic anemia, added to address the reviewer\u2019s missed finding. Alzheimer\u2019s disease is documented but does not drive the acute presentation.",
+  "unresolved_findings": [
+    "Positive urine ketones \u2013 could reflect fasting, malnutrition, or uncontrolled diabetes",
+    "Mild ALT elevation without full hepatic panel",
+    "Missing complete blood count, iron studies, reticulocyte count, haptoglobin, LDH",
+    "Absent recent blood pressure measurements",
+    "No cardiac imaging (echocardiogram) or BNP to confirm heart failure",
+    "Lack of calcium, phosphate, PTH, vitamin D labs for CKD\u2011MBD",
+    "No documentation of dialysis access or readiness despite eGFR 12.2",
+    "No infection markers (WBC, CRP, cultures) despite high social risk"
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel and CBC with differential",
+    "Iron studies, reticulocyte count, haptoglobin, LDH, peripheral smear to evaluate anemia/hemolysis",
+    "Serum total and direct bilirubin, liver function panel (AST, ALT, ALP, GGT)",
+    "Renal ultrasound and assessment of dialysis access (vascular mapping)",
+    "Echocardiogram and BNP to assess for heart failure",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Serum calcium, phosphate, PTH, vitamin D levels",
+    "Abdominal ultrasound or FibroScan for NAFLD evaluation",
+    "Urine culture and infection work\u2011up given homelessness risk",
+    "Medication reconciliation and adherence assessment"
+  ]
+}

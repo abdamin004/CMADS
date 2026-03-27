@@ -1,0 +1,158 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (obesity-driven insulin resistance)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity coded in problem list; BMI not recorded but clinical impression of obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension on monotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.3%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidemia: LDL\u2011C 149.8\u202fmg/dL, total cholesterol 220\u202fmg/dL",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient meets all ATP\u2011III criteria (central obesity, elevated blood pressure, elevated fasting glucose/HbA1c, and atherogenic dyslipidemia), making metabolic syndrome the most likely unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension \u2013 inadequately treated",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented stage\u202f1 hypertension on a single antihypertensive agent",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN suggesting early renal impact of hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Blood pressure readings meet diagnostic thresholds and the current regimen appears insufficient, supporting a diagnosis of inadequately controlled essential hypertension."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (possible stage\u202f2) secondary to hypertension & insulin resistance",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN with borderline eGFR (exact value not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and pre\u2011diabetes as risk factors for renal injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function trends suggest early impairment, but definitive staging requires eGFR and albuminuria measurements; therefore the probability is modest."
+    },
+    {
+      "rank": 4,
+      "name": "Heterozygous familial hypercholesterolaemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "414916001",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 149.8\u202fmg/dL in a young adult",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented family history of premature ASCVD or tendon xanthomas",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While LDL is elevated, the magnitude can be explained by metabolic syndrome; lack of family history and physical stigmata makes FH unlikely."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep\u2011disordered breathing (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension are risk factors for OSA",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented snoring, daytime sleepiness, or polysomnography",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but without symptom assessment or sleep study the diagnosis remains speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Subclinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk based on hypertension, dyslipidemia, obesity, and prediabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging performed to confirm plaque",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The aggregate risk profile suggests early atherosclerotic changes, yet imaging confirmation is lacking, so the diagnosis is plausible but not proven."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (obesity-driven insulin resistance)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient exhibits the full constellation of metabolic syndrome criteria\u2014central obesity, elevated blood pressure, impaired glucose regulation, and atherogenic dyslipidemia\u2014making metabolic syndrome the most probable unifying diagnosis. Hypertension is clearly present and inadequately controlled. Early renal involvement is possible given rising BUN and the presence of hypertension and pre\u2011diabetes, but definitive CKD staging requires eGFR and albuminuria data. Elevated LDL could reflect FH, yet the lack of family history and the explanatory power of metabolic syndrome lower its likelihood. Obesity raises suspicion for OSA, but symptom data are absent. Finally, the cumulative cardiovascular risk points toward subclinical atherosclerosis, though imaging is needed for confirmation.",
+  "unresolved_findings": [
+    "Anemia documented in the problem list but hemoglobin/hematocrit are normal on the latest labs \u2013 etiology unresolved.",
+    "BMI numeric value missing despite a coded obesity diagnosis \u2013 prevents precise assessment of weight\u2011related risk.",
+    "eGFR, urine albumin/creatinine ratio, and full lipid panel (HDL, triglycerides) are absent \u2013 limits evaluation of renal and atherosclerotic risk.",
+    "Elevated platelet MPV and PDW without a known pro\u2011thrombotic condition \u2013 may represent subclinical activation but needs clarification.",
+    "Smoking status and family history are not recorded \u2013 important modifiers of cardiovascular risk that are currently unknown."
+  ],
+  "recommended_workup": [
+    "Obtain accurate weight, height, and waist circumference to calculate BMI and assess central obesity.",
+    "Measure fasting lipid panel including HDL and triglycerides.",
+    "Calculate eGFR and obtain urine albumin\u2011to\u2011creatinine ratio to stage kidney disease.",
+    "Screen for obstructive sleep apnea with STOP\u2011Bang questionnaire and consider overnight polysomnography.",
+    "Document smoking status, detailed family history of premature ASCVD, and physical exam for tendon xanthomas.",
+    "Perform ASCVD risk calculation (e.g., pooled cohort equations) and consider coronary artery calcium scoring if indicated."
+  ]
+}

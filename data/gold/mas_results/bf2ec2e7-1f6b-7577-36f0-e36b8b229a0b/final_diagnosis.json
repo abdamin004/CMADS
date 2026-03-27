@@ -1,0 +1,174 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Kidney Disease (stage 4 CKD)",
+      "icd10": "E11.22",
+      "snomed": "236423003",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with documented microvascular complications",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 18\u202fmL/min/1.73\u202fm\u00b2 consistent with CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent proteinuria (>300\u202fmg/g) on urine ACR",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension and dyslipidemia as accelerating risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of advanced CKD (eGFR 18), longstanding diabetes, and significant proteinuria makes diabetic nephropathy the dominant etiology of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive Nephrosclerosis (co\u2011factor)",
+      "icd10": "I12.9",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic hypertension, poorly documented recent BP values",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine disproportionate to diabetic burden alone",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled hypertension likely contributes to CKD progression alongside diabetic nephropathy, especially given absent recent BP control data."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic, normochromic anemia (Hb ~10\u202fg/dL) with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4, known to impair erythropoietin production",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD\u2011related anemia is expected at this stage and explains the observed low hemoglobin."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (subclinical/clinical CAD, possible HFpEF)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on age, diabetes, hypertension, and dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Reports of exertional dyspnea without clear cardiac work\u2011up",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the risk factor burden, subclinical coronary disease or HFpEF remains plausible, though objective cardiac data are lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Major Depressive Disorder with psychosocial impact",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.05,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of chronic depressive symptoms and recent psychosocial stressors",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_notes",
+          "finding": "Patient reports low energy, poor appetite, and reduced adherence to medical appointments",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Depression contributes to medication non\u2011adherence and may exacerbate CKD progression."
+    },
+    {
+      "rank": 6,
+      "name": "Metabolic Syndrome (obesity\u2011driven)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI >30\u202fkg/m\u00b2, hypertension, dyslipidemia, and impaired glucose tolerance",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The constellation of obesity, hypertension, and dyslipidemia fulfills criteria for metabolic syndrome, further accelerating renal and cardiovascular risk."
+    },
+    {
+      "rank": 7,
+      "name": "Medication\u2011related Nephrotoxicity / Dosing Error",
+      "icd10": "T86.1",
+      "snomed": "442083009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pending comprehensive medication review; no clear nephrotoxic agent identified yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While a nephrotoxic drug could contribute, current data are insufficient; kept as low\u2011probability differential."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Kidney Disease (stage 4 CKD)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with advanced CKD (eGFR 18) in the setting of long\u2011standing type 2 diabetes, significant proteinuria, and hypertension, making diabetic kidney disease the dominant diagnosis. Hypertensive nephrosclerosis likely acts as a co\u2011factor accelerating renal decline. Anemia is explained by reduced erythropoietin production at CKD stage 4. Cardiovascular risk is high, raising concern for subclinical CAD or HFpEF, though objective data are lacking. Metabolic syndrome and major depressive disorder further compound disease burden. Medication\u2011induced nephrotoxicity remains a remote possibility pending a detailed drug review. Unverified HbA1c, absent recent BP readings, and missing CKD\u2011specific labs are notable gaps that must be addressed.",
+  "unresolved_findings": [
+    "Implausible HbA1c value (2.8%) \u2013 requires verification",
+    "No recent blood\u2011pressure measurements \u2013 unclear control status",
+    "Medication review pending \u2013 potential hidden nephrotoxins",
+    "Missing CKD\u2011specific labs: calcium, phosphate, PTH, lipid panel, CBC with iron studies, vitamin D",
+    "Prediabetes label despite insulin therapy (contradictory classification)",
+    "Risk activity involvement vague term without clinical correlate",
+    "Chronic sinusitis \u2013 low relevance but unexplained chronic inflammation"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and fasting glucose to confirm glycemic control",
+    "Obtain recent blood\u2011pressure readings or 24\u2011hour ambulatory monitoring",
+    "Comprehensive medication reconciliation focusing on NSAIDs, ACE inhibitors/ARBs, diuretics, and other nephrotoxic agents",
+    "Renal panel: serum calcium, phosphate, PTH, vitamin D, uric acid, lipid profile",
+    "CBC with iron studies and reticulocyte count to fully characterize anemia",
+    "Urine albumin\u2011to\u2011creatinine ratio (if not already done) and repeat eGFR",
+    "Kidney ultrasound to assess structural abnormalities",
+    "Cardiac evaluation: ECG, transthoracic echocardiogram, and consider stress testing given high ASCVD risk",
+    "Psychiatric assessment or PHQ\u20119 to gauge severity of depression"
+  ]
+}

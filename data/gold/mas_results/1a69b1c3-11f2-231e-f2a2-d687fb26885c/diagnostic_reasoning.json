@@ -1,0 +1,320 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Secondary hypertension (primary aldosteronism, renovascular, OSA)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.26,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (BP 139/89 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical complexity = moderate; Charlson index = 1",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and substance\u2011use disorder as precipitants",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated BP in a young adult with CKD disproportionate to stage\u20111 hypertension suggests a secondary cause. Lack of documented BMI or STOP\u2011BANG raises suspicion for occult OSA, while substance use raises the possibility of renovascular disease or primary aldosteronism."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease from nephrotoxic/substance exposure",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.5 mg/dL (moderate elevation)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dependent drug abuse (onset 2008)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide use (potential renal perfusion impact)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD out of proportion to mild hypertension and pre\u2011diabetes, combined with a history of illicit drug use, raises the possibility of tubulointerstitial injury from nephrotoxic substances."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled epilepsy & medication\u2011overuse headache",
+      "icd10": "G40.909",
+      "snomed": "37796009",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Seizure disorder (onset 1996) \u2013 high priority problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic intractable migraine without aura \u2013 frequent ED visits",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antiseizure or migraine\u2011preventive medications documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing epilepsy with frequent ED visits and lack of disease\u2011specific therapy, together with chronic migraine, points to uncontrolled neurologic disease and likely medication\u2011overuse headache."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension (BP 139/89)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.5 mg/dL indicating CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension can cause CKD; however, the modest BP level makes primary hypertensive nephrosclerosis less likely than secondary causes, but it remains plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Early diabetic (prediabetic) nephropathy",
+      "icd10": "N08.3",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.0%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 69.8 mg/dL (borderline low)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prediabetes confers some risk for early nephropathy, but the low fasting glucose and lack of hyperglycemia make this a less likely primary driver of CKD."
+    },
+    {
+      "rank": 6,
+      "name": "Essential thrombocythemia / early myeloproliferative neoplasm",
+      "icd10": "D47.3",
+      "snomed": "373720006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width (PDW) 189.6 fL \u2013 markedly elevated",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "MPV 11.1 fL \u2013 high\u2011normal",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Abnormal platelet indices could herald an early myeloproliferative process, though platelet count is normal and other cytopenias are absent."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unstable housing and possible poor sleep hygiene (implied)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing BMI and STOP\u2011BANG data \u2013 a data gap that raises suspicion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is a common, treatable cause of resistant hypertension and metabolic derangements; absence of BMI data limits certainty, but the clinical picture warrants evaluation."
+    },
+    {
+      "rank": 8,
+      "name": "Thyroid dysfunction (hypo\u2011 or hyperthyroidism)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension, low fasting glucose, mild anemia \u2013 patterns that can be seen in thyroid disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid disorders can manifest with hypertension, dyslipidemia, anemia, and altered glucose metabolism; testing is low\u2011cost and high\u2011yield."
+    },
+    {
+      "rank": 9,
+      "name": "HIV/HCV\u2011associated nephropathy",
+      "icd10": "B20.9",
+      "snomed": "86406008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Substance\u2011use disorder (high prevalence of viral infections in this population)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the drug\u2011use history, chronic viral infection is plausible and can cause immune\u2011complex glomerulonephritis."
+    },
+    {
+      "rank": 10,
+      "name": "IgA or other primary glomerulonephritis",
+      "icd10": "N02.8",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine elevation without overt proteinuria data \u2013 could reflect early GN",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Primary GN is a common cause of CKD in young adults; lack of urinalysis data is a limitation."
+    },
+    {
+      "rank": 11,
+      "name": "Pheochromocytoma / paraganglioma",
+      "icd10": "E27.5",
+      "snomed": "237599002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension with episodic severe headache (migraine) and seizures \u2013 could be catecholamine\u2011mediated",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Paroxysmal hypertension and neuro\u2011symptoms raise the possibility, though prevalence is low."
+    },
+    {
+      "rank": 12,
+      "name": "Cushing\u2019s syndrome (exogenous or endogenous)",
+      "icd10": "E24.9",
+      "snomed": "237599002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, prediabetes, CKD, chronic stress \u2013 a constellation seen in hypercortisolism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cushing\u2019s can produce the metabolic and renal phenotype; low prior probability but cannot be excluded without testing."
+    },
+    {
+      "rank": 13,
+      "name": "Early atherosclerotic CAD / HFpEF",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Moderate clinical complexity, hypertension, CKD \u2013 risk factors for early CAD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Despite a favorable lipid panel, the cumulative risk factors could have begun subclinical coronary disease."
+    },
+    {
+      "rank": 14,
+      "name": "Proximal (type 2) renal tubular acidosis",
+      "icd10": "N25.1",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total 20.4 mmol/L \u2013 mild non\u2011anion\u2011gap metabolic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The low bicarbonate with normal anion gap could represent a proximal RTA, especially in the setting of CKD."
+    },
+    {
+      "rank": 15,
+      "name": "Myelodysplastic syndrome",
+      "icd10": "D46.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia with abnormal platelet indices",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "MDS can present with isolated cytopenias in young adults, but the absence of other line abnormalities makes it unlikely."
+    }
+  ],
+  "primary_diagnosis": "Secondary hypertension (primary aldosteronism, renovascular, OSA)",
+  "primary_probability": 0.26,
+  "clinical_reasoning_summary": "The patient is a 31\u2011year\u2011old male with stage\u20113 CKD (creatinine 1.5 mg/dL), stage\u20111 hypertension, prediabetes, chronic stress, and a long history of substance\u2011use disorder. The CKD is disproportionate to the mild hypertension, prompting consideration of secondary hypertension etiologies (primary aldosteronism, renovascular disease, or obstructive sleep apnea) as the most likely driver. Concurrently, nephrotoxic or drug\u2011related tubular injury remains a strong contender given the substance\u2011use history. Neurologic disease is uncontrolled, evidenced by longstanding epilepsy and intractable migraine without preventive therapy, suggesting medication\u2011overuse headache. Other possibilities (thyroid disease, viral\u2011associated nephropathy, primary glomerulonephritis, and rare endocrine tumors) are supported by isolated findings but have lower priors. Platelet indices raise a remote possibility of an early myeloproliferative disorder. Data gaps (eGFR, urine ACR, renin\u2011aldosterone panel, sleep study, thyroid labs, viral serologies) limit certainty, yielding an overall confidence of 68/100.",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (PDW 189.6 fL) without clear cause",
+    "Borderline low fasting glucose (69.8 mg/dL) with downward trend",
+    "Mild non\u2011anion\u2011gap metabolic acidosis (CO\u2082 total 20.4 mmol/L)",
+    "Impacted molars (dental issue)",
+    "Medication review due (recorded 2018)",
+    "Missing BMI, eGFR, lipid\u2011panel summary, smoking status, family history, urinalysis, and neuroimaging"
+  ],
+  "recommended_workup": [
+    "Renin activity, aldosterone level, and aldosterone\u2011renin ratio",
+    "Renal ultrasound with Doppler to assess size, echogenicity, and renal\u2011artery stenosis",
+    "Urine albumin\u2011to\u2011creatinine ratio and microscopic urinalysis (protein, hematuria, casts)",
+    "eGFR calculation (CKD\u2011EPI) using serum creatinine and demographic data",
+    "Polysomnography or home sleep apnea test (AHI) plus STOP\u2011BANG questionnaire",
+    "Thyroid panel (TSH, free T4)",
+    "HIV and hepatitis C serologies",
+    "Platelet count repeat, peripheral smear, and JAK2/CALR/MPL mutation panel",
+    "EEG and detailed headache diary to assess seizure control and medication\u2011overuse headache",
+    "24\u2011hour urinary metanephrines or plasma free metanephrines for pheochromocytoma",
+    "24\u2011hour urinary free cortisol and low\u2011dose dexamethasone suppression test for Cushing\u2019s syndrome",
+    "Cardiac evaluation: ECG and transthoracic echocardiogram (assessment for LVH, diastolic dysfunction)",
+    "Comprehensive metabolic panel including serum bicarbonate, urine pH, and urine anion gap to evaluate for renal tubular acidosis"
+  ]
+}

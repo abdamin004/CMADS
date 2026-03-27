@@ -1,0 +1,282 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy / proteinuric chronic kidney disease (early stage)",
+      "icd10": "N08.3",
+      "snomed": "237599002",
+      "probability": 0.355,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes-related kidney disease (onset 2015)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.6 mg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 63.4 mg/dL (significant proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 1 (onset 2015)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications affecting renal hemodynamics (ACE\u2011I, ARB, thiazide)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing insulin\u2011requiring diabetes combined with proteinuria and elevated creatinine indicates diabetic nephropathy despite a normal\u2011appearing eGFR, raising the posterior probability."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011requiring Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Basal\u2011bolus insulin therapy (Humulin)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome X, obesity, hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose 1.5 mg/dL and ketonuria 6.6 mg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood glucose 68.2\u201177 mg/dL (borderline low)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Presence of insulin therapy and metabolic syndrome confirms overt type 2 diabetes; lab glucose values are within low\u2011normal range, supporting active disease."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (progressive CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.112,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI (2006)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy and high\u2011intensity statin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension, obesity, dyslipidaemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "History of myocardial infarction plus ongoing risk factors makes progressive atherosclerotic disease likely, though no current ischemic symptoms are documented."
+    },
+    {
+      "rank": 4,
+      "name": "Medication\u2011induced hypoglycaemia (insulin overtreatment)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.084,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 68.2 mg/dL (borderline low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HbA1c 3.0% (artefact suggesting frequent low glucose)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Ketonuria 6.6 mg/dL without hyperglycaemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low fasting glucose in a patient on basal\u2011bolus insulin, together with a spuriously low HbA1c, raises concern for overtreatment and hypoglycaemia risk."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.047,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, CAD, CKD, chronic anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical complexity high",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The constellation of risk factors fits the typical HFpEF phenotype, but no cardiac imaging or BNP data are available, lowering confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.037,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia since 1988",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 1 / diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HbA1c possibly artifact of anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing anemia in the setting of CKD suggests anemia of chronic disease; further labs needed to characterize."
+    },
+    {
+      "rank": 7,
+      "name": "Renal tubular dysfunction (proximal tubulopathy)",
+      "icd10": "N25.9",
+      "snomed": "236423003",
+      "probability": 0.028,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucosuria (1.5 mg/dL) despite low serum glucose",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.00 (very dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term diuretic (hydrochlorothiazide) use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The pattern of glucosuria with low serum glucose and markedly dilute urine raises suspicion for proximal tubular injury, but data are limited."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease / early NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.019,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.0 mg/dL (unexplained)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD plausible; urine bilirubin is an indirect clue, but liver enzymes are missing."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.019,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High clinical complexity",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are risk factors, but no sleep\u2011related symptoms are documented."
+    },
+    {
+      "rank": 10,
+      "name": "Psychosocial stress / medication non\u2011adherence",
+      "icd10": "Z60.0",
+      "snomed": "271442005",
+      "probability": 0.019,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unemployment, limited social contact, criminal record",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy (9 chronic meds)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Socio\u2011economic stressors may affect adherence and disease control, yet no direct adherence data are available."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy / proteinuric chronic kidney disease (early stage)",
+  "primary_probability": 0.355,
+  "clinical_reasoning_summary": "The patient is a 51\u2011year\u2011old male with long\u2011standing hypertension, obesity, metabolic syndrome, and insulin\u2011requiring type 2 diabetes. Laboratory data reveal elevated serum creatinine, significant proteinuria, and glucosuria despite low serum glucose, indicating diabetic kidney injury that outweighs the normal\u2011appearing eGFR. This renal involvement, together with the diabetes itself, forms the dominant clinical picture. Secondary considerations include cardiovascular disease progression, possible hypoglycaemia from insulin overtreatment, early heart failure, anemia of chronic disease, and several unexplained laboratory anomalies that suggest tubular dysfunction, occult liver disease, or assay artefacts. Probabilities were updated using Bayesian reasoning, integrating prevalence priors with the strength of each piece of evidence, and normalising to sum to 1.0.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.0 mg/dL without documented hepatic disease",
+    "Urine specific gravity 1.00 (extremely dilute)",
+    "Glucosuria (1.5 mg/dL) despite low serum glucose (68\u201177 mg/dL)",
+    "Implausibly low HbA1c 3.0% (likely assay interference)",
+    "Discrepancy between serum creatinine 1.6 mg/dL and eGFR 117 mL/min/1.73m\u00b2",
+    "Ketonuria (6.6 mg/dL) without hyperglycaemia"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR using standardized equation; obtain trend over past 12 months",
+    "Urine albumin\u2011to\u2011creatinine ratio (UACR) or 24\u2011hour protein quantification",
+    "Repeat HbA1c with method not affected by anemia (e.g., fructosamine) and obtain CGM or detailed glucose logs",
+    "Complete anemia work\u2011up: CBC with indices, reticulocyte count, iron studies, B12, folate, CRP/ESR",
+    "Resting ECG and BNP/NT\u2011proBNP; schedule transthoracic echocardiogram to assess for HFpEF",
+    "Ankle\u2011brachial index or lower\u2011extremity duplex ultrasound for peripheral arterial disease",
+    "Liver function tests (ALT, AST, GGT, ALP, total bilirubin) and abdominal ultrasound or FibroScan",
+    "Medication review focusing on combined ACE\u2011I and ARB use; consider holding one agent and monitor potassium",
+    "Sleep\u2011disorder screening (STOP\u2011BANG questionnaire) and referral for polysomnography if indicated",
+    "Psychosocial assessment: PHQ\u20119, GAD\u20117, medication adherence interview, and social work referral"
+  ]
+}

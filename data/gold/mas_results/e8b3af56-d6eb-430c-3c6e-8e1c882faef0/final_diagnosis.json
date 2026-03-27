@@ -1,0 +1,194 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 30.4 kg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C (30.7 mg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f1 hypertension (BP 140/90 mmHg)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 criteria of the ATP\u2011III definition (central obesity, hypertension, low HDL), establishing metabolic syndrome as the most likely unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (Primary) Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Consistently elevated blood pressure readings in the stage\u202f1 range",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented secondary work\u2011up (renin, aldosterone, imaging)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the prevalence of primary hypertension and lack of evidence for secondary causes, essential hypertension is the next most probable diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary Hypertension (e.g., primary aldosteronism, renal\u2011artery stenosis)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use (potential renal impact)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant blood pressure despite therapy (not yet documented)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary causes remain possible but are less likely without targeted investigations; probability reduced per reviewer."
+    },
+    {
+      "rank": 4,
+      "name": "Pre\u2011diabetes / Early Type\u202f2 Diabetes Mellitus",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C (a marker of insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome confers high risk for dysglycemia; however, lack of fasting glucose/HbA1c data lowers certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Early Chronic Kidney Disease (HTN/NSAID\u2011related)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use (potential nephrotoxic exposure)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and NSAID exposure raise suspicion for early CKD, but renal function tests are missing, limiting confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30 kg/m\u00b2)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity predisposes to OSA, yet no symptom data (snoring, daytime somnolence) are available, keeping probability low."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C (associated with hepatic steatosis)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is a major risk factor for NAFLD, but absence of liver enzymes or imaging makes this diagnosis speculative."
+    },
+    {
+      "rank": 8,
+      "name": "Subclinical Atherosclerotic Cardiovascular Disease (CAD/PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Calculated 5\u20117% 10\u2011year ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, low HDL, obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk calculators indicate modest ASCVD risk; however, no imaging or symptom data are present, so the probability remains low."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of obesity (BMI 30.4), stage\u202f1 hypertension, and markedly low HDL\u2011C fulfills the criteria for metabolic syndrome, which the reviewer identified as the most likely overarching diagnosis (85% confidence). Essential hypertension is also highly probable given the blood pressure profile and lack of secondary work\u2011up. Secondary hypertension, early dysglycemia, early CKD, OSA, NAFLD, and subclinical ASCVD remain plausible but are down\u2011weighted due to missing targeted data. The differential reflects the reviewer\u2019s probability adjustments while preserving evidence\u2011based reasoning for each entity.",
+  "unresolved_findings": [
+    "Low HDL\u2011C (30.7\u202fmg/dL) \u2013 etiology not fully clarified",
+    "Missing renal function tests (eGFR, serum creatinine, urine ACR)",
+    "Missing glycemic indices (fasting glucose, HbA1c)",
+    "Absent liver panel (ALT, AST, GGT)",
+    "No documented smoking or alcohol use history",
+    "No mental\u2011health screening (PHQ\u20119/GAD\u20117) despite psychosocial stressors",
+    "Chronic NSAID use raises potential GI\u2011bleed risk"
+  ],
+  "recommended_workup": [
+    "Fasting glucose and HbA1c to assess for pre\u2011diabetes/diabetes",
+    "Comprehensive metabolic panel with serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Liver function tests (ALT, AST, GGT) and abdominal ultrasound to evaluate for NAFLD",
+    "Polysomnography or home sleep apnea testing given obesity",
+    "Ambulatory blood pressure monitoring to confirm hypertension control",
+    "Secondary hypertension work\u2011up: plasma renin activity, aldosterone/renin ratio, renal duplex ultrasound",
+    "ASCVD risk refinement with coronary calcium scoring if indicated",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) and assessment of NSAID\u2011related GI risk (fecal occult blood test, consider upper endoscopy if symptomatic)"
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertensive chronic kidney disease stage 3a (vascular)",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.33,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 52.8\u202fmL/min/1.73\u202fm\u00b2 indicating stage 3a CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "moderate proteinuria with urine protein/creatinine ratio ~1.5\u202fg/g",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "long\u2011standing hypertension documented in chart",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Chronic hypertension is the most parsimonious explanation for the observed moderate CKD with proteinuria and lack of other primary renal diseases."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.2\u202fg/dL with normocytic, normochromic indices",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 3a present",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Anemia is a common complication of CKD at this stage due to reduced erythropoietin production; the lab pattern fits."
+    },
+    {
+      "rank": 3,
+      "name": "Medication\u2011induced acute\u2011on\u2011chronic interstitial nephritis",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent initiation of a new antihypertensive (e.g., ACE inhibitor) within past 3 months",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated urine eosinophils (not yet obtained) \u2013 pending",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Temporal relationship between medication change and worsening renal function raises suspicion for drug\u2011induced interstitial nephritis superimposed on chronic disease."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease / early non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST with normal ALP and GGT (pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome components (obesity, dyslipidemia) present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors and mild transaminase elevation support NAFLD, though bilirubinuria is atypical."
+    },
+    {
+      "rank": 5,
+      "name": "SGLT2\u2011inhibitor (or other potent glucose\u2011lowering drug) effect",
+      "icd10": "T38.3X5A",
+      "snomed": "442452003",
+      "probability": 0.09,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient listed on SGLT2\u2011inhibitor therapy (e.g., empagliflozin)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low serum glucose with occasional glucosuria",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "SGLT2 inhibitors can cause modest reductions in eGFR and volume depletion; however, data are limited."
+    },
+    {
+      "rank": 6,
+      "name": "Diabetic kidney disease (early DKD)",
+      "icd10": "E11.21",
+      "snomed": "44054006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.4\u202f% (low, argues against active diabetes)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low HbA1c makes diabetic nephropathy unlikely, but prior diabetes history cannot be excluded entirely."
+    },
+    {
+      "rank": 7,
+      "name": "Focal segmental glomerulosclerosis (FSGS)",
+      "icd10": "N04.1",
+      "snomed": "444814009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria present but not in nephrotic range",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Proteinuria without nephrotic range makes primary glomerular disease less likely."
+    },
+    {
+      "rank": 8,
+      "name": "Early cholestatic liver disease (drug\u2011induced cholestasis or early primary biliary cholangitis)",
+      "icd10": "K83.1",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Bilirubinuria noted on urinalysis without marked ALP elevation (pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent exposure to potentially hepatotoxic medication (e.g., statin)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Bilirubinuria suggests a cholestatic process, but lack of classic cholestatic labs reduces certainty."
+    }
+  ],
+  "primary_diagnosis": "Hypertensive chronic kidney disease stage 3a (vascular)",
+  "primary_probability": 0.33,
+  "clinical_reasoning_summary": "The patient presents with moderate CKD (eGFR 52.8) and proteinuria in the setting of long\u2011standing hypertension, making hypertensive nephropathy the most parsimonious explanation. CKD\u2011related anemia is a common sequela and is strongly supported by laboratory data. Medication\u2011induced interstitial nephritis remains plausible given recent drug changes, while NAFLD/NASH aligns with metabolic risk factors despite atypical bilirubinuria. Potential contributions from SGLT2\u2011inhibitor therapy, early diabetic nephropathy, FSGS, and early cholestatic liver disease are considered but carry lower confidence.",
+  "unresolved_findings": [
+    "Bilirubinuria without clear cholestatic laboratory pattern",
+    "Incomplete medication list preventing definitive assessment of drug\u2011induced nephritis or SGLT2\u2011i effect",
+    "Absence of urine microscopy to evaluate for eosinophils or casts"
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation and review for nephrotoxic agents",
+    "Urine microscopy with eosinophil stain to assess for interstitial nephritis",
+    "Repeat liver panel including ALP, GGT, and bilirubin fractions",
+    "Abdominal ultrasound to evaluate liver architecture and biliary tree",
+    "Serologic testing for autoimmune liver disease (AMA, ANA) if cholestasis persists",
+    "Repeat HbA1c and fasting glucose to clarify diabetic status"
+  ]
+}

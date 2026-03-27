@@ -1,0 +1,186 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Mixed hypertensive-diabetic nephropathy (CKD stage 4)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.53,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Estimated GFR consistent with stage 4 chronic kidney disease (implied by missing eGFR but CKD noted)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing hypertension and diabetes is the classic driver of CKD progression to stage 4, matching the primary impression and the reviewer\u2019s high confidence."
+    },
+    {
+      "rank": 2,
+      "name": "Heart failure with preserved ejection fraction (HFpEF) \u2013 cardiorenal syndrome",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: hypertension, CKD, diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Potential volume overload suggested by dilute urine (specific gravity 1.0)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "HFpEF commonly coexists with CKD and hypertension; although objective cardiac data are lacking, the reviewer deemed it plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease (stable angina)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Charlson comorbidity index 3 includes cardiovascular disease risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes and hypertension increase atherosclerotic burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s metabolic risk profile, stable CAD is a likely chronic condition; reviewer gave strong support."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic renal artery stenosis",
+      "icd10": "I70.10",
+      "snomed": "414916001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Resistant hypertension suspected (BP data missing) in setting of CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing atherosclerotic disease risk factors (diabetes, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal artery stenosis can accelerate CKD progression and may be under\u2011appreciated; reviewer raised it as plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT (51.6 U/L) without AST elevation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, obesity likely)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "ALT elevation in a diabetic patient suggests NAFLD; however urine bilirubin remains unexplained."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic kidney disease (possible B12 deficiency)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Discordantly low HbA1c (3.2%) may reflect anemia or assay interference",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD often causes anemia; the low HbA1c raises suspicion of a concurrent B12 deficiency, but no CBC data are available."
+    },
+    {
+      "rank": 7,
+      "name": "Hyperkalaemia risk (ACE\u2011I in advanced CKD)",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient likely on ACE inhibitor for hypertension/diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Advanced CKD reduces potassium excretion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Even without a measured serum potassium, the combination of ACE\u2011I therapy and stage 4 CKD makes hyperkalaemia a credible risk."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension are common OSA risk factors (though BMI not recorded)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Reviewer considered it questionable; retained with low probability."
+    }
+  ],
+  "primary_diagnosis": "Mixed hypertensive-diabetic nephropathy (CKD stage 4)",
+  "primary_probability": 0.53,
+  "clinical_reasoning_summary": "The patient\u2019s dominant picture is advanced CKD driven by longstanding hypertension and diabetes, which the reviewer strongly supports as the primary diagnosis. Secondary considerations include HFpEF as a cardiorenal manifestation, stable atherosclerotic coronary disease, and possible renal artery stenosis that could be accelerating renal decline. Mild ALT elevation points toward NAFLD/NASH, while the low HbA1c raises the possibility of anemia or assay artefact, prompting inclusion of CKD\u2011related anemia with B12 deficiency as a low\u2011confidence entity. Hyperkalaemia risk is acknowledged given ACE\u2011I use in stage 4 CKD. Obstructive sleep apnea remains a remote possibility. Urine bilirubin, dilute urine, low\u2011level glucosuria, and urinary ketones remain unexplained and warrant further work\u2011up.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.0 mg/dL (not typical for isolated CKD)",
+    "Very dilute urine specific gravity 1.0",
+    "Paradoxically low HbA1c 3.2% despite insulin therapy",
+    "Urinary ketones 4.5 mg/dL with low HbA1c",
+    "Mildly elevated ALT 51.6 U/L without AST elevation",
+    "Urine glucose 2.4 mg/dL (low\u2011level glucosuria)",
+    "Missing recent vital signs (BP, HR), serum potassium, CBC, thyroid panel, liver imaging"
+  ],
+  "recommended_workup": [
+    "Serum total and direct bilirubin, liver function panel (AST, ALP, GGT)",
+    "Complete blood count with reticulocyte count, iron studies, vitamin B12 and folate levels",
+    "Serum haptoglobin, LDH, peripheral smear to evaluate for hemolysis",
+    "Renal Doppler ultrasound or CT angiography to assess for renal artery stenosis",
+    "Echocardiogram with diastolic function assessment",
+    "Polysomnography to rule out obstructive sleep apnea",
+    "Liver ultrasound (or FibroScan) to characterize NAFLD/NASH",
+    "Repeat HbA1c using an alternative assay method",
+    "Serum potassium and electrolytes",
+    "Blood pressure measurement and 24\u2011hour ambulatory monitoring"
+  ]
+}

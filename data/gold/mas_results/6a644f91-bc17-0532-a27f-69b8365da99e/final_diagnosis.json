@@ -1,0 +1,228 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute coronary syndrome \u2013 NSTEMI (type\u20111 MI)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chest pain with dynamic ECG changes suggestive of ischemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I above 99th percentile",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (HTN, diabetes, CAD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of ischemic chest pain, ECG changes, and troponin rise in a patient with known CAD and multiple risk factors points to an acute type\u20111 myocardial infarction (NSTEMI) as the most likely acute driver of decompensation."
+    },
+    {
+      "rank": 2,
+      "name": "Acute\u2011on\u2011chronic kidney injury (AKI)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rapid rise in serum creatinine over 48\u202fh",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSAID exposure and possible volume depletion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.0 indicating impaired concentrating ability",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A sudden increase in creatinine together with a dilute urine and recent nephrotoxic exposure suggests an acute kidney injury superimposed on pre\u2011existing chronic kidney disease."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease (CKD)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing reduced eGFR documented in prior records",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent proteinuria and hyperchloremic metabolic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Historical data demonstrate chronic reduction in renal function, providing the substrate for both the current AKI and metabolic complications."
+    },
+    {
+      "rank": 4,
+      "name": "Iatrogenic hypoglycaemia (insulin overtreatment in CKD)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine ketones with low serum glucose",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy ongoing in setting of reduced renal clearance",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.1\u202f% (likely artifact or severe hypoglycaemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renally cleared insulin accumulates in CKD, and the laboratory pattern of low glucose with ketonuria indicates an iatrogenic hypoglycaemic episode."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure (HFrEF or HFpEF) secondary to CAD and hypertension",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of CAD, hypertension, and dyspnoea on exertion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BNP (not provided but clinically suspected)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the cardiovascular risk profile, heart failure remains plausible, though objective imaging data are lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.1,
+      "confidence": "strong",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known diagnosis of T2DM on chronic therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Historical hyperglycaemia despite current low HbA1c (artifact)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has established T2DM; the anomalously low HbA1c does not negate the underlying disease."
+    },
+    {
+      "rank": 7,
+      "name": "Polypharmacy\u2011related adverse drug events",
+      "icd10": "T88.7",
+      "snomed": "442083001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate ACE\u2011I and \u03b2\u2011blocker agents, multiple nephrotoxic and hypoglycaemic drugs",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Electrolyte disturbances and renal function decline",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The extensive medication list likely contributes to both renal injury and hypoglycaemia."
+    },
+    {
+      "rank": 8,
+      "name": "Essential hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented long\u2011term hypertension treated with multiple agents",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a chronic background condition that predisposes to cardiovascular and renal disease but is not the primary acute driver."
+    },
+    {
+      "rank": 9,
+      "name": "CKD\u2011related non\u2011anion\u2011gap (hyperchloremic) metabolic acidosis",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of anion\u2011gap elevation with low bicarbonate (data not fully provided)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease known to cause hyperchloremic acidosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without arterial blood gas data, this remains speculative, though physiologically plausible in CKD."
+    }
+  ],
+  "primary_diagnosis": "Acute coronary syndrome \u2013 NSTEMI (type\u20111 MI)",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient presents with acute chest pain, dynamic ECG changes, and troponin rise, making NSTEMI the most likely immediate threat. Concurrently, a rapid rise in creatinine, dilute urine, and recent NSAID use indicate an acute kidney injury superimposed on chronic kidney disease, which also predisposes to iatrogenic hypoglycaemia from insulin accumulation. Heart failure, diabetes, hypertension, and polypharmacy are chronic contributors that modulate the clinical picture but are less urgent. Metabolic acidosis is possible but lacks definitive data.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.0 \u2013 extremely dilute, unclear if due to diuretics or intrinsic concentrating defect",
+    "Serum albumin 5.4\u202fg/dL \u2013 borderline high, atypical for CKD",
+    "Positive urine ketones with low serum glucose \u2013 suggests possible insulin overdose or prolonged fasting",
+    "HbA1c 3.1\u202f% \u2013 likely laboratory artifact or severe hypoglycaemia effect",
+    "Duplicate ACE\u2011I and \u03b2\u2011blocker agents \u2013 exact agents/doses not specified",
+    "Absence of full electrolyte panel (Na\u207a, K\u207a, HCO\u2083\u207b) and acid\u2011base status",
+    "No coagulation parameters (PT/INR, platelet count) despite antiplatelet therapy",
+    "No cardiac imaging (echocardiogram) or functional data",
+    "No neurologic or frailty assessment"
+  ],
+  "recommended_workup": [
+    "Serial high\u2011sensitivity troponin measurements and 12\u2011lead ECG",
+    "Urgent coronary angiography if indicated",
+    "Comprehensive metabolic panel including electrolytes, bicarbonate, and ABG",
+    "Renal ultrasound to assess for obstruction",
+    "Repeat serum creatinine and urine output monitoring",
+    "Medication reconciliation focusing on nephrotoxic and hypoglycaemic agents",
+    "Echocardiogram to evaluate ventricular function and rule out acute heart failure",
+    "BNP or NT\u2011proBNP measurement",
+    "Assessment of frailty and neurologic status"
+  ]
+}

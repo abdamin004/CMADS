@@ -1,0 +1,253 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea \u2013 moderate-severe (likely untreated/poorly adherent)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed obstructive sleep apnea (onset 1952)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Chronic hypoxia from emphysema and OSA listed as high cardiovascular\u2011risk factor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented OSA together with chronic hypoxemia and lack of CPAP data makes untreated OSA the most likely active contributor to the patient's cardiovascular risk profile."
+    },
+    {
+      "rank": 2,
+      "name": "Prediabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "15777000",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (borderline\u2011low, pre\u2011diabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Glycemic control flagged as prediabetic",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated HbA1c directly indicates impaired glucose metabolism, a key component of metabolic syndrome and cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Essential hypertension \u2013 stage 2, untreated",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 156/100 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "sbp_latest: 156, dbp_latest: 100, bp_category: \"stage2_hypertension\"",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Consistently elevated BP without antihypertensive therapy is a major modifiable risk factor and likely drives several downstream complications."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic obstructive pulmonary disease \u2013 emphysema predominant",
+      "icd10": "J43.9",
+      "snomed": "13645005",
+      "probability": 0.11,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing pulmonary emphysema (diagnosed 1944)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Chronic hypoxia from emphysema contributes to cardiovascular strain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented emphysema plus smoking\u2011related data gaps suggest significant COPD burden."
+    },
+    {
+      "rank": 5,
+      "name": "Ischemic heart disease / heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular\u2011risk impression (hypertension, prediabetes, OSA, anemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Potential silent CAD inferred from risk factor load",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple risk factors raise suspicion for subclinical coronary disease and diastolic dysfunction, especially in a female with hypertension and anemia."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic kidney disease \u2013 early stage (risk from hypertension & prediabetes)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.0 mg/dL (normal) but eGFR not reported",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension & pre\u2011diabetes flagged as CKD risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Even with normal creatinine, the combination of uncontrolled hypertension and impaired glucose metabolism places the patient at risk for early CKD."
+    },
+    {
+      "rank": 7,
+      "name": "Peripheral arterial disease \u2013 subclinical",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Stage 2 hypertension and probable smoking history increase PAD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "No documented claudication but risk factors present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High vascular risk profile suggests possible asymptomatic PAD."
+    },
+    {
+      "rank": 8,
+      "name": "Myelodysplastic syndrome / primary marrow failure",
+      "icd10": "D46.9",
+      "snomed": "429858006",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rapid decline in platelet count (402.8 \u2192 214.3 \u00d710\u00b3/\u00b5L) and WBC (9.7 \u2192 5.8 \u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet distribution width (PDW 163.1 fL) \u2013 critical alert",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Ongoing vitamin B12 therapy for presumed macrocytic anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of cytopenias and abnormal platelet morphology raises concern for a marrow production disorder, though a lab artifact cannot be excluded."
+    },
+    {
+      "rank": 9,
+      "name": "Thyroid dysfunction \u2013 hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_pattern",
+          "finding": "Borderline anemia and hypertension can be secondary to hypothyroidism",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Thyroid status not assessed \u2013 flagged as data gap",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the nonspecific anemia and hypertension, hypothyroidism remains a plausible but unconfirmed contributor."
+    },
+    {
+      "rank": 10,
+      "name": "Iron\u2011deficiency anemia / anemia of chronic disease",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.8 g/dL (borderline\u2011low) despite vitamin B12 therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions (COPD, OSA) present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent mild anemia after B12 supplementation suggests an additional iron\u2011deficiency or anemia\u2011of\u2011chronic\u2011disease component."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea \u2013 moderate-severe (likely untreated/poorly adherent)",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient presents with multiple high\u2011risk cardiovascular and metabolic factors (stage 2 hypertension, prediabetes, chronic hypoxia from emphysema and OSA, borderline anemia). The most concrete abnormality is the documented obstructive sleep apnea, which, without adherence data, likely remains untreated and drives much of the cardiovascular strain. Prediabetes and untreated hypertension are also strongly supported by lab and vital sign data. COPD is confirmed by a long\u2011standing emphysema diagnosis. Secondary considerations (early CKD, PAD, IHD/HFpEF, marrow dysfunction, thyroid disease, iron deficiency) are supported by risk\u2011factor clustering, trends in blood counts, and the presence of anemia, but each carries less direct evidence. Probabilities were calibrated to reflect realistic priors for a likely older, smoking\u2011exposed individual, adjusted for data gaps.",
+  "unresolved_findings": [
+    "Age inconsistency: DOB 1922 vs recorded age 31",
+    "Hematocrit discrepancy: automated 46.6% vs calculated 35.7%",
+    "Markedly elevated PDW (163.1 fL) \u2013 likely lab artifact or severe platelet disorder",
+    "Rapid platelet count decline without clear etiology",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR and urine albumin/creatinine ratio",
+    "Smoking status not documented",
+    "BMI/weight/anthropometry not documented",
+    "No imaging studies (chest X\u2011ray, CT, echocardiogram, pulmonary function tests)",
+    "No CPAP adherence data",
+    "No thyroid function tests (TSH, free T4)",
+    "No iron studies (serum iron, ferritin, TIBC)",
+    "Incomplete medication/OTC list (possible marrow\u2011suppressive agents)",
+    "Family history of cardiovascular or hematologic disease not recorded"
+  ],
+  "recommended_workup": [
+    "Clarify true age and quantify cumulative smoking pack\u2011years (chart review or patient interview)",
+    "Repeat CBC with peripheral smear, reticulocyte count, and platelet morphology",
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Thyroid panel (TSH, free T4)",
+    "Iron studies (serum iron, ferritin, TIBC) and folate level",
+    "Urine albumin\u2011creatinine ratio and calculated eGFR",
+    "Transthoracic echocardiogram with assessment of diastolic function and right\u2011sided pressures; obtain BNP/NT\u2011proBNP",
+    "Spirometry with post\u2011bronchodilator values and DLCO",
+    "Low\u2011dose chest CT for lung\u2011cancer screening and emphysema quantification",
+    "Polysomnography report and CPAP adherence data",
+    "Comprehensive medication and over\u2011the\u2011counter review",
+    "Detailed social history (alcohol use, physical activity, diet)",
+    "Family history of premature CAD, stroke, diabetes, or hematologic malignancy"
+  ]
+}

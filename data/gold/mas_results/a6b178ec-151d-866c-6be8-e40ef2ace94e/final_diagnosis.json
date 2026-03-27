@@ -1,0 +1,177 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute kidney injury on chronic kidney disease (AKI\u2011on\u2011CKD)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 7.5\u202fmL/min/1.73\u202fm\u00b2 and creatinine 2.6\u202fmg/dL indicating severe CKD with acute rise",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Heavy proteinuria and very dilute urine (specific gravity\u202f=\u202f1.0) suggesting impaired concentrating ability",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Trend of worsening renal function over recent days",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s baseline CKD is evident from an eGFR of 7.5\u202fmL/min/1.73\u202fm\u00b2. A recent rise in creatinine to 2.6\u202fmg/dL, together with heavy proteinuria and loss of urine concentrating ability, points to an acute insult superimposed on chronic disease, fitting AKI\u2011on\u2011CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Infection (UTI, pneumonia, sepsis)",
+      "icd10": "A41.9",
+      "snomed": "18629004",
+      "probability": 0.28,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine dipstick positive for bilirubin and dilute urine, raising suspicion for urinary tract infection",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient\u2019s ESRD status predisposes to infections, especially urinary and pulmonary",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Although microbiologic confirmation is lacking, the combination of a positive urine dipstick, immunocompromised state from ESRD, and the high baseline risk for infection justifies a moderate probability of UTI, pneumonia, or early sepsis."
+    },
+    {
+      "rank": 3,
+      "name": "Acute decompensated heart failure / cardiorenal syndrome",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Heavy proteinuria and volume overload implied by very dilute urine",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated AST (33.7\u202fU/L) and borderline bilirubin (1.2\u202fmg/dL) may reflect hepatic congestion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In ESRD patients, fluid shifts can precipitate heart failure. The laboratory hints of hepatic congestion and the clinical context of volume dysregulation support a plausible cardiorenal syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Life\u2011threatening hyperkalaemia",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ESRD predisposes to potassium accumulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal failure commonly leads to hyperkalaemia, but the absence of a serum potassium value makes this diagnosis uncertain; retained with low probability."
+    },
+    {
+      "rank": 5,
+      "name": "Severe metabolic acidosis / uremic encephalopathy",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 7.5\u202fmL/min/1.73\u202fm\u00b2 indicates advanced uremia, a substrate for metabolic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced renal failure can cause accumulation of acids and uremic toxins leading to encephalopathy; however, lacking bicarbonate and ABG data, the probability remains modest."
+    },
+    {
+      "rank": 6,
+      "name": "Acute coronary syndrome / serious arrhythmia",
+      "icd10": "I21.9",
+      "snomed": "22298006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient\u2019s age and CKD are cardiovascular risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While CKD increases cardiac risk, no cardiac biomarkers, ECG, or symptom data are available, rendering this diagnosis low\u2011probability."
+    },
+    {
+      "rank": 7,
+      "name": "Delirium / acute encephalopathy (non\u2011uremic)",
+      "icd10": "F05",
+      "snomed": "24700007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained mental status change noted in chart (implicit)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Altered mental status could stem from many causes; without clear differentiation from uremic encephalopathy, this remains a low\u2011probability alternative."
+    },
+    {
+      "rank": 8,
+      "name": "Drug\u2011induced liver injury / congestive hepatopathy",
+      "icd10": "K71.9",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated AST (33.7\u202fU/L) and borderline total bilirubin (1.2\u202fmg/dL)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild liver enzyme abnormalities could be medication related or secondary to congestion; lack of imaging or drug history makes this diagnosis speculative."
+    }
+  ],
+  "primary_diagnosis": "Acute kidney injury on chronic kidney disease (AKI\u2011on\u2011CKD)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s severe chronic kidney disease (eGFR 7.5\u202fmL/min/1.73\u202fm\u00b2) with a recent rise in creatinine, heavy proteinuria, and loss of concentrating ability points most strongly to an acute kidney injury superimposed on CKD. Infection remains a close contender given the positive urine dipstick and the high infection risk in ESRD. Volume overload and possible cardiac dysfunction suggest a cardiorenal syndrome, while metabolic derangements (hyperkalaemia, acidosis) are plausible but lack laboratory confirmation. Cardiac ischemia, non\u2011uremic delirium, and drug\u2011induced liver injury are retained only as low\u2011probability possibilities.",
+  "unresolved_findings": [
+    "Missing serum potassium level",
+    "Missing bicarbonate and arterial blood gas values",
+    "Missing complete blood count and iron studies",
+    "Absence of cardiac biomarkers (troponin, BNP)",
+    "No vital signs (BP, HR, RR, SpO2) documented",
+    "No imaging (chest X\u2011ray, echocardiogram, abdominal ultrasound)",
+    "Urine culture not performed",
+    "Blood cultures not performed"
+  ],
+  "recommended_workup": [
+    "Serum electrolytes including potassium and bicarbonate",
+    "Arterial blood gas analysis",
+    "Complete blood count with differential",
+    "Cardiac biomarkers (troponin, BNP)",
+    "12\u2011lead ECG",
+    "Chest radiograph",
+    "Transthoracic echocardiogram",
+    "Urine culture and sensitivity",
+    "Blood cultures",
+    "Renal ultrasound to assess for obstruction"
+  ]
+}

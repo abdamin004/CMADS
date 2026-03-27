@@ -1,0 +1,188 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 DM-driven CKD)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "10\u2011year history of type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.8\u202fmg/dL with eGFR \u224845\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine albumin\u2011creatinine ratio 300\u202fmg/g (macroalbuminuria)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing diabetes with reduced eGFR and macroalbuminuria is classic for diabetic nephropathy, matching the reviewer\u2019s high confidence and adjusted probability."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic coronary artery disease (stable IHD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011year ASCVD risk >20% based on age, diabetes, lipid profile (pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of exertional chest discomfort",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes and other risk factors place the patient at high risk for stable coronary disease; reviewer upgraded this diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed hypertension since 2010",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "No blood\u2011pressure measurements since 2015",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension is plausible but lack of recent readings lowers confidence, reflected in the adjusted probability."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.5\u202fg/dL (CBC pending confirmation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3\u20134 secondary to diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia; pending CBC supports this diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / CKD\u2011Mineral\u2011Bone Disorder",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3\u20134 with potential disturbances in calcium\u2011phosphate metabolism",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "No calcium, phosphate, or PTH labs available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD predisposes to secondary hyperparathyroidism; lack of labs makes the diagnosis presumptive."
+    },
+    {
+      "rank": 6,
+      "name": "Major depressive disorder / chronic stress\u2011related dysregulation",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports fatigue, low mood, and decreased motivation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychological symptoms are present but no formal mental\u2011health assessment has been performed."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Snoring and daytime sleepiness reported by patient",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms suggest OSA but no sleep study has been done; reviewer downgraded probability."
+    },
+    {
+      "rank": 8,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion without documented echocardiogram",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical picture could fit HFpEF, but absence of imaging makes this diagnosis uncertain."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 DM-driven CKD)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing type 2 diabetes, reduced eGFR, and macroalbuminuria strongly point to diabetic nephropathy as the principal problem. Co\u2011existing cardiovascular risk factors (diabetes, hypertension, dyslipidaemia) support atherosclerotic coronary disease, while chronic kidney disease explains anemia and secondary hyperparathyroidism. Hypertension remains plausible but lacks recent measurements. Mood symptoms and sleep\u2011related complaints are noted but lack objective assessment, and HFpEF is possible yet unconfirmed without cardiac imaging.",
+  "unresolved_findings": [
+    "Normal HbA1c of 4.0\u202f% in a known type 2 diabetic (possible lab error or overtreatment)",
+    "Absence of recent blood\u2011pressure measurements since 2015",
+    "Missing medication list (ACE\u2011I/ARB, SGLT2\u2011i, statin, diuretics, NSAID use)",
+    "No recent complete blood count to confirm anemia",
+    "No calcium, phosphate, or PTH values to assess CKD\u2011MBD",
+    "No lipid panel to quantify dyslipidaemia severity",
+    "No smoking status, alcohol use, BMI, or waist circumference",
+    "No echocardiographic data to confirm or exclude HFpEF/HFrEF",
+    "No sleep study or STOP\u2011BANG assessment for OSA"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and fasting glucose to verify glycaemic control",
+    "Current blood\u2011pressure measurement and 24\u2011hour ambulatory monitoring",
+    "Comprehensive medication reconciliation focusing on nephrotoxic agents and antihypertensives",
+    "Complete blood count with iron studies",
+    "Serum calcium, phosphate, PTH, and vitamin D levels",
+    "Lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Urine albumin\u2011creatinine ratio (if not already obtained)",
+    "Echocardiogram with diastolic function assessment",
+    "Polysomnography or home sleep apnea testing",
+    "Standardized depression screening (PHQ\u20119) and mental\u2011health referral if indicated"
+  ]
+}

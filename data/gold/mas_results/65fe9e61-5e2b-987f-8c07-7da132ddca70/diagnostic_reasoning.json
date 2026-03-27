@@ -1,0 +1,272 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced chronic kidney disease stage 4 (diabetic nephropathy)",
+      "icd10": "N18.4",
+      "snomed": "431857002",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage\u202f4 (SNOMED: 431857002) \u2013 onset 1981\u201101\u201122",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria due to type\u202f2 diabetes mellitus \u2013 onset 1975\u201112\u201125",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril (ACE\u2011I) prescribed \u2013 renal protective agent for proteinuric CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Awaiting kidney transplantation \u2013 indicates end\u2011stage trajectory",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Documented CKD stage 4 with proteinuria and diabetic etiology dominates the clinical picture; despite missing current labs, the diagnosis remains certain and drives many downstream findings."
+    },
+    {
+      "rank": 2,
+      "name": "Acute on chronic kidney injury (possible NSAID\u2011ACEI interaction, volume depletion)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Low blood pressure (97/64\u202fmmHg) despite chronic hypertension \u2013 could indicate over\u2011treatment, autonomic dysfunction, or volume depletion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent use of NSAID (naproxen) and ACE\u2011I (lisinopril) in stage\u202f4 CKD \u2013 pharmacologic conflict",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Heart rate 94\u202fbpm (borderline tachycardia) in the setting of low BP",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of an ACE inhibitor, NSAID use, and hypotension raises the likelihood of an acute kidney insult superimposed on chronic disease."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease (silent/anginal)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.23,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "CARDIOVASCULAR_patterns",
+          "finding": "Essential hypertension \u2013 onset 1963\u201110\u201117",
+          "strength": "strong"
+        },
+        {
+          "source": "CARDIOVASCULAR_patterns",
+          "finding": "Hyperlipidemia \u2013 onset 1977\u201106\u201123, on simvastatin 10\u202fmg daily",
+          "strength": "strong"
+        },
+        {
+          "source": "CARDIOVASCULAR_patterns",
+          "finding": "Daily tobacco use \u2013 onset 1968\u201111\u201114",
+          "strength": "strong"
+        },
+        {
+          "source": "METABOLIC_patterns",
+          "finding": "Type\u202f2 diabetes mellitus inferred from diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "RISK_FACTOR_PROFILE",
+          "finding": "Male, age\u202f54, White race",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple high\u2011risk vascular factors (HTN, dyslipidemia, smoking, diabetes, obesity) make CAD a common comorbidity; no ECG data yet, so probability remains moderate\u2011high."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "HEMATOLOGIC_patterns",
+          "finding": "No hemoglobin/hematocrit values provided \u2013 anemia risk inherent to CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "RENAL_patterns",
+          "finding": "CKD stage\u202f4 (advanced) \u2013 high prevalence of anemia",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Stage\u20114 CKD commonly leads to erythropoietin deficiency; tachycardia may be partially explained by anemia."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure (HFpEF/HFrEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "CARDIOVASCULAR_patterns",
+          "finding": "Risk commentary: elevated risk for ischemic heart disease, heart failure, stroke, peripheral vascular disease due to hypertension, dyslipidemia, smoking, obesity, CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Heart rate 94\u202fbpm (borderline tachycardia) in the setting of low BP",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Vascular risk profile and low\u2011output signs (hypotension, tachycardia) raise suspicion for heart failure; BNP and echo are pending."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "CARDIOVASCULAR_patterns",
+          "finding": "Daily tobacco use \u2013 onset 1968\u201111\u201114",
+          "strength": "strong"
+        },
+        {
+          "source": "METABOLIC_patterns",
+          "finding": "Type\u202f2 diabetes mellitus inferred from diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "RENAL_patterns",
+          "finding": "CKD stage\u202f4 \u2013 contributes to atherosclerotic burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Smoking, diabetes, and CKD are classic risk factors for PAD; ABI testing is needed."
+    },
+    {
+      "rank": 7,
+      "name": "Arrhythmia (atrial fibrillation or supraventricular tachycardia)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Heart rate 94\u202fbpm (borderline tachycardia) in the setting of low BP",
+          "strength": "moderate"
+        },
+        {
+          "source": "RENAL_patterns",
+          "finding": "CKD stage\u202f4 \u2013 associated autonomic dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Tachycardia without clear cause could represent an arrhythmia; ECG pending."
+    },
+    {
+      "rank": 8,
+      "name": "Over\u2011treated essential hypertension (medication\u2011induced hypotension)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "CARDIOVASCULAR_patterns",
+          "finding": "Current antihypertensive therapy: lisinopril 10\u202fmg daily and amlodipine 2.5\u202fmg daily",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "SBP 97\u202fmmHg, DBP 64\u202fmmHg \u2013 markedly lower than historic hypertensive values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Blood pressure is below target despite chronic hypertension, suggesting possible overtreatment contributing to hypotension and AKI."
+    },
+    {
+      "rank": 9,
+      "name": "Electrolyte / metabolic disturbance (hyperkalemia, metabolic acidosis, calcium/phosphate imbalance)",
+      "icd10": "E87.5",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "RENAL_patterns",
+          "finding": "CKD stage\u202f4 \u2013 predisposes to electrolyte abnormalities",
+          "strength": "strong"
+        },
+        {
+          "source": "UNEXPLAINED_findings",
+          "finding": "Missing key laboratory data: eGFR, serum creatinine, A1c, lipid panel, hemoglobin, electrolytes",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly causes disturbances in potassium, bicarbonate, calcium, and phosphate; labs are needed to define the specific abnormality."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "METABOLIC_patterns",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) \u2013 onset 1969\u201106\u201105 (BMI numeric value not recorded)",
+          "strength": "strong"
+        },
+        {
+          "source": "RISK_FACTOR_PROFILE",
+          "finding": "Male, age\u202f54",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Male sex, age >50, and obesity confer a high pre\u2011test probability for OSA, which can worsen hypertension and cardiovascular risk."
+    }
+  ],
+  "primary_diagnosis": "Advanced chronic kidney disease stage 4 (diabetic nephropathy)",
+  "primary_probability": 0.24,
+  "clinical_reasoning_summary": "The patient is a 54\u2011year\u2011old male veteran with a documented history of stage\u20114 diabetic CKD, long\u2011standing hypertension, dyslipidemia, heavy smoking, and obesity. These chronic conditions explain most of the observed findings. Low blood pressure and borderline tachycardia are most plausibly due to a combination of overt antihypertensive therapy, possible volume depletion, and NSAID\u2011ACEI interaction, raising the possibility of acute on chronic kidney injury. Vascular risk factors make coronary artery disease, peripheral arterial disease, and heart failure highly likely, while CKD predisposes to anemia, electrolyte disturbances, and autonomic arrhythmias. Obstructive sleep apnea is also probable given the obesity and age. Probabilities were normalized to sum to 1.0 after weighting each diagnosis by documented evidence and epidemiologic priors.",
+  "unresolved_findings": [
+    "Opioid/acetaminophen combination (oxycodone 5\u202fmg) \u2013 risk of respiratory depression, especially with low BP",
+    "Missing key laboratory data (eGFR, serum creatinine, A1c, lipid panel, hemoglobin, electrolytes) \u2013 limits definitive assessment of several diagnoses"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with calcium, phosphate, and parathyroid hormone (PTH)",
+    "CBC with iron studies",
+    "Orthostatic vital signs and medication reconciliation (hold naproxen, consider adjusting lisinopril)",
+    "12\u2011lead ECG (\u00b1 24\u2011h Holter if needed)",
+    "BNP or NT\u2011proBNP",
+    "STOP\u2011BANG questionnaire (screen for OSA)",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screens",
+    "Spirometry or focused lung examination",
+    "Ankle\u2011brachial index (ABI) for peripheral arterial disease",
+    "HbA1c and fasting lipid panel",
+    "Thyroid panel (TSH, free T4)",
+    "Low\u2011dose CT chest for lung\u2011cancer screening (\u226530 pack\u2011years)",
+    "Retinal examination and monofilament testing for diabetic microvascular complications",
+    "Transthoracic echocardiogram if BNP elevated or clinical suspicion for heart failure"
+  ]
+}

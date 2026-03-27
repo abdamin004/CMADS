@@ -1,0 +1,298 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease on maintenance dialysis",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) 5.8\u202fmL/min/1.73\u202fm\u00b2 \u2013 critical, stable trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 3.4\u202fmg/dL \u2013 severity\u202f4, rising trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 396\u202fmg/dL \u2013 significant proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_ckd: true",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total 20.6\u202fmmol/L \u2013 mild metabolic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of a critically low eGFR, markedly elevated creatinine, and heavy proteinuria unequivocally defines stage\u20115 chronic kidney disease requiring dialysis. All other abnormalities can be secondary to this renal failure."
+    },
+    {
+      "rank": 2,
+      "name": "Ischemic heart disease / coronary artery disease (CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "has_hypertension: true",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_metabolic_syndrome: true",
+          "strength": "strong"
+        },
+        {
+          "source": "demographics",
+          "finding": "Male, age\u202f57, White \u2013 high baseline CAD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson index: 5 (includes cardiovascular points)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Age, male sex, hypertension, and metabolic\u2011syndrome components confer a \u226530\u202f% pre\u2011test probability of subclinical coronary atherosclerosis in this population. No cardiac testing is yet documented, so CAD remains a high\u2011probability but unconfirmed diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive heart disease / LVH (HFpEF)",
+      "icd10": "I11.0",
+      "snomed": "38341003",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "has_hypertension: true",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_metabolic_syndrome: true",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 17.2\u202fg/dL \u2013 borderline high, possibly compensatory for pressure overload",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic pressure overload from uncontrolled hypertension in a CKD patient commonly leads to concentric LVH and diastolic dysfunction (HFpEF). Absence of echo data is a gap; however, the risk profile makes this diagnosis plausible."
+    },
+    {
+      "rank": 4,
+      "name": "ESA\u2011induced erythrocytosis (over\u2011correction of CKD\u2011related anemia)",
+      "icd10": "D75.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 17.2\u202fg/dL \u2013 borderline high for a CKD patient",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_anemia: true (historical flag)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_ckd: true (implies likely ESA therapy)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD patients frequently receive erythropoiesis\u2011stimulating agents; overshooting the target can raise Hb above the usual CKD range, explaining the observed high hemoglobin."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / CKD\u2011Mineral\u2011Bone Disorder",
+      "icd10": "N25.81",
+      "snomed": "429041000124106",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "has_ckd: true (stage\u202f5)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total 20.6\u202fmmol/L \u2013 metabolic acidosis, a driver of bone turnover",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "ckd_stage: null (inferred stage\u202f5)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD leads to phosphate retention, reduced 1\u2011\u03b1\u2011hydroxylase activity, and secondary hyperparathyroidism. Missing calcium/phosphate/PTH labs prevent confirmation but the pathophysiology is highly likely."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT 46.5\u202fU/L & AST 38.3\u202fU/L \u2013 mildly elevated",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_metabolic_syndrome: true",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Mild transaminitis in the setting of metabolic syndrome is classic for NAFLD/NASH, which also contributes to cardiovascular risk."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic hemolysis (micro\u2011angiopathic or paraneoplastic)",
+      "icd10": "D55.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.0\u202fmg/dL \u2013 may reflect hemoglobin breakdown",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 2.9\u202f% \u2013 artifact of shortened red\u2011cell lifespan",
+          "strength": "weak"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "has_cancer: true (potential paraneoplastic hemolysis)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Positive urine bilirubin together with an unusually low A1c suggests increased red\u2011cell turnover, but no hemolysis panel is available, making this a low\u2011confidence possibility."
+    },
+    {
+      "rank": 8,
+      "name": "Malignancy\u2011associated hypercoagulable state",
+      "icd10": "D68.59",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "has_cancer: true",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 17.2\u202fg/dL \u2013 raises blood viscosity",
+          "strength": "weak"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Metabolic syndrome \u2013 pro\u2011thrombotic milieu",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Active malignancy can provoke a hypercoagulable state; the high hemoglobin may further increase thrombosis risk, but no D\u2011dimer or imaging data are present."
+    },
+    {
+      "rank": 9,
+      "name": "Dialysis\u2011related metabolic derangements (low bicarbonate or glucose\u2011free dialysate)",
+      "icd10": "Z99.2",
+      "snomed": "702530001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total 20.6\u202fmmol/L \u2013 mild metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 11\u202fmg/dL \u2013 positive",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucose 66\u202fmg/dL \u2013 low",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "These metabolic abnormalities are common when dialysate composition is suboptimal or when dialysis adequacy is low; confirmation requires review of the dialysis prescription."
+    },
+    {
+      "rank": 10,
+      "name": "Undiagnosed thyroid dysfunction",
+      "icd10": "E03.9",
+      "snomed": "37340000",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "has_metabolic_syndrome: true (thyroid disease can exacerbate dyslipidaemia)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 17.2\u202fg/dL \u2013 could be secondary to untreated hypothyroidism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid disorders are common and can influence lipid metabolism, anemia, and blood pressure, but no thyroid function tests are available, making this a speculative diagnosis."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease on maintenance dialysis",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s laboratory profile (eGFR 5.8, creatinine 3.4, heavy proteinuria) unequivocally defines stage\u20115 CKD requiring dialysis, which dominates the clinical picture. Superimposed cardiovascular risk factors (hypertension, metabolic syndrome, male sex, age) raise the likelihood of ischemic heart disease and hypertensive heart disease. The unexpectedly high hemoglobin in a CKD patient suggests possible ESA\u2011induced erythrocytosis. Advanced CKD also predicts secondary hyperparathyroidism, while mild transaminitis aligns with NAFLD/NASH. Several outlier findings (urine bilirubin, low A1c, ketonuria) hint at hemolysis, dialysis\u2011related metabolic issues, or thyroid dysfunction, but lack confirmatory data. The differential has been calibrated to reflect base\u2011rate probabilities and the strength of available evidence.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without serum bilirubin or hemolysis work\u2011up",
+    "Low hemoglobin A1c (2.9\u202f%) discordant with glucose",
+    "Borderline high hemoglobin (17.2\u202fg/dL) despite anemia flag",
+    "Urine ketones with low-normal glucose",
+    "Missing blood pressure measurements and antihypertensive regimen",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No complete blood count, iron studies, or vitamin D level",
+    "No calcium, phosphate, or PTH values",
+    "No thyroid function tests",
+    "No cardiac imaging (ECG, echo, stress test) or peripheral vascular assessment"
+  ],
+  "recommended_workup": [
+    "Obtain recent seated blood pressure readings and list of antihypertensive medications",
+    "Resting ECG and transthoracic echocardiogram (evaluate LV mass, EF, diastolic function)",
+    "If echo abnormal or high risk, proceed to stress test or coronary CTA for CAD assessment",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Complete blood count with differential, reticulocyte count, ferritin, transferrin saturation, and vitamin D level",
+    "Serum calcium, phosphate, intact PTH, and 25\u2011OH vitamin D to assess CKD\u2011MBD",
+    "Thyroid panel (TSH, free T4, free T3)",
+    "Hemolysis work\u2011up: LDH, haptoglobin, indirect bilirubin, peripheral smear, direct Coombs test",
+    "Dialysis adequacy assessment (Kt/V, dialysate bicarbonate and glucose concentrations)",
+    "Abdominal ultrasound or FibroScan to evaluate for hepatic steatosis/fibrosis",
+    "Ankle\u2011brachial index and lower\u2011extremity duplex ultrasound for peripheral arterial disease",
+    "Consider sleep study if polycythaemia persists (evaluate for obstructive sleep apnoea)"
+  ]
+}

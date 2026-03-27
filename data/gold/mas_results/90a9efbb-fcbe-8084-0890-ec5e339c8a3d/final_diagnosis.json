@@ -1,0 +1,191 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertension overtreatment leading to orthostatic hypotension",
+      "icd10": "I95.1",
+      "snomed": "271327008",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on multiple antihypertensive agents with blood pressure at lower therapeutic limit",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated risk of orthostatic hypotension with intensive BP control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Intensive antihypertensive therapy in an obese, prediabetic patient can lower standing BP, predisposing to orthostatic symptoms; lack of orthostatic vitals makes this a leading but unconfirmed concern."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / prediabetes",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.1% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Class I obesity (BMI 30\u201134.9)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline\u2011high LDL cholesterol",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination of obesity, impaired glucose tolerance, and dyslipidemia fulfills criteria for metabolic syndrome, driving cardiovascular risk and informing management priorities."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of undetermined etiology",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia noted on CBC (low hemoglobin)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies or reticulocyte count performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Documented anemia without work\u2011up; etiology remains unclear pending iron studies, B12, folate, and occult blood evaluation."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Obesity (BMI >30) \u2013 major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "STOP\u2011BANG screening not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA; lack of screening leaves diagnosis plausible but unconfirmed."
+    },
+    {
+      "rank": 5,
+      "name": "Early hypertensive chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.2",
+      "snomed": "431855005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal function panel not available (eGFR, urine ACR missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic hypertension predisposes to early CKD; absence of renal labs prevents confirmation, but the possibility remains clinically relevant."
+    },
+    {
+      "rank": 6,
+      "name": "Asymptomatic coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension, obesity, Black race, dyslipidemia risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk (statin not prescribed)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factor profile suggests possible subclinical CAD, but no imaging or symptom data; retained with low probability."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension present; no documented dyspnea or edema",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "HFpEF can coexist with hypertension and obesity, yet lack of clinical signs makes this a remote consideration."
+    },
+    {
+      "rank": 8,
+      "name": "Gynecologic blood loss causing iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female patient with chronic anemia; menstrual history not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential source of anemia; without menstrual or iron studies, remains speculative."
+    }
+  ],
+  "primary_diagnosis": "Hypertension overtreatment leading to orthostatic hypotension",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient\u2019s profile of intensive antihypertensive therapy, obesity, prediabetes, and chronic anemia points to overtreatment of hypertension as the most likely driver of symptoms, especially orthostatic hypotension. Metabolic syndrome underlies the glucose and lipid abnormalities. Anemia lacks a defined cause and warrants work\u2011up. Obesity raises suspicion for OSA and early hypertensive kidney injury, while cardiovascular risk factors keep asymptomatic CAD and HFpEF on the differential, albeit with low likelihood. Gynecologic blood loss remains a remote possibility pending menstrual and iron studies.",
+  "unresolved_findings": [
+    "High\u2011normal serum chloride (107.7\u202fmmol/L) and CO\u2082 (28.9\u202fmmol/L) \u2013 metabolic alkalosis not fully explained",
+    "Absence of eGFR, urine albumin\u2011creatinine ratio, and full renal panel",
+    "Missing complete blood count iron studies to classify anemia",
+    "No orthostatic vital signs or medication\u2011adherence assessment",
+    "Lack of sleep study or STOP\u2011BANG screening",
+    "No cardiac imaging (ECG, echocardiogram) or coronary calcium score",
+    "Missing thyroid function tests, vitamin\u202fD level, and liver panel",
+    "No documented menstrual history or pelvic imaging to evaluate gynecologic bleeding"
+  ],
+  "recommended_workup": [
+    "Measure orthostatic vital signs (supine and standing BP/HR)",
+    "Obtain comprehensive renal panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Order iron studies (serum ferritin, transferrin saturation), B12, folate",
+    "Screen for obstructive sleep apnea with STOP\u2011BANG and arrange polysomnography or home sleep test",
+    "Perform ECG and transthoracic echocardiogram to assess cardiac structure/function",
+    "Calculate 10\u2011year ASCVD risk and consider statin therapy per guidelines",
+    "Check thyroid panel (TSH, free T4) and vitamin D level",
+    "Obtain liver function tests",
+    "Review menstrual history; if heavy bleeding suspected, order pelvic ultrasound and consider gynecologic referral"
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (DKD)",
+      "icd10": "E11.22",
+      "snomed": "236423003",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2 onset 2000\u201109\u201124",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Micro\u2011albuminuria due to type 2 diabetes onset 2012\u201103\u201111",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria due to type 2 diabetes onset 2015\u201103\u201129",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 3.5\u202fmg/dL (eGFR \u2248 17.6\u202fmL/min/1.73\u202fm\u00b2) \u2013 stage 4 CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factor_profile",
+          "finding": "Obesity, hypertriglyceridemia, metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing type 2 diabetes with documented micro\u2011albuminuria and overt proteinuria, combined with advanced CKD, makes diabetic nephropathy the most likely primary renal disease."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (resistant hypertension)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.26,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension onset 1997\u201109\u201107",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications: Lisinopril, Amlodipine, Metoprolol \u2013 multiple antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality_flags",
+          "finding": "Missing recent systolic/diastolic BP values",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_factor_profile",
+          "finding": "High cardiovascular risk, obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Decades of hypertension treated with multiple agents, coupled with lack of recent BP data, suggest chronic pressure\u2011related renal injury contributing substantially to CKD."
+    },
+    {
+      "rank": 3,
+      "name": "Ischemic nephropathy / chronic renal hypoperfusion",
+      "icd10": "N18.4",
+      "snomed": "236423003",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease onset 2015\u201104\u201121 and prior CABG 2015\u201105\u201108",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Angina episodes treated with nitroglycerin spray",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "\u03b2\u2011blocker (Metoprolol) and antiplatelet (Clopidogrel) therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factor_profile",
+          "finding": "Atherosclerotic disease burden (high cardiovascular risk)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe atherosclerotic disease with prior CABG and ongoing angina raises the likelihood of renal artery atherosclerosis and chronic hypoperfusion contributing to CKD progression."
+    },
+    {
+      "rank": 4,
+      "name": "Ischemic cardiomyopathy / heart failure (type 2 cardiorenal syndrome)",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.12,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease and prior CABG",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "\u03b2\u2011blocker (Metoprolol) and nitroglycerin use for angina",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality_flags",
+          "finding": "No cardiac imaging or BNP reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CAD with prior revascularisation and ongoing angina suggests possible left\u2011ventricular dysfunction; heart failure can worsen renal perfusion (type 2 CRS)."
+    },
+    {
+      "rank": 5,
+      "name": "Peripheral arterial disease (PAD) / diabetic foot disease",
+      "icd10": "I70.2",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes, dyslipidemia, obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factor_profile",
+          "finding": "Potential smoking (unknown) and high atherosclerotic burden",
+          "strength": "weak"
+        },
+        {
+          "source": "data_quality_flags",
+          "finding": "No ABI or foot exam documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors strongly predispose to PAD; undiagnosed PAD can contribute to lower extremity ischemia and further renal hypoperfusion."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.06,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_factor_profile",
+          "finding": "Obesity (BMI \u226530) and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality_flags",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and uncontrolled hypertension raise suspicion for OSA, which can exacerbate both cardiovascular and renal disease."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (DKD)",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient is a 60\u2011year\u2011old male with long\u2011standing type 2 diabetes, hypertension, and extensive atherosclerotic disease. Documented micro\u2011albuminuria progressing to proteinuria, together with stage\u20114 CKD (creatinine 3.5\u202fmg/dL, eGFR ~17.6), makes diabetic nephropathy the most probable primary renal pathology. Decades of uncontrolled hypertension and multiple antihypertensive agents, without recent BP data, suggest a significant contribution from hypertensive nephrosclerosis. Prior CABG, ongoing angina, and high cardiovascular risk point to ischemic nephropathy and possible ischemic cardiomyopathy, both of which can further impair renal function (type 2 CRS). Peripheral arterial disease and obstructive sleep apnea are plausible comorbidities given the metabolic profile and may worsen both cardiac and renal outcomes. Downstream CKD complications (anemia, secondary hyperparathyroidism, electrolyte disturbances) are considered inevitable and thus not assigned separate probabilities.",
+  "unresolved_findings": [
+    "Missing recent systolic/diastolic blood pressure values",
+    "Missing serial eGFR trend and quantitative proteinuria measurements",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No hemoglobin/hematocrit, iron studies, or reticulocyte count",
+    "No electrolyte panel (Na+, K+, Cl-, HCO3-), calcium/phosphate, PTH, vitamin D levels",
+    "No quantitative urinalysis (protein/albumin to creatinine ratio)",
+    "No cardiac imaging (echocardiogram, stress test) or BNP/NT\u2011proBNP",
+    "No peripheral vascular assessment (ABI, pedal pulses)",
+    "No sleep study results",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117, PTSD checklist)",
+    "No transplant\u2011eligibility labs (infectious serologies, cancer screening, pulmonary function, vaccination status, vascular access evaluation)",
+    "Unclear use of nephrotoxic agents (NSAIDs, contrast, OTC supplements)",
+    "Smoking and alcohol use history not documented"
+  ],
+  "recommended_workup": [
+    "Obtain current office and home/ABPM blood pressure measurements",
+    "Repeat serum creatinine and calculate eGFR; trend over the past 12 months",
+    "Quantitative urine protein\u2011to\u2011creatinine ratio or albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Complete blood count with iron studies and reticulocyte count",
+    "Electrolyte panel, calcium, phosphate, PTH, 25\u2011OH vitamin D, bicarbonate",
+    "Transthoracic echocardiogram with ejection fraction assessment; obtain BNP or NT\u2011proBNP",
+    "Cardiac stress testing or coronary CT angiography as indicated",
+    "Ankle\u2011brachial index and thorough foot examination for PAD/diabetic foot disease",
+    "Home sleep apnea testing or polysomnography",
+    "Mental\u2011health screening using PHQ\u20119, GAD\u20117, and PTSD checklist",
+    "Medication reconciliation focusing on NSAIDs, herbal supplements, recent contrast exposure",
+    "Transplant evaluation labs: hepatitis B/C, HIV, CMV, EBV serologies; cancer screening appropriate for age; pulmonary function tests; vaccination record; assessment of vascular access readiness",
+    "Consider initiating SGLT\u20112 inhibitor (e.g., dapagliflozin) if not contraindicated, and evaluate need for GLP\u20111 receptor agonist for cardiovascular risk reduction"
+  ]
+}

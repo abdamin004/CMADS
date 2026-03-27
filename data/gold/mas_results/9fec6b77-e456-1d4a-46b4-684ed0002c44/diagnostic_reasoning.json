@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension with metabolic syndrome (stage\u20112)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.29,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 139/97\u202fmmHg (stage\u20112 hypertension flag)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) documented as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c\u202f6.2\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age\u202f42, white \u2013 demographic risk for atherosclerosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide prescribed for BP control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of stage\u20112 hypertension, obesity, and pre\u2011diabetes in a young male fits classic essential hypertension driven by metabolic syndrome, making this the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233935008",
+      "probability": 0.23,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) \u2013 major risk factor for OSA",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite thiazide therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic moderate anemia (possible hypoxia\u2011mediated erythropoiesis)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stress and fatigue noted in history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension are hallmark features of OSA; anemia may reflect chronic intermittent hypoxia. Absence of a sleep study makes this a probable but not confirmed diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease (early hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing stage\u20112 hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c\u202f6.2\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic moderate anemia of unclear etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR not available (data gap flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and pre\u2011diabetes are leading causes of early CKD; anemia may be CKD\u2011related. Missing renal labs prevent confirmation, but the risk profile makes CKD a strong contender."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia / occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic moderate anemia documented since 2005",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies, ferritin, or occult blood testing performed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of overt GI symptoms but long\u2011standing anemia raises suspicion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A decade\u2011long anemia without work\u2011up suggests iron deficiency, most commonly from occult GI blood loss in men; this diagnosis explains the anemia independently of CKD."
+    },
+    {
+      "rank": 5,
+      "name": "Silent atherosclerotic cardiovascular disease (sub\u2011clinical CAD)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f\u2265\u202f40, male, white \u2013 baseline CAD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension, obesity, pre\u2011diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lipid panel missing (risk flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The clustering of major vascular risk factors makes silent coronary artery disease plausible, though lack of lipid data and no cardiac testing keep certainty moderate."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension with metabolic syndrome (stage\u20112)",
+  "primary_probability": 0.29,
+  "clinical_reasoning_summary": "The patient presents with a classic cardiometabolic profile: stage\u20112 hypertension, obesity, and pre\u2011diabetes, all documented by the EHR analyst. These factors, together with resistant blood pressure despite thiazide therapy, point to essential hypertension driven by metabolic syndrome as the most likely primary problem. Secondary considerations include obstructive sleep apnea (obesity\u2011related resistant HTN), early chronic kidney disease (hypertension + anemia), iron\u2011deficiency anemia from possible occult GI loss (decade\u2011long anemia without work\u2011up), and silent atherosclerotic disease (multiple vascular risk factors). Missing key investigations (eGFR, lipid panel, iron studies, sleep study, cardiac imaging) create uncertainty, which is reflected in the confidence levels and the need for further testing.",
+  "unresolved_findings": [
+    "Chronic anemia of unclear etiology (no iron studies, B12, folate, renal labs)",
+    "Missing renal function data (eGFR, urine albumin\u2011creatinine ratio)",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No sleep study or polysomnography to confirm OSA",
+    "No CBC indices (MCV, reticulocyte count) to characterize anemia",
+    "Undocumented active asthma despite inhaler prescriptions",
+    "Smoking and alcohol use not recorded",
+    "Family history of cardiovascular disease not documented"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Fasting lipid profile (LDL, HDL, triglycerides, total cholesterol)",
+    "Home sleep\u2011apnoea test or overnight polysomnography",
+    "Complete blood count with indices plus iron studies (serum iron, ferritin, TIBC), vitamin B12, folate",
+    "Resting ECG, BNP, and transthoracic echocardiogram to assess for LVH or HFpEF",
+    "Liver function tests and abdominal ultrasound to evaluate for NAFLD",
+    "Serum potassium and aldosterone\u2011renin ratio to screen for primary aldosteronism",
+    "TSH and free T4 to rule out thyroid dysfunction",
+    "Spirometry (pre\u2011 and post\u2011bronchodilator) to confirm asthma vs COPD",
+    "Updated social history focusing on smoking, alcohol, and family cardiovascular disease",
+    "Fecal occult blood test (and colonoscopy if positive) to investigate occult GI bleed",
+    "Plasma metanephrines if hypertension remains resistant after above work\u2011up"
+  ]
+}

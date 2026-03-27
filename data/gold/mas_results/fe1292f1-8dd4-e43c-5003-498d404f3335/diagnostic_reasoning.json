@@ -1,0 +1,170 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Untreated primary hypertension (stage 1)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "SBP 135 mmHg, DBP 66 mmHg (stage\u20111 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to elevated ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Blood pressure meets stage\u20111 criteria on at least two visits, and the absence of therapy indicates active disease that drives cardiovascular, renal, and heart\u2011failure risk."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome (full cluster)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.8% (prediabetes) and rising random glucose",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 29.8 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Pattern indicating elevated triglycerides",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Combined risk factors exceed ATP\u2011III criteria for metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 ATP\u2011III criteria (obesity, elevated blood pressure, low HDL, impaired glucose, presumed high TG), establishing metabolic syndrome, which explains the constellation of cardiometabolic abnormalities."
+    },
+    {
+      "rank": 3,
+      "name": "Subclinical atherosclerotic cardiovascular disease (silent CAD/PAD)",
+      "icd10": "I25.10",
+      "snomed": "414916001",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Elevated ASCVD risk summary (IHD, HF, stroke, PVD) based on age, male sex, Asian ethnicity, hypertension, obesity, prediabetes, low HDL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin or antiplatelet therapy despite high risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C, implied high triglycerides",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple high\u2011risk factors place the patient at moderate\u2011high probability of silent atherosclerosis; absence of preventive therapy further supports the need to consider subclinical disease."
+    },
+    {
+      "rank": 4,
+      "name": "Atherogenic dyslipidemia (high triglycerides / low HDL)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 29.8 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Panel pattern flagged as elevated triglycerides",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing total\u2011cholesterol and LDL\u2011C values (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The lipid pattern of low HDL with presumed high TG is characteristic of atherogenic dyslipidemia, a key therapeutic target for ASCVD risk reduction."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (probable)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic\u2011syndrome pattern (insulin resistance)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are strong risk factors for OSA; while not yet evaluated, the pre\u2011test probability is sufficient to warrant screening."
+    }
+  ],
+  "primary_diagnosis": "Untreated primary hypertension (stage 1)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient is a 50\u2011year\u2011old Asian male with stage\u20111 hypertension, obesity, prediabetes, low HDL, and an implied high\u2011triglyceride state. These findings satisfy criteria for metabolic syndrome and generate a markedly elevated ASCVD risk. The most concrete abnormality with immediate therapeutic implication is untreated hypertension, which is therefore ranked first. Metabolic syndrome follows as the underlying driver of the dysglycemia and dyslipidemia. Subclinical atherosclerosis is likely given the cumulative risk profile, while atherogenic dyslipidemia and probable obstructive sleep apnea explain residual risk and provide additional targets for work\u2011up and treatment.",
+  "unresolved_findings": [
+    "Decreasing leukocyte count (WBC 3.7\u202f\u00d710\u00b3/\u00b5L, trending down)",
+    "Potassium trend decreasing from 4.6 to 4.0\u202fmmol/L",
+    "Missing key labs: eGFR, serum creatinine, urine albumin/creatinine ratio, total cholesterol, LDL\u2011C, thyroid panel, iron studies, vitamin D, uric acid",
+    "Smoking status unknown",
+    "Absence of documented antihypertensive, statin, or antidiabetic therapy despite clear indications",
+    "No documented lifestyle intervention (diet/exercise) for obesity/metabolic syndrome"
+  ],
+  "recommended_workup": [
+    "24\u2011hour ambulatory blood pressure monitoring or home BP log to confirm sustained hypertension",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Serum creatinine with eGFR calculation and urine albumin\u2011creatinine ratio",
+    "Detailed smoking history (questionnaire and, if needed, cotinine level)",
+    "STOP\u2011BANG questionnaire followed by polysomnography if score \u22653",
+    "Coronary artery calcium scoring or carotid duplex ultrasound to assess subclinical atherosclerosis",
+    "Thyroid function tests (TSH, free T4)",
+    "Liver enzymes (ALT, AST, GGT) and hepatic ultrasound or FibroScan for NAFLD evaluation",
+    "25\u2011OH vitamin D level",
+    "Iron studies (serum iron, ferritin, TIBC) and peripheral smear to clarify anemia etiology",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screening",
+    "If hypertension remains uncontrolled, aldosterone\u2011renin ratio for secondary hypertension",
+    "Baseline echocardiogram to evaluate for diastolic dysfunction/HFpEF"
+  ]
+}

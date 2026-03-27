@@ -1,0 +1,183 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute-on-chronic kidney injury from volume depletion \u00b1 occult urinary tract infection",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated creatinine with known chronic kidney disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and possible recent diuretic use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine leukocytes without documented infection symptoms",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent volume depletion risk (e.g., reduced oral intake, diuretic therapy)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has CKD with rising creatinine, signs of volume depletion, and sterile pyuria suggesting a possible occult UTI contributing to AKI. Reviewer elevated this diagnosis to primary based on converging clues."
+    },
+    {
+      "rank": 2,
+      "name": "Silent (type\u20112) myocardial ischemia / demand ischemia",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated high\u2011sensitivity troponin I (103.5 ng/L) without chest pain",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI and uncontrolled hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (HTN, hyperlipidemia, metabolic syndrome)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin in the absence of overt symptoms raises concern for demand ischemia, especially given prior coronary disease and uncontrolled risk factors. Urgent exclusion of type\u20111 MI is required."
+    },
+    {
+      "rank": 3,
+      "name": "Heart failure with reduced ejection fraction leading to cardiorenal syndrome",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior NSTEMI and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented HF therapy (ACE\u2011I/ARB, SGLT2\u2011i)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic HF may be present but objective data (echo, BNP) are lacking. Reviewer downgraded its probability; it remains a contributor to renal dysfunction."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis (chronic kidney disease stage 4)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing uncontrolled hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine consistent with CKD stage 4",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a plausible chronic driver of CKD; lack of albuminuria data limits precise classification."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia in setting of CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease severity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly causes anemia of chronic disease; reviewer noted this diagnosis is strongly supported."
+    },
+    {
+      "rank": 6,
+      "name": "Drug\u2011induced interstitial nephritis",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent exposure to potential nephrotoxic agents (e.g., NSAIDs, antibiotics) \u2013 not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Temporal relationship to offending drug is unclear; reviewer considered this diagnosis weak."
+    },
+    {
+      "rank": 7,
+      "name": "Prasugrel\u2011related immune thrombocytopenia (\u00b1 leukopenia)",
+      "icd10": "D69.6",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild thrombocytopenia and leukopenia without other clear cause",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current prasugrel therapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Immune thrombocytopenia from prasugrel is rare; other etiologies are more likely."
+    }
+  ],
+  "primary_diagnosis": "Acute-on-chronic kidney injury from volume depletion \u00b1 occult urinary tract infection",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient presents with CKD and a rising creatinine, evidence of volume depletion, and sterile pyuria, making acute\u2011on\u2011chronic kidney injury the most likely explanation. Elevated troponin without chest pain raises concern for silent type\u20112 myocardial ischemia, which must be excluded urgently. Chronic heart failure and hypertensive nephrosclerosis contribute to the renal picture but lack objective confirmation. Anemia is consistent with CKD severity. Drug\u2011induced interstitial nephritis and prasugrel\u2011related cytopenias are possible but have low pre\u2011test probability. The differential reflects the reviewer\u2019s probability adjustments and prioritizes the acute renal process.",
+  "unresolved_findings": [
+    "Elevated high\u2011sensitivity troponin I (103.5 ng/L) without documented chest pain or ECG changes",
+    "Missing recent eGFR and baseline creatinine trend",
+    "Absent lipid panel (total cholesterol, LDL) to assess statin efficacy",
+    "Combined mild thrombocytopenia and leukopenia not fully explained",
+    "Urine leukocytes without documented urinary symptoms or confirmed infection",
+    "Absence of ACE\u2011I/ARB therapy despite hypertension, CKD, and post\u2011MI status"
+  ],
+  "recommended_workup": [
+    "Repeat high\u2011sensitivity troponin and obtain 12\u2011lead ECG to rule out type\u20111 MI",
+    "Renal ultrasound to assess for obstruction or chronic changes",
+    "Urine culture and sensitivity to evaluate for occult UTI",
+    "Comprehensive metabolic panel with eGFR trend over the past 3 months",
+    "Echocardiogram with ejection fraction measurement and BNP level",
+    "Review medication list for recent nephrotoxic agents; consider drug discontinuation if appropriate",
+    "Complete blood count with differential and peripheral smear to further characterize cytopenias",
+    "Lipid panel to guide cardiovascular risk management",
+    "Initiate guideline\u2011directed HF/CKD therapy (ACE\u2011I/ARB or ARNI, SGLT2\u2011i) if not contraindicated"
+  ]
+}

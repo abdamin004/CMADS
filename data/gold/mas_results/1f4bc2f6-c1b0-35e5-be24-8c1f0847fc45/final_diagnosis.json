@@ -1,0 +1,220 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 5 chronic kidney disease (hypertensive/diabetic nephrosclerosis)",
+      "icd10": "N18.5",
+      "snomed": "431855005",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 9.5\u202fmL/min/1.73\u202fm\u00b2, serum creatinine 2.7\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of resistant hypertension and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Prior NSTEMI indicating vascular disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severely reduced eGFR with creatinine elevation in a patient with hypertension and diabetes points to end\u2011stage CKD due to hypertensive/diabetic nephrosclerosis, which explains the renal failure and related metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic troponin elevation secondary to end\u2011stage renal disease",
+      "icd10": "R79.89",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistently elevated high\u2011sensitivity troponin without dynamic change",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 CKD known to cause chronic troponin rise",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In advanced CKD, reduced clearance and subclinical myocardial injury often cause modestly elevated troponin levels that are not indicative of acute coronary syndrome."
+    },
+    {
+      "rank": 3,
+      "name": "Heterozygous familial hypercholesterolaemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "55822004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hyperlipidaemia despite statin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Family history of premature coronary artery disease (not documented but plausible)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Marked LDL elevation in a middle\u2011aged patient with early cardiovascular events raises suspicion for heterozygous FH, a common genetic dyslipidaemia."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233678006",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Daytime fatigue reported (implicit in chart)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are strong risk factors for OSA; untreated OSA can worsen blood pressure and cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011normal serum calcium (8.6\u202fmg/dL) without phosphate or PTH data",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Advanced CKD (stage 5) predisposes to secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Stage 5 CKD commonly leads to disturbances in calcium\u2011phosphate metabolism and secondary hyperparathyroidism, though specific labs are missing."
+    },
+    {
+      "rank": 6,
+      "name": "Hyperbilirubinemia (Gilbert syndrome vs early alcoholic liver disease vs hemolysis)",
+      "icd10": "R17",
+      "snomed": "271327008",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated total bilirubin (value not specified) with no fractionation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unquantified alcohol intake",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The bilirubin level exceeds typical Gilbert ranges, raising concern for early alcoholic liver disease or hemolysis; further work\u2011up is required."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "302509004",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia noted (exact hemoglobin not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 CKD known to cause erythropoietin deficiency",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD\u2011related anemia is common in end\u2011stage disease and explains the low hemoglobin without other hematologic data."
+    },
+    {
+      "rank": 8,
+      "name": "Acute coronary syndrome (type\u20111 MI or type\u20112 demand ischemia)",
+      "icd10": "I21.9",
+      "snomed": "22298006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated high\u2011sensitivity troponin (static)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI and high cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While troponin is elevated, lack of dynamic change, symptoms, or ECG data makes acute MI unlikely; retained for completeness."
+    },
+    {
+      "rank": 9,
+      "name": "Chronic heart failure (post\u2011MI, reduced ejection fraction)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior MI and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No echocardiogram or clinical signs of volume overload documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prior MI predisposes to systolic dysfunction, but objective cardiac imaging is lacking; probability kept minimal."
+    }
+  ],
+  "primary_diagnosis": "Stage 5 chronic kidney disease (hypertensive/diabetic nephrosclerosis)",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient\u2019s severely reduced eGFR, high creatinine, and background of hypertension and metabolic syndrome make end\u2011stage CKD the dominant diagnosis, accounting for anemia, mineral bone disorder, chronic troponin elevation, and contributing to cardiovascular risk. Secondary considerations include genetic dyslipidaemia (FH), obstructive sleep apnea, and unexplained hyperbilirubinemia, each supported by specific risk factors or laboratory clues. Acute coronary syndrome and chronic heart failure remain possible but are low\u2011probability given the lack of dynamic cardiac data.",
+  "unresolved_findings": [
+    "Low\u2011normal serum calcium (8.6\u202fmg/dL) without phosphate or PTH values",
+    "Absence of urine protein/albumin quantification",
+    "Missing iron studies, vitamin B12, folate, and reticulocyte count",
+    "No ECG, serial troponins, or echocardiogram to clarify cardiac status",
+    "No bilirubin fractionation, LDH, haptoglobin, or peripheral smear",
+    "Unquantified alcohol consumption and no liver imaging"
+  ],
+  "recommended_workup": [
+    "Repeat high\u2011sensitivity troponin with serial measurements",
+    "12\u2011lead ECG and transthoracic echocardiogram",
+    "Urine albumin\u2011to\u2011creatinine ratio or 24\u2011hour protein quantification",
+    "Iron studies, vitamin B12, folate, reticulocyte count",
+    "Serum phosphate, PTH, 25\u2011OH vitamin D, alkaline phosphatase",
+    "Fractionated bilirubin, LDH, haptoglobin, peripheral blood smear",
+    "Abdominal ultrasound or FibroScan to assess liver disease",
+    "Polysomnography for definitive OSA diagnosis",
+    "Genetic testing or cascade screening for familial hypercholesterolaemia if indicated"
+  ]
+}

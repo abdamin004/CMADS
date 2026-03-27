@@ -1,0 +1,243 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive biliary disease (choledocholithiasis / malignant obstruction)",
+      "icd10": "K80.5",
+      "snomed": "236947004",
+      "probability": 0.308,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated total bilirubin with positive urine bilirubin indicating severe cholestasis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Right upper quadrant pain reported (if present) and risk factors for gallstones",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe hyperbilirubinemia with cholestatic pattern strongly suggests biliary obstruction; prevalence and clinical impact make this the leading diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Acute decompensated heart failure with cardiorenal\u2011hepatic syndrome",
+      "icd10": "I50.23",
+      "snomed": "84114007",
+      "probability": 0.205,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated B-type natriuretic peptide (BNP) and rising creatinine indicating renal congestion",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic heart failure with recent dyspnea and peripheral edema",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combined hepatic congestion and renal dysfunction in a known heart failure patient explains the triad of elevated bilirubin, AKI, and volume overload."
+    },
+    {
+      "rank": 3,
+      "name": "Acute coronary syndrome (NSTEMI or type\u20112 demand ischemia)",
+      "icd10": "I21.4",
+      "snomed": "413444003",
+      "probability": 0.144,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated high\u2011sensitivity troponin indicating myocardial injury",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors present (age, hypertension, possible ischemic symptoms)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Myocardial injury could contribute to hepatic hypoperfusion and renal dysfunction; however, lack of ECG data limits certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Acute\u2011on\u2011chronic kidney injury (ATN/AIN, drug\u2011related)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.123,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum creatinine with oliguria indicating acute kidney injury on background CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Exposure to nephrotoxic agents (e.g., contrast, NSAIDs) suspected",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal dysfunction is evident and may be precipitated by drugs or hemodynamic compromise, contributing to the overall picture."
+    },
+    {
+      "rank": 5,
+      "name": "Malignancy (pancreatic head cancer, cholangiocarcinoma, metastatic disease)",
+      "icd10": "C25.0",
+      "snomed": "93880009",
+      "probability": 0.072,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained progressive jaundice without identified stone on prior imaging",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age and smoking history increase cancer risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A malignant obstruction can produce a similar cholestatic picture; probability increased given lack of stone evidence."
+    },
+    {
+      "rank": 6,
+      "name": "Budd\u2011Chiari syndrome (hepatic\u2011vein thrombosis)",
+      "icd10": "I82.0",
+      "snomed": "235719002",
+      "probability": 0.041,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated bilirubin with possible hepatic congestion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rare but can cause acute liver dysfunction; low pre\u2011test probability and lack of risk factors keep this low."
+    },
+    {
+      "rank": 7,
+      "name": "Acute cholangitis / septic cholestasis (non\u2011biliary source)",
+      "icd10": "K83.0",
+      "snomed": "235719001",
+      "probability": 0.031,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperbilirubinemia without clear obstruction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Infection could cause cholestasis, but absence of fever, leukocytosis, or CRP makes this less likely."
+    },
+    {
+      "rank": 8,
+      "name": "Drug\u2011induced cholestatic liver injury",
+      "icd10": "K71.1",
+      "snomed": "235719003",
+      "probability": 0.021,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent initiation of potentially cholestatic medications (e.g., antibiotics, antivirals)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Medication exposure can cause cholestasis, but bilirubin level is unusually high for most DILI."
+    },
+    {
+      "rank": 9,
+      "name": "Ischemic hepatitis (shock liver)",
+      "icd10": "K72.0",
+      "snomed": "236423004",
+      "probability": 0.021,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild transaminase elevation without massive spikes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Lacks hypotensive episode or massive AST/ALT rise; probability kept low."
+    },
+    {
+      "rank": 10,
+      "name": "Sepsis from a non\u2011biliary source",
+      "icd10": "A41.9",
+      "snomed": "10001005",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Possible source of infection not yet identified",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Systemic infection could explain multiorgan dysfunction, but no fever or leukocytosis documented."
+    },
+    {
+      "rank": 11,
+      "name": "Acute pancreatitis (biliary\u2011type)",
+      "icd10": "K85.9",
+      "snomed": "19732003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated lipase not reported; bilirubin disproportionate",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Biliary pancreatitis can raise bilirubin, but the bilirubin level is higher than typical for pancreatitis alone."
+    },
+    {
+      "rank": 12,
+      "name": "Systemic amyloidosis / plasma\u2011cell dyscrasia",
+      "icd10": "E85.4",
+      "snomed": "235719004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained organ dysfunction across liver, kidney, and heart",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rare; pattern not typical for amyloid infiltration, kept as low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Obstructive biliary disease (choledocholithiasis / malignant obstruction)",
+  "primary_probability": 0.308,
+  "clinical_reasoning_summary": "The patient presents with severe hyperbilirubinemia, positive urine bilirubin, and evidence of renal dysfunction. The magnitude of bilirubin elevation most strongly points to an obstructive biliary process, either gallstone (choledocholithiasis) or malignant obstruction, which is reinforced by the reviewer\u2019s high confidence. Concurrent heart failure and acute kidney injury explain the cardiorenal\u2011hepatic interaction, while acute coronary syndrome and drug\u2011related kidney injury remain plausible contributors. Malignancy, Budd\u2011Chiari, and infectious etiologies are retained as lower\u2011probability alternatives pending further data.",
+  "unresolved_findings": [
+    "Borderline high albumin (5.3 g/dL) \u2013 unexplained",
+    "Missing BMI, lipid panel, eGFR, full liver enzyme panel (AST, ALT, ALP, GGT, INR)",
+    "No imaging data (RUQ ultrasound, CT, MRCP, echocardiogram)",
+    "Medication list not provided \u2013 limits assessment of drug\u2011induced injury",
+    "Inflammatory markers (WBC, CRP, fever) not reported"
+  ],
+  "recommended_workup": [
+    "Right upper quadrant ultrasound or MRCP to assess for biliary obstruction",
+    "Contrast\u2011enhanced abdominal CT if ultrasound inconclusive",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, INR, albumin)",
+    "Serum lipase/amylase to evaluate pancreatitis",
+    "ECG and serial cardiac troponins to clarify acute coronary syndrome",
+    "Echocardiogram to assess cardiac function and pulmonary pressures",
+    "Complete medication reconciliation for nephrotoxic and cholestatic agents",
+    "Inflammatory markers: CBC with differential, CRP, procalcitonin",
+    "Coagulation profile and Doppler ultrasound of hepatic veins to rule out Budd\u2011Chiari",
+    "Tumor markers (CA 19\u20119, CEA) and possible endoscopic ultrasound if malignancy suspected"
+  ]
+}

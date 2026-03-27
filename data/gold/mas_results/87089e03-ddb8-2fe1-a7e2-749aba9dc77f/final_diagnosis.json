@@ -1,0 +1,216 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension \u2013 uncontrolled on monotherapy",
+      "icd10": "I10",
+      "snomed": "",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/101 mmHg (stage 2 hypertension) despite monotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and prediabetes contributing to resistant hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Sustained elevated BP on a single antihypertensive agent in the setting of obesity and metabolic risk factors indicates uncontrolled primary hypertension."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C (29\u202fmg/dL) with borderline LDL and elevated triglycerides",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Combination of central obesity, dyslipidemia, elevated blood pressure, and impaired glucose tolerance fulfills criteria for metabolic syndrome."
+    },
+    {
+      "rank": 3,
+      "name": "Renal artery stenosis (secondary hypertension)",
+      "icd10": "I70.1",
+      "snomed": "",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension with possible early renal dysfunction (creatinine at upper limit)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Presence of atherosclerotic risk factors (obesity, dyslipidemia, smoking status unknown)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Atherosclerotic renal artery disease can cause refractory hypertension; the clinical picture warrants vascular imaging."
+    },
+    {
+      "rank": 4,
+      "name": "Pheochromocytoma (secondary hypertension)",
+      "icd10": "E27.5",
+      "snomed": "",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Paroxysmal hypertension not documented but unexplained hypoglycemia raises suspicion for catecholamine excess",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Catecholamine\u2011producing tumors can cause labile hypertension and episodic hypoglycemia; screening is indicated given unexplained low fasting glucose."
+    },
+    {
+      "rank": 5,
+      "name": "Cushing syndrome (secondary hypertension)",
+      "icd10": "E24.9",
+      "snomed": "",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and possible glucose intolerance suggest hypercortisolism as a contributor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Endogenous cortisol excess can produce hypertension, central obesity, and impaired glucose metabolism; warrants endocrine evaluation."
+    },
+    {
+      "rank": 6,
+      "name": "Early chronic kidney disease (stage\u202f2\u20113a)",
+      "icd10": "N18.2",
+      "snomed": "",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine at the upper limit of normal (exact value not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and metabolic syndrome increase risk for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function data are missing, but risk factors and borderline labs suggest early CKD; confirmation requires eGFR and albuminuria."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension are strong risk factors for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient's obesity and hypertension, OSA is plausible and may contribute to resistant hypertension."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No CBC indices available; anemia suspected based on chronic disease risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic inflammation from metabolic syndrome and possible early CKD can cause anemia of chronic disease; requires CBC and iron studies."
+    },
+    {
+      "rank": 9,
+      "name": "Adrenal insufficiency",
+      "icd10": "E27.2",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low fasting glucose (66\u202fmg/dL) without clear explanation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Primary or secondary adrenal insufficiency can present with hypoglycemia; evaluation is needed to rule out this cause."
+    },
+    {
+      "rank": 10,
+      "name": "Sub\u2011clinical coronary artery disease (CAD)",
+      "icd10": "I25.9",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (HTN, dyslipidemia, obesity, prediabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While no imaging is available, the risk profile makes early atherosclerosis plausible; non\u2011invasive stress testing is indicated."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension \u2013 uncontrolled on monotherapy",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with stage 2 hypertension that remains uncontrolled on a single agent, in the context of obesity, dyslipidemia, and prediabetes, fulfilling criteria for metabolic syndrome. These factors together explain the majority of his cardiovascular risk. Secondary causes of hypertension (renal artery stenosis, pheochromocytoma, Cushing syndrome) are added to address the reviewer\u2019s concern about unexplained hypoglycemia and the need to explore resistant hypertension. Early CKD, OSA, anemia of chronic disease, and sub\u2011clinical CAD are retained as plausible comorbidities, while adrenal insufficiency is introduced to account for low fasting glucose. Probabilities have been recalibrated to reflect the reviewer\u2019s adjustments and the added diagnoses.",
+  "unresolved_findings": [
+    "Low fasting glucose (66\u202fmg/dL) with decreasing trend",
+    "Missing eGFR and urine albumin\u2011creatinine ratio",
+    "No recent BMI measurement",
+    "No recent lipid panel (first since 2003)",
+    "No smoking or alcohol use documentation",
+    "Medication adherence unknown (housing instability, intimate partner violence)",
+    "Absence of CBC indices, iron studies, B12/folate",
+    "No thyroid function tests",
+    "No ankle\u2011brachial index (ABI) for PAD screening",
+    "No cardiac imaging or stress testing"
+  ],
+  "recommended_workup": [
+    "Repeat fasting glucose and oral glucose tolerance test",
+    "Comprehensive metabolic panel with eGFR calculation",
+    "Urine albumin\u2011creatinine ratio",
+    "CBC with iron studies, B12, folate",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "Renal artery duplex ultrasound or CT angiography",
+    "Plasma free metanephrines or 24\u2011hour urine catecholamines",
+    "Low\u2011dose dexamethasone suppression test",
+    "Morning cortisol and ACTH levels",
+    "Overnight polysomnography for OSA",
+    "Ankle\u2011brachial index measurement",
+    "Resting ECG and stress echocardiography or nuclear stress test",
+    "Echocardiogram with diastolic function assessment",
+    "BNP or NT\u2011proBNP",
+    "Medication reconciliation and adherence assessment"
+  ]
+}

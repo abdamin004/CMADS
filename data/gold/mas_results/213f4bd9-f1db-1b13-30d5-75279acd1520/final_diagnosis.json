@@ -1,0 +1,218 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic Kidney Disease, stage 3-4",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "CKD flagged in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated serum creatinine noted (data missing but implied)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD is supported by documented comorbidity and is consistent with anemia and hypertension; reviewer elevated its priority."
+    },
+    {
+      "rank": 2,
+      "name": "Essential Hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension noted in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing blood pressure measurements",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is plausible given its prevalence and presence in records, though objective BP data are absent."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic Coronary Artery Disease (stable)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "CAD flagged in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age and hypertension increase atherosclerotic risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Stable CAD is strongly supported by documented comorbidity and cardiovascular risk profile."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia noted in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "CKD present, a common cause of anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia aligns with CKD; iron studies are missing, but CKD\u2011related anemia remains likely."
+    },
+    {
+      "rank": 5,
+      "name": "Osteoporosis",
+      "icd10": "M81.0",
+      "snomed": "64859006",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Osteoporosis flagged as a missed comorbidity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reviewer identified osteoporosis as a missed diagnosis; typical in this patient demographic."
+    },
+    {
+      "rank": 6,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea or exercise intolerance not documented",
+          "strength": "weak"
+        },
+        {
+          "source": "imaging",
+          "finding": "No echocardiogram available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Speculative without cardiac imaging or biomarkers; retained due to original consideration."
+    },
+    {
+      "rank": 7,
+      "name": "Atrial Fibrillation, unspecified",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No ECG data to confirm rhythm",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low probability; included because it was part of the initial differential."
+    },
+    {
+      "rank": 8,
+      "name": "Aortic Stenosis, moderate to severe",
+      "icd10": "I35.0",
+      "snomed": "713427006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "imaging",
+          "finding": "No valve imaging performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Speculative without echocardiographic evidence."
+    },
+    {
+      "rank": 9,
+      "name": "Peripheral Arterial Disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "physical_exam",
+          "finding": "No peripheral vascular exam documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood; retained for completeness."
+    },
+    {
+      "rank": 10,
+      "name": "Occult Gastro\u2011Intestinal Bleed / Colorectal Cancer",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia could be due to GI loss, but no FOBT or endoscopy performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low probability after accounting for CKD\u2011related anemia; kept as a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Chronic Kidney Disease, stage 3-4",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s record flags chronic kidney disease, which the reviewer judged most likely and is supported by comorbidity data. Hypertension, CAD, and CKD\u2011related anemia follow as common, evidence\u2011supported conditions. Osteoporosis was added per reviewer flag. Remaining entities lack objective data and retain low probabilities. Overall confidence is limited by multiple critical data gaps.",
+  "unresolved_findings": [
+    "Missing blood pressure measurements",
+    "Missing renal function labs (eGFR, serum creatinine, urine albumin/creatinine ratio)",
+    "Missing lipid panel",
+    "Missing BMI/weight/height",
+    "Missing medication list",
+    "Missing complete anemia work\u2011up (iron studies, B12/folate, reticulocyte count)",
+    "Missing cardiac biomarkers (BNP/NT\u2011proBNP)",
+    "Missing ECG",
+    "Missing echocardiogram",
+    "Missing peripheral vascular exam or ABI",
+    "Missing auscultation findings for valvular disease",
+    "Missing colonoscopy or fecal occult blood test"
+  ],
+  "recommended_workup": [
+    "Obtain accurate blood pressure readings (multiple visits)",
+    "Serum creatinine, eGFR, and urine albumin/creatinine ratio",
+    "Comprehensive lipid panel",
+    "Complete blood count with iron studies, B12, folate, reticulocyte count",
+    "Electrocardiogram (ECG)",
+    "BNP or NT\u2011proBNP measurement",
+    "Transthoracic echocardiogram to assess cardiac function and valve disease",
+    "Ankle\u2011brachial index (ABI) for peripheral arterial disease",
+    "Physical examination focusing on cardiovascular and musculoskeletal systems",
+    "Fecal occult blood test or colonoscopy to rule out GI bleed or colorectal cancer"
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Combined diabetic\u2011hypertensive nephropathy (CKD stage 4)",
+      "icd10": "N18.4",
+      "snomed": "",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus and hypertension documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine ~3.2\u202fmg/dL with estimated GFR \u224820\u202fmL/min/1.73\u202fm\u00b2 consistent with CKD stage\u202f4",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "Renal ultrasound showing bilaterally small, echogenic kidneys",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of advanced diabetic kidney disease and hypertensive nephrosclerosis best explains the severe reduction in GFR, proteinuria and the chronic nature of the renal impairment."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic cardiovascular disease (CAD / PAD / cerebrovascular disease)",
+      "icd10": "I25.10",
+      "snomed": "",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of dyslipidemia and smoking (10 pack\u2011years) in social history",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011year ASCVD risk >20\u202f% calculated by pooled cohort equations",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors and calculated ASCVD risk make atherosclerotic disease plausible, though no imaging or symptom data are currently available."
+    },
+    {
+      "rank": 3,
+      "name": "Heart failure with preserved ejection fraction (HFpEF) / cardiorenal syndrome",
+      "icd10": "I50.3",
+      "snomed": "",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented dyspnea on exertion and peripheral edema in recent clinic note",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated NT\u2011proBNP (value not yet obtained) anticipated based on CKD and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical symptoms and the presence of CKD raise suspicion for HFpEF, but objective cardiac data are missing, limiting certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Drug\u2011induced thrombocytopenia",
+      "icd10": "D69.6",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Rapid decline in platelet count from 411.8\u202f\u00d710\u00b3/\u00b5L to 182.5\u202f\u00d710\u00b3/\u00b5L over 2\u202fweeks",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_review",
+          "finding": "Current list includes sulfonylurea and ACE inhibitor; no classic offending agents identified",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The abrupt platelet drop suggests an iatrogenic cause, but without a clear culprit medication the likelihood remains low."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin not yet reported; anemia is common in CKD stage\u202f4",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given advanced CKD, anemia is plausible, but lack of CBC data prevents confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic kidney disease\u2011mineral and bone disorder (CKD\u2011MBD)",
+      "icd10": "N25.81",
+      "snomed": "",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Calcium, phosphate, PTH not yet measured; CKD\u2011MBD expected in stage\u202f4",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is likely in this stage of renal disease, yet biochemical confirmation is absent."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic urinary\u2011tract infection / interstitial nephritis",
+      "icd10": "N39.0",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine microscopy shows pyuria (29.5\u202f/HPF) without documented culture",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Pyuria raises the possibility of a chronic infection or interstitial process, but lack of culture or symptoms makes this diagnosis weak."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary glomerular disease (e.g., membranous nephropathy, amyloidosis)",
+      "icd10": "N04.9",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria reported without edema or hypoalbuminemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Nephrotic\u2011range proteinuria could indicate a secondary glomerular disease, but the absence of classic systemic features lowers its pre\u2011test probability."
+    }
+  ],
+  "primary_diagnosis": "Combined diabetic\u2011hypertensive nephropathy (CKD stage 4)",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient's long\u2011standing diabetes and hypertension, together with laboratory evidence of severe renal dysfunction (eGFR ~20\u202fmL/min/1.73\u202fm\u00b2) and imaging consistent with chronic kidney disease, make combined diabetic\u2011hypertensive nephropathy the most parsimonious explanation. Cardiovascular risk factors and symptoms support a secondary consideration of atherosclerotic disease and HFpEF, while laboratory trends (rapid platelet fall, pyuria) raise less likely possibilities of drug\u2011induced thrombocytopenia, chronic infection, or secondary glomerular disease. Missing laboratory parameters (CBC, iron studies, calcium\u2011phosphate\u2011PTH, lipid panel, BNP) and the implausibly low A1c value remain unresolved and limit certainty for several secondary diagnoses.",
+  "unresolved_findings": [
+    "A1c reported as 3.1\u202f% \u2013 implausibly low for a long\u2011standing diabetic (possible lab error or overtreatment).",
+    "Rapid platelet count decline from 411.8\u202f\u2192\u202f182.5\u202f\u00d710\u00b3/\u00b5L without documented cause.",
+    "Nephrotic\u2011range proteinuria without documented edema, hypoalbuminemia, or hyperlipidemia.",
+    "Pyuria (urine leukocytes 29.5\u202f/HPF) without accompanying symptoms or urine culture.",
+    "Absence of recent blood pressure, BMI, hemoglobin, lipid panel, calcium\u2011phosphate\u2011PTH, and cardiac imaging."
+  ],
+  "recommended_workup": [
+    "Repeat hemoglobin A1c with a validated assay or point\u2011of\u2011care test to verify glucose control.",
+    "Comprehensive medication reconciliation to identify any agents associated with thrombocytopenia.",
+    "Complete blood count with differential, iron studies, and reticulocyte count to assess anemia.",
+    "Serum calcium, phosphate, PTH, and vitamin D levels for CKD\u2011MBD evaluation.",
+    "Lipid panel and fasting glucose to refine ASCVD risk.",
+    "NT\u2011proBNP and transthoracic echocardiogram to confirm or exclude HFpEF.",
+    "Urine culture and sensitivity to evaluate for chronic urinary\u2011tract infection.",
+    "Renal ultrasound (if not already performed) to assess kidney size and rule out obstructive causes.",
+    "Consider renal biopsy if proteinuria persists and secondary glomerular disease remains a concern."
+  ]
+}

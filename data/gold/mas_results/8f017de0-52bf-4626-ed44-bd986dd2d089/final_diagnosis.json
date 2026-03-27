@@ -1,0 +1,243 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled/resistant hypertension (stage\u202f2) secondary to OSA, obesity, metabolic syndrome",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.29,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity coding present without BMI value",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated obstructive sleep apnea noted",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk driven by hypertension and metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe hypertension in the setting of untreated OSA, obesity and metabolic syndrome is classic for resistant hypertension; addressing the underlying drivers is essential."
+    },
+    {
+      "rank": 2,
+      "name": "Untreated obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "OSA diagnosis recorded without CPAP prescription or adherence data",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity present, a major risk factor for OSA",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Obesity and lack of documented CPAP therapy make untreated OSA highly likely and a major contributor to hypertension and metabolic derangements."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome / pre\u2011type\u202f2 diabetes",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pre\u2011diabetes noted in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose / HbA1c in pre\u2011diabetic range (implicit from summary)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, hypertension, and impaired glucose regulation fulfills criteria for metabolic syndrome, driving cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic obstructive pulmonary disease (emphysema\u2011predominant)",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "COPD listed as a comorbidity (emphysema\u2011predominant)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking status unknown but risk inferred from COPD coding",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "COPD is documented; its presence influences cardiovascular risk and may contribute to dyspnea and elevated CO\u2082."
+    },
+    {
+      "rank": 5,
+      "name": "Dyslipidemia (presumed)",
+      "icd10": "E78.5",
+      "snomed": "13644009",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome present, which commonly includes dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lipid panel missing, but clinical suspicion high",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic syndrome phenotype, dyslipidemia is highly probable despite absent laboratory confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Subclinical atherosclerotic coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Intermediate\u2011high 10\u2011year ASCVD risk calculated from hypertension, obesity, and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior coronary events documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk calculators suggest a non\u2011negligible probability of silent coronary atherosclerosis, warranting further evaluation."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "42343007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and obesity, risk factors for HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac imaging or BNP available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While risk factors are present, lack of objective cardiac data makes HFpEF a less certain consideration."
+    },
+    {
+      "rank": 8,
+      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension and pre\u2011diabetes, both contributors to CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal labs (eGFR, albuminuria) missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential early CKD cannot be confirmed without renal function data; probability remains low."
+    },
+    {
+      "rank": 9,
+      "name": "Primary aldosteronism (secondary hypertension)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension noted",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No aldosterone/renin testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Primary aldosteronism is a possible cause of resistant hypertension but lacks biochemical confirmation."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled/resistant hypertension (stage\u202f2) secondary to OSA, obesity, metabolic syndrome",
+  "primary_probability": 0.29,
+  "clinical_reasoning_summary": "The patient presents with severe stage\u202f2 hypertension in the context of untreated obstructive sleep apnea, obesity, and metabolic syndrome. These intertwined pathophysiologic drivers make resistant hypertension the most likely primary problem. Untreated OSA further exacerbates blood pressure elevation. Metabolic syndrome accounts for pre\u2011diabetes and presumed dyslipidemia, while COPD adds to cardiovascular risk. Subclinical coronary atherosclerosis is plausible given the calculated ASCVD risk. HFpEF, early CKD, and primary aldosteronism remain possible but are limited by absent objective data.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 264.1\u202ffL) without platelet count or inflammatory markers",
+    "Mild hyperchloremia (Cl\u207b 109.2\u202fmmol/L) with no clear acid\u2011base assessment",
+    "High\u2011normal sodium (142.8\u202fmmol/L) trending upward",
+    "Upper\u2011normal CO\u2082 (28.2\u202fmmol/L) possibly reflecting metabolic alkalosis or chronic respiratory compensation",
+    "Missing exact BMI value despite obesity coding",
+    "Absent eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "No lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Unknown smoking status",
+    "No documented CPAP use or adherence for OSA",
+    "Missing vaccination records (influenza, pneumococcal, COVID\u201119)",
+    "No platelet count reported",
+    "No cardiac imaging (ECG, echocardiogram) or BNP",
+    "No pulmonary function test results",
+    "No iron studies, B12, folate to clarify anemia",
+    "No thyroid function tests"
+  ],
+  "recommended_workup": [
+    "Ambulatory blood pressure monitoring to confirm resistant hypertension",
+    "Polysomnography or home sleep apnea testing with CPAP adherence assessment",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Renal function panel: serum creatinine, eGFR, urine albumin\u2011to\u2011creatinine ratio",
+    "Electrocardiogram and transthoracic echocardiogram with diastolic function assessment, BNP/NT\u2011proBNP",
+    "Coronary artery calcium scoring or stress testing given ASCVD risk",
+    "Pulmonary function tests with bronchodilator response",
+    "Detailed smoking history and cotinine level if needed",
+    "Screening for primary aldosteronism: plasma aldosterone/renin ratio",
+    "Complete blood count with platelet count, iron studies, vitamin B12, folate",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "Vaccination status review and update (influenza, pneumococcal, COVID\u201119)",
+    "Repeat basic metabolic panel to reassess electrolytes and acid\u2011base status"
+  ]
+}

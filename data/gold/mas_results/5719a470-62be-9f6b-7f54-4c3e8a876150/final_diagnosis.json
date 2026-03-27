@@ -1,0 +1,283 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease due to diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 5.8\u202fmL/min/1.73\u202fm\u00b2, stage\u202f5 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing type\u202f2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD with eGFR <\u202f6, massive proteinuria, and a history of diabetes strongly point to diabetic nephropathy as the cause of ESRD."
+    },
+    {
+      "rank": 2,
+      "name": "Dialysis\u2011related issues (access, modality, timing)",
+      "icd10": "Z99.2",
+      "snomed": "702530001",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented dialysis plan despite eGFR 5.8",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Imminent need for renal replacement therapy in ESRD",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient is in ESRD without a recorded dialysis strategy, making access, modality selection, and timing critical concerns."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Documented low hemoglobin consistent with anemia of chronic kidney disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No ESA or iron therapy documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is a common complication of stage\u202f5 CKD; the record shows low hemoglobin without treatment."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD without phosphate binders or vitamin\u202fD analogues",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "High risk of mineral\u2011bone disorder in ESRD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients with eGFR <\u202f15 are prone to secondary hyperparathyroidism; lack of therapy suggests it is likely present."
+    },
+    {
+      "rank": 5,
+      "name": "Hyperkalaemia (risk in CKD\u20115 on ACE\u2011inhibitor)",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on ACE\u2011inhibitor therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "CKD\u20115 predisposes to impaired potassium excretion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Although potassium level is not recorded, the combination of ACE\u2011inhibitor use and advanced CKD makes hyperkalaemia a plausible risk."
+    },
+    {
+      "rank": 6,
+      "name": "Hypertensive heart disease with heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I11.0",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "CKD and hypertension increase risk of HFpEF",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension in the setting of CKD raises the likelihood of diastolic dysfunction, though imaging data are lacking."
+    },
+    {
+      "rank": 7,
+      "name": "Silent atherosclerotic coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, dyslipidemia, obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "High prevalence of subclinical CAD in CKD patients",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factor burden suggests possible silent coronary disease despite lack of testing."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (known)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Previously documented diagnosis of OSA",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Confirmed prior diagnosis; contributes to cardiovascular risk but is not the primary issue."
+    },
+    {
+      "rank": 9,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "Metabolic syndrome (obesity, hypertriglyceridemia, diabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.7\u202fmg/dL without known liver disease (nonspecific)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic profile makes NAFLD plausible, though liver imaging/labs are missing."
+    },
+    {
+      "rank": 10,
+      "name": "Alcoholic liver disease",
+      "icd10": "K70.30",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "No documented alcohol intake, but urine bilirubin present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible but unsupported without alcohol consumption data."
+    },
+    {
+      "rank": 11,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "Risk factors for atherosclerosis present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No physical exam or non\u2011invasive testing documented; remains a possibility."
+    },
+    {
+      "rank": 12,
+      "name": "Uremic pericarditis",
+      "icd10": "I31.9",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "Advanced uremia can cause pericarditis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No cardiac signs recorded; low likelihood but cannot be excluded."
+    },
+    {
+      "rank": 13,
+      "name": "Paroxysmal atrial fibrillation",
+      "icd10": "I48.0",
+      "snomed": "49446004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "Atrial arrhythmias are common in CKD, but no rhythm monitoring performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Speculative without ECG or monitoring data."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease due to diabetic nephropathy",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is a middle\u2011aged man with stage\u202f5 diabetic CKD (eGFR 5.8) and nephrotic\u2011range proteinuria, establishing ESRD due to diabetic nephropathy as the dominant problem. The chart lacks any dialysis plan, making dialysis\u2011related issues the next most critical concern. Anemia, mineral\u2011bone disorder, and electrolyte disturbances are expected complications of ESRD and are reflected in the differential. Cardiovascular comorbidities (hypertension, CAD, HFpEF, PAD) are plausible given the risk factor burden, while sleep apnea is a known diagnosis. Liver disease possibilities are considered but unsupported by labs. Low\u2011confidence entities (atrial fibrillation, uremic pericarditis) remain speculative.",
+  "unresolved_findings": [
+    "Urine bilirubin 0.7\u202fmg/dL without documented liver disease",
+    "Urine specific gravity 1.000 (extremely dilute)",
+    "Contradictory serum creatinine values (2.8\u202fmg/dL vs 2.2\u202fmg/dL)",
+    "Implausibly low HbA1c 4.3\u202f% (likely data error)",
+    "Missing recent blood pressure readings",
+    "Missing LDL cholesterol and full lipid panel",
+    "No documented dialysis or renal replacement therapy despite eGFR 5.8",
+    "Absence of phosphate binders, vitamin\u202fD analogues, ESA, iron studies, statin, antiplatelet, SGLT2\u2011i"
+  ],
+  "recommended_workup": [
+    "Serum potassium, phosphate, calcium, PTH, 25\u2011OH vitamin D levels",
+    "Complete iron studies (ferritin, transferrin saturation) and consider ESA therapy",
+    "Echocardiogram with diastolic function assessment",
+    "Cardiac stress testing or coronary calcium scoring",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Full lipid panel including LDL",
+    "Liver ultrasound with FibroScan and hepatitis serologies",
+    "Polysomnography (if not up\u2011to\u2011date) to reassess OSA control",
+    "Dialysis planning: vascular access evaluation, modality discussion, timing",
+    "Urine osmolality and repeat specific gravity to investigate concentrating defect",
+    "Repeat serum creatinine to resolve discrepancy"
+  ]
+}

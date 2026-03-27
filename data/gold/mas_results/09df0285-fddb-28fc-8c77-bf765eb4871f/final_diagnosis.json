@@ -1,0 +1,247 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease stage 4 (hypertensive/vascular)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Serum creatinine 3.2\u202fmg/dL indicating severe renal dysfunction",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR discrepancy suggests stage 4 CKD despite calculated value",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Marked renal impairment in the setting of longstanding hypertension and vascular risk factors points to hypertensive/vascular CKD as the dominant driver of the patient's clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (untreated) with obesity",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and reported habitual snoring",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High STOP\u2011BANG score indicating high OSA risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and clinical clues strongly suggest untreated OSA, which contributes to resistant hypertension and metabolic derangements."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, central obesity, dyslipidemia, and pre\u2011diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides and low HDL\u2011C",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The clustering of cardiovascular risk factors fulfills criteria for metabolic syndrome, driving both renal and hepatic pathology."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hypertension (primary aldosteronism / renal\u2011artery stenosis / other endocrine)",
+      "icd10": "I10.9",
+      "snomed": "38341003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite multiple antihypertensive agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented hormonal or renovascular testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent hypertension raises suspicion for secondary causes, but lack of confirmatory testing lowers certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild elevation of ALT/AST with normal GGT",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome predispose to hepatic steatosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The liver enzyme pattern together with metabolic risk factors makes NAFLD/NASH plausible, though imaging is lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Subclinical atherosclerotic coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk score based on age, hypertension, dyslipidemia, and CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL\u2011C level",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the cumulative cardiovascular risk, subclinical coronary atherosclerosis is likely, though no imaging has been performed."
+    },
+    {
+      "rank": 7,
+      "name": "Alcoholic liver disease",
+      "icd10": "K70.30",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of regular alcohol consumption (reported) with mild transaminase elevation",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT/AST ratio not markedly elevated",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Alcohol use could contribute to liver enzyme abnormalities, but the pattern is non\u2011specific and other etiologies are more likely."
+    },
+    {
+      "rank": 8,
+      "name": "Iron\u2011deficiency anemia (vs anemia of chronic kidney disease)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with microcytic indices (assumed from chart)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD present, making anemia of chronic disease more probable",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is present, but without iron studies the etiology remains uncertain; CKD\u2011related anemia is more plausible."
+    },
+    {
+      "rank": 9,
+      "name": "Essential thrombocythemia / reactive thrombocytosis",
+      "icd10": "D47.3",
+      "snomed": "41569001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet count on CBC",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Reactive thrombocytosis common in CKD and inflammatory states",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Platelet elevation is noted, but reactive causes are far more likely than a primary myeloproliferative disorder."
+    },
+    {
+      "rank": 10,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion without documented reduced EF",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and CKD are risk factors for HFpEF",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms could reflect early HFpEF, yet no echocardiographic or biomarker data are available to substantiate the diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease stage 4 (hypertensive/vascular)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s markedly elevated serum creatinine, resistant hypertension, and extensive vascular risk profile point to hypertensive/vascular CKD stage 4 as the central pathology. Obesity\u2011driven obstructive sleep apnea and metabolic syndrome further exacerbate blood pressure and renal injury. Secondary hypertension remains a consideration but lacks confirmatory testing. Hepatic enzyme abnormalities are most plausibly explained by NAFLD/NASH in the context of metabolic syndrome, with alcoholic liver disease less likely. Cardiovascular risk translates into subclinical coronary atherosclerosis. Anemia is present, likely CKD\u2011related, while thrombocytosis and possible HFpEF are low\u2011probability contributors. The differential reflects the reviewer\u2019s probability adjustments and prioritizes CKD as the primary driver.",
+  "unresolved_findings": [
+    "Discordance between serum creatinine 3.2\u202fmg/dL and eGFR 71\u202fmL/min/1.73\u202fm\u00b2",
+    "Missing urine albumin\u2011to\u2011creatinine ratio",
+    "Absent electrolyte panel (Na+, K+, bicarbonate)",
+    "No fasting glucose or oral glucose tolerance test",
+    "Absence of AST, GGT, ALP, bilirubin to fully characterize liver injury",
+    "No viral hepatitis serologies",
+    "Missing inflammatory markers (CRP, ESR, WBC)",
+    "Unrecorded smoking status",
+    "No thyroid function tests (TSH, free T4)",
+    "No 25\u2011OH vitamin D level",
+    "No medication adherence assessment",
+    "No ambulatory/home blood pressure monitoring data"
+  ],
+  "recommended_workup": [
+    "Renin and aldosterone levels with plasma renin activity",
+    "Renal artery imaging (CT angiography or duplex ultrasound) to assess for stenosis",
+    "Cystatin\u2011C based eGFR to resolve creatinine\u2011eGFR discrepancy",
+    "Urine albumin\u2011to\u2011creatinine ratio for CKD staging",
+    "Comprehensive iron studies (serum ferritin, transferrin saturation)",
+    "Full liver panel (AST, ALT, GGT, ALP, bilirubin, albumin)",
+    "Viral hepatitis serologies (HBsAg, anti\u2011HBc, HCV antibody)",
+    "Polysomnography to confirm obstructive sleep apnea",
+    "Echocardiogram with diastolic function assessment and BNP/NT\u2011proBNP",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism",
+    "25\u2011OH vitamin D level",
+    "Detailed smoking history and cotinine testing if needed",
+    "Medication adherence interview and pill count",
+    "24\u2011hour ambulatory blood pressure monitoring"
+  ]
+}

@@ -1,0 +1,516 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Primary (essential) hypertension, stage 2 (untreated)",
+      "icd10": "I10",
+      "snomed": "",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension (BP 141/88 mmHg) \u2013 stage 2",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "bp_category: \"stage2_hypertension\"",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Untreated stage\u20112 hypertension is the most direct explanation for the elevated blood pressure reading and is a common primary condition in a 41\u2011year\u2011old male."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome (\u22653/5 criteria)",
+      "icd10": "E66.9",
+      "snomed": "",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 29 mg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 109 mg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 5.8% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "glycemic_control: \"prediabetic\"",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "bp_category: \"stage2_hypertension\"",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of low HDL, borderline LDL, prediabetes, and untreated hypertension fulfills multiple metabolic\u2011syndrome criteria."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease stage 3a (hypertensive/diabetic)",
+      "icd10": "N18.3",
+      "snomed": "",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.6 mg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension (untreated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.8%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine with normal BUN suggests intrinsic renal disease; hypertension and prediabetes are common etiologies."
+    },
+    {
+      "rank": 4,
+      "name": "Primary aldosteronism (or other secondary hypertension)",
+      "icd10": "E26.0",
+      "snomed": "",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising chloride (108.7 mmol/L) with falling CO\u2082 (24.4 mmol/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 4.8 mmol/L (normal, falling)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Electrolyte pattern suggests a subtle non\u2011anion\u2011gap metabolic disturbance that can be seen in primary aldosteronism; requires aldosterone\u2011renin testing."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea, moderate\u2011severe",
+      "icd10": "G47.33",
+      "snomed": "",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "clinical_complexity: \"high\" (multiple metabolic risk factors)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, 41 years, chronic opioid use (sedating)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "bp_category: \"stage2_hypertension\"",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Middle\u2011aged male with hypertension, possible overweight (BMI missing) and sedating opioids has a high pre\u2011test probability for OSA."
+    },
+    {
+      "rank": 6,
+      "name": "Opioid\u2011use disorder, moderate\u2011severe",
+      "icd10": "F11.20",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011dose poly\u2011opioid regimen (oxycodone ER, hydrocodone ER, fentanyl patch)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "active_med_count: 8, polypharmacy_risk: \"moderate\"",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic severe neck pain refractory to opioids",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of high\u2011dose multiple opioids and chronic pain meets criteria for opioid\u2011use disorder."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid\u2011induced secondary adrenal insufficiency",
+      "icd10": "E27.2",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic high\u2011dose opioid therapy (including fentanyl)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "clinical_complexity: \"high\"",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011term opioids can suppress ACTH leading to secondary adrenal insufficiency; cortisol testing is pending."
+    },
+    {
+      "rank": 8,
+      "name": "Opioid\u2011induced hypogonadism",
+      "icd10": "E29.1",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic high\u2011dose opioid use",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "clinical_complexity: \"high\"",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioids suppress the hypothalamic\u2011pituitary\u2011gonadal axis; testosterone testing is needed."
+    },
+    {
+      "rank": 9,
+      "name": "Stable ischemic heart disease (asymptomatic CAD)",
+      "icd10": "I20\u2011I25",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 29 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 109 mg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 5.8%)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple cardiovascular risk factors place the patient at moderate risk for subclinical coronary artery disease."
+    },
+    {
+      "rank": 10,
+      "name": "Major depressive disorder / PTSD",
+      "icd10": "F33.1 / F43.10",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate chronic stress, refugee status, unemployment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic severe pain refractory to treatment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and chronic pain are risk factors for mood disorders, though no formal psychiatric diagnosis is recorded."
+    },
+    {
+      "rank": 11,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C and anemia (possible hypothyroid pattern)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic fatigue not documented but possible",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can cause dyslipidemia and anemia; thyroid labs are missing."
+    },
+    {
+      "rank": 12,
+      "name": "Non\u2011alcoholic fatty liver disease with fibrosis",
+      "icd10": "K76.0",
+      "snomed": "",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome components (hypertension, low HDL, prediabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD; liver enzymes not provided."
+    },
+    {
+      "rank": 13,
+      "name": "Nutritional anemia (iron\u2011deficiency, B12/folate)",
+      "icd10": "D50\u2011D53",
+      "snomed": "",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (moderate severity)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "charlson_index: 1 (includes anemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is documented but work\u2011up is missing; nutritional deficiency is a common cause."
+    },
+    {
+      "rank": 14,
+      "name": "Current tobacco use (if present)",
+      "icd10": "Z72.0",
+      "snomed": "",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Smoking status missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Smoking is a major CV risk factor; status unknown, but must be clarified."
+    },
+    {
+      "rank": 15,
+      "name": "Alcohol\u2011use disorder (moderate)",
+      "icd10": "F10.20",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Alcohol use not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Alcohol can worsen hypertension and liver disease; data missing."
+    },
+    {
+      "rank": 16,
+      "name": "Peripheral arterial disease, unspecified",
+      "icd10": "I73.9",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "clinical_complexity: \"high\" with multiple vascular risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced atherosclerosis could be present given dyslipidemia and hypertension."
+    },
+    {
+      "rank": 17,
+      "name": "Heart failure, unspecified (HFpEF likely)",
+      "icd10": "I50.9",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and anemia can lead to HFpEF; no imaging or exam data yet."
+    },
+    {
+      "rank": 18,
+      "name": "Cervical spondylotic myelopathy / radiculopathy (chronic neck pain)",
+      "icd10": "M48.06",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic severe neck pain since 2014, opioid\u2011refractory",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cervical imaging performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing neck pain suggests degenerative cervical spine disease."
+    },
+    {
+      "rank": 19,
+      "name": "Chronic pain syndrome (opioid\u2011refractory)",
+      "icd10": "G89.2",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic severe neck pain with high\u2011dose opioid regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "clinical_complexity: \"high\"",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Pain persists despite maximal opioid therapy, indicating a central sensitisation component."
+    },
+    {
+      "rank": 20,
+      "name": "Multiple myeloma / plasma\u2011cell dyscrasia",
+      "icd10": "C90.0",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine without clear cause",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unknown etiology",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unexplained anemia and renal dysfunction raise a low\u2011probability concern for plasma\u2011cell disease."
+    },
+    {
+      "rank": 21,
+      "name": "Renal\u2011artery stenosis (fibromuscular dysplasia)",
+      "icd10": "I70.2",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated hypertension in a relatively young male",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising chloride with falling CO\u2082 (possible subtle metabolic effect)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary hypertension in a young patient warrants evaluation for renal\u2011artery stenosis."
+    },
+    {
+      "rank": 22,
+      "name": "Cushing\u2019s syndrome (ACTH\u2011independent)",
+      "icd10": "E35.0",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "stage2 hypertension, low HDL, possible weight gain (BMI missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Features overlap with Cushing\u2019s but evidence is minimal; kept as a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Primary (essential) hypertension, stage 2 (untreated)",
+  "primary_probability": 0.16,
+  "clinical_reasoning_summary": "The patient is a 41\u2011year\u2011old Asian male with untreated stage\u20112 hypertension, dyslipidemia characterized by low HDL and borderline LDL, and prediabetes, fulfilling metabolic\u2011syndrome criteria. Elevated creatinine suggests early CKD, likely secondary to hypertension and prediabetes, and may also explain the chronic anemia. Poly\u2011opioid therapy for chronic neck pain introduces secondary endocrine effects (adrenal insufficiency, hypogonadism) and raises the possibility of opioid\u2011use disorder and chronic pain syndrome. Electrolyte trends (rising chloride, falling CO\u2082) and the age\u2011related hypertension raise suspicion for secondary causes such as primary aldosteronism or renal\u2011artery stenosis. The combination of cardiovascular risk factors warrants consideration of subclinical coronary disease. Psychosocial stressors, unemployment, and refugee status increase the likelihood of mood disorders. Several findings (elevated creatinine, anemia, low HDL, electrolyte shift) remain unexplained pending targeted investigations.",
+  "unresolved_findings": [
+    "Elevated creatinine without eGFR or proteinuria",
+    "Low HDL\u2011C with normal total cholesterol and incomplete lipid panel",
+    "Rising chloride with falling bicarbonate (non\u2011anion\u2011gap metabolic acidosis)",
+    "Chronic anemia of unknown etiology (no iron studies, B12, folate, retic)",
+    "Poly\u2011opioid regimen without documented opioid\u2011use disorder assessment",
+    "Missing BMI, waist circumference, smoking and alcohol use history",
+    "Absence of documented mental\u2011health diagnoses despite high stress and chronic pain"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR calculation, and urine albumin\u2011to\u2011creatinine ratio",
+    "Renal ultrasound or CT angiography to assess for renal\u2011artery stenosis",
+    "Aldosterone\u2011renin ratio with plasma renin activity",
+    "Morning serum cortisol and ACTH\u2011stim test",
+    "Total and free testosterone levels",
+    "TSH and free T4",
+    "Complete blood count with indices, reticulocyte count, serum iron, ferritin, transferrin saturation, vitamin B12, folate",
+    "STOP\u2011BANG questionnaire followed by overnight polysomnography if indicated",
+    "PHQ\u20119, GAD\u20117, and PCL\u20115 screening for depression, anxiety, and PTSD",
+    "BMI, waist circumference, weight, height measurement",
+    "Detailed smoking and alcohol use history (AUDIT\u2011C)",
+    "Liver function tests and hepatic ultrasound or FibroScan",
+    "Cervical spine MRI or CT to evaluate for spondylosis/radiculopathy",
+    "Serum protein electrophoresis with immunofixation and free light\u2011chain assay",
+    "Urinalysis with microscopy and culture",
+    "Review of opioid prescription monitoring program and urine drug screen"
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic Cardiovascular Disease (stable/unstable CAD)",
+      "icd10": "I25.10",
+      "snomed": "401303003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior acute ST\u2011segment elevation myocardial infarction (STEMI) \u2013 1998\u201101\u201123",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction \u2013 high\u2011priority problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension, diabetes mellitus type\u202f2, metabolic syndrome, obesity, hypertriglyceridemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications for secondary CV prevention: aspirin, prasugrel, propranolol, lisinopril, atorvastatin",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C\u202f=\u202f114.3\u202fmg/dL, total cholesterol\u202f=\u202f206.5\u202fmg/dL, triglycerides\u202f=\u202f184.7\u202fmg/dL (borderline\u2011high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f66, female, Black race, Charlson comorbidity index\u202f=\u202f3, high clinical complexity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A historic STEMI combined with ongoing dual antiplatelet therapy and a full metabolic\u2011risk cluster (HTN, DM2, obesity, dyslipidemia) makes active atherosclerotic disease the most probable current problem."
+    },
+    {
+      "rank": 2,
+      "name": "Stage\u202f3a Chronic Kidney Disease (hypertensive\u2011diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD)\u202f=\u202f57.1\u202fmL/min/1.73\u202fm\u00b2 \u2192 Stage\u202f3a CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium\u202f=\u202f5.2\u202fmmol/L (borderline\u2011high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension & diabetes \u2013 primary drivers of CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011inhibitor (lisinopril) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "\"has_anemia\"\u202f=\u202ftrue (could be anemia of CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced eGFR with borderline hyperkalaemia in a patient with longstanding hypertension and diabetes, plus ACE\u2011I therapy, points to hypertensive\u2011diabetic CKD stage\u202f3a."
+    },
+    {
+      "rank": 3,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications include \u03b2\u2011blocker (propranolol) and ACE\u2011I (lisinopril) typical for HF management",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical complexity\u202f=\u202fhigh; polypharmacy risk\u202f=\u202fmoderate",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia and CKD, both risk factors for HFpEF",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple risk factors (age, hypertension, diabetes, CKD, anemia) and use of HF\u2011directed meds raise the likelihood of HFpEF despite lack of imaging."
+    },
+    {
+      "rank": 4,
+      "name": "Major Depressive Disorder / Generalized Anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, limited social contact, social isolation, intimate\u2011partner abuse, unemployment",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antidepressant or anxiolytic medication listed",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "\"clinical_complexity\"\u202f=\u202fhigh",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Significant psychosocial stressors without mental\u2011health treatment suggest an active mood or anxiety disorder contributing to fatigue and poor disease control."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) \u2013 onset 1991\u201104\u201130",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "\"has_metabolic_syndrome\"\u202f=\u202ftrue",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension in a middle\u2011aged Black woman make OSA plausible, though symptom data are missing."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral Arterial Disease (PAD)",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of ASCVD (MI, hypertension, diabetes, dyslipidemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f66, Black race \u2013 higher PAD prevalence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High atherosclerotic burden raises PAD risk, though no limb symptoms or ABI data are available."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "12403003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertriglyceridemia and borderline\u2011high LDL\u2011C despite statin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (could be anemia of hypothyroidism)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can explain dyslipidemia, anemia, and fatigue; no thyroid labs have been ordered yet."
+    },
+    {
+      "rank": 8,
+      "name": "Medication\u2011related adverse effects (\u03b2\u2011blocker fatigue, ACE\u2011I hyperkalaemia, statin\u2011associated myopathy)",
+      "icd10": "Y57.9",
+      "snomed": "442452003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium\u202f=\u202f5.2\u202fmmol/L (borderline\u2011high) while on lisinopril",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Propranolol (\u03b2\u2011blocker) can worsen glucose control and cause fatigue",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Atorvastatin may modestly raise glucose and cause myalgia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lab and medication profile suggest possible drug\u2011induced electrolyte or metabolic side effects contributing to symptoms."
+    },
+    {
+      "rank": 9,
+      "name": "Occult malignancy (colorectal, breast, lung) presenting as chronic anemia",
+      "icd10": "R59.0",
+      "snomed": "399981008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia since 1982",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f\u2265\u202f65, high comorbidity burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing anemia in an older adult warrants evaluation for occult cancer, especially given missing iron studies and stool testing."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic Cardiovascular Disease (stable/unstable CAD)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s extensive atherosclerotic risk profile (prior MI, hypertension, diabetes, metabolic syndrome, obesity, dyslipidemia) combined with ongoing dual antiplatelet therapy makes CAD the most likely active problem. Concurrent stage\u202f3a CKD driven by hypertensive\u2011diabetic nephropathy, and the high prevalence of HFpEF in this demographic, explain the next highest probabilities. Psychosocial stressors raise the likelihood of depression/anxiety, while obesity and hypertension support OSA and PAD. Missing thyroid, cancer\u2011screen, and detailed cardiac/vascular assessments create uncertainty, prompting inclusion of thyroid dysfunction, medication adverse effects, and occult malignancy with lower probabilities.",
+  "unresolved_findings": [
+    "Missing current blood pressure readings (systolic/diastolic)",
+    "Missing current BMI and weight",
+    "Absent heart rate and orthostatic vitals",
+    "No complete CBC (hemoglobin, hematocrit, WBC)",
+    "No iron studies, ferritin, B12, folate",
+    "No thyroid function tests (TSH, free T4)",
+    "No liver function panel",
+    "No urine albumin\u2011creatinine ratio or protein quantification",
+    "No ankle\u2011brachial index or PAD symptom documentation",
+    "No neurocognitive assessment or brain imaging",
+    "No sleep study or STOP\u2011Bang questionnaire results",
+    "No cancer screening results (colonoscopy, mammogram, low\u2011dose CT)",
+    "No BNP or NT\u2011proBNP level",
+    "No recent stress test or coronary imaging"
+  ],
+  "recommended_workup": [
+    "Obtain office blood pressure (average of 3 readings) and heart rate; record weight/BMI",
+    "Transthoracic echocardiogram with diastolic function assessment",
+    "BNP or NT\u2011proBNP measurement",
+    "Exercise stress test or coronary CT angiography to evaluate for active ischemia",
+    "Complete CBC with differential, iron studies, ferritin, vitamin B12, folate",
+    "Urine albumin\u2011to\u2011creatinine ratio and repeat eGFR",
+    "Thyroid panel (TSH, free T4)",
+    "Comprehensive liver function tests (AST, ALT, ALP, bilirubin, GGT)",
+    "Ankle\u2011brachial index measurement for peripheral arterial disease",
+    "STOP\u2011Bang questionnaire followed by home sleep apnea test if indicated",
+    "PHQ\u20119 and GAD\u20117 screening for depression and anxiety",
+    "Age\u2011appropriate cancer screening: colonoscopy (or FIT), mammogram, low\u2011dose chest CT if smoking history emerges",
+    "Medication reconciliation with pharmacist review for adverse effect assessment"
+  ]
+}

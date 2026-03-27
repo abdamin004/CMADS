@@ -1,0 +1,278 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Drug-induced cholestatic/hepatocellular injury (duplicate high\u2011intensity statins + tacrine)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.21,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 20\u202fmg + Atorvastatin 40\u202fmg (duplicate high\u2011intensity statins)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Tacrine 10\u202fmg (known hepatotoxic potential)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin\u202f=\u202f14.7\u202fmg/dL (severe hyperbilirubinemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated high\u2011sensitivity troponin I\u202f=\u202f112.7\u202fng/L (suggests myocardial strain but also seen in CKD)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of two high\u2011intensity statins and tacrine creates a high risk for drug\u2011induced liver injury. The markedly elevated bilirubin, in the absence of documented liver disease, points to a cholestatic or hepatocellular process most consistent with medication toxicity."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive biliary disease (choledocholithiasis / cholangiocarcinoma)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin\u202f=\u202f14.7\u202fmg/dL (severe hyperbilirubinemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f=\u202f80\u202fy (high risk for biliary malignancy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior documented liver disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A direct hyperbilirubinemia of this magnitude in an elderly male strongly suggests mechanical obstruction of the biliary tree. Imaging is required to differentiate stones from neoplastic causes."
+    },
+    {
+      "rank": 3,
+      "name": "Cardiorenal syndrome (chronic CAD with progressive CKD)",
+      "icd10": "I13.0",
+      "snomed": "414545008",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease (high severity) and prior MI (1993)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity Troponin I\u202f=\u202f112.7\u202fng/L",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR\u202f=\u202f7.2\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol succinate 100\u202fmg ER, low\u2011normal BP 104/66\u202fmmHg",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing coronary artery disease with persistent troponin elevation and severe renal dysfunction reflects a bidirectional cardiorenal interaction, where chronic myocardial injury worsens renal perfusion and CKD amplifies troponin levels."
+    },
+    {
+      "rank": 4,
+      "name": "NSAID\u2011induced acute tubular injury / interstitial nephritis",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Naproxen sodium 220\u202fmg (contra\u2011indicated in stage\u202f5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine\u202f=\u202f2.8\u202fmg/dL, eGFR\u202f=\u202f7.2\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Low\u2011normal blood pressure limiting renal perfusion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAID use in advanced CKD can precipitate acute tubular necrosis or interstitial nephritis, contributing to the already severe renal impairment."
+    },
+    {
+      "rank": 5,
+      "name": "Acute coronary syndrome (type\u202f2 demand ischemia)",
+      "icd10": "I21.9",
+      "snomed": "413444003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity Troponin I\u202f=\u202f112.7\u202fng/L",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "\u03b2\u2011blocker therapy (metoprolol) may blunt chest pain perception",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f=\u202f80\u202fy, hypertension, obesity, pre\u2011diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin in the setting of low\u2011normal blood pressure, anemia, and CKD raises concern for demand ischemia; serial troponins and ECG are needed to confirm."
+    },
+    {
+      "rank": 6,
+      "name": "Decompensated heart failure (reduced or preserved EF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease with prior MI",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High hematocrit\u202f=\u202f49.9\u202f% with borderline low hemoglobin (possible hemoconcentration)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Low\u2011normal BP suggesting possible low\u2011output state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic CAD can lead to systolic or diastolic dysfunction; volume status changes could explain the hematocrit discrepancy and contribute to renal hypoperfusion."
+    },
+    {
+      "rank": 7,
+      "name": "Hemolytic process (autoimmune or microangiopathic)",
+      "icd10": "D59.9",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe total bilirubin\u202f=\u202f14.7\u202fmg/dL (if indirect component predominates)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Discordant hemoglobin\u202f=\u202f12.8\u202fg/dL vs hematocrit\u202f=\u202f49.9\u202f% (possible hemoconcentration)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If the bilirubin is primarily indirect, hemolysis becomes a plausible cause; however, lack of LDH, haptoglobin, and smear data limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Occult gastrointestinal bleeding",
+      "icd10": "K92.2",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Aspirin 81\u202fmg + Naproxen sodium (NSAID) increasing GI bleed risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low hemoglobin\u202f=\u202f12.8\u202fg/dL",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic antiplatelet/NSAID use may cause slow GI blood loss, contributing to mild anemia."
+    },
+    {
+      "rank": 9,
+      "name": "Prostate carcinoma with hepatic metastasis",
+      "icd10": "C61",
+      "snomed": "93880001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prostate carcinoma (in\u2011situ) documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f=\u202f80\u202fy (increased cancer metastasis risk)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metastatic prostate cancer could involve the liver and cause cholestasis, but no imaging or PSA data are available."
+    },
+    {
+      "rank": 10,
+      "name": "Early infection (UTI, respiratory, or other)",
+      "icd10": "B99",
+      "snomed": "64572001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukocyte count\u202f=\u202f8.3\u202f\u00d710\u00b3/\u00b5L (normal but trending upward)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis (low severity)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A subtle rise in WBC could herald an infection that may also elevate troponin; however, no fever or focal signs are reported."
+    }
+  ],
+  "primary_diagnosis": "Drug-induced cholestatic/hepatocellular injury (duplicate high\u2011intensity statins + tacrine)",
+  "primary_probability": 0.21,
+  "clinical_reasoning_summary": "The patient\u2019s severe hyperbilirubinemia, duplicate high\u2011intensity statin therapy, and tacrine use point to a drug\u2011induced liver injury as the most likely primary problem. Obstructive biliary disease remains a close alternative given the magnitude of bilirubin. Chronic ischemic heart disease with persistent troponin elevation and stage\u202f5 CKD constitutes a high\u2011probability cardiorenal syndrome that likely contributes to renal decline and troponin rise. NSAID use, possible acute coronary syndrome, heart failure, hemolysis, GI bleeding, metastatic prostate cancer, and infection are included as secondary considerations based on supporting but less definitive evidence. Gaps in liver enzyme panels, bilirubin fractionation, abdominal imaging, cardiac imaging, and hemolysis labs limit certainty, prompting targeted work\u2011up.",
+  "unresolved_findings": [
+    "Bilirubin fractionation (direct vs indirect) not provided",
+    "Comprehensive liver enzyme panel (ALT, AST, ALP, GGT, INR) missing",
+    "Abdominal imaging (ultrasound/MRCP) not performed",
+    "Serial troponin trend and ECG results unavailable",
+    "Echocardiogram (EF, wall motion) not obtained",
+    "Hemolysis work\u2011up (LDH, haptoglobin, reticulocyte count, peripheral smear) absent",
+    "Urinalysis and renal ultrasound not available"
+  ],
+  "recommended_workup": [
+    "Order right\u2011upper\u2011quadrant ultrasound with Doppler; if inconclusive, proceed to MRCP to evaluate for biliary obstruction.",
+    "Obtain full liver panel (ALT, AST, ALP, GGT, INR) and repeat bilirubin with direct/indirect fractions.",
+    "Repeat high\u2011sensitivity troponin in 3\u2011hour intervals and obtain a 12\u2011lead ECG.",
+    "Perform transthoracic echocardiogram with assessment of EF and diastolic function; measure BNP/NT\u2011proBNP.",
+    "Discontinue one of the statins and hold tacrine; monitor liver enzymes for improvement.",
+    "Replace naproxen with acetaminophen or other CKD\u2011safe analgesic.",
+    "Order hemolysis labs: LDH, haptoglobin, reticulocyte count, peripheral smear, direct Coombs test.",
+    "Conduct fecal occult blood test and consider upper endoscopy if anemia persists.",
+    "Obtain PSA level and consider prostate imaging if clinically indicated.",
+    "Collect urine culture and basic metabolic panel; consider chest X\u2011ray if respiratory symptoms develop."
+  ]
+}

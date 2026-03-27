@@ -1,0 +1,367 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea (moderate-severe)",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea diagnosed 2022-07-15 (SNOMED 78275009)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "OSA contributes to hypertension, insulin resistance, CKD progression",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress documented 2024-09-21",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA drives sympathetic overactivity, worsening hypertension, metabolic dysregulation, and renal acid\u2011base handling, explaining several observed abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension with early target\u2011organ damage",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension onset 2023-09-16, on lisinopril + hydrochlorothiazide",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine 1.5 mg/dL suggesting renal impact",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (obesity, prediabetes, male sex)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension despite two agents indicates early target\u2011organ involvement (renal, vascular) consistent with the elevated creatinine and metabolic risk factors."
+    },
+    {
+      "rank": 3,
+      "name": "Occult gastrointestinal bleed (iron\u2011deficiency anemia)",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Iron\u2011deficiency anemia active problem, on ferrous sulfate",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.8 g/dL (low) with markedly elevated RDW 46.0 fL",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Concern for occult GI blood loss as source of iron deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Microcytic anemia with high RDW and incomplete response to iron suggests ongoing loss, most plausibly occult GI bleeding."
+    },
+    {
+      "rank": 4,
+      "name": "Primary aldosteronism (or other endocrine secondary hypertension)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension requiring two agents within <1 year of onset",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Early\u2011onset resistant hypertension prevalence ~8\u201110%",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low bicarbonate 20.4 mmol/L (possible mild metabolic alkalosis from aldosterone excess)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension at a young age raises suspicion for primary aldosteronism; metabolic clues further support evaluation."
+    },
+    {
+      "rank": 5,
+      "name": "Silent / early coronary artery disease",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple ASCVD risk factors (male, age 36, hypertension, obesity, prediabetes, OSA)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No lipid panel available \u2013 risk may be underestimated",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine may reflect early vascular disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cumulative risk factors make subclinical atherosclerosis plausible despite lack of overt symptoms."
+    },
+    {
+      "rank": 6,
+      "name": "Metabolic syndrome / pre\u2011diabetes",
+      "icd10": "R73.03",
+      "snomed": "714628002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c 6.2%) onset 2020\u201109\u201112",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) onset 2023\u201109\u201116",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea contributing to insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The triad of obesity, impaired glucose, and OSA fulfills metabolic\u2011syndrome criteria and drives cardiovascular risk."
+    },
+    {
+      "rank": 7,
+      "name": "Heart\u2011failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "HTN + obesity + OSA are classic HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine and low bicarbonate may reflect early congestion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although no cardiac imaging is available, the risk profile fits early HFpEF, which can present with subtle renal changes."
+    },
+    {
+      "rank": 8,
+      "name": "Early chronic kidney disease (stage 2\u20113a) \u2013 hypertensive nephropathy",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.5 mg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 20.4 mmol/L (low) suggesting mild metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Moderate CKD risk due to hypertension and thiazide use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function markers indicate reduced GFR; without eGFR or albuminuria data, staging remains uncertain."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism (mild\u2011moderate)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Weight gain and diastolic hypertension could be related to thyroid dysfunction",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal calcium (8.5 mg/dL) may be seen in early hypothyroidism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical picture is compatible, but lack of thyroid labs makes this speculative."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome phenotype (obesity, prediabetes, OSA) predisposes to NAFLD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Common in patients with this risk profile; no liver labs or imaging yet."
+    },
+    {
+      "rank": 11,
+      "name": "Anemia of chronic disease / inflammatory anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia with low bicarbonate could reflect chronic disease",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD and possible NAFLD are chronic inflammatory states",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If iron studies are normal, anemia may be secondary to chronic inflammation."
+    },
+    {
+      "rank": 12,
+      "name": "Obstructive pulmonary hypertension (OSA\u2011related)",
+      "icd10": "I27.2",
+      "snomed": "233678006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe OSA can cause chronic hypoxic vasoconstriction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No echocardiographic data; remains a remote possibility."
+    },
+    {
+      "rank": 13,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension, obesity, possible smoking (unknown) increase PAD risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No vascular exam or ABI data; included for completeness."
+    },
+    {
+      "rank": 14,
+      "name": "Gout / hyperuricaemia",
+      "icd10": "M10.9",
+      "snomed": "201460009",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome predisposes to hyperuricaemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No uric acid level measured; low probability."
+    },
+    {
+      "rank": 15,
+      "name": "Depression / anxiety (stress\u2011related)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress documented 2024\u201109\u201121",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stress may contribute to poor BP control and CPAP adherence."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea (moderate-severe)",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient is a 36\u2011year\u2011old obese male with essential hypertension on two agents, pre\u2011diabetes, and documented obstructive sleep apnea. Elevated creatinine and low bicarbonate suggest early renal involvement, while iron\u2011deficiency anemia with high RDW points toward occult gastrointestinal blood loss. The clustering of hypertension, obesity, OSA, and metabolic abnormalities raises the likelihood of secondary contributors such as primary aldosteronism and silent coronary artery disease. Missing high\u2011yield investigations (lipid panel, renin\u2011aldosterone testing, iron studies, eGFR/albuminuria, thyroid panel, cardiac imaging) limit certainty, resulting in moderate confidence for several entities and a total differential probability distribution that sums to 1.0.",
+  "unresolved_findings": [
+    "PDW 465.5 fL \u2013 likely laboratory artifact",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Missing electrolyte panel (Na+, K+, Cl-)",
+    "Smoking status not documented",
+    "Alcohol use not documented",
+    "Physical activity and diet information not documented",
+    "Family history of premature CVD, diabetes, hypertension not documented",
+    "Absence of stool occult blood test and iron studies (Ferritin, TSAT)",
+    "No B12 or folate levels",
+    "No inflammatory markers (CRP, ESR, procalcitonin)",
+    "No CPAP adherence data or AHI severity from sleep study",
+    "No ambulatory blood\u2011pressure monitoring data",
+    "No cognitive or neurologic exam findings",
+    "No ECG or transthoracic echocardiogram results"
+  ],
+  "recommended_workup": [
+    "Repeat polysomnography report with AHI and obtain CPAP usage data",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Plasma renin activity, aldosterone level, and aldosterone\u2011to\u2011renin ratio",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Iron studies: serum ferritin, transferrin saturation, serum iron, total iron\u2011binding capacity",
+    "Fecal occult blood test (guaiac) or FIT",
+    "Serum creatinine\u2011based eGFR calculation and urine albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive metabolic panel including electrolytes (Na+, K+, Cl-)",
+    "Thyroid function tests (TSH, free T4)",
+    "Liver function tests (ALT, AST, ALP, GGT, bilirubin) and hepatic ultrasound",
+    "ECG and transthoracic echocardiogram with diastolic function assessment",
+    "Detailed social history questionnaire (smoking, alcohol, diet, physical activity)",
+    "Family history assessment for premature cardiovascular disease, diabetes, and CKD",
+    "CRP and ESR to evaluate subclinical inflammation",
+    "Serum vitamin B12 and folate levels",
+    "Exercise stress test or coronary calcium scoring if lipid panel shows dyslipidemia"
+  ]
+}

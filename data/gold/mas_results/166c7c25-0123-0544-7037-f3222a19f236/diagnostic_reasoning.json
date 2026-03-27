@@ -1,0 +1,293 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Resistant hypertension (possible secondary causes and non-adherence)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2010-09-12",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension requiring triple therapy (hydrochlorothiazide, lisinopril, amlodipine)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented 2021-11-14",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress (psychosocial factor) onset 2022-11-20",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High multi-system cardiovascular risk (HTN, obesity, prediabetes, dyslipidemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "data-quality",
+          "finding": "Missing recent SBP/DBP values \u2013 cannot confirm control",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient is on three antihypertensives yet labeled as resistant, with multiple amplifiers (obesity, stress, possible non-adherence). Absence of recent BP readings and lack of secondary work\u2011up make resistant hypertension the most plausible primary driver of the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome progressing toward type 2 diabetes",
+      "icd10": "E66.9",
+      "snomed": "162864005",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9%) onset 2013-09-29",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 206.8 mg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 68 mg/dL (borderline low)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome risk (HTN + obesity + prediabetes + dyslipidemia)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of obesity, prediabetes, and dyslipidemia fulfills criteria for metabolic syndrome, indicating high risk of progression to overt type 2 diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing hypertension (since 2010) and ACE\u2011inhibitor use (lisinopril)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (risk for diabetic kidney disease)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Potential CKD risk due to hypertension and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "Missing eGFR and urine albumin data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and prediabetes are major risk factors for CKD; the absence of renal labs prevents confirmation, but the pre\u2011test probability is high enough to place CKD early in the differential."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia (vs anemia of chronic disease)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2013",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.2 g/dL (borderline low) with falling trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "RBC 4.2\u00d710\u2076/\u00b5L (borderline low) with falling trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented bleeding history; iron studies missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild, chronic anemia with a downward trend suggests an underlying nutritional deficiency or anemia of chronic disease; iron studies are needed to differentiate."
+    },
+    {
+      "rank": 5,
+      "name": "Systemic lupus erythematosus (autoimmune connective\u2011tissue disease)",
+      "icd10": "M32.9",
+      "snomed": "64572001",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia (3.8\u00d710\u00b3/\u00b5L) with falling trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW (245.9 fL) indicating platelet size heterogeneity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, age 39 \u2013 demographic predisposition",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Anemia may be a manifestation of chronic disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cytopenias in a young woman raise the possibility of an autoimmune process such as SLE, though classic clinical features are absent, keeping the probability low."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "235719002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension are strong risk factors for OSA; symptoms may be under\u2011reported, especially in women."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low fasting glucose (68 mg/dL)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic mild anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The constellation of dyslipidemia, weight gain, and mild anemia can be seen in hypothyroidism; thyroid function tests are required."
+    },
+    {
+      "rank": 8,
+      "name": "Myeloproliferative neoplasm (early essential thrombocythemia or pre\u2011MF)",
+      "icd10": "D47.3",
+      "snomed": "410429000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW (245.9 fL) without platelet count",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia and falling hemoglobin",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Platelet size heterogeneity and cytopenias could herald an early myeloproliferative process, but prevalence is very low and key labs are missing."
+    },
+    {
+      "rank": 9,
+      "name": "Medication safety issue \u2013 possible terfenadine exposure",
+      "icd10": "T88.7",
+      "snomed": "442083009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Terfenadine 60 mg listed despite market withdrawal in 1999",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Epinephrine auto\u2011injector present without documented allergy list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If terfenadine is truly being taken, there is a risk of QT prolongation and arrhythmia; verification of the medication list is urgent."
+    }
+  ],
+  "primary_diagnosis": "Resistant hypertension (possible secondary causes and non-adherence)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with resistant hypertension on three agents, compounded by obesity, stress, and socioeconomic barriers, making hypertension the central pathophysiologic driver. Metabolic syndrome components (prediabetes, dyslipidemia, obesity) explain the borderline lipid and glucose abnormalities and increase cardiovascular and renal risk. Missing renal labs raise suspicion for early CKD. Chronic mild anemia with a downward trend suggests iron deficiency or anemia of chronic disease. Cytopenias (leukopenia, high PDW) and female gender raise a low\u2011probability concern for autoimmune disease (SLE) or a myeloproliferative neoplasm. Obstructive sleep apnea is a common, treatable contributor to resistant hypertension in obese patients. Hypothyroidism remains a differential for dyslipidemia and anemia. Finally, the presence of terfenadine in the medication list is a safety red flag requiring immediate reconciliation.",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (PDW) without platelet count",
+    "Leukopenia with falling trend and no clear etiology",
+    "Borderline low fasting glucose (68 mg/dL) in a prediabetic patient",
+    "Terfenadine entry despite market withdrawal",
+    "Absence of documented allergy list despite epinephrine auto\u2011injector",
+    "Missing recent blood pressure readings, BMI, LDL, eGFR, urine albumin, iron studies, vitamin B12/folate, coagulation profile"
+  ],
+  "recommended_workup": [
+    "Home blood pressure log (3\u2011day) and office BP measurement",
+    "Medication adherence assessment (pharmacy refill review, pill count)",
+    "Secondary hypertension screen: aldosterone\u2011renin ratio, serum potassium, overnight dexamethasone suppression test, plasma metanephrines, renal\u2011artery duplex or CTA if indicated",
+    "Renal panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Complete anemia work\u2011up: ferritin, serum iron, TIBC, transferrin saturation, vitamin B12, folate, reticulocyte count, stool guaiac, menstrual history",
+    "Repeat CBC with platelet count and peripheral smear",
+    "Autoimmune panel if cytopenias persist: ANA, anti\u2011dsDNA, complement C3/C4, anti\u2011Sm, antiphospholipid antibodies",
+    "JAK2 V617F, CALR, MPL mutation testing if platelet count abnormal or MPN suspected",
+    "Sleep evaluation: STOP\u2011Bang questionnaire followed by polysomnography if positive",
+    "Thyroid function tests: TSH and free T4",
+    "Medication reconciliation focusing on antihistamine (verify fexofenadine vs terfenadine) and ECG if terfenadine exposure confirmed",
+    "Social work referral to address transportation, medication access, and stress management"
+  ]
+}

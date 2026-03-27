@@ -1,0 +1,173 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Untreated essential hypertension",
+      "original_probability": 0.35,
+      "verified_probability": 0.2,
+      "confidence_score": 80,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "BP reading ~130/79 mmHg",
+        "No antihypertensive medication recorded",
+        "Obesity and prediabetes increase likelihood"
+      ],
+      "evidence_gaps": [
+        "Repeat/home BP measurements",
+        "Medication reconciliation to confirm untreated status"
+      ],
+      "concerns": [
+        "Original probability may be slightly low; consider higher weighting"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Metabolic syndrome",
+      "original_probability": 0.15,
+      "verified_probability": 0.16,
+      "confidence_score": 60,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Obesity (BMI \u226530)",
+        "Stage\u20111 hypertension",
+        "Prediabetes (A1c 6.1%)"
+      ],
+      "evidence_gaps": [
+        "Current waist circumference or waist\u2011to\u2011hip ratio",
+        "Recent fasting triglycerides and HDL levels"
+      ],
+      "concerns": [
+        "Probability increased due to missing recent lipid data"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Prediabetes progressing toward type\u20112 diabetes",
+      "original_probability": 0.12,
+      "verified_probability": 0.14,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Repeated A1c 6.1% over several years",
+        "Obesity as a major driver of insulin resistance"
+      ],
+      "evidence_gaps": [
+        "Oral glucose tolerance test",
+        "More recent A1c values"
+      ],
+      "concerns": [
+        "Original probability undervalued relative to conversion risk"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Early hypertensive nephropathy / subclinical CKD",
+      "original_probability": 0.1,
+      "verified_probability": 0.09,
+      "confidence_score": 55,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Borderline low CO\u2082 (21.4 mmol/L) with downward trend",
+        "Rising potassium trend within normal range",
+        "Presence of hypertension and obesity"
+      ],
+      "evidence_gaps": [
+        "Serum eGFR calculation",
+        "Urine albumin\u2011to\u2011creatinine ratio",
+        "Repeat bicarbonate with anion\u2011gap assessment"
+      ],
+      "concerns": [
+        "Probability could be higher given renal risk profile"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Obstructive sleep apnea (suspected)",
+      "original_probability": 0.06,
+      "verified_probability": 0.11,
+      "confidence_score": 35,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Obesity (BMI \u226530)",
+        "Hypertension",
+        "Low\u2011normal bicarbonate possibly reflecting chronic respiratory compensation"
+      ],
+      "evidence_gaps": [
+        "STOP\u2011Bang or Berlin questionnaire score",
+        "Formal sleep study (polysomnography or home test)"
+      ],
+      "concerns": [
+        "Probability underestimated relative to typical prevalence in this phenotype"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "original_probability": 0.04,
+      "verified_probability": 0.11,
+      "confidence_score": 30,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Obesity",
+        "Prediabetes",
+        "Metabolic syndrome components"
+      ],
+      "evidence_gaps": [
+        "Liver enzymes (ALT, AST, GGT)",
+        "Abdominal ultrasound or FibroScan",
+        "NAFLD fibrosis score components"
+      ],
+      "concerns": [
+        "Probability markedly underestimated given high prevalence in metabolic syndrome"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Obesity (class I\u2011III)",
+      "original_probability": 0.0,
+      "verified_probability": 0.18,
+      "confidence_score": 85,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "BMI \u226530 documented since 1999"
+      ],
+      "evidence_gaps": [
+        "Current BMI measurement",
+        "Waist circumference for central obesity assessment"
+      ],
+      "concerns": [
+        "Not listed in junior differential despite being a primary driver of other conditions"
+      ],
+      "verdict": "supported"
+    }
+  ],
+  "overall_confidence": 68,
+  "consistency_checks": [
+    {
+      "area": "Blood pressure documentation vs medication list",
+      "status": "consistent",
+      "detail": "BP reading indicates stage\u20111 hypertension and medication list shows no antihypertensive agents, supporting the diagnosis of untreated hypertension."
+    },
+    {
+      "area": "Laboratory severity tagging",
+      "status": "consistent",
+      "detail": "No laboratory values were flagged with severity \u22653; the only flagged abnormalities are severity 2 (A1c and CO\u2082), which are addressed in the differential."
+    },
+    {
+      "area": "Missing key laboratory data",
+      "status": "inconsistent",
+      "detail": "Absence of current eGFR, urine albumin/creatinine ratio, lipid panel, and thyroid function limits full risk stratification and leaves several potential diagnoses under\u2011evaluated."
+    }
+  ],
+  "critical_findings_addressed": [],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "Untreated hypertension in a high\u2011risk metabolic profile",
+    "Significant data gaps (missing eGFR, lipid panel, urine albumin, medication list)",
+    "Underestimation of OSA and NAFLD probabilities",
+    "Obesity omitted from the junior differential despite being a central driver",
+    "Potential unrecognized mental\u2011health comorbidity"
+  ],
+  "recommended_primary": "Untreated essential hypertension",
+  "recommended_primary_confidence": 85,
+  "review_summary": "The junior differential captured the core metabolic\u2011vascular issues but missed key diagnoses (obesity, mental\u2011health, CKD staging) and underestimated several probabilities. Adjusted probabilities now sum to ~1.0 and reflect the relative evidence strength. Data gaps are a major limitation and must be addressed to refine risk assessment and management."
+}

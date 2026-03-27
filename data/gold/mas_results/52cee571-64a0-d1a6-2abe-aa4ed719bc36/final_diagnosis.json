@@ -1,0 +1,200 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Colorectal carcinoma (occult)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Critically elevated fecal immunochemical test (FIT) hemoglobin indicating active lower GI bleeding",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of colon polyp requiring surveillance",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 69, obesity, prediabetes, and hypertension increase colorectal cancer risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High FIT positivity in an elderly patient with risk factors strongly suggests an occult colorectal neoplasm; urgent colonoscopic evaluation is warranted."
+    },
+    {
+      "rank": 2,
+      "name": "Advanced adenomatous polyp / sessile serrated lesion",
+      "icd10": "D12.6",
+      "snomed": "414916001",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known prior colon polyp with pending surveillance",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Patient's age and metabolic syndrome predispose to advanced adenomas",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior polyp history and FIT positivity could represent a large adenomatous lesion with high malignant potential."
+    },
+    {
+      "rank": 3,
+      "name": "Diuretic\u2011induced relative polycythemia / volume depletion",
+      "icd10": "E87.6",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on diuretic therapy for hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin without clear iron deficiency data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diuretics can cause hemoconcentration mimicking polycythemia; however, they do not explain FIT positivity."
+    },
+    {
+      "rank": 4,
+      "name": "Colonic angiodysplasia",
+      "icd10": "K55.2",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive FIT suggesting lower GI bleed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >60 increases prevalence of angiodysplasia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Angiodysplasia can cause occult bleeding in older adults, but FIT levels are typically lower than seen here."
+    },
+    {
+      "rank": 5,
+      "name": "Ischemic heart disease (coronary artery disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension, obesity, prediabetes, and age are CAD risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factor burden present but no cardiac symptoms or objective findings; probability downgraded."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea\u2011related secondary polycythemia",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity raises suspicion for OSA (screening not performed)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential contributor to elevated hemoglobin but lacks direct evidence; not primary urgent issue."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic kidney disease stage \u22653",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension and metabolic syndrome raise CKD risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No renal function data available; probability kept minimal."
+    },
+    {
+      "rank": 8,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity are HFpEF risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No clinical signs (dyspnea, edema) or imaging; probability low."
+    },
+    {
+      "rank": 9,
+      "name": "Primary hyper\u2011aldosteronism (or other secondary hypertension cause)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent hypertension despite modest therapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Biochemical work\u2011up absent; kept as low\u2011probability differential."
+    }
+  ],
+  "primary_diagnosis": "Colorectal carcinoma (occult)",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient\u2019s markedly elevated FIT result, combined with age, obesity, prediabetes, and a history of colonic polyps, makes occult colorectal carcinoma the most likely cause of her occult gastrointestinal bleeding. Advanced adenomatous lesions are also plausible given prior polyp history. Secondary causes of polycythemia (diuretic effect, OSA) and vascular lesions (angiodysplasia) are considered but have lower pre\u2011test probability. Cardiovascular and renal diagnoses are retained for completeness but are downgraded due to lack of supporting clinical or laboratory data.",
+  "unresolved_findings": [
+    "Missing renal function data (eGFR, creatinine, urine ACR)",
+    "Missing lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C)",
+    "Missing smoking and alcohol use histories",
+    "No recent colonoscopy or surveillance interval documented",
+    "Absence of full CBC with iron studies",
+    "No pulmonary function testing or documented COPD",
+    "No sleep study or OSA screening",
+    "No mental\u2011health screening despite social isolation",
+    "No family\u2011history information for CVD, diabetes, or colorectal cancer",
+    "Medication list may be incomplete (possible OTC aspirin/NSAIDs)"
+  ],
+  "recommended_workup": [
+    "Urgent colonoscopy with biopsy of any lesions",
+    "Complete blood count with iron studies (serum iron, ferritin, TIBC)",
+    "Serum erythropoietin level and JAK2 V617F mutation testing to evaluate primary erythrocytosis",
+    "Comprehensive metabolic panel including creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Lipid profile (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Sleep study (polysomnography) to assess for obstructive sleep apnea",
+    "Pulmonary function tests if respiratory symptoms emerge",
+    "Medication reconciliation focusing on NSAID/aspirin use and diuretic dosing",
+    "Family history interview for cardiovascular disease and colorectal cancer",
+    "Repeat FIT if colonoscopy delayed >2 weeks"
+  ]
+}

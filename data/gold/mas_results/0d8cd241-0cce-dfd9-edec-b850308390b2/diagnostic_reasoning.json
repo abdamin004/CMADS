@@ -1,0 +1,557 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease stage 4 (hypertensive/diabetic nephropathy with tacrolimus exposure)",
+      "icd10": "N18.4",
+      "snomed": "431857002",
+      "probability": 0.23,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease \u2013 stage\u202f4 (onset\u202f2007\u201105\u201112)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD)\u202f=\u202f20.2\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine\u202f=\u202f3.0\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Tacrolimus 1\u202fmg ER (nephrotoxic immunosuppressant)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in eGFR, high creatinine, proteinuria, and known nephrotoxic exposure together confirm stage\u20114 CKD as the dominant pathology."
+    },
+    {
+      "rank": 2,
+      "name": "Advanced atherosclerotic cardiovascular disease (multivessel CAD)",
+      "icd10": "I25.10",
+      "snomed": "414545008",
+      "probability": 0.13,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease (onset\u202f1982\u201110\u201116)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C\u202f=\u202f122.8\u202fmg/dL (borderline\u2011high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications: Nitroglycerin, Metoprolol, Lisinopril",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing IHD with multiple risk factors (HTN, dyslipidemia, smoking, diabetes) and anti\u2011ischemic therapy indicate extensive coronary atherosclerosis."
+    },
+    {
+      "rank": 3,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, CAD, CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol and diuretic therapy (hydrochlorothiazide)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical complexity = high",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination of hypertension, LV stiffening risk factors, and diuretic use suggests HFpEF, pending echo/BNP confirmation."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 (eGFR\u202f20\u202fmL/min)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal alkaline phosphatase (29.1\u202fU/L) \u2013 does not exclude bone turnover",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis (CO\u2082\u202f=\u202f20.4\u202fmmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to secondary hyperparathyroidism; low\u2011normal ALP does not rule it out."
+    },
+    {
+      "rank": 5,
+      "name": "Peripheral arterial disease (PAD)",
+      "icd10": "I70.2",
+      "snomed": "",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple atherosclerotic risk factors (HTN, DM, smoking, hyperlipidemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Flags: has_ihd, has_hypertension, has_dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High burden of systemic atherosclerosis makes PAD likely despite lack of documented ABI."
+    },
+    {
+      "rank": 6,
+      "name": "Calcific aortic stenosis",
+      "icd10": "I35.0",
+      "snomed": "71388002",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f>\u202f85, hypertension, CAD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Epidemiology predicts aortic valve calcification in elderly males with long\u2011standing risk factors; requires auscultation/ECHO."
+    },
+    {
+      "rank": 7,
+      "name": "Atrial fibrillation / clinically significant arrhythmia",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol succinate 100\u202fmg (rate control agent)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Has_ihd flag (coronary disease often coexists with AF)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Beta\u2011blocker use may be for AF rate control; age and CAD increase prevalence."
+    },
+    {
+      "rank": 8,
+      "name": "CKD\u2011related anemia (normocytic\u2011normochromic)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 (eGFR\u202f20\u202fmL/min)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin\u202f=\u202f13.3\u202fg/dL (currently normal but trend unknown)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is common in CKD\u20114; absence of labs creates uncertainty, but probability remains moderate."
+    },
+    {
+      "rank": 9,
+      "name": "Chronic obstructive pulmonary disease \u2013 emphysema dominant",
+      "icd10": "J43.9",
+      "snomed": "87433001",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pulmonary emphysema",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Inhaled therapies (Albuterol, Fluticasone/Salmeterol)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term tobacco smoking (daily)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Documented emphysema and smoking history confirm COPD as a major comorbidity."
+    },
+    {
+      "rank": 10,
+      "name": "Hyperkalemia",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 (reduced K\u207a excretion)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Thiazide diuretic (hydrochlorothiazide) \u2013 can affect K\u207a balance",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD predisposes to hyperkalemia; serum K\u207a not reported, so probability remains modest."
+    },
+    {
+      "rank": 11,
+      "name": "Gout / hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Thiazide diuretic use (risk factor for hyperuricemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 (reduced uric acid clearance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination of CKD and thiazide therapy raises gout risk, though no uric acid level is available."
+    },
+    {
+      "rank": 12,
+      "name": "Tacrolimus\u2011induced proximal tubular dysfunction (Fanconi\u2011type)",
+      "icd10": "N25.9",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Tacrolimus 1\u202fmg ER (known proximal tubular toxicity)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose \u2013 trace despite low serum glucose",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity\u202f=\u202f1.00 (very dilute)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Glucosuria with low serum glucose and dilute urine suggest tubular leak, compatible with tacrolimus effect."
+    },
+    {
+      "rank": 13,
+      "name": "Burnt\u2011out diabetes / low\u2011carbohydrate phenotype",
+      "icd10": "E13.9",
+      "snomed": "127013003",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting blood glucose\u202f=\u202f65\u202fmg/dL (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones \u2013 moderate (13.7\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type\u202f2 diabetes mellitus with renal involvement",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Low glucose with ketonuria suggests reduced insulin requirement or altered metabolism; lack of A1c limits certainty."
+    },
+    {
+      "rank": 14,
+      "name": "Cognitive impairment / early dementia (vascular/Alzheimer mixed)",
+      "icd10": "F03.90",
+      "snomed": "428341000124106",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f=\u202f90, male, extensive vascular disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated neurologic risk for cerebrovascular events",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced age plus high vascular burden makes cognitive decline plausible, though no formal screening documented."
+    },
+    {
+      "rank": 15,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic multimorbidity, ongoing tobacco use, functional employment stress",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental\u2011health assessments",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial burden suggests possible mood disorder, but no screening data."
+    },
+    {
+      "rank": 16,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, COPD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior sleep study documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk profile fits OSA, but lack of evaluation keeps probability modest."
+    },
+    {
+      "rank": 17,
+      "name": "Infection (UTI or opportunistic respiratory infection)",
+      "icd10": "N39.0",
+      "snomed": "65363002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Tacrolimus immunosuppression",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic emphysema",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No leukocyte count or CRP provided (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Immunosuppression and COPD raise infection risk; labs are insufficient to confirm."
+    },
+    {
+      "rank": 18,
+      "name": "Orthostatic hypotension",
+      "icd10": "I95.1",
+      "snomed": "",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Beta\u2011blocker (Metoprolol) and antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No orthostatic vitals recorded (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Medication regimen and age predispose to orthostatic drops; lack of measurements keeps certainty low."
+    },
+    {
+      "rank": 19,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "1240561000000105",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemia and low metabolic rate (obesity)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical picture could fit hypothyroidism, but no labs to support."
+    },
+    {
+      "rank": 20,
+      "name": "Prostate carcinoma progression",
+      "icd10": "C61",
+      "snomed": "12691000119104",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Carcinoma in situ of prostate (onset\u202f1981)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent PSA or imaging data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing in\u2011situ disease could have progressed; surveillance data missing."
+    },
+    {
+      "rank": 21,
+      "name": "Frailty / sarcopenia",
+      "icd10": "R53.81",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f90, functional employment, ketonuria (possible malnutrition)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No gait speed or grip strength measurements",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced age and functional status suggest frailty, but objective metrics are absent."
+    },
+    {
+      "rank": 22,
+      "name": "Abdominal aortic aneurysm (AAA)",
+      "icd10": "I71.4",
+      "snomed": "",
+      "probability": 0.01,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term daily tobacco smoking (>\u202f50\u202fyears)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No abdominal imaging performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Smoking history raises AAA risk, but no imaging data; probability remains very low."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease stage 4 (hypertensive/diabetic nephropathy with tacrolimus exposure)",
+  "primary_probability": 0.23,
+  "clinical_reasoning_summary": "The patient is a 90\u2011year\u2011old male with extensive cardiovascular risk factors, stage\u20114 CKD, and immunosuppression. Severe reduction in eGFR, high creatinine, and proteinuria make CKD the dominant diagnosis. The long\u2011standing ischemic heart disease, uncontrolled lipid profile, and multiple atherosclerotic risk factors support advanced CAD. Hypertension, obesity, and CKD together create a high likelihood of HFpEF. CKD also drives secondary hyperparathyroidism, anemia, and electrolyte disturbances. Additional findings (ketonuria, glucosuria, dilute urine) point toward tacrolimus\u2011induced tubular dysfunction and a possible low\u2011carbohydrate metabolic state. Vascular disease raises the probability of PAD, aortic stenosis, and atrial fibrillation. Age and vascular burden raise concerns for cognitive decline, depression, and frailty. Unexplained laboratory abnormalities and several data gaps (BP, ECG, echo, iron studies, thyroid panel, uric acid, imaging) limit certainty for several lower\u2011rank diagnoses.",
+  "unresolved_findings": [
+    "Urine ketones \u2013 moderate (13.7\u202fmg/dL) despite low fasting glucose",
+    "Urine glucose \u2013 trace (1.4\u202fmg/dL) with low serum glucose",
+    "Urine bilirubin \u2013 trace (no hepatic or hemolysis context)",
+    "Low total CO\u2082 (20.4\u202fmmol/L) \u2013 metabolic acidosis possibly beyond CKD alone",
+    "Low\u2011normal alkaline phosphatase (29.1\u202fU/L) \u2013 atypical for CKD\u2011related bone disease",
+    "Urine specific gravity\u202f=\u202f1.00 (very dilute)",
+    "Missing recent blood pressure readings",
+    "No recent ECG or echocardiogram",
+    "Absence of iron studies, ferritin, TSAT, vitamin B12/folate",
+    "No HbA1c or continuous glucose monitoring data",
+    "No uric acid level",
+    "No thyroid function tests (TSH, free T4)",
+    "No ankle\u2011brachial index or lower\u2011extremity vascular imaging",
+    "No cognitive screening (MoCA/MMSE)",
+    "No frailty assessments (gait speed, grip strength)",
+    "No abdominal imaging to evaluate for AAA",
+    "No PSA or prostate surveillance data"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel (including K+, Na+, Ca2+, PO4, Mg2+, CO2)",
+    "Intact PTH and 25\u2011OH vitamin D levels",
+    "Iron studies (Ferritin, transferrin saturation) and complete CBC with differential",
+    "HbA1c or CGM data to assess diabetes control",
+    "Uric acid level",
+    "Thyroid panel (TSH, free T4)",
+    "12\u2011lead ECG and transthoracic echocardiogram (EF, diastolic function, valve gradients)",
+    "BNP or NT\u2011proBNP for heart failure assessment",
+    "Ankle\u2011brachial index or lower\u2011extremity duplex ultrasound for PAD",
+    "Orthostatic vital signs (supine and standing BP/HR)",
+    "Urine culture and repeat urinalysis with microscopy",
+    "Abdominal ultrasound (screen for AAA and renal anatomy)",
+    "Chest X\u2011ray (evaluate COPD severity, cardiac silhouette)",
+    "Neuro\u2011cognitive screening (MoCA or MMSE)",
+    "Frailty assessment (gait speed, hand\u2011grip strength)",
+    "Sleep study or validated screening tool (STOP\u2011BANG) for OSA",
+    "PSA level and digital rectal exam for prostate cancer surveillance"
+  ]
+}

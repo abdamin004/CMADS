@@ -1,0 +1,314 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u2013 Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u2013 Prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 29.4\u202fmg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 114.5\u202fmg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/101\u202fmmHg (stage\u202f2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "clinical_complexity = moderate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets multiple criteria (obesity, prediabetes, hypertension, low HDL) that together define metabolic syndrome, the most parsimonious umbrella explanation for the clustered metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Sub\u2011clinical coronary artery disease (CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 51, male, Asian",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 29.4\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline LDL\u2011C 114.5\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension on monotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "bp_category = stage2_hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combined traditional risk factors (age, male sex, hypertension, dyslipidaemia) place the 10\u2011year ASCVD risk around 20\u202f%, making silent CAD a leading possibility."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) hypertension \u2013 uncontrolled on monotherapy",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.14,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/101\u202fmmHg (stage\u202f2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication \u2013 Amlodipine only",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "bp_category = stage2_hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Stage\u202f2 hypertension persisting despite a calcium\u2011channel blocker indicates either inadequate regimen or secondary causes; primary hypertension remains highly probable."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (stage\u202f2\u20113a)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.2\u202fmg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u2013 Anemia (onset 1995)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 23.3\u202fmmol/L (low\u2011normal)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "egfr_latest = null (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Borderline creatinine together with chronic anemia suggests early CKD, but lack of eGFR and albuminuria data limits precise staging."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on single agent",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "clinical_complexity = moderate",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and uncontrolled hypertension are classic drivers of OSA; prevalence in this demographic is high, making it a likely contributor."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral arterial disease (PAD)",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension, low HDL, obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 114.5\u202fmg/dL (borderline high)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Same atherosclerotic risk profile as CAD; silent PAD is common and should be screened with ABI."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension, obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u2013 Anemia",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline creatinine 1.2\u202fmg/dL",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and obesity are major risk factors for HFpEF; anemia and possible early CKD further support this possibility."
+    },
+    {
+      "rank": 8,
+      "name": "Primary aldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on monotherapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal potassium (4.4\u202fmmol/L) \u2013 early disease may have normal K",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Uncontrolled stage\u202f2 hypertension despite adequate calcium\u2011channel blocker raises suspicion for a secondary cause such as primary aldosteronism."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "124055004",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 29.4\u202fmg/dL (hypothyroidism can lower HDL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unknown etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 66.3\u202fmg/dL (hypothyroidism can cause low glucose)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The constellation of low HDL, anemia, mild hypertension, and unexpected hypoglycaemia is compatible with hypothyroidism, which has not yet been evaluated."
+    },
+    {
+      "rank": 10,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \u2013 Anemia (onset 1995)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Negative fecal occult blood (9.7\u202fng/mL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline creatinine 1.2\u202fmg/dL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic anemia with no evidence of GI bleeding and possible early CKD points toward anemia of chronic disease."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.24,
+  "clinical_reasoning_summary": "The patient presents with obesity, prediabetes, stage\u202f2 hypertension on monotherapy, low HDL and borderline LDL, all of which fulfill criteria for metabolic syndrome and drive the majority of his cardiovascular risk. The same risk profile (male, 51, Asian) yields a high 10\u2011year ASCVD risk, making sub\u2011clinical CAD a close second. Uncontrolled hypertension, borderline creatinine, and chronic anemia suggest early CKD, while obesity and resistant hypertension raise suspicion for OSA and secondary hypertension (primary aldosteronism). Low fasting glucose and anemia also open the possibility of hypothyroidism. The differential was calibrated using epidemiologic priors and the strength of each supporting finding, with probabilities adjusted to sum to 1.0.",
+  "unresolved_findings": [
+    "Low fasting glucose (66\u202fmg/dL) with decreasing trend",
+    "Very low HDL\u2011C (29\u202fmg/dL) disproportionate to other lipids",
+    "Missing eGFR and urine albumin\u2011creatinine ratio",
+    "No recent BMI measurement",
+    "No recent lipid panel (first since 2003)",
+    "No smoking or alcohol use documentation",
+    "Medication adherence unknown (housing instability, abuse)",
+    "Absence of CBC indices, iron studies, B12/folate",
+    "No thyroid function tests",
+    "No ankle\u2011brachial index (ABI) for PAD screening",
+    "No cardiac imaging or stress testing"
+  ],
+  "recommended_workup": [
+    "Serum creatinine with eGFR calculation (CKD\u2011EPI) and urine albumin\u2011to\u2011creatinine ratio",
+    "Resting ECG and high\u2011sensitivity troponin; consider coronary calcium score or stress imaging",
+    "NT\u2011proBNP and transthoracic echocardiogram to evaluate for HFpEF",
+    "STOP\u2011Bang questionnaire followed by overnight polysomnography if indicated",
+    "Plasma aldosterone\u2011renin ratio (with appropriate medication wash\u2011out) and renal\u2011artery duplex if ARR elevated",
+    "Complete blood count with indices, iron studies (ferritin, transferrin saturation), vitamin B12, folate, reticulocyte count",
+    "Thyroid panel (TSH, free T4)",
+    "Liver function tests and abdominal ultrasound to assess for NAFLD/NASH",
+    "Ankle\u2011brachial index (ABI) for peripheral arterial disease screening",
+    "Pharmacy\u2011fill data review and structured medication adherence interview",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screening",
+    "Repeat fecal occult blood test or FIT and consider colonoscopy given prior polyp in 2004"
+  ]
+}

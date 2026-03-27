@@ -1,0 +1,245 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diagnosis of hypertension with sub\u2011optimal control noted in prior visits",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated blood pressure readings on multiple encounters",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Chronic hypertension explains CKD progression, left\u2011ventricular strain, and contributes to volume overload; reviewer deemed it essentially certain."
+    },
+    {
+      "rank": 2,
+      "name": "Medication\u2011induced renal injury / volume depletion",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Incomplete medication list; possible NSAID or diuretic use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine (specific gravity 1.000) suggesting volume depletion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Nephrotoxic agents or over\u2011diuresis can cause acute kidney injury superimposed on CKD; dilute urine supports volume depletion."
+    },
+    {
+      "rank": 3,
+      "name": "Heart\u2011failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and CKD, risk factors for HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_notes",
+          "finding": "Dyspnea on exertion without overt systolic dysfunction reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertensive heart disease can lead to diastolic dysfunction; symptoms align with HFpEF despite lack of imaging."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia (anemia of chronic disease)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of CBC data noted; anemia assumed based on CKD stage",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly causes anemia of chronic disease; reviewer considered this strongly supported."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD with expected disturbances in calcium\u2011phosphate metabolism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is prevalent in advanced CKD; reviewer raised it as plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Atherosclerotic coronary artery disease (stable CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (hypertension, CKD, dyslipidemia unknown)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk profile supports stable CAD; no recent ischemic work\u2011up available."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline ALT elevation (47.4 U/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (hypertension, CKD, possible insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild transaminitis in setting of metabolic risk suggests NAFLD/NASH; urine bilirubin atypical but not decisive."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_notes",
+          "finding": "Reported snoring and daytime fatigue (implicit from chart)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA contributes to hypertension and HFpEF; no sleep study yet."
+    },
+    {
+      "rank": 9,
+      "name": "Volume depletion / prerenal azotemia",
+      "icd10": "E86.0",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine (specific gravity 1.000)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_notes",
+          "finding": "Potential over\u2011diuresis or inadequate oral intake noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Dilute urine and possible medication\u2011induced diuresis point to volume depletion contributing to renal dysfunction."
+    },
+    {
+      "rank": 10,
+      "name": "Overt type 2 diabetes mellitus / diabetic nephropathy",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones moderate (12.7 mg/dL) and glucosuria on dipstick",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented elevated HbA1c",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Dipstick findings raise suspicion but lack confirmatory labs; reviewer downgraded probability."
+    },
+    {
+      "rank": 11,
+      "name": "Undiagnosed atrial fibrillation",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_notes",
+          "finding": "Palpitations reported without documented rhythm strip",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood without ECG evidence; reviewer considered it questionable."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s chronic hypertension is the dominant driver of his CKD, cardiovascular risk, and possible HFpEF. Dilute urine and incomplete medication data raise concern for volume depletion and drug\u2011induced renal injury, warranting separate consideration. Secondary complications of CKD (anemia, mineral\u2011bone disorder) are likely. Cardiovascular atherosclerosis, NAFLD, and OSA remain plausible contributors. Diabetes and atrial fibrillation are low\u2011probability given absent confirmatory labs.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (1 mg/dL) without documented liver or biliary disease",
+    "Urine ketones moderate (12.7 mg/dL) in a non\u2011fasting, non\u2011diabetic context",
+    "Very dilute urine (specific gravity 1.000) \u2013 cause unclear",
+    "Borderline ALT elevation (47.4 U/L) without clear etiology",
+    "Serum albumin slightly high (5.1 g/dL) \u2013 could reflect dehydration",
+    "Low\u2011normal CO\u2082 (22 mmol/L) \u2013 mild metabolic acidosis of uncertain origin",
+    "Absence of hematologic data (CBC, iron studies) despite CKD\u20114",
+    "Missing lipid panel",
+    "Missing current blood pressure values",
+    "Incomplete medication list (possible NSAID or diuretic use unknown)"
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel with bicarbonate and electrolytes",
+    "CBC with iron studies to confirm anemia type",
+    "Serum PTH, calcium, phosphate, vitamin D levels for CKD\u2011MBD",
+    "24\u2011hour urine protein/creatinine ratio",
+    "Echocardiogram with diastolic function assessment",
+    "Cardiac stress testing or coronary CT angiography",
+    "Fasting glucose and repeat HbA1c",
+    "Polysomnography for obstructive sleep apnea",
+    "Ambulatory cardiac monitor (Holter) to rule out atrial fibrillation",
+    "Medication reconciliation focusing on NSAIDs, diuretics, and nephrotoxins",
+    "Renal ultrasound to assess for obstructive causes",
+    "Liver ultrasound to evaluate bilirubin source",
+    "Lipid panel"
+  ]
+}

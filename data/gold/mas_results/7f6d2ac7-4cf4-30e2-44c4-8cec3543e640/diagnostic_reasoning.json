@@ -1,0 +1,265 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 DM-related chronic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "127013003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes-related kidney disease (SNOMED 127013003)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Microalbuminuria onset 1999-10-16",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria 355\u202fmg/dL dipstick (nephrotic\u2011range)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 14.7\u202fmL/min/1.73\u202fm\u00b2 (CKD stage 5)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.2\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing type 2 diabetes with documented microalbuminuria since 1999, current nephrotic\u2011range proteinuria, severely reduced eGFR, and ACE\u2011I use point to diabetic nephropathy as the primary driver of CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "39913006",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15\u202fmL/min/1.73\u202fm\u00b2 (CKD stage 5)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 5 (SNOMED 433144002)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD\u20115 physiologically leads to PTH elevation",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "In virtually all patients with eGFR <15, secondary hyperparathyroidism develops; despite missing labs, the physiologic certainty warrants inclusion."
+    },
+    {
+      "rank": 3,
+      "name": "Coronary artery disease (subclinical atherosclerosis)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension since 1996",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus (implicit)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index\u202f3; high 10\u2011yr ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 (major cardiovascular risk enhancer)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Age\u202f53, male, hypertension, diabetes, obesity, and CKD\u20115 confer a >30\u202f% 10\u2011year ASCVD risk; silent CAD is highly probable and impacts transplant eligibility."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (SNOMED 59621000) since 1996",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Triple antihypertensive regimen (hydrochlorothiazide, lisinopril, amlodipine)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension implied by three\u2011drug regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension contributes to arteriolar sclerosis and CKD progression; proteinuria magnitude suggests additional pathology, but hypertensive nephrosclerosis remains a co\u2011root."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite three agents",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension give a high pre\u2011test probability for OSA; untreated OSA worsens BP and proteinuria."
+    },
+    {
+      "rank": 6,
+      "name": "Obesity\u2011related focal segmental glomerulosclerosis (OR\u2011FSGS)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria (355\u202fmg/dL dipstick)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lack of recent diabetes control data (HbA1c missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity with heavy proteinuria raises suspicion for OR\u2011FSGS; renal biopsy is needed to differentiate from diabetic nephropathy."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress onset 2009\u201103\u201121",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, intimate\u2011partner abuse, unemployment, inadequate housing",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Significant psychosocial stressors predispose to mood disorders, which can impair medication adherence and worsen metabolic control."
+    },
+    {
+      "rank": 8,
+      "name": "Primary membranous nephropathy (or other primary glomerulonephritis)",
+      "icd10": "N02.2",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria without documented diabetic control",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No renal biopsy performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Primary GN can present with nephrotic proteinuria; low prevalence but cannot be excluded without serology/biopsy."
+    },
+    {
+      "rank": 9,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension, obesity, CKD stage 5",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented cardiac evaluation (ECG, echo) \u2013 gap",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of hypertension, obesity, and CKD predisposes to HFpEF, which could further impair renal perfusion."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 DM-related chronic kidney disease)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is end\u2011stage renal disease driven by long\u2011standing type 2 diabetes, evidenced by microalbuminuria since 1999, current nephrotic\u2011range proteinuria, and severely reduced eGFR. CKD\u20115 inevitably produces secondary hyperparathyroidism. Cardiovascular risk is extremely high given hypertension, diabetes, obesity, and CKD, making subclinical coronary artery disease the most likely major comorbidity. Additional contributors include hypertensive nephrosclerosis, possible obesity\u2011related FSGS, obstructive sleep apnea, mood disorder, and a remote possibility of primary glomerular disease. Heart failure may be present but is less certain. The differential integrates all upstream evidence, accounts for missing data, and highlights key uncertainties.",
+  "unresolved_findings": [
+    "Positive urine bilirubin (0.4\u202fmg/dL) \u2013 not typical for isolated CKD",
+    "Mild ALT elevation (46.8\u202fU/L) \u2013 could reflect NAFLD, medication effect, or early hepatitis",
+    "Chronic sinusitis \u2013 unclear relevance to renal/metabolic picture",
+    "Missing recent blood pressure readings, lipid panel, HbA1c, electrolytes, urine sediment"
+  ],
+  "recommended_workup": [
+    "Renal biopsy with light microscopy, immunofluorescence, and electron microscopy",
+    "Quantitative proteinuria assessment (spot urine albumin\u2011to\u2011creatinine ratio and 24\u2011hour protein excretion)",
+    "Cardiovascular evaluation: resting ECG, transthoracic echocardiogram, and non\u2011invasive CAD screening (stress test or coronary CT angiography)",
+    "Overnight polysomnography or home sleep apnea test",
+    "Mineral\u2011bone labs: serum calcium, phosphate, PTH, 25\u2011OH vitamin D, alkaline phosphatase",
+    "HbA1c and fasting glucose to assess diabetes control",
+    "Comprehensive lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Thyroid function tests (TSH, free T4)",
+    "Mental health screening (PHQ\u20119, GAD\u20117) and referral to behavioral health",
+    "Ankle\u2011brachial index or lower\u2011extremity duplex ultrasound for peripheral arterial disease",
+    "Medication reconciliation focusing on NSAIDs, herbal supplements, and over\u2011the\u2011counter agents"
+  ]
+}

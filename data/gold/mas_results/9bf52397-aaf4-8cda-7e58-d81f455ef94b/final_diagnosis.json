@@ -1,0 +1,279 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 2 chronic kidney disease (multifactorial)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.329,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 60-89 mL/min/1.73m2 consistent with stage 2 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and pre\u2011diabetes (A1c 7.7%) increasing CKD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular and renal risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory data indicate reduced eGFR consistent with stage 2 CKD. The patient's metabolic risk factors (obesity, pre\u2011diabetes) and possible hypertension further support a multifactorial etiology."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / pre\u2011diabetes",
+      "icd10": "E66.9; R73.03",
+      "snomed": "237599002; 44054006",
+      "probability": 0.21,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 (obesity) and A1c 7.7% indicating pre\u2011diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose (if available) supporting insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity combined with elevated A1c meets criteria for metabolic syndrome and places the patient at high risk for progression to type 2 diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Masked hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinic BP 95/81 mmHg with diastolic at upper normal range; potential white\u2011coat effect",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile suggests out\u2011of\u2011office hypertension may be present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Single office BP reading is low systolic but diastolic is borderline; given metabolic risk, out\u2011of\u2011office hypertension cannot be excluded."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "233418008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) is a major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No documented snoring or daytime sleepiness, but risk remains high",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity predisposes to OSA; lack of symptom documentation lowers certainty but risk remains appreciable."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / steato\u2011hepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, pre\u2011diabetes) increase NAFLD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While no liver enzymes or imaging are provided, the metabolic milieu makes NAFLD plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic musculoskeletal pain (osteoarthritis \u00b1 fibromyalgia)",
+      "icd10": "M15.9; M79.7",
+      "snomed": "239873007; 203691007",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on opioid therapy for pain, suggesting chronic musculoskeletal pain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Opioid prescription indicates ongoing pain; without detailed description, osteoarthritis or fibromyalgia remain possible."
+    },
+    {
+      "rank": 7,
+      "name": "Coronary artery disease / sub\u2011clinical atherosclerosis",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk due to obesity, pre\u2011diabetes, and possible hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors suggest underlying atherosclerosis even in absence of overt cardiac symptoms."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1; F41.9",
+      "snomed": "35489007; 48694002",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stressors noted in chart, though no formal assessment performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial factors are present; lack of formal evaluation limits certainty."
+    },
+    {
+      "rank": 9,
+      "name": "Diabetic/autonomic neuropathy",
+      "icd10": "E11.40",
+      "snomed": "44054006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 7.7%) present; neuropathy less common at this stage",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prediabetes alone rarely causes neuropathy; probability kept low."
+    },
+    {
+      "rank": 10,
+      "name": "Vitamin D deficiency",
+      "icd10": "E55.9",
+      "snomed": "237022007",
+      "probability": 0.032,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_review",
+          "finding": "Obesity and limited sun exposure are risk factors; vitamin D not yet measured",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors are present; absence of lab data makes this a plausible but unconfirmed diagnosis."
+    },
+    {
+      "rank": 11,
+      "name": "Metformin\u2011associated vitamin B12 deficiency",
+      "icd10": "E53.8",
+      "snomed": "410429000",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on chronic metformin therapy; B12 not measured",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term metformin can cause B12 deficiency, but no labs to confirm."
+    },
+    {
+      "rank": 12,
+      "name": "Analgesic\u2011nephropathy (acetaminophen\u2011related)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic acetaminophen use noted; CKD present raises concern for nephrotoxicity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Acetaminophen at high cumulative doses can contribute to CKD; dose appears low but remains a consideration."
+    },
+    {
+      "rank": 13,
+      "name": "Gout / hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "2016008",
+      "probability": 0.009,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_review",
+          "finding": "Obesity and metabolic syndrome increase gout risk; no uric acid level available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors present but no clinical or laboratory evidence; kept as low\u2011probability differential."
+    },
+    {
+      "rank": 14,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild anemia noted; iron studies not performed, CKD could also explain anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia present but etiology unclear; CKD more likely cause, iron deficiency remains possible."
+    }
+  ],
+  "primary_diagnosis": "Stage 2 chronic kidney disease (multifactorial)",
+  "primary_probability": 0.329,
+  "clinical_reasoning_summary": "The patient exhibits classic metabolic risk factors\u2014obesity, pre\u2011diabetes (A1c 7.7%), and borderline blood pressure\u2014that together with laboratory evidence of reduced eGFR point to stage 2 chronic kidney disease as the most likely diagnosis. Metabolic syndrome underlies many of the other differentials, while masked hypertension, sleep apnea, and NAFLD are plausible secondary contributors. Less supported entities such as hypothyroidism, primary hyperparathyroidism, and renal artery stenosis were removed per reviewer guidance. Remaining differentials reflect the patient\u2019s medication profile (metformin, acetaminophen) and psychosocial context.",
+  "unresolved_findings": [
+    "Numeric BMI value missing \u2013 cannot quantify obesity severity.",
+    "Single blood pressure measurement \u2013 unable to confirm hypertension or orthostatic changes.",
+    "Smoking, alcohol, physical activity, family history, allergy, vaccination, and mental health data absent.",
+    "Pain characteristics (location, intensity, duration) not documented despite opioid prescription.",
+    "Platelet distribution width (PDW) value appears mis\u2011scaled \u2013 needs repeat lab.",
+    "Limited lipid panel \u2013 no HDL trend, no triglyceride trend beyond a single normal value."
+  ],
+  "recommended_workup": [
+    "Ambulatory blood pressure monitoring (ABPM) to assess for masked hypertension.",
+    "Urine albumin\u2011creatinine ratio and repeat eGFR to stage CKD accurately.",
+    "Comprehensive lipid panel including HDL and triglycerides.",
+    "Liver ultrasound or FibroScan to evaluate for NAFLD.",
+    "Polysomnography or home sleep apnea testing.",
+    "Serum vitamin B12 level.",
+    "25\u2011hydroxy vitamin D level.",
+    "Thyroid panel (TSH, free T4) \u2013 if clinically indicated.",
+    "Iron studies (serum ferritin, transferrin saturation).",
+    "Serum calcium, phosphate, PTH if hyperparathyroidism suspected.",
+    "Renal artery Doppler ultrasound if resistant hypertension emerges.",
+    "Hepatitis C antibody testing if risk factors identified.",
+    "Serum uric acid level."
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (stage 4 CKD)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 14.2\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria and macro\u2011albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension and dyslipidemia as additional renal stressors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD with markedly reduced eGFR and heavy proteinuria in a patient with longstanding diabetes strongly points to diabetic nephropathy as the primary driver of renal failure."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic coronary artery disease (CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, dyslipidemia, obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk estimate (not explicitly provided but implied by risk profile)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s risk factor burden makes CAD plausible, though no cardiac imaging or biomarkers are available to confirm active disease."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinical note mentions anemia in the context of CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of recent CBC but anemia is a common CKD complication",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given stage 4 CKD, anemia of chronic disease is likely; the reviewer raised confidence despite missing labs."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with reduced ejection fraction (HFrEF)",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and coronary artery disease risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented cardiac imaging; suspicion based on risk profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors and CKD predispose to HFrEF, but lack of echo or BNP data keeps certainty moderate."
+    },
+    {
+      "rank": 5,
+      "name": "Iatrogenic hypoglycemia / overtreatment of diabetes",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 4.6% (potentially erroneous or indicative of overtreatment)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intensive insulin regimen noted in medication list (assumed from chart)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low HbA1c in a CKD patient raises concern for hypoglycemia due to reduced renal clearance of insulin or sulfonylureas."
+    },
+    {
+      "rank": 6,
+      "name": "Hypertensive nephrosclerosis (contributory)",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent blood pressure readings, limiting assessment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension may contribute to renal injury, but diabetes already explains most of the CKD; evidence is weak."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension present, both risk factors for OSA",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No sleep study performed; risk factors alone are insufficient for a confident diagnosis."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "399720009",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (stage 4) predisposes to mineral\u2011bone disorder",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing calcium, phosphate, PTH, and vitamin D labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is plausible but cannot be confirmed without mineral metabolism labs."
+    },
+    {
+      "rank": 9,
+      "name": "Peripheral arterial disease (PAD)",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes and smoking history (if present) increase PAD risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No vascular studies or claudication symptoms documented; diagnosis remains speculative."
+    },
+    {
+      "rank": 10,
+      "name": "Renal artery stenosis (RAS)",
+      "icd10": "I70.10",
+      "snomed": "414916001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hypertension (though BP values missing) could suggest secondary cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Very low pre\u2011test probability; no imaging performed to support this."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (stage 4 CKD)",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The patient presents with stage 4 CKD (eGFR 14.2) and nephrotic\u2011range proteinuria in the setting of long\u2011standing type 2 diabetes, making diabetic nephropathy the dominant diagnosis (42% probability). Cardiovascular risk factors elevate the likelihood of CAD, while CKD\u2011related anemia is common and supported by the clinical note. Moderate concern exists for iatrogenic hypoglycemia given an unusually low HbA1c. Heart failure, hypertensive nephrosclerosis, and other vascular complications remain possible but are less certain due to missing objective data. Low\u2011confidence entities such as OSA, CKD\u2011MBD, PAD, and RAS are retained for completeness but are unlikely without further testing.",
+  "unresolved_findings": [
+    "Low alkaline phosphatase (36.3 U/L) \u2013 unclear significance",
+    "Borderline elevated ALT (47.9 U/L) without documented liver disease",
+    "High\u2011normal chloride (107.3 mmol/L) lacking sodium/potassium context",
+    "HbA1c 4.6% \u2013 possibly erroneous or indicating overtreatment",
+    "Missing recent blood pressure readings",
+    "Missing complete metabolic panel (Na, K, bicarbonate, uric acid)",
+    "Missing CBC (hemoglobin, hematocrit, platelets)",
+    "No cardiac biomarkers or imaging",
+    "No renal imaging or biopsy results",
+    "No assessment for sleep apnea"
+  ],
+  "recommended_workup": [
+    "Obtain a complete metabolic panel including Na, K, bicarbonate, uric acid, calcium, phosphate, and vitamin D",
+    "Order a CBC with iron studies to confirm anemia type and severity",
+    "Measure intact PTH and 25\u2011OH vitamin D for CKD\u2011MBD assessment",
+    "Repeat HbA1c and obtain point\u2011of\u2011care glucose logs to evaluate for hypoglycemia",
+    "Record ambulatory blood pressure measurements or obtain recent clinic BP values",
+    "Perform transthoracic echocardiogram and obtain BNP to evaluate for heart failure",
+    "Schedule a stress test or coronary CT angiography to clarify CAD risk",
+    "Arrange a polysomnography or home sleep apnea test",
+    "Consider renal Doppler ultrasound or CTA to assess for renal artery stenosis if hypertension is uncontrolled",
+    "Vascular duplex studies of lower extremities if PAD is suspected"
+  ]
+}

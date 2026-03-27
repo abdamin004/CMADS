@@ -1,0 +1,255 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 3a Chronic Kidney Disease (diabetic\u2011hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 57.1 mL/min/1.73 m2 consistent with stage 3a CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled diabetes (HbA1c 7.0%) and hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing hypertension and diabetes as primary etiologies of CKD",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Reduced eGFR together with chronic hyperglycemia and hypertension points to diabetic\u2011hypertensive nephropathy as the dominant process driving renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic Cardiovascular Disease (stable/unstable CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple risk factors: hypertension, diabetes, dyslipidemia, obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "No recent coronary imaging, but high pre\u2011test probability given risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior MI and clustered atherosclerotic risk factors make CAD the most likely chronic cardiovascular condition, though symptom data are lacking to differentiate stable vs unstable disease."
+    },
+    {
+      "rank": 3,
+      "name": "Major Depressive Disorder / Generalized Anxiety",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High psychosocial stressors and chronic illness burden",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No formal mental health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of multiple chronic diseases and functional limitations raises the likelihood of mood or anxiety disorders, though objective screening is absent."
+    },
+    {
+      "rank": 4,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, diabetes, CKD, and obesity \u2013 classic HFpEF risk profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Absence of BNP, echocardiogram, or symptom documentation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factor constellation suggests HFpEF, but objective cardiac data are missing, making the diagnosis speculative."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension increase pre\u2011test probability",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s BMI (not recorded but implied obesity) and hypertension, OSA is plausible but unconfirmed."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral Arterial Disease (PAD)",
+      "icd10": "I70.2",
+      "snomed": "443883004",
+      "probability": 0.045,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes, hypertension, and dyslipidemia are strong PAD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No documented claudication or ABI measurement",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High vascular risk profile supports PAD, yet lack of limb symptoms or objective testing limits certainty."
+    },
+    {
+      "rank": 7,
+      "name": "CKD\u2011related anemia / anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease stage 3a predisposes to decreased erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Unexplained chronic anemia noted in chart (CBC not provided)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD is a well\u2011established cause of anemia of chronic disease; the reviewer highlighted this link as under\u2011weighted."
+    },
+    {
+      "rank": 8,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.035,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemia and anemia could be secondary to thyroid dysfunction",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No thyroid function tests ordered",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While plausible, there is no laboratory evidence; thus probability remains low."
+    },
+    {
+      "rank": 9,
+      "name": "Medication\u2011related adverse effects (\u03b2\u2011blocker fatigue, ACE\u2011I hyperkalaemia, statin myopathy)",
+      "icd10": "Y57.9",
+      "snomed": "418525006",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on \u03b2\u2011blocker, ACE\u2011I, and high\u2011intensity statin",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No labs to confirm hyperkalaemia or CK elevation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Medication side\u2011effects are plausible contributors to fatigue and lab abnormalities but lack objective confirmation."
+    },
+    {
+      "rank": 10,
+      "name": "Occult malignancy (colorectal, breast, lung) presenting as chronic anemia",
+      "icd10": "R71",
+      "snomed": "399067008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_review",
+          "finding": "Unexplained chronic anemia without identified source",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No recent cancer screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low probability but must be excluded given anemia of unknown origin."
+    }
+  ],
+  "primary_diagnosis": "Stage 3a Chronic Kidney Disease (diabetic\u2011hypertensive nephropathy)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s reduced eGFR, longstanding hypertension, and suboptimally controlled diabetes strongly indicate stage 3a CKD as the dominant pathology, which also explains the anemia of chronic disease. Atherosclerotic cardiovascular disease remains a major comorbidity given prior MI and clustered risk factors. Mental health disorders, HFpEF, OSA, PAD, and medication side\u2011effects are plausible contributors to the patient\u2019s symptom burden, while hypothyroidism and occult malignancy are less likely but warrant evaluation. The differential was re\u2011weighted to reflect the reviewer\u2019s emphasis on CKD and its related anemia, while maintaining representation of other credible possibilities.",
+  "unresolved_findings": [
+    "Missing current blood pressure readings (systolic/diastolic)",
+    "Missing current BMI and weight",
+    "Absent heart rate and orthostatic vitals",
+    "No complete CBC (hemoglobin, hematocrit, WBC)",
+    "No iron studies, ferritin, B12, folate",
+    "No thyroid function tests (TSH, free T4)",
+    "No liver function panel",
+    "No urine albumin\u2011creatinine ratio or protein quantification",
+    "No ankle\u2011brachial index or PAD symptom documentation",
+    "No neurocognitive assessment or brain imaging",
+    "No sleep study or STOP\u2011Bang questionnaire results",
+    "No cancer screening results (colonoscopy, mammogram, low\u2011dose CT)",
+    "No BNP or NT\u2011proBNP level",
+    "No recent stress test or coronary imaging"
+  ],
+  "recommended_workup": [
+    "Repeat CBC with differential",
+    "Iron studies, ferritin, vitamin B12, folate levels",
+    "Thyroid panel (TSH, free T4)",
+    "Urine albumin\u2011creatinine ratio",
+    "Ankle\u2011brachial index with peripheral vascular exam",
+    "BNP or NT\u2011proBNP and transthoracic echocardiogram",
+    "Polysomnography or home sleep apnea testing",
+    "Cardiac stress test or coronary CT angiography",
+    "Review medication list for dose adjustments; check serum potassium and CK",
+    "Age\u2011appropriate cancer screening: colonoscopy, mammogram, low\u2011dose chest CT"
+  ]
+}
