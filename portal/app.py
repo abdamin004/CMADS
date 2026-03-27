@@ -14,7 +14,7 @@ import duckdb
 
 # ── Config ──
 GOLD_DIR = Path("data/gold/patient_cases")
-COHORT_FILE = Path("data/gold/cohort_100_test_ids.json")
+COHORT_FILE = Path("data/gold/cohort_verified.json")
 DB_PATH = Path("data/clinical.duckdb")
 RAD_DIR = Path("data/gold/radiology_reports")
 

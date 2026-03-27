@@ -97,6 +97,10 @@ class TreatmentPlanningAgent(BaseAgent):
         """
         prompt_data = self.build_user_prompt(state)
 
+        # build_user_prompt returns a dict (not str) when skipping non-DIRECT matches
+        if isinstance(prompt_data, dict):
+            return prompt_data
+
         # Extract contraindicated drugs from all matched guidelines
         contra_list = ""
         all_contras = []

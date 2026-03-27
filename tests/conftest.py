@@ -11,8 +11,7 @@ DB_PATH = PROJECT_ROOT / "data" / "clinical.duckdb"
 GOLD_DIR = PROJECT_ROOT / "data" / "gold" / "patient_cases"
 RADIOLOGY_DIR = PROJECT_ROOT / "data" / "gold" / "radiology_reports"
 RADIOLOGY_EVAL_DIR = PROJECT_ROOT / "data" / "gold" / "radiology_evaluations"
-COHORT_FILE = PROJECT_ROOT / "data" / "gold" / "cohort_1k_patient_ids.json"
-COHORT_100_FILE = PROJECT_ROOT / "data" / "gold" / "cohort_100_test_ids.json"
+COHORT_FILE = PROJECT_ROOT / "data" / "gold" / "cohort_verified.json"
 
 
 @pytest.fixture(scope="session")

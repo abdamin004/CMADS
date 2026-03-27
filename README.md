@@ -76,10 +76,17 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# Set environment variables
-export GROQ_API_KEY=<your-key>
-export QDRANT_URL=<your-qdrant-endpoint>
-export QDRANT_API_KEY=<your-qdrant-key>
+# Set environment variables (copy the template and fill in your keys)
+cp .env.example .env
+# Edit .env with your API keys — see .env.example for details
+
+# Or export directly:
+export GROQ_API_KEY=<your-key>          # Required — get from https://console.groq.com/keys
+export QDRANT_URL=<your-endpoint>       # Required for treatment planning
+export QDRANT_API_KEY=<your-key>        # Required for treatment planning
+
+# Populate the Qdrant vector database with NICE guidelines (one-time)
+python -m src.vectordb.setup_qdrant
 ```
 
 ## Quick Start (run without rebuilding data)
@@ -88,7 +95,7 @@ The repo includes Gold-layer data for 270 verified patients across 8 diseases. Y
 
 ```bash
 # Run on a single patient (pick any UUID from data/gold/batches/batch_1.json)
-python -c "from src.orchestrator.graph import run_single_patient; run_single_patient('17517e4f-9e45-e6a4-5025-b3228e2f5ed7')"
+python -c "from src.orchestrator.graph import run_single_patient; run_single_patient('4b265e38-b837-001f-9059-5020ec1e3e26')"
 
 # Run a full batch (50 patients)
 python -c "from src.orchestrator.graph import run_cohort; run_cohort('data/gold/batches/batch_1.json')"

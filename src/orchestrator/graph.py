@@ -11,8 +11,6 @@ from __future__ import annotations
 import json
 import time
 from pathlib import Path
-from typing import Any, Annotated
-from operator import add
 
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
@@ -28,21 +26,7 @@ from src.agents.treatment import treatment_planning_agent
 
 # ── State Definition (shared memory) ──────────────────────────────────
 
-def _merge_agent_outputs(existing: dict | None, new: dict | None) -> dict:
-    """Reducer: merge agent output slots without overwriting others."""
-    merged = dict(existing) if existing else {}
-    if new:
-        merged.update(new)
-    return merged
-
-
-class PipelineState:
-    """LangGraph state — implements SDD §4 shared memory namespaces."""
-    patient_context: dict
-    agent_outputs: Annotated[dict, _merge_agent_outputs]
-    conflicts: Annotated[list, add]
-    execution_trace: Annotated[list, add]
-    scratchpad: dict
+from src.orchestrator.state import PipelineState
 
 
 # ── Graph Construction ─────────────────────────────────────────────────
