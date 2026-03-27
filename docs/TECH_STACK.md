@@ -4,7 +4,7 @@
 
 **Agent Pipeline • Evaluation • Portal**
 
-*LangChain + LangGraph + GPT-o3 120B (Ollama) + Streamlit*
+*LangChain + LangGraph + GPT-oss 120B (Groq API) + Streamlit*
 
   --------------------------- --------------------------------------------------------------------------
   **Document Title**          Final Technology Stack --- Agent Pipeline
@@ -43,11 +43,17 @@ This section presents the complete technology stack for the multi-agent pipeline
 
   **Agent Runtime**       LangChain                 0.3.x            Prompt templates, LCEL chains, output parsers, callbacks
 
-  **LLM (Agents)**        GPT-o3 120B               Ollama local     Primary reasoning model for all 7 agents, served locally via Ollama
+  **LLM (Agents)**        GPT-oss 120B              Groq API         Primary reasoning model for all agents, served via Groq cloud API
 
-  **LLM Serving**         Ollama                    latest           Local LLM server exposing OpenAI-compatible REST API at localhost:11434
+  **LLM (Evaluator)**     Qwen3 32B                 Groq API         Separate model for LLM-as-Judge evaluation (independence from reasoning model)
 
-  **LLM SDK**             langchain-ollama          latest           LangChain ChatOllama adapter --- native Ollama integration at localhost:11434
+  **LLM Serving**         Groq API                  cloud            Cloud LLM inference with OpenAI-compatible API
+
+  **LLM SDK**             langchain-groq            latest           LangChain ChatGroq adapter; langchain-ollama available as local fallback
+
+  **Vector Database**     Qdrant Cloud              latest           Stores NICE clinical guidelines for semantic search (Treatment Planning)
+
+  **Embeddings**          BioLORD-2023              768-dim          Medical concept embeddings for guideline retrieval (sentence-transformers)
 
   **Shared Memory**       LangGraph State           built-in         TypedDict state channels with namespace isolation
 

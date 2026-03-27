@@ -20,9 +20,10 @@ data/gold/mas_results/
 │   ├── lab_interpreter.json         ← Stage 1: Lab findings
 │   ├── diagnostic_reasoning.json    ← Stage 2: Initial differential
 │   ├── clinical_reviewer.json       ← Stage 3: Verification
-│   ├── final_diagnosis.json         ← Stage 4: Final answer
-│   ├── execution_trace.json         ← Timing and status per agent
-│   └── evaluation.json              ← LLM judge result
+│   ├── final_diagnosis.json         ← Stage 4: Refined differential (Refiner Agent)
+│   ├── evaluation.json              ← Stage 5: LLM judge result (DIRECT/INDIRECT/MISS)
+│   ├── treatment_planning.json      ← Stage 6: NICE guideline treatment plan (DIRECT only)
+│   └── execution_trace.json         ← Timing and status per agent
 │
 ├── run_summary.json                 ← Cohort-level pipeline stats
 └── evaluation_summary.json          ← All evaluations + accuracy rates
@@ -154,9 +155,52 @@ data/gold/mas_results/
 
 ### 2.5 final_diagnosis.json
 
-Same schema as `diagnostic_reasoning.json` — the final merged differential incorporating the Reviewer's adjustments.
+Same schema as `diagnostic_reasoning.json` — produced by the **Refiner Agent** which merges the Diagnostic Agent's differential with the Clinical Reviewer's adjustments. This is the definitive diagnostic output used by downstream agents.
 
-### 2.6 execution_trace.json
+### 2.6 treatment_planning.json (DIRECT matches only)
+
+Only generated when the LLM Evaluator classifies the diagnosis as a DIRECT match. Uses NICE clinical guidelines retrieved from Qdrant vector database.
+
+```json
+{
+  "primary_diagnosis_treated": "Heart failure with reduced ejection fraction",
+  "nice_guideline_used": "NG106",
+  "medications": [
+    {
+      "medication": "Ramipril 2.5mg",
+      "drug_class": "ACE inhibitor",
+      "dose": "2.5mg once daily, titrate to 10mg over 4-6 weeks",
+      "duration": "Lifelong — review annually",
+      "purpose": "Reduce mortality and hospitalisation in HFrEF",
+      "nice_justification": "NG106: First-line for all HFrEF patients",
+      "line": "first_line"
+    }
+  ],
+  "interactions_checked": [
+    {
+      "drug_pair": ["Ramipril", "Spironolactone"],
+      "interaction": "Both raise potassium — risk of hyperkalaemia",
+      "severity": "moderate",
+      "action": "Monitor potassium within 1 week of starting"
+    }
+  ],
+  "contraindications": [
+    {
+      "drug": "Verapamil",
+      "reason": "Negative inotrope — contraindicated in HFrEF per NG106",
+      "alternative": "Use bisoprolol (beta-blocker) instead"
+    }
+  ],
+  "assumptions_warnings": [
+    "eGFR unknown — assumed normal for ACE-I dosing; verify before prescribing",
+    "LVEF not available — cannot confirm HFrEF vs HFpEF classification",
+    "Allergy status unknown — cannot verify drug allergy safety"
+  ],
+  "treatment_summary": "NICE NG106-based quadruple therapy for HFrEF..."
+}
+```
+
+### 2.7 execution_trace.json
 
 ```json
 {
@@ -167,7 +211,9 @@ Same schema as `diagnostic_reasoning.json` — the final merged differential inc
     {"agent_id": "lab_interpreter", "status": "success", "execution_ms": 22000, "error": null},
     {"agent_id": "diagnostic_reasoning", "status": "success", "execution_ms": 55000, "error": null},
     {"agent_id": "clinical_reviewer", "status": "success", "execution_ms": 20000, "error": null},
-    {"agent_id": "final_diagnosis", "status": "success", "execution_ms": 8000, "error": null}
+    {"agent_id": "final_diagnosis", "status": "success", "execution_ms": 8000, "error": null},
+    {"agent_id": "evaluation", "status": "success", "execution_ms": 2000, "error": null},
+    {"agent_id": "treatment_planning", "status": "success", "execution_ms": 21000, "error": null}
   ]
 }
 ```

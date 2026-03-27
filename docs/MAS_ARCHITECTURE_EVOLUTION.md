@@ -301,4 +301,55 @@ Same model (gpt-oss-120b), 10x faster, $0.06/patient. Local Ollama: ~16 min/pati
 
 ---
 
-*— MAS Architecture Evolution v1.0 • March 2026 • CMADS*
+## 11. Version 5: Bias Removal + Treatment Planning
+
+### Problem Discovered
+Agent prompts explicitly mentioned the 8 target diseases (IHD, CHF, CKD, diabetes, etc.). This meant the LLM was biased toward diagnosing those specific diseases rather than reasoning from evidence. This was detected when reviewing batch 1 results — the agents correctly diagnosed target diseases but the reasoning felt "guided" rather than genuine.
+
+### Changes Made
+
+**Prompt Debiasing:**
+- Removed all disease-specific mentions from EHR Analyst, Lab Interpreter, and Diagnostic prompts
+- Replaced disease-specific instructions with organ-system reasoning (e.g., "consider cardiovascular risk factors" instead of "check for IHD")
+- Lab Interpreter reference ranges use "borderline" instead of "prediabetes"
+- Diagnostic Agent uses "root cause vs consequence" ranking rule without naming specific diseases
+
+**Treatment Planning Agent Added (Stage 6):**
+- Only runs on DIRECT matches (reads evaluation.json)
+- Searches Qdrant vector database for top 3 NICE guidelines matching the diagnosed disease
+- Uses BioLORD-2023 medical embeddings (768-dim) for semantic search
+- 2-call architecture: pharmacist analysis → structured JSON output
+- Checks drug interactions against current medications
+- Checks contraindications against patient conditions
+- Generates assumptions_warnings for missing data the NICE guideline requires
+
+**LLM Evaluator Added (Stage 5):**
+- Uses Qwen3 32B (separate from reasoning model for independence)
+- Compares final differential against Synthea ground truth
+- Outputs DIRECT / INDIRECT / MISS classification
+- Runs inside the LangGraph pipeline, not as a separate post-step
+
+### Architecture (Final)
+```
+Stage 1 (parallel): EHR Analyst + Lab Interpreter
+    ↓
+Stage 2: Diagnostic Reasoning (adaptive, max 3 rounds)
+    ↓
+Stage 3: Clinical Reviewer (adversarial)
+    ↓
+Stage 4: Diagnostic Refiner (merge)
+    ↓
+Stage 5: LLM Evaluator (ground truth comparison)
+    ↓
+Stage 6: Treatment Planning (DIRECT matches only, NICE guidelines via Qdrant)
+```
+
+### Impact
+- Batch 1 (biased prompts): 86% DIRECT
+- Batch 2 (partially biased): 94% DIRECT
+- Batch 3+ (fully unbiased): 100% DIRECT on test set of 5 patients
+- Treatment plans generated for all DIRECT matches with NICE guideline citations
+
+---
+
+*— MAS Architecture Evolution v2.0 • March 2026 • CMADS*
