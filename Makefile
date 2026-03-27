@@ -6,13 +6,13 @@ install:
 
 # ── Testing ──────────────────────────────────────────────
 test:
-	python -m pytest tests/ -v
+	python3 -m pytest tests/ -v
 
 test-data:
-	python -m pytest tests/test_data_pipeline.py -v
+	python3 -m pytest tests/test_data_pipeline.py -v
 
 test-mas:
-	python -m pytest tests/test_mas_pipeline.py -v
+	python3 -m pytest tests/test_mas_pipeline.py -v
 
 # ── Code Quality ─────────────────────────────────────────
 lint:
@@ -23,26 +23,26 @@ format:
 
 # ── Data Pipeline ────────────────────────────────────────
 pipeline-bronze:
-	python -m pipeline.bronze
+	python3 -m pipeline.bronze
 
 pipeline-silver:
-	python -m pipeline.silver
+	python3 -m pipeline.silver
 
 pipeline-gold:
-	python -m pipeline.gold
+	python3 -m pipeline.gold
 
 # ── MAS Pipeline ─────────────────────────────────────────
 run-patient:
 	@echo "Usage: make run-patient UUID=<patient-uuid>"
-	python -c "from src.orchestrator.graph import run_single_patient; run_single_patient('$(UUID)')"
+	python3 -c "from src.orchestrator.graph import run_single_patient; run_single_patient('$(UUID)')"
 
 run-batch:
 	@echo "Usage: make run-batch BATCH=data/gold/batches/batch_1.json [MAX=5]"
-	python -c "from src.orchestrator.graph import run_cohort; run_cohort('$(BATCH)', max_patients=$(or $(MAX),None))"
+	python3 -c "from src.orchestrator.graph import run_cohort; run_cohort('$(BATCH)', max_patients=$(or $(MAX),None))"
 
 # ── Evaluation ───────────────────────────────────────────
 evaluate:
-	python -m src.evaluation.llm_judge
+	python3 -m src.evaluation.llm_judge
 
 # ── Dashboard ────────────────────────────────────────────
 dashboard:
@@ -50,4 +50,4 @@ dashboard:
 
 # ── Vector DB (NICE Guidelines) ─────────────────────────
 setup-qdrant:
-	python -m src.vectordb.setup_qdrant
+	python3 -m src.vectordb.setup_qdrant
