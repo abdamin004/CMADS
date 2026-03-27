@@ -1,4 +1,4 @@
-.PHONY: install test lint pipeline portal-patient portal-doctor portal-dashboard run-batch
+.PHONY: install test lint run-patient run-batch dashboard setup-qdrant
 
 # ── Setup ────────────────────────────────────────────────
 install:

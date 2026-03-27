@@ -91,30 +91,44 @@ python -m src.vectordb.setup_qdrant
 
 ## Quick Start (run without rebuilding data)
 
-The repo includes Gold-layer data for 270 verified patients across 8 diseases. You can run the MAS pipeline directly:
+The repo includes Gold-layer data for 270 verified patients across 8 diseases. You can run the MAS pipeline directly using `make` commands or Python:
 
 ```bash
-# Run on a single patient (pick any UUID from data/gold/batches/batch_1.json)
-python -c "from src.orchestrator.graph import run_single_patient; run_single_patient('4b265e38-b837-001f-9059-5020ec1e3e26')"
+# Install dependencies
+make install
+
+# Run on a single patient
+make run-patient UUID=4b265e38-b837-001f-9059-5020ec1e3e26
 
 # Run a full batch (50 patients)
-python -c "from src.orchestrator.graph import run_cohort; run_cohort('data/gold/batches/batch_1.json')"
+make run-batch BATCH=data/gold/batches/batch_1.json
 
 # Run first 5 only (for testing)
-python -c "from src.orchestrator.graph import run_cohort; run_cohort('data/gold/batches/batch_1.json', max_patients=5)"
+make run-batch BATCH=data/gold/batches/batch_1.json MAX=5
+
+# Launch evaluation dashboard
+make dashboard
+
+# Run tests
+make test
 ```
 
 Results are saved to `data/gold/mas_results/{patient-uuid}/`.
 
-### Launch evaluation dashboard
-```bash
-streamlit run portal/dashboard.py --server.port 8503
-```
+### All available make commands
 
-### Run tests
-```bash
-pytest tests/ -v
-```
+| Command | Description |
+|---------|-------------|
+| `make install` | Install Python dependencies |
+| `make run-patient UUID=...` | Run MAS pipeline on one patient |
+| `make run-batch BATCH=... [MAX=n]` | Run MAS pipeline on a batch |
+| `make dashboard` | Launch Streamlit evaluation dashboard (port 8503) |
+| `make setup-qdrant` | Populate Qdrant with NICE guidelines (one-time) |
+| `make test` | Run all tests |
+| `make test-mas` | Run MAS pipeline tests only |
+| `make test-data` | Run data pipeline tests only |
+| `make lint` | Check code quality with ruff |
+| `make format` | Auto-format code with ruff |
 
 ## Data Pipeline (rebuild from scratch)
 
