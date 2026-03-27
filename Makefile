@@ -44,14 +44,8 @@ run-batch:
 evaluate:
 	python -m src.evaluation.llm_judge
 
-# ── Portals ──────────────────────────────────────────────
-portal-patient:
-	streamlit run portal/app.py --server.port 8501
-
-portal-doctor:
-	streamlit run portal/doctor_portal.py --server.port 8502
-
-portal-dashboard:
+# ── Dashboard ────────────────────────────────────────────
+dashboard:
 	streamlit run portal/dashboard.py --server.port 8503
 
 # ── Vector DB (NICE Guidelines) ─────────────────────────

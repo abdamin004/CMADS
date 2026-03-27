@@ -53,7 +53,7 @@ The pipeline diagram is available at [`docs/mas_pipeline.html`](docs/mas_pipelin
 │   ├── evaluation/         #   LLM-as-judge evaluation
 │   └── vectordb/           #   Qdrant setup + query
 ├── pipeline/               # Data pipeline (Bronze → Gold)
-├── portal/                 # Streamlit apps (3 portals)
+├── portal/                 # Streamlit evaluation dashboard
 ├── config/                 # Pipeline configs + NICE guidelines
 ├── tests/                  # pytest test suites
 ├── docs/                   # System docs (SRD, SDD, decisions)
@@ -106,11 +106,9 @@ python -c "from src.orchestrator.graph import run_cohort; run_cohort('data/gold/
 
 Results are saved to `data/gold/mas_results/{patient-uuid}/`.
 
-### Launch portals
+### Launch evaluation dashboard
 ```bash
-streamlit run portal/app.py --server.port 8501          # Patient profiler
-streamlit run portal/doctor_portal.py --server.port 8502 # Doctor portal
-streamlit run portal/dashboard.py --server.port 8503     # Evaluation dashboard
+streamlit run portal/dashboard.py --server.port 8503
 ```
 
 ### Run tests
