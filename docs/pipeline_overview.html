@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CMADS — Complete System Pipeline</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #c9d1d9; padding: 30px; margin: 0; max-width: 1200px; margin: 0 auto; }
+h1 { text-align: center; color: #58a6ff; font-size: 28px; }
+h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+.subtitle { text-align: center; color: #8b949e; margin-bottom: 40px; }
+
+.pipeline { display: flex; flex-direction: column; gap: 0; align-items: center; }
+
+.stage {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 0;
+  position: relative;
+}
+
+.arrow-down {
+  text-align: center;
+  font-size: 24px;
+  color: #8b949e;
+  padding: 8px 0;
+}
+.arrow-down .label {
+  font-size: 11px;
+  color: #8b949e;
+  display: block;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.stage-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+.stage-tech {
+  font-size: 12px;
+  color: #8b949e;
+  background: #21262d;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.stage-body { font-size: 13px; line-height: 1.7; }
+.stage-body ul { margin: 4px 0; padding-left: 20px; }
+.stage-body li { margin: 2px 0; }
+
+.highlight { color: #f0c000; font-weight: bold; }
+.removed { color: #f85149; text-decoration: line-through; }
+.good { color: #3fb950; }
+.note { color: #8b949e; font-style: italic; font-size: 12px; }
+
+/* Stage colors */
+.synthea { background: #1a1a2e; border: 2px solid #6e40c9; }
+.synthea .stage-name { color: #d2a8ff; }
+
+.filter1 { background: #1a0a0a; border: 2px solid #f85149; }
+.filter1 .stage-name { color: #f85149; }
+
+.bronze { background: #2d1f0f; border: 2px solid #cd7f32; }
+.bronze .stage-name { color: #cd7f32; }
+
+.silver { background: #1a2744; border: 2px solid #c0c0c0; }
+.silver .stage-name { color: #c0c0c0; }
+
+.silverplus { background: #0a2a2a; border: 2px solid #40e0d0; }
+.silverplus .stage-name { color: #40e0d0; }
+
+.gold { background: #2a2a0a; border: 2px solid #ffd700; }
+.gold .stage-name { color: #ffd700; }
+
+.filter2 { background: #0a1a0a; border: 2px solid #3fb950; }
+.filter2 .stage-name { color: #3fb950; }
+
+.filter3 { background: #1a0a2a; border: 2px solid #bc8cff; }
+.filter3 .stage-name { color: #bc8cff; }
+
+.radiology { background: #1a2a1a; border: 2px solid #7ee787; }
+.radiology .stage-name { color: #7ee787; }
+
+.mas { background: #0a1a3a; border: 2px solid #58a6ff; }
+.mas .stage-name { color: #58a6ff; }
+
+.eval { background: #2a0a1a; border: 2px solid #ff7b72; }
+.eval .stage-name { color: #ff7b72; }
+
+.counts {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.count-box {
+  background: #21262d;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  text-align: center;
+}
+.count-box .num { font-size: 20px; font-weight: bold; display: block; }
+
+.agent-flow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.agent-box {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  text-align: center;
+}
+.agent-box .calls { font-size: 10px; color: #8b949e; }
+.agent-arrow { color: #58a6ff; font-size: 18px; }
+</style>
+</head>
+<body>
+
+<h1>CMADS — Complete System Pipeline</h1>
+<p class="subtitle">From Synthea patient generation to clinical diagnosis evaluation</p>
+
+<div class="pipeline">
+
+<!-- SYNTHEA -->
+<div class="stage synthea">
+<div class="stage-header">
+  <span class="stage-name">1. Synthea Patient Generation</span>
+  <span class="stage-tech">Java CLI | CDC/NIH statistics</span>
+</div>
+<div class="stage-body">
+  Rule-based patient simulator generates realistic synthetic patient lifespans using state transition machines and Monte Carlo simulation.
+  <div class="counts">
+    <div class="count-box"><span class="num">14,850</span>patients generated</div>
+    <div class="count-box"><span class="num">18</span>raw CSV tables</div>
+    <div class="count-box"><span class="num">42M+</span>total records</div>
+  </div>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">CSV files</span></div>
+
+<!-- DISEASE FILTER -->
+<div class="stage filter1">
+<div class="stage-header">
+  <span class="stage-name">2. Disease Selection Filter</span>
+  <span class="stage-tech">Python | pipeline/gold.py</span>
+</div>
+<div class="stage-body">
+  Only diseases with <span class="highlight">lab evidence in Synthea's modules</span> are selected as target diseases. Diseases removed:
+  <ul>
+    <li><span class="removed">Anemia</span> — labs normal before diagnosis (Synthea assigns incidentally without CBC evidence)</li>
+    <li><span class="removed">Cerebral palsy</span> — no lab markers, congenital</li>
+    <li><span class="removed">Epilepsy</span> — no EEG in Synthea, no specific labs</li>
+    <li><span class="removed">Osteoporosis</span> — needs DEXA scan, not in labs</li>
+    <li><span class="removed">Pneumonia</span> — no chest imaging findings in labs</li>
+    <li><span class="removed">Osteoarthritis</span> — clinical diagnosis, no lab markers</li>
+  </ul>
+  Diseases kept: CHF, IHD, MI, ESRD, CKD, Diabetes T2, Hypertension, Metabolic Syndrome, Breast Cancer, HIV, Sepsis, Prostate Cancer, Cystitis
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">Filtered patient list</span></div>
+
+<!-- BRONZE -->
+<div class="stage bronze">
+<div class="stage-header">
+  <span class="stage-name">3. Bronze Layer — Raw Data Loading</span>
+  <span class="stage-tech">Python + PyArrow &rarr; DuckDB</span>
+</div>
+<div class="stage-body">
+  Direct CSV load into DuckDB. No transformation. Synthea UUIDs as primary keys.
+  <div class="counts">
+    <div class="count-box"><span class="num">18</span>tables</div>
+    <div class="count-box"><span class="num">14.9M</span>observations</div>
+    <div class="count-box"><span class="num">1.3M</span>encounters</div>
+    <div class="count-box"><span class="num">599K</span>conditions</div>
+  </div>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">DuckDB tables</span></div>
+
+<!-- SILVER -->
+<div class="stage silver">
+<div class="stage-header">
+  <span class="stage-name">4. Silver Layer — OMOP CDM Transformation</span>
+  <span class="stage-tech">dbt-core + DuckDB</span>
+</div>
+<div class="stage-body">
+  Transforms to OMOP Common Data Model standard. Maps Synthea UUIDs to integer person_ids.
+  <div class="counts">
+    <div class="count-box"><span class="num">6</span>OMOP tables</div>
+    <div class="count-box"><span class="num">0</span>patient loss</div>
+    <div class="count-box"><span class="num">10.5M</span>measurements</div>
+  </div>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">OMOP CDM tables</span></div>
+
+<!-- SILVER+ -->
+<div class="stage silverplus">
+<div class="stage-header">
+  <span class="stage-name">5. Silver+ Layer — Derived Clinical Features</span>
+  <span class="stage-tech">Python + SQL &rarr; DuckDB</span>
+</div>
+<div class="stage-body">
+  Computes clinical features: lab trends, critical flags, risk scores, comorbidity matrix, medication timeline, drug-condition links.
+  <div class="counts">
+    <div class="count-box"><span class="num">6</span>derived tables</div>
+    <div class="count-box"><span class="num">176K</span>total rows</div>
+  </div>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">Derived features</span></div>
+
+<!-- GOLD -->
+<div class="stage gold">
+<div class="stage-header">
+  <span class="stage-name">6. Gold Layer — Point-in-Time Patient Cases</span>
+  <span class="stage-tech">Python | pipeline/gold.py</span>
+</div>
+<div class="stage-body">
+  Per-patient JSON assembly. <span class="highlight">Point-in-time</span>: only data from BEFORE the target disease diagnosis. Target disease hidden from agents.
+  <ul>
+    <li><b>ehr_case.json</b> &rarr; demographics, conditions (target excluded), meds, visits, risk scores</li>
+    <li><b>lab_case.json</b> &rarr; lab trends, critical flags, vitals, latest labs</li>
+    <li><b>ground_truth.json</b> &rarr; hidden answer (evaluation only, never shown to agents)</li>
+  </ul>
+  <b>Data sufficiency filters applied:</b>
+  <ul>
+    <li>&ge;3 visits before diagnosis</li>
+    <li>&ge;5 lab observations before diagnosis</li>
+  </ul>
+  <div class="counts">
+    <div class="count-box"><span class="num">786</span>patients assembled</div>
+    <div class="count-box"><span class="num">0</span>leakage</div>
+    <div class="count-box"><span class="num">3</span>files per patient</div>
+  </div>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">Patient JSON files</span></div>
+
+<!-- LLM VERIFIER -->
+<div class="stage filter3">
+<div class="stage-header">
+  <span class="stage-name">7. LLM Lab Verifier — Data Quality Gate</span>
+  <span class="stage-tech">Qwen3 32B via Groq | pipeline/lab_verifier_llm.py</span>
+</div>
+<div class="stage-body">
+  For each patient, asks an LLM: <span class="highlight">"Could a doctor detect this disease from these labs?"</span>
+  <ul>
+    <li>Checks if lab values are abnormal in ways consistent with the target disease</li>
+    <li>Checks if medications suggest the disease</li>
+    <li>Checks if conditions/risk factors point to it</li>
+    <li>Only patients with <span class="highlight">confidence &ge;80</span> pass</li>
+  </ul>
+  <div class="counts">
+    <div class="count-box"><span class="num good">23</span>passed (&ge;80)</div>
+    <div class="count-box"><span class="num" style="color:#f85149;">76</span>filtered out</div>
+    <div class="count-box"><span class="num">~2s</span>per patient</div>
+  </div>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">Verified patient cohort</span></div>
+
+<!-- RADIOLOGY -->
+<div class="stage radiology">
+<div class="stage-header">
+  <span class="stage-name">8. Radiology Report Generation (optional)</span>
+  <span class="stage-tech">GPT-oss 120B + Qwen3 32B via Groq | pipeline/radiology_agents.py</span>
+</div>
+<div class="stage-body">
+  4-agent pipeline generates synthetic radiology reports for patients with imaging studies.
+  <ul>
+    <li>6-tier imaging selection (target &rarr; related &rarr; any &rarr; fallback)</li>
+    <li>Generator writes findings consistent with disease (never names it)</li>
+    <li>Evaluator scores 1-5 with retry-with-feedback loop (max 3 retries)</li>
+    <li>503/786 patients have imaging; 497 skipped (graceful degradation)</li>
+  </ul>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">ehr_case + lab_case + radiology reports</span></div>
+
+<!-- MAS -->
+<div class="stage mas">
+<div class="stage-header">
+  <span class="stage-name">9. Multi-Agent Diagnostic Pipeline</span>
+  <span class="stage-tech">LangGraph + LangChain + GPT-oss 120B via Groq</span>
+</div>
+<div class="stage-body">
+  5 agents in 4 stages produce a ranked differential diagnosis with probabilities.
+
+  <div class="agent-flow">
+    <div class="agent-box"><b>EHR Analyst</b><br><span class="calls">3 LLM calls</span></div>
+    <div class="agent-box"><b>Lab Interpreter</b><br><span class="calls">3 LLM calls</span></div>
+    <span class="agent-arrow">&rarr;</span>
+    <div class="agent-box"><b>Diagnostic<br>Reasoning</b><br><span class="calls">5-9 adaptive calls</span></div>
+    <span class="agent-arrow">&rarr;</span>
+    <div class="agent-box"><b>Clinical<br>Reviewer</b><br><span class="calls">3 LLM calls</span></div>
+    <span class="agent-arrow">&rarr;</span>
+    <div class="agent-box"><b>Diagnostic<br>Refiner</b><br><span class="calls">1 LLM call</span></div>
+  </div>
+
+  <ul>
+    <li>Stage 1 (parallel): EHR Analyst + Lab Interpreter read patient data</li>
+    <li>Stage 2 (adaptive): Diagnostic Reasoning generates differential with self-critique loop</li>
+    <li>Stage 3: Clinical Reviewer independently verifies each diagnosis</li>
+    <li>Stage 4: Refiner merges Diagnostic + Reviewer into final answer</li>
+  </ul>
+  <div class="counts">
+    <div class="count-box"><span class="num">14-20</span>LLM calls/patient</div>
+    <div class="count-box"><span class="num">~2 min</span>per patient (Groq)</div>
+    <div class="count-box"><span class="num">~$0.06</span>per patient</div>
+  </div>
+</div>
+</div>
+
+<div class="arrow-down">&darr;<span class="label">Ranked differential diagnosis</span></div>
+
+<!-- EVALUATION -->
+<div class="stage eval">
+<div class="stage-header">
+  <span class="stage-name">10. LLM-as-Judge Evaluation</span>
+  <span class="stage-tech">Qwen3 32B via Groq | src/evaluation/llm_judge.py</span>
+</div>
+<div class="stage-body">
+  Compares MAS differential against ground truth using an LLM judge that understands clinical equivalence.
+  <ul>
+    <li><span class="highlight">Direct match</span>: exact disease found ("ESRD" = "Stage 5 CKD" = "Kidney failure")</li>
+    <li><span class="highlight">Indirect match</span>: clinically related disease found ("Diabetic nephropathy" for ESRD target)</li>
+    <li><b>Miss</b>: disease not found in differential</li>
+    <li>Clinical accuracy score (0-100) per patient</li>
+    <li>Per-diagnosis classification: which diagnoses are direct/indirect/unrelated</li>
+  </ul>
+  <div class="counts">
+    <div class="count-box"><span class="num">80%</span>direct+indirect on verified cohort</div>
+    <div class="count-box"><span class="num">~2s</span>per evaluation</div>
+  </div>
+</div>
+</div>
+
+</div><!-- end pipeline -->
+
+<h2 style="margin-top:40px;">Data Flow Summary</h2>
+<div style="background:#161b22; border:1px solid #30363d; border-radius:8px; padding:20px; font-size:13px; line-height:2;">
+<pre style="color:#c9d1d9; margin:0;">
+14,850 patients (Synthea)
+    &darr; Disease filter: remove undianosable diseases (anemia, CP, epilepsy...)
+    &darr; Data sufficiency: &ge;3 visits + &ge;5 labs before diagnosis
+  786 patients (Gold layer)
+    &darr; LLM Verifier: "Can a doctor detect this disease from these labs?" (confidence &ge;80)
+   23 patients (verified cohort for testing)
+    &darr; MAS pipeline: 5 agents, 14-20 LLM calls per patient
+    &darr; LLM Judge: direct match / indirect match / miss
+  Results: 80% accuracy on verified data
+</pre>
+</div>
+
+<h2>Should You Regenerate Patients?</h2>
+<div style="background:#161b22; border:1px solid #30363d; border-radius:8px; padding:20px; font-size:13px;">
+<p><b>No.</b> The current Synthea data (14,850 patients) is sufficient. The issue was never the number of patients — it was selecting the RIGHT patients with DETECTABLE diseases.</p>
+<p>What we learned:</p>
+<ul>
+<li>Synthea generates labs and conditions <b>independently</b> — labs don't always reflect diseases</li>
+<li>Only 12% of conditions are encounter-reason confirmed (clinically diagnosed)</li>
+<li>Some diseases (anemia, osteoporosis, epilepsy) have no lab markers in Synthea</li>
+<li>The LLM verifier filters to only patients where diagnosis is actually possible</li>
+</ul>
+<p>If you want MORE verified patients, run the LLM verifier on the full 786 cohort instead of just 100. This will find more patients with strong evidence. Estimated: ~150-200 verified patients from 786.</p>
+<p>Regenerating Synthea with different parameters won't fix the fundamental issue — Synthea's disease modules generate conditions independently of labs. The verifier is the correct solution.</p>
+</div>
+
+<div style="text-align:center; color:#8b949e; font-size:11px; margin-top:30px;">
+CMADS System Pipeline v2.0 | March 2026 | Bachelor Thesis
+</div>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="gBronze" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#CD7F32"/><stop offset="100%" stop-color="#A0522D"/></linearGradient>
+    <linearGradient id="gSilver" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C0C0C0"/><stop offset="100%" stop-color="#A8A8A8"/></linearGradient>
+    <linearGradient id="gSilverP" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B8C6DB"/><stop offset="100%" stop-color="#8FA4BF"/></linearGradient>
+    <linearGradient id="gSynth" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9B59B6"/><stop offset="100%" stop-color="#7D3C98"/></linearGradient>
+    <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#DAA520"/></linearGradient>
+    <linearGradient id="gAgent" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2980B9"/><stop offset="100%" stop-color="#1B5E7B"/></linearGradient>
+    <linearGradient id="gOrch" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E74C3C"/><stop offset="100%" stop-color="#C0392B"/></linearGradient>
+    <linearGradient id="gMem" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1ABC9C"/><stop offset="100%" stop-color="#148F77"/></linearGradient>
+    <linearGradient id="gOut" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2C3E50"/><stop offset="100%" stop-color="#1A252F"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/></marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#C0392B"/></marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="550" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1B3A5C">CMADS — High-Level System Architecture</text>
+
+  <!-- DATA PIPELINE ZONE -->
+  <rect x="20" y="50" width="380" height="600" rx="12" fill="#F7F9FC" stroke="#D0D8E0" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="210" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#555">DATA PIPELINE SUBSYSTEM</text>
+
+  <!-- Synthea -->
+  <rect x="50" y="95" width="320" height="50" rx="8" fill="#ECF0F1" stroke="#BDC3C7" stroke-width="1"/>
+  <text x="210" y="125" text-anchor="middle" font-size="12" font-weight="600" fill="#333">Synthea Generator</text>
+  <text x="340" y="118" text-anchor="end" font-size="9" fill="#888">CSV + FHIR R4</text>
+
+  <!-- Bronze -->
+  <rect x="50" y="165" width="320" height="50" rx="8" fill="url(#gBronze)" filter="url(#shadow)"/>
+  <text x="210" y="195" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">Bronze Layer (~43 tables)</text>
+
+  <!-- Silver -->
+  <rect x="50" y="235" width="320" height="50" rx="8" fill="url(#gSilver)" filter="url(#shadow)"/>
+  <text x="210" y="260" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Silver Layer — OMOP CDM v5.4</text>
+  <text x="210" y="275" text-anchor="middle" font-size="9" fill="#555">6 canonical tables</text>
+
+  <!-- Silver+ -->
+  <rect x="50" y="305" width="150" height="60" rx="8" fill="url(#gSilverP)" filter="url(#shadow)"/>
+  <text x="125" y="332" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Silver+</text>
+  <text x="125" y="348" text-anchor="middle" font-size="9" fill="#EEE">9 derived features</text>
+
+  <!-- Synthetic -->
+  <rect x="220" y="305" width="150" height="60" rx="8" fill="url(#gSynth)" filter="url(#shadow)"/>
+  <text x="295" y="332" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Synthetic</text>
+  <text x="295" y="348" text-anchor="middle" font-size="9" fill="#EEE">5 LLM-generated</text>
+
+  <!-- Gold -->
+  <rect x="50" y="390" width="320" height="55" rx="8" fill="url(#gGold)" filter="url(#shadow)"/>
+  <text x="210" y="415" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Gold Layer</text>
+  <text x="210" y="432" text-anchor="middle" font-size="10" fill="#555">ehr_case.json  |  lab_case.json</text>
+
+  <!-- Arrows in data pipeline -->
+  <line x1="210" y1="145" x2="210" y2="165" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="210" y1="215" x2="210" y2="235" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="125" y1="285" x2="125" y2="305" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="295" y1="285" x2="295" y2="305" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="125" y1="365" x2="125" y2="390" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="295" y1="365" x2="295" y2="390" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- LLM Provider box (bottom left) -->
+  <rect x="50" y="480" width="320" height="50" rx="8" fill="#F5F5F5" stroke="#CCC" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="210" y="510" text-anchor="middle" font-size="11" fill="#666">LLM Provider API  (GPT-4 / Claude / Gemini)</text>
+
+  <!-- Evaluation box -->
+  <rect x="50" y="560" width="320" height="60" rx="8" fill="url(#gOut)" filter="url(#shadow)"/>
+  <text x="210" y="585" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Evaluation Engine</text>
+  <text x="210" y="602" text-anchor="middle" font-size="9" fill="#AAA">agent_ground_truth comparison</text>
+
+  <!-- ═══ AGENT PIPELINE ZONE ═══ -->
+  <rect x="430" y="50" width="650" height="600" rx="12" fill="#FDF8F0" stroke="#E0D0B8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="755" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#555">MULTI-AGENT PIPELINE SUBSYSTEM</text>
+
+  <!-- Orchestrator (spanning top) -->
+  <rect x="460" y="90" width="590" height="50" rx="8" fill="url(#gOrch)" filter="url(#shadow)"/>
+  <text x="755" y="115" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">Orchestrator Agent</text>
+  <text x="1020" y="112" text-anchor="end" font-size="9" fill="#FFCCCC">sequencing · routing · conflict detection</text>
+
+  <!-- Shared Memory (right sidebar) -->
+  <rect x="940" y="160" width="110" height="330" rx="8" fill="url(#gMem)" filter="url(#shadow)"/>
+  <text x="995" y="185" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Shared</text>
+  <text x="995" y="200" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Memory</text>
+  <text x="995" y="225" text-anchor="middle" font-size="9" fill="#E0F5F0">Patient context</text>
+  <text x="995" y="240" text-anchor="middle" font-size="9" fill="#E0F5F0">Agent outputs</text>
+  <text x="995" y="255" text-anchor="middle" font-size="9" fill="#E0F5F0">Conflicts log</text>
+  <text x="995" y="270" text-anchor="middle" font-size="9" fill="#E0F5F0">Trace history</text>
+  <text x="995" y="295" text-anchor="middle" font-size="9" fill="#E0F5F0">Scratchpad</text>
+
+  <!-- Stage 1: EHR + Lab (parallel) -->
+  <text x="470" y="168" font-size="10" font-weight="bold" fill="#888">STAGE 1</text>
+  <rect x="460" y="175" width="220" height="45" rx="6" fill="url(#gAgent)" filter="url(#shadow)"/>
+  <text x="570" y="202" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">EHR Analyst Agent</text>
+  <rect x="700" y="175" width="220" height="45" rx="6" fill="url(#gAgent)" filter="url(#shadow)"/>
+  <text x="810" y="202" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Lab Interpreter Agent</text>
+
+  <!-- Stage 2: Diagnostic -->
+  <text x="470" y="248" font-size="10" font-weight="bold" fill="#888">STAGE 2</text>
+  <rect x="560" y="255" width="280" height="45" rx="6" fill="url(#gAgent)" filter="url(#shadow)"/>
+  <text x="700" y="282" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Diagnostic Reasoning Agent</text>
+
+  <!-- Stage 3: Treatment + Radiology (parallel) -->
+  <text x="470" y="328" font-size="10" font-weight="bold" fill="#888">STAGE 3</text>
+  <rect x="460" y="335" width="220" height="45" rx="6" fill="url(#gAgent)" filter="url(#shadow)"/>
+  <text x="570" y="362" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Treatment Planning</text>
+  <rect x="700" y="335" width="220" height="45" rx="6" fill="url(#gAgent)" filter="url(#shadow)"/>
+  <text x="810" y="362" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Radiology Agent</text>
+
+  <!-- Stage 4: Clinical Reviewer -->
+  <text x="470" y="408" font-size="10" font-weight="bold" fill="#888">STAGE 4</text>
+  <rect x="560" y="415" width="280" height="45" rx="6" fill="url(#gAgent)" filter="url(#shadow)"/>
+  <text x="700" y="442" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Clinical Reviewer Agent</text>
+
+  <!-- Stage 5: Synthesis -->
+  <text x="470" y="488" font-size="10" font-weight="bold" fill="#888">STAGE 5</text>
+  <rect x="520" y="495" width="360" height="50" rx="6" fill="#1B3A5C" filter="url(#shadow)"/>
+  <text x="700" y="522" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFD700">Synthesis Agent</text>
+
+  <!-- Output -->
+  <rect x="520" y="570" width="360" height="55" rx="8" fill="url(#gOut)" filter="url(#shadow)"/>
+  <text x="700" y="593" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Clinical Decision Report</text>
+  <text x="700" y="610" text-anchor="middle" font-size="9" fill="#AAA">JSON + Markdown  |  Execution Trace</text>
+
+  <!-- Agent flow arrows -->
+  <line x1="570" y1="220" x2="630" y2="255" stroke="#555" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="810" y1="220" x2="770" y2="255" stroke="#555" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="650" y1="300" x2="570" y2="335" stroke="#555" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="750" y1="300" x2="810" y2="335" stroke="#555" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="570" y1="380" x2="650" y2="415" stroke="#555" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="810" y1="380" x2="750" y2="415" stroke="#555" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="700" y1="460" x2="700" y2="495" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="700" y1="545" x2="700" y2="570" stroke="#555" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Orchestrator control arrows (red dashed) -->
+  <line x1="755" y1="140" x2="570" y2="175" stroke="#C0392B" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/>
+  <line x1="755" y1="140" x2="810" y2="175" stroke="#C0392B" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/>
+  <line x1="755" y1="140" x2="700" y2="255" stroke="#C0392B" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.4"/>
+
+  <!-- Shared memory connection arrows (teal dashed) -->
+  <line x1="920" y1="197" x2="940" y2="250" stroke="#1ABC9C" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="920" y1="357" x2="940" y2="320" stroke="#1ABC9C" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="840" y1="437" x2="940" y2="380" stroke="#1ABC9C" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="880" y1="520" x2="940" y2="440" stroke="#1ABC9C" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Cross-subsystem arrow: Gold → Agent Pipeline -->
+  <line x1="370" y1="418" x2="460" y2="197" stroke="#DAA520" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="370" y1="418" x2="700" y2="197" stroke="#DAA520" stroke-width="2" marker-end="url(#arrow)" opacity="0.5"/>
+
+  <!-- LLM dashed line to agents -->
+  <line x1="370" y1="505" x2="460" y2="362" stroke="#999" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="420" y="445" font-size="8" fill="#999" transform="rotate(-40,420,445)">LLM API</text>
+
+  <!-- Evaluation arrow -->
+  <line x1="520" y1="600" x2="370" y2="590" stroke="#555" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <rect x="460" y="638" width="12" height="8" rx="2" fill="#C0392B"/>
+  <text x="478" y="646" font-size="9" fill="#666">Orchestrator control</text>
+  <rect x="580" y="638" width="12" height="8" rx="2" fill="#1ABC9C"/>
+  <text x="598" y="646" font-size="9" fill="#666">Shared memory R/W</text>
+  <rect x="710" y="638" width="12" height="8" rx="2" fill="#555"/>
+  <text x="728" y="646" font-size="9" fill="#666">Data flow</text>
+  <rect x="800" y="638" width="12" height="8" rx="2" fill="#DAA520"/>
+  <text x="818" y="646" font-size="9" fill="#666">Gold → Agents</text>
+</svg>

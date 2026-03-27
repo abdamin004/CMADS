@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 480" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/></marker>
+    <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2980B9"/><stop offset="100%" stop-color="#1B5E7B"/></linearGradient>
+  </defs>
+
+  <text x="550" y="25" text-anchor="middle" font-size="17" font-weight="bold" fill="#1B3A5C">Agent Internal Architecture — Generic Agent Blueprint</text>
+
+  <!-- Outer agent container -->
+  <rect x="30" y="45" width="1040" height="410" rx="16" fill="#F0F6FA" stroke="#2980B9" stroke-width="2" filter="url(#sh)"/>
+  <rect x="30" y="45" width="1040" height="40" rx="16" fill="url(#gA)"/>
+  <rect x="30" y="70" width="1040" height="15" fill="url(#gA)"/>
+  <text x="550" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">AGENT RUNTIME CONTAINER  (e.g., Diagnostic Reasoning Agent)</text>
+
+  <!-- Input Gate -->
+  <rect x="60" y="110" width="160" height="140" rx="8" fill="#FFF" stroke="#3498DB" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="60" y="110" width="160" height="28" rx="8" fill="#3498DB"/>
+  <rect x="60" y="130" width="160" height="8" fill="#3498DB"/>
+  <text x="140" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Input Gate</text>
+  <text x="75" y="158" font-size="9" fill="#555">1. Read from SharedMem</text>
+  <text x="75" y="173" font-size="9" fill="#555">2. Validate input schema</text>
+  <text x="75" y="188" font-size="9" fill="#555">3. Extract relevant keys</text>
+  <text x="75" y="203" font-size="9" fill="#555">4. Build input context</text>
+  <text x="75" y="225" font-size="8" fill="#1ABC9C" font-weight="bold">← SharedMemory.read()</text>
+
+  <!-- Prompt Engine -->
+  <rect x="260" y="110" width="200" height="140" rx="8" fill="#FFF" stroke="#E67E22" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="260" y="110" width="200" height="28" rx="8" fill="#E67E22"/>
+  <rect x="260" y="130" width="200" height="8" fill="#E67E22"/>
+  <text x="360" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Prompt Assembler</text>
+  <text x="275" y="158" font-size="9" fill="#555">1. Load system prompt (versioned)</text>
+  <text x="275" y="173" font-size="9" fill="#555">2. Inject patient context</text>
+  <text x="275" y="188" font-size="9" fill="#555">3. Inject upstream outputs</text>
+  <text x="275" y="203" font-size="9" fill="#555">4. Append output schema</text>
+  <text x="275" y="218" font-size="9" fill="#555">5. Apply few-shot examples</text>
+  <text x="275" y="240" font-size="8" fill="#E67E22" font-weight="bold">Template: YAML/Jinja2</text>
+
+  <!-- LLM Adapter -->
+  <rect x="500" y="110" width="200" height="140" rx="8" fill="#FFF" stroke="#8E44AD" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="500" y="110" width="200" height="28" rx="8" fill="#8E44AD"/>
+  <rect x="500" y="130" width="200" height="8" fill="#8E44AD"/>
+  <text x="600" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">LLM Adapter</text>
+  <text x="515" y="158" font-size="9" fill="#555">1. Select model (from config)</text>
+  <text x="515" y="173" font-size="9" fill="#555">2. Send prompt + params</text>
+  <text x="515" y="188" font-size="9" fill="#555">3. Retry on failure (exp backoff)</text>
+  <text x="515" y="203" font-size="9" fill="#555">4. Record tokens + latency</text>
+  <text x="515" y="218" font-size="9" fill="#555">5. Return raw response</text>
+  <text x="515" y="240" font-size="8" fill="#8E44AD" font-weight="bold">Provider: OpenAI / Anthropic / Google</text>
+
+  <!-- Output Parser -->
+  <rect x="740" y="110" width="160" height="140" rx="8" fill="#FFF" stroke="#27AE60" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="740" y="110" width="160" height="28" rx="8" fill="#27AE60"/>
+  <rect x="740" y="130" width="160" height="8" fill="#27AE60"/>
+  <text x="820" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Output Parser</text>
+  <text x="755" y="158" font-size="9" fill="#555">1. Parse JSON from LLM</text>
+  <text x="755" y="173" font-size="9" fill="#555">2. Validate vs schema</text>
+  <text x="755" y="188" font-size="9" fill="#555">3. Extract confidence</text>
+  <text x="755" y="203" font-size="9" fill="#555">4. Handle parse errors</text>
+  <text x="755" y="225" font-size="8" fill="#27AE60" font-weight="bold">→ SharedMemory.write()</text>
+
+  <!-- Output Gate -->
+  <rect x="940" y="110" width="110" height="140" rx="8" fill="#FFF" stroke="#2C3E50" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="940" y="110" width="110" height="28" rx="8" fill="#2C3E50"/>
+  <rect x="940" y="130" width="110" height="8" fill="#2C3E50"/>
+  <text x="995" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Output Gate</text>
+  <text x="955" y="158" font-size="9" fill="#555">Build Agent</text>
+  <text x="955" y="173" font-size="9" fill="#555">Response obj</text>
+  <text x="955" y="195" font-size="9" fill="#555">status</text>
+  <text x="955" y="210" font-size="9" fill="#555">output_payload</text>
+  <text x="955" y="225" font-size="9" fill="#555">token_usage</text>
+  <text x="955" y="240" font-size="9" fill="#555">exec_ms</text>
+
+  <!-- Arrows between stages -->
+  <line x1="220" y1="180" x2="260" y2="180" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="460" y1="180" x2="500" y2="180" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="700" y1="180" x2="740" y2="180" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="900" y1="180" x2="940" y2="180" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Config store at bottom -->
+  <rect x="60" y="280" width="990" height="70" rx="8" fill="#FFF8E1" stroke="#F39C12" stroke-width="1.5"/>
+  <text x="550" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#E67E22">Agent Configuration (YAML)</text>
+
+  <text x="80" y="328" font-size="9" fill="#555">agent_id: diagnostic_reasoning</text>
+  <text x="80" y="342" font-size="9" fill="#555">model: gpt-4-turbo</text>
+  <text x="280" y="328" font-size="9" fill="#555">temperature: 0.2</text>
+  <text x="280" y="342" font-size="9" fill="#555">max_tokens: 4096</text>
+  <text x="480" y="328" font-size="9" fill="#555">timeout_sec: 60</text>
+  <text x="480" y="342" font-size="9" fill="#555">max_retries: 3</text>
+  <text x="680" y="328" font-size="9" fill="#555">input_schema: dx_input.json</text>
+  <text x="680" y="342" font-size="9" fill="#555">output_schema: dx_output.json</text>
+  <text x="920" y="328" font-size="9" fill="#555">prompt_version: 2.1</text>
+  <text x="920" y="342" font-size="9" fill="#555">few_shot: 3 examples</text>
+
+  <!-- Error handling flow -->
+  <rect x="60" y="375" width="990" height="65" rx="8" fill="#FDEDEC" stroke="#E74C3C" stroke-width="1"/>
+  <text x="550" y="397" text-anchor="middle" font-size="12" font-weight="bold" fill="#C0392B">Error Handling &amp; Retry Flow</text>
+  <text x="80" y="420" font-size="9" fill="#555">LLM timeout → retry (exp backoff, max 3) → if exhausted: status=error, return partial</text>
+  <text x="80" y="434" font-size="9" fill="#555">JSON parse failure → retry with stricter prompt → if fails: log raw response, status=partial, Orchestrator continues pipeline</text>
+  <text x="80" y="448" font-size="8" fill="#888">Schema validation fail → extract valid fields, flag missing as null, continue with partial output, log warning</text>
+
+  <!-- Dashed config lines up to components -->
+  <line x1="140" y1="280" x2="140" y2="250" stroke="#F39C12" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="360" y1="280" x2="360" y2="250" stroke="#F39C12" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="600" y1="280" x2="600" y2="250" stroke="#F39C12" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <line x1="820" y1="280" x2="820" y2="250" stroke="#F39C12" stroke-width="0.8" stroke-dasharray="3,3"/>
+</svg>

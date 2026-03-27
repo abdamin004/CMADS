@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CMADS Entity Relationship Diagram</title>
+<style>
+body { font-family: Arial, sans-serif; background: #1a1a2e; color: #eee; padding: 20px; }
+h1 { text-align: center; color: #e94560; }
+h2 { color: #fff; background: #0f3460; padding: 8px 16px; border-radius: 6px; display: inline-block; }
+.layer { margin: 30px 0; padding: 20px; border-radius: 12px; }
+.bronze { background: #3d2b1f; border: 2px solid #cd7f32; }
+.silver { background: #1a2744; border: 2px solid #c0c0c0; }
+.silverplus { background: #1a3344; border: 2px solid #40e0d0; }
+.gold { background: #2a2a0a; border: 2px solid #ffd700; }
+.tables { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 12px; }
+.table { background: #16213e; border: 1px solid #555; border-radius: 8px; min-width: 220px; max-width: 280px; }
+.table-header { padding: 8px 12px; font-weight: bold; border-radius: 8px 8px 0 0; text-align: center; font-size: 14px; }
+.bronze .table-header { background: #8B4513; }
+.silver .table-header { background: #4a4a6a; }
+.silverplus .table-header { background: #1a6a6a; }
+.gold .table-header { background: #8B7500; }
+.table-body { padding: 8px 12px; font-size: 12px; line-height: 1.6; }
+.pk { color: #ffd700; font-weight: bold; }
+.fk { color: #40e0d0; }
+.col { color: #ccc; }
+.rel { color: #e94560; font-size: 11px; font-style: italic; }
+.arrow { text-align: center; font-size: 28px; color: #e94560; margin: 10px 0; }
+.note { font-size: 11px; color: #888; text-align: center; margin-top: 5px; }
+.layer-note { font-size: 12px; color: #aaa; text-align: center; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<h1>CMADS Data Pipeline - Entity Relationship Diagram</h1>
+<p style="text-align:center;color:#888;">Bronze (Raw) &rarr; Silver (OMOP CDM) &rarr; Silver+ (Derived) &rarr; Gold (Agent Input)</p>
+
+<div class="layer bronze">
+<h2 style="background:#8B4513;">Bronze Layer - Raw Synthea</h2>
+<p class="layer-note">Direct CSV load into DuckDB. Synthea UUIDs as keys. No transformation.</p>
+<div class="tables">
+
+<div class="table"><div class="table-header">patients</div><div class="table-body">
+<span class="pk">Id</span> VARCHAR (PK)<br>
+<span class="col">FIRST, LAST</span> VARCHAR<br>
+<span class="col">BIRTHDATE, DEATHDATE</span> DATE<br>
+<span class="col">GENDER, RACE, ETHNICITY</span><br>
+<span class="col">CITY, STATE, ZIP</span><br>
+<span class="note">14,850 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">encounters</div><div class="table-body">
+<span class="pk">Id</span> VARCHAR (PK)<br>
+<span class="fk">PATIENT</span> &rarr; patients.Id<br>
+<span class="col">START, STOP</span> TIMESTAMP<br>
+<span class="col">ENCOUNTERCLASS</span><br>
+<span class="col">DESCRIPTION</span><br>
+<span class="col">REASONCODE</span> (SNOMED)<br>
+<span class="col">REASONDESCRIPTION</span><br>
+<span class="rel">&larr; ground truth disease</span><br>
+<span class="note">1,317,748 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">conditions</div><div class="table-body">
+<span class="fk">PATIENT</span> &rarr; patients.Id<br>
+<span class="fk">ENCOUNTER</span> &rarr; encounters.Id<br>
+<span class="col">START, STOP</span> DATE<br>
+<span class="col">CODE</span> (SNOMED)<br>
+<span class="col">DESCRIPTION</span><br>
+<span class="note">599,111 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">observations</div><div class="table-body">
+<span class="fk">PATIENT</span> &rarr; patients.Id<br>
+<span class="fk">ENCOUNTER</span> &rarr; encounters.Id<br>
+<span class="col">DATE</span> TIMESTAMP<br>
+<span class="col">CATEGORY</span> (laboratory/vital-signs)<br>
+<span class="col">DESCRIPTION, VALUE, UNITS</span><br>
+<span class="note">14,945,253 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">medications</div><div class="table-body">
+<span class="fk">PATIENT</span> &rarr; patients.Id<br>
+<span class="fk">ENCOUNTER</span> &rarr; encounters.Id<br>
+<span class="col">START, STOP</span> DATE<br>
+<span class="col">CODE</span> (RxNorm)<br>
+<span class="col">DESCRIPTION</span><br>
+<span class="col">REASONCODE, REASONDESCRIPTION</span><br>
+<span class="note">1,055,848 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">imaging_studies</div><div class="table-body">
+<span class="pk">Id</span> VARCHAR (PK)<br>
+<span class="fk">PATIENT</span> &rarr; patients.Id<br>
+<span class="fk">ENCOUNTER</span> &rarr; encounters.Id<br>
+<span class="col">DATE</span> TIMESTAMP<br>
+<span class="col">MODALITY_CODE</span><br>
+<span class="col">MODALITY_DESCRIPTION</span><br>
+<span class="col">BODYSITE_DESCRIPTION</span><br>
+<span class="note">1,633,861 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">procedures</div><div class="table-body">
+<span class="fk">PATIENT</span> &rarr; patients.Id<br>
+<span class="fk">ENCOUNTER</span> &rarr; encounters.Id<br>
+<span class="col">DATE</span> TIMESTAMP<br>
+<span class="col">CODE</span> (SNOMED)<br>
+<span class="col">DESCRIPTION</span><br>
+<span class="note">2,963,878 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">allergies</div><div class="table-body">
+<span class="fk">PATIENT</span> &rarr; patients.Id<br>
+<span class="fk">ENCOUNTER</span> &rarr; encounters.Id<br>
+<span class="col">START, STOP</span> DATE<br>
+<span class="col">CODE, DESCRIPTION</span><br>
+<span class="note">14,973 rows</span>
+</div></div>
+
+</div></div>
+
+<div class="arrow">&darr; OMOP CDM Transformation (person_id mapping) &darr;</div>
+
+<div class="layer silver">
+<h2 style="background:#4a4a6a;">Silver Layer - OMOP CDM</h2>
+<p class="layer-note">Standardized medical format. Integer person_id mapped from UUID via person_source_value.</p>
+<div class="tables">
+
+<div class="table"><div class="table-header">silver_person</div><div class="table-body">
+<span class="pk">person_id</span> BIGINT (PK)<br>
+<span class="col">person_source_value</span> &rarr; patients.Id<br>
+<span class="col">gender_source_value</span><br>
+<span class="col">birth_datetime</span><br>
+<span class="col">race_source_value</span><br>
+<span class="note">14,850 rows | 1:1 with patients</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_visit_occurrence</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">visit_start_date, visit_end_date</span><br>
+<span class="col">visit_source_value</span><br>
+<span class="note">1,317,748 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_condition_occurrence</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">condition_start_date</span><br>
+<span class="col">condition_source_value</span><br>
+<span class="col">condition_source_code</span> (SNOMED)<br>
+<span class="note">599,111 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_measurement</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">measurement_date</span><br>
+<span class="col">measurement_source_value</span><br>
+<span class="col">value_as_number</span> DOUBLE<br>
+<span class="col">unit_source_value</span><br>
+<span class="note">10,483,992 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_drug_exposure</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">drug_exposure_start_date</span><br>
+<span class="col">drug_source_value</span><br>
+<span class="note">1,055,848 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_observation</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">observation_date</span><br>
+<span class="col">observation_source_value</span><br>
+<span class="col">value_as_string</span><br>
+<span class="note">4,082,040 rows</span>
+</div></div>
+
+</div></div>
+
+<div class="arrow">&darr; Derived Feature Computation (1K cohort only) &darr;</div>
+
+<div class="layer silverplus">
+<h2 style="background:#1a6a6a;">Silver+ Layer - Derived Clinical Features</h2>
+<p class="layer-note">Aggregations, trends, and risk scores computed from Silver for the 1K cohort.</p>
+<div class="tables">
+
+<div class="table"><div class="table-header">silver_plus_lab_trends</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">lab_name, units</span><br>
+<span class="col">trend</span> (increasing/decreasing/stable)<br>
+<span class="col">value_first, value_latest</span><br>
+<span class="col">measurement_count</span><br>
+<span class="col">pct_change_first_to_latest</span><br>
+<span class="note">11,822 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_plus_critical_lab_flags</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">lab_name, units</span><br>
+<span class="col">value_latest</span><br>
+<span class="col">flag</span> (high/low/critical_high/critical_low)<br>
+<span class="col">severity</span> (normal/abnormal/critical)<br>
+<span class="col">normal_range</span><br>
+<span class="note">14,918 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_plus_risk_scores</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">sbp_latest, dbp_latest</span><br>
+<span class="col">bmi_latest, a1c_latest, egfr_latest</span><br>
+<span class="col">bp_category, glycemic_control</span><br>
+<span class="col">ckd_stage, charlson_index</span><br>
+<span class="col">clinical_complexity</span><br>
+<span class="note">1,000 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_plus_comorbidity_matrix</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">has_ihd, has_hypertension</span> BOOL<br>
+<span class="col">has_diabetes_t2, has_ckd</span> BOOL<br>
+<span class="col">has_anemia, has_epilepsy</span> BOOL<br>
+<span class="col">total_condition_count</span><br>
+<span class="col">charlson_index</span><br>
+<span class="note">1,000 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_plus_medication_timeline</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">medication</span> VARCHAR<br>
+<span class="col">start_date, end_date</span><br>
+<span class="col">duration_days</span><br>
+<span class="col">condition_treated</span><br>
+<span class="note">142,397 rows</span>
+</div></div>
+
+<div class="table"><div class="table-header">silver_plus_drug_condition_links</div><div class="table-body">
+<span class="fk">person_id</span> &rarr; silver_person<br>
+<span class="col">medication</span> VARCHAR<br>
+<span class="col">condition_treated</span><br>
+<span class="col">condition_code</span> (SNOMED)<br>
+<span class="note">5,385 rows</span>
+</div></div>
+
+</div></div>
+
+<div class="arrow">&darr; Per-Patient JSON Assembly (point-in-time, disease hidden) &darr;</div>
+
+<div class="layer gold">
+<h2 style="background:#8B7500;">Gold Layer - Patient Case Files</h2>
+<p class="layer-note">Per-patient JSON files. Point-in-time: only pre-diagnosis data. Target disease excluded.</p>
+<div class="tables">
+
+<div class="table"><div class="table-header">ehr_case.json</div><div class="table-body">
+<span class="col">patient_uuid, person_id</span><br>
+<span class="col">cutoff_date, case_mode</span><br>
+<span class="col">demographics</span> {age, gender, race}<br>
+<span class="col">conditions</span> {active[], resolved[]}<br>
+<span class="col">medications</span> {active[]}<br>
+<span class="col">visits</span> {total, emergency, ...}<br>
+<span class="col">risk_scores</span> {bp, a1c, bmi, ...}<br>
+<span class="col">comorbidity</span> {flags{}, charlson}<br>
+<span class="col">imaging_studies</span> []<br>
+<span class="col">drug_condition_links</span> []<br>
+<span class="rel">&rarr; EHR Analyst Agent</span><br>
+<span class="note">1,000 files</span>
+</div></div>
+
+<div class="table"><div class="table-header">lab_case.json</div><div class="table-body">
+<span class="col">person_id, cutoff_date</span><br>
+<span class="col">latest_labs</span> [{name, value, date}]<br>
+<span class="col">lab_trends</span> [{trend, first, latest}]<br>
+<span class="col">critical_flags</span> {flags[], summary}<br>
+<span class="col">recent_vitals</span> [{name, value}]<br>
+<span class="col">lab_count, vital_count</span><br>
+<span class="rel">&rarr; Lab Interpreter Agent</span><br>
+<span class="note">1,000 files</span>
+</div></div>
+
+<div class="table"><div class="table-header">ground_truth.json</div><div class="table-body">
+<span class="pk">target_condition</span><br>
+<span class="col">&nbsp;&nbsp;name, code (SNOMED)</span><br>
+<span class="col">&nbsp;&nbsp;diagnosis_date</span><br>
+<span class="col">cutoff_date</span><br>
+<span class="col">visits_before_diagnosis</span><br>
+<span class="col">all_conditions_at_diagnosis</span> []<br>
+<span class="col">post_diagnosis_medications</span> []<br>
+<span class="col">labs_at_cutoff</span> []<br>
+<span class="rel">&rarr; Evaluation only (HIDDEN from agents)</span><br>
+<span class="note">1,000 files</span>
+</div></div>
+
+<div class="table"><div class="table-header">radiology_report.json</div><div class="table-body">
+<span class="col">patient_id</span> &rarr; patients.Id<br>
+<span class="col">modality, modality_code</span><br>
+<span class="col">body_site, scan_date</span><br>
+<span class="col">report</span> TEXT (LLM-generated)<br>
+<span class="col">generation_metadata</span><br>
+<span class="col">&nbsp;&nbsp;model, temperature</span><br>
+<span class="col">&nbsp;&nbsp;ground_truth_disease</span><br>
+<span class="col">&nbsp;&nbsp;attempt, total_attempts</span><br>
+<span class="rel">&rarr; Radiology Agent</span><br>
+<span class="note">~500 files</span>
+</div></div>
+
+</div></div>
+
+<div style="text-align:center;margin-top:30px;">
+<p style="color:#888;font-size:12px;">
+<strong>Key:</strong>
+<span style="color:#ffd700;">Gold = Primary Key</span> |
+<span style="color:#40e0d0;">Teal = Foreign Key</span> |
+<span style="color:#ccc;">Gray = Column</span> |
+<span style="color:#e94560;">Red = Relationship / Agent mapping</span>
+</p>
+<p style="color:#666;font-size:11px;">CMADS Entity Relationship Diagram v1.0 | March 2026</p>
+</div>
+
+</body>
+</html>

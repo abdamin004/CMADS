@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="gLG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4A90D9"/><stop offset="100%" stop-color="#2E6BB5"/></linearGradient>
+    <linearGradient id="gLC" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ECC71"/><stop offset="100%" stop-color="#27AE60"/></linearGradient>
+    <linearGradient id="gLLM" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8E44AD"/><stop offset="100%" stop-color="#6C3483"/></linearGradient>
+    <linearGradient id="gMem" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1ABC9C"/><stop offset="100%" stop-color="#148F77"/></linearGradient>
+    <linearGradient id="gEval" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E67E22"/><stop offset="100%" stop-color="#D35400"/></linearGradient>
+    <linearGradient id="gUI" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E74C3C"/><stop offset="100%" stop-color="#C0392B"/></linearGradient>
+    <linearGradient id="gConf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F39C12"/><stop offset="100%" stop-color="#E67E22"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/></marker>
+    <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#DAA520"/></marker>
+  </defs>
+
+  <text x="550" y="24" text-anchor="middle" font-size="17" font-weight="bold" fill="#1B3A5C">Agent Pipeline — Final Technology Stack</text>
+
+  <!-- DATA SOURCE: SYNTHEA -->
+  <rect x="30" y="40" width="1040" height="65" rx="10" fill="#2C3E50" filter="url(#sh)"/>
+  <text x="550" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFD700">SINGLE DATA SOURCE — Synthea (Java CLI)</text>
+  <text x="550" y="80" text-anchor="middle" font-size="10" fill="#BDC3C7">Rule-based GMF state machines | Monte Carlo simulation | CDC/NIH statistics | CSV + FHIR R4 output</text>
+  <text x="550" y="95" text-anchor="middle" font-size="9" fill="#7F8C8D">All patient data originates here. Data Pipeline transforms Synthea output into Gold JSON. Agents consume structured data directly.</text>
+
+  <line x1="550" y1="105" x2="550" y2="122" stroke="#DAA520" stroke-width="2" marker-end="url(#arrG)"/>
+  <text x="660" y="118" font-size="8" fill="#DAA520">Gold JSON (ehr_case + lab_case)</text>
+
+  <!-- ORCHESTRATION LAYER -->
+  <rect x="30" y="125" width="1040" height="75" rx="10" fill="#EBF5FB" stroke="#4A90D9" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="30" y="125" width="1040" height="26" rx="10" fill="url(#gLG)"/>
+  <rect x="30" y="142" width="1040" height="9" fill="url(#gLG)"/>
+  <text x="550" y="145" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">ORCHESTRATION — LangGraph (StateGraph)</text>
+  <text x="50" y="178" font-size="10" fill="#2E6BB5" font-weight="600">Declarative DAG</text>
+  <text x="200" y="178" font-size="10" fill="#555">| Conditional edges | Parallel branches | State channels | Checkpointing | Retry policies</text>
+  <text x="880" y="178" font-size="9" fill="#888">langgraph==0.2.x</text>
+
+  <!-- AGENT LAYER -->
+  <rect x="30" y="218" width="680" height="150" rx="10" fill="#F0FAF0" stroke="#27AE60" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="30" y="218" width="680" height="26" rx="10" fill="url(#gLC)"/>
+  <rect x="30" y="236" width="680" height="8" fill="url(#gLC)"/>
+  <text x="370" y="239" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">AGENT RUNTIME — LangChain</text>
+
+  <rect x="50" y="258" width="130" height="44" rx="5" fill="#FFF" stroke="#27AE60" stroke-width="1"/>
+  <text x="115" y="277" text-anchor="middle" font-size="9" font-weight="bold" fill="#27AE60">ChatPromptTemplate</text>
+  <text x="115" y="290" text-anchor="middle" font-size="8" fill="#666">Jinja2 prompts</text>
+
+  <rect x="200" y="258" width="130" height="44" rx="5" fill="#FFF" stroke="#27AE60" stroke-width="1"/>
+  <text x="265" y="277" text-anchor="middle" font-size="9" font-weight="bold" fill="#27AE60">ChatOllama</text>
+  <text x="265" y="290" text-anchor="middle" font-size="8" fill="#666">GPT-o3 120B (local)</text>
+
+  <rect x="350" y="258" width="130" height="44" rx="5" fill="#FFF" stroke="#27AE60" stroke-width="1"/>
+  <text x="415" y="277" text-anchor="middle" font-size="9" font-weight="bold" fill="#27AE60">PydanticOutputParser</text>
+  <text x="415" y="290" text-anchor="middle" font-size="8" fill="#666">Schema validation</text>
+
+  <rect x="500" y="258" width="100" height="44" rx="5" fill="#FFF" stroke="#27AE60" stroke-width="1"/>
+  <text x="550" y="277" text-anchor="middle" font-size="9" font-weight="bold" fill="#27AE60">RunnableSeq</text>
+  <text x="550" y="290" text-anchor="middle" font-size="8" fill="#666">LCEL chains</text>
+
+  <rect x="620" y="258" width="75" height="44" rx="5" fill="#FFF" stroke="#27AE60" stroke-width="1"/>
+  <text x="657" y="277" text-anchor="middle" font-size="9" font-weight="bold" fill="#27AE60">Callbacks</text>
+  <text x="657" y="290" text-anchor="middle" font-size="8" fill="#666">Token log</text>
+
+  <text x="50" y="336" font-size="9" fill="#555">Pydantic v2 output schemas | LCEL | .with_structured_output()</text>
+  <text x="550" y="336" font-size="9" fill="#888">langchain==0.3.x</text>
+
+  <line x1="180" y1="280" x2="200" y2="280" stroke="#27AE60" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="330" y1="280" x2="350" y2="280" stroke="#27AE60" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="480" y1="280" x2="500" y2="280" stroke="#27AE60" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="600" y1="280" x2="620" y2="280" stroke="#27AE60" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- SHARED MEMORY -->
+  <rect x="730" y="218" width="340" height="150" rx="10" fill="#E8F8F5" stroke="#1ABC9C" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="730" y="218" width="340" height="26" rx="10" fill="url(#gMem)"/>
+  <rect x="730" y="236" width="340" height="8" fill="url(#gMem)"/>
+  <text x="900" y="239" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">SHARED MEMORY</text>
+
+  <rect x="750" y="258" width="140" height="36" rx="5" fill="#FFF" stroke="#1ABC9C" stroke-width="1"/>
+  <text x="820" y="274" text-anchor="middle" font-size="9" font-weight="bold" fill="#148F77">LangGraph State</text>
+  <text x="820" y="286" text-anchor="middle" font-size="8" fill="#666">TypedDict channels</text>
+
+  <rect x="910" y="258" width="140" height="36" rx="5" fill="#FFF" stroke="#1ABC9C" stroke-width="1"/>
+  <text x="980" y="274" text-anchor="middle" font-size="9" font-weight="bold" fill="#148F77">Pydantic Models</text>
+  <text x="980" y="286" text-anchor="middle" font-size="8" fill="#666">Namespace schemas</text>
+
+  <rect x="750" y="308" width="300" height="36" rx="5" fill="#FFF" stroke="#1ABC9C" stroke-width="1"/>
+  <text x="900" y="324" text-anchor="middle" font-size="9" font-weight="bold" fill="#148F77">JSON checkpoints to disk</text>
+  <text x="900" y="337" text-anchor="middle" font-size="8" fill="#666">LangGraph MemorySaver / custom FileCheckpointer</text>
+
+  <!-- LLM LAYER (local via Ollama) -->
+  <rect x="30" y="390" width="520" height="78" rx="10" fill="#F5EEF8" stroke="#8E44AD" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="30" y="390" width="520" height="26" rx="10" fill="url(#gLLM)"/>
+  <rect x="30" y="408" width="520" height="8" fill="url(#gLLM)"/>
+  <text x="290" y="411" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">LLM — LOCAL INFERENCE (Ollama)</text>
+
+  <rect x="50" y="433" width="260" height="25" rx="4" fill="#FFF" stroke="#8E44AD" stroke-width="1"/>
+  <text x="180" y="450" text-anchor="middle" font-size="11" font-weight="bold" fill="#6C3483">GPT-o3 120B (All Agent Reasoning)</text>
+
+  <text x="340" y="450" font-size="9" fill="#888">ChatOllama | localhost:11434 | No API keys | Zero cost</text>
+
+  <!-- CONFIG LAYER -->
+  <rect x="570" y="390" width="500" height="78" rx="10" fill="#FEF9E7" stroke="#F39C12" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="570" y="390" width="500" height="26" rx="10" fill="url(#gConf)"/>
+  <rect x="570" y="408" width="500" height="8" fill="url(#gConf)"/>
+  <text x="820" y="411" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">CONFIGURATION &amp; VALIDATION</text>
+
+  <rect x="590" y="433" width="100" height="25" rx="4" fill="#FFF" stroke="#F39C12" stroke-width="1"/>
+  <text x="640" y="450" text-anchor="middle" font-size="9" font-weight="bold" fill="#E67E22">YAML configs</text>
+  <rect x="705" y="433" width="100" height="25" rx="4" fill="#FFF" stroke="#F39C12" stroke-width="1"/>
+  <text x="755" y="450" text-anchor="middle" font-size="9" font-weight="bold" fill="#E67E22">Pydantic v2</text>
+  <rect x="820" y="433" width="100" height="25" rx="4" fill="#FFF" stroke="#F39C12" stroke-width="1"/>
+  <text x="870" y="450" text-anchor="middle" font-size="9" font-weight="bold" fill="#E67E22">JSON Schema</text>
+  <rect x="935" y="433" width="120" height="25" rx="4" fill="#FFF" stroke="#F39C12" stroke-width="1"/>
+  <text x="995" y="450" text-anchor="middle" font-size="9" font-weight="bold" fill="#E67E22">python-dotenv</text>
+
+  <!-- EVALUATION LAYER -->
+  <rect x="30" y="490" width="520" height="78" rx="10" fill="#FBEEE6" stroke="#E67E22" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="30" y="490" width="520" height="26" rx="10" fill="url(#gEval)"/>
+  <rect x="30" y="508" width="520" height="8" fill="url(#gEval)"/>
+  <text x="290" y="511" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">EVALUATION &amp; ANALYSIS</text>
+
+  <rect x="50" y="533" width="85" height="25" rx="4" fill="#FFF" stroke="#E67E22" stroke-width="1"/>
+  <text x="92" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#D35400">pandas</text>
+  <rect x="150" y="533" width="85" height="25" rx="4" fill="#FFF" stroke="#E67E22" stroke-width="1"/>
+  <text x="192" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#D35400">scikit-learn</text>
+  <rect x="250" y="533" width="85" height="25" rx="4" fill="#FFF" stroke="#E67E22" stroke-width="1"/>
+  <text x="292" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#D35400">matplotlib</text>
+  <rect x="350" y="533" width="85" height="25" rx="4" fill="#FFF" stroke="#E67E22" stroke-width="1"/>
+  <text x="392" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#D35400">DuckDB</text>
+  <rect x="450" y="533" width="85" height="25" rx="4" fill="#FFF" stroke="#E67E22" stroke-width="1"/>
+  <text x="492" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#D35400">structlog</text>
+
+  <!-- PORTAL LAYER -->
+  <rect x="570" y="490" width="500" height="78" rx="10" fill="#FDEDEC" stroke="#E74C3C" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="570" y="490" width="500" height="26" rx="10" fill="url(#gUI)"/>
+  <rect x="570" y="508" width="500" height="8" fill="url(#gUI)"/>
+  <text x="820" y="511" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">PORTAL &amp; VISUALISATION</text>
+
+  <rect x="590" y="533" width="100" height="25" rx="4" fill="#FFF" stroke="#E74C3C" stroke-width="1"/>
+  <text x="640" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#C0392B">Streamlit</text>
+  <rect x="705" y="533" width="100" height="25" rx="4" fill="#FFF" stroke="#E74C3C" stroke-width="1"/>
+  <text x="755" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#C0392B">Plotly</text>
+  <rect x="820" y="533" width="120" height="25" rx="4" fill="#FFF" stroke="#E74C3C" stroke-width="1"/>
+  <text x="880" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#C0392B">DuckDB (read)</text>
+  <rect x="955" y="533" width="100" height="25" rx="4" fill="#FFF" stroke="#E74C3C" stroke-width="1"/>
+  <text x="1005" y="550" text-anchor="middle" font-size="9" font-weight="bold" fill="#C0392B">Graphviz</text>
+
+  <!-- INFRASTRUCTURE -->
+  <rect x="30" y="590" width="1040" height="48" rx="10" fill="#F5F7FA" stroke="#AAA" stroke-width="1"/>
+  <text x="550" y="610" text-anchor="middle" font-size="12" font-weight="bold" fill="#555">INFRASTRUCTURE</text>
+  <text x="100" y="628" font-size="10" fill="#666">Python 3.11+</text>
+  <text x="250" y="628" font-size="10" fill="#666">pytest + pytest-asyncio</text>
+  <text x="450" y="628" font-size="10" fill="#666">uv / pip</text>
+  <text x="560" y="628" font-size="10" fill="#666">Git + pre-commit</text>
+  <text x="720" y="628" font-size="10" fill="#666">ruff (lint/format)</text>
+  <text x="880" y="628" font-size="10" fill="#666">Local filesystem</text>
+
+  <!-- Connection arrows -->
+  <line x1="370" y1="200" x2="370" y2="218" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="900" y1="200" x2="900" y2="218" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="290" y1="368" x2="290" y2="390" stroke="#555" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="820" y1="368" x2="820" y2="390" stroke="#555" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="290" y1="468" x2="290" y2="490" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="820" y1="468" x2="820" y2="490" stroke="#555" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="710" y1="298" x2="730" y2="298" stroke="#1ABC9C" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Legend -->
+  <rect x="100" y="652" width="12" height="8" rx="2" fill="#2C3E50"/>
+  <text x="118" y="660" font-size="9" fill="#666">Synthea (single data source)</text>
+  <rect x="310" y="652" width="12" height="8" rx="2" fill="#DAA520"/>
+  <text x="328" y="660" font-size="9" fill="#666">Synthea-derived Gold JSON</text>
+  <rect x="520" y="652" width="12" height="8" rx="2" fill="#8E44AD"/>
+  <text x="538" y="660" font-size="9" fill="#666">GPT-o3 120B (sole LLM)</text>
+  <rect x="720" y="652" width="12" height="8" rx="2" fill="#555"/>
+  <text x="738" y="660" font-size="9" fill="#666">Internal flow</text>
+  <rect x="850" y="652" width="12" height="8" rx="2" fill="#1ABC9C"/>
+  <text x="868" y="660" font-size="9" fill="#666">Shared memory</text>
+</svg>

@@ -1,0 +1,146 @@
+"""Diagnostic Refiner Agent — Post-Reviewer refinement step.
+
+Reads: agent_outputs.diagnostic_reasoning, agent_outputs.clinical_reviewer,
+       agent_outputs.ehr_analyst, agent_outputs.lab_interpreter
+Writes: agent_outputs.final_diagnosis
+
+Takes the Reviewer's concerns and adjusts the differential accordingly.
+This is the FINAL diagnostic output that downstream agents use.
+"""
+
+import json
+import structlog
+from src.agents.base import BaseAgent
+from src.schemas.diagnostic import DiagnosticOutput
+from langchain_core.messages import SystemMessage, HumanMessage
+
+logger = structlog.get_logger()
+
+SYSTEM_PROMPT = """You are the Diagnostic Refiner — the final step in diagnostic reasoning.
+
+You have received:
+1. The original differential diagnosis from the Diagnostic Reasoning Agent
+2. The Clinical Reviewer's verification, adjusted probabilities, and concerns
+3. The raw evidence from EHR and Lab agents
+
+Your job is to produce the FINAL differential diagnosis by:
+- Incorporating the Reviewer's probability adjustments
+- Addressing the Reviewer's concerns
+- Removing diagnoses the Reviewer marked as "unsupported"
+- Promoting diagnoses the Reviewer thinks should be ranked higher
+- Adding any diagnoses the Reviewer independently identified but were missing
+
+## Rules
+- The Reviewer is a senior attending — their adjustments carry weight
+- If the Reviewer's recommended primary differs from the Diagnostic Agent's, seriously consider switching
+- Keep probabilities summing to approximately 1.0
+- Every diagnosis must have evidence — remove speculation
+- This is the FINAL output — be decisive, not hedging
+
+## Output Format
+Respond ONLY with valid JSON matching the required schema. No preamble or explanation."""
+
+
+class DiagnosticRefinerAgent(BaseAgent):
+    agent_id = "final_diagnosis"
+    system_prompt = SYSTEM_PROMPT
+    output_schema = DiagnosticOutput
+    temperature = 0.2
+    max_tokens = 8192
+
+    def run_reasoning(self, state: dict, llm, json_llm=None) -> dict:
+        """Single focused call — merge Diagnostic + Reviewer into final differential."""
+        agent_outputs = state.get("agent_outputs", {})
+        diag_out = agent_outputs.get("diagnostic_reasoning", {})
+        rev_out = agent_outputs.get("clinical_reviewer", {})
+        ehr_out = agent_outputs.get("ehr_analyst", {})
+        lab_out = agent_outputs.get("lab_interpreter", {})
+
+        sections = []
+
+        # Diagnostic Agent's differential
+        sections.append("## DIAGNOSTIC AGENT OUTPUT\n")
+        if diag_out:
+            sections.append(f"Primary: {diag_out.get('primary_diagnosis', '?')} "
+                            f"(P={diag_out.get('primary_probability', '?')})")
+            for d in diag_out.get('differential', []):
+                if isinstance(d, dict):
+                    sections.append(f"  #{d.get('rank','?')} {d.get('name','?')} P={d.get('probability','?')}")
+            if diag_out.get('unresolved_findings'):
+                sections.append(f"\nUnresolved: {diag_out['unresolved_findings']}")
+        sections.append("")
+
+        # Reviewer's verification
+        sections.append("## REVIEWER VERIFICATION\n")
+        if rev_out:
+            sections.append(f"Overall confidence: {rev_out.get('overall_confidence', '?')}/100")
+            sections.append(f"Reviewer recommends: {rev_out.get('recommended_primary', '?')} "
+                            f"(confidence: {rev_out.get('recommended_primary_confidence', '?')})")
+
+            for v in rev_out.get('diagnosis_verifications', []):
+                if isinstance(v, dict):
+                    sections.append(f"\n  {v.get('diagnosis', '?')}")
+                    sections.append(f"    Original P={v.get('original_probability','?')} → "
+                                    f"Adjusted P={v.get('verified_probability','?')}")
+                    sections.append(f"    Confidence: {v.get('confidence_score','?')}/100 | "
+                                    f"Verdict: {v.get('verdict','?')} ({v.get('evidence_strength','?')})")
+                    if v.get('concerns'):
+                        for c in v['concerns']:
+                            sections.append(f"    ⚠ {c[:100]}")
+
+            if rev_out.get('critical_findings_missed'):
+                sections.append(f"\nCritical findings MISSED:")
+                for f in rev_out['critical_findings_missed']:
+                    sections.append(f"  !! {f}")
+
+            if rev_out.get('top_concerns'):
+                sections.append(f"\nTop concerns:")
+                for c in rev_out['top_concerns']:
+                    sections.append(f"  → {c[:100]}")
+        sections.append("")
+
+        # Key evidence summary
+        sections.append("## KEY EVIDENCE SUMMARY\n")
+        if ehr_out:
+            sections.append(f"EHR impression: {ehr_out.get('clinical_impression', '?')[:200]}")
+            sections.append(f"Risk factors: {ehr_out.get('risk_factor_summary', '?')[:200]}")
+        if lab_out:
+            sections.append(f"Lab assessment: {lab_out.get('overall_assessment', '?')[:200]}")
+        sections.append("")
+
+        prompt = "\n".join(sections)
+
+        # Single focused call with json_llm
+        jllm = json_llm or llm
+        output_schema = DiagnosticOutput.model_json_schema()
+
+        logger.info("agent_step", agent_id=self.agent_id, step="refine")
+        raw_json = self._call_llm(jllm,
+            system=self.system_prompt,
+            user=f"{prompt}\n\n"
+                 f"Produce the FINAL differential diagnosis.\n"
+                 f"Incorporate the Reviewer's adjustments and address their concerns.\n"
+                 f"Remove unsupported diagnoses. Promote what the Reviewer recommended.\n"
+                 f"Probabilities should sum to approximately 1.0.\n\n"
+                 f"## Required Output Schema\n```json\n{json.dumps(output_schema, indent=2)}\n```\n\n"
+                 f"Respond ONLY with valid JSON."
+        )
+
+        output = self._parse_output(raw_json, jllm, [
+            SystemMessage(content=self.system_prompt),
+            HumanMessage(content="Produce final JSON"),
+        ])
+        result = output.model_dump()
+
+        # Auto-fill primary from differential
+        if not result.get("primary_diagnosis") and result.get("differential"):
+            top = result["differential"][0]
+            result["primary_diagnosis"] = top.get("name", "")
+            result["primary_probability"] = top.get("probability", 0.0)
+
+        logger.info("agent_step_done", agent_id=self.agent_id, step="refine")
+        return result
+
+
+# LangGraph node function
+diagnostic_refiner_agent = DiagnosticRefinerAgent()
