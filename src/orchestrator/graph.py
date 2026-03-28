@@ -94,8 +94,10 @@ def compile_pipeline() -> Any:
 
 # ── Pipeline Runner ────────────────────────────────────────────────────
 
-GOLD_DIR = Path("data/gold/patient_cases")
-MAS_RESULTS_DIR = Path("data/gold/mas_results")
+from src.config import cfg
+
+GOLD_DIR = cfg.GOLD_DIR
+MAS_RESULTS_DIR = cfg.MAS_RESULTS_DIR
 
 
 def load_patient_case(patient_uuid: str) -> dict:

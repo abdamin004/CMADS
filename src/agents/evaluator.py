@@ -18,7 +18,9 @@ from src.llm.adapter import get_evaluator_llm
 
 logger = structlog.get_logger()
 
-GOLD_DIR = Path("data/gold/patient_cases")
+from src.config import cfg
+
+GOLD_DIR = cfg.GOLD_DIR
 
 JUDGE_PROMPT = """You are a clinical evaluator. Compare the system's diagnoses against the actual disease.
 
@@ -161,7 +163,7 @@ def evaluate_node(state: dict) -> dict:
     }
 
     # Save to disk
-    eval_dir = Path("data/gold/mas_results") / patient_uuid
+    eval_dir = cfg.MAS_RESULTS_DIR / patient_uuid
     eval_dir.mkdir(parents=True, exist_ok=True)
     (eval_dir / "evaluation.json").write_text(json.dumps(eval_result, indent=2))
 

@@ -11,10 +11,10 @@ from pathlib import Path
 import streamlit as st
 import pandas as pd
 
-GOLD_DIR = Path("data/gold/patient_cases")
-MAS_DIR = Path("data/gold/mas_results")
-DB_PATH = Path("data/clinical.duckdb")
-BATCH_DIR = Path("data/gold/batches")
+GOLD_DIR = Path(os.environ.get("GOLD_DIR", "data/gold/patient_cases"))
+MAS_DIR = Path(os.environ.get("MAS_RESULTS_DIR", "data/gold/mas_results"))
+DB_PATH = Path(os.environ.get("DUCKDB_PATH", "data/clinical.duckdb"))
+BATCH_DIR = Path(os.environ.get("BATCH_DIR", "data/gold/batches"))
 
 st.set_page_config(
     page_title="CMADS Evaluation Dashboard",

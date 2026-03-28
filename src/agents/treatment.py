@@ -17,7 +17,9 @@ from langchain_core.messages import SystemMessage, HumanMessage
 
 logger = structlog.get_logger()
 
-GUIDELINES_DIR = Path("config/guidelines")
+from src.config import cfg
+
+GUIDELINES_DIR = cfg.GUIDELINES_DIR
 GUIDELINE_INDEX = GUIDELINES_DIR / "guideline_index.json"
 
 SYSTEM_PROMPT = """You are the Treatment Planning Agent in a multi-agent clinical decision pipeline.
@@ -176,7 +178,7 @@ class TreatmentPlanningAgent(BaseAgent):
         ctx = state.get("patient_context", {})
         ehr_case = ctx.get("ehr_case", {})
         patient_uuid = ehr_case.get("patient_uuid", "")
-        eval_path = Path("data/gold/mas_results") / patient_uuid / "evaluation.json"
+        eval_path = cfg.MAS_RESULTS_DIR / patient_uuid / "evaluation.json"
 
         if eval_path.exists():
             ev = json.loads(eval_path.read_text())
