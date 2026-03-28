@@ -16,12 +16,11 @@ import re
 import time
 from pathlib import Path
 
-from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
+from src.llm.adapter import get_evaluator_llm
+from src.config import cfg
 
-GOLD_DIR = Path("data/gold/patient_cases")
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
-MODEL = "qwen/qwen3-32b"
+GOLD_DIR = cfg.GOLD_DIR
 
 VERIFY_PROMPT = """You are a senior clinical pathologist. Given a patient's lab results, vitals, medications, and active conditions, determine if the TARGET DISEASE could be diagnosed or strongly suspected from this data.
 
@@ -156,12 +155,7 @@ def verify_cohort(cohort_file, save=False):
     with open(cohort_file) as f:
         uuids = json.load(f)
 
-    llm = ChatGroq(
-        model=MODEL,
-        api_key=GROQ_API_KEY,
-        temperature=0.1,
-        max_tokens=1024,
-    )
+    llm = get_evaluator_llm(temperature=0.1, max_tokens=1024)
 
     results = []
     passed = []

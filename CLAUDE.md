@@ -53,19 +53,21 @@ Synthea (Java CLI) → Bronze (Parquet) → Silver (OMOP CDM via dbt+DuckDB)
 | Orchestration | Prefect (local) |
 | Portal Data | DuckDB (clinical.duckdb) |
 
-## Agent Pipeline — 7 Agents in 5 Stages
+## Agent Pipeline — 7 Agents in 6 Stages
 
-### Execution Graph (default: full_clinical)
+### Execution Graph
 ```
 Stage 1 (parallel): EHR Analyst + Lab Interpreter
     ↓
-Stage 2: Diagnostic Reasoning
+Stage 2: Diagnostic Reasoning (adaptive loop, max 3 rounds)
     ↓
-Stage 3 (parallel): Treatment Planning + Radiology
+Stage 3: Clinical Reviewer (adversarial verification)
     ↓
-Stage 4: Clinical Reviewer
+Stage 4: Diagnostic Refiner (merge diagnostic + reviewer)
     ↓
-Stage 5: Synthesis → Clinical Decision Report
+Stage 5: LLM Evaluator (compare against ground truth)
+    ↓
+Stage 6: Treatment Planning (DIRECT matches only, NICE guidelines via Qdrant)
 ```
 
 ### Agent Specifications
@@ -74,11 +76,11 @@ Stage 5: Synthesis → Clinical Decision Report
 |-------|-------------------|------------------|--------------------|
 | EHR Analyst | patient_context (ehr_case) | agent_outputs.ehr_analyst | Extract structured clinical summary from Synthea data |
 | Lab Interpreter | patient_context (lab_case) | agent_outputs.lab_interpreter | Classify labs, interpret trends, rank by severity |
-| Diagnostic Reasoning | ehr_analyst + lab_interpreter outputs, risk_scores, comorbidity_matrix | agent_outputs.diagnostic | Generate ranked differential diagnosis (≥3) with evidence |
-| Treatment Planning | diagnostic output, medication_timeline, drug_condition_links | agent_outputs.treatment | Propose treatment plan, check interactions/contraindications |
-| Radiology | diagnostic output, imaging_studies from Synthea | agent_outputs.radiology | Interpret imaging metadata, correlate with diagnoses |
-| Clinical Reviewer | diagnostic + treatment + radiology outputs, critical_lab_flags | agent_outputs.reviewer | Adversarial review, consistency check, confidence score |
-| Synthesis | ALL agent_outputs + conflicts + patient_context | agent_outputs.synthesis | Consolidate into final Clinical Decision Report |
+| Diagnostic Reasoning | ehr_analyst + lab_interpreter outputs | agent_outputs.diagnostic_reasoning | Generate ranked differential diagnosis (≥3) with evidence |
+| Clinical Reviewer | ehr_analyst + lab_interpreter + diagnostic outputs | agent_outputs.clinical_reviewer | Adversarial review, per-diagnosis verification |
+| Diagnostic Refiner | diagnostic + reviewer outputs | agent_outputs.final_diagnosis | Merge perspectives into final differential |
+| LLM Evaluator | final_diagnosis + ground_truth (from disk) | agent_outputs.evaluation | Compare diagnosis against Synthea ground truth (DIRECT/INDIRECT/MISS) |
+| Treatment Planning | final_diagnosis + evaluation + ehr/lab outputs | agent_outputs.treatment_planning | NICE guideline treatment plan via Qdrant vector search |
 
 ### Shared Memory Namespaces
 ```

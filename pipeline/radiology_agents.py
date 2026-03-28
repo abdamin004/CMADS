@@ -26,18 +26,14 @@ from typing import Any
 
 import os
 import duckdb
-from langchain_ollama import ChatOllama
-from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
+from src.llm.adapter import get_llm, get_evaluator_llm
+from src.config import cfg
 
-# ── Config ──────────────────────────────────────────────────────────────
+# ── Config (reads from .env via src.config) ─────────────────────────────
 
-GENERATOR_MODEL = "openai/gpt-oss-120b"          # Groq API (cloud)
-EVALUATOR_MODEL = "qwen/qwen3-32b"                # Groq API (cloud)
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
-OLLAMA_BASE_URL = "http://localhost:11434"
-DB_PATH = Path("data/clinical.duckdb")
+DB_PATH = Path(os.environ.get("DUCKDB_PATH", "data/clinical.duckdb"))
 OUTPUT_DIR = Path("data/gold/radiology_reports")
 EVAL_DIR = Path("data/gold/radiology_evaluations")
 DEFAULT_QUALITY_THRESHOLD = 4.0
@@ -162,7 +158,7 @@ def generate_report(state: dict) -> dict:
     idx = state["current_index"]
     total = len(state["cases"])
 
-    print(f"  [GEN] Calling {GENERATOR_MODEL}...", end=" ", flush=True)
+    print(f"  [GEN] Calling {cfg.LLM_MODEL}...", end=" ", flush=True)
 
     # Build prompt
     age = _calc_age(case["birthdate"], case["scan_date"])
@@ -192,12 +188,7 @@ Write a realistic radiology report with findings consistent with this condition.
 Do NOT name the diagnosis anywhere in the report."""
 
     # Call LLM via Groq API (cloud)
-    llm = ChatGroq(
-        model=GENERATOR_MODEL,
-        api_key=GROQ_API_KEY,
-        temperature=0.7,
-        max_tokens=1024,
-    )
+    llm = get_llm(temperature=0.7, max_tokens=1024)
 
     start = time.time()
     try:
@@ -221,7 +212,7 @@ Do NOT name the diagnosis anywhere in the report."""
             "encounter_class": case["encounter_class"],
             "report": report_text,
             "generation_metadata": {
-                "model": GENERATOR_MODEL,
+                "model": cfg.LLM_MODEL,
                 "temperature": 0.7,
                 "ground_truth_disease": case["ground_truth_disease"],
                 "ground_truth_code": case["ground_truth_code"],
@@ -315,14 +306,9 @@ def evaluate_report(state: dict) -> dict:
         report_text=report["report"],
     )
 
-    print(f"  [EVAL] Calling {EVALUATOR_MODEL}...", end=" ", flush=True)
+    print(f"  [EVAL] Calling {cfg.LLM_EVALUATOR_MODEL}...", end=" ", flush=True)
 
-    llm = ChatGroq(
-        model=EVALUATOR_MODEL,
-        api_key=GROQ_API_KEY,
-        temperature=0.3,
-        max_tokens=4096,
-    )
+    llm = get_evaluator_llm(temperature=0.3, max_tokens=4096)
 
     start = time.time()
     try:
@@ -349,7 +335,7 @@ def evaluate_report(state: dict) -> dict:
             "body_site": report["body_site"],
             "ground_truth": meta["ground_truth_disease"],
             "generation_model": meta["model"],
-            "evaluation_model": EVALUATOR_MODEL,
+            "evaluation_model": cfg.LLM_EVALUATOR_MODEL,
             "scores": scores,
             "details": evaluation,
             "evaluated_at": datetime.now(timezone.utc).isoformat(),
@@ -439,18 +425,13 @@ def _tprint(*args, **kwargs):
 def warmup_models():
     """No warmup needed — both models run on Groq cloud."""
     print(f"\n  Both models on Groq API — no warmup needed.")
-    print(f"    Generator: {GENERATOR_MODEL}")
-    print(f"    Evaluator: {EVALUATOR_MODEL}\n")
+    print(f"    Generator: {cfg.LLM_MODEL}")
+    print(f"    Evaluator: {cfg.LLM_EVALUATOR_MODEL}\n")
 
 
 def _generator_thread(cases, report_queue):
     """Thread: generates reports using Groq API (cloud) and pushes to queue."""
-    llm = ChatGroq(
-        model=GENERATOR_MODEL,
-        api_key=GROQ_API_KEY,
-        temperature=0.7,
-        max_tokens=1024,
-    )
+    llm = get_llm(temperature=0.7, max_tokens=1024)
 
     for i, case in enumerate(cases):
         _tprint(f"  [GEN {i+1}/{len(cases)}] {case['patient_name']}: "
@@ -501,7 +482,7 @@ Do NOT name the diagnosis anywhere in the report."""
                 "encounter_class": case["encounter_class"],
                 "report": response.content.strip(),
                 "generation_metadata": {
-                    "model": GENERATOR_MODEL,
+                    "model": cfg.LLM_MODEL,
                     "temperature": 0.7,
                     "ground_truth_disease": case["ground_truth_disease"],
                     "ground_truth_code": case["ground_truth_code"],
@@ -563,7 +544,7 @@ def _evaluate_report(eval_llm, report, threshold):
         "body_site": report["body_site"],
         "ground_truth": meta["ground_truth_disease"],
         "generation_model": meta["model"],
-        "evaluation_model": EVALUATOR_MODEL,
+        "evaluation_model": cfg.LLM_EVALUATOR_MODEL,
         "scores": scores,
         "details": evaluation,
         "evaluated_at": datetime.now(timezone.utc).isoformat(),
@@ -639,18 +620,8 @@ Do NOT name the diagnosis anywhere in the report."""
 
 def _evaluator_thread(report_queue, threshold, results):
     """Thread: evaluates reports, retries with feedback up to MAX_RETRIES times."""
-    eval_llm = ChatGroq(
-        model=EVALUATOR_MODEL,
-        api_key=GROQ_API_KEY,
-        temperature=0.3,
-        max_tokens=4096,
-    )
-    gen_llm = ChatGroq(
-        model=GENERATOR_MODEL,
-        api_key=GROQ_API_KEY,
-        temperature=0.7,
-        max_tokens=1024,
-    )
+    eval_llm = get_evaluator_llm(temperature=0.3, max_tokens=4096)
+    gen_llm = get_llm(temperature=0.7, max_tokens=1024)
 
     eval_count = 0
     while True:
@@ -1117,8 +1088,8 @@ def run_pipeline(n_patients=None, threshold=DEFAULT_QUALITY_THRESHOLD,
     print(f"{'═'*60}")
     print(f"RADIOLOGY REPORT PIPELINE")
     print(f"{'═'*60}")
-    print(f"  Generator:  {GENERATOR_MODEL} (Groq API)")
-    print(f"  Evaluator:  {EVALUATOR_MODEL} (Groq API)")
+    print(f"  Generator:  {cfg.LLM_MODEL} (Groq API)")
+    print(f"  Evaluator:  {cfg.LLM_EVALUATOR_MODEL} (Groq API)")
     print(f"  Threshold:  {threshold}/5.0")
     print(f"  Mode:       {'Cohort (6-tier)' if cohort else f'Random ({n_patients})'}")
     print(f"  Started:    {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

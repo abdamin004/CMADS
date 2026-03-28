@@ -292,3 +292,32 @@ class TestAgentPrompts:
         state = {"agent_outputs": {}}
         prompt = agent.build_user_prompt(state)
         assert "not available" in prompt
+
+
+# ── LLM Adapter Tests ────────────────────────────────────────────────
+
+class TestLLMAdapter:
+    @patch.dict("os.environ", {"LLM_PROVIDER": "groq", "GROQ_API_KEY": ""}, clear=False)
+    def test_missing_api_key_raises(self):
+        from src.llm.adapter import get_llm
+        with pytest.raises(ValueError, match="GROQ_API_KEY"):
+            get_llm()
+
+    @patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False)
+    def test_missing_openai_key_raises(self):
+        from src.llm.adapter import get_llm
+        with pytest.raises(ValueError, match="OPENAI_API_KEY"):
+            get_llm(provider="openai")
+
+    def test_unknown_provider_raises(self):
+        from src.llm.adapter import get_llm
+        with pytest.raises(ValueError, match="Unknown LLM provider"):
+            get_llm(provider="invalid_provider")
+
+    def test_provider_registry_has_all(self):
+        from src.llm.adapter import PROVIDERS
+        assert "groq" in PROVIDERS
+        assert "openai" in PROVIDERS
+        assert "anthropic" in PROVIDERS
+        assert "gemini" in PROVIDERS
+        assert "ollama" in PROVIDERS

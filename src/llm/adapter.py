@@ -162,6 +162,21 @@ def get_llm(
 
     module_path, class_name, kwargs_fn = PROVIDERS[provider]
 
+    # Validate API key BEFORE importing (fail fast with clear message)
+    key_env_map = {
+        "groq": "GROQ_API_KEY",
+        "openai": "OPENAI_API_KEY",
+        "anthropic": "ANTHROPIC_API_KEY",
+        "gemini": "GOOGLE_API_KEY",
+    }
+    if provider in key_env_map:
+        key_var = key_env_map[provider]
+        if not os.environ.get(key_var):
+            raise ValueError(
+                f"Provider '{provider}' requires {key_var} to be set. "
+                f"Add it to your .env file."
+            )
+
     # Lazy import — only loads the package for the chosen provider
     try:
         import importlib
