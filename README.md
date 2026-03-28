@@ -90,27 +90,46 @@ All LLM settings are in `.env` — no code changes needed to switch providers or
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `LLM_PROVIDER` | `groq` | `groq` (cloud) or `ollama` (local) |
-| `LLM_MODEL` | `openai/gpt-oss-120b` | Model for all agents |
-| `LLM_EVALUATOR_MODEL` | `qwen/qwen3-32b` | Model for the LLM-as-Judge evaluator |
-| `GROQ_API_KEY` | — | Required if provider is groq |
-| `OLLAMA_URL` | `http://localhost:11434` | Required if provider is ollama |
-| `QDRANT_URL` | — | Required for treatment planning |
-| `QDRANT_API_KEY` | — | Required for treatment planning |
+| `LLM_PROVIDER` | `groq` | `groq`, `openai`, `anthropic`, `gemini`, or `ollama` |
+| `LLM_MODEL` | `openai/gpt-oss-120b` | Model name for the chosen provider |
+| `LLM_EVALUATOR_MODEL` | `qwen/qwen3-32b` | Separate model for the LLM-as-Judge evaluator |
+| `LLM_EVALUATOR_PROVIDER` | *(same as LLM_PROVIDER)* | Optional: use a different provider for evaluator |
 
-**Example: Switch to Ollama (free, local):**
+**Provider API keys** (set the one matching your provider):
+
+| Provider | Key Variable | Install |
+|----------|-------------|---------|
+| Groq | `GROQ_API_KEY` | `pip install langchain-groq` |
+| OpenAI | `OPENAI_API_KEY` | `pip install langchain-openai` |
+| Anthropic | `ANTHROPIC_API_KEY` | `pip install langchain-anthropic` |
+| Gemini | `GOOGLE_API_KEY` | `pip install langchain-google-genai` |
+| Ollama | *(none — local)* | `pip install langchain-ollama` |
+
+**Examples:**
+
 ```env
+# OpenAI GPT-4o
+LLM_PROVIDER=openai
+LLM_MODEL=gpt-4o
+LLM_EVALUATOR_MODEL=gpt-4o-mini
+OPENAI_API_KEY=sk-...
+
+# Google Gemini
+LLM_PROVIDER=gemini
+LLM_MODEL=gemini-2.0-flash
+LLM_EVALUATOR_MODEL=gemini-2.0-flash
+GOOGLE_API_KEY=AI...
+
+# Anthropic Claude
+LLM_PROVIDER=anthropic
+LLM_MODEL=claude-sonnet-4-20250514
+LLM_EVALUATOR_MODEL=claude-haiku-4-20250414
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Local Ollama (free)
 LLM_PROVIDER=ollama
 LLM_MODEL=llama3:70b
 LLM_EVALUATOR_MODEL=llama3:70b
-```
-
-**Example: Switch to a different Groq model:**
-```env
-LLM_PROVIDER=groq
-LLM_MODEL=llama-3.3-70b-versatile
-LLM_EVALUATOR_MODEL=llama-3.3-70b-versatile
-GROQ_API_KEY=gsk_your_key_here
 ```
 
 ## Quick Start (run without rebuilding data)
