@@ -13,7 +13,7 @@ Implements: IF-001–005, MA-005
 from __future__ import annotations
 
 import copy
-from typing import Annotated
+from typing import Annotated, TypedDict
 from operator import add
 
 
@@ -28,8 +28,8 @@ def _merge_agent_outputs(existing: dict, new: dict) -> dict:
     return merged
 
 
-class PipelineState:
-    """TypedDict-style state for LangGraph.
+class PipelineState(TypedDict, total=False):
+    """LangGraph shared memory — proper TypedDict with reducer annotations.
 
     Using Annotated types with reducer functions for append-only fields.
     LangGraph reads the __annotations__ to build state channels.

@@ -8,7 +8,6 @@ Usage:
 """
 
 import json
-import os
 from pathlib import Path
 
 from qdrant_client import QdrantClient
@@ -18,8 +17,6 @@ from sentence_transformers import SentenceTransformer
 from src.config import cfg
 
 GUIDELINES_DIR = cfg.GUIDELINES_DIR
-QDRANT_URL = os.environ.get("QDRANT_URL", "")
-QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY", "")
 COLLECTION_NAME = cfg.QDRANT_COLLECTION
 
 
@@ -29,7 +26,7 @@ def setup():
     embedding_dim = model.get_sentence_embedding_dimension()
 
     print(f"Connecting to Qdrant cloud...")
-    client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+    client = QdrantClient(url=cfg.QDRANT_URL, api_key=cfg.QDRANT_API_KEY)
 
     # Create or recreate collection
     collections = [c.name for c in client.get_collections().collections]

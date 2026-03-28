@@ -26,12 +26,21 @@ GOLD_DIR = cfg.GOLD_DIR
 MAS_RESULTS_DIR = cfg.MAS_RESULTS_DIR
 
 
-def evaluate_patient(uuid, mas_output):
+def evaluate_patient(uuid: str, mas_output: dict) -> dict:
     """Evaluate MAS output for a single patient.
 
     Returns: dict with found, match_type, rank, matched_diagnosis, reason
     """
-    gt = json.loads((GOLD_DIR / uuid / "ground_truth.json").read_text())
+    gt_path = GOLD_DIR / uuid / "ground_truth.json"
+    try:
+        gt = json.loads(gt_path.read_text())
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        return {
+            "uuid": uuid, "target": "?",
+            "found": "NO", "match_type": "MISS", "rank": 0,
+            "matched_diagnosis": "NONE",
+            "reason": f"Ground truth error: {e}",
+        }
     target = gt["target_condition"]["name"]
 
     differential = mas_output.get("differential", [])
@@ -66,7 +75,7 @@ def evaluate_patient(uuid, mas_output):
     return eval_result
 
 
-def evaluate_cohort(results_list):
+def evaluate_cohort(results_list: list[dict]) -> tuple[list[dict], dict]:
     """Evaluate MAS results for multiple patients.
 
     Args:
@@ -95,8 +104,18 @@ def evaluate_cohort(results_list):
             print(f"  [{i+1}/{len(results_list)}] SKIP — no output")
             continue
 
-        gt = json.loads((GOLD_DIR / uuid / "ground_truth.json").read_text())
-        target_short = gt["target_condition"]["name"][:30]
+        try:
+            gt = json.loads((GOLD_DIR / uuid / "ground_truth.json").read_text())
+            target_short = gt["target_condition"]["name"][:30]
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(f"  [{i+1}/{len(results_list)}] SKIP — ground truth error: {e}")
+            evaluations.append({
+                "uuid": uuid, "target": "?", "found": "NO",
+                "match_type": "MISS", "rank": 0,
+                "matched_diagnosis": "NONE", "reason": f"Ground truth error: {e}",
+                "primary_diagnosis": "?",
+            })
+            continue
         print(f"  [{i+1}/{len(results_list)}] {target_short}...", end=" ", flush=True)
 
         ev = evaluate_patient(uuid, final)

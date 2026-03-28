@@ -18,6 +18,8 @@ import structlog
 from pydantic import BaseModel, ValidationError
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
+from langchain_core.language_models import BaseChatModel
+
 from src.llm.adapter import get_llm, invoke_with_retry
 
 PROMPTS_DIR = Path(__file__).resolve().parents[2] / "prompts"
@@ -158,11 +160,11 @@ class BaseAgent:
         except KeyError:
             return template
 
-    def _get_llm(self, json_mode: bool = False):
+    def _get_llm(self, json_mode: bool = False) -> BaseChatModel:
         return get_llm(temperature=self.temperature, max_tokens=self.max_tokens,
                        json_mode=json_mode)
 
-    def _call_llm(self, llm, system: str, user: str, agent_id: str = None) -> str:
+    def _call_llm(self, llm: BaseChatModel, system: str, user: str, agent_id: str = None) -> str:
         """Single LLM call — returns raw text. Used by multi-call agents."""
         messages = [SystemMessage(content=system), HumanMessage(content=user)]
         response = invoke_with_retry(
@@ -170,14 +172,14 @@ class BaseAgent:
         )
         return response.content
 
-    def _call_llm_conversation(self, llm, messages: list, agent_id: str = None) -> str:
+    def _call_llm_conversation(self, llm: BaseChatModel, messages: list, agent_id: str = None) -> str:
         """LLM call with full message history — for follow-up calls."""
         response = invoke_with_retry(
             llm, messages, max_retries=3, agent_id=agent_id or self.agent_id
         )
         return response.content
 
-    def _parse_output(self, raw_text: str, llm=None, messages: list = None) -> Any:
+    def _parse_output(self, raw_text: str, llm: BaseChatModel | None = None, messages: list = None) -> Any:
         """Parse and validate LLM output against schema, with JSON repair + retry."""
         try:
             parsed = _extract_json_from_response(raw_text)
@@ -199,7 +201,7 @@ class BaseAgent:
                 return self.output_schema.model_validate(parsed)
             raise
 
-    def run_reasoning(self, state: dict, llm, json_llm=None) -> dict:
+    def run_reasoning(self, state: dict, llm: BaseChatModel, json_llm: BaseChatModel | None = None) -> dict:
         """Run the agent's reasoning. Override for multi-call agents.
 
         Default: single-call (build prompt → call LLM → parse).
@@ -264,7 +266,9 @@ class BaseAgent:
                            agent_id=self.agent_id, errors=e.error_count())
             try:
                 partial = _extract_json_from_response(str(e))
-            except Exception:
+            except (json.JSONDecodeError, KeyError, TypeError) as parse_err:
+                logger.debug("agent_partial_parse_failed",
+                             agent_id=self.agent_id, error=str(parse_err)[:100])
                 partial = {}
             return {
                 "agent_outputs": {self.agent_id: partial},
@@ -285,3 +289,12 @@ class BaseAgent:
     def build_user_prompt(self, state: dict) -> str:
         """Build the user prompt from pipeline state. Override in subclass."""
         raise NotImplementedError
+
+    @staticmethod
+    def _autofill_primary_diagnosis(result: dict) -> dict:
+        """Fill primary_diagnosis from differential[0] if the LLM left it empty."""
+        if not result.get("primary_diagnosis") and result.get("differential"):
+            top = result["differential"][0]
+            result["primary_diagnosis"] = top.get("name", "")
+            result["primary_probability"] = top.get("probability", 0.0)
+        return result

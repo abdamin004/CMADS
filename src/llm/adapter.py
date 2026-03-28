@@ -266,8 +266,10 @@ def invoke_with_retry(
                                         agent_id=agent_id, attempt=attempt,
                                         duration_s=0, fallback=True)
                             return response
-                    except Exception:
-                        pass
+                    except Exception as fallback_err:
+                        logger.warning("llm_fallback_failed",
+                                       agent_id=agent_id,
+                                       error=str(fallback_err)[:200])
                 logger.error("llm_call_failed",
                              agent_id=agent_id, attempts=max_retries,
                              error=error_str[:200])

@@ -9,32 +9,33 @@ Usage:
 """
 
 import json
-import os
+import threading
+
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 
 from src.config import cfg
 
-QDRANT_URL = os.environ.get("QDRANT_URL", "")
-QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY", "")
-COLLECTION_NAME = cfg.QDRANT_COLLECTION
-
-# Lazy-loaded singletons
-_client = None
-_model = None
+_lock = threading.Lock()
+_client: QdrantClient | None = None
+_model: SentenceTransformer | None = None
 
 
-def _get_client():
+def _get_client() -> QdrantClient:
     global _client
     if _client is None:
-        _client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+        with _lock:
+            if _client is None:
+                _client = QdrantClient(url=cfg.QDRANT_URL, api_key=cfg.QDRANT_API_KEY)
     return _client
 
 
-def _get_model():
+def _get_model() -> SentenceTransformer:
     global _model
     if _model is None:
-        _model = SentenceTransformer(cfg.EMBEDDING_MODEL)
+        with _lock:
+            if _model is None:
+                _model = SentenceTransformer(cfg.EMBEDDING_MODEL)
     return _model
 
 
@@ -59,7 +60,7 @@ def search_guidelines(disease_name: str, top_k: int = 3) -> list[dict]:
     embedding = model.encode(disease_name).tolist()
 
     results = client.query_points(
-        collection_name=COLLECTION_NAME,
+        collection_name=cfg.QDRANT_COLLECTION,
         query=embedding,
         limit=top_k,
     )

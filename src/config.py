@@ -56,7 +56,15 @@ class Config:
     def OLLAMA_CONTEXT_WINDOW(self) -> int:
         return _env_int("OLLAMA_CONTEXT_WINDOW", 16384)
 
-    # ── Embedding Model (Qdrant / Treatment Planning) ───────
+    # ── Qdrant / Vector DB ─────────────────────────────────
+    @property
+    def QDRANT_URL(self) -> str:
+        return _env("QDRANT_URL", "")
+
+    @property
+    def QDRANT_API_KEY(self) -> str:
+        return _env("QDRANT_API_KEY", "")
+
     @property
     def EMBEDDING_MODEL(self) -> str:
         return _env("EMBEDDING_MODEL", "FremyCompany/BioLORD-2023")

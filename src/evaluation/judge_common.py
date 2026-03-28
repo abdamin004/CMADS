@@ -90,7 +90,7 @@ def parse_judge_response(text: str) -> dict:
         elif line.upper().startswith("RANK:"):
             try:
                 rank = int(re.search(r"\d+", line.split(":", 1)[1]).group())
-            except (AttributeError, ValueError):
+            except (AttributeError, ValueError, IndexError):
                 rank = 0
         elif line.upper().startswith("MATCHED_DIAGNOSIS:"):
             matched = line.split(":", 1)[1].strip()

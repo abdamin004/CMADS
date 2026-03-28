@@ -101,11 +101,23 @@ MAS_RESULTS_DIR = cfg.MAS_RESULTS_DIR
 
 
 def load_patient_case(patient_uuid: str) -> dict:
-    """Load Gold-layer case files for a patient."""
-    patient_dir = GOLD_DIR / patient_uuid
+    """Load Gold-layer case files for a patient.
 
-    ehr_case = json.loads((patient_dir / "ehr_case.json").read_text())
-    lab_case = json.loads((patient_dir / "lab_case.json").read_text())
+    Raises:
+        FileNotFoundError: If ehr_case.json or lab_case.json is missing.
+        json.JSONDecodeError: If either file contains invalid JSON.
+    """
+    patient_dir = GOLD_DIR / patient_uuid
+    ehr_path = patient_dir / "ehr_case.json"
+    lab_path = patient_dir / "lab_case.json"
+
+    if not ehr_path.exists():
+        raise FileNotFoundError(f"Missing {ehr_path}")
+    if not lab_path.exists():
+        raise FileNotFoundError(f"Missing {lab_path}")
+
+    ehr_case = json.loads(ehr_path.read_text())
+    lab_case = json.loads(lab_path.read_text())
 
     return {
         "ehr_case": ehr_case,
@@ -157,7 +169,7 @@ def save_patient_results(patient_uuid: str, result: dict, duration_s: float):
     )
 
 
-def run_single_patient(patient_uuid: str, pipeline=None, save=True) -> dict:
+def run_single_patient(patient_uuid: str, pipeline=None, save: bool = True) -> dict:
     """Run the pipeline for a single patient.
 
     Args:

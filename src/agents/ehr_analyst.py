@@ -11,6 +11,7 @@ Implements: SDD §5.2, MA-010–013
 
 import json
 import structlog
+from pydantic import ValidationError
 from src.agents.base import BaseAgent
 from src.schemas.ehr_analyst import EHRAnalystOutput
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -111,9 +112,9 @@ class EHRAnalystAgent(BaseAgent):
             logger.info("agent_step_done", agent_id=self.agent_id, step="review",
                          result="updated")
             return reviewed.model_dump()
-        except Exception:
+        except (json.JSONDecodeError, ValidationError) as e:
             logger.info("agent_step_done", agent_id=self.agent_id, step="review",
-                         result="kept_original")
+                         result="kept_original", reason=str(e)[:100])
             return output_dict
 
     def build_user_prompt(self, state: dict) -> str:

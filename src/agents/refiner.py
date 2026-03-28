@@ -128,12 +128,7 @@ class DiagnosticRefinerAgent(BaseAgent):
             HumanMessage(content="Produce final JSON"),
         ])
         result = output.model_dump()
-
-        # Auto-fill primary from differential
-        if not result.get("primary_diagnosis") and result.get("differential"):
-            top = result["differential"][0]
-            result["primary_diagnosis"] = top.get("name", "")
-            result["primary_probability"] = top.get("probability", 0.0)
+        self._autofill_primary_diagnosis(result)
 
         logger.info("agent_step_done", agent_id=self.agent_id, step="refine")
         return result

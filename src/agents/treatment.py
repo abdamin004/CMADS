@@ -148,7 +148,7 @@ class TreatmentPlanningAgent(BaseAgent):
 
         return output.model_dump()
 
-    def build_user_prompt(self, state: dict) -> str:
+    def build_user_prompt(self, state: dict) -> str | dict:
         agent_outputs = state.get("agent_outputs", {})
 
         # Get patient UUID from EHR analyst output or patient context
