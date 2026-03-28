@@ -18,14 +18,10 @@ from __future__ import annotations
 
 import os
 import time
-from pathlib import Path
 from typing import Any
 
-from dotenv import load_dotenv
 import structlog
 from langchain_core.language_models import BaseChatModel
-
-load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 logger = structlog.get_logger()
 
