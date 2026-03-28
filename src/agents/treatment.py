@@ -118,31 +118,11 @@ class TreatmentPlanningAgent(BaseAgent):
         # ── Call 1: Analyse and plan ──
         logger.info("agent_step", agent_id=self.agent_id, step="analysis")
         analysis = self._call_llm(llm,
-            system="You are a clinical pharmacist reviewing a patient case against NICE guidelines. "
-                   "Analyse the patient's situation and plan the treatment. Do NOT produce JSON yet.",
-            user=f"{prompt_data}\n\n"
-                 f"{contra_list}\n\n"
-                 "Based on the NICE guideline above and this patient's specific circumstances:\n"
-                 "1. What first-line medications should be prescribed? Give specific drugs and doses.\n"
-                 "2. Does the patient ALREADY take any guideline-recommended drugs? If so, note them.\n"
-                 "3. Are there any INTERACTIONS between proposed drugs and current medications?\n"
-                 "4. CONTRAINDICATIONS — you MUST check EVERY drug in the contraindicated list above "
-                 "against this patient's conditions and current medications. For each contraindicated drug:\n"
-                 "   a. Is the patient currently taking it? If yes → flag it.\n"
-                 "   b. Does the patient have a condition that makes it contraindicated? If yes → flag it.\n"
-                 "   c. Were you about to propose it? If yes → do NOT prescribe, suggest alternative.\n"
-                 "5. ASSUMPTIONS & WARNINGS — check what the NICE guideline REQUIRES but the patient "
-                 "data does NOT have. For example:\n"
-                 "   - eGFR unknown → 'Cannot verify renal safety of ACE-I dosing'\n"
-                 "   - Allergy data missing → 'Cannot verify drug allergy safety'\n"
-                 "   - QRISK not calculated → 'NICE requires QRISK for statin decision'\n"
-                 "   - LVEF unknown → 'Cannot confirm HFrEF vs HFpEF for drug selection'\n"
-                 "   - HbA1c unknown → 'Cannot verify glycemic target for insulin dosing'\n"
-                 "   - BP target unknown → 'Cannot verify if BP is at target'\n"
-                 "   - Liver function missing → 'Cannot verify statin safety'\n"
-                 "   - Potassium unknown → 'Cannot verify MRA/spironolactone safety'\n"
-                 "   List EVERY assumption you made due to missing data.\n\n"
-                 "Be specific to THIS patient — use their actual eGFR, age, conditions, and meds."
+            system=self._get_call_prompt("analysis", "system",
+                fallback="You are a clinical pharmacist reviewing a patient case against NICE guidelines."),
+            user=self._get_call_prompt("analysis", "user",
+                fallback=f"{prompt_data}\n{contra_list}",
+                prompt_data=prompt_data, contra_list=contra_list),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="analysis",
                      length=len(analysis))
@@ -150,16 +130,14 @@ class TreatmentPlanningAgent(BaseAgent):
         # ── Call 2: Structured JSON output ──
         logger.info("agent_step", agent_id=self.agent_id, step="structure")
         jllm = json_llm or llm
-        output_schema = TreatmentOutput.model_json_schema()
+        output_schema = json.dumps(TreatmentOutput.model_json_schema(), indent=2)
         raw_json = self._call_llm(jllm,
-            system=self.system_prompt,
-            user=f"# Your Analysis\n{analysis}\n\n"
-                 f"# Patient Data and Guideline\n{prompt_data}\n\n"
-                 f"Convert your analysis into the required JSON format.\n"
-                 f"Every medication must have: name, dose, duration, purpose, and NICE justification.\n"
-                 f"Check interactions and contraindications.\n\n"
-                 f"## Required Output Schema\n```json\n{json.dumps(output_schema, indent=2)}\n```\n\n"
-                 f"Respond ONLY with valid JSON."
+            system=self._get_call_prompt("structure", "system",
+                fallback=self.system_prompt),
+            user=self._get_call_prompt("structure", "user",
+                fallback=f"{analysis}\n{prompt_data}",
+                analysis=analysis, prompt_data=prompt_data,
+                output_schema=output_schema),
         )
 
         output = self._parse_output(raw_json, jllm, [

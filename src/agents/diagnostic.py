@@ -96,18 +96,10 @@ class DiagnosticReasoningAgent(BaseAgent):
         # ── Call 1: Evidence Synthesis (always) ──
         logger.info("agent_step", agent_id=self.agent_id, step="evidence_synthesis")
         synthesis = self._call_llm(llm,
-            system="You are a senior diagnostician synthesising clinical evidence. "
-                   "Do NOT diagnose yet. Organise the evidence into clinical patterns.",
-            user=f"{evidence}\n\n"
-                 "Organise ALL the evidence into clinical patterns:\n"
-                 "1. Identify ALL abnormal findings and group them by organ system\n"
-                 "2. Look for patterns: multiple findings pointing to the same organ or disease\n"
-                 "3. Note the patient's demographics and how they affect disease probability\n"
-                 "4. Identify medication clues — what conditions do the prescribed drugs treat?\n"
-                 "5. Note risk factors from the EHR analyst's summary\n"
-                 "6. Identify findings that don't fit any obvious pattern\n\n"
-                 "For each pattern, list the specific evidence supporting it.\n"
-                 "Be exhaustive — do not skip any finding."
+            system=self._get_call_prompt("evidence_synthesis", "system",
+                fallback="You are a senior diagnostician synthesising clinical evidence. Do NOT diagnose yet."),
+            user=self._get_call_prompt("evidence_synthesis", "user",
+                fallback=evidence, evidence=evidence),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="evidence_synthesis",
                      length=len(synthesis))
@@ -115,18 +107,10 @@ class DiagnosticReasoningAgent(BaseAgent):
         # ── Call 2: Broad Hypothesis Generation (always) ──
         logger.info("agent_step", agent_id=self.agent_id, step="hypothesis_generation")
         hypotheses = self._call_llm(llm,
-            system="You are a diagnostician generating hypotheses. "
-                   "Think broadly — common diseases first, then less common ones.",
-            user=f"# Clinical Patterns Identified\n{synthesis}\n\n"
-                 "Generate a BROAD list of possible diagnoses.\n"
-                 "Think about:\n"
-                 "- What common diseases explain multiple patterns at once?\n"
-                 "- Given the demographics, what are the most prevalent conditions?\n"
-                 "- What do the medications suggest about undiagnosed conditions?\n"
-                 "- What do the risk factors predispose to?\n"
-                 "- Are there conditions DEVELOPING but not yet clinically obvious?\n\n"
-                 "List at least 8-10 candidate diagnoses with brief reasoning.\n"
-                 "Include both obvious and less obvious possibilities."
+            system=self._get_call_prompt("hypothesis_generation", "system",
+                fallback="You are a diagnostician generating hypotheses. Think broadly."),
+            user=self._get_call_prompt("hypothesis_generation", "user",
+                fallback=synthesis, synthesis=synthesis),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="hypothesis_generation",
                      length=len(hypotheses))
@@ -134,27 +118,11 @@ class DiagnosticReasoningAgent(BaseAgent):
         # ── Call 3: Initial Differential Ranking (always) ──
         logger.info("agent_step", agent_id=self.agent_id, step="initial_ranking")
         current_differential = self._call_llm(llm,
-            system="You are a diagnostician ranking a differential diagnosis. "
-                   "Use Bayesian reasoning: prior probability × evidence strength.",
-            user=f"# Clinical Patterns\n{synthesis}\n\n"
-                 f"# Candidate Diagnoses\n{hypotheses}\n\n"
-                 "RANK these diagnoses:\n"
-                 "1. Map specific evidence from EHR analyst or lab interpreter to each\n"
-                 "2. Assign probability estimates (sum to ~1.0)\n"
-                 "3. Consider base rates for this demographic\n"
-                 "4. Weigh TRENDS more heavily than single values\n"
-                 "5. Keep the top 5-8 diagnoses\n\n"
-                 "CRITICAL RANKING RULE — Root Cause vs Consequence:\n"
-                 "- When an organ is damaged, ask: what CAUSED the damage?\n"
-                 "- The underlying cause should rank HIGHER than the organ damage itself\n"
-                 "- Medications are strong clues to the root cause — each drug was prescribed for a reason\n"
-                 "- Multiple conditions affecting the same organ suggest a systemic disease as the driver\n\n"
-                 "For each ranked diagnosis provide:\n"
-                 "- Name, probability, confidence (high/moderate/low)\n"
-                 "- Supporting evidence with source\n"
-                 "- Clinical reasoning chain\n\n"
-                 "Also state: what is your confidence in your #1 diagnosis? "
-                 "(0-100%, where 80%+ means you are quite sure)"
+            system=self._get_call_prompt("initial_ranking", "system",
+                fallback="You are a diagnostician ranking a differential diagnosis."),
+            user=self._get_call_prompt("initial_ranking", "user",
+                fallback=f"{synthesis}\n{hypotheses}",
+                synthesis=synthesis, hypotheses=hypotheses),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="initial_ranking",
                      length=len(current_differential))
@@ -168,26 +136,12 @@ class DiagnosticReasoningAgent(BaseAgent):
             logger.info("agent_step", agent_id=self.agent_id,
                         step=f"critique_round_{round_num}")
             critique = self._call_llm(llm,
-                system="You are a senior attending physician reviewing a differential diagnosis. "
-                       "Look for ANCHORING BIAS, MISSED DIAGNOSES, and PROBABILITY ERRORS.",
-                user=f"# Evidence Patterns\n{synthesis}\n\n"
-                     f"# Current Differential (round {round_num})\n{current_differential}\n\n"
-                     "Critically review:\n"
-                     "1. ANCHORING BIAS: Is the diagnostician fixating on the most obvious finding "
-                     "while ignoring the ROOT CAUSE?\n"
-                     "   - If organ damage is #1, ask: what CAUSED the damage? Rank the cause higher.\n"
-                     "   - Check medications: what diseases do they treat? Those diseases should be in the differential.\n"
-                     "2. MISSED DIAGNOSES: Given the patient's risk factors (age, gender, comorbidities, "
-                     "medications), are common conditions for this demographic MISSING?\n"
-                     "   Think broadly — don't limit to obvious organ-specific diagnoses.\n"
-                     "3. PROBABILITY CALIBRATION: Are probabilities reasonable for this demographic?\n"
-                     "4. EVIDENCE GAPS: What tests would change the ranking?\n\n"
-                     "Then answer these two questions:\n"
-                     "CONFIDENCE: On a scale of 0-100, how confident are you in this differential? "
-                     "(80+ = good enough to stop, <80 = needs more work)\n"
-                     "GAPS: What specific clinical questions remain unanswered?\n\n"
-                     "If the differential needs changes, provide the CORRECTED ranking.\n"
-                     "If it's good enough, say 'DIFFERENTIAL IS ADEQUATE' and state your confidence."
+                system=self._get_call_prompt("critique", "system",
+                    fallback="You are a senior attending physician reviewing a differential diagnosis."),
+                user=self._get_call_prompt("critique", "user",
+                    fallback=f"{synthesis}\n{current_differential}",
+                    synthesis=synthesis, current_differential=current_differential,
+                    round_num=str(round_num)),
             )
             logger.info("agent_step_done", agent_id=self.agent_id,
                         step=f"critique_round_{round_num}", length=len(critique))
@@ -242,16 +196,11 @@ class DiagnosticReasoningAgent(BaseAgent):
             logger.info("agent_step", agent_id=self.agent_id,
                         step=f"refine_round_{round_num}")
             refined = self._call_llm(llm,
-                system="You are a diagnostician refining your differential after receiving feedback. "
-                       "Address every gap and concern raised.",
-                user=f"# Evidence Patterns\n{synthesis}\n\n"
-                     f"# Critique and Gaps Identified\n{critique}\n\n"
-                     "Address the critique:\n"
-                     "1. Add any missing diagnoses that were flagged\n"
-                     "2. Recalibrate probabilities based on the feedback\n"
-                     "3. Investigate the unanswered clinical questions using the available evidence\n"
-                     "4. Provide the UPDATED differential ranking\n\n"
-                     "State your updated confidence (0-100) in the revised differential."
+                system=self._get_call_prompt("refine", "system",
+                    fallback="You are a diagnostician refining your differential after receiving feedback."),
+                user=self._get_call_prompt("refine", "user",
+                    fallback=f"{synthesis}\n{critique}",
+                    synthesis=synthesis, critique=critique),
             )
             logger.info("agent_step_done", agent_id=self.agent_id,
                         step=f"refine_round_{round_num}", length=len(refined))
@@ -260,18 +209,14 @@ class DiagnosticReasoningAgent(BaseAgent):
         # ── Final Call: Structured JSON Output (always, use json_llm) ──
         logger.info("agent_step", agent_id=self.agent_id, step="final_output")
         jllm = json_llm or llm
-        output_schema = DiagnosticOutput.model_json_schema()
+        output_schema = json.dumps(DiagnosticOutput.model_json_schema(), indent=2)
         raw_json = self._call_llm(jllm,
-            system=self.system_prompt,
-            user=f"# Evidence Patterns\n{synthesis}\n\n"
-                 f"# Final Differential (after {round_num} critique rounds)\n"
-                 f"{current_differential}\n\n"
-                 f"Produce the final structured JSON output.\n"
-                 f"Include all corrections from the critique rounds.\n"
-                 f"Ensure ≥3 diagnoses in the differential.\n"
-                 f"Probabilities should approximately sum to 1.0.\n\n"
-                 f"## Required Output Schema\n```json\n{json.dumps(output_schema, indent=2)}\n```\n\n"
-                 f"Respond ONLY with valid JSON."
+            system=self._get_call_prompt("final_output", "system",
+                fallback=self.system_prompt),
+            user=self._get_call_prompt("final_output", "user",
+                fallback=f"{synthesis}\n{current_differential}",
+                synthesis=synthesis, current_differential=current_differential,
+                round_num=str(round_num), output_schema=output_schema),
         )
 
         output = self._parse_output(raw_json, jllm, [

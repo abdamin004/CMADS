@@ -73,17 +73,10 @@ class ClinicalReviewerAgent(BaseAgent):
         # ── Call 1: Independent Evidence Re-analysis ──
         logger.info("agent_step", agent_id=self.agent_id, step="evidence_reanalysis")
         reanalysis = self._call_llm(llm,
-            system="You are a senior attending physician independently reviewing patient evidence. "
-                   "Ignore the diagnostic conclusions — look at the raw data with fresh eyes.",
-            user=f"{review_prompt}\n\n"
-                 "Before reviewing the diagnostic differential, first independently analyse "
-                 "the raw evidence:\n"
-                 "1. What are the TOP 5 most significant findings from the EHR and labs?\n"
-                 "2. What clinical patterns do YOU see?\n"
-                 "3. What diagnoses would YOU consider based purely on the evidence?\n"
-                 "4. Are there any CRITICAL findings (severity ≥3) that demand attention?\n"
-                 "5. What is your independent clinical impression?\n\n"
-                 "Be thorough. This is your independent analysis before seeing the junior's work."
+            system=self._get_call_prompt("evidence_reanalysis", "system",
+                fallback="You are a senior attending physician independently reviewing patient evidence."),
+            user=self._get_call_prompt("evidence_reanalysis", "user",
+                fallback=review_prompt, review_prompt=review_prompt),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="evidence_reanalysis",
                      length=len(reanalysis))
@@ -91,21 +84,11 @@ class ClinicalReviewerAgent(BaseAgent):
         # ── Call 2: Per-Diagnosis Verification ──
         logger.info("agent_step", agent_id=self.agent_id, step="verification")
         verification = self._call_llm(llm,
-            system="You are a senior attending reviewing a junior diagnostician's differential. "
-                   "Compare their conclusions against your independent analysis.",
-            user=f"# Your Independent Analysis\n{reanalysis}\n\n"
-                 f"# Now review the Diagnostic Agent's differential:\n{review_prompt}\n\n"
-                 "For EACH diagnosis in the differential:\n"
-                 "1. Does the evidence ACTUALLY support this diagnosis? Be specific.\n"
-                 "2. Is the probability reasonable? Should it be higher or lower?\n"
-                 "3. What is your confidence (0-100) that this diagnosis is correct?\n"
-                 "4. Verdict: supported, plausible, questionable, or unsupported?\n"
-                 "5. What evidence is MISSING that would confirm or rule it out?\n\n"
-                 "Then check:\n"
-                 "- Are all critical lab findings (severity ≥3) explained by at least one diagnosis?\n"
-                 "- Is the #1 diagnosis really the most likely, or should the ranking change?\n"
-                 "- Are there diagnoses the junior MISSED that you identified independently?\n"
-                 "- What is your overall confidence in this differential (0-100)?"
+            system=self._get_call_prompt("verification", "system",
+                fallback="You are a senior attending reviewing a junior diagnostician's differential."),
+            user=self._get_call_prompt("verification", "user",
+                fallback=f"{reanalysis}\n{review_prompt}",
+                reanalysis=reanalysis, review_prompt=review_prompt),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="verification",
                      length=len(verification))
@@ -113,16 +96,14 @@ class ClinicalReviewerAgent(BaseAgent):
         # ── Call 3: Structured JSON Output (use json_llm) ──
         logger.info("agent_step", agent_id=self.agent_id, step="structure")
         jllm = json_llm or llm
-        output_schema = ReviewerOutput.model_json_schema()
+        output_schema = json.dumps(ReviewerOutput.model_json_schema(), indent=2)
         raw_json = self._call_llm(jllm,
-            system=self.system_prompt,
-            user=f"# Your Independent Analysis\n{reanalysis}\n\n"
-                 f"# Your Verification of the Differential\n{verification}\n\n"
-                 f"Now produce the structured JSON review output.\n"
-                 f"Include per-diagnosis verification with adjusted probabilities and confidence.\n"
-                 f"Make sure adjusted probabilities sum to approximately 1.0.\n\n"
-                 f"## Required Output Schema\n```json\n{json.dumps(output_schema, indent=2)}\n```\n\n"
-                 f"Respond ONLY with valid JSON."
+            system=self._get_call_prompt("structure", "system",
+                fallback=self.system_prompt),
+            user=self._get_call_prompt("structure", "user",
+                fallback=f"{reanalysis}\n{verification}",
+                reanalysis=reanalysis, verification=verification,
+                output_schema=output_schema),
         )
 
         output = self._parse_output(raw_json, jllm, [

@@ -75,23 +75,10 @@ class LabInterpreterAgent(BaseAgent):
         # ── Call 1: Deep lab analysis ──
         logger.info("agent_step", agent_id=self.agent_id, step="analysis")
         analysis = self._call_llm(llm,
-            system="You are a senior clinical pathologist interpreting laboratory results. "
-                   "Perform a thorough analysis. Do NOT produce JSON yet.",
-            user=f"{patient_data}\n\n"
-                 "Analyse these laboratory results thoroughly:\n"
-                 "1. Classify every lab result against reference ranges (normal/borderline/abnormal)\n"
-                 "2. Identify ALL abnormal values and rank them by clinical severity (1-5)\n"
-                 "3. Look for PANEL PATTERNS — groups of related abnormal labs that point to a syndrome:\n"
-                 "   - Renal panel: BUN, creatinine, eGFR, electrolytes, proteinuria\n"
-                 "   - Cardiac panel: troponin, BNP, LVEF, CK-MB\n"
-                 "   - Hepatic panel: ALT, AST, bilirubin, albumin, ALP\n"
-                 "   - Metabolic panel: glucose, HbA1c, cholesterol, triglycerides, LDL\n"
-                 "   - Hematologic panel: Hgb, Hct, WBC, platelets, RDW\n"
-                 "   - Inflammatory: CRP, ESR, WBC, ferritin\n"
-                 "4. Identify TRENDS — are values getting worse, better, or stable over time?\n"
-                 "5. What important labs are MISSING that would help diagnosis?\n"
-                 "6. What is your overall laboratory assessment?\n"
-                 "Be thorough — every abnormal value matters."
+            system=self._get_call_prompt("analysis", "system",
+                fallback="You are a senior clinical pathologist. Perform a thorough analysis. Do NOT produce JSON yet."),
+            user=self._get_call_prompt("analysis", "user",
+                fallback=patient_data, patient_data=patient_data),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="analysis",
                      length=len(analysis))
@@ -99,17 +86,14 @@ class LabInterpreterAgent(BaseAgent):
         # ── Call 2: Structured output ──
         logger.info("agent_step", agent_id=self.agent_id, step="structure")
         jllm = json_llm or llm
-        output_schema = LabInterpreterOutput.model_json_schema()
+        output_schema = json.dumps(LabInterpreterOutput.model_json_schema(), indent=2)
         raw_json = self._call_llm(jllm,
-            system=self.system_prompt,
-            user=f"# Your Previous Analysis\n{analysis}\n\n"
-                 f"# Original Lab Data\n{patient_data}\n\n"
-                 f"Now convert your analysis into the required JSON format.\n"
-                 f"Rank findings by severity (highest first).\n"
-                 f"Group related findings into panel_patterns.\n"
-                 f"Flag critical values in critical_alerts.\n\n"
-                 f"## Required Output Schema\n```json\n{json.dumps(output_schema, indent=2)}\n```\n\n"
-                 f"Respond ONLY with valid JSON."
+            system=self._get_call_prompt("structure", "system",
+                fallback=self.system_prompt),
+            user=self._get_call_prompt("structure", "user",
+                fallback=f"{analysis}\n{patient_data}",
+                analysis=analysis, patient_data=patient_data,
+                output_schema=output_schema),
         )
 
         output = self._parse_output(raw_json, jllm, [
@@ -120,19 +104,13 @@ class LabInterpreterAgent(BaseAgent):
 
         # ── Call 3: Self-review ──
         logger.info("agent_step", agent_id=self.agent_id, step="review")
+        output_json = json.dumps(output_dict, indent=2, default=str)
         review = self._call_llm(jllm,
-            system="You are a quality reviewer checking a laboratory interpretation for completeness.",
-            user=f"# Original Lab Data\n{patient_data}\n\n"
-                 f"# Produced Interpretation\n{json.dumps(output_dict, indent=2, default=str)}\n\n"
-                 "Review this interpretation:\n"
-                 "1. Are ALL abnormal labs captured with correct severity?\n"
-                 "2. Are any panel patterns missed (renal, cardiac, metabolic, hepatic)?\n"
-                 "3. Are trending concerns correctly identified?\n"
-                 "4. Are important data gaps flagged?\n"
-                 "5. Is the overall assessment accurate?\n\n"
-                 "If improvements needed, output the CORRECTED full JSON.\n"
-                 "If good as is, output it unchanged.\n"
-                 "Output ONLY valid JSON."
+            system=self._get_call_prompt("review", "system",
+                fallback="You are a quality reviewer checking a laboratory interpretation."),
+            user=self._get_call_prompt("review", "user",
+                fallback=f"{patient_data}\n{output_json}",
+                patient_data=patient_data, output_json=output_json),
         )
 
         try:

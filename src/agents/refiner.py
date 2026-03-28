@@ -116,14 +116,11 @@ class DiagnosticRefinerAgent(BaseAgent):
 
         logger.info("agent_step", agent_id=self.agent_id, step="refine")
         raw_json = self._call_llm(jllm,
-            system=self.system_prompt,
-            user=f"{prompt}\n\n"
-                 f"Produce the FINAL differential diagnosis.\n"
-                 f"Incorporate the Reviewer's adjustments and address their concerns.\n"
-                 f"Remove unsupported diagnoses. Promote what the Reviewer recommended.\n"
-                 f"Probabilities should sum to approximately 1.0.\n\n"
-                 f"## Required Output Schema\n```json\n{json.dumps(output_schema, indent=2)}\n```\n\n"
-                 f"Respond ONLY with valid JSON."
+            system=self._get_call_prompt("refine", "system",
+                fallback=self.system_prompt),
+            user=self._get_call_prompt("refine", "user",
+                fallback=f"{prompt}\n{json.dumps(output_schema, indent=2)}",
+                prompt=prompt, output_schema=json.dumps(output_schema, indent=2)),
         )
 
         output = self._parse_output(raw_json, jllm, [
