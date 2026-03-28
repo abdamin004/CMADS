@@ -27,6 +27,14 @@ PROMPTS_DIR = Path(__file__).resolve().parents[2] / "prompts"
 logger = structlog.get_logger()
 
 
+class SkipAgentException(Exception):
+    """Raised when an agent should be skipped (returns a pre-built result dict)."""
+
+    def __init__(self, result: dict):
+        self.result = result
+        super().__init__("Agent skipped")
+
+
 def _extract_json_from_response(text: str) -> dict:
     """Extract JSON from LLM response, handling think tags, code blocks, and minor errors."""
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
@@ -224,6 +232,68 @@ class BaseAgent:
         output = self._parse_output(response.content, use_llm, messages)
         return output.model_dump()
 
+    def _run_analysis_structure_review(self, state: dict, llm, json_llm=None) -> dict:
+        """Three-call reasoning: analysis -> structure -> review.
+
+        Standard pattern for agents that:
+        1. Analyse data (free text, no JSON)
+        2. Convert analysis to structured JSON
+        3. Self-review and correct if needed
+
+        Requires YAML calls: analysis, structure, review.
+        """
+        patient_data = self.build_user_prompt(state)
+
+        # ── Call 1: Deep analysis ──
+        logger.info("agent_step", agent_id=self.agent_id, step="analysis")
+        analysis = self._call_llm(llm,
+            system=self._get_call_prompt("analysis", "system",
+                fallback="You are a senior clinician. Perform a thorough analysis. "
+                         "Do NOT produce JSON yet."),
+            user=self._get_call_prompt("analysis", "user",
+                fallback=patient_data, patient_data=patient_data),
+        )
+        logger.info("agent_step_done", agent_id=self.agent_id, step="analysis",
+                     length=len(analysis))
+
+        # ── Call 2: Structured output ──
+        logger.info("agent_step", agent_id=self.agent_id, step="structure")
+        jllm = json_llm or llm
+        output_schema = json.dumps(self.output_schema.model_json_schema(), indent=2)
+        raw_json = self._call_llm(jllm,
+            system=self._get_call_prompt("structure", "system",
+                fallback=self.system_prompt),
+            user=self._get_call_prompt("structure", "user",
+                fallback=f"{analysis}\n{patient_data}",
+                analysis=analysis, patient_data=patient_data,
+                output_schema=output_schema),
+        )
+        output = self._parse_output(raw_json, jllm, [
+            SystemMessage(content=self.system_prompt),
+            HumanMessage(content="Convert to JSON"),
+        ])
+        output_dict = output.model_dump()
+
+        # ── Call 3: Self-review ──
+        logger.info("agent_step", agent_id=self.agent_id, step="review")
+        output_json = json.dumps(output_dict, indent=2, default=str)
+        review = self._call_llm(jllm,
+            system=self._get_call_prompt("review", "system",
+                fallback="You are a quality reviewer checking a clinical analysis."),
+            user=self._get_call_prompt("review", "user",
+                fallback=f"{patient_data}\n{output_json}",
+                patient_data=patient_data, output_json=output_json),
+        )
+        try:
+            reviewed = self._parse_output(review)
+            logger.info("agent_step_done", agent_id=self.agent_id, step="review",
+                         result="updated")
+            return reviewed.model_dump()
+        except (json.JSONDecodeError, ValidationError) as e:
+            logger.info("agent_step_done", agent_id=self.agent_id, step="review",
+                         result="kept_original", reason=str(e)[:100])
+            return output_dict
+
     def __call__(self, state: dict) -> dict:
         """LangGraph node function — the full 5-component pipeline."""
         self._load_prompts()  # Load YAML prompts on first call
@@ -254,6 +324,18 @@ class BaseAgent:
 
             return {
                 "agent_outputs": {self.agent_id: output_dict},
+                "execution_trace": [trace_entry],
+            }
+
+        except SkipAgentException as e:
+            duration_ms = int((time.time() - start) * 1000)
+            trace_entry["status"] = "skipped"
+            trace_entry["execution_ms"] = duration_ms
+            trace_entry["error"] = None
+            logger.info("agent_skipped", agent_id=self.agent_id,
+                        duration_ms=duration_ms)
+            return {
+                "agent_outputs": {self.agent_id: e.result},
                 "execution_trace": [trace_entry],
             }
 

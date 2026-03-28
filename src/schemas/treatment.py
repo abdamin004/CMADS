@@ -29,12 +29,6 @@ class ContraindicationCheck(BaseModel):
     alternative: str = Field(default="", description="What to use instead")
 
 
-class MonitoringPlan(BaseModel):
-    test: str = Field(description="What to monitor")
-    frequency: str = Field(description="How often")
-    reason: str = Field(default="", description="Why this monitoring is needed")
-
-
 class TreatmentOutput(BaseModel):
     """Treatment plan produced by the Treatment Planning Agent."""
 

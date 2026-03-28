@@ -16,34 +16,9 @@ from langchain_core.messages import SystemMessage, HumanMessage
 
 logger = structlog.get_logger()
 
-SYSTEM_PROMPT = """You are the Diagnostic Refiner — the final step in diagnostic reasoning.
-
-You have received:
-1. The original differential diagnosis from the Diagnostic Reasoning Agent
-2. The Clinical Reviewer's verification, adjusted probabilities, and concerns
-3. The raw evidence from EHR and Lab agents
-
-Your job is to produce the FINAL differential diagnosis by:
-- Incorporating the Reviewer's probability adjustments
-- Addressing the Reviewer's concerns
-- Removing diagnoses the Reviewer marked as "unsupported"
-- Promoting diagnoses the Reviewer thinks should be ranked higher
-- Adding any diagnoses the Reviewer independently identified but were missing
-
-## Rules
-- The Reviewer is a senior attending — their adjustments carry weight
-- If the Reviewer's recommended primary differs from the Diagnostic Agent's, seriously consider switching
-- Keep probabilities summing to approximately 1.0
-- Every diagnosis must have evidence — remove speculation
-- This is the FINAL output — be decisive, not hedging
-
-## Output Format
-Respond ONLY with valid JSON matching the required schema. No preamble or explanation."""
-
 
 class DiagnosticRefinerAgent(BaseAgent):
     agent_id = "final_diagnosis"
-    system_prompt = SYSTEM_PROMPT
     output_schema = DiagnosticOutput
     temperature = 0.2
     max_tokens = 8192
@@ -108,19 +83,19 @@ class DiagnosticRefinerAgent(BaseAgent):
             sections.append(f"Lab assessment: {lab_out.get('overall_assessment', '?')[:200]}")
         sections.append("")
 
-        prompt = "\n".join(sections)
+        prompt_data = "\n".join(sections)
 
         # Single focused call with json_llm
         jllm = json_llm or llm
-        output_schema = DiagnosticOutput.model_json_schema()
+        output_schema = json.dumps(DiagnosticOutput.model_json_schema(), indent=2)
 
         logger.info("agent_step", agent_id=self.agent_id, step="refine")
         raw_json = self._call_llm(jllm,
             system=self._get_call_prompt("refine", "system",
                 fallback=self.system_prompt),
             user=self._get_call_prompt("refine", "user",
-                fallback=f"{prompt}\n{json.dumps(output_schema, indent=2)}",
-                prompt=prompt, output_schema=json.dumps(output_schema, indent=2)),
+                fallback=f"{prompt_data}\n{output_schema}",
+                prompt_data=prompt_data, output_schema=output_schema),
         )
 
         output = self._parse_output(raw_json, jllm, [

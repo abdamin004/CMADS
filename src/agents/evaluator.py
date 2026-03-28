@@ -28,7 +28,7 @@ def evaluate_node(state: dict) -> dict:
     ehr_case = ctx.get("ehr_case", {})
     patient_uuid = ehr_case.get("patient_uuid", "")
 
-    final = agent_outputs.get("final_diagnosis", {}) or agent_outputs.get("diagnostic_reasoning", {})
+    final = agent_outputs.get("final_diagnosis") or agent_outputs.get("diagnostic_reasoning") or {}
     differential = final.get("differential", [])
 
     # Load ground truth
@@ -74,11 +74,6 @@ def evaluate_node(state: dict) -> dict:
         **result,
         "primary_diagnosis": final.get("primary_diagnosis", "?"),
     }
-
-    # Save to disk
-    eval_dir = cfg.MAS_RESULTS_DIR / patient_uuid
-    eval_dir.mkdir(parents=True, exist_ok=True)
-    (eval_dir / "evaluation.json").write_text(json.dumps(eval_result, indent=2))
 
     logger.info("evaluation_complete", patient=patient_uuid[:12],
                 match_type=result["match_type"], rank=result["rank"])

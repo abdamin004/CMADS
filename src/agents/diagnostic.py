@@ -20,46 +20,9 @@ from langchain_core.messages import SystemMessage, HumanMessage
 
 logger = structlog.get_logger()
 
-SYSTEM_PROMPT = """You are the Diagnostic Reasoning Agent in a multi-agent clinical decision pipeline.
-
-You receive a structured clinical summary from the EHR Analyst and prioritised lab findings from the Lab Interpreter. Your job is to synthesise ALL available evidence and produce a ranked differential diagnosis.
-
-## Your Task
-1. Analyse the clinical summary (conditions, medications, demographics, visit patterns)
-2. Analyse the lab findings (abnormal values, trends, panel patterns, critical alerts)
-3. Cross-reference with risk scores and comorbidity flags
-4. Generate a RANKED differential diagnosis with ≥3 diagnoses
-5. For each diagnosis, map specific evidence from the upstream agents
-6. Assign probability estimates that sum to approximately 1.0 across all diagnoses
-7. Flag unexplained findings that don't fit any diagnosis
-8. Recommend additional workup to confirm/rule out diagnoses
-
-## Reasoning Guidelines
-- Consider the FULL clinical picture — don't anchor on one finding
-- Look for patterns: multiple findings pointing to the same diagnosis
-- Consider age, gender, and demographics as risk modifiers
-- Comorbidities can mask or mimic other conditions — account for this
-- Rising trends in labs are more concerning than isolated abnormal values
-- Missing data (data gaps flagged by upstream agents) should factor into confidence
-- Consider common diseases first (Bayesian reasoning), then rare conditions
-- Each diagnosis must have at least one piece of supporting evidence
-- Be specific with diagnosis names — use proper medical terminology
-
-## Important Rules
-- You are DIAGNOSING, not just summarising — commit to ranked diagnoses with probabilities
-- Every diagnosis needs evidence from the upstream agent outputs
-- The primary diagnosis should have the highest probability
-- Include at least 3 differential diagnoses, ideally 4-6
-- Probabilities should reflect genuine clinical judgement, not arbitrary numbers
-- Flag any findings that no diagnosis explains (unresolved_findings)
-
-## Output Format
-Respond ONLY with valid JSON matching the required schema. No preamble or explanation."""
-
 
 class DiagnosticReasoningAgent(BaseAgent):
     agent_id = "diagnostic_reasoning"
-    system_prompt = SYSTEM_PROMPT
     output_schema = DiagnosticOutput
     temperature = 0.3
     max_tokens = 8192
@@ -99,7 +62,7 @@ class DiagnosticReasoningAgent(BaseAgent):
             system=self._get_call_prompt("evidence_synthesis", "system",
                 fallback="You are a senior diagnostician synthesising clinical evidence. Do NOT diagnose yet."),
             user=self._get_call_prompt("evidence_synthesis", "user",
-                fallback=evidence, evidence=evidence),
+                fallback=evidence, patient_data=evidence),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="evidence_synthesis",
                      length=len(synthesis))

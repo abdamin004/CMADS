@@ -18,46 +18,9 @@ from langchain_core.messages import SystemMessage, HumanMessage
 
 logger = structlog.get_logger()
 
-SYSTEM_PROMPT = """You are the Clinical Reviewer Agent in a multi-agent clinical decision pipeline.
-
-You are a senior attending physician providing a SECOND OPINION on a diagnostic differential produced by a junior diagnostician. You have access to the same raw evidence (EHR summary, lab findings) and must independently verify each proposed diagnosis.
-
-## Your Role
-You are ADVERSARIAL — your job is to find problems, not rubber-stamp. You should:
-1. Verify each diagnosis against the raw evidence — does the evidence actually support it?
-2. Adjust probabilities if the Diagnostic Agent over- or under-estimated
-3. Give a confidence score (0-100) per diagnosis
-4. Check consistency between EHR findings, lab results, and the proposed diagnoses
-5. Identify critical lab findings (severity ≥3) that no diagnosis explains
-6. Flag concerns about the reasoning quality
-7. Recommend what you think the primary diagnosis should be
-
-## Verification Standards
-- "strong" evidence: multiple findings from different sources directly point to this diagnosis
-- "moderate" evidence: some findings support it but key confirmatory tests are missing
-- "weak" evidence: only 1-2 indirect findings, diagnosis is largely speculative
-- "insufficient" evidence: no real evidence, diagnosis appears made up
-
-## Verdict Criteria
-- "supported": strong evidence, probability seems right
-- "plausible": moderate evidence, worth keeping in differential
-- "questionable": weak evidence, probability may be too high
-- "unsupported": no evidence, should be removed from differential
-
-## Important Rules
-- Go back to the RAW evidence (EHR and lab outputs) — don't just trust the Diagnostic Agent's claims
-- Every critical lab finding (severity ≥3) must be explained by at least one diagnosis
-- If the Diagnostic Agent missed a common condition given the risk factors, call it out
-- Be specific in concerns — "the evidence doesn't support X because Y"
-- Your adjusted probabilities should sum to approximately 1.0
-
-## Output Format
-Respond ONLY with valid JSON matching the required schema. No preamble or explanation."""
-
 
 class ClinicalReviewerAgent(BaseAgent):
     agent_id = "clinical_reviewer"
-    system_prompt = SYSTEM_PROMPT
     output_schema = ReviewerOutput
     temperature = 0.2
     max_tokens = 8192
@@ -68,18 +31,18 @@ class ClinicalReviewerAgent(BaseAgent):
         Call 2: Per-diagnosis verification against raw evidence
         Call 3: Produce structured JSON
         """
-        review_prompt = self.build_user_prompt(state)
+        patient_data = self.build_user_prompt(state)
 
         # ── Call 1: Independent Evidence Re-analysis ──
         logger.info("agent_step", agent_id=self.agent_id, step="evidence_reanalysis")
-        reanalysis = self._call_llm(llm,
+        analysis = self._call_llm(llm,
             system=self._get_call_prompt("evidence_reanalysis", "system",
                 fallback="You are a senior attending physician independently reviewing patient evidence."),
             user=self._get_call_prompt("evidence_reanalysis", "user",
-                fallback=review_prompt, review_prompt=review_prompt),
+                fallback=patient_data, patient_data=patient_data),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="evidence_reanalysis",
-                     length=len(reanalysis))
+                     length=len(analysis))
 
         # ── Call 2: Per-Diagnosis Verification ──
         logger.info("agent_step", agent_id=self.agent_id, step="verification")
@@ -87,8 +50,8 @@ class ClinicalReviewerAgent(BaseAgent):
             system=self._get_call_prompt("verification", "system",
                 fallback="You are a senior attending reviewing a junior diagnostician's differential."),
             user=self._get_call_prompt("verification", "user",
-                fallback=f"{reanalysis}\n{review_prompt}",
-                reanalysis=reanalysis, review_prompt=review_prompt),
+                fallback=f"{analysis}\n{patient_data}",
+                analysis=analysis, patient_data=patient_data),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="verification",
                      length=len(verification))
@@ -101,8 +64,8 @@ class ClinicalReviewerAgent(BaseAgent):
             system=self._get_call_prompt("structure", "system",
                 fallback=self.system_prompt),
             user=self._get_call_prompt("structure", "user",
-                fallback=f"{reanalysis}\n{verification}",
-                reanalysis=reanalysis, verification=verification,
+                fallback=f"{analysis}\n{verification}",
+                analysis=analysis, verification=verification,
                 output_schema=output_schema),
         )
 

@@ -23,13 +23,9 @@ from typing import Any
 import structlog
 from langchain_core.language_models import BaseChatModel
 
-logger = structlog.get_logger()
+from src.config import cfg
 
-# ── Configurable via .env ─────────────────────────────────────────────
-DEFAULT_PROVIDER = os.environ.get("LLM_PROVIDER", "groq")
-DEFAULT_MODEL = os.environ.get("LLM_MODEL", "openai/gpt-oss-120b")
-DEFAULT_EVALUATOR_MODEL = os.environ.get("LLM_EVALUATOR_MODEL", "qwen/qwen3-32b")
-DEFAULT_OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
+logger = structlog.get_logger()
 
 # ── Provider Registry ─────────────────────────────────────────────────
 # Each provider entry: (package_import, class_name, api_key_env, extra_kwargs_fn)
@@ -93,10 +89,10 @@ def _ollama_kwargs(model, temperature, max_tokens, json_mode):
     """Build kwargs for ChatOllama."""
     kwargs = {
         "model": model,
-        "base_url": DEFAULT_OLLAMA_URL,
+        "base_url": cfg.OLLAMA_URL,
         "temperature": temperature,
         "num_predict": max_tokens,
-        "num_ctx": int(os.environ.get("OLLAMA_CONTEXT_WINDOW", "16384")),
+        "num_ctx": cfg.OLLAMA_CONTEXT_WINDOW,
     }
     if json_mode:
         kwargs["format"] = "json"
@@ -149,8 +145,8 @@ def get_llm(
         ValueError: If the provider is not in the registry.
         ImportError: If the provider's LangChain package is not installed.
     """
-    provider = provider or DEFAULT_PROVIDER
-    model_name = model or DEFAULT_MODEL
+    provider = provider or cfg.LLM_PROVIDER
+    model_name = model or cfg.LLM_MODEL
 
     if provider not in PROVIDERS:
         available = ", ".join(sorted(PROVIDERS.keys()))
@@ -202,11 +198,11 @@ def get_evaluator_llm(temperature: float = 0.0, max_tokens: int = 1024) -> BaseC
     Configured via LLM_EVALUATOR_MODEL env var (default: qwen/qwen3-32b).
     Uses the same provider as the main LLM unless LLM_EVALUATOR_PROVIDER is set.
     """
-    eval_provider = os.environ.get("LLM_EVALUATOR_PROVIDER")
+    eval_provider = cfg.LLM_EVALUATOR_PROVIDER or None
     return get_llm(
         temperature=temperature,
         max_tokens=max_tokens,
-        model=DEFAULT_EVALUATOR_MODEL,
+        model=cfg.LLM_EVALUATOR_MODEL,
         provider=eval_provider,
     )
 

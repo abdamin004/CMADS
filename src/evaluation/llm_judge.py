@@ -12,6 +12,8 @@ Usage:
     from src.evaluation.llm_judge import evaluate_patient, evaluate_cohort
 """
 
+import csv
+import io
 import json
 import time
 from langchain_core.messages import HumanMessage
@@ -207,29 +209,31 @@ def evaluate_cohort(results_list: list[dict]) -> tuple[list[dict], dict]:
     )
 
     # Save CSV for thesis tables
-    csv_lines = ["Patient UUID,Target Disease,MAS Primary Diagnosis,Found,Match Type,Rank,Matched Diagnosis,Reason"]
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow(["Patient UUID", "Target Disease", "MAS Primary Diagnosis",
+                      "Found", "Match Type", "Rank", "Matched Diagnosis", "Reason"])
     for ev in evaluations:
-        csv_lines.append(
-            f"{ev['uuid']},"
-            f"\"{ev.get('target','?')}\","
-            f"\"{ev.get('primary_diagnosis','?')}\","
-            f"{ev['found']},"
-            f"{ev['match_type']},"
-            f"{ev['rank']},"
-            f"\"{ev.get('matched_diagnosis','NONE')}\","
-            f"\"{ev.get('reason','')}\""
-        )
-    (MAS_RESULTS_DIR / "evaluation_results.csv").write_text("\n".join(csv_lines))
+        writer.writerow([
+            ev["uuid"], ev.get("target", "?"), ev.get("primary_diagnosis", "?"),
+            ev["found"], ev["match_type"], ev["rank"],
+            ev.get("matched_diagnosis", "NONE"), ev.get("reason", ""),
+        ])
+    (MAS_RESULTS_DIR / "evaluation_results.csv").write_text(buf.getvalue())
 
     # Save disease summary CSV
-    disease_csv = ["Disease,Total,Direct,Indirect,Miss,Found Rate,Avg Rank"]
+    buf2 = io.StringIO()
+    writer2 = csv.writer(buf2)
+    writer2.writerow(["Disease", "Total", "Direct", "Indirect", "Miss",
+                       "Found Rate", "Avg Rank"])
     for d in sorted(disease_stats.keys(), key=lambda x: -disease_stats[x]["total"]):
         s = disease_stats[d]
         found = s["direct"] + s["indirect"]
         pct = found * 100 // max(s["total"], 1)
         avg_rank = sum(s["ranks"]) / max(len(s["ranks"]), 1)
-        disease_csv.append(f"\"{d}\",{s['total']},{s['direct']},{s['indirect']},{s['miss']},{pct}%,{avg_rank:.1f}")
-    (MAS_RESULTS_DIR / "evaluation_by_disease.csv").write_text("\n".join(disease_csv))
+        writer2.writerow([d, s["total"], s["direct"], s["indirect"],
+                           s["miss"], f"{pct}%", f"{avg_rank:.1f}"])
+    (MAS_RESULTS_DIR / "evaluation_by_disease.csv").write_text(buf2.getvalue())
 
     print(f"\n  Saved:")
     print(f"    {MAS_RESULTS_DIR}/evaluation_summary.json")
