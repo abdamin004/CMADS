@@ -14,8 +14,6 @@ import json
 import os
 import re
 import time
-from pathlib import Path
-
 from langchain_core.messages import HumanMessage
 from src.llm.adapter import get_evaluator_llm
 from src.config import cfg

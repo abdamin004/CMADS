@@ -19,7 +19,7 @@ from pathlib import Path
 
 import duckdb
 
-from schemas import SCHEMAS, build_cast_select, get_pk_columns
+from pipeline.schemas import SCHEMAS, build_cast_select, get_pk_columns
 
 RAW_DIR = Path("data/raw")
 BRONZE_DIR = Path("data/bronze")

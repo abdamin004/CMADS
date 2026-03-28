@@ -36,7 +36,7 @@ def _stage1_fanout(state: dict) -> list[str]:
     return ["ehr_analyst", "lab_interpreter"]
 
 
-def compile_pipeline() -> Any:
+def compile_pipeline():
     """Build and compile the LangGraph StateGraph.
 
     Returns a compiled graph that can be invoked with:

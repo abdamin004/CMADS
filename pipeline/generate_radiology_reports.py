@@ -17,10 +17,8 @@ from datetime import datetime
 from pathlib import Path
 
 import duckdb
-import requests
-
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "gpt-oss:120b"
+from langchain_core.messages import SystemMessage, HumanMessage
+from src.llm.adapter import get_llm
 CSV_DIR = Path("data/raw/batch_test/csv")
 OUTPUT_DIR = Path("data/gold/radiology_reports")
 
@@ -178,23 +176,14 @@ Do NOT name the diagnosis anywhere in the report."""
     return prompt
 
 
-def call_ollama(prompt, system=SYSTEM_PROMPT):
-    """Send prompt to Ollama and return generated text."""
-    payload = {
-        "model": MODEL,
-        "prompt": prompt,
-        "system": system,
-        "stream": False,
-        "options": {
-            "temperature": 0.7,
-            "top_p": 0.9,
-            "num_predict": 1024,
-        },
-    }
-
-    resp = requests.post(OLLAMA_URL, json=payload, timeout=300)
-    resp.raise_for_status()
-    return resp.json()
+def call_llm(prompt, system=SYSTEM_PROMPT):
+    """Send prompt to LLM via adapter and return response dict."""
+    llm = get_llm(temperature=0.7, max_tokens=1024)
+    response = llm.invoke([
+        SystemMessage(content=system),
+        HumanMessage(content=prompt),
+    ])
+    return {"response": response.content}
 
 
 def generate_report(con, case_row):
@@ -225,7 +214,7 @@ def generate_report(con, case_row):
 
     print(f"\n  Calling {MODEL}...", end=" ", flush=True)
     start = time.time()
-    response = call_ollama(prompt)
+    response = call_llm(prompt)
     duration = time.time() - start
 
     report_text = response.get("response", "").strip()

@@ -17,8 +17,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests as _requests
-from langchain_ollama import ChatOllama
-from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
 
 # ── Import shared components from radiology_agents ──────────────────────
@@ -28,11 +26,8 @@ from radiology_agents import (
     EVAL_PROMPT_TEMPLATE,
     _calc_age,
     _extract_json,
-    OLLAMA_BASE_URL,
-    EVALUATOR_MODEL,
 )
-
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+from src.llm.adapter import get_llm
 OUTPUT_DIR = Path("data/gold/comparison_results")
 
 
@@ -67,13 +62,7 @@ Do NOT name the diagnosis anywhere in the report."""
 
 def generate_with_ollama(case, idx, total):
     """Generate report using local Ollama."""
-    llm = ChatOllama(
-        model="gpt-oss:120b",
-        base_url=OLLAMA_BASE_URL,
-        temperature=0.7,
-        num_predict=1024,
-        keep_alive="30m",
-    )
+    llm = get_llm(provider="ollama", temperature=0.7, max_tokens=1024)
     prompt = _build_user_prompt(case)
 
     print(f"  [OLLAMA GEN {idx+1}/{total}] {case['patient_name'][:25]}...", end=" ", flush=True)
@@ -97,12 +86,7 @@ def generate_with_ollama(case, idx, total):
 
 def generate_with_groq(case, idx, total):
     """Generate report using Groq API."""
-    llm = ChatGroq(
-        model="openai/gpt-oss-120b",
-        api_key=GROQ_API_KEY,
-        temperature=0.7,
-        max_tokens=1024,
-    )
+    llm = get_llm(provider="groq", temperature=0.7, max_tokens=1024)
     prompt = _build_user_prompt(case)
 
     print(f"  [GROQ  GEN {idx+1}/{total}] {case['patient_name'][:25]}...", end=" ", flush=True)
@@ -137,14 +121,7 @@ def evaluate_report(report_text, case, provider_label):
         report_text=report_text,
     )
 
-    llm = ChatOllama(
-        model=EVALUATOR_MODEL,
-        base_url=OLLAMA_BASE_URL,
-        temperature=0.3,
-        top_p=0.9,
-        num_predict=8192,
-        keep_alive="30m",
-    )
+    llm = get_llm(provider="ollama", temperature=0.3, max_tokens=8192)
 
     print(f"    [EVAL {provider_label}]...", end=" ", flush=True)
     start = time.time()
