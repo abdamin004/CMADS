@@ -96,7 +96,7 @@ def _ollama_kwargs(model, temperature, max_tokens, json_mode):
         "base_url": DEFAULT_OLLAMA_URL,
         "temperature": temperature,
         "num_predict": max_tokens,
-        "num_ctx": 16384,
+        "num_ctx": int(os.environ.get("OLLAMA_CONTEXT_WINDOW", "16384")),
     }
     if json_mode:
         kwargs["format"] = "json"

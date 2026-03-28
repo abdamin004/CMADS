@@ -21,8 +21,10 @@ from pathlib import Path
 from langchain_core.messages import HumanMessage
 
 from src.llm.adapter import get_evaluator_llm
-GOLD_DIR = Path("data/gold/patient_cases")
-MAS_RESULTS_DIR = Path("data/gold/mas_results")
+from src.config import cfg
+
+GOLD_DIR = cfg.GOLD_DIR
+MAS_RESULTS_DIR = cfg.MAS_RESULTS_DIR
 
 JUDGE_PROMPT = """You are a clinical evaluator. Compare the system's diagnoses against the actual disease.
 

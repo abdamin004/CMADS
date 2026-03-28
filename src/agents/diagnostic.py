@@ -64,8 +64,15 @@ class DiagnosticReasoningAgent(BaseAgent):
     temperature = 0.3
     max_tokens = 8192
 
-    MAX_REASONING_ROUNDS = 3
-    CONFIDENCE_THRESHOLD = 75
+    @property
+    def MAX_REASONING_ROUNDS(self):
+        from src.config import cfg
+        return cfg.DIAGNOSTIC_MAX_ROUNDS
+
+    @property
+    def CONFIDENCE_THRESHOLD(self):
+        from src.config import cfg
+        return cfg.DIAGNOSTIC_CONFIDENCE_THRESHOLD
 
     def run_reasoning(self, state: dict, llm, json_llm=None) -> dict:
         """Adaptive multi-call diagnostic reasoning.

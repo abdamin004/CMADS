@@ -15,15 +15,17 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 from sentence_transformers import SentenceTransformer
 
-GUIDELINES_DIR = Path("config/guidelines")
+from src.config import cfg
+
+GUIDELINES_DIR = cfg.GUIDELINES_DIR
 QDRANT_URL = os.environ.get("QDRANT_URL", "")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY", "")
-COLLECTION_NAME = "nice_guidelines"
+COLLECTION_NAME = cfg.QDRANT_COLLECTION
 
 
 def setup():
-    print("Loading embedding model...")
-    model = SentenceTransformer("FremyCompany/BioLORD-2023")
+    print(f"Loading embedding model: {cfg.EMBEDDING_MODEL}")
+    model = SentenceTransformer(cfg.EMBEDDING_MODEL)
     embedding_dim = model.get_sentence_embedding_dimension()
 
     print(f"Connecting to Qdrant cloud...")

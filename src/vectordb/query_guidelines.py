@@ -13,9 +13,11 @@ import os
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 
+from src.config import cfg
+
 QDRANT_URL = os.environ.get("QDRANT_URL", "")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY", "")
-COLLECTION_NAME = "nice_guidelines"
+COLLECTION_NAME = cfg.QDRANT_COLLECTION
 
 # Lazy-loaded singletons
 _client = None
@@ -32,7 +34,7 @@ def _get_client():
 def _get_model():
     global _model
     if _model is None:
-        _model = SentenceTransformer("FremyCompany/BioLORD-2023")
+        _model = SentenceTransformer(cfg.EMBEDDING_MODEL)
     return _model
 
 
