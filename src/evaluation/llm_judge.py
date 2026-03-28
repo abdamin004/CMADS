@@ -13,60 +13,17 @@ Usage:
 """
 
 import json
-import os
-import re
 import time
-from pathlib import Path
-
 from langchain_core.messages import HumanMessage
 
 from src.llm.adapter import get_evaluator_llm
 from src.config import cfg
+from src.evaluation.judge_common import (
+    JUDGE_PROMPT, format_differential, strip_think_tags, parse_judge_response,
+)
 
 GOLD_DIR = cfg.GOLD_DIR
 MAS_RESULTS_DIR = cfg.MAS_RESULTS_DIR
-
-JUDGE_PROMPT = """You are a clinical evaluator. Compare the system's diagnoses against the actual disease.
-
-ACTUAL DISEASE: {target_disease}
-
-SYSTEM'S TOP 5:
-{differential}
-
-Step 1: Check each diagnosis. Is it DIRECT, INDIRECT, or UNRELATED?
-
-DIRECT = same disease, different name:
-  "Coronary artery disease" = "Ischemic heart disease"
-  "ESRD on dialysis" = "End-stage renal disease"
-  "Essential hypertension uncontrolled" = "Essential hypertension"
-  "Metabolic syndrome with dyslipidemia" = "Metabolic syndrome X"
-  "HFrEF" or "HFpEF" = "Congestive heart failure"
-  "Diabetic nephropathy stage 5 CKD" = "End-stage renal disease"
-  "Atherosclerotic CVD" = "Ischemic heart disease"
-  "CKD stage 3 from diabetes" = "Chronic kidney disease stage 3"
-
-INDIRECT = cause, consequence, precursor, or subtype:
-  "CKD stage 4" for ESRD → INDIRECT (precursor, one stage away)
-  "CKD stage 3" for ESRD → INDIRECT (precursor)
-  "Diabetic nephropathy" for ESRD → INDIRECT (cause of ESRD)
-  "Focal segmental glomerulosclerosis" for ESRD → INDIRECT (cause)
-  "Hypertensive nephrosclerosis" for ESRD → INDIRECT (cause)
-  "Myocardial infarction" for IHD → INDIRECT (acute event of IHD)
-  "Cardiorenal syndrome" for heart failure → INDIRECT (consequence)
-  "Prediabetes" for diabetes T2 → INDIRECT (precursor)
-  "Dyslipidemia" for metabolic syndrome → INDIRECT (component)
-  "Hypertensive CKD" for hypertension → INDIRECT (consequence)
-
-UNRELATED = no clinical connection.
-
-Step 2: Pick the BEST match (DIRECT > INDIRECT). Report its rank.
-
-Respond with EXACTLY these 5 lines:
-FOUND: YES or NO
-MATCH_TYPE: DIRECT or INDIRECT or MISS
-RANK: [1-5 or 0]
-MATCHED_DIAGNOSIS: [name from list or NONE]
-REASON: [one sentence]"""
 
 
 def evaluate_patient(uuid, mas_output):
@@ -80,75 +37,22 @@ def evaluate_patient(uuid, mas_output):
     differential = mas_output.get("differential", [])
     if not differential:
         return {
-            "uuid": uuid,
-            "target": target,
-            "found": "NO",
-            "match_type": "MISS",
-            "rank": 0,
-            "matched_diagnosis": "NONE",
-            "reason": "No differential produced",
+            "uuid": uuid, "target": target,
+            "found": "NO", "match_type": "MISS", "rank": 0,
+            "matched_diagnosis": "NONE", "reason": "No differential produced",
         }
 
-    # Format differential
-    diff_text = ""
-    for d in differential[:5]:
-        if isinstance(d, dict):
-            diff_text += f"#{d.get('rank', '?')} {d.get('name', '?')} (P={d.get('probability', '?')})\n"
-
+    diff_text = format_differential(differential)
     prompt = JUDGE_PROMPT.format(target_disease=target, differential=diff_text)
 
     llm = get_evaluator_llm()
-
     response = llm.invoke([HumanMessage(content=prompt)])
-    text = response.content
-    # Strip think tags — handle both closed and unclosed
-    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
-    text = re.sub(r"<think>.*", "", text, flags=re.DOTALL)  # unclosed think tag
-    text = text.strip()
+    text = strip_think_tags(response.content)
+    result = parse_judge_response(text)
 
-    # Parse
-    found = "NO"
-    match_type = "MISS"
-    rank = 0
-    matched = "NONE"
-    reason = ""
-
-    for line in text.split("\n"):
-        line = line.strip()
-        if line.upper().startswith("FOUND:"):
-            found = "YES" if "YES" in line.upper() else "NO"
-        elif line.upper().startswith("MATCH_TYPE:"):
-            val = line.split(":", 1)[1].strip().upper()
-            if "DIRECT" in val:
-                match_type = "DIRECT"
-            elif "INDIRECT" in val:
-                match_type = "INDIRECT"
-            else:
-                match_type = "MISS"
-        elif line.upper().startswith("RANK:"):
-            try:
-                rank = int(re.search(r"\d+", line.split(":", 1)[1]).group())
-            except (AttributeError, ValueError):
-                rank = 0
-        elif line.upper().startswith("MATCHED_DIAGNOSIS:"):
-            matched = line.split(":", 1)[1].strip()
-            if matched.upper() == "NONE":
-                matched = "NONE"
-        elif line.upper().startswith("REASON:"):
-            reason = line.split(":", 1)[1].strip()
-
-    # Fix inconsistency: if match_type is DIRECT or INDIRECT, found should be YES
-    if match_type in ("DIRECT", "INDIRECT") and found == "NO":
-        found = "YES"
-
-    result = {
-        "uuid": uuid,
-        "target": target,
-        "found": found,
-        "match_type": match_type,
-        "rank": rank,
-        "matched_diagnosis": matched,
-        "reason": reason,
+    eval_result = {
+        "uuid": uuid, "target": target,
+        **result,
         "primary_diagnosis": mas_output.get("primary_diagnosis", "?"),
     }
 
@@ -156,10 +60,10 @@ def evaluate_patient(uuid, mas_output):
     eval_dir = MAS_RESULTS_DIR / uuid
     if eval_dir.exists():
         (eval_dir / "evaluation.json").write_text(
-            json.dumps(result, indent=2, default=str)
+            json.dumps(eval_result, indent=2, default=str)
         )
 
-    return result
+    return eval_result
 
 
 def evaluate_cohort(results_list):

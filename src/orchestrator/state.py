@@ -13,7 +13,7 @@ Implements: IF-001–005, MA-005
 from __future__ import annotations
 
 import copy
-from typing import Any, Annotated
+from typing import Annotated
 from operator import add
 
 

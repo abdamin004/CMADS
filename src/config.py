@@ -18,32 +18,78 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 
+def _env(key: str, default: str) -> str:
+    """Read env var at access time (not import time) for testability."""
+    return os.environ.get(key, default)
+
+
+def _env_int(key: str, default: int) -> int:
+    return int(os.environ.get(key, str(default)))
+
+
 class Config:
-    """All configurable settings, read from environment variables."""
+    """All configurable settings, read from environment variables on access."""
 
     # ── LLM Provider ────────────────────────────────────────
-    LLM_PROVIDER: str = os.environ.get("LLM_PROVIDER", "groq")
-    LLM_MODEL: str = os.environ.get("LLM_MODEL", "openai/gpt-oss-120b")
-    LLM_EVALUATOR_MODEL: str = os.environ.get("LLM_EVALUATOR_MODEL", "qwen/qwen3-32b")
-    LLM_EVALUATOR_PROVIDER: str = os.environ.get("LLM_EVALUATOR_PROVIDER", "")
+    @property
+    def LLM_PROVIDER(self) -> str:
+        return _env("LLM_PROVIDER", "groq")
+
+    @property
+    def LLM_MODEL(self) -> str:
+        return _env("LLM_MODEL", "openai/gpt-oss-120b")
+
+    @property
+    def LLM_EVALUATOR_MODEL(self) -> str:
+        return _env("LLM_EVALUATOR_MODEL", "qwen/qwen3-32b")
+
+    @property
+    def LLM_EVALUATOR_PROVIDER(self) -> str:
+        return _env("LLM_EVALUATOR_PROVIDER", "")
 
     # ── Ollama (local) ──────────────────────────────────────
-    OLLAMA_URL: str = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-    OLLAMA_CONTEXT_WINDOW: int = int(os.environ.get("OLLAMA_CONTEXT_WINDOW", "16384"))
+    @property
+    def OLLAMA_URL(self) -> str:
+        return _env("OLLAMA_URL", "http://localhost:11434")
+
+    @property
+    def OLLAMA_CONTEXT_WINDOW(self) -> int:
+        return _env_int("OLLAMA_CONTEXT_WINDOW", 16384)
 
     # ── Embedding Model (Qdrant / Treatment Planning) ───────
-    EMBEDDING_MODEL: str = os.environ.get("EMBEDDING_MODEL", "FremyCompany/BioLORD-2023")
-    QDRANT_COLLECTION: str = os.environ.get("QDRANT_COLLECTION", "nice_guidelines")
+    @property
+    def EMBEDDING_MODEL(self) -> str:
+        return _env("EMBEDDING_MODEL", "FremyCompany/BioLORD-2023")
+
+    @property
+    def QDRANT_COLLECTION(self) -> str:
+        return _env("QDRANT_COLLECTION", "nice_guidelines")
 
     # ── Agent Tuning ────────────────────────────────────────
-    DIAGNOSTIC_MAX_ROUNDS: int = int(os.environ.get("DIAGNOSTIC_MAX_ROUNDS", "3"))
-    DIAGNOSTIC_CONFIDENCE_THRESHOLD: int = int(os.environ.get("DIAGNOSTIC_CONFIDENCE_THRESHOLD", "75"))
+    @property
+    def DIAGNOSTIC_MAX_ROUNDS(self) -> int:
+        return _env_int("DIAGNOSTIC_MAX_ROUNDS", 3)
+
+    @property
+    def DIAGNOSTIC_CONFIDENCE_THRESHOLD(self) -> int:
+        return _env_int("DIAGNOSTIC_CONFIDENCE_THRESHOLD", 75)
 
     # ── Data Paths ──────────────────────────────────────────
-    GOLD_DIR: Path = Path(os.environ.get("GOLD_DIR", "data/gold/patient_cases"))
-    MAS_RESULTS_DIR: Path = Path(os.environ.get("MAS_RESULTS_DIR", "data/gold/mas_results"))
-    GUIDELINES_DIR: Path = Path(os.environ.get("GUIDELINES_DIR", "config/guidelines"))
-    DUCKDB_PATH: Path = Path(os.environ.get("DUCKDB_PATH", "data/clinical.duckdb"))
+    @property
+    def GOLD_DIR(self) -> Path:
+        return Path(_env("GOLD_DIR", "data/gold/patient_cases"))
+
+    @property
+    def MAS_RESULTS_DIR(self) -> Path:
+        return Path(_env("MAS_RESULTS_DIR", "data/gold/mas_results"))
+
+    @property
+    def GUIDELINES_DIR(self) -> Path:
+        return Path(_env("GUIDELINES_DIR", "config/guidelines"))
+
+    @property
+    def DUCKDB_PATH(self) -> Path:
+        return Path(_env("DUCKDB_PATH", "data/clinical.duckdb"))
 
 
 cfg = Config()

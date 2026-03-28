@@ -8,10 +8,11 @@ from pydantic import BaseModel, Field
 
 
 class LabFinding(BaseModel):
-    test_name: str = Field(description="Laboratory test name")
-    value: str = Field(description="Most recent value with units")
+    test_name: str = Field(default="", description="Laboratory test name")
+    value: str = Field(default="", description="Most recent value with units")
     reference_range: str = Field(default="", description="Normal range")
     classification: str = Field(
+        default="abnormal",
         description="normal, borderline, or abnormal"
     )
     trend: str = Field(
@@ -19,10 +20,11 @@ class LabFinding(BaseModel):
         description="rising, falling, stable, or insufficient_data"
     )
     severity: int = Field(
-        ge=1, le=5,
+        default=1, ge=1, le=5,
         description="1=normal, 2=mild, 3=moderate, 4=significant, 5=critical"
     )
     clinical_note: str = Field(
+        default="",
         description="Clinical interpretation of this finding"
     )
     panel_context: str = Field(
@@ -33,9 +35,10 @@ class LabFinding(BaseModel):
 
 
 class LabPanel(BaseModel):
-    panel_name: str = Field(description="Clinical panel name (e.g., renal, hepatic, CBC)")
-    interpretation: str = Field(description="Overall panel interpretation")
+    panel_name: str = Field(default="", description="Clinical panel name (e.g., renal, hepatic, CBC)")
+    interpretation: str = Field(default="", description="Overall panel interpretation")
     contributing_tests: list[str] = Field(
+        default_factory=list,
         description="Tests that form this panel pattern"
     )
 

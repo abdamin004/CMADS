@@ -9,10 +9,11 @@ from pydantic import BaseModel, Field
 
 class SupportingEvidence(BaseModel):
     source: str = Field(
+        default="",
         description="Which agent or data provided this evidence: "
                     "ehr_analyst, lab_interpreter, risk_scores, comorbidity, imaging"
     )
-    finding: str = Field(description="The specific clinical finding")
+    finding: str = Field(default="", description="The specific clinical finding")
     strength: str = Field(
         default="moderate",
         description="strong, moderate, or weak — how strongly this supports the diagnosis"
@@ -21,7 +22,7 @@ class SupportingEvidence(BaseModel):
 
 class Diagnosis(BaseModel):
     rank: int = Field(default=0, description="Rank in differential (1 = most likely)")
-    name: str = Field(description="Diagnosis name")
+    name: str = Field(default="", description="Diagnosis name")
     icd10: str = Field(default="", description="ICD-10 code")
     snomed: str = Field(default="", description="SNOMED-CT code")
     probability: float = Field(

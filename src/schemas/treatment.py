@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 
 class PrescribedMedication(BaseModel):
-    medication: str = Field(description="Drug name and dose")
+    medication: str = Field(default="", description="Drug name and dose")
     drug_class: str = Field(default="", description="Drug class (e.g., ACE inhibitor, Beta-blocker)")
     dose: str = Field(default="", description="Dosing regimen (e.g., 5mg once daily)")
     duration: str = Field(default="", description="Duration (e.g., Ongoing, 12 months, Until review)")
@@ -17,15 +17,15 @@ class PrescribedMedication(BaseModel):
 
 
 class InteractionCheck(BaseModel):
-    drug_pair: list[str] = Field(description="The two drugs that interact")
-    interaction: str = Field(description="Description of the interaction")
+    drug_pair: list[str] = Field(default_factory=list, description="The two drugs that interact")
+    interaction: str = Field(default="", description="Description of the interaction")
     severity: str = Field(default="moderate", description="mild, moderate, or severe")
     action: str = Field(default="", description="What to do about it")
 
 
 class ContraindicationCheck(BaseModel):
-    drug: str = Field(description="Drug that is contraindicated")
-    reason: str = Field(description="Why it is contraindicated for this patient")
+    drug: str = Field(default="", description="Drug that is contraindicated")
+    reason: str = Field(default="", description="Why it is contraindicated for this patient")
     alternative: str = Field(default="", description="What to use instead")
 
 
