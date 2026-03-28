@@ -51,7 +51,7 @@ Respond ONLY with valid JSON matching the required schema. No preamble or explan
 
 class EHRAnalystAgent(BaseAgent):
     agent_id = "ehr_analyst"
-    system_prompt = SYSTEM_PROMPT
+    system_prompt = SYSTEM_PROMPT  # Fallback — overridden by prompts/ehr_analyst.yaml if it exists
     output_schema = EHRAnalystOutput
     temperature = 0.1
     max_tokens = 3000
@@ -67,17 +67,10 @@ class EHRAnalystAgent(BaseAgent):
         # ── Call 1: Deep analysis ──
         logger.info("agent_step", agent_id=self.agent_id, step="analysis")
         analysis = self._call_llm(llm,
-            system="You are a senior clinical analyst reviewing a patient's electronic health record. "
-                   "Perform a thorough analysis. Do NOT produce JSON yet.",
-            user=f"{patient_data}\n\n"
-                 "Analyse this patient's record thoroughly:\n"
-                 "1. What are the most significant active conditions and why?\n"
-                 "2. What patterns do you see across conditions, medications, and visits?\n"
-                 "3. Are any medications unusual or suggestive of undiagnosed conditions?\n"
-                 "4. What risk factors stand out (cardiovascular, renal, metabolic, etc.)?\n"
-                 "5. What data is missing that could change the clinical picture?\n"
-                 "6. What is your overall clinical impression?\n"
-                 "Be thorough. Consider every condition, medication, and risk score."
+            system=self._get_call_prompt("analysis", "system",
+                fallback="You are a senior clinical analyst. Perform a thorough analysis. Do NOT produce JSON yet."),
+            user=self._get_call_prompt("analysis", "user",
+                fallback=patient_data, patient_data=patient_data),
         )
         logger.info("agent_step_done", agent_id=self.agent_id, step="analysis",
                      length=len(analysis))
@@ -85,16 +78,14 @@ class EHRAnalystAgent(BaseAgent):
         # ── Call 2: Structured output (use json_llm for guaranteed valid JSON) ──
         logger.info("agent_step", agent_id=self.agent_id, step="structure")
         jllm = json_llm or llm
-        output_schema = EHRAnalystOutput.model_json_schema()
+        output_schema = json.dumps(EHRAnalystOutput.model_json_schema(), indent=2)
         raw_json = self._call_llm(jllm,
-            system=self.system_prompt,
-            user=f"# Your Previous Analysis\n{analysis}\n\n"
-                 f"# Original Patient Data\n{patient_data}\n\n"
-                 f"Now convert your analysis into the required JSON format.\n"
-                 f"Use your analysis above to fill every field accurately.\n"
-                 f"Rank active_problems by clinical significance (most significant first).\n\n"
-                 f"## Required Output Schema\n```json\n{json.dumps(output_schema, indent=2)}\n```\n\n"
-                 f"Respond ONLY with valid JSON."
+            system=self._get_call_prompt("structure", "system",
+                fallback=self.system_prompt),
+            user=self._get_call_prompt("structure", "user",
+                fallback=f"{analysis}\n{patient_data}",
+                analysis=analysis, patient_data=patient_data,
+                output_schema=output_schema),
         )
 
         output = self._parse_output(raw_json, jllm, [
@@ -105,19 +96,13 @@ class EHRAnalystAgent(BaseAgent):
 
         # ── Call 3: Self-review (use json_llm since output is JSON) ──
         logger.info("agent_step", agent_id=self.agent_id, step="review")
+        output_json = json.dumps(output_dict, indent=2, default=str)
         review = self._call_llm(jllm,
-            system="You are a quality reviewer checking a clinical EHR summary for completeness and accuracy.",
-            user=f"# Original Patient Data\n{patient_data}\n\n"
-                 f"# Produced Summary\n{json.dumps(output_dict, indent=2, default=str)}\n\n"
-                 "Review this summary against the original data:\n"
-                 "1. Are all significant conditions captured with correct significance?\n"
-                 "2. Are any important medications missed?\n"
-                 "3. Is the clinical impression accurate and complete?\n"
-                 "4. Are there risk factors not mentioned?\n"
-                 "5. Should any significance rankings be changed?\n\n"
-                 "If improvements needed, output the CORRECTED full JSON.\n"
-                 "If the summary is good, output it unchanged.\n"
-                 "Output ONLY valid JSON."
+            system=self._get_call_prompt("review", "system",
+                fallback="You are a quality reviewer checking a clinical EHR summary."),
+            user=self._get_call_prompt("review", "user",
+                fallback=f"{patient_data}\n{output_json}",
+                patient_data=patient_data, output_json=output_json),
         )
 
         # Try to parse the review — if it's improved JSON, use it

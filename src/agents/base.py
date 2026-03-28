@@ -10,13 +10,17 @@ from __future__ import annotations
 import json
 import re
 import time
+from pathlib import Path
 from typing import Any, Type
 
+import yaml
 import structlog
 from pydantic import BaseModel, ValidationError
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 from src.llm.adapter import get_llm, invoke_with_retry
+
+PROMPTS_DIR = Path(__file__).resolve().parents[2] / "prompts"
 
 logger = structlog.get_logger()
 
@@ -102,6 +106,57 @@ class BaseAgent:
     temperature: float = 0.2
     max_tokens: int = 4096
     max_agent_time: int = 300  # 5 minute hard cap per agent
+    _prompts: dict | None = None  # Cached YAML prompts
+
+    def _load_prompts(self) -> dict:
+        """Load prompts from YAML file (prompts/{agent_id}.yaml).
+
+        Returns the parsed YAML dict. Caches after first load.
+        Falls back to inline system_prompt if no YAML file exists.
+        """
+        if self._prompts is not None:
+            return self._prompts
+
+        yaml_path = PROMPTS_DIR / f"{self.agent_id}.yaml"
+        if yaml_path.exists():
+            self._prompts = yaml.safe_load(yaml_path.read_text())
+            # Override inline system_prompt with YAML version
+            if "system" in self._prompts:
+                self.system_prompt = self._prompts["system"].strip()
+            logger.info("prompts_loaded", agent_id=self.agent_id, source=str(yaml_path))
+        else:
+            self._prompts = {}
+            logger.info("prompts_inline", agent_id=self.agent_id,
+                        msg="No YAML file found, using inline prompts")
+        return self._prompts
+
+    def _get_call_prompt(self, call_name: str, key: str, fallback: str = "",
+                         **kwargs) -> str:
+        """Get a prompt for a specific call from YAML, with variable substitution.
+
+        Args:
+            call_name: Name of the call (e.g., "analysis", "structure", "review")
+            key: "system" or "user"
+            fallback: Default text if call not found in YAML
+            **kwargs: Variables to substitute in the template (e.g., patient_data=..., analysis=...)
+
+        Returns:
+            The prompt string with {placeholders} replaced by kwargs values.
+        """
+        prompts = self._load_prompts()
+        calls = prompts.get("calls", {})
+        call = calls.get(call_name, {})
+        template = call.get(key, fallback)
+
+        # Replace {system} with the main system prompt
+        if "{system}" in template:
+            kwargs["system"] = self.system_prompt
+
+        # Substitute variables — use safe formatting that ignores missing keys
+        try:
+            return template.format(**kwargs)
+        except KeyError:
+            return template
 
     def _get_llm(self, json_mode: bool = False):
         return get_llm(temperature=self.temperature, max_tokens=self.max_tokens,
@@ -169,6 +224,7 @@ class BaseAgent:
 
     def __call__(self, state: dict) -> dict:
         """LangGraph node function — the full 5-component pipeline."""
+        self._load_prompts()  # Load YAML prompts on first call
         start = time.time()
         trace_entry = {
             "agent_id": self.agent_id,
