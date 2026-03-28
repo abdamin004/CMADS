@@ -8,6 +8,7 @@ Implements: MA-085 (independently testable), NF-061 (unit testable)
 from __future__ import annotations
 
 import json
+import os
 import re
 import time
 from pathlib import Path
@@ -115,7 +116,7 @@ class BaseAgent:
     output_schema: Type[BaseModel] = BaseModel
     temperature: float = 0.2
     max_tokens: int = 4096
-    max_agent_time: int = 300  # 5 minute hard cap per agent
+    max_agent_time: int = int(os.environ.get("AGENT_TIMEOUT", "300"))  # configurable via .env
     _prompts: dict | None = None  # Cached YAML prompts
 
     def _load_prompts(self) -> dict:
@@ -172,8 +173,18 @@ class BaseAgent:
         return get_llm(temperature=self.temperature, max_tokens=self.max_tokens,
                        json_mode=json_mode)
 
+    def _check_timeout(self):
+        """Raise TimeoutError if agent has exceeded max_agent_time."""
+        if hasattr(self, '_agent_start_time') and self._agent_start_time:
+            elapsed = time.time() - self._agent_start_time
+            if elapsed > self.max_agent_time:
+                raise TimeoutError(
+                    f"Agent {self.agent_id} exceeded {self.max_agent_time}s timeout "
+                    f"(elapsed: {elapsed:.0f}s)")
+
     def _call_llm(self, llm: BaseChatModel, system: str, user: str, agent_id: str = None) -> str:
         """Single LLM call — returns raw text. Used by multi-call agents."""
+        self._check_timeout()
         messages = [SystemMessage(content=system), HumanMessage(content=user)]
         response = invoke_with_retry(
             llm, messages, max_retries=3, agent_id=agent_id or self.agent_id
@@ -298,6 +309,7 @@ class BaseAgent:
         """LangGraph node function — the full 5-component pipeline."""
         self._load_prompts()  # Load YAML prompts on first call
         start = time.time()
+        self._agent_start_time = start  # For timeout checks in _call_llm
         trace_entry = {
             "agent_id": self.agent_id,
             "status": "error",

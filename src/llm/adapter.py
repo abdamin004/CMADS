@@ -207,16 +207,24 @@ def get_evaluator_llm(temperature: float = 0.0, max_tokens: int = 1024) -> BaseC
     )
 
 
+MAX_RETRY_WAIT = int(os.environ.get("LLM_MAX_RETRY_WAIT", "10"))
+LLM_CALL_TIMEOUT = int(os.environ.get("LLM_CALL_TIMEOUT", "120"))
+
+
 def invoke_with_retry(
     llm: BaseChatModel,
     messages: list,
     max_retries: int = 3,
     agent_id: str = "unknown",
 ) -> Any:
-    """Invoke LLM with exponential backoff retry.
+    """Invoke LLM with exponential backoff retry and per-call timeout.
 
     Handles json_mode validation failures by falling back to
     non-json_mode on the final attempt.
+
+    Configurable via .env:
+        LLM_MAX_RETRY_WAIT  — max seconds between retries (default: 10)
+        LLM_CALL_TIMEOUT    — max seconds per LLM call (default: 120)
 
     Implements NF-040 (graceful failure) and TECH_STACK §3.2 retry policy.
     """
@@ -225,6 +233,12 @@ def invoke_with_retry(
             start = time.time()
             response = llm.invoke(messages)
             duration = time.time() - start
+
+            # Detect hung calls — if a single LLM call took too long, warn
+            if duration > LLM_CALL_TIMEOUT:
+                logger.warning("llm_call_slow",
+                               agent_id=agent_id, duration_s=round(duration, 2),
+                               timeout=LLM_CALL_TIMEOUT)
 
             # Check for empty response (some providers return empty on json_mode failure)
             if not response.content or not response.content.strip():
@@ -237,7 +251,8 @@ def invoke_with_retry(
         except Exception as e:
             error_str = str(e)
             is_json_error = "json_validate_failed" in error_str or "Failed to validate JSON" in error_str
-            wait = 2 ** attempt
+            # Exponential backoff capped at MAX_RETRY_WAIT
+            wait = min(2 ** attempt, MAX_RETRY_WAIT)
 
             logger.warning("llm_call_retry",
                            agent_id=agent_id, attempt=attempt,
