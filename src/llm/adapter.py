@@ -18,10 +18,16 @@ from langchain_core.language_models import BaseChatModel
 
 logger = structlog.get_logger()
 
-# Defaults
-DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
-DEFAULT_OLLAMA_MODEL = "gpt-oss:120b"
-DEFAULT_OLLAMA_URL = "http://localhost:11434"
+# ── Configurable via .env ─────────────────────────────────────────────
+# LLM_PROVIDER: "groq" (cloud) or "ollama" (local)
+# LLM_MODEL: model name for the chosen provider
+# LLM_EVALUATOR_MODEL: separate model for the LLM-as-Judge evaluator
+# OLLAMA_URL: base URL for local Ollama server
+DEFAULT_PROVIDER = os.environ.get("LLM_PROVIDER", "groq")
+DEFAULT_GROQ_MODEL = os.environ.get("LLM_MODEL", "openai/gpt-oss-120b")
+DEFAULT_OLLAMA_MODEL = os.environ.get("LLM_MODEL", "gpt-oss:120b")
+DEFAULT_EVALUATOR_MODEL = os.environ.get("LLM_EVALUATOR_MODEL", "qwen/qwen3-32b")
+DEFAULT_OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
@@ -39,20 +45,27 @@ def get_llm(
     temperature: float = 0.2,
     max_tokens: int = 4096,
     model: str | None = None,
-    provider: str = "groq",
+    provider: str | None = None,
     json_mode: bool = False,
 ) -> BaseChatModel:
     """Return a configured LLM instance.
 
+    All defaults are read from environment variables (see .env.example):
+        LLM_PROVIDER   → "groq" or "ollama"
+        LLM_MODEL      → model name (e.g., "openai/gpt-oss-120b")
+        OLLAMA_URL     → Ollama server URL (default localhost:11434)
+
     Args:
         temperature: Sampling temperature (lower = more deterministic).
         max_tokens: Maximum tokens to generate.
-        model: Model name override.
-        provider: "ollama" (default, local) or "groq" (cloud).
+        model: Model name override (takes precedence over LLM_MODEL env var).
+        provider: "groq" or "ollama" (defaults to LLM_PROVIDER env var).
+        json_mode: If True, force JSON output (Groq only).
 
     Returns:
         A LangChain BaseChatModel (ChatOllama or ChatGroq).
     """
+    provider = provider or DEFAULT_PROVIDER
     if provider == "groq":
         from langchain_groq import ChatGroq
         model_name = model or DEFAULT_GROQ_MODEL
@@ -80,6 +93,19 @@ def get_llm(
             num_predict=max_tokens,
             num_ctx=16384,
         )
+
+
+def get_evaluator_llm(temperature: float = 0.0, max_tokens: int = 1024) -> BaseChatModel:
+    """Return the LLM used for evaluation (LLM-as-Judge).
+
+    Configured via LLM_EVALUATOR_MODEL env var (default: qwen/qwen3-32b).
+    Uses the same provider as the main LLM.
+    """
+    return get_llm(
+        temperature=temperature,
+        max_tokens=max_tokens,
+        model=DEFAULT_EVALUATOR_MODEL,
+    )
 
 
 def invoke_with_retry(

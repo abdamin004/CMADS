@@ -76,17 +76,41 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-# Set environment variables (copy the template and fill in your keys)
+# Configure environment (copy template, then edit .env)
 cp .env.example .env
-# Edit .env with your API keys — see .env.example for details
-
-# Or export directly:
-export GROQ_API_KEY=<your-key>          # Required — get from https://console.groq.com/keys
-export QDRANT_URL=<your-endpoint>       # Required for treatment planning
-export QDRANT_API_KEY=<your-key>        # Required for treatment planning
+# Edit .env — set your API keys and choose your LLM provider/model
 
 # Populate the Qdrant vector database with NICE guidelines (one-time)
-python -m src.vectordb.setup_qdrant
+make setup-qdrant
+```
+
+### LLM Configuration
+
+All LLM settings are in `.env` — no code changes needed to switch providers or models:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `LLM_PROVIDER` | `groq` | `groq` (cloud) or `ollama` (local) |
+| `LLM_MODEL` | `openai/gpt-oss-120b` | Model for all agents |
+| `LLM_EVALUATOR_MODEL` | `qwen/qwen3-32b` | Model for the LLM-as-Judge evaluator |
+| `GROQ_API_KEY` | — | Required if provider is groq |
+| `OLLAMA_URL` | `http://localhost:11434` | Required if provider is ollama |
+| `QDRANT_URL` | — | Required for treatment planning |
+| `QDRANT_API_KEY` | — | Required for treatment planning |
+
+**Example: Switch to Ollama (free, local):**
+```env
+LLM_PROVIDER=ollama
+LLM_MODEL=llama3:70b
+LLM_EVALUATOR_MODEL=llama3:70b
+```
+
+**Example: Switch to a different Groq model:**
+```env
+LLM_PROVIDER=groq
+LLM_MODEL=llama-3.3-70b-versatile
+LLM_EVALUATOR_MODEL=llama-3.3-70b-versatile
+GROQ_API_KEY=gsk_your_key_here
 ```
 
 ## Quick Start (run without rebuilding data)

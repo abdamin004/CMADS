@@ -18,11 +18,9 @@ import re
 import time
 from pathlib import Path
 
-from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
 
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
-MODEL = "qwen/qwen3-32b"
+from src.llm.adapter import get_evaluator_llm
 GOLD_DIR = Path("data/gold/patient_cases")
 MAS_RESULTS_DIR = Path("data/gold/mas_results")
 
@@ -97,12 +95,7 @@ def evaluate_patient(uuid, mas_output):
 
     prompt = JUDGE_PROMPT.format(target_disease=target, differential=diff_text)
 
-    llm = ChatGroq(
-        model=MODEL,
-        api_key=GROQ_API_KEY,
-        temperature=0.0,
-        max_tokens=1024,
-    )
+    llm = get_evaluator_llm()
 
     response = llm.invoke([HumanMessage(content=prompt)])
     text = response.content

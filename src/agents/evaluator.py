@@ -4,21 +4,21 @@ Reads: agent_outputs.final_diagnosis, patient_context (for ground truth lookup)
 Writes: agent_outputs.evaluation
 
 Runs as a LangGraph node inside the pipeline, not as a separate post-step.
+Uses a configurable evaluator model (default: qwen/qwen3-32b via LLM_EVALUATOR_MODEL env var).
 """
 
 import json
 import re
-import os
+import time
 import structlog
 from pathlib import Path
-from src.agents.base import BaseAgent
-from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
+
+from src.llm.adapter import get_evaluator_llm
 
 logger = structlog.get_logger()
 
 GOLD_DIR = Path("data/gold/patient_cases")
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 JUDGE_PROMPT = """You are a clinical evaluator. Compare the system's diagnoses against the actual disease.
 
@@ -104,23 +104,17 @@ def evaluate_node(state: dict) -> dict:
 
     prompt = JUDGE_PROMPT.format(target_disease=target, differential=diff_text)
 
-    import time
     start = time.time()
 
-    llm = ChatGroq(
-        model="qwen/qwen3-32b",
-        api_key=GROQ_API_KEY,
-        temperature=0.0,
-        max_tokens=1024,
-    )
-
+    llm = get_evaluator_llm()
     response = llm.invoke([HumanMessage(content=prompt)])
     text = response.content
+    # Strip think tags — handle both closed and unclosed
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
     text = re.sub(r"<think>.*", "", text, flags=re.DOTALL)
     text = text.strip()
 
-    # Parse
+    # Parse structured response
     found = "NO"
     match_type = "MISS"
     rank = 0
