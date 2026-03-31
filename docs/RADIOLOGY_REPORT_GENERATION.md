@@ -1,5 +1,7 @@
 # Synthetic Radiology Report Generation — Implementation Document
 
+> **Note:** This is a **separate data enrichment pipeline** that runs BEFORE the MAS agent pipeline. It is NOT a MAS agent stage. The radiology report generation pipeline produces synthetic reports from Synthea imaging metadata, which are then stored in `data/gold/radiology_reports/` and can be used by the EHR Analyst if imaging data is present for a patient.
+
 ## 1. Problem Statement
 
 Synthea generates imaging study **metadata** (modality, body site, date, DICOM UIDs) but produces **no radiology report text** — no findings, measurements, or clinical impressions. The `imaging_studies` table contains only structural identifiers:
@@ -12,7 +14,7 @@ Synthea generates imaging study **metadata** (modality, body site, date, DICOM U
 | DICOM UIDs | Report narrative |
 | Procedure code | Severity/urgency |
 
-This leaves the Radiology Agent in CMADS with no meaningful input to interpret. It can only see *that* a scan was performed, not *what was found*.
+Without generated reports, agents can only see *that* a scan was performed, not *what was found*.
 
 ## 2. Implemented Solution
 
@@ -28,10 +30,10 @@ QUALITY EVALUATION (knows the diagnosis):
   Generated report + ground truth → Qwen3 32B → Quality scores (1-5)
 
 MAS AGENT PIPELINE (does NOT know the diagnosis):
-  Synthetic report (findings only) → Radiology Agent → Contributes to differential diagnosis
+  EHR data (+ radiology findings if available) → 7 MAS agents → Differential diagnosis + treatment
 ```
 
-The generated report describes **findings consistent with the disease** but never explicitly states the diagnosis. The MAS Diagnostic Agent uses these findings alongside EHR and lab data to produce a **ranked differential diagnosis** with probabilities.
+The generated report describes **findings consistent with the disease** but never explicitly states the diagnosis. The MAS Diagnostic Reasoning agent uses these findings (via the EHR Analyst) alongside EHR and lab data to produce a **ranked differential diagnosis** with probabilities.
 
 ## 3. Architecture — 4-Agent Pipeline
 
@@ -63,7 +65,7 @@ While the generator produces report N+1, the evaluator scores report N simultane
 |-----------|-----------|---------|
 | Generator model | `openai/gpt-oss-120b` | Via Groq API (cloud), ~2s/report |
 | Evaluator model | `qwen/qwen3-32b` | Via Groq API (cloud), ~2s/eval |
-| LangChain class | `ChatGroq` | From `langchain-groq` package |
+| LLM adapter | `get_llm()` from `src.llm.adapter` | Provider-agnostic; supports Groq, OpenAI, Anthropic, Gemini, Ollama |
 | Parallel execution | Python `threading` + `Queue` | Producer-consumer pattern |
 | Data source | DuckDB | `data/clinical.duckdb` |
 | Output | JSON files | Per-patient report + evaluation scores |
@@ -114,7 +116,7 @@ Dental/oral imaging is excluded from T2/T3 as it is clinically irrelevant for no
 | **No imaging at all** | **497** | — |
 | **Total covered** | **503 (50%)** | — |
 
-497 patients have zero imaging studies in Synthea's data — the Radiology Agent skips them and the MAS runs with 6 agents instead of 7 (graceful degradation per SDD).
+497 patients have zero imaging studies in Synthea's data and therefore have no radiology reports available for the MAS pipeline.
 
 ## 5. Generation Prompt
 
@@ -247,40 +249,42 @@ The `generation_metadata.ground_truth_disease` is stored for **evaluation purpos
 
 ### 8.1 Where It Fits
 
+This is a **data enrichment pipeline** that runs between Gold assembly and the MAS agent pipeline. It is not a MAS agent stage.
+
 ```
-Bronze (raw Synthea CSV → DuckDB)
-    ↓
+Bronze (raw Synthea CSV -> DuckDB)
+    |
 Silver (OMOP CDM transformation)
-    ↓
+    |
 Silver+ (derived features: trends, risk scores, comorbidity)
-    ↓
+    |
 Gold (per-patient JSON case files: ehr_case, lab_case, ground_truth)
-    ↓
-Radiology Reports (LLM-generated from imaging metadata + ground truth)  ← THIS STEP
-    ↓
-MAS Agent Pipeline (7 agents → Clinical Decision Report)
+    |
+Radiology Reports (LLM-generated from imaging metadata + ground truth)  <-- THIS STEP (separate pipeline)
+    |
+MAS Agent Pipeline (7 agents: EHR, Lab, Diagnostic, Reviewer, Refiner, Evaluator, Treatment)
 ```
 
 ### 8.2 Information Boundary
 
-| Data Element | EHR Analyst | Lab Interpreter | Radiology Agent | Hidden From All |
-|---|---|---|---|---|
-| Demographics, conditions, visits | Yes | — | — | — |
-| Lab values, vitals, trends | — | Yes | — | — |
-| Radiology report (findings only) | — | — | Yes | — |
-| Ground truth diagnosis | — | — | — | **Yes** |
-| encounter.REASONCODE | — | — | — | **Yes** |
-| generation_metadata | — | — | — | **Yes** |
+| Data Element | EHR Analyst | Lab Interpreter | Hidden From All |
+|---|---|---|---|
+| Demographics, conditions, visits | Yes | — | — |
+| Lab values, vitals, trends | — | Yes | — |
+| Radiology report (findings only, if present) | Yes | — | — |
+| Ground truth diagnosis | — | — | **Yes** |
+| encounter.REASONCODE | — | — | **Yes** |
+| generation_metadata | — | — | **Yes** |
 
 ### 8.3 How the MAS Uses Radiology Reports
 
-The MAS outputs a **ranked differential diagnosis** with probabilities. Radiology findings contribute signals:
+The radiology reports are stored in `data/gold/radiology_reports/` and can be used by the EHR Analyst if imaging data is present for a patient. The MAS outputs a **ranked differential diagnosis** with probabilities. Radiology findings contribute signals:
 
-- **T1/T2 patients** (23): Direct disease-related imaging → strong diagnostic signal
-- **T3 patients** (152): Unrelated imaging with incidental findings → supporting signal for differential
-- **T4 patients** (297): Dental imaging with subtle findings → weak signal (bone density, calcifications)
-- **T5/T6 patients** (31): Post-cutoff disease imaging → direct signal but breaks strict point-in-time
-- **No imaging** (497): Radiology Agent skipped → MAS diagnoses from EHR + labs only (6 agents)
+- **T1/T2 patients** (23): Direct disease-related imaging -- strong diagnostic signal
+- **T3 patients** (152): Unrelated imaging with incidental findings -- supporting signal for differential
+- **T4 patients** (297): Dental imaging with subtle findings -- weak signal (bone density, calcifications)
+- **T5/T6 patients** (31): Post-cutoff disease imaging -- direct signal but breaks strict point-in-time
+- **No imaging** (497): No radiology report available -- MAS diagnoses from EHR + labs only
 
 ## 9. Running the Pipeline
 
@@ -303,10 +307,10 @@ python3 pipeline/radiology_agents.py --cohort --threshold 3.5
 ### 9.2 Environment Requirements
 
 ```bash
-# Groq API key must be set
+# API key for configured provider (default: Groq)
 export GROQ_API_KEY="gsk_..."
 
-# Required packages
+# Required packages (LLM access goes through get_llm() adapter in src.llm.adapter)
 pip install langchain-groq langchain-ollama langchain-core duckdb pydantic
 ```
 
@@ -359,9 +363,9 @@ pip install langchain-groq langchain-ollama langchain-core duckdb pydantic
 
 - Quality evaluation catches poor reports (28% rejection rate ensures only good reports reach agents)
 - Perfect diagnosis leakage scores (5/5 on all accepted reports)
-- Tier metadata is stored — evaluation can be stratified by tier to measure signal quality
-- Graceful degradation — MAS runs with 6 agents when no imaging is available
+- Tier metadata is stored -- evaluation can be stratified by tier to measure signal quality
+- When no imaging is available for a patient, the MAS pipeline proceeds without radiology input
 
 ---
 
-*— Radiology Report Generation v2.0 • March 2026 • CMADS — Updated to match implementation*
+*-- Radiology Report Generation v3.0 -- March 2026 -- CMADS -- Updated: clarified as separate data enrichment pipeline (not a MAS agent), uses get_llm() adapter, removed Synthesis Agent references*

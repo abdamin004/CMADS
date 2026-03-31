@@ -44,7 +44,7 @@ The architecture is guided by four principles, ordered by priority:
 
 -   **Configuration over Code:** The execution graph, agent prompts, model assignments, and pipeline variants are all declared in configuration files (YAML). Adding, removing, or reconfiguring agents requires zero code changes. This directly supports the thesis's experimental methodology: different pipeline topologies are compared by swapping config files, not by rewriting orchestration logic.
 
--   **Graceful Degradation:** Every agent is treated as potentially fallible. Timeouts, malformed LLM responses, and Ollama server errors are expected conditions, not exceptions. The pipeline continues with partial results, logging what was lost, so the Synthesis Agent and evaluator always have something to work with.
+-   **Graceful Degradation:** Every agent is treated as potentially fallible. Timeouts, malformed LLM responses, and Ollama server errors are expected conditions, not exceptions. The pipeline continues with partial results, logging what was lost, so the Diagnostic Refiner and downstream agents always have something to work with.
 
 -   **Observability by Default:** Every LLM call, memory read/write, schema validation, and state transition is logged with structured metadata. The execution trace is a first-class output --- as important as the clinical decision itself for thesis analysis.
 
@@ -64,7 +64,7 @@ This document implements all 96 requirements defined in the SRD v1.0. The follow
 
 **2.1 System Overview**
 
-CMADS is decomposed into two subsystems connected by a well-defined data interface (the Gold-layer JSON files). The data pipeline subsystem ingests Synthea-generated synthetic patient data --- the single source of truth for all patient data in the system --- and transforms it through Bronze, Silver, Silver+, and Gold layers into structured case files. Synthea is an open-source patient simulator that uses rule-based state transition machines and Monte Carlo simulation (informed by CDC/NIH clinical statistics) to produce realistic patient lifespans. The multi-agent pipeline subsystem consumes the resulting case files through a five-stage orchestrated workflow.
+CMADS is decomposed into two subsystems connected by a well-defined data interface (the Gold-layer JSON files). The data pipeline subsystem ingests Synthea-generated synthetic patient data --- the single source of truth for all patient data in the system --- and transforms it through Bronze, Silver, Silver+, and Gold layers into structured case files. Synthea is an open-source patient simulator that uses rule-based state transition machines and Monte Carlo simulation (informed by CDC/NIH clinical statistics) to produce realistic patient lifespans. The multi-agent pipeline subsystem consumes the resulting case files through a six-stage orchestrated workflow.
 
 The following diagram shows the complete system architecture, including the data pipeline layers, the staged agent pipeline, the shared memory store, and the evaluation engine.
 
@@ -109,9 +109,9 @@ The following table lists every major component in the system, its type, and the
 
   **Clinical Reviewer Agent**      AI Agent     MA-050--054                §5.6
 
-  **Radiology Agent**              AI Agent     MA-060--063                §5.7
+  **Diagnostic Refiner Agent**     AI Agent     MA-060--063                §5.7
 
-  **Synthesis Agent**              AI Agent     MA-070--074                §5.8
+  **LLM Evaluator**                Pipeline     MA-070--074                §5.8
 
   **LLM Adapter**                  Adapter      IF-020--024                §5.1
 
@@ -136,11 +136,11 @@ The Orchestrator is the only component that knows the full execution graph. It h
 
 -   **4. Trace Logging:** After each agent returns, append to the execution_trace namespace: agent_id, status, duration, token usage, and output hash.
 
--   **5. Finalise:** After the Synthesis Agent completes, extract the final_report from shared memory, seal the execution trace, and write output files.
+-   **5. Finalise:** After the Treatment Planning Agent completes (or after the LLM Evaluator if treatment is skipped), extract the final outputs from shared memory, seal the execution trace, and write output files.
 
 **3.2 Execution Graph**
 
-The execution graph is declared in a YAML configuration file. The Orchestrator parses this at startup and builds an internal directed acyclic graph (DAG). The default graph has five stages:
+The execution graph is declared in a YAML configuration file. The Orchestrator parses this at startup and builds an internal directed acyclic graph (DAG). The default graph has six stages:
 
 > \# pipeline_config.yaml
 >
@@ -160,27 +160,35 @@ The execution graph is declared in a YAML configuration file. The Orchestrator p
 >
 > depends_on: \[ehr_analyst, lab_interpreter\]
 >
+> adaptive: true \# uses self-consistency if confidence < threshold
+>
 > \- stage: 3
 >
-> agents: \[treatment_planning, radiology\]
->
-> parallel: true
+> agents: \[clinical_reviewer\]
 >
 > depends_on: \[diagnostic_reasoning\]
 >
 > \- stage: 4
 >
-> agents: \[clinical_reviewer\]
+> agents: \[final_diagnosis\]
 >
-> depends_on: \[diagnostic_reasoning, treatment_planning, radiology\]
+> depends_on: \[diagnostic_reasoning, clinical_reviewer\]
 >
 > \- stage: 5
 >
-> agents: \[synthesis\]
+> agents: \[evaluation\]
 >
-> depends_on: \[ALL\] \# reads everything
+> depends_on: \[final_diagnosis\]
+>
+> \- stage: 6
+>
+> agents: \[treatment_planning\]
+>
+> depends_on: \[evaluation\]
+>
+> condition: evaluation.match_type == "DIRECT"
 
-Alternative pipeline configurations (e.g., diagnostic_only, no_radiology) are defined in separate YAML files and selected at runtime via a command-line argument or environment variable, fulfilling NF-034.
+Alternative pipeline configurations (e.g., diagnostic_only) are defined in separate YAML files and selected at runtime via a command-line argument or environment variable, fulfilling NF-034.
 
 **3.3 Conflict Detection Engine**
 
@@ -192,7 +200,7 @@ After stages 2 and 4, the Orchestrator runs a conflict detection pass. The engin
 
 -   **Confidence disagreements:** If the Reviewer's confidence score is more than 30 points below the Diagnostic Agent's confidence, this is flagged as a significant disagreement.
 
-Conflict records are written to the conflicts namespace in shared memory and are a required input for the Synthesis Agent. This implements SRD requirements MA-005 and MA-072.
+Conflict records are written to the conflicts namespace in shared memory and are a required input for the Diagnostic Refiner Agent. This implements SRD requirements MA-005 and MA-072.
 
 **3.4 Timeout and Failure Handling**
 
@@ -204,7 +212,7 @@ Each agent invocation has a configurable timeout (default: 60 seconds, per NF-02
 
 -   **Schema validation failure:** The Output Parser extracts whatever valid fields it can. Status is set to 'partial'. Valid fields are written to shared memory; invalid fields are logged.
 
-In all failure cases, the pipeline continues. The Synthesis Agent is informed of which agents succeeded, failed, or returned partial results, and adjusts its report accordingly. This implements NF-040 and NF-042.
+In all failure cases, the pipeline continues. Downstream agents are informed of which agents succeeded, failed, or returned partial results, and adjust their outputs accordingly. This implements NF-040 and NF-042.
 
 **4. Shared Memory Architecture**
 
@@ -237,7 +245,7 @@ The shared memory is organised into five namespaces, each with defined access po
 
   **agent_outputs**     Per-agent output slots: agent_outputs.{agent_id} → structured JSON payload                                              Each agent (own slot)        Downstream agents
 
-  **conflicts**         Conflict records: contradictory diagnoses, treatment--condition flags, confidence disagreements                         Orchestrator (diff engine)   Synthesis Agent
+  **conflicts**         Conflict records: contradictory diagnoses, treatment--condition flags, confidence disagreements                         Orchestrator (diff engine)   Diagnostic Refiner
 
   **scratchpad**        Per-agent ephemeral working notes: intermediate reasoning, chain-of-thought traces                                      Each agent (own slot)        Same agent only
 
@@ -302,9 +310,9 @@ The shared memory goes through a defined lifecycle for each patient:
 
 -   **2. Populate:** As each agent completes, its output is written to agent_outputs.{agent_id}. After conflict-prone stages, the Orchestrator writes to conflicts.
 
--   **3. Synthesise:** The Synthesis Agent reads ALL namespaces to produce the final report. The report is written to agent_outputs.synthesis.
+-   **3. Refine:** The Diagnostic Refiner reads the Diagnostic Reasoning and Clinical Reviewer outputs to produce the final differential diagnosis. The output is written to agent_outputs.final_diagnosis.
 
--   **4. Seal:** The Orchestrator finalises the execution_trace and calls snapshot() to produce a JSON dump for evaluation and analysis.
+-   **4. Evaluate and Treat:** The LLM Evaluator compares the final diagnosis against Synthea ground truth and writes to agent_outputs.evaluation. If the match is DIRECT, the Treatment Planning Agent runs next. The Orchestrator then finalises the execution_trace and calls snapshot() to produce a JSON dump for analysis.
 
 -   **5. Reset:** The SharedMemory instance is discarded. A new instance is created for the next patient.
 
@@ -433,19 +441,19 @@ The EHR Analyst is the primary intake agent. It is the first agent to execute (S
   ----------------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   **Agent ID**            treatment_planning
 
-  **Stage**               3 (parallel with radiology)
+  **Stage**               6 (only runs on DIRECT evaluation matches)
 
-  **Reads from Memory**   agent_outputs.diagnostic_reasoning, patient_context (medication_timeline, drug_condition_links, allergies)
+  **Reads from Memory**   agent_outputs.final_diagnosis, agent_outputs.evaluation, patient_context (medications, conditions, allergies), NICE clinical guideline JSON (retrieved via Qdrant vector search)
 
   **Writes to Memory**    agent_outputs.treatment_planning
 
-  **Input**               Ranked differential + current medications + drug-condition links + allergy list
+  **Input**               Final differential diagnosis + evaluation result (must be DIRECT match) + patient medications/conditions/allergies + NICE guideline document for the matched disease
 
   **Output**              Treatment plan: {primary_dx_treatment: {medications\[\], non_pharm\[\], monitoring\[\], followup}, interactions_checked\[\], contraindications\[\], alternatives\[\]}
 
-  **Model Config**        temperature: 0.2 \| max_tokens: 4096 \| json_mode: true
+  **Model Config**        temperature: 0.2 \| max_tokens: 8192 \| json_mode: true
 
-  **Key Reasoning**       Propose evidence-based treatment for primary diagnosis. Cross-check every proposed medication against current drugs (interactions) and conditions (contraindications). Propose alternatives when conflicts found.
+  **Key Reasoning**       Only runs when the LLM Evaluator confirms a DIRECT match against ground truth. Retrieves the relevant NICE clinical guideline via Qdrant vector search. Proposes evidence-based treatment grounded in guideline recommendations. Cross-checks proposed medications against current drugs and conditions. Skips entirely (with logged reason) if evaluation match type is not DIRECT.
   ----------------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **5.6 Clinical Reviewer Agent**
@@ -453,66 +461,68 @@ The EHR Analyst is the primary intake agent. It is the first agent to execute (S
   ----------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   **Agent ID**            clinical_reviewer
 
-  **Stage**               4
+  **Stage**               3
 
-  **Reads from Memory**   agent_outputs.diagnostic_reasoning, agent_outputs.treatment_planning, agent_outputs.radiology, patient_context (critical_lab_flags)
+  **Reads from Memory**   agent_outputs.diagnostic_reasoning, agent_outputs.ehr_analyst, agent_outputs.lab_interpreter, patient_context (critical_lab_flags)
 
   **Writes to Memory**    agent_outputs.clinical_reviewer
 
-  **Input**               Diagnostic output + treatment plan + radiology findings + critical lab flags
+  **Input**               Diagnostic output + EHR summary + lab findings + critical lab flags
 
   **Output**              {consistency_assessment, critical_findings_coverage (severity ≥3), confidence_score (0--100), concerns\[\], omissions\[\], recommendations\[\]}
 
   **Model Config**        temperature: 0.2 \| max_tokens: 3000 \| json_mode: true
 
-  **Key Reasoning**       Adversarial review: actively look for inconsistencies. Verify every critical lab finding is addressed. Score confidence holistically. Produce actionable concern list for Synthesis.
+  **Key Reasoning**       Adversarial review: actively look for inconsistencies in the diagnostic reasoning. Verify every critical lab finding is addressed. Score confidence holistically. Produce actionable concern list for the Diagnostic Refiner.
   ----------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**5.7 Radiology Agent**
+**5.7 Diagnostic Refiner Agent**
 
   ----------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  **Agent ID**            radiology
+  **Agent ID**            final_diagnosis
 
-  **Stage**               3 (parallel with treatment_planning)
+  **Stage**               4
 
-  **Reads from Memory**   agent_outputs.diagnostic_reasoning, patient_context (imaging_studies and diagnostic_reports from Synthea data)
+  **Reads from Memory**   agent_outputs.diagnostic_reasoning, agent_outputs.clinical_reviewer, agent_outputs.ehr_analyst, agent_outputs.lab_interpreter
 
-  **Writes to Memory**    agent_outputs.radiology
+  **Writes to Memory**    agent_outputs.final_diagnosis
 
-  **Input**               Synthea imaging study metadata (modality, body site, SOP codes) and diagnostic report data + diagnostic hypotheses
+  **Input**               Initial diagnostic differential + Reviewer concerns/recommendations + EHR summary + lab findings
 
-  **Output**              {structured_findings: \[{modality, body_region, finding, classification, impression}\], dx_correlation: \[{diagnosis, supports/contradicts, evidence}\], incidental_findings\[\]}
+  **Output**              Refined DiagnosticOutput: ranked differential with updated confidence scores, evidence, and reasoning that incorporates the Reviewer's feedback
 
-  **Model Config**        temperature: 0.1 \| max_tokens: 2500 \| json_mode: true
+  **Model Config**        temperature: 0.2 \| max_tokens: 8192 \| json_mode: true
 
-  **Key Reasoning**       Extract structured findings from unstructured report. Correlate each finding with diagnostic hypotheses. Flag incidental findings unrelated to current clinical question.
+  **Key Reasoning**       Merges the initial diagnostic reasoning with the Clinical Reviewer's adversarial feedback to produce the FINAL differential diagnosis. Adjusts confidence scores, addresses concerns raised by the Reviewer, and resolves any identified inconsistencies. This is the definitive diagnostic output consumed by downstream stages.
   ----------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**5.8 Synthesis Agent**
+*Note: Radiology is handled as a separate data enrichment step in the data pipeline (see pipeline/radiology/), not as an agent in the multi-agent pipeline. Synthea radiology reports are pre-processed and stored in Gold-layer data, available via patient_context.*
+
+**5.8 LLM Evaluator (LLM-as-Judge)**
 
   ----------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  **Agent ID**            synthesis
+  **Agent ID**            evaluation
 
   **Stage**               5
 
-  **Reads from Memory**   ALL namespaces: patient_context, all agent_outputs.\*, conflicts, execution_trace (for agent status awareness)
+  **Reads from Memory**   agent_outputs.final_diagnosis, patient_context (for Synthea ground truth lookup)
 
-  **Writes to Memory**    agent_outputs.synthesis (the final_report)
+  **Writes to Memory**    agent_outputs.evaluation
 
-  **Input**               Complete pipeline outputs + conflict records + agent status information
+  **Input**               Final differential diagnosis + Synthea ground truth conditions for the patient
 
-  **Output**              Clinical Decision Report: {executive_summary, primary_diagnosis, confidence, evidence_summary, treatment_plan, risks_and_contraindications, unresolved_findings, reviewer_concerns, agent_attributions, next_steps}
+  **Output**              Evaluation result: {match_type (DIRECT/PARTIAL/NONE), matched_condition, confidence, reasoning, ground_truth_conditions}
 
-  **Model Config**        temperature: 0.2 \| max_tokens: 6000 \| json_mode: true
+  **Model Config**        Uses a separate evaluator model (configurable via LLM_EVALUATOR_MODEL env var, default: qwen/qwen3-32b)
 
-  **Key Reasoning**       Consolidate, do not re-diagnose. Resolve or acknowledge all conflicts (from conflicts namespace). Attribute every section to originating agent. Account for partial/failed agents. Produce both JSON and Markdown outputs.
+  **Key Reasoning**       Compares the agent pipeline's final differential diagnosis against Synthea's known ground truth conditions. Classifies the match as DIRECT (primary diagnosis matches), PARTIAL (appears in differential but not primary), or NONE (not found). This is an in-pipeline evaluation stage, not a post-processing step. The match_type output controls whether Treatment Planning runs (DIRECT matches only).
   ----------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **6. Execution Sequence**
 
 **6.1 Single Patient Case Flow**
 
-The following sequence diagram shows the complete execution flow for a single patient case, illustrating the interaction between the Orchestrator, Shared Memory, and all seven agents. Key elements include the parallel dispatch of Stage 1 and Stage 3 agents, the memory read/write pattern, and the conflict detection step before synthesis.
+The following sequence diagram shows the complete execution flow for a single patient case, illustrating the interaction between the Orchestrator, Shared Memory, and all six stages. Key elements include the parallel dispatch of Stage 1 agents, the adaptive Diagnostic Reasoning in Stage 2, the review-then-refine loop (Stages 3--4), and the conditional Treatment Planning in Stage 6.
 
 ![](media/03380da3b8a17e9e8bb4ae74bca1defebf974c03.png){width="6.458333333333333in" height="3.6354166666666665in"}
 
@@ -520,13 +530,13 @@ The following sequence diagram shows the complete execution flow for a single pa
 
 **6.2 Parallel Execution Model**
 
-Stages 1 and 3 contain agents that can execute in parallel because they have no mutual data dependencies:
+Stage 1 is the only parallel stage in the current pipeline. Stages 2--6 execute sequentially because each depends on the output of the previous stage:
 
--   **Stage 1:** EHR Analyst and Lab Interpreter both read from patient_context (Gold-layer data) and write to separate agent_outputs slots. They never read each other's output.
+-   **Stage 1 (parallel):** EHR Analyst and Lab Interpreter both read from patient_context (Gold-layer data) and write to separate agent_outputs slots. They never read each other's output.
 
--   **Stage 3:** Treatment Planning and Radiology both depend on the Diagnostic Reasoning Agent's output but not on each other. They read from agent_outputs.diagnostic_reasoning and write to separate slots.
+-   **Stages 2--6 (sequential):** Diagnostic Reasoning depends on Stage 1 outputs. Clinical Reviewer depends on Diagnostic Reasoning. The Refiner depends on both. The Evaluator depends on the Refiner. Treatment Planning depends on the Evaluator's match type.
 
-Parallelism is implemented using Python's asyncio.gather() or concurrent.futures.ThreadPoolExecutor, depending on whether the LLM Adapter is async or sync. The Orchestrator waits for all agents in a parallel stage to complete (or timeout) before advancing to the next stage.
+Parallelism in Stage 1 is implemented via LangGraph's conditional fan-out/fan-in edges. The Orchestrator waits for all agents in a parallel stage to complete (or timeout) before advancing to the next stage.
 
 **6.3 Checkpointing**
 
@@ -544,9 +554,11 @@ After each stage completes, the Orchestrator calls SharedMemory.snapshot() to se
 >
 > stage_4_complete.json
 >
+> stage_5_complete.json
+>
 > final.json
 
-To resume from a checkpoint, the Orchestrator loads the snapshot, determines which stage to resume from, and continues the pipeline. This enables efficient debugging: if Stage 4 fails, the developer can fix the issue and resume from the Stage 3 checkpoint without re-running Stages 1--3 (saving significant local inference time with GPT-o3 120B).
+To resume from a checkpoint, the Orchestrator loads the snapshot, determines which stage to resume from, and continues the pipeline. This enables efficient debugging: if Stage 5 fails, the developer can fix the issue and resume from the Stage 4 checkpoint without re-running Stages 1--4 (saving significant local inference time).
 
 **7. Data Pipeline Design (Summary)**
 
@@ -588,11 +600,9 @@ All system configuration is stored in YAML files organised by concern:
 >
 > pipelines/
 >
-> full_clinical.yaml \# default 7-agent pipeline
+> full_clinical.yaml \# default 6-stage pipeline
 >
-> diagnostic_only.yaml \# stages 1-2 only
->
-> no_radiology.yaml \# skip radiology agent
+> diagnostic_only.yaml \# stages 1-4 only (no evaluator/treatment)
 >
 > agents/
 >
@@ -602,13 +612,13 @@ All system configuration is stored in YAML files organised by concern:
 >
 > diagnostic_reasoning.yaml
 >
-> treatment_planning.yaml
->
 > clinical_reviewer.yaml
 >
-> radiology.yaml
+> final_diagnosis.yaml
 >
-> synthesis.yaml
+> evaluation.yaml
+>
+> treatment_planning.yaml
 >
 > models/
 >
@@ -632,7 +642,7 @@ All system configuration is stored in YAML files organised by concern:
 >
 > \...
 
-This structure means: to change which model the Diagnostic Agent uses, edit one line in agents/diagnostic_reasoning.yaml. To try a new prompt, create a new versioned file in prompts/ and update the agent config. To run the pipeline without the Radiology Agent, pass \--pipeline no_radiology at the command line. Zero code changes required for any of these operations (NF-030--034).
+This structure means: to change which model the Diagnostic Agent uses, edit one line in agents/diagnostic_reasoning.yaml. To try a new prompt, create a new versioned file in prompts/ and update the agent config. To run the pipeline in diagnostic-only mode (skipping evaluation and treatment), pass \--pipeline diagnostic_only at the command line. Zero code changes required for any of these operations (NF-030--034).
 
 **8.2 Logging Architecture**
 
@@ -660,7 +670,7 @@ Logs are written to:
 
 **8.3 Evaluation Design**
 
-The evaluation engine compares the Synthesis Agent's Clinical Decision Report against ground truth derived from Synthea's known structured data (conditions, medications, lab values). Evaluation runs are executed as a post-pipeline step.
+The evaluation engine operates in two modes: (1) the in-pipeline LLM Evaluator (Stage 5), which uses an LLM-as-Judge to compare the Diagnostic Refiner's final differential against Synthea ground truth in real time, and (2) a post-pipeline batch evaluation that computes aggregate metrics across the patient cohort.
 
 Metrics computed per patient case:
 
@@ -674,7 +684,7 @@ Metrics computed per patient case:
 
 -   **Conflict resolution:** Were all detected conflicts acknowledged or resolved in the final report?
 
-Aggregate metrics (mean, median, std dev) are computed across the patient cohort. Results support A/B comparison: different pipeline configs (e.g., different Ollama-hosted models, 7-agent vs. 5-agent, different prompt versions) on the same cohort produce comparable metric sets (NF-093, NF-094).
+Aggregate metrics (mean, median, std dev) are computed across the patient cohort. Results support A/B comparison: different pipeline configs (e.g., different Ollama-hosted models, 6-stage vs. 4-stage, different prompt versions) on the same cohort produce comparable metric sets (NF-093, NF-094).
 
 **9. Project Structure**
 
@@ -694,7 +704,7 @@ The repository follows a clear separation of concerns, with each top-level direc
 >
 > │ ├── memory/ \# SharedMemory class, namespace access control
 >
-> │ ├── agents/ \# Agent base class + 7 agent implementations
+> │ ├── agents/ \# Agent base class + 6 agent implementations (+ evaluator node)
 >
 > │ ├── llm_adapter/ \# Provider-agnostic LLM adapter + retry logic
 >

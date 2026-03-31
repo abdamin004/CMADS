@@ -9,7 +9,7 @@
 | **Date** | March 2026 |
 | **Scope** | End-to-end system tests covering the complete flow from Synthea data generation through agent reasoning to final clinical decision report |
 | **Test Framework** | pytest + pytest-asyncio |
-| **LLM** | GPT-o3 120B via Ollama (localhost:11434) |
+| **LLM** | Configurable via `get_llm()` adapter (Groq, OpenAI, Anthropic, Gemini, Ollama) |
 
 ---
 
@@ -22,12 +22,12 @@ End-to-end (E2E) tests verify that the entire CMADS pipeline works correctly as 
 - Synthea CSV files can be loaded into DuckDB (Bronze)
 - dbt transforms produce valid Silver and Silver+ tables
 - Gold assembler produces valid ehr_case.json and lab_case.json
-- The LangGraph pipeline executes all 7 agents in the correct stage order
+- The LangGraph pipeline executes all 7 agents in the correct stage order (EHR Analyst, Lab Interpreter, Diagnostic Reasoning, Clinical Reviewer, Diagnostic Refiner, Evaluator, Treatment Planning)
 - Each agent produces structurally valid output (Pydantic schema compliance)
-- The Synthesis Agent produces a complete Clinical Decision Report
+- The Evaluator compares the refined diagnosis against Synthea ground truth
+- The Treatment Planning agent produces a treatment plan for confirmed diagnoses
 - The execution trace captures all agent invocations with timing and status
-- Conflict detection identifies contradictions between agents
-- The final report can be evaluated against Synthea ground truth
+- The final results can be evaluated against Synthea ground truth
 
 ### 1.2 What E2E tests do NOT verify
 
@@ -228,11 +228,11 @@ class TestFullPipelineE2E:
         expected_agents = [
             "ehr_analyst",
             "lab_interpreter",
-            "diagnostic",
-            "treatment",
-            "radiology",
-            "reviewer",
-            "synthesis",
+            "diagnostic_reasoning",
+            "clinical_reviewer",
+            "final_diagnosis",
+            "evaluation",
+            "treatment_planning",
         ]
 
         for agent_id in expected_agents:
@@ -251,57 +251,51 @@ class TestFullPipelineE2E:
         # Stage 1 agents must come before Stage 2
         ehr_idx = agent_order.index("ehr_analyst")
         lab_idx = agent_order.index("lab_interpreter")
-        diag_idx = agent_order.index("diagnostic")
+        diag_idx = agent_order.index("diagnostic_reasoning")
         assert ehr_idx < diag_idx, "EHR Analyst must run before Diagnostic"
         assert lab_idx < diag_idx, "Lab Interpreter must run before Diagnostic"
 
         # Stage 2 must come before Stage 3
-        treat_idx = agent_order.index("treatment")
-        rad_idx = agent_order.index("radiology")
-        assert diag_idx < treat_idx, "Diagnostic must run before Treatment"
-        assert diag_idx < rad_idx, "Diagnostic must run before Radiology"
+        review_idx = agent_order.index("clinical_reviewer")
+        assert diag_idx < review_idx, "Diagnostic must run before Reviewer"
 
         # Stage 3 must come before Stage 4
-        review_idx = agent_order.index("reviewer")
-        assert treat_idx < review_idx, "Treatment must run before Reviewer"
-        assert rad_idx < review_idx, "Radiology must run before Reviewer"
+        refine_idx = agent_order.index("final_diagnosis")
+        assert review_idx < refine_idx, "Reviewer must run before Refiner"
 
         # Stage 4 must come before Stage 5
-        synth_idx = agent_order.index("synthesis")
-        assert review_idx < synth_idx, "Reviewer must run before Synthesis"
+        eval_idx = agent_order.index("evaluation")
+        assert refine_idx < eval_idx, "Refiner must run before Evaluation"
+
+        # Stage 5 must come before Stage 6
+        treat_idx = agent_order.index("treatment_planning")
+        assert eval_idx < treat_idx, "Evaluation must run before Treatment"
 
     @pytest.mark.timeout(900)
-    def test_clinical_decision_report_structure(self, pipeline, gold_case_diabetes):
-        """The final report has all required sections."""
+    def test_final_diagnosis_structure(self, pipeline, gold_case_diabetes):
+        """The refined diagnosis has all required fields."""
         result = self._run_pipeline(pipeline, gold_case_diabetes)
-        report = result["agent_outputs"]["synthesis"]
+        final_dx = result["agent_outputs"]["final_diagnosis"]
 
         required_fields = [
-            "executive_summary",
+            "differential",
             "primary_diagnosis",
-            "confidence",
-            "evidence_summary",
-            "treatment_plan",
-            "risks_and_contraindications",
-            "unresolved_findings",
-            "reviewer_concerns",
-            "agent_attributions",
-            "next_steps",
+            "primary_probability",
         ]
 
         for field in required_fields:
-            assert field in report, f"Report missing required field: '{field}'"
-            assert report[field] is not None, f"Report field '{field}' is None"
+            assert field in final_dx, f"Final diagnosis missing required field: '{field}'"
+            assert final_dx[field] is not None, f"Final diagnosis field '{field}' is None"
 
     @pytest.mark.timeout(900)
     def test_report_identifies_primary_condition(
         self, pipeline, gold_case_diabetes, ground_truth_diabetes
     ):
-        """The report's primary diagnosis relates to the ground truth condition."""
+        """The refined diagnosis relates to the ground truth condition."""
         result = self._run_pipeline(pipeline, gold_case_diabetes)
-        report = result["agent_outputs"]["synthesis"]
+        final_dx = result["agent_outputs"]["final_diagnosis"]
 
-        primary_dx = report["primary_diagnosis"].lower()
+        primary_dx = final_dx["primary_diagnosis"].lower()
         gt_condition = ground_truth_diabetes["primary_condition"]["name"].lower()
 
         # Flexible match: the report should mention key terms from the ground truth
@@ -311,7 +305,7 @@ class TestFullPipelineE2E:
         match_ratio = matches / len(key_terms)
 
         assert match_ratio >= 0.3, (
-            f"Primary diagnosis '{report['primary_diagnosis']}' does not appear "
+            f"Primary diagnosis '{final_dx['primary_diagnosis']}' does not appear "
             f"related to ground truth '{gt_condition}' (match ratio: {match_ratio:.2f})"
         )
 
@@ -321,7 +315,7 @@ class TestFullPipelineE2E:
         result = self._run_pipeline(pipeline, gold_case_diabetes)
         trace = result["execution_trace"]
 
-        assert len(trace) >= 7, f"Expected ≥7 trace entries, got {len(trace)}"
+        assert len(trace) >= 7, f"Expected >= 7 trace entries, got {len(trace)}"
 
         for entry in trace:
             assert "agent_id" in entry
@@ -444,30 +438,28 @@ class TestAgentOutputSchemas:
             assert dx["confidence"] in ("high", "moderate", "low")
             assert "supporting_evidence" in dx
 
+    def test_reviewer_output(self):
+        out = self.result["agent_outputs"]["clinical_reviewer"]
+        assert "diagnosis_verifications" in out
+        assert "overall_confidence" in out
+        assert 0 <= out["overall_confidence"] <= 100
+        assert "recommended_primary" in out
+
+    def test_refiner_output(self):
+        out = self.result["agent_outputs"]["final_diagnosis"]
+        assert "differential" in out
+        assert isinstance(out["differential"], list)
+        assert "primary_diagnosis" in out
+
+    def test_evaluator_output(self):
+        out = self.result["agent_outputs"]["evaluation"]
+        assert out is not None
+
     def test_treatment_output(self):
-        out = self.result["agent_outputs"]["treatment"]
+        out = self.result["agent_outputs"]["treatment_planning"]
         assert "medications" in out
         assert isinstance(out["medications"], list)
-        assert "contraindications" in out
-        assert "interactions_checked" in out
-
-    def test_radiology_output(self):
-        out = self.result["agent_outputs"]["radiology"]
-        assert "structured_findings" in out or "dx_correlation" in out
-
-    def test_reviewer_output(self):
-        out = self.result["agent_outputs"]["reviewer"]
-        assert "confidence_score" in out
-        assert 0 <= out["confidence_score"] <= 100
-        assert "concerns" in out
-        assert "consistency_assessment" in out
-
-    def test_synthesis_output(self):
-        out = self.result["agent_outputs"]["synthesis"]
-        assert "executive_summary" in out
-        assert len(out["executive_summary"]) > 50, "Executive summary too short"
-        assert "agent_attributions" in out
-        assert isinstance(out["agent_attributions"], dict)
+        assert "treatment_summary" in out
 
     def _run_pipeline(self, pipeline, gold_case):
         initial_state = {
@@ -519,32 +511,26 @@ class TestStageTransitions:
         assert len(all_evidence) > 0, "Diagnostic produced no supporting evidence"
 
     def test_stage2_to_stage3_data_flow(self, pipeline_result):
-        """Treatment agent should reference the primary diagnosis."""
-        diag = pipeline_result["agent_outputs"]["diagnostic"]
-        treat = pipeline_result["agent_outputs"]["treatment"]
-
-        primary_dx = diag.get("primary_diagnosis", "").lower()
-        treat_str = str(treat).lower()
-
-        # Treatment plan should mention the primary diagnosis context
-        assert len(treat.get("medications", [])) > 0, \
-            "Treatment produced no medications"
+        """Reviewer should address diagnostic output."""
+        reviewer = pipeline_result["agent_outputs"]["clinical_reviewer"]
+        assert reviewer["overall_confidence"] > 0, "Reviewer gave 0 confidence"
+        assert "diagnosis_verifications" in reviewer
 
     def test_stage3_to_stage4_data_flow(self, pipeline_result):
-        """Reviewer should address treatment and diagnostic outputs."""
-        reviewer = pipeline_result["agent_outputs"]["reviewer"]
-        assert reviewer["confidence_score"] > 0, "Reviewer gave 0 confidence"
-        assert "consistency_assessment" in reviewer
+        """Refiner should merge diagnostic + reviewer into final differential."""
+        final_dx = pipeline_result["agent_outputs"]["final_diagnosis"]
+        assert "differential" in final_dx
+        assert "primary_diagnosis" in final_dx
 
     def test_stage4_to_stage5_data_flow(self, pipeline_result):
-        """Synthesis should incorporate reviewer concerns."""
-        reviewer = pipeline_result["agent_outputs"]["reviewer"]
-        synthesis = pipeline_result["agent_outputs"]["synthesis"]
+        """Evaluator should compare refined diagnosis against ground truth."""
+        evaluation = pipeline_result["agent_outputs"]["evaluation"]
+        assert evaluation is not None
 
-        if len(reviewer.get("concerns", [])) > 0:
-            # If reviewer raised concerns, synthesis should acknowledge them
-            assert len(synthesis.get("reviewer_concerns", [])) > 0, \
-                "Synthesis ignored reviewer concerns"
+    def test_stage5_to_stage6_data_flow(self, pipeline_result):
+        """Treatment should run after evaluation (only for confirmed diagnoses)."""
+        treatment = pipeline_result["agent_outputs"]["treatment_planning"]
+        assert treatment is not None
 
     def test_conflict_detection_runs(self, pipeline_result):
         """Conflict detection should have been executed (even if no conflicts found)."""
@@ -575,39 +561,39 @@ from src.orchestrator.graph import compile_pipeline
 class TestFailureRecovery:
     """Test graceful degradation when agents fail."""
 
-    def test_pipeline_continues_after_radiology_failure(
+    def test_pipeline_continues_after_reviewer_failure(
         self, gold_case_diabetes
     ):
-        """If the Radiology Agent fails, pipeline should still produce a report."""
+        """If the Clinical Reviewer fails, pipeline should still produce results."""
         pipeline = compile_pipeline()
 
-        # Patch the radiology node to simulate failure
-        with patch("src.agents.radiology.radiology_node") as mock_rad:
-            mock_rad.side_effect = TimeoutError("LLM timeout")
+        # Patch the reviewer node to simulate failure
+        with patch("src.agents.reviewer.clinical_reviewer_agent") as mock_rev:
+            mock_rev.side_effect = TimeoutError("LLM timeout")
 
             result = pipeline.invoke(
                 self._initial_state(gold_case_diabetes),
-                config={"configurable": {"thread_id": "test_rad_failure"}},
+                config={"configurable": {"thread_id": "test_rev_failure"}},
             )
 
         # Pipeline should still complete
-        assert "synthesis" in result["agent_outputs"]
+        assert "treatment_planning" in result["agent_outputs"]
 
-        # Radiology should be marked as error in trace
-        rad_trace = [
+        # Reviewer should be marked as error in trace
+        rev_trace = [
             e for e in result["execution_trace"]
-            if e["agent_id"] == "radiology"
+            if e["agent_id"] == "clinical_reviewer"
         ]
-        if rad_trace:
-            assert rad_trace[0]["status"] == "error"
+        if rev_trace:
+            assert rev_trace[0]["status"] == "error"
 
     def test_pipeline_continues_after_treatment_failure(
         self, gold_case_diabetes
     ):
-        """If Treatment Planning fails, pipeline should still produce a report."""
+        """If Treatment Planning fails, pipeline should still have upstream results."""
         pipeline = compile_pipeline()
 
-        with patch("src.agents.treatment.treatment_node") as mock_treat:
+        with patch("src.agents.treatment.treatment_planning_agent") as mock_treat:
             mock_treat.side_effect = Exception("Schema validation failed")
 
             result = pipeline.invoke(
@@ -615,20 +601,18 @@ class TestFailureRecovery:
                 config={"configurable": {"thread_id": "test_treat_failure"}},
             )
 
-        assert "synthesis" in result["agent_outputs"]
-        report = result["agent_outputs"]["synthesis"]
-        # Report should note the missing agent
-        assert report is not None
+        # Upstream agents should still have produced output
+        assert "final_diagnosis" in result["agent_outputs"]
 
-    def test_synthesis_reports_partial_results(self, gold_case_diabetes):
-        """When agents fail, synthesis should acknowledge missing data."""
+    def test_pipeline_handles_partial_results(self, gold_case_diabetes):
+        """When an agent fails, downstream agents handle missing data gracefully."""
         pipeline = compile_pipeline()
 
-        with patch("src.agents.radiology.radiology_node") as mock_rad:
-            mock_rad.return_value = {
-                "agent_outputs": {"radiology": None},
+        with patch("src.agents.reviewer.clinical_reviewer_agent") as mock_rev:
+            mock_rev.return_value = {
+                "agent_outputs": {"clinical_reviewer": None},
                 "execution_trace": [{
-                    "agent_id": "radiology",
+                    "agent_id": "clinical_reviewer",
                     "status": "error",
                     "execution_ms": 0,
                 }],
@@ -639,8 +623,8 @@ class TestFailureRecovery:
                 config={"configurable": {"thread_id": "test_partial"}},
             )
 
-        # Synthesis should still produce a report
-        assert result["agent_outputs"].get("synthesis") is not None
+        # Pipeline should still attempt downstream stages
+        assert result is not None
 
     def _initial_state(self, gold_case):
         return {
@@ -680,9 +664,9 @@ class TestEvaluationFlow:
         self, pipeline_result, ground_truth_diabetes
     ):
         """Diagnostic accuracy metric runs without error."""
-        report = pipeline_result["agent_outputs"]["synthesis"]
+        final_dx = pipeline_result["agent_outputs"]["final_diagnosis"]
         score = diagnostic_accuracy(
-            predicted=report["primary_diagnosis"],
+            predicted=final_dx["primary_diagnosis"],
             ground_truth=ground_truth_diabetes["primary_condition"]["name"],
         )
         assert 0.0 <= score <= 1.0
@@ -691,7 +675,7 @@ class TestEvaluationFlow:
         self, pipeline_result, ground_truth_diabetes
     ):
         """Differential recall metric runs without error."""
-        diag = pipeline_result["agent_outputs"]["diagnostic"]
+        diag = pipeline_result["agent_outputs"]["final_diagnosis"]
         predicted_conditions = [dx["name"] for dx in diag["differential"]]
         gt_conditions = [
             c["name"] for c in ground_truth_diabetes["all_active_conditions"]
@@ -706,10 +690,10 @@ class TestEvaluationFlow:
         self, pipeline_result, ground_truth_diabetes
     ):
         """Critical finding coverage metric runs without error."""
-        report = pipeline_result["agent_outputs"]["synthesis"]
+        final_dx = pipeline_result["agent_outputs"]["final_diagnosis"]
         gt_critical = ground_truth_diabetes["critical_lab_findings"]
         score = critical_finding_coverage(
-            report_text=str(report),
+            report_text=str(final_dx),
             critical_findings=gt_critical,
         )
         assert 0.0 <= score <= 1.0
@@ -718,29 +702,64 @@ class TestEvaluationFlow:
         self, pipeline_result, ground_truth_diabetes
     ):
         """Full evaluation produces a summary dict with all metrics."""
-        report = pipeline_result["agent_outputs"]["synthesis"]
-        diag = pipeline_result["agent_outputs"]["diagnostic"]
+        final_dx = pipeline_result["agent_outputs"]["final_diagnosis"]
 
         summary = {
             "diagnostic_accuracy": diagnostic_accuracy(
-                report["primary_diagnosis"],
+                final_dx["primary_diagnosis"],
                 ground_truth_diabetes["primary_condition"]["name"],
             ),
             "differential_recall": differential_recall(
-                [dx["name"] for dx in diag["differential"]],
+                [dx["name"] for dx in final_dx["differential"]],
                 [c["name"] for c in ground_truth_diabetes["all_active_conditions"]],
             ),
             "critical_finding_coverage": critical_finding_coverage(
-                str(report),
+                str(final_dx),
                 ground_truth_diabetes["critical_lab_findings"],
             ),
-            "reviewer_confidence": pipeline_result["agent_outputs"]["reviewer"]["confidence_score"],
+            "reviewer_confidence": pipeline_result["agent_outputs"]["clinical_reviewer"]["overall_confidence"],
         }
 
         # All metrics should be numeric and bounded
         for metric_name, value in summary.items():
             assert isinstance(value, (int, float)), \
                 f"{metric_name} is not numeric: {type(value)}"
+```
+
+---
+
+### 3.7 Offline Tests (No API Keys Required)
+
+**File:** `tests/test_offline.py` -- **IMPLEMENTED** (42 tests, all passing)
+
+These tests validate core infrastructure components without any LLM calls or API keys. They run in milliseconds and are suitable for CI/CD.
+
+**Test suites (6 classes, 42 tests):**
+
+| Class | Tests | What's Verified |
+|-------|-------|-----------------|
+| TestJsonRepair | 8 | Clean JSON, code-block extraction, trailing commas, single quotes, `<think>` tag stripping, unclosed think tags, nested JSON, text-around-JSON |
+| TestJudgeParsing | 8 | Differential formatting, empty differentials, think-tag stripping, direct/indirect/miss parsing, FOUND inconsistency auto-fix, extra whitespace handling |
+| TestSchemas | 13 | Pydantic v2 default validation for EHRAnalystOutput, LabInterpreterOutput, LabFinding, LabPanel, DiagnosticOutput, Diagnosis, SupportingEvidence, ReviewerOutput, DiagnosisVerification, ConsistencyCheck, TreatmentOutput, PrescribedMedication; diagnostic output with populated data |
+| TestConfig | 4 | Default config values (provider, thresholds, embedding model), Path-type fields, environment variable overrides for numeric and string settings |
+| TestAgentPrompts | 4 | EHR Analyst prompt building from patient state, Diagnostic Reasoning prompt building from upstream outputs, graceful handling of missing/empty data, handling of failed upstream agents |
+| TestLLMAdapter | 4 | Missing Groq API key raises ValueError, missing OpenAI key raises ValueError, unknown provider raises ValueError, provider registry contains all 5 providers (groq, openai, anthropic, gemini, ollama) |
+
+**Key testing patterns:**
+- Uses `unittest.mock.patch` and `patch.dict("os.environ", ...)` to test configuration and API key validation without real credentials
+- Schema tests use `model_validate({})` to verify all Pydantic models have safe defaults
+- Prompt tests instantiate real agent classes but only call `build_user_prompt()` (no LLM invocation)
+- JSON repair tests exercise the `_extract_json_from_response()` function used by all agents to handle malformed LLM output
+
+**Running:**
+```bash
+# All offline tests (fast, no API keys needed)
+pytest tests/test_offline.py -v
+
+# Specific class
+pytest tests/test_offline.py::TestJsonRepair -v
+pytest tests/test_offline.py::TestSchemas -v
+pytest tests/test_offline.py::TestLLMAdapter -v
 ```
 
 ---
@@ -773,7 +792,9 @@ pytest tests/e2e/test_full_pipeline.py::TestFullPipelineE2E::test_all_agents_exe
 
 | Test Suite | LLM Required | Approx. Duration | Status | Notes |
 |------------|:------------:|------------------:|:------:|-------|
+| test_offline.py | No | ~0.5 seconds | **IMPLEMENTED (42 tests)** | JSON repair, schemas, config, prompts, LLM adapter |
 | test_data_pipeline.py | No | ~0.2 seconds | **IMPLEMENTED (51 tests)** | DuckDB + file checks only |
+| test_mas_pipeline.py | Yes | ~2 min/patient | **IMPLEMENTED** | Full 7-agent pipeline + evaluation |
 | test_full_pipeline.py | Yes | ~10-15 minutes | Planned | Full 7-agent pipeline per patient |
 | test_agent_pipeline.py | Yes | ~10-15 minutes | Planned | Schema validation on real outputs |
 | test_stage_transitions.py | Yes | ~10-15 minutes | Planned | Uses cached pipeline result |
@@ -788,7 +809,8 @@ E2E tests with LLM inference are **not suitable for CI/CD pipelines** due to:
 - Non-deterministic LLM output (tests verify structure, not exact content)
 
 Recommended approach:
-- Run **data pipeline tests** in CI (fast, deterministic)
+- Run **offline tests** in CI (fast, no API keys, validates schemas/parsers/config)
+- Run **data pipeline tests** in CI (fast, deterministic, validates DuckDB layers)
 - Run **agent pipeline E2E tests** manually before thesis milestones
 - Use **integration tests with mock LLM** for CI (not covered in this document)
 
@@ -835,7 +857,7 @@ def ground_truth_diabetes():
 @pytest.fixture(scope="session")
 def pipeline_result(pipeline, gold_case_diabetes):
     """Run the pipeline once and cache the result for the entire session.
-    This avoids running 7 agents × N tests = expensive."""
+    This avoids running 7 agents x N tests = expensive."""
     initial_state = {
         "patient_context": {
             "ehr_case": gold_case_diabetes["ehr"],
@@ -881,12 +903,19 @@ python scripts/generate_ground_truth.py \
 | Silver+ (derived) | test_data_pipeline.py::TestSilverPlusLayer | 6 tables exist, valid trends/severity, cohort coverage | **Done (8)** |
 | Gold (JSON assembly) | test_data_pipeline.py::TestGoldLayer | 1K files, point-in-time mode, structure, no leakage, cutoff consistency | **Done (11)** |
 | Radiology Reports | test_data_pipeline.py::TestRadiologyReports | Reports generated, structure, no diagnosis leakage, eval scores valid | **Done (10)** |
-| Cross-layer Integrity | test_data_pipeline.py::TestCrossLayerIntegrity | Patients in all layers, cutoff ≤ diagnosis, disease diversity | **Done (5)** |
+| Cross-layer Integrity | test_data_pipeline.py::TestCrossLayerIntegrity | Patients in all layers, cutoff <= diagnosis, disease diversity | **Done (5)** |
+| JSON Repair | test_offline.py::TestJsonRepair | Code blocks, trailing commas, think tags, nested JSON | **Done (8)** |
+| Judge Parsing | test_offline.py::TestJudgeParsing | Differential formatting, match parsing, inconsistency fixes | **Done (8)** |
+| Schema Validation | test_offline.py::TestSchemas | Pydantic defaults for all agent output schemas | **Done (13)** |
+| Config | test_offline.py::TestConfig | Defaults, env overrides, path types | **Done (4)** |
+| Agent Prompts | test_offline.py::TestAgentPrompts | Prompt building, missing data handling | **Done (4)** |
+| LLM Adapter | test_offline.py::TestLLMAdapter | API key validation, provider registry | **Done (4)** |
 | Stage 1 agents | test_agent_pipeline.py | EHR Analyst + Lab Interpreter output schemas | Planned |
-| Stage 2 agent | test_agent_pipeline.py | Diagnostic: ≥3 differential, evidence, confidence | Planned |
-| Stage 3 agents | test_agent_pipeline.py | Treatment: medications + interactions; Radiology: findings | Planned |
-| Stage 4 agent | test_agent_pipeline.py | Reviewer: 0-100 confidence, concerns list | Planned |
-| Stage 5 agent | test_agent_pipeline.py | Synthesis: complete report with all sections | Planned |
+| Stage 2 agent | test_agent_pipeline.py | Diagnostic Reasoning: >=3 differential, evidence, confidence | Planned |
+| Stage 3 agent | test_agent_pipeline.py | Clinical Reviewer: 0-100 confidence, diagnosis verifications | Planned |
+| Stage 4 agent | test_agent_pipeline.py | Diagnostic Refiner: merged final differential | Planned |
+| Stage 5 agent | test_agent_pipeline.py | Evaluator: ground truth comparison | Planned |
+| Stage 6 agent | test_agent_pipeline.py | Treatment Planning: medications, treatment summary | Planned |
 | Cross-stage flow | test_stage_transitions.py | Execution order, data dependencies, conflict detection | Planned |
 | Failure handling | test_failure_recovery.py | Pipeline continues after agent failure, partial results | Planned |
 | Evaluation | test_evaluation_flow.py | Metrics computable, bounded [0,1], summary produced | Planned |
@@ -910,4 +939,4 @@ python scripts/generate_ground_truth.py \
 
 ---
 
-*— End of Document — E2E Test Documentation v1.0 • March 2026 • CMADS*
+*-- End of Document -- E2E Test Documentation v2.0 -- March 2026 -- CMADS -- Updated to match 7-agent pipeline (EHR, Lab, Diagnostic, Reviewer, Refiner, Evaluator, Treatment) and 42 offline tests*
