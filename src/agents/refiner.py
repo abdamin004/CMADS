@@ -11,6 +11,7 @@ This is the FINAL diagnostic output that downstream agents use.
 import json
 import structlog
 from src.agents.base import BaseAgent
+from src.memory import EpisodicMemory
 from src.schemas.diagnostic import DiagnosticOutput
 from langchain_core.messages import SystemMessage, HumanMessage
 
@@ -83,6 +84,29 @@ class DiagnosticRefinerAgent(BaseAgent):
             sections.append(f"Lab assessment: {lab_out.get('overall_assessment', '?')[:200]}")
         sections.append("")
 
+        # ── Session memory (Tier-2 episodic) ──
+        # The refiner produces the FINAL differential, so giving it the full
+        # session timeline lets it weigh the diagnostic agent's confidence
+        # trajectory and the reviewer's verdicts together rather than relying
+        # solely on the two structured outputs above.
+        if self._memory_enabled():
+            mm = self.memory(state)
+            episodic_summary = mm.episodic.summarize(max_events=24)
+            sections.append("## SESSION TIMELINE (multi-level memory recall)\n")
+            sections.append(episodic_summary)
+            sections.append("")
+
+            # Pull cross-session priors for the diseases under consideration.
+            candidate_names: list[str] = []
+            for d in (diag_out.get("differential") or [])[:5]:
+                if isinstance(d, dict) and d.get("name"):
+                    candidate_names.append(d["name"])
+            if candidate_names:
+                semantic_summary = mm.semantic.summarize_for_diseases(candidate_names)
+                sections.append("## CROSS-SESSION INSIGHTS (Tier-3 semantic memory)\n")
+                sections.append(semantic_summary)
+                sections.append("")
+
         prompt_data = "\n".join(sections)
 
         # Single focused call with json_llm
@@ -104,6 +128,22 @@ class DiagnosticRefinerAgent(BaseAgent):
         ])
         result = output.model_dump()
         self._autofill_primary_diagnosis(result)
+
+        if self._memory_enabled():
+            self._pending_memory_events.append(EpisodicMemory.write(
+                event_type="decision",
+                agent_id=self.agent_id,
+                summary=(
+                    f"Final refined diagnosis: "
+                    f"{result.get('primary_diagnosis', '?')[:80]}"
+                ),
+                payload={
+                    "primary_diagnosis": result.get("primary_diagnosis"),
+                    "primary_probability": result.get("primary_probability"),
+                    "differential_size": len(result.get("differential") or []),
+                },
+                tags=["refiner", "final"],
+            ))
 
         logger.info("agent_step_done", agent_id=self.agent_id, step="refine")
         return result

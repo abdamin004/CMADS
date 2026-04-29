@@ -5,7 +5,13 @@ This IS the shared memory store from SDD §4. Each key is a namespace:
   agent_outputs     — Per-agent output slots (write-own, read-downstream)
   conflicts         — Contradiction records (written by conflict detector)
   execution_trace   — Invocation logs (written by Orchestrator)
-  scratchpad        — Per-agent ephemeral notes
+  scratchpad        — Per-agent ephemeral notes (Tier 1: working memory)
+  session_memory    — Append-only timeline of typed events (Tier 2: episodic)
+  session_summary   — Per-stage compressed summary (Tier 2: episodic digest)
+
+The four-tier multi-level memory subsystem layers on top of these channels;
+see `src/memory/manager.py` for the unified facade. Tier 3 (semantic, on disk)
+and Tier 4 (procedural, Qdrant) live outside the state.
 
 Implements: IF-001–005, MA-005
 """
@@ -22,6 +28,17 @@ def _merge_agent_outputs(existing: dict, new: dict) -> dict:
 
     Each agent writes to its own key (e.g., {"ehr_analyst": {...}}).
     This reducer merges without overwriting other agents' slots.
+    """
+    merged = copy.copy(existing) if existing else {}
+    merged.update(new)
+    return merged
+
+
+def _merge_session_summary(existing: dict, new: dict) -> dict:
+    """Reducer for session_summary — last-write-wins per key, dict union.
+
+    Each agent can post a one-line digest under its agent_id key without
+    clobbering other agents' digests.
     """
     merged = copy.copy(existing) if existing else {}
     merged.update(new)
@@ -46,5 +63,11 @@ class PipelineState(TypedDict, total=False):
     # Execution trace — append-only list
     execution_trace: Annotated[list, add]
 
-    # Per-agent ephemeral scratchpad
+    # Per-agent ephemeral scratchpad (Tier 1 working memory)
     scratchpad: dict
+
+    # Episodic memory: append-only timeline of SessionEvent dicts (Tier 2)
+    session_memory: Annotated[list, add]
+
+    # Per-agent one-line digests merged into a single dict (Tier 2 summary)
+    session_summary: Annotated[dict, _merge_session_summary]

@@ -99,5 +99,28 @@ class Config:
     def DUCKDB_PATH(self) -> Path:
         return Path(_env("DUCKDB_PATH", "data/clinical.duckdb"))
 
+    # ── Multi-Level Memory ──────────────────────────────────
+    @property
+    def MEMORY_ENABLED(self) -> bool:
+        """Master switch for the multi-level memory subsystem.
+
+        When false, agents skip reading/writing memory and the pipeline
+        behaves exactly as it did before the feature was added. Used for
+        before/after experiments.
+        """
+        return _env("MEMORY_ENABLED", "true").lower() in ("1", "true", "yes", "on")
+
+    @property
+    def SEMANTIC_MEMORY_PATH(self) -> Path:
+        return Path(_env(
+            "SEMANTIC_MEMORY_PATH",
+            "data/gold/memory/semantic_memory.json",
+        ))
+
+    @property
+    def EPISODIC_MEMORY_MAX_EVENTS(self) -> int:
+        """Max events injected into a downstream agent's prompt."""
+        return _env_int("EPISODIC_MEMORY_MAX_EVENTS", 30)
+
 
 cfg = Config()

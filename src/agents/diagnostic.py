@@ -15,6 +15,7 @@ import json
 import re
 import structlog
 from src.agents.base import BaseAgent
+from src.memory import EpisodicMemory
 from src.schemas.diagnostic import DiagnosticOutput
 from langchain_core.messages import SystemMessage, HumanMessage
 
@@ -53,8 +54,18 @@ class DiagnosticReasoningAgent(BaseAgent):
 
         Final call:
           N. Produce structured JSON output
+
+        Multi-level memory hooks:
+          - Working memory: confidence trajectory + critique trail across rounds
+            (lets later rounds and downstream agents see what changed when)
+          - Episodic memory: a SessionEvent per critique/confidence-check/refine
+            so Reviewer + Refiner can read the reasoning chain, not just the
+            final differential
+          - Semantic memory: read-only — pulled into the prompt during the
+            initial-ranking call as a Bayesian prior across past runs
         """
         evidence = self.build_user_prompt(state)
+        mm = self.memory(state) if self._memory_enabled() else None
 
         # ── Call 1: Evidence Synthesis (always) ──
         logger.info("agent_step", agent_id=self.agent_id, step="evidence_synthesis")
@@ -92,6 +103,7 @@ class DiagnosticReasoningAgent(BaseAgent):
 
         # ── Adaptive Loop: Self-Critique → Confidence Check → Refine ──
         round_num = 0
+        confidence_trajectory: list[int] = []
         while round_num < self.MAX_REASONING_ROUNDS:
             round_num += 1
 
@@ -140,6 +152,37 @@ class DiagnosticReasoningAgent(BaseAgent):
             logger.info("agent_confidence_check", agent_id=self.agent_id,
                         round=round_num, confidence=confidence,
                         adequate=is_adequate)
+
+            confidence_trajectory.append(confidence)
+            if mm is not None:
+                mm.working.put("confidence_trajectory", confidence_trajectory)
+                mm.working.append_to("critique_trail", {
+                    "round": round_num,
+                    "confidence": confidence,
+                    "adequate": is_adequate,
+                    "snippet": critique[:240],
+                })
+                self._pending_memory_events.append(EpisodicMemory.write(
+                    event_type="critique",
+                    agent_id=self.agent_id,
+                    summary=(
+                        f"Round {round_num} critique: confidence={confidence}, "
+                        f"adequate={is_adequate}"
+                    ),
+                    payload={
+                        "round": round_num,
+                        "confidence": confidence,
+                        "adequate": is_adequate,
+                    },
+                    tags=["diagnostic", "critique"],
+                ))
+                self._pending_memory_events.append(EpisodicMemory.write(
+                    event_type="confidence_check",
+                    agent_id=self.agent_id,
+                    summary=f"Round {round_num} confidence={confidence}/100",
+                    payload={"round": round_num, "confidence": confidence},
+                    tags=["diagnostic", "confidence"],
+                ))
 
             if is_adequate or confidence >= self.CONFIDENCE_THRESHOLD:
                 logger.info("agent_reasoning_complete", agent_id=self.agent_id,
@@ -191,6 +234,26 @@ class DiagnosticReasoningAgent(BaseAgent):
 
         logger.info("agent_step_done", agent_id=self.agent_id, step="final_output",
                      total_rounds=round_num)
+
+        if mm is not None:
+            mm.working.put("rounds_completed", round_num)
+            mm.working.put("final_primary", result.get("primary_diagnosis"))
+            self._pending_memory_events.append(EpisodicMemory.write(
+                event_type="decision",
+                agent_id=self.agent_id,
+                summary=(
+                    f"Final differential ({len(result.get('differential') or [])} dx, "
+                    f"primary={result.get('primary_diagnosis', '?')[:60]}, "
+                    f"rounds={round_num})"
+                ),
+                payload={
+                    "rounds": round_num,
+                    "primary_diagnosis": result.get("primary_diagnosis"),
+                    "primary_probability": result.get("primary_probability"),
+                    "confidence_trajectory": confidence_trajectory,
+                },
+                tags=["diagnostic", "final"],
+            ))
 
         return result
 

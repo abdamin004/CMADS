@@ -22,6 +22,7 @@ from src.agents.reviewer import clinical_reviewer_agent
 from src.agents.refiner import diagnostic_refiner_agent
 from src.agents.evaluator import evaluate_node
 from src.agents.treatment import treatment_planning_agent
+from src.agents.memory_consolidator import memory_consolidation_node
 
 
 # ── State Definition (shared memory) ──────────────────────────────────
@@ -65,6 +66,9 @@ def compile_pipeline():
     # Stage 6 — Treatment Planning (applies NICE guidelines, only for DIRECT matches)
     graph.add_node("treatment_planning", treatment_planning_agent)
 
+    # Stage 7 — Memory consolidation (writes Tier-3 semantic insights for next run)
+    graph.add_node("memory_consolidation", memory_consolidation_node)
+
     # Fan-out from START to both Stage 1 agents (parallel)
     graph.add_conditional_edges(START, _stage1_fanout, ["ehr_analyst", "lab_interpreter"])
 
@@ -84,8 +88,11 @@ def compile_pipeline():
     # Stage 5 → Stage 6 (Treatment — reads evaluation.json to check DIRECT match)
     graph.add_edge("evaluation", "treatment_planning")
 
-    # Stage 6 → END
-    graph.add_edge("treatment_planning", END)
+    # Stage 6 → Stage 7 (Memory consolidation — never blocks anything)
+    graph.add_edge("treatment_planning", "memory_consolidation")
+
+    # Stage 7 → END
+    graph.add_edge("memory_consolidation", END)
 
     # Compile with in-memory checkpointing
     checkpointer = MemorySaver()
@@ -168,6 +175,17 @@ def save_patient_results(patient_uuid: str, result: dict, duration_s: float):
         }, indent=2, default=str)
     )
 
+    # Save the episodic memory timeline alongside the trace (used for analysis,
+    # not loaded back by future runs — semantic memory is the cross-run channel).
+    session_memory = result.get("session_memory") or []
+    if session_memory:
+        (patient_dir / "session_memory.json").write_text(
+            json.dumps({
+                "patient_uuid": patient_uuid,
+                "events": session_memory,
+            }, indent=2, default=str)
+        )
+
 
 def run_single_patient(patient_uuid: str, pipeline=None, save: bool = True) -> dict:
     """Run the pipeline for a single patient.
@@ -186,13 +204,17 @@ def run_single_patient(patient_uuid: str, pipeline=None, save: bool = True) -> d
     # Load Gold data
     case = load_patient_case(patient_uuid)
 
-    # Build initial state (Orchestrator initialises shared memory — SDD §4.5)
+    # Build initial state (Orchestrator initialises shared memory — SDD §4.5).
+    # session_memory and session_summary are the multi-level-memory channels;
+    # they are append-merged across agents by reducers in state.py.
     initial_state = {
         "patient_context": case,
         "agent_outputs": {},
         "conflicts": [],
         "execution_trace": [],
         "scratchpad": {},
+        "session_memory": [],
+        "session_summary": {},
     }
 
     # Invoke the graph

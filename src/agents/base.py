@@ -22,6 +22,7 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.language_models import BaseChatModel
 
 from src.llm.adapter import get_llm, invoke_with_retry
+from src.memory import EpisodicMemory, MemoryManager
 
 PROMPTS_DIR = Path(__file__).resolve().parents[2] / "prompts"
 
@@ -115,9 +116,14 @@ class BaseAgent:
     system_prompt: str = ""
     output_schema: Type[BaseModel] = BaseModel
     temperature: float = 0.2
-    max_tokens: int = 4096
+    max_tokens: int = 16384
     max_agent_time: int = int(os.environ.get("AGENT_TIMEOUT", "300"))  # configurable via .env
     _prompts: dict | None = None  # Cached YAML prompts
+
+    def __init__(self):
+        # Per-instance episodic-memory buffer. __call__ resets this each
+        # invocation; subclasses append to it during run_reasoning.
+        self._pending_memory_events: list[dict] = []
 
     def _load_prompts(self) -> dict:
         """Load prompts from YAML file (prompts/{agent_id}.yaml).
@@ -172,6 +178,20 @@ class BaseAgent:
     def _get_llm(self, json_mode: bool = False) -> BaseChatModel:
         return get_llm(temperature=self.temperature, max_tokens=self.max_tokens,
                        json_mode=json_mode)
+
+    def memory(self, state: dict) -> MemoryManager:
+        """Return a MemoryManager scoped to this agent and the given state.
+
+        Convenience helper — agents should prefer this over instantiating
+        MemoryManager directly so wiring lives in one place.
+        """
+        return MemoryManager.from_state(state, agent_id=self.agent_id)
+
+    @staticmethod
+    def _memory_enabled() -> bool:
+        """Master switch — agents skip memory work when disabled."""
+        from src.config import cfg
+        return cfg.MEMORY_ENABLED
 
     def _check_timeout(self):
         """Raise TimeoutError if agent has exceeded max_agent_time."""
@@ -318,14 +338,34 @@ class BaseAgent:
             "error": None,
         }
 
+        memory_events: list[dict] = []
+        memory_summary: dict[str, str] = {}
+        memory_on = self._memory_enabled()
+        # Reset agent-buffered events from any prior invocation. Subclasses
+        # can append episodic events to self._pending_memory_events during
+        # run_reasoning; we drain the buffer below.
+        self._pending_memory_events = []
+
         try:
             # 1. Input Gate
             logger.info("agent_start", agent_id=self.agent_id)
+            if memory_on:
+                memory_events.append(EpisodicMemory.write(
+                    event_type="agent_start",
+                    agent_id=self.agent_id,
+                    summary=f"Started {self.agent_id}",
+                    tags=["lifecycle"],
+                ))
 
             # 2-4. Prompt → LLM → Parse (single or multi-call via run_reasoning)
             llm = self._get_llm(json_mode=False)
             json_llm = self._get_llm(json_mode=True)
             output_dict = self.run_reasoning(state, llm, json_llm)
+
+            # Drain any episodic events the agent buffered during reasoning.
+            if memory_on and self._pending_memory_events:
+                memory_events.extend(self._pending_memory_events)
+            self._pending_memory_events = []
 
             # 5. Output Gate
             duration_ms = int((time.time() - start) * 1000)
@@ -334,10 +374,26 @@ class BaseAgent:
             logger.info("agent_success",
                         agent_id=self.agent_id, duration_ms=duration_ms)
 
-            return {
+            if memory_on:
+                memory_events.append(EpisodicMemory.write(
+                    event_type="agent_complete",
+                    agent_id=self.agent_id,
+                    summary=f"Completed {self.agent_id} in {duration_ms}ms",
+                    tags=["lifecycle"],
+                ))
+                memory_summary[self.agent_id] = (
+                    f"completed ({duration_ms}ms)"
+                )
+
+            update = {
                 "agent_outputs": {self.agent_id: output_dict},
                 "execution_trace": [trace_entry],
             }
+            if memory_events:
+                update["session_memory"] = memory_events
+            if memory_summary:
+                update["session_summary"] = memory_summary
+            return update
 
         except SkipAgentException as e:
             duration_ms = int((time.time() - start) * 1000)

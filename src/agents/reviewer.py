@@ -13,6 +13,7 @@ Implements: SDD §5.6, MA-050–054
 import json
 import structlog
 from src.agents.base import BaseAgent
+from src.memory import EpisodicMemory
 from src.schemas.reviewer import ReviewerOutput
 from langchain_core.messages import SystemMessage, HumanMessage
 
@@ -86,6 +87,33 @@ class ClinicalReviewerAgent(BaseAgent):
         ehr_case = ctx.get("ehr_case", {})
 
         sections = []
+
+        # ── Diagnostic agent's reasoning trail (Tier-2 episodic memory) ──
+        # Lets the reviewer challenge the *path* to the diagnosis, not just
+        # the final differential. Surfaces the critique rounds, confidence
+        # trajectory, and any flagged concerns from the diagnostic loop.
+        if self._memory_enabled():
+            mm = self.memory(state)
+            critique_events = [
+                e for e in mm.episodic.events
+                if e.get("agent_id") == "diagnostic_reasoning"
+                and e.get("event_type") in ("critique", "confidence_check", "decision")
+            ]
+            if critique_events:
+                sections.append("## DIAGNOSTIC AGENT REASONING TRAIL (from session memory)\n")
+                # Pull confidence trajectory from the working-memory snapshot
+                # the diagnostic agent wrote.
+                scratch = (state.get("scratchpad") or {}).get("diagnostic_reasoning") or {}
+                trajectory = scratch.get("confidence_trajectory")
+                if trajectory:
+                    sections.append(f"Confidence trajectory across rounds: {trajectory}\n")
+                # Emit a compact one-line digest per critique/decision.
+                for e in critique_events[-12:]:
+                    sections.append(
+                        f"- [round {e.get('payload',{}).get('round','?')} "
+                        f"{e.get('event_type')}] {e.get('summary','')}"
+                    )
+                sections.append("")
 
         # ── Diagnostic Agent's Output (what we're reviewing) ──
         sections.append("## DIAGNOSTIC AGENT OUTPUT (to be reviewed)\n")

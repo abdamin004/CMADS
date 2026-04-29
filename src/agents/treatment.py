@@ -12,6 +12,7 @@ medications, check interactions/contraindications, and create a monitoring plan.
 import json
 import structlog
 from src.agents.base import BaseAgent, SkipAgentException
+from src.memory import EpisodicMemory
 from src.schemas.treatment import TreatmentOutput
 from langchain_core.messages import SystemMessage, HumanMessage
 
@@ -77,6 +78,20 @@ class TreatmentPlanningAgent(BaseAgent):
         prompt_data = self._build_prompt(state, primary, guideline_results)
         contra_list = self._extract_contraindications(guideline_results)
 
+        # ── Semantic memory (Tier 3): how has this disease played out before? ──
+        # Doesn't change the treatment plan directly — but adding the prior
+        # observation count and rank-1 frequency to the prompt lets the LLM
+        # calibrate its confidence (e.g. "we've seen this disease N times,
+        # rank-1 rate is X%, so the diagnosis is likely robust").
+        if self._memory_enabled():
+            mm = self.memory(state)
+            semantic_summary = mm.semantic.summarize_for_diseases([primary])
+            prompt_data = (
+                f"## CROSS-SESSION CONTEXT (Tier-3 semantic memory)\n"
+                f"{semantic_summary}\n\n"
+                f"{prompt_data}"
+            )
+
         # ── Call 1: Analyse and plan ──
         logger.info("agent_step", agent_id=self.agent_id, step="analysis")
         analysis = self._call_llm(llm,
@@ -109,7 +124,20 @@ class TreatmentPlanningAgent(BaseAgent):
         ])
         logger.info("agent_step_done", agent_id=self.agent_id, step="structure")
 
-        return output.model_dump()
+        result = output.model_dump()
+        if self._memory_enabled():
+            self._pending_memory_events.append(EpisodicMemory.write(
+                event_type="decision",
+                agent_id=self.agent_id,
+                summary=(
+                    f"Treatment plan generated for '{primary}' "
+                    f"({len(result.get('medications') or [])} meds)"
+                ),
+                payload={"disease": primary},
+                tags=["treatment", "plan"],
+            ))
+
+        return result
 
     @staticmethod
     def _extract_contraindications(guideline_results: list[dict]) -> str:
