@@ -104,14 +104,15 @@
 
 | Metric | Before (memory OFF) | After (memory ON) |
 |---|:---:|:---:|
-| DIRECT match | _baseline pending_ | _experiment pending_ |
-| Found rate | _baseline pending_ | _experiment pending_ |
-| Avg time / patient | _baseline pending_ | _experiment pending_ |
+| DIRECT match | 8/20 · 40% | 9/20 · 45% |
+| Found rate | 80% | 90% |
+| Avg time / patient | 113s | 114s |
+| Rank-1 when found | 19% | 17% |
 
-> Numbers will be filled in once the two 20-patient runs complete (running tonight). Code, tests, and design are landed — the slide carries even if the experiment slips.
+> **Headline:** memory ON gives **+5 pp DIRECT** (40 → 45 %) and **+10 pp Found rate** (80 → 90 %) at **no time cost** (113 → 114 s). Rank-1 stays roughly flat (19 → 17 %, within noise on a 20-patient cohort). The memory wiring helps detection more than ranking — consistent with how the Reviewer now reads the Diagnostic agent's critique trail before challenging it.
 
 **Speaker notes:**
-> Last week you asked for a multi-level memory system so agents could share session context, not only their final JSON outputs. This is the implementation. There are four tiers, inspired by the CoALA cognitive-architecture paper but specialised to a clinical workflow. Tier 1 is working memory — per-agent scratch space, used heavily inside the Diagnostic agent's adaptive critique loop to track its own confidence trajectory across rounds. Tier 2 is episodic — a typed timeline of events that the Reviewer and Refiner read so they can reason about the *path* to the diagnosis, not only the diagnosis itself. Tier 3 is semantic — a small JSON file on disk that accumulates per-disease statistics across runs; a new Stage 7 *Memory Consolidation* node writes into it after every patient. Tier 4 is procedural — the existing NICE-guidelines vector store, now exposed through the same uniform recall API as the other tiers, so an agent fetches priors and guidelines the same way. The whole thing is gated by a single config flag, MEMORY_ENABLED, which is what makes the before/after experiment fair. The implementation lands as a new `src/memory/` package and a `memory_consolidation_node` plugged in after Treatment; twenty-four unit tests cover all four tiers. Numbers from the 20-patient A/B run will go in the empty cells before the meeting.
+> Last week you asked for a multi-level memory system so agents could share session context, not only their final JSON outputs. This is the implementation. There are four tiers, inspired by the CoALA cognitive-architecture paper but specialised to a clinical workflow. Tier 1 is working memory — per-agent scratch space, used heavily inside the Diagnostic agent's adaptive critique loop to track its own confidence trajectory across rounds. Tier 2 is episodic — a typed timeline of events that the Reviewer and Refiner read so they can reason about the *path* to the diagnosis, not only the diagnosis itself. Tier 3 is semantic — a small JSON file on disk that accumulates per-disease statistics across runs; a new Stage 7 *Memory Consolidation* node writes into it after every patient. Tier 4 is procedural — the existing NICE-guidelines vector store, now exposed through the same uniform recall API as the other tiers, so an agent fetches priors and guidelines the same way. The whole thing is gated by a single config flag, MEMORY_ENABLED, which is what makes the before/after experiment fair. On Batch 4 — twenty patients, same model, same judge — DIRECT goes from forty to forty-five percent and Found-rate from eighty to ninety percent at no measurable time cost. Rank-1 within found is roughly flat, which means the wiring helps *detection* more than *ranking*. That fits the design intent: the Reviewer now reads the Diagnostic agent's critique trail and challenges it earlier, so more diagnoses land in the differential at all. The implementation is a new `src/memory/` package, a `memory_consolidation_node` plugged in after Treatment, and twenty-four unit tests covering all four tiers.
 
 ---
 

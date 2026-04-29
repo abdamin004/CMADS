@@ -602,10 +602,10 @@ hypertension, and it costs zero dollars, but at thirteen times the wall-clock.
 
     ab_rows = [
         ("Metric", "OFF", "ON"),
-        ("DIRECT match", "—", "—"),
-        ("Found rate (D + I)", "—", "—"),
-        ("Avg time / patient", "—", "—"),
-        ("Rank-1 when found", "—", "—"),
+        ("DIRECT match", "8/20 · 40%", "9/20 · 45%"),
+        ("Found rate (D + I)", "80%", "90%"),
+        ("Avg time / patient", "113s", "114s"),
+        ("Rank-1 when found", "19%", "17%"),
     ]
     ab_top = panel_top + Inches(1.05)
     ab_left = panel_left + Inches(0.2)
@@ -636,8 +636,8 @@ hypertension, and it costs zero dollars, but at thirteen times the wall-clock.
 
     add_textbox(s, panel_left + Inches(0.2), ab_top + ab_h + Inches(0.05),
                 panel_w - Inches(0.4), Inches(0.45),
-                "Numbers populated after the two 20-patient A/B runs finish.",
-                size=10, italic=True, color=GREY_MED)
+                "+5 pp DIRECT, +10 pp Found-rate at no time cost.",
+                size=10, italic=True, color=GREEN)
 
     add_textbox(s, panel_left + Inches(0.2),
                 panel_top + Inches(3.85),
