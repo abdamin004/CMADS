@@ -1,10 +1,15 @@
 """Multi-level memory subsystem (CoALA-inspired).
 
 Four tiers:
-  - WorkingMemory      — per-agent ephemeral (Tier 1, in-state)
-  - EpisodicMemory     — current session timeline (Tier 2, in-state, persisted)
-  - SemanticMemory     — cross-session insights (Tier 3, on disk)
-  - ProceduralMemory   — NICE guidelines via Qdrant (Tier 4, static)
+  - WorkingMemory       — per-agent ephemeral (Tier 1, in-state)
+  - EpisodicMemory      — current session timeline (Tier 2, in-state, persisted)
+  - SemanticMemory      — cross-session disease stats (Tier 3, on disk)
+  - CaseBasedMemory     — past patient cases via Qdrant (Tier 4, vector recall)
+
+NICE clinical guidelines remain accessible through ProceduralMemory but they
+are *external reference knowledge*, not part of the memory hierarchy — Tier 4
+was redesigned to hold the actually-useful patient context that benefits from
+vector similarity (case-based recall).
 
 Agents access tiers through MemoryManager:
 
@@ -13,9 +18,15 @@ Agents access tiers through MemoryManager:
     mm.working.put(...)
     mm.episodic.summarize()
     mm.semantic.recall("Hypertension")
-    mm.procedural.lookup_disease("Hypertension")
+    mm.case_based.recall(patient_context, top_k=5)
+    mm.knowledge_base.lookup_disease("Hypertension")  # NICE guidelines
 """
 
+from src.memory.case_based_memory import (
+    CaseBasedMemory,
+    build_case_text,
+    get_case_based_memory,
+)
 from src.memory.episodic_memory import EpisodicMemory
 from src.memory.manager import MemoryManager
 from src.memory.procedural_memory import ProceduralMemory
@@ -33,9 +44,12 @@ __all__ = [
     "WorkingMemory",
     "EpisodicMemory",
     "SemanticMemory",
+    "CaseBasedMemory",
     "ProceduralMemory",
     "SessionEvent",
     "ConfidenceCheckpoint",
     "SemanticInsight",
     "EventType",
+    "build_case_text",
+    "get_case_based_memory",
 ]

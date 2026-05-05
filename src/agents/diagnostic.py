@@ -265,6 +265,43 @@ class DiagnosticReasoningAgent(BaseAgent):
         sections = []
         sections.append("# Clinical Evidence for Diagnostic Reasoning\n")
 
+        # ── 0. Case-based prior (Tier 4: similar past patients) ──
+        # Vector-similarity recall over the Qdrant `patient_cases` collection.
+        # Adds a Bayesian-style prior — "in past patients with similar EHR +
+        # labs, the system landed on these diagnoses". Quietly skipped when
+        # the store is empty, Qdrant is unreachable, or memory is disabled.
+        if self._memory_enabled():
+            try:
+                mm = self.memory(state)
+                ctx = state.get("patient_context") or {}
+                this_uuid = (ctx.get("ehr_case") or {}).get("patient_uuid")
+                similar = mm.case_based.recall(
+                    patient_context=ctx,
+                    ehr_summary=ehr_out,
+                    lab_summary=lab_out,
+                    top_k=5,
+                    exclude_uuid=this_uuid,
+                )
+            except Exception:  # noqa: BLE001 — never break the prompt
+                similar = []
+            if similar:
+                sections.append(
+                    "## 0. SIMILAR PAST PATIENTS — case-based prior "
+                    "(Tier 4 memory)\n"
+                )
+                sections.append(
+                    "Past patients whose EHR + lab profile resembles the "
+                    "current case, with the diagnosis the pipeline reached "
+                    "and how strongly the judge accepted it. Use as a prior, "
+                    "not as ground truth — every case is similarity-ranked "
+                    "by vector embedding only, not by clinical match.\n"
+                )
+                from src.memory import CaseBasedMemory
+                sections.append(
+                    CaseBasedMemory.summarize_for_prompt(similar, max_lines=5)
+                )
+                sections.append("")
+
         # ── EHR Analyst Output ──
         sections.append("## 1. EHR Analyst Summary\n")
         if ehr_out:
