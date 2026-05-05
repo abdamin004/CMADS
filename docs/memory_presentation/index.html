@@ -519,24 +519,28 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
   transition: width 320ms ease;
 }
 
-.help {
-  position: fixed;
-  bottom: 1.4rem; left: 2rem;
-  font-family: "Geist Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  color: var(--ink-faint);
-  z-index: 5;
-  opacity: 0.6;
+/* ── Title-slide credits block ──────────────────────────────── */
+.credits {
+  margin-top: 2.2rem;
+  max-width: 36em;
 }
-.help kbd {
-  border: 1px solid var(--rule);
-  padding: 0.05em 0.35em;
-  border-radius: 3px;
-  background: var(--panel);
-  font-family: inherit;
-  margin: 0 0.1em;
+.credits .rule {
+  width: 3rem; height: 2px;
+  background: var(--primary);
+  margin-bottom: 1.1rem;
 }
+.credits .line {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+.credits .line.dim { color: var(--ink-dim); font-size: 0.98rem; }
+.credits .line strong {
+  font-weight: 500;
+  color: var(--primary-warm);
+}
+.credits .line.dim strong { color: var(--ink); }
 
 /* ── SVG colour overrides for dark mode ─────────────────────── */
 /* The SVGs were designed light; we wrap them and don't recolour
@@ -567,7 +571,13 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
     and a clean A/B against the previous design.
   </p>
 
-  <p class="body" style="margin-top: 2.6rem; color: var(--ink-faint); max-width: 40em;">
+  <div class="credits">
+    <div class="rule"></div>
+    <p class="line">Presented by  <strong>Abdelrahman</strong></p>
+    <p class="line dim">Supervised by  <strong>Dr Shereen Afifi</strong></p>
+  </div>
+
+  <p class="body" style="margin-top: 2rem; color: var(--ink-faint); max-width: 40em;">
     <span class="mono">agenda</span>  ·  the gap in the old design  ·  4-tier
     architecture  ·  tier-by-tier walk-through  ·  pipeline integration
     ·  Memory ON vs OFF on Batch 4  ·  next steps.
@@ -933,7 +943,6 @@ results = mm.procedural.recall("proteinuria", top_k=3)</pre>
 <div class="brand-corner">CMADS · 2026</div>
 <div class="slide-num"><span class="now">01</span><span class="sep">/</span><span class="total">09</span></div>
 <div class="progress"></div>
-<div class="help">supervised navigation</div>
 
 <script>
 const slides = document.querySelectorAll('section.slide');
