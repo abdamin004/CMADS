@@ -116,6 +116,34 @@ def _ensure_collection(client) -> bool:
 
 # ── Feature extraction (no LLM — deterministic) ────────────
 
+def _normalise_clinical_list(value) -> list:
+    """Coerce a possibly-dict-shaped clinical field into a list of records.
+
+    The Gold-layer schema stores conditions/medications as a dict like
+    ``{"active": [...], "resolved": [...]}``; some upstream agents expose
+    them as plain lists. This helper accepts either, prefers active records,
+    and falls back to whatever list-typed values it can find.
+    """
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return value
+    if isinstance(value, dict):
+        # Prefer "active" if present, then concatenate any other list-typed
+        # values so we don't silently drop data we didn't anticipate.
+        out: list = []
+        active = value.get("active")
+        if isinstance(active, list):
+            out.extend(active)
+        for k, v in value.items():
+            if k == "active":
+                continue
+            if isinstance(v, list):
+                out.extend(v)
+        return out
+    return []
+
+
 def build_case_text(ehr_case: dict, lab_case: dict,
                     ehr_summary: dict | None = None,
                     lab_summary: dict | None = None) -> str:
@@ -138,29 +166,42 @@ def build_case_text(ehr_case: dict, lab_case: dict,
         if race: bits.append(str(race))
         parts.append("Demographics: " + ", ".join(bits))
 
-    # Active conditions — prefer the EHR analyst's curated list.
+    # Active conditions — prefer the EHR analyst's curated list, fall back
+    # to the Gold-layer shape. Gold ehr_case["conditions"] in this project
+    # is a dict {"active": [...], "resolved": [...]}, NOT a flat list.
     conditions = []
     if ehr_summary:
         for p in (ehr_summary.get("active_problems") or []):
             if isinstance(p, dict) and p.get("name"):
                 conditions.append(p["name"])
     if not conditions:
-        for c in (ehr_case.get("conditions") or [])[:12]:
-            if isinstance(c, dict) and c.get("description"):
-                conditions.append(c["description"])
+        for c in _normalise_clinical_list(ehr_case.get("conditions"))[:12]:
+            if isinstance(c, dict):
+                # Try several common field names across data shapes.
+                name = (
+                    c.get("condition") or c.get("description")
+                    or c.get("name") or c.get("display")
+                )
+                if name:
+                    conditions.append(name)
     if conditions:
         parts.append("Active conditions: " + "; ".join(conditions[:10]))
 
-    # Active medications
+    # Active medications — same dict-or-list shape tolerance as conditions.
     meds = []
     if ehr_summary:
         for m in (ehr_summary.get("active_medications") or []):
             if isinstance(m, dict) and m.get("name"):
                 meds.append(m["name"])
     if not meds:
-        for m in (ehr_case.get("medications") or [])[:12]:
-            if isinstance(m, dict) and m.get("description"):
-                meds.append(m["description"])
+        for m in _normalise_clinical_list(ehr_case.get("medications"))[:12]:
+            if isinstance(m, dict):
+                name = (
+                    m.get("description") or m.get("name")
+                    or m.get("drug") or m.get("display")
+                )
+                if name:
+                    meds.append(name)
     if meds:
         parts.append("Active medications: " + "; ".join(meds[:10]))
 

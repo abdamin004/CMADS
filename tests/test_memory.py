@@ -287,6 +287,61 @@ def test_case_text_falls_back_to_raw_gold_when_summaries_missing():
     assert "BP_systolic" in text
 
 
+def test_case_text_handles_dict_shape_gold_layer():
+    """Regression: Gold-layer conditions/medications are dicts, not lists.
+
+    Originally the function did `ehr_case["conditions"][:12]` which threw
+    `KeyError: slice(None, 12, None)` because the field is shaped
+    ``{"active": [...], "resolved": [...]}`` in this project. The code
+    now normalises that shape before slicing.
+    """
+    text = build_case_text(
+        ehr_case={
+            "demographics": {"age": 65, "gender": "M"},
+            "conditions": {
+                "active": [
+                    {"condition": "Essential hypertension", "code": "59621000"},
+                    {"condition": "Type 2 diabetes mellitus", "code": "44054006"},
+                ],
+                "active_count": 2,
+                "resolved": [{"condition": "Acute viral pharyngitis"}],
+                "resolved_count": 1,
+            },
+            "medications": {
+                "active": [
+                    {"description": "Lisinopril 10mg oral tablet"},
+                    {"description": "Metformin 500mg oral tablet"},
+                ],
+                "active_count": 2,
+            },
+        },
+        lab_case={
+            "latest_labs": [
+                {"test_name": "HbA1c", "value": 7.4, "unit": "%"},
+            ],
+        },
+    )
+    assert "Essential hypertension" in text
+    assert "Type 2 diabetes mellitus" in text
+    assert "Lisinopril" in text
+    assert "Metformin" in text
+    assert "HbA1c" in text
+    # Resolved conditions also surface (so we don't silently drop them)
+    assert "Acute viral pharyngitis" in text
+
+
+def test_normalise_clinical_list_shapes():
+    from src.memory.case_based_memory import _normalise_clinical_list
+    assert _normalise_clinical_list(None) == []
+    assert _normalise_clinical_list([1, 2]) == [1, 2]
+    assert _normalise_clinical_list({"active": [1, 2], "resolved": [3]}) == [1, 2, 3]
+    # Active comes first
+    assert _normalise_clinical_list({"resolved": [3], "active": [1, 2]})[0] == 1
+    # Non-list dict values are skipped, scalars are dropped
+    assert _normalise_clinical_list({"active": [1], "active_count": 1}) == [1]
+    assert _normalise_clinical_list("not a collection") == []
+
+
 def test_case_based_recall_empty_when_qdrant_unconfigured(monkeypatch):
     """No QDRANT_URL → recall returns [] (graceful degradation)."""
     monkeypatch.setenv("QDRANT_URL", "")
