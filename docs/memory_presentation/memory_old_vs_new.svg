@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 760" width="1600" height="760" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="1600" height="760" fill="#FFFFFF"/>
+
+  <defs>
+    <linearGradient id="oldChan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7F8C8D"/><stop offset="100%" stop-color="#566573"/>
+    </linearGradient>
+    <linearGradient id="newChan" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1F4E79"/><stop offset="100%" stop-color="#0F2538"/>
+    </linearGradient>
+    <linearGradient id="newDisk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#16A085"/><stop offset="100%" stop-color="#0E6251"/>
+    </linearGradient>
+    <linearGradient id="newQdrant" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1B3A5C"/><stop offset="100%" stop-color="#0F2538"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.18"/></filter>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6">
+      <path d="M-1,1 l2,-2 M0,6 l6,-6 M5,7 l2,-2" stroke="#BDC3C7" stroke-width="1"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1F4E79"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="800" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#1B3A5C">
+    Old Memory  vs.  New Memory
+  </text>
+  <text x="800" y="56" text-anchor="middle" font-size="12" font-style="italic" fill="#666">
+    Same LangGraph state — but the new design uses every channel and adds three layers above and beyond
+  </text>
+
+  <!-- ──────────────────  LEFT: OLD  ────────────────── -->
+  <rect x="40" y="80" width="730" height="640" rx="14" fill="#F4F6F7" stroke="#7F8C8D" stroke-width="1.5"/>
+
+  <text x="60"  y="110" font-size="16" font-weight="bold" fill="#34495E">BEFORE  ·  PipelineState only</text>
+  <text x="60"  y="132" font-size="11.5" fill="#5D6D7E" font-style="italic">5 TypedDict channels, 3 actually used. No cross-session state, no reasoning trail.</text>
+
+  <!-- old shared state container -->
+  <rect x="60" y="155" width="690" height="240" rx="10" fill="#FFFFFF" stroke="#AAB7C4" stroke-width="1.4"/>
+  <text x="80" y="180" font-size="12" font-weight="bold" fill="#34495E">PipelineState  (TypedDict)</text>
+  <text x="80" y="196" font-size="10" fill="#7F8C8D" font-style="italic">defined in src/orchestrator/state.py</text>
+
+  <!-- channel rows -->
+  <g font-size="11.5">
+    <rect x="80"  y="208" width="640" height="32" rx="6" fill="url(#oldChan)" filter="url(#shadow)"/>
+    <text x="100" y="228" fill="#FFF" font-weight="bold">patient_context</text>
+    <text x="280" y="228" fill="#ECF0F1">— Gold-layer EHR + lab data, set once</text>
+    <text x="700" y="228" text-anchor="end" fill="#FFF" font-style="italic">used</text>
+
+    <rect x="80"  y="244" width="640" height="32" rx="6" fill="url(#oldChan)" filter="url(#shadow)"/>
+    <text x="100" y="264" fill="#FFF" font-weight="bold">agent_outputs</text>
+    <text x="280" y="264" fill="#ECF0F1">— per-agent JSON slot, merge reducer</text>
+    <text x="700" y="264" text-anchor="end" fill="#FFF" font-style="italic">used</text>
+
+    <rect x="80"  y="280" width="640" height="32" rx="6" fill="url(#oldChan)" filter="url(#shadow)"/>
+    <text x="100" y="300" fill="#FFF" font-weight="bold">execution_trace</text>
+    <text x="280" y="300" fill="#ECF0F1">— append-only status / timing record</text>
+    <text x="700" y="300" text-anchor="end" fill="#FFF" font-style="italic">used</text>
+
+    <!-- vestigial channels -->
+    <rect x="80"  y="316" width="640" height="32" rx="6" fill="url(#hatch)" stroke="#BDC3C7"/>
+    <text x="100" y="336" fill="#7F8C8D" font-weight="bold">conflicts</text>
+    <text x="280" y="336" fill="#95A5A6">— append-only list, never written</text>
+    <text x="700" y="336" text-anchor="end" fill="#7F8C8D" font-style="italic">vestigial</text>
+
+    <rect x="80"  y="352" width="640" height="32" rx="6" fill="url(#hatch)" stroke="#BDC3C7"/>
+    <text x="100" y="372" fill="#7F8C8D" font-weight="bold">scratchpad</text>
+    <text x="280" y="372" fill="#95A5A6">— per-agent notes, never written</text>
+    <text x="700" y="372" text-anchor="end" fill="#7F8C8D" font-style="italic">vestigial</text>
+  </g>
+
+  <!-- old "what's missing" -->
+  <rect x="60" y="415" width="690" height="290" rx="10" fill="#FDEDEC" stroke="#C0392B" stroke-width="1.3"/>
+  <text x="80" y="440" font-size="13" font-weight="bold" fill="#922B21">WHAT THE OLD DESIGN HID</text>
+
+  <g font-size="11.5" fill="#34495E">
+    <text x="80"  y="466">✗  Reviewer saw only the final differential JSON —</text>
+    <text x="100" y="482">no critique rounds, no confidence trajectory, no rejected hypotheses.</text>
+
+    <text x="80"  y="510">✗  Refiner had no view of the reasoning chain —</text>
+    <text x="100" y="526">it could only weigh two opaque outputs.</text>
+
+    <text x="80"  y="554">✗  Each patient run was completely isolated —</text>
+    <text x="100" y="570">no signal flowed from one run to the next.</text>
+
+    <text x="80"  y="598">✗  No cross-disease aggregate priors —</text>
+    <text x="100" y="614">the diagnostic agent re-learnt every disease from scratch each run.</text>
+
+    <text x="80"  y="642">✗  scratchpad and conflicts were declared but never used —</text>
+    <text x="100" y="658">the placeholder shape of a memory system without the substance.</text>
+
+    <text x="80"  y="688" font-style="italic" fill="#922B21">No tier separation.  No timeline.  No on-disk memory beyond static guidelines.</text>
+  </g>
+
+  <!-- ──────────────────  RIGHT: NEW  ────────────────── -->
+  <rect x="790" y="80" width="770" height="640" rx="14" fill="#F4FAFD" stroke="#1F4E79" stroke-width="1.5"/>
+
+  <text x="810" y="110" font-size="16" font-weight="bold" fill="#1F4E79">AFTER  ·  PipelineState + 4-tier memory</text>
+  <text x="810" y="132" font-size="11.5" fill="#1B3A5C" font-style="italic">All five channels active + 2 new channels + Tier-3 disk store + Tier-4 vector DB.</text>
+
+  <!-- new state container -->
+  <rect x="810" y="155" width="730" height="266" rx="10" fill="#FFFFFF" stroke="#5499C7" stroke-width="1.4"/>
+  <text x="830" y="180" font-size="12" font-weight="bold" fill="#1F4E79">PipelineState  (extended)</text>
+  <text x="830" y="196" font-size="10" fill="#5D6D7E" font-style="italic">+ session_memory  + session_summary  · scratchpad now load-bearing</text>
+
+  <g font-size="11.5">
+    <rect x="830" y="208" width="690" height="30" rx="6" fill="url(#newChan)" filter="url(#shadow)"/>
+    <text x="850" y="228" fill="#FFF" font-weight="bold">patient_context · agent_outputs · execution_trace</text>
+    <text x="1500" y="228" text-anchor="end" fill="#D6EAF8" font-style="italic">unchanged</text>
+
+    <rect x="830" y="242" width="690" height="30" rx="6" fill="#FDF2E9" stroke="#D35400" stroke-width="1.5"/>
+    <text x="850" y="262" fill="#A04000" font-weight="bold">scratchpad[agent_id]</text>
+    <text x="1010" y="262" fill="#7E430B">— now Tier-1 working memory  (was unused)</text>
+    <text x="1500" y="262" text-anchor="end" fill="#A04000" font-style="italic">activated</text>
+
+    <rect x="830" y="276" width="690" height="30" rx="6" fill="#EAF4FB" stroke="#1F4E79" stroke-width="1.5"/>
+    <text x="850" y="296" fill="#1F4E79" font-weight="bold">session_memory</text>
+    <text x="1010" y="296" fill="#1B3A5C">— Tier-2 episodic timeline (NEW · append reducer)</text>
+    <text x="1500" y="296" text-anchor="end" fill="#1F4E79" font-style="italic">new</text>
+
+    <rect x="830" y="310" width="690" height="30" rx="6" fill="#EAF4FB" stroke="#1F4E79" stroke-width="1.5"/>
+    <text x="850" y="330" fill="#1F4E79" font-weight="bold">session_summary</text>
+    <text x="1010" y="330" fill="#1B3A5C">— Tier-2 per-agent digest (NEW · merge reducer)</text>
+    <text x="1500" y="330" text-anchor="end" fill="#1F4E79" font-style="italic">new</text>
+
+    <rect x="830" y="344" width="690" height="30" rx="6" fill="url(#hatch)" stroke="#BDC3C7"/>
+    <text x="850" y="364" fill="#7F8C8D" font-weight="bold">conflicts</text>
+    <text x="1000" y="364" fill="#95A5A6">— still unused (kept for forward compatibility)</text>
+    <text x="1500" y="364" text-anchor="end" fill="#7F8C8D" font-style="italic">reserved</text>
+  </g>
+
+  <text x="830" y="402" font-size="11" font-style="italic" fill="#5D6D7E">Tier-3 and Tier-4 stores live outside the state — see below.</text>
+
+  <!-- new Tier 3 + Tier 4 -->
+  <rect x="810" y="430" width="730" height="100" rx="10" fill="#FFFFFF" stroke="#0E6251" stroke-width="1.4"/>
+  <rect x="810" y="430" width="730" height="32" rx="10" fill="url(#newDisk)"/>
+  <rect x="810" y="450" width="730" height="12" fill="url(#newDisk)"/>
+  <text x="830" y="453" font-size="13" font-weight="bold" fill="#FFF">TIER 3  ·  SEMANTIC MEMORY (cross-session, on disk)</text>
+  <text x="830" y="488" font-size="11.5" fill="#34495E">data/gold/memory/semantic_memory.json — per-disease aggregate stats.</text>
+  <text x="830" y="506" font-size="11" fill="#5D6D7E" font-style="italic">Updated by the new Stage-7 memory_consolidation_node after every run.</text>
+  <text x="830" y="522" font-size="11" fill="#5D6D7E" font-style="italic">Recallable by name with O(1) lookup; no embeddings needed at this scale.</text>
+
+  <rect x="810" y="540" width="730" height="100" rx="10" fill="#FFFFFF" stroke="#1B3A5C" stroke-width="1.4"/>
+  <rect x="810" y="540" width="730" height="32" rx="10" fill="url(#newQdrant)"/>
+  <rect x="810" y="560" width="730" height="12" fill="url(#newQdrant)"/>
+  <text x="830" y="563" font-size="13" font-weight="bold" fill="#FFF">TIER 4  ·  PROCEDURAL MEMORY (long-term, Qdrant — pre-existing)</text>
+  <text x="830" y="598" font-size="11.5" fill="#34495E">NICE guidelines vector store, now wrapped in a uniform recall(query) API.</text>
+  <text x="830" y="616" font-size="11" fill="#5D6D7E" font-style="italic">Same code path used by Treatment also available to Diagnostic / Reviewer.</text>
+  <text x="830" y="632" font-size="11" fill="#5D6D7E" font-style="italic">Graceful degradation: if Qdrant is unreachable, recall returns [] not an error.</text>
+
+  <!-- new "what's gained" -->
+  <rect x="810" y="652" width="730" height="56" rx="10" fill="#FEF9E7" stroke="#D4AC0D" stroke-width="1.3"/>
+  <text x="830" y="672" font-size="12" font-weight="bold" fill="#7D6608">RESULT</text>
+  <text x="830" y="690" font-size="11" fill="#34495E">+5 pp DIRECT, +10 pp Found-rate on Batch 4 · 24 unit tests · MEMORY_ENABLED flag</text>
+  <text x="830" y="704" font-size="10" font-style="italic" fill="#7D6608">measured on the same 20 patients with the same model and the same judge</text>
+
+  <!-- arrow connector between OLD and NEW -->
+  <g stroke="#1F4E79" stroke-width="2" fill="none">
+    <path d="M 770 400 L 790 400" marker-end="url(#arrow)"/>
+  </g>
+</svg>

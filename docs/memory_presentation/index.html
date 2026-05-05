@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CMADS — Multi-Level Memory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #f4f6f8;
+  --ink-dim: #b9c0c9;
+  --ink-faint: #6c7682;
+  --bg: #0a0e16;
+  --bg-2: #11161f;
+  --panel: #161c27;
+  --rule: #232a36;
+
+  /* CMADS accent palette — amber primary, tier colours from the SVGs */
+  --primary: #f59e0b;         /* amber */
+  --primary-warm: #fcd34d;
+  --primary-deep: #92400e;
+  --t1: #f97316;              /* working — orange */
+  --t2: #3b82f6;              /* episodic — blue */
+  --t3: #14b8a6;              /* semantic — teal */
+  --t4: #6366f1;              /* procedural — indigo */
+  --gain: #4ade80;
+  --warn: #fbbf24;
+  --crimson: #f87171;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Geist", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(245, 158, 11, 0.07), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(20, 184, 166, 0.04), transparent 70%),
+    var(--bg);
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main {
+  position: relative;
+  width: 100vw; height: 100vh;
+  z-index: 1;
+}
+
+section.slide {
+  position: absolute; inset: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6vh 8vw;
+  opacity: 0;
+  transition: opacity 320ms ease;
+  overflow: hidden;
+}
+
+section.slide.active {
+  display: flex;
+  opacity: 1;
+  animation: rise 480ms ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section.slide.active { animation: none; }
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+.kicker {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 1.4rem;
+  display: inline-block;
+}
+.kicker::before {
+  content: '— ';
+  color: var(--ink-faint);
+  margin-right: 0.4em;
+}
+
+h1.display {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-weight: 400;
+  font-size: clamp(3rem, 7.5vw, 7.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+}
+
+h1.display em {
+  font-style: italic;
+  color: var(--primary-warm);
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+
+h2.title {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "opsz" 96, "SOFT" 30;
+  font-weight: 400;
+  font-size: clamp(2.0rem, 3.6vw, 3.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 26em;
+  margin-bottom: 1.6rem;
+}
+
+h2.title em {
+  font-style: italic;
+  color: var(--primary-warm);
+}
+
+p.lede {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "opsz" 36;
+  font-weight: 300;
+  font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+  line-height: 1.5;
+  color: var(--ink-dim);
+  max-width: 38em;
+  margin-bottom: 1.4rem;
+}
+
+p.body {
+  font-size: 1.0rem;
+  line-height: 1.55;
+  color: var(--ink-dim);
+  max-width: 38em;
+  margin-bottom: 0.9rem;
+}
+
+ul.bullets {
+  list-style: none;
+  font-size: 1.0rem;
+  line-height: 1.65;
+  color: var(--ink-dim);
+  max-width: 38em;
+}
+
+ul.bullets li {
+  padding-left: 1.6rem;
+  position: relative;
+  margin-bottom: 0.4rem;
+}
+
+ul.bullets li::before {
+  content: '';
+  position: absolute; left: 0; top: 0.85rem;
+  width: 0.6rem; height: 1px;
+  background: var(--primary);
+}
+
+ul.bullets.gain li::before { background: var(--gain); }
+ul.bullets.warn li::before { background: var(--crimson); }
+
+ul.bullets li strong { color: var(--ink); font-weight: 500; }
+
+.mono {
+  font-family: "Geist Mono", monospace;
+  letter-spacing: -0.01em;
+  color: var(--primary-warm);
+}
+
+/* ── Layout helpers ─────────────────────────────────────────── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4vw;
+  align-items: start;
+}
+
+.grid-2-uneven {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3vw;
+  align-items: start;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+  margin-top: 1.5rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+  margin-top: 1.2rem;
+}
+
+.card {
+  border: 1px solid var(--rule);
+  background: linear-gradient(180deg, var(--panel), var(--bg-2));
+  border-radius: 14px;
+  padding: 1.7rem 1.6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute; left: 0; top: 0;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent, var(--primary)), transparent);
+  opacity: 0.5;
+}
+
+.card.t1 { --accent: var(--t1); }
+.card.t2 { --accent: var(--t2); }
+.card.t3 { --accent: var(--t3); }
+.card.t4 { --accent: var(--t4); }
+
+.card .num {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.74rem;
+  color: var(--accent, var(--primary));
+  letter-spacing: 0.14em;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.card h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 400;
+  font-variation-settings: "opsz" 36;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+  color: var(--ink);
+}
+
+.card h3 em {
+  color: var(--accent, var(--primary-warm));
+  font-style: italic;
+}
+
+.card p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+
+.card .meta {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.6rem;
+}
+
+.card pre {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--accent, var(--primary-warm));
+  background: rgba(0,0,0,0.3);
+  border-left: 2px solid var(--accent, var(--primary));
+  padding: 0.7rem 0.9rem;
+  margin-top: 0.9rem;
+  border-radius: 0 6px 6px 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ── Stat block ─────────────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 1.6rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.stat .figure {
+  font-family: "Fraunces", Georgia, serif;
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+  line-height: 1;
+  color: var(--gain);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+.stat .figure.flat   { color: var(--warn); }
+.stat .figure.minus  { color: var(--ink-dim); }
+
+.stat .label {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  line-height: 1.4;
+}
+
+/* ── Diagram slides ─────────────────────────────────────────── */
+.diagram-slide {
+  padding: 4vh 4vw 5vh;
+}
+
+.diagram-slide .kicker { margin-bottom: 0.6rem; }
+.diagram-slide h2.title { font-size: clamp(1.6rem, 2.6vw, 2.4rem); margin-bottom: 1.1rem; }
+.diagram-slide .figure-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(255,255,255,0.97);
+  border-radius: 12px;
+  padding: 1.2rem;
+  border: 1px solid var(--rule);
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
+.diagram-slide .figure-wrap svg { width: 100%; height: auto; max-height: 70vh; }
+
+/* ── Comparison-table table ─────────────────────────────────── */
+table.cmp {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: var(--ink-dim);
+  margin-top: 0.6rem;
+}
+table.cmp th, table.cmp td {
+  padding: 0.55rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+table.cmp th {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 500;
+  border-bottom: 1px solid var(--primary);
+}
+table.cmp td.delta-pos { color: var(--gain); font-weight: 600; }
+table.cmp td.delta-neg { color: var(--ink-faint); }
+table.cmp td.delta-flat { color: var(--warn); }
+table.cmp tr:last-child td { border-bottom: 0; }
+table.cmp td.metric { color: var(--ink); font-weight: 500; }
+
+/* ── Matrix table for slide 7 ───────────────────────────────── */
+table.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  color: var(--ink-dim);
+  margin-top: 0.8rem;
+}
+table.matrix th, table.matrix td {
+  padding: 0.45rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+table.matrix th {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 500;
+}
+table.matrix td.agent { color: var(--ink); font-weight: 500; }
+table.matrix td.tier1 { color: var(--t1); }
+table.matrix td.tier2 { color: var(--t2); }
+table.matrix td.tier3 { color: var(--t3); }
+table.matrix td.tier4 { color: var(--t4); }
+table.matrix tr:last-child td { border-bottom: 0; }
+table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
+
+/* ── Compact diagram for slide 7 ────────────────────────────── */
+.pipeline-mini {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0.6rem 0 1rem;
+  flex-wrap: wrap;
+}
+.pipeline-mini .stage {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.74rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  border-radius: 6px;
+  color: var(--ink-dim);
+  letter-spacing: 0.04em;
+}
+.pipeline-mini .stage.new {
+  border-color: var(--primary);
+  color: var(--primary-warm);
+  background: rgba(245, 158, 11, 0.1);
+}
+.pipeline-mini .arr { color: var(--ink-faint); }
+
+/* ── Note panels ────────────────────────────────────────────── */
+.callout {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--primary);
+  background: rgba(245, 158, 11, 0.05);
+  padding: 1.0rem 1.2rem;
+  border-radius: 0 8px 8px 0;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+.callout.gain { border-left-color: var(--gain); background: rgba(74, 222, 128, 0.05); }
+.callout.warn { border-left-color: var(--crimson); background: rgba(248, 113, 113, 0.05); }
+.callout strong { color: var(--ink); }
+
+/* ── Caveats footnote ───────────────────────────────────────── */
+.caveats {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.74rem;
+  color: var(--ink-faint);
+  margin-top: 1.4rem;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+.caveats::before { content: '↳ '; color: var(--primary-deep); }
+
+/* ── Cover-mark wordmark ────────────────────────────────────── */
+.cover-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 2.6rem;
+}
+.cover-mark .glyph {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--primary);
+  border-radius: 4px;
+  position: relative;
+  background: linear-gradient(135deg, transparent 50%, var(--primary) 50%);
+}
+.cover-mark .word {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* ── Persistent UI ──────────────────────────────────────────── */
+.brand-corner {
+  position: fixed;
+  top: 1.6rem; right: 2rem;
+  font-family: "Geist Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  z-index: 5;
+}
+
+.slide-num {
+  position: fixed;
+  bottom: 1.4rem; right: 2rem;
+  font-family: "Geist Mono", monospace;
+  font-size: 0.84rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.06em;
+  z-index: 5;
+}
+.slide-num .now { color: var(--primary); font-weight: 500; }
+.slide-num .sep { margin: 0 0.2em; }
+
+.progress {
+  position: fixed;
+  bottom: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--rule);
+  z-index: 5;
+}
+.progress::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: var(--progress, 0%);
+  background: linear-gradient(90deg, var(--primary), var(--primary-warm));
+  transition: width 320ms ease;
+}
+
+.help {
+  position: fixed;
+  bottom: 1.4rem; left: 2rem;
+  font-family: "Geist Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  z-index: 5;
+  opacity: 0.6;
+}
+.help kbd {
+  border: 1px solid var(--rule);
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+  background: var(--panel);
+  font-family: inherit;
+  margin: 0 0.1em;
+}
+
+/* ── SVG colour overrides for dark mode ─────────────────────── */
+/* The SVGs were designed light; we wrap them and don't recolour
+   so they show as bright "documents" against the dark slide. */
+
+</style>
+</head>
+<body>
+
+<main>
+
+<!-- ───────────────────── 1 · TITLE ───────────────────── -->
+<section class="slide">
+  <div class="cover-mark">
+    <div class="glyph"></div>
+    <div class="word">CMADS  ·  Bachelor Thesis</div>
+  </div>
+
+  <span class="kicker">Deep dive · supervisor follow-up · May 2026</span>
+
+  <h1 class="display">
+    Multi-Level<br>
+    <em>Memory.</em>
+  </h1>
+
+  <p class="lede" style="max-width: 36em;">
+    How CMADS agents share session context — architecture, implementation,
+    and a clean A/B against the previous design.
+  </p>
+
+  <p class="body" style="margin-top: 2.6rem; color: var(--ink-faint); max-width: 40em;">
+    <span class="mono">agenda</span>  ·  the gap in the old design  ·  4-tier
+    architecture  ·  tier-by-tier walk-through  ·  pipeline integration
+    ·  Memory ON vs OFF on Batch 4  ·  next steps.
+  </p>
+</section>
+
+<!-- ───────────────────── 2 · THE GAP ─────────────────── -->
+<section class="slide">
+  <span class="kicker">02 · The problem</span>
+  <h2 class="title">
+    The old shared state hid the <em>reasoning chain</em> the agents needed
+    to challenge each other.
+  </h2>
+
+  <div class="grid-2-uneven">
+    <div>
+      <p class="lede">
+        The Diagnostic agent runs an adaptive critique loop. The Reviewer's
+        job is to challenge the differential it produces — but it could only
+        see the final JSON. The path was gone.
+      </p>
+      <ul class="bullets">
+        <li><strong>Round 1</strong> — confidence 60. anchored on a single lab finding.</li>
+        <li><strong>Round 2</strong> — confidence 72. added missed dx.</li>
+        <li><strong>Round 3</strong> — confidence 78. ✓ stopped. emits final JSON.</li>
+        <li>Reviewer sees only the JSON. <strong>Confidence trajectory, rejected hypotheses, anchoring decisions — all gone.</strong></li>
+      </ul>
+    </div>
+    <div>
+      <div class="card" style="--accent: var(--crimson);">
+        <span class="num">— PIPELINE STATE · BEFORE</span>
+        <h3>5 channels. <em>3 used.</em></h3>
+        <p style="margin-top: 0.6rem;">
+          <code class="mono">patient_context</code>  ·  <code class="mono">agent_outputs</code>  ·  <code class="mono">execution_trace</code><br>
+          <span style="color: var(--ink-faint); text-decoration: line-through;">conflicts</span>  ·  <span style="color: var(--ink-faint); text-decoration: line-through;">scratchpad</span>
+        </p>
+
+        <div class="callout warn" style="margin-top: 1rem;">
+          <strong>What was missing:</strong> a typed timeline of decisions,
+          per-agent scratch space, any cross-session learning.
+          The placeholder shape of memory without the substance.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────── 3 · OLD vs NEW ──────────────── -->
+<section class="slide diagram-slide">
+  <span class="kicker">03 · old memory  vs.  new memory</span>
+  <h2 class="title">
+    Same LangGraph state — every channel now <em>load-bearing</em>,
+    plus three layers above.
+  </h2>
+
+  <div class="figure-wrap">
+    <object type="image/svg+xml" data="memory_old_vs_new.svg" style="width: 100%; height: 64vh;"></object>
+  </div>
+</section>
+
+<!-- ───────────────────── 4 · THE 4 TIERS (DIAGRAM) ───── -->
+<section class="slide diagram-slide">
+  <span class="kicker">04 · architecture</span>
+  <h2 class="title">
+    Four tiers, layered on the LangGraph state — accessed through
+    <em>one MemoryManager facade.</em>
+  </h2>
+
+  <div class="figure-wrap">
+    <object type="image/svg+xml" data="memory_architecture.svg" style="width: 100%; height: 64vh;"></object>
+  </div>
+</section>
+
+<!-- ───────────────────── 5 · TIER 1 + 2 ──────────────── -->
+<section class="slide">
+  <span class="kicker">05 · inside the run</span>
+  <h2 class="title">
+    Tier 1 · <em>Working</em>   /   Tier 2 · <em>Episodic</em>
+  </h2>
+
+  <div class="grid-2">
+    <div class="card t1">
+      <span class="num">— TIER 1 · WORKING MEMORY</span>
+      <div class="meta">PER-AGENT  ·  INVOCATION-LOCAL  ·  IN-STATE</div>
+      <h3>Scratch space inside <em>one</em> agent invocation.</h3>
+      <p style="margin-top: 0.7rem;">
+        Lives in <code class="mono">state.scratchpad[agent_id]</code> —
+        a previously-unused channel that the multi-round Diagnostic agent
+        now uses to track its own confidence trajectory and critique trail
+        across LLM calls.
+      </p>
+      <p style="margin-top: 0.6rem;">
+        Cleared at the start of every invocation; never visible to other
+        agents — that role is Tier 2's.
+      </p>
+<pre>mm = MemoryManager.from_state(state, self.agent_id)
+mm.working.put("confidence_trajectory", [60, 72, 78])
+mm.working.append_to("critique_trail",
+    {"round": 2, "confidence": 72, "adequate": False})</pre>
+    </div>
+
+    <div class="card t2">
+      <span class="num">— TIER 2 · EPISODIC MEMORY</span>
+      <div class="meta">CURRENT RUN  ·  IN-STATE  ·  PERSISTED TO DISK</div>
+      <h3>A typed timeline of <em>decisions and critiques.</em></h3>
+      <p style="margin-top: 0.7rem;">
+        New state channel <code class="mono">session_memory</code>
+        (append-reducer). Each entry is a Pydantic-validated SessionEvent
+        — <code class="mono">critique</code>, <code class="mono">confidence_check</code>,
+        <code class="mono">decision</code>, lifecycle markers.
+      </p>
+      <p style="margin-top: 0.6rem;">
+        The Reviewer reads the Diagnostic agent's trail and challenges the
+        path, not just the destination. The Refiner reads the full timeline
+        plus Tier-3 priors before producing the final differential.
+      </p>
+<pre>self._pending_memory_events.append(
+  EpisodicMemory.write(
+    event_type="critique",
+    agent_id=self.agent_id,
+    summary=f"Round {n} conf={c} adequate={a}",
+    payload={"round": n, "confidence": c}))</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────── 6 · TIER 3 + 4 ──────────────── -->
+<section class="slide">
+  <span class="kicker">06 · beyond the run</span>
+  <h2 class="title">
+    Tier 3 · <em>Semantic</em>   /   Tier 4 · <em>Procedural</em>
+  </h2>
+
+  <div class="grid-2">
+    <div class="card t3">
+      <span class="num">— TIER 3 · SEMANTIC MEMORY</span>
+      <div class="meta">CROSS-SESSION  ·  ON DISK  ·  PER-DISEASE</div>
+      <h3>Per-disease aggregate stats, <em>updated by Stage 7.</em></h3>
+      <p style="margin-top: 0.7rem;">
+        Lives in <code class="mono">data/gold/memory/semantic_memory.json</code>
+        — a small JSON keyed by disease name. Tracks DIRECT/INDIRECT/MISS
+        counts, rank-1 frequency, average primary confidence, observed
+        evidence patterns.
+      </p>
+      <p style="margin-top: 0.6rem;">
+        Updated by the new <code class="mono">memory_consolidation_node</code>
+        after every patient. Atomic write via tmp-file + replace; recall is
+        case-insensitive; corrupt files degrade to <code class="mono">None</code> instead
+        of crashing the run.
+      </p>
+<pre>store = SemanticMemory(cfg.SEMANTIC_MEMORY_PATH)
+insight = store.recall("Hypertension")
+# {runs:14, direct:9, rank1:7, avg_conf:81.2}
+store.consolidate("Hypertension", "DIRECT", rank=1, ...)</pre>
+    </div>
+
+    <div class="card t4">
+      <span class="num">— TIER 4 · PROCEDURAL MEMORY</span>
+      <div class="meta">LONG-TERM  ·  STATIC  ·  QDRANT (PRE-EXISTING)</div>
+      <h3>NICE guidelines, <em>uniform recall API.</em></h3>
+      <p style="margin-top: 0.7rem;">
+        Wraps the existing NICE-guidelines vector store in Qdrant — no new
+        infrastructure, just a uniform <code class="mono">recall(query)</code>
+        API symmetric to the other tiers.
+      </p>
+      <p style="margin-top: 0.6rem;">
+        Same code path the Treatment agent already used; now reachable from
+        Diagnostic and Reviewer too.
+        <strong>Graceful degradation:</strong> if Qdrant is unreachable,
+        recall returns <code class="mono">[]</code> instead of crashing the pipeline.
+      </p>
+<pre>g = mm.procedural.lookup_disease("Hypertension")
+# {nice_guideline: "NG136",
+#  recommended_drugs: ["ACE-i", "CCB", ...]}
+results = mm.procedural.recall("proteinuria", top_k=3)</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────── 7 · PIPELINE INTEGRATION ────── -->
+<section class="slide">
+  <span class="kicker">07 · pipeline integration</span>
+  <h2 class="title">
+    How memory flows through the seven agents — and the
+    <em>one new maintenance node.</em>
+  </h2>
+
+  <div class="pipeline-mini">
+    <div class="stage">EHR · Lab</div><span class="arr">→</span>
+    <div class="stage">Diagnostic</div><span class="arr">→</span>
+    <div class="stage">Reviewer</div><span class="arr">→</span>
+    <div class="stage">Refiner</div><span class="arr">→</span>
+    <div class="stage">Evaluator</div><span class="arr">→</span>
+    <div class="stage">Treatment</div><span class="arr">→</span>
+    <div class="stage new">Memory consolidation · S7 · NEW</div>
+  </div>
+
+  <table class="matrix">
+    <thead>
+      <tr><th>Agent</th><th>Reads</th><th>Writes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="agent">EHR Analyst  ·  Lab Interpreter</td>
+        <td>—</td>
+        <td><span class="tier2">T2 lifecycle</span></td>
+      </tr>
+      <tr>
+        <td class="agent">Diagnostic Reasoning</td>
+        <td><span class="tier2">T2 lifecycle (own)</span></td>
+        <td><span class="tier1">T1 trajectory</span> · <span class="tier2">T2 critique · confidence · decision</span></td>
+      </tr>
+      <tr>
+        <td class="agent">Clinical Reviewer</td>
+        <td><span class="tier2">T2 critique trail (Diagnostic)</span></td>
+        <td><span class="tier2">T2 lifecycle</span></td>
+      </tr>
+      <tr>
+        <td class="agent">Refiner — final diagnosis</td>
+        <td><span class="tier2">T2 timeline</span> · <span class="tier3">T3 priors</span></td>
+        <td><span class="tier2">T2 decision</span></td>
+      </tr>
+      <tr>
+        <td class="agent">Treatment</td>
+        <td><span class="tier3">T3 priors</span> · <span class="tier4">T4 guidelines</span></td>
+        <td><span class="tier2">T2 decision</span></td>
+      </tr>
+      <tr class="new">
+        <td class="agent">Memory consolidation  ·  Stage 7 (new)</td>
+        <td><span class="tier2">T2 timeline</span> · final dx</td>
+        <td><span class="tier3">T3 disease record</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout" style="margin-top: 1.6rem;">
+    The pipeline shape is unchanged at the top.
+    What's new is the <strong>read/write matrix below</strong> — every agent
+    now writes lifecycle events to Tier 2; the Diagnostic agent also writes
+    per-round critiques; the Reviewer reads them; the Refiner reads the full
+    timeline plus the Tier-3 priors. The new Stage-7 node folds the run's
+    outcome into Tier 3, so the next run starts smarter.
+  </div>
+</section>
+
+<!-- ───────────────────── 8 · A/B RESULTS ─────────────── -->
+<section class="slide">
+  <span class="kicker">08 · clean A/B</span>
+  <h2 class="title">
+    Memory <em>on vs off</em> · 20 patients · same model, same judge,
+    same prompts.
+  </h2>
+
+  <p class="lede" style="max-width: 44em;">
+    Batch 4 · GPT-OSS 120B via Groq · Qwen3 32B as neutral judge ·
+    only the <code class="mono">MEMORY_ENABLED</code> env flag toggled.
+  </p>
+
+  <div class="grid-2">
+    <table class="cmp">
+      <thead>
+        <tr><th>metric</th><th>off</th><th>on</th><th>Δ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="metric">DIRECT match</td><td>8 / 20  ·  40 %</td><td>9 / 20  ·  45 %</td><td class="delta-pos">+5 pp</td></tr>
+        <tr><td class="metric">Found rate (D + I)</td><td>80 %</td><td>90 %</td><td class="delta-pos">+10 pp</td></tr>
+        <tr><td class="metric">Rank-1 when found</td><td>19 %</td><td>17 %</td><td class="delta-neg">−2 pp</td></tr>
+        <tr><td class="metric">Avg time / patient</td><td>113 s</td><td>114 s</td><td class="delta-flat">≈ 0</td></tr>
+        <tr><td class="metric">Patients evaluated</td><td>20</td><td>20</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <div>
+      <div class="callout gain">
+        <strong>Headline:</strong> +5 pp DIRECT and +10 pp Found-rate at no
+        measurable time cost — the Reviewer reads Diagnostic's critique
+        trail and challenges <em>earlier</em>, so more correct diagnoses land
+        in the differential at all. Wiring helps detection more than ranking.
+      </div>
+      <div class="callout warn">
+        <strong>Caveats:</strong> n = 20 (small), single batch, single LLM,
+        semantic store starts empty (priors only kick in for runs after the
+        first). Next: validate at full 270-patient cohort.
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="figure">+5 pp</div>
+      <div class="label">DIRECT match  ·  40 % → 45 %</div>
+    </div>
+    <div class="stat">
+      <div class="figure">+10 pp</div>
+      <div class="label">Found rate  ·  80 % → 90 %</div>
+    </div>
+    <div class="stat">
+      <div class="figure flat">≈ 0</div>
+      <div class="label">Wall-clock cost  ·  113 → 114 s</div>
+    </div>
+    <div class="stat">
+      <div class="figure minus">−2 pp</div>
+      <div class="label">Rank-1 within found  ·  noise</div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────── 9 · SUMMARY + NEXT STEPS ────── -->
+<section class="slide">
+  <span class="kicker">09 · summary  ·  next steps</span>
+  <h2 class="title">
+    Where the feature stands — and the path to scale.
+  </h2>
+
+  <div class="grid-3">
+    <div class="card t2">
+      <span class="num">— ARCHITECTURE</span>
+      <h3>4 tiers · 1 facade.</h3>
+      <p>
+        Working / Episodic / Semantic / Procedural — accessed through one
+        <code class="mono">MemoryManager</code>. New Stage-7
+        <code class="mono">memory_consolidation_node</code>. Master flag
+        <code class="mono">MEMORY_ENABLED</code>.
+      </p>
+    </div>
+
+    <div class="card" style="--accent: var(--primary);">
+      <span class="num">— IMPLEMENTATION</span>
+      <h3>Clean Python package.</h3>
+      <p>
+        7 modules under <code class="mono">src/memory/</code>. Wired into
+        Diagnostic, Reviewer, Refiner, Treatment.
+        <strong>24 unit tests, all pass.</strong>
+        Backward-compatible state shape.
+      </p>
+    </div>
+
+    <div class="card t3">
+      <span class="num">— VALIDATION</span>
+      <h3>Clean A/B on Batch 4.</h3>
+      <p>
+        +5 pp DIRECT, +10 pp Found-rate, no time cost. Same model, same
+        judge — only the flag changed. Reproducible via
+        <code class="mono">compare_memory_ab.py</code>.
+      </p>
+    </div>
+  </div>
+
+  <ul class="bullets gain" style="margin-top: 2rem; max-width: 60em;">
+    <li><strong>Validate at 270-patient cohort scale</strong> — quantify per-disease deltas; check whether priors help the weakest categories (CKD staging, plain hypertension).</li>
+    <li><strong>Warm-start the semantic store</strong> from the existing 160-patient results so priors kick in from patient 1 of any new run.</li>
+    <li><strong>Test memory × LLM</strong> — does the gain hold for Med42 70B or Claude Sonnet, or is it model-specific?</li>
+    <li><strong>Audit recall events</strong> in the trace itself, so we can see which prior fired in each agent decision.</li>
+  </ul>
+
+  <p class="body" style="margin-top: 2rem; color: var(--ink-faint); font-family: 'Fraunces', serif; font-style: italic; font-size: 1.4rem;">
+    Thank you — questions?
+  </p>
+</section>
+
+</main>
+
+<div class="brand-corner">CMADS · 2026</div>
+<div class="slide-num"><span class="now">01</span><span class="sep">/</span><span class="total">09</span></div>
+<div class="progress"></div>
+<div class="help"><kbd>←</kbd><kbd>→</kbd> navigate  ·  <kbd>F</kbd> fullscreen  ·  click left/right half</div>
+
+<script>
+const slides = document.querySelectorAll('section.slide');
+const total  = slides.length;
+const now    = document.querySelector('.slide-num .now');
+const tot    = document.querySelector('.slide-num .total');
+const prog   = document.querySelector('.progress');
+let i = 0;
+
+tot.textContent = String(total).padStart(2, '0');
+
+function show(n) {
+  i = Math.max(0, Math.min(total - 1, n));
+  slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+  now.textContent = String(i + 1).padStart(2, '0');
+  prog.style.setProperty('--progress', `${((i + 1) / total) * 100}%`);
+  history.replaceState(null, '', `#${i + 1}`);
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+  else if (e.key === 'Home') { show(0); }
+  else if (e.key === 'End')  { show(total - 1); }
+  else if (e.key === 'f' || e.key === 'F') { document.documentElement.requestFullscreen?.(); }
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('a, button, object, embed, iframe, pre')) return;
+  const half = window.innerWidth / 2;
+  show(e.clientX < half ? i - 1 : i + 1);
+});
+
+// Open at #N if specified
+const start = parseInt(location.hash.replace('#', ''), 10);
+if (!isNaN(start)) show(start - 1);
+else show(0);
+
+// Sync slide number on hash change (if user manually edits URL)
+window.addEventListener('hashchange', () => {
+  const n = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(n)) show(n - 1);
+});
+</script>
+
+</body>
+</html>
