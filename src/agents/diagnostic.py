@@ -28,6 +28,12 @@ class DiagnosticReasoningAgent(BaseAgent):
     temperature = 0.3
     max_tokens = 8192
 
+    # When True, build_user_prompt skips the legacy "## 0. SIMILAR PAST
+    # PATIENTS" block — the 3-phase reasoning in run_reasoning() injects
+    # the prior at a controlled point, so we don't want it duplicated
+    # inside the evidence prompt itself. Toggled per invocation.
+    _suppress_prior_in_prompt: bool = False
+
     @property
     def MAX_REASONING_ROUNDS(self):
         from src.config import cfg
@@ -64,7 +70,28 @@ class DiagnosticReasoningAgent(BaseAgent):
           - Semantic memory: read-only — pulled into the prompt during the
             initial-ranking call as a Bayesian prior across past runs
         """
-        evidence = self.build_user_prompt(state)
+        # Decide whether to use 3-phase reasoning. We do so when
+        # memory is on AND we have at least one high-quality prior
+        # (DIRECT-match past case above the similarity threshold).
+        # Otherwise we fall back to the original adaptive critique loop.
+        agent_outputs = state.get("agent_outputs", {}) or {}
+        ehr_out_pre = agent_outputs.get("ehr_analyst", {})
+        lab_out_pre = agent_outputs.get("lab_interpreter", {})
+        quality_priors: list[dict] = []
+        if self._memory_enabled():
+            quality_priors = self._get_quality_priors(
+                state, ehr_out_pre, lab_out_pre,
+            )
+        use_3phase = bool(quality_priors)
+
+        # When 3-phase is on we inject the prior ourselves at Round A,
+        # so suppress the duplicate block in build_user_prompt.
+        self._suppress_prior_in_prompt = use_3phase
+        try:
+            evidence = self.build_user_prompt(state)
+        finally:
+            self._suppress_prior_in_prompt = False
+
         mm = self.memory(state) if self._memory_enabled() else None
 
         # ── Call 1: Evidence Synthesis (always) ──
@@ -101,7 +128,45 @@ class DiagnosticReasoningAgent(BaseAgent):
         logger.info("agent_step_done", agent_id=self.agent_id, step="initial_ranking",
                      length=len(current_differential))
 
-        # ── Adaptive Loop: Self-Critique → Confidence Check → Refine ──
+        # ── Branch: 3-phase reasoning when quality priors exist ──
+        round_num = 0
+        confidence_trajectory: list[int] = []
+        if use_3phase:
+            from src.memory import CaseBasedMemory
+            prior_block = CaseBasedMemory.summarize_for_prompt(quality_priors, max_lines=5)
+            current_differential = self._run_three_phase(
+                llm,
+                evidence=evidence,
+                synthesis=synthesis,
+                hypotheses=hypotheses,
+                initial_differential=current_differential,
+                prior_block=prior_block,
+                quality_priors=quality_priors,
+                mm=mm,
+            )
+            round_num = 3  # for the trace
+        else:
+            current_differential, round_num, confidence_trajectory = (
+                self._run_critique_loop(
+                    llm, evidence, synthesis, hypotheses,
+                    current_differential, mm,
+                )
+            )
+
+        # ── Final Call: Structured JSON Output (always, use json_llm) ──
+        return self._finalize_json(
+            llm, json_llm, evidence, synthesis, current_differential,
+            round_num, confidence_trajectory, mm,
+        )
+
+    # ── Helper: original adaptive critique loop ──────────────────────
+    def _run_critique_loop(
+        self, llm, evidence, synthesis, hypotheses,
+        current_differential, mm,
+    ):
+        """The original adaptive critique loop, now extracted so the
+        3-phase path can branch around it. Behaviour is unchanged from
+        the pre-3-phase implementation."""
         round_num = 0
         confidence_trajectory: list[int] = []
         while round_num < self.MAX_REASONING_ROUNDS:
@@ -212,7 +277,139 @@ class DiagnosticReasoningAgent(BaseAgent):
                         step=f"refine_round_{round_num}", length=len(refined))
             current_differential = refined
 
-        # ── Final Call: Structured JSON Output (always, use json_llm) ──
+        return current_differential, round_num, confidence_trajectory
+
+    # ── Helper: 3-phase reasoning (with-prior / clean / synthesise) ──
+    def _run_three_phase(
+        self, llm,
+        evidence: str,
+        synthesis: str,
+        hypotheses: str,
+        initial_differential: str,
+        prior_block: str,
+        quality_priors: list[dict],
+        mm,
+    ) -> str:
+        """Three explicit rounds replacing the adaptive critique loop
+        when high-quality case-based priors are available.
+
+        Round A re-ranks WITH the case-based prior visible.
+        Round B re-ranks WITHOUT the prior, with an explicit
+        anti-anchoring instruction.
+        Round C synthesises A and B into a final differential, prefer
+        the consensus where they agree and Round B's clean-room
+        reasoning where they disagree.
+
+        Each round writes a Tier-2 episodic event so the Reviewer +
+        Refiner can audit which path produced the final differential.
+        """
+        # ── Round A: WITH prior ──
+        logger.info("agent_step", agent_id=self.agent_id, step="round_a_with_prior")
+        round_a = self._call_llm(llm,
+            system=(
+                "You are a diagnostician producing a ranked differential. "
+                "You are given the patient's evidence AND a Bayesian-style "
+                "prior of similar past patients with their confirmed "
+                "diagnoses. Use the prior to weight your hypotheses, but "
+                "anchor every diagnosis to evidence in this patient's "
+                "data — do not invoke a prior diagnosis without supporting "
+                "evidence in the current case."
+            ),
+            user=(
+                f"# Patient evidence\n{evidence}\n\n"
+                f"# Hypotheses considered\n{hypotheses}\n\n"
+                f"# Prior — similar past patients (Tier-4 case-based memory)\n"
+                f"{prior_block}\n\n"
+                "# Initial ranking (no prior considered)\n"
+                f"{initial_differential}\n\n"
+                "Produce your ranked differential. State your confidence "
+                "(0–100) in the primary diagnosis."
+            ),
+            agent_id=self.agent_id,
+        )
+        logger.info("agent_step_done", agent_id=self.agent_id,
+                    step="round_a_with_prior", length=len(round_a))
+
+        # ── Round B: WITHOUT prior, clean-room ──
+        logger.info("agent_step", agent_id=self.agent_id, step="round_b_clean_room")
+        round_b = self._call_llm(llm,
+            system=(
+                "You are a diagnostician producing a ranked differential "
+                "from this patient's evidence ALONE. IGNORE any prior "
+                "cases or external priors — reason from the EHR and lab "
+                "data in front of you, as if this were the first patient "
+                "you have ever seen. Resist anchoring on common diagnoses "
+                "if the evidence does not support them."
+            ),
+            user=(
+                f"# Patient evidence\n{evidence}\n\n"
+                f"# Hypotheses considered\n{hypotheses}\n\n"
+                "Produce your ranked differential clean-room. State your "
+                "confidence (0–100) in the primary diagnosis. Do NOT "
+                "consider any prior cases."
+            ),
+            agent_id=self.agent_id,
+        )
+        logger.info("agent_step_done", agent_id=self.agent_id,
+                    step="round_b_clean_room", length=len(round_b))
+
+        # ── Round C: Synthesise ──
+        logger.info("agent_step", agent_id=self.agent_id, step="round_c_synthesise")
+        round_c = self._call_llm(llm,
+            system=(
+                "You are a senior diagnostician synthesising two "
+                "differentials produced by a junior under different "
+                "instructions. Round A used a Bayesian-style prior of "
+                "similar past patients; Round B reasoned clean-room from "
+                "the evidence alone. Compare them: where they agree, "
+                "output the consensus. Where they disagree, prefer Round "
+                "B unless Round A's prior choice has clear, named "
+                "supporting evidence in this patient's data. Flag any "
+                "diagnosis that appears only because of the prior."
+            ),
+            user=(
+                f"# Patient evidence (anchor every claim here)\n{evidence}\n\n"
+                f"# Round A — with case-based prior\n{round_a}\n\n"
+                f"# Round B — clean-room (no prior)\n{round_b}\n\n"
+                "Produce the final synthesised differential. State your "
+                "confidence (0–100). If A and B disagree, briefly note "
+                "which you preferred and why."
+            ),
+            agent_id=self.agent_id,
+        )
+        logger.info("agent_step_done", agent_id=self.agent_id,
+                    step="round_c_synthesise", length=len(round_c))
+
+        # Tier-2 episodic events for the trace
+        if mm is not None:
+            mm.working.put("three_phase_used", True)
+            mm.working.put("priors_count", len(quality_priors))
+            for label, payload in [
+                ("round_a", {"with_prior": True,
+                             "priors_used": len(quality_priors)}),
+                ("round_b", {"with_prior": False, "anti_anchoring": True}),
+                ("round_c", {"synthesis": True}),
+            ]:
+                self._pending_memory_events.append(EpisodicMemory.write(
+                    event_type="critique",
+                    agent_id=self.agent_id,
+                    summary=f"3-phase {label}",
+                    payload=payload,
+                    tags=["diagnostic", "three_phase", label],
+                ))
+
+        return round_c
+
+    # ── Helper: structured-JSON finalisation (shared by both paths) ──
+    def _finalize_json(
+        self, llm, json_llm,
+        evidence: str,
+        synthesis: str,
+        current_differential: str,
+        round_num: int,
+        confidence_trajectory: list[int],
+        mm,
+    ) -> dict:
         logger.info("agent_step", agent_id=self.agent_id, step="final_output")
         jllm = json_llm or llm
         output_schema = json.dumps(DiagnosticOutput.model_json_schema(), indent=2)
@@ -257,6 +454,37 @@ class DiagnosticReasoningAgent(BaseAgent):
 
         return result
 
+    # ── Quality-filtered case-based recall (Tier 4) ─────────────────
+    # Used by the 3-phase reasoning in run_reasoning(). Only DIRECT-match
+    # past cases above a similarity threshold are returned; INDIRECT and
+    # MISS cases are filtered out so the prior cannot reinforce errors.
+    def _get_quality_priors(self, state: dict,
+                            ehr_out: dict, lab_out: dict,
+                            similarity_threshold: float = 0.5,
+                            top_k: int = 3) -> list[dict]:
+        if not self._memory_enabled():
+            return []
+        try:
+            mm = self.memory(state)
+            ctx = state.get("patient_context") or {}
+            this_uuid = (ctx.get("ehr_case") or {}).get("patient_uuid")
+            # Pull more than we need, then filter — gives stable top-K
+            # after the quality cut.
+            similar = mm.case_based.recall(
+                patient_context=ctx,
+                ehr_summary=ehr_out,
+                lab_summary=lab_out,
+                top_k=top_k * 4,
+                exclude_uuid=this_uuid,
+            )
+        except Exception:  # noqa: BLE001 — never break the prompt
+            return []
+        return [
+            c for c in similar
+            if c.get("match_type") == "DIRECT"
+            and float(c.get("score", 0)) >= similarity_threshold
+        ][:top_k]
+
     def build_user_prompt(self, state: dict) -> str:
         agent_outputs = state.get("agent_outputs", {})
         ehr_out = agent_outputs.get("ehr_analyst", {})
@@ -266,11 +494,12 @@ class DiagnosticReasoningAgent(BaseAgent):
         sections.append("# Clinical Evidence for Diagnostic Reasoning\n")
 
         # ── 0. Case-based prior (Tier 4: similar past patients) ──
-        # Vector-similarity recall over the Qdrant `patient_cases` collection.
-        # Adds a Bayesian-style prior — "in past patients with similar EHR +
-        # labs, the system landed on these diagnoses". Quietly skipped when
-        # the store is empty, Qdrant is unreachable, or memory is disabled.
-        if self._memory_enabled():
+        # Kept for backwards compatibility with the original
+        # single-pass reasoning. The 3-phase reasoning in
+        # run_reasoning() uses _get_quality_priors() and injects the
+        # prior at a controlled point — when memory is on AND quality
+        # priors exist we suppress this section to avoid duplication.
+        if self._memory_enabled() and not self._suppress_prior_in_prompt:
             try:
                 mm = self.memory(state)
                 ctx = state.get("patient_context") or {}
