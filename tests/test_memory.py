@@ -629,6 +629,56 @@ def test_memory_consolidation_no_op_when_disabled(monkeypatch, tmp_path):
     assert not (tmp_path / "sm.json").exists()
 
 
+def test_memory_consolidation_miss_does_not_aggregate_under_NONE(monkeypatch, tmp_path):
+    """Regression: judge returns matched_diagnosis="NONE" for MISS cases.
+
+    Previously the consolidator stored MISSes under disease="NONE",
+    silently poisoning Tier-3 priors. The fix falls back to the agent's
+    primary_diagnosis when matched_diagnosis is NONE/empty.
+    """
+    monkeypatch.setenv("MEMORY_ENABLED", "true")
+    monkeypatch.setenv("SEMANTIC_MEMORY_PATH", str(tmp_path / "sm.json"))
+    from importlib import reload
+    import src.config as config_module
+    reload(config_module)
+    from src.agents.memory_consolidator import memory_consolidation_node
+
+    state = {
+        "agent_outputs": {
+            "evaluation": {
+                "match_type": "MISS",
+                "rank": 0,
+                "matched_diagnosis": "NONE",  # judge's miss sentinel
+            },
+            "final_diagnosis": {
+                "primary_diagnosis": "Atherosclerotic cardiovascular disease",
+                "differential": [
+                    {"rank": 1, "name": "Atherosclerotic cardiovascular disease",
+                     "probability": 0.62, "supporting_evidence": []},
+                ],
+            },
+        },
+        "patient_context": {
+            "ehr_case": {"patient_uuid": "test-miss-uuid",
+                         "demographics": {"age": 65}},
+            "lab_case": {},
+        },
+    }
+    out = memory_consolidation_node(state)
+    sm_path = tmp_path / "sm.json"
+    assert sm_path.exists(), "consolidation should still write Tier-3 even on MISS"
+    payload = json.loads(sm_path.read_text())
+    # The disease key must NOT be "NONE"
+    assert "NONE" not in payload, (
+        f"MISS aggregated under fake disease 'NONE': {list(payload.keys())}"
+    )
+    # Must aggregate under the predicted primary instead
+    assert "Atherosclerotic cardiovascular disease" in payload
+    entry = payload["Atherosclerotic cardiovascular disease"]
+    assert entry["misses"] == 1, "MISS count should increment for the predicted disease"
+    assert entry["direct_matches"] == 0
+
+
 def test_memory_consolidation_writes_when_enabled(monkeypatch, tmp_path):
     monkeypatch.setenv("MEMORY_ENABLED", "true")
     monkeypatch.setenv("SEMANTIC_MEMORY_PATH", str(tmp_path / "sm.json"))

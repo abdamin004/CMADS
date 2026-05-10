@@ -51,8 +51,17 @@ def memory_consolidation_node(state: dict) -> dict:
 
     match_type = evaluation.get("match_type") or "MISS"
     rank = evaluation.get("rank")
+
+    # The judge writes matched_diagnosis="NONE" for MISS cases (see
+    # src/evaluation/judge_common.py). Treat NONE/empty as "no judge
+    # match" and fall back to the agent's primary diagnosis so MISS
+    # outcomes are aggregated under the *predicted* disease, not under
+    # a fake "NONE" disease that would corrupt Tier-3 stats.
+    raw_matched = (evaluation.get("matched_diagnosis") or "").strip()
+    if raw_matched.upper() in ("", "NONE", "N/A"):
+        raw_matched = ""
     matched = (
-        evaluation.get("matched_diagnosis")
+        raw_matched
         or final.get("primary_diagnosis")
         or "Unknown"
     )
