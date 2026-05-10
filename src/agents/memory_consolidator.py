@@ -25,6 +25,7 @@ import structlog
 
 from src.config import cfg
 from src.memory import EpisodicMemory, SemanticMemory, get_case_based_memory
+from src.memory.disease_canonicalizer import canonicalize_disease
 
 logger = structlog.get_logger()
 
@@ -66,6 +67,12 @@ def memory_consolidation_node(state: dict) -> dict:
         or "Unknown"
     )
 
+    # Canonicalise so Tier-3 aggregates by stable family ("CKD", "IHD",
+    # "metabolic_syndrome", …) instead of the LLM's verbose phrasing.
+    # Without this a 50-patient run produces ~46 unique disease keys
+    # with one observation each, defeating the prior signal entirely.
+    canonical_family = canonicalize_disease(matched)
+
     primary_confidence: float | None = None
     diff = final.get("differential") or []
     if diff and isinstance(diff[0], dict):
@@ -75,20 +82,27 @@ def memory_consolidation_node(state: dict) -> dict:
 
     evidence_patterns = _extract_evidence_patterns(final)
 
-    # Tier 3 — disease-level aggregate stats on disk.
+    # Tier 3 — disease-level aggregate stats on disk, keyed by the
+    # canonical family for stable aggregation. Original LLM phrasing
+    # is preserved as the first evidence pattern so inspectors can see
+    # how the model worded the diagnosis on each run.
     semantic_ok = False
     try:
         store = SemanticMemory(cfg.SEMANTIC_MEMORY_PATH)
+        # Prepend the raw LLM phrasing so it survives in the per-family
+        # evidence-pattern list — useful for debugging label drift.
+        evidence_with_raw = ([f"raw: {matched}"] + (evidence_patterns or []))[:6]
         insight = store.consolidate(
-            disease=matched,
+            disease=canonical_family,
             match_type=match_type,
             rank_when_found=rank,
             primary_confidence=primary_confidence,
-            evidence_patterns=evidence_patterns,
+            evidence_patterns=evidence_with_raw,
         )
         logger.info(
             "memory_consolidated_t3",
-            disease=matched,
+            family=canonical_family,
+            raw_diagnosis=matched[:60],
             match_type=match_type,
             runs_observed=insight.runs_observed,
             direct_rate=round(insight.direct_rate, 3),
@@ -98,43 +112,58 @@ def memory_consolidation_node(state: dict) -> dict:
         logger.error("memory_consolidation_t3_failed", error=str(e)[:200])
 
     # Tier 4 — patient-case vector upsert in Qdrant.
+    # Gated by MEMORY_WRITE_CASE_MATCH_TYPES (default: DIRECT only).
+    # Indexing INDIRECT / MISS cases creates echo-chamber risk: a
+    # past wrong answer becomes tomorrow's prior. The runtime recall
+    # filter (MEMORY_CASE_MATCH_TYPES) is a second line of defence,
+    # but excluding bad cases at *write* time is cleaner.
     case_ok = False
-    try:
-        ehr_case = (state.get("patient_context") or {}).get("ehr_case") or {}
-        lab_case = (state.get("patient_context") or {}).get("lab_case") or {}
-        ehr_summary = agent_outputs.get("ehr_analyst") or {}
-        lab_summary = agent_outputs.get("lab_interpreter") or {}
-        patient_uuid = (
-            ehr_case.get("patient_uuid")
-            or ehr_case.get("patient_id")
-            or "unknown"
+    if match_type.upper() not in cfg.MEMORY_WRITE_CASE_MATCH_TYPES:
+        logger.info(
+            "memory_consolidation_t4_skipped",
+            reason=f"match_type {match_type} not in MEMORY_WRITE_CASE_MATCH_TYPES",
+            allowed=sorted(cfg.MEMORY_WRITE_CASE_MATCH_TYPES),
         )
-        case_store = get_case_based_memory()
-        case_ok = case_store.index_patient(
-            patient_uuid=patient_uuid,
-            ehr_case=ehr_case,
-            lab_case=lab_case,
-            matched_diagnosis=matched,
-            match_type=match_type,
-            rank_when_found=rank,
-            primary_confidence=primary_confidence,
-            evidence_patterns=evidence_patterns,
-            ehr_summary=ehr_summary,
-            lab_summary=lab_summary,
-        )
-        if case_ok:
-            logger.info(
-                "memory_consolidated_t4",
-                patient=patient_uuid[:12],
-                disease=matched, match_type=match_type,
+    else:
+        try:
+            ehr_case = (state.get("patient_context") or {}).get("ehr_case") or {}
+            lab_case = (state.get("patient_context") or {}).get("lab_case") or {}
+            ehr_summary = agent_outputs.get("ehr_analyst") or {}
+            lab_summary = agent_outputs.get("lab_interpreter") or {}
+            patient_uuid = (
+                ehr_case.get("patient_uuid")
+                or ehr_case.get("patient_id")
+                or "unknown"
             )
-        else:
-            logger.info(
-                "memory_consolidation_t4_skipped",
-                reason="qdrant unavailable or model not loaded",
+            case_store = get_case_based_memory()
+            case_ok = case_store.index_patient(
+                patient_uuid=patient_uuid,
+                ehr_case=ehr_case,
+                lab_case=lab_case,
+                matched_diagnosis=matched,
+                match_type=match_type,
+                rank_when_found=rank,
+                primary_confidence=primary_confidence,
+                evidence_patterns=evidence_patterns,
+                ehr_summary=ehr_summary,
+                lab_summary=lab_summary,
+                canonical_family=canonical_family,
             )
-    except Exception as e:  # noqa: BLE001
-        logger.error("memory_consolidation_t4_failed", error=str(e)[:200])
+            if case_ok:
+                logger.info(
+                    "memory_consolidated_t4",
+                    patient=patient_uuid[:12],
+                    family=canonical_family,
+                    raw_diagnosis=matched[:60],
+                    match_type=match_type,
+                )
+            else:
+                logger.info(
+                    "memory_consolidation_t4_skipped",
+                    reason="qdrant unavailable or model not loaded",
+                )
+        except Exception as e:  # noqa: BLE001
+            logger.error("memory_consolidation_t4_failed", error=str(e)[:200])
 
     if semantic_ok or case_ok:
         trace_entry["status"] = "success"

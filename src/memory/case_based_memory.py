@@ -300,6 +300,9 @@ class CaseBasedMemory:
                 "patient_uuid": uuid,
                 "score": round(float(r.score), 3),
                 "matched_diagnosis": payload.get("matched_diagnosis"),
+                "raw_diagnosis": payload.get("raw_diagnosis")
+                                  or payload.get("matched_diagnosis"),
+                "canonical_family": payload.get("canonical_family"),
                 "match_type": payload.get("match_type"),
                 "rank_when_found": payload.get("rank_when_found"),
                 "primary_confidence": payload.get("primary_confidence"),
@@ -325,14 +328,27 @@ class CaseBasedMemory:
         evidence_patterns: list[str] | None = None,
         ehr_summary: dict | None = None,
         lab_summary: dict | None = None,
+        canonical_family: str | None = None,
     ) -> bool:
-        """Embed and upsert a single patient case. Returns True on success."""
+        """Embed and upsert a single patient case. Returns True on success.
+
+        ``canonical_family`` is the disease-canonicalizer output (one of
+        ``src.memory.disease_canonicalizer.FAMILIES``). Stored alongside
+        the raw matched_diagnosis so downstream code can filter or
+        aggregate by stable family while preserving the LLM's original
+        phrasing for inspection.
+        """
         client = _get_client()
         model = _get_model()
         if client is None or model is None:
             return False
         if not _ensure_collection(client):
             return False
+
+        # Canonicalize on the fly if the caller didn't pre-compute.
+        if canonical_family is None:
+            from src.memory.disease_canonicalizer import canonicalize_disease
+            canonical_family = canonicalize_disease(matched_diagnosis)
 
         text = build_case_text(ehr_case, lab_case, ehr_summary, lab_summary)
         try:
@@ -348,6 +364,8 @@ class CaseBasedMemory:
                         "patient_uuid": patient_uuid,
                         "case_text": text,
                         "matched_diagnosis": matched_diagnosis,
+                        "raw_diagnosis": matched_diagnosis,
+                        "canonical_family": canonical_family,
                         "match_type": match_type,
                         "rank_when_found": rank_when_found,
                         "primary_confidence": primary_confidence,

@@ -455,20 +455,23 @@ class DiagnosticReasoningAgent(BaseAgent):
         return result
 
     # ── Quality-filtered case-based recall (Tier 4) ─────────────────
-    # Used by the 3-phase reasoning in run_reasoning(). Only DIRECT-match
-    # past cases above a similarity threshold are returned; INDIRECT and
-    # MISS cases are filtered out so the prior cannot reinforce errors.
+    # Used by the 3-phase reasoning in run_reasoning(). Thresholds and
+    # match-type whitelist come from config (cfg.MEMORY_CASE_*) so they
+    # can be tuned without code changes; defaults are thesis-safe (only
+    # DIRECT past cases above 0.75 cosine similarity, top 3).
     def _get_quality_priors(self, state: dict,
-                            ehr_out: dict, lab_out: dict,
-                            similarity_threshold: float = 0.5,
-                            top_k: int = 3) -> list[dict]:
+                            ehr_out: dict, lab_out: dict) -> list[dict]:
         if not self._memory_enabled():
             return []
+        from src.config import cfg
+        top_k = cfg.MEMORY_CASE_TOP_K
+        min_score = cfg.MEMORY_CASE_MIN_SCORE
+        allowed_types = cfg.MEMORY_CASE_MATCH_TYPES
         try:
             mm = self.memory(state)
             ctx = state.get("patient_context") or {}
             this_uuid = (ctx.get("ehr_case") or {}).get("patient_uuid")
-            # Pull more than we need, then filter — gives stable top-K
+            # Pull more than needed, then filter — gives stable top-K
             # after the quality cut.
             similar = mm.case_based.recall(
                 patient_context=ctx,
@@ -479,11 +482,47 @@ class DiagnosticReasoningAgent(BaseAgent):
             )
         except Exception:  # noqa: BLE001 — never break the prompt
             return []
-        return [
+        filtered = [
             c for c in similar
-            if c.get("match_type") == "DIRECT"
-            and float(c.get("score", 0)) >= similarity_threshold
+            if (c.get("match_type") or "").upper() in allowed_types
+            and float(c.get("score", 0)) >= min_score
         ][:top_k]
+
+        # Tier-2 episodic event so Reviewer/Refiner/dashboard can audit
+        # which priors fired, even when none made it through the filter.
+        try:
+            self._pending_memory_events.append(EpisodicMemory.write(
+                event_type="memory_recall",
+                agent_id=self.agent_id,
+                summary=(
+                    f"Recall returned {len(similar)}, "
+                    f"{len(filtered)} passed quality filter "
+                    f"(types={sorted(allowed_types)}, "
+                    f"min_score={min_score}, top_k={top_k})"
+                ),
+                payload={
+                    "candidates": len(similar),
+                    "kept": len(filtered),
+                    "min_score": min_score,
+                    "top_k": top_k,
+                    "allowed_match_types": sorted(allowed_types),
+                    "kept_summary": [
+                        {
+                            "score": c.get("score"),
+                            "match_type": c.get("match_type"),
+                            "canonical_family": c.get("canonical_family"),
+                            "raw_diagnosis": (c.get("raw_diagnosis")
+                                              or c.get("matched_diagnosis"))
+                        }
+                        for c in filtered
+                    ],
+                },
+                tags=["diagnostic", "memory_recall"],
+            ))
+        except Exception:  # noqa: BLE001 — telemetry must never break the prompt
+            pass
+
+        return filtered
 
     def build_user_prompt(self, state: dict) -> str:
         agent_outputs = state.get("agent_outputs", {})

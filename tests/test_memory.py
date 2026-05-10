@@ -672,11 +672,19 @@ def test_memory_consolidation_miss_does_not_aggregate_under_NONE(monkeypatch, tm
     assert "NONE" not in payload, (
         f"MISS aggregated under fake disease 'NONE': {list(payload.keys())}"
     )
-    # Must aggregate under the predicted primary instead
-    assert "Atherosclerotic cardiovascular disease" in payload
-    entry = payload["Atherosclerotic cardiovascular disease"]
-    assert entry["misses"] == 1, "MISS count should increment for the predicted disease"
+    # Must aggregate under the canonical family of the predicted primary,
+    # not under the LLM's verbose phrasing — "Atherosclerotic
+    # cardiovascular disease" canonicalises to IHD.
+    assert "IHD" in payload, (
+        f"MISS should aggregate under canonical family 'IHD': "
+        f"{list(payload.keys())}"
+    )
+    entry = payload["IHD"]
+    assert entry["misses"] == 1, "MISS count should increment for the predicted family"
     assert entry["direct_matches"] == 0
+    # The raw LLM phrasing is preserved as the first evidence pattern
+    # so debug inspectors can see exactly what the model said.
+    assert any("Atherosclerotic" in p for p in entry.get("common_evidence_patterns", []))
 
 
 def test_memory_consolidation_writes_when_enabled(monkeypatch, tmp_path):
@@ -714,5 +722,152 @@ def test_memory_consolidation_writes_when_enabled(monkeypatch, tmp_path):
     sm_path = tmp_path / "sm.json"
     assert sm_path.exists()
     payload = json.loads(sm_path.read_text())
-    assert "Hypertension" in payload
-    assert payload["Hypertension"]["direct_matches"] == 1
+    # Canonicalised: "Hypertension" → "HTN" family
+    assert "HTN" in payload, (
+        f"Hypertension should canonicalise to HTN: {list(payload.keys())}"
+    )
+    assert payload["HTN"]["direct_matches"] == 1
+    # Raw LLM phrasing preserved as evidence pattern for debugging.
+    assert any("Hypertension" in p
+               for p in payload["HTN"].get("common_evidence_patterns", []))
+
+
+# ────────────── Disease canonicalizer (memory accuracy hardening) ────────────
+
+
+def test_canonicalizer_collapses_known_families():
+    """Canonicalizer must map the 8 ground-truth disease names to the 8
+    canonical families used by aggregate_160.json."""
+    from src.memory.disease_canonicalizer import canonicalize_disease
+    cases = [
+        # Ground-truth disease names (as they appear in aggregate_160.json)
+        ("End-stage renal disease",                      "ESRD"),
+        ("Metabolic syndrome X",                         "metabolic_syndrome"),
+        ("Essential hypertension",                       "HTN"),
+        ("Ischemic heart disease",                       "IHD"),
+        ("CKD stage 3",                                  "CKD"),
+        ("Diabetes mellitus type 2",                     "T2DM"),
+        ("Chronic congestive heart failure",             "CHF"),
+        ("Chronic kidney disease stage 2 (disorder)",    "CKD"),
+        # Common LLM phrasings collapse to the right family
+        ("Acute NSTEMI (type 1 myocardial infarction)",  "IHD"),
+        ("Atherosclerotic cardiovascular disease",       "IHD"),
+        ("Diabetic-hypertensive chronic kidney disease (CKD stage 4)", "CKD"),
+        ("Diabetic nephropathy",                         "CKD"),
+        ("Insulin-resistance-driven metabolic syndrome", "metabolic_syndrome"),
+        ("Uncontrolled essential hypertension",          "HTN"),
+        ("Untreated severe hypercholesterolemia",        "dyslipidemia"),
+        # Things the system has no canonical bucket for
+        ("Iron-deficiency anemia",                       "other"),
+        ("Right-sided infective endocarditis",           "other"),
+        ("Obstructive sleep apnea",                      "other"),
+        # Defensive: empty / NONE / None
+        ("",      "other"),
+        ("NONE",  "other"),
+        (None,    "other"),
+    ]
+    for raw, expected in cases:
+        got = canonicalize_disease(raw)
+        assert got == expected, f"{raw!r} → {got!r}, expected {expected!r}"
+
+
+def test_canonicalizer_priority_specific_before_general():
+    """Acute MI should map to IHD, not get caught by a generic
+    cardiovascular catch-all. Stage-5 CKD should map to ESRD, not CKD."""
+    from src.memory.disease_canonicalizer import canonicalize_disease
+    assert canonicalize_disease(
+        "Atherosclerotic coronary artery disease with recent STEMI"
+    ) == "IHD"
+    assert canonicalize_disease(
+        "Diabetic nephropathy (stage 5 chronic kidney disease)"
+    ) == "ESRD"
+    # Hypertensive nephropathy is a kidney problem, not pure HTN
+    assert canonicalize_disease(
+        "Hypertensive nephropathy (CKD stage 4)"
+    ) == "CKD"
+
+
+def test_consolidator_skips_tier4_for_non_direct(monkeypatch, tmp_path):
+    """Default MEMORY_WRITE_CASE_MATCH_TYPES=DIRECT means MISS / INDIRECT
+    cases never get indexed into Qdrant, even though they DO update the
+    Tier-3 semantic store. This is the source-of-pollution fix."""
+    monkeypatch.setenv("MEMORY_ENABLED", "true")
+    monkeypatch.setenv("SEMANTIC_MEMORY_PATH", str(tmp_path / "sm.json"))
+    monkeypatch.setenv("MEMORY_WRITE_CASE_MATCH_TYPES", "DIRECT")
+    from importlib import reload
+    import src.config as config_module
+    reload(config_module)
+
+    # Patch get_case_based_memory so we can record whether index_patient is called
+    calls = []
+
+    class _FakeCaseStore:
+        def index_patient(self, **kwargs):
+            calls.append(kwargs)
+            return True
+
+    import src.agents.memory_consolidator as mc
+    monkeypatch.setattr(mc, "get_case_based_memory", lambda: _FakeCaseStore())
+
+    state_miss = {
+        "agent_outputs": {
+            "evaluation": {"match_type": "MISS", "matched_diagnosis": "NONE"},
+            "final_diagnosis": {"primary_diagnosis": "Type 2 diabetes"},
+        },
+        "patient_context": {"ehr_case": {"patient_uuid": "miss-uuid"},
+                            "lab_case": {}},
+    }
+    mc.memory_consolidation_node(state_miss)
+    assert calls == [], f"MISS case should NOT be indexed in Tier-4: {calls}"
+
+    # Now a DIRECT case: should be indexed
+    state_direct = {
+        "agent_outputs": {
+            "evaluation": {"match_type": "DIRECT", "rank": 1,
+                           "matched_diagnosis": "Hypertension"},
+            "final_diagnosis": {"primary_diagnosis": "Hypertension"},
+        },
+        "patient_context": {"ehr_case": {"patient_uuid": "direct-uuid"},
+                            "lab_case": {}},
+    }
+    mc.memory_consolidation_node(state_direct)
+    assert len(calls) == 1, f"DIRECT case should be indexed: {calls}"
+    assert calls[0]["match_type"] == "DIRECT"
+    assert calls[0]["canonical_family"] == "HTN"
+
+
+def test_consolidator_writes_canonical_family_to_qdrant_payload(monkeypatch, tmp_path):
+    """The canonical_family field flows from consolidator → index_patient
+    → Qdrant payload, so case-based recall results carry the family
+    label without re-canonicalising at query time."""
+    monkeypatch.setenv("MEMORY_ENABLED", "true")
+    monkeypatch.setenv("SEMANTIC_MEMORY_PATH", str(tmp_path / "sm.json"))
+    monkeypatch.setenv("MEMORY_WRITE_CASE_MATCH_TYPES", "DIRECT")
+    from importlib import reload
+    import src.config as config_module
+    reload(config_module)
+
+    captured = {}
+
+    class _FakeCaseStore:
+        def index_patient(self, **kwargs):
+            captured.update(kwargs)
+            return True
+
+    import src.agents.memory_consolidator as mc
+    monkeypatch.setattr(mc, "get_case_based_memory", lambda: _FakeCaseStore())
+
+    state = {
+        "agent_outputs": {
+            "evaluation": {"match_type": "DIRECT", "rank": 1,
+                           "matched_diagnosis": "Diabetic nephropathy (CKD stage 4)"},
+            "final_diagnosis": {
+                "primary_diagnosis": "Diabetic nephropathy (CKD stage 4)",
+            },
+        },
+        "patient_context": {"ehr_case": {"patient_uuid": "u-canonical"},
+                            "lab_case": {}},
+    }
+    mc.memory_consolidation_node(state)
+    assert captured["canonical_family"] == "CKD"
+    assert "Diabetic nephropathy" in captured["matched_diagnosis"]

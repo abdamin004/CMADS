@@ -122,5 +122,44 @@ class Config:
         """Max events injected into a downstream agent's prompt."""
         return _env_int("EPISODIC_MEMORY_MAX_EVENTS", 30)
 
+    # ── Tier-4 case-based memory knobs (thesis-safe defaults) ──
+    @property
+    def MEMORY_CASE_TOP_K(self) -> int:
+        """Number of similar past patients the Diagnostic agent recalls."""
+        return _env_int("MEMORY_CASE_TOP_K", 3)
+
+    @property
+    def MEMORY_CASE_MIN_SCORE(self) -> float:
+        """Minimum cosine similarity for a past case to be used as a prior.
+
+        0.5 = loose (more priors, more noise).  0.75 = strict (fewer
+        priors, all clearly similar). Default 0.75 for thesis-safe mode.
+        """
+        try:
+            return float(_env("MEMORY_CASE_MIN_SCORE", "0.75"))
+        except ValueError:
+            return 0.75
+
+    @property
+    def MEMORY_CASE_MATCH_TYPES(self) -> set[str]:
+        """Comma-separated whitelist of judge match types eligible for recall.
+
+        Default DIRECT only — INDIRECT/MISS cases as priors create
+        echo-chamber risk. Set to "DIRECT,INDIRECT" for looser recall.
+        """
+        raw = _env("MEMORY_CASE_MATCH_TYPES", "DIRECT")
+        return {t.strip().upper() for t in raw.split(",") if t.strip()}
+
+    @property
+    def MEMORY_WRITE_CASE_MATCH_TYPES(self) -> set[str]:
+        """Match types that get written to Qdrant `patient_cases` at all.
+
+        Default DIRECT only — keeps the case-based store itself free of
+        MISS/INDIRECT pollution. Tier-3 semantic stats still record all
+        match types regardless.
+        """
+        raw = _env("MEMORY_WRITE_CASE_MATCH_TYPES", "DIRECT")
+        return {t.strip().upper() for t in raw.split(",") if t.strip()}
+
 
 cfg = Config()

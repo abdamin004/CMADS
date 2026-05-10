@@ -30,15 +30,22 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.memory.disease_canonicalizer import canonicalize_disease  # noqa: E402
 from src.memory.semantic_memory import SemanticMemory  # noqa: E402
 
 
-def _resolve_disease(evaluation: dict, final: dict) -> str:
-    """Same logic the fixed consolidator uses."""
+def _resolve_disease(evaluation: dict, final: dict) -> tuple[str, str]:
+    """Same logic the fixed consolidator uses.
+
+    Returns (canonical_family, raw_matched). The raw text is preserved
+    as the first evidence-pattern entry on the family record so debug
+    inspectors can still see the LLM's exact wording.
+    """
     raw = (evaluation.get("matched_diagnosis") or "").strip()
     if raw.upper() in ("", "NONE", "N/A"):
         raw = ""
-    return raw or final.get("primary_diagnosis") or "Unknown"
+    matched = raw or final.get("primary_diagnosis") or "Unknown"
+    return canonicalize_disease(matched), matched
 
 
 def _extract_evidence_patterns(final: dict) -> list[str]:
@@ -106,7 +113,7 @@ def main():
         if (evaluation.get("matched_diagnosis") or "").strip().upper() in ("", "NONE", "N/A"):
             none_before += 1
 
-        disease = _resolve_disease(evaluation, final)
+        canonical_family, raw_matched = _resolve_disease(evaluation, final)
 
         primary_confidence: float | None = None
         diff = final.get("differential") or []
@@ -115,12 +122,19 @@ def main():
             if isinstance(prob, (int, float)):
                 primary_confidence = float(prob) * 100.0
 
+        # Prepend the raw LLM phrasing to the evidence patterns so the
+        # canonical-family entry still shows the original wording.
+        evidence_with_raw = (
+            [f"raw: {raw_matched}"]
+            + _extract_evidence_patterns(final)
+        )[:6]
+
         store.consolidate(
-            disease=disease,
+            disease=canonical_family,
             match_type=match_type,
             rank_when_found=rank,
             primary_confidence=primary_confidence,
-            evidence_patterns=_extract_evidence_patterns(final),
+            evidence_patterns=evidence_with_raw,
         )
         n_patients += 1
 
