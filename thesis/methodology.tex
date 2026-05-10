@@ -244,55 +244,211 @@ The six stages are summarised below.
 \label{sec:shared_memory}
 % ─────────────────────────────────────────────────────────────────────────────
 
-All inter-agent communication is mediated through a typed shared memory
-implemented as a \texttt{TypedDict} named \texttt{PipelineState}. Each field
-of \texttt{PipelineState} is a separate namespace with an explicit reducer
-function that defines how partial updates from different agents are merged.
-This design was chosen over a naive key--value store because it makes
-concurrent-write conflicts impossible by construction: if two agents write to
-the same namespace in parallel, the reducer deterministically resolves the
-merge rather than producing an undefined last-writer-wins state.
+Inter-agent communication is mediated through a typed shared memory
+implemented as a \texttt{TypedDict} named \texttt{PipelineState}, layered
+beneath a four-tier multi-level memory subsystem inspired by the
+\emph{Cognitive Architectures for Language Agents} (CoALA) framework
+\cite{Sumers2024CoALA}. The base layer provides deterministic merging
+of partial updates within a single patient run; the four tiers above it
+provide intra-agent scratch space, an inter-agent reasoning trail, a
+cross-session disease-level prior, and a vector-based case-similarity
+recall over previously processed patients.
 
-Five namespaces partition the shared memory:
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Base layer: \texttt{PipelineState}}
+\label{sec:pipeline_state}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Each field of \texttt{PipelineState} is a separate namespace annotated
+with an explicit reducer function that defines how concurrent partial
+updates are merged. This makes concurrent-write conflicts impossible by
+construction: when two parallel agents write to the same namespace, the
+reducer resolves the merge deterministically rather than producing an
+undefined last-writer-wins state.
+
+Seven namespaces partition the shared memory; the first five form the
+historical core, and two are added for the episodic memory tier
+introduced in Section~\ref{sec:tier2}:
+
 \begin{itemize}
   \item \texttt{patient\_context} --- the Gold case object, written once by
   the orchestrator and read by all agents.
   \item \texttt{agent\_outputs} --- a dictionary with one slot per agent,
-  using a write-own / read-upstream access pattern.
-  \item \texttt{conflicts} --- an append-only log of contradictions detected
-  between agents, populated by the orchestrator's post-stage diff engine.
-  \item \texttt{scratchpad} --- per-agent ephemeral notes, private to the
-  writing agent and not visible to downstream agents.
-  \item \texttt{execution\_trace} --- an append-only invocation log that
-  records the status, duration, and error of every agent run.
+  using a write-own / read-upstream access pattern. The merge reducer
+  ensures that parallel Stage-1 agents never overwrite each other.
+  \item \texttt{execution\_trace} --- an append-only invocation log
+  recording the status, duration, and error of every agent run.
+  \item \texttt{scratchpad} --- per-agent dictionaries; in the present
+  design this slot is repurposed as the working-memory tier
+  (Section~\ref{sec:tier1}).
+  \item \texttt{conflicts} --- an append-only list reserved for an
+  orchestrator-level diff engine; not currently written by any agent and
+  retained for forward compatibility.
+  \item \texttt{session\_memory} --- append-only list of typed
+  \texttt{SessionEvent} dictionaries that constitute the episodic-memory
+  timeline for the current run.
+  \item \texttt{session\_summary} --- per-agent one-line digest with a
+  merge reducer, intended as a lightweight scoreboard for downstream
+  routing logic.
 \end{itemize}
 
-Table~\ref{tab:memory_access} summarises the read/write access pattern of
-each agent across the five namespaces. The key invariant is that every
-agent writes only to its own slot in \texttt{agent\_outputs} and reads from
-the slots of upstream agents, which eliminates concurrent-write conflicts by
-construction.
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Multi-level memory subsystem}
+\label{sec:multilevel_memory}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Restricting agent communication to the namespaces above exposes a
+substantive limitation: downstream agents see only the final structured
+output of upstream agents and have no visibility into the reasoning that
+produced it, and no information of any kind flows from one patient run
+to the next. The four-tier memory subsystem layered on top of
+\texttt{PipelineState} is designed to address both problems while
+preserving the existing reducer guarantees. The four tiers are scoped
+from narrowest to broadest in lifespan and reuse, and are accessed
+through a single \texttt{MemoryManager} facade so that agent code
+follows the same call pattern regardless of which tier it touches. The
+entire subsystem is gated by a \texttt{MEMORY\_ENABLED} environment
+flag, which makes before/after experimentation a clean toggle.
+
+% ── Tier 1 ───────────────────────────────────────────────────────────────────
+\paragraph{Tier 1 --- Working memory.}
+\label{sec:tier1}
+Per-agent scratch space, scoped to a single agent invocation. Lives in
+the previously unused \texttt{scratchpad[agent\_id]} slot of
+\texttt{PipelineState}. The Diagnostic Reasoning agent
+(Section~\ref{sec:diagnostic_reasoning}) is the principal user: across
+its adaptive critique loop it persists the per-round confidence value
+and a rolling list of critique snippets so that subsequent calls within
+the same invocation can reason about earlier rounds without reparsing
+them from free-text concatenation. Working memory is cleared at the
+start of every invocation and is never visible to other agents---that
+role belongs to Tier~2.
+
+% ── Tier 2 ───────────────────────────────────────────────────────────────────
+\paragraph{Tier 2 --- Episodic memory.}
+\label{sec:tier2}
+A typed timeline of significant events across one patient run, written
+to the new \texttt{session\_memory} channel through an append reducer.
+Each entry is a Pydantic-validated \texttt{SessionEvent} record with an
+\texttt{event\_type} drawn from a fixed vocabulary (\texttt{critique},
+\texttt{confidence\_check}, \texttt{decision}, \texttt{hypothesis},
+\texttt{evidence\_link}, and lifecycle markers), an \texttt{agent\_id},
+a one-line summary, and a structured payload. The Clinical Reviewer
+consumes the critique-trail subset of these events when challenging the
+Diagnostic agent's differential, and the Diagnostic Refiner consumes
+the full timeline before producing the final differential.
+Lifecycle events plus a per-agent one-line digest are also written to
+\texttt{session\_summary} as a cheap status channel; the timeline itself
+is persisted to disk per patient as \texttt{session\_memory.json}
+alongside the existing \texttt{execution\_trace.json}.
+
+% ── Tier 3 ───────────────────────────────────────────────────────────────────
+\paragraph{Tier 3 --- Semantic memory.}
+\label{sec:tier3}
+Per-disease aggregate statistics maintained across patient runs and
+persisted to a single JSON file
+(\texttt{data/gold/memory/semantic\_memory.json}). For each disease
+encountered, the store accumulates the count of \textsc{direct},
+\textsc{indirect}, and \textsc{miss} evaluations, the rank-1 frequency
+when found, the running mean of the top differential probability, and a
+capped set of observed evidence patterns. Updates are atomic
+(temporary-file write followed by rename) and idempotent on repeated
+re-indexing of the same patient. Recall is direct lookup by disease
+name (case-insensitive); the file scale and update cadence do not
+warrant an embedding-based index. The Diagnostic Refiner and the
+Treatment Planning agent read the relevant entries as Bayesian-style
+priors over the diseases that appear in the current differential.
+
+% ── Tier 4 ───────────────────────────────────────────────────────────────────
+\paragraph{Tier 4 --- Case-based memory.}
+\label{sec:tier4}
+A vector store of past patient cases, providing case-similarity recall
+that the disk-backed Tier~3 cannot. After every completed run, a short
+clinical-feature text---demographics, active conditions, active
+medications, and key abnormal labs---is embedded with the BioLORD-2023
+biomedical sentence encoder \cite{Remy2023BioLORD} and upserted to a
+dedicated Qdrant collection (\texttt{patient\_cases}) keyed by a stable
+hash of the patient identifier. The payload stored alongside the
+embedding contains the matched diagnosis, match type, rank, primary
+confidence, and a small set of evidence-pattern strings.
+At the start of a new patient's reasoning, the Diagnostic agent issues
+a top-$K$ similarity query (cosine distance, $K=5$ by default) and
+injects the retrieved cases into its prompt as priors of the form
+``patients with this profile previously landed on diagnosis $d$ with
+match $t$''. The wrapper degrades gracefully: if the Qdrant cluster is
+unreachable or the embedding model is not loaded, recall returns an
+empty list rather than aborting the run.
+
+The NICE clinical guidelines used by the Treatment Planning agent
+(Section~\ref{sec:treatment}) live in a separate Qdrant collection
+(\texttt{nice\_guidelines}) and are not part of the memory hierarchy:
+they are static external reference knowledge, not memory the system
+accumulates from experience. The same \texttt{MemoryManager} exposes
+them through a \texttt{knowledge\_base} attribute for symmetry, but
+they are excluded from the access table below.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Memory consolidation node}
+\label{sec:consolidation}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Tier~3 and Tier~4 are populated by a dedicated maintenance node placed
+as Stage~7 of the LangGraph pipeline, executed unconditionally after
+the Treatment Planning agent. The node reads the run's final
+diagnosis, the evaluator's verdict, and the patient context, then
+performs two writes: a per-disease consolidation into Tier~3 and a
+patient-case upsert into Tier~4. The two writes are independent; if
+one fails (for example, when the Qdrant cluster is unreachable), the
+other still proceeds and the trace records the partial outcome. This
+isolates the memory subsystem from the diagnostic pipeline so that
+infrastructure failures cannot corrupt patient outputs already written
+by Stages~1--6.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Access pattern}
+\label{sec:memory_access}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Table~\ref{tab:memory_access} summarises the read/write access pattern
+of each agent across the four memory tiers. The historical invariant
+is preserved: every agent writes only to its own slot in
+\texttt{agent\_outputs} and to the append-only Tier-2 timeline,
+eliminating concurrent-write conflicts by construction. Cross-session
+writes (Tiers~3 and 4) are localised to the consolidation node, which
+runs after all diagnostic stages have completed.
 
 \begin{table}[ht]
 \centering
-\caption{Shared memory access pattern. R = reads, W = writes to own slot.}
+\caption{Multi-level memory access pattern. R = reads, W = writes (to
+own slot for \textsc{tier 2}, append for \textsc{tier 3}/\textsc{tier 4}).
+The Treatment agent additionally reads the external NICE-guideline
+knowledge base, which is not classified as memory.}
 \label{tab:memory_access}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lccccc@{}}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-\textbf{Agent} & \texttt{patient\_context} & \texttt{agent\_outputs} & \texttt{conflicts} & \texttt{scratchpad} & \texttt{execution\_trace} \\
+\textbf{Agent} & \textbf{Tier 1 Working} & \textbf{Tier 2 Episodic} & \textbf{Tier 3 Semantic} & \textbf{Tier 4 Case-based} \\
 \midrule
-EHR Analyst          & R & W      & R & RW & W \\
-Lab Interpreter      & R & W      & R & RW & W \\
-Diagnostic Reasoning & R & R~/~W  & R & RW & W \\
-Clinical Reviewer    & R & R~/~W  & R & RW & W \\
-Diagnostic Refiner   & R & R~/~W  & R & RW & W \\
-LLM Evaluator        & R & R~/~W  & -- & RW & W \\
-Treatment Planning   & R & R~/~W  & -- & RW & W \\
+EHR Analyst              & --   & W            & --  & -- \\
+Lab Interpreter          & --   & W            & --  & -- \\
+Diagnostic Reasoning     & RW   & R~/~W        & --  & R \\
+Clinical Reviewer        & --   & R~(critique) & --  & -- \\
+Diagnostic Refiner       & --   & R~/~W        & R   & -- \\
+LLM Evaluator            & --   & W            & --  & -- \\
+Treatment Planning       & --   & W            & R   & -- \\
+Memory Consolidation~(S7)& --   & W            & W   & W \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
+
+The implementation lives under \texttt{src/memory/} with one module per
+tier (\texttt{working\_memory.py}, \texttt{episodic\_memory.py},
+\texttt{semantic\_memory.py}, \texttt{case\_based\_memory.py}) and a
+unified \texttt{MemoryManager} facade in \texttt{manager.py}. The
+consolidation node is implemented as
+\texttt{src/agents/memory\_consolidator.py} and wired into the graph
+between the Treatment Planning agent and the \texttt{END} node.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Agent Blueprint}
