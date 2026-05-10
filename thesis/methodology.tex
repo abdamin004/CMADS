@@ -26,19 +26,27 @@ execute in six sequential stages to produce a final clinical decision report.
 \begin{tikzpicture}[
   every node/.style={font=\scriptsize},
   data/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
-               minimum width=34mm, align=center, fill=yellow!30},
+               minimum width=36mm, align=center, fill=yellow!30},
   gold/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
-               minimum width=34mm, align=center, fill=yellow!45},
-  agent/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
-                minimum width=34mm, align=center, fill=green!15},
-  evalbox/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
-                  minimum width=34mm, align=center, fill=red!15},
+               minimum width=36mm, align=center, fill=yellow!45},
+  agent/.style={rectangle, draw, rounded corners=2pt, minimum height=9mm,
+                minimum width=32mm, align=center, fill=green!15},
+  evalbox/.style={rectangle, draw, rounded corners=2pt, minimum height=9mm,
+                  minimum width=32mm, align=center, fill=red!15},
+  consol/.style={rectangle, draw, rounded corners=2pt, minimum height=9mm,
+                 minimum width=32mm, align=center, fill=orange!25,
+                 font=\scriptsize\bfseries},
+  memlayer/.style={rectangle, draw, rounded corners=4pt, minimum height=14mm,
+                   minimum width=160mm, align=center, fill=violet!12,
+                   font=\scriptsize\itshape},
   arr/.style={-{Latex[length=1.8mm]}, thick},
+  arrgate/.style={-{Latex[length=1.6mm]}, thick, red!60!black},
+  arrmem/.style={-{Latex[length=1.4mm]}, dashed, violet!50!black, thin},
   caplabel/.style={font=\scriptsize\bfseries, text=blue!50!black}
 ]
   % Data layer (single box) and Gold
   \node[data] (data) {\textbf{Clinical Data Layer}\\Synthea $\to$ Bronze $\to$ Silver $\to$ Gold};
-  \node[gold, right=12mm of data] (goldnode) {Gold Case Objects\\(EHR + Lab JSON)};
+  \node[gold, right=14mm of data] (goldnode) {Gold Case Objects\\(EHR + Lab JSON)};
   \draw[arr] (data) -- (goldnode);
 
   % Separator label "data layer"
@@ -54,6 +62,7 @@ execute in six sequential stages to produce a final clinical decision report.
   \node[agent, below=8mm of s2] (s4) {4.\ Diagnostic Refiner};
   \node[evalbox, right=6mm of s4] (s5) {5.\ LLM Evaluator};
   \node[evalbox, below=8mm of s5, xshift=-20mm] (s6) {6.\ Treatment Planning (RAG)};
+  \node[consol, below=7mm of s6] (s7) {7.\ Memory Consolidation};
 
   % Arrows from Gold to stage 1 agents
   \draw[arr] (goldnode.south) -- ++(0,-4mm) -| (s1a.north);
@@ -69,15 +78,35 @@ execute in six sequential stages to produce a final clinical decision report.
   \draw[arr] (s3.south) -- ++(0,-3mm) -| (s4.north);
   % Stage 4 -> 5
   \draw[arr] (s4) -- (s5);
-  % Stage 5 -> 6 (DIRECT only)
-  \draw[arr] (s5.south) -- ++(0,-3mm) -| (s6.north) node[midway, right, font=\tiny, xshift=2mm, yshift=4mm]{DIRECT};
+  % Stage 5 -> 6 (DIRECT only — gated)
+  \draw[arrgate] (s5.south) -- ++(0,-3mm) -| (s6.north)
+    node[midway, right, font=\tiny\bfseries, xshift=2mm, yshift=3mm,
+         text=red!60!black]{if DIRECT};
+  % Stage 6 -> 7 (always)
+  \draw[arr] (s6) -- (s7);
 
-  \node[caplabel, below=1mm of s6] {\textit{Multi-Agent Reasoning Pipeline --- thesis focus}};
+  \node[caplabel, below=1mm of s7] {\textit{Multi-Agent Reasoning Pipeline --- thesis focus}};
+
+  % Multi-level memory layer (spans the full width below)
+  \node[memlayer, below=7mm of s7] (mem)
+    {\textbf{Multi-Level Memory Subsystem (Section~\ref{sec:multilevel_memory})}\\[1pt]
+     Tier 1 Working  ·  Tier 2 Episodic  ·  Tier 3 Semantic  ·  Tier 4 Case-Based
+     \quad accessed through one MemoryManager facade};
+
+  % Dashed read/write tendrils from agents to the memory layer
+  \foreach \n in {s1a, s1b, s2, s3, s4, s5, s6}
+    \draw[arrmem] (\n.south) ++(0,-2mm) -- ($(mem.north)!(\n.south)!(mem.north east)$);
+  \draw[arrmem, very thick, orange!70!black]
+    (s7.east) -- ++(8mm, 0) |- (mem.east)
+    node[midway, right, font=\tiny\bfseries, text=orange!70!black, xshift=-1mm, yshift=-1mm]
+      {writes T3 + T4};
 \end{tikzpicture}
 \caption{High-level CMADS architecture. The data layer (top) is summarised
-in Section~\ref{sec:dataset}; the remainder of the chapter describes the
-seven-agent reasoning pipeline (bottom). Stage~6 runs only when Stage~5
-produces a DIRECT match.}
+in Section~\ref{sec:dataset}; the seven-agent reasoning pipeline (centre)
+is the thesis focus. Stage~6 runs only when Stage~5 produces a DIRECT
+match. The new Stage~7 consolidation node (orange) folds the run's
+outcome into the multi-level memory subsystem (Section~\ref{sec:shared_memory}),
+which is read by every reasoning stage above (dashed lines).}
 \label{fig:system_architecture}
 \end{figure}
 
@@ -162,11 +191,19 @@ bounded at three rounds.
 \begin{tikzpicture}[
   every node/.style={font=\scriptsize},
   agent/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
-                minimum width=44mm, align=center, fill=green!15},
+                minimum width=46mm, align=center, fill=green!15},
+  consol/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+                 minimum width=46mm, align=center, fill=orange!25,
+                 font=\scriptsize\bfseries},
   stage/.style={rectangle, draw=blue!40, rounded corners=2pt, minimum height=7mm,
                 minimum width=18mm, align=center, fill=blue!10, font=\scriptsize\bfseries},
+  memside/.style={rectangle, draw=violet!50, rounded corners=3pt,
+                  minimum height=86mm, minimum width=26mm, align=center,
+                  fill=violet!10, font=\scriptsize, inner sep=2pt},
+  tiertag/.style={font=\scriptsize\bfseries, text=violet!60!black},
   arr/.style={-{Latex[length=1.6mm]}, thick},
-  loopback/.style={-{Latex[length=1.6mm]}, thick, dashed, blue!60!black}
+  loopback/.style={-{Latex[length=1.6mm]}, thick, dashed, blue!60!black},
+  memarrow/.style={-{Latex[length=1.4mm]}, thin, dashed, violet!60!black}
 ]
   % Starting node
   \node[agent, fill=yellow!40] (gold) {Gold Case Object (EHR + Lab)};
@@ -176,19 +213,22 @@ bounded at three rounds.
   \node[agent, below right=8mm and -14mm of gold] (lab) {1b.\ Lab Interpreter};
 
   % Stage 2
-  \node[agent, below=22mm of gold] (diag) {2. Diagnostic Reasoning (adaptive loop)};
+  \node[agent, below=22mm of gold] (diag) {2.\ Diagnostic Reasoning\\(adaptive loop / 3-phase split)};
 
   % Stage 3
-  \node[agent, below=8mm of diag] (rev) {3. Clinical Reviewer (adversarial)};
+  \node[agent, below=8mm of diag] (rev) {3.\ Clinical Reviewer (adversarial)};
 
   % Stage 4
-  \node[agent, below=8mm of rev] (ref) {4. Diagnostic Refiner};
+  \node[agent, below=8mm of rev] (ref) {4.\ Diagnostic Refiner};
 
   % Stage 5
-  \node[agent, below=8mm of ref, fill=red!15] (evalnode) {5. LLM Evaluator vs.\ Ground Truth};
+  \node[agent, below=8mm of ref, fill=red!15] (evalnode) {5.\ LLM Evaluator vs.\ Ground Truth};
 
   % Stage 6
-  \node[agent, below=8mm of evalnode, fill=red!15] (tx) {6. Treatment Planning (RAG)};
+  \node[agent, below=8mm of evalnode, fill=red!15] (tx) {6.\ Treatment Planning (RAG)};
+
+  % Stage 7 (NEW — memory consolidation)
+  \node[consol, below=8mm of tx] (mc) {7.\ Memory Consolidation\\(non-LLM maintenance)};
 
   % Edges
   \draw[arr] (gold.south) -- ++(0,-3mm) -| (ehr.north);
@@ -198,24 +238,58 @@ bounded at three rounds.
   \draw[arr] (diag) -- (rev);
   \draw[arr] (rev) -- (ref);
   \draw[arr] (ref) -- (evalnode);
-  \draw[arr] (evalnode) -- node[right, font=\tiny, xshift=1mm]{DIRECT match} (tx);
+  \draw[arr] (evalnode) -- node[right, font=\tiny, xshift=1mm]{if DIRECT} (tx);
+  \draw[arr] (tx) -- (mc);
 
-  % Adaptive loopback
-  \draw[loopback] ($(diag.east)+(0,2mm)$) .. controls +(right:14mm) and +(right:14mm) .. ($(diag.east)+(0,-2mm)$)
-    node[midway, right=3mm, font=\tiny]{critique ($\leq 3$ rounds)};
+  % Adaptive / 3-phase loopback at Stage 2
+  \draw[loopback] ($(diag.east)+(0,2mm)$)
+    .. controls +(right:14mm) and +(right:14mm) ..
+    ($(diag.east)+(0,-2mm)$)
+    node[midway, right=3mm, align=left, font=\tiny]
+        {critique\\($\leq 3$ rounds)};
 
-  % Stage labels
+  % Stage labels (left column)
   \node[stage, left=10mm of ehr, xshift=-4mm] (s1) {Stage 1};
   \node[stage, left=10mm of diag, xshift=-4mm] (s2) {Stage 2};
   \node[stage, left=10mm of rev, xshift=-4mm] (s3) {Stage 3};
   \node[stage, left=10mm of ref, xshift=-4mm] (s4) {Stage 4};
   \node[stage, left=10mm of evalnode, xshift=-4mm] (s5) {Stage 5};
   \node[stage, left=10mm of tx, xshift=-4mm] (s6) {Stage 6};
+  \node[stage, left=10mm of mc, xshift=-4mm, fill=orange!25] (s7) {Stage 7};
+
+  % Memory column on the right — shared by all stages
+  \node[memside, right=14mm of diag] (memcol)
+    {\textbf{Multi-Level Memory}\\[2pt]
+     \textcolor{orange!70!black}{\textbf{T1 Working}}\\
+     used by Stage 2\\
+     critique loop\\[2pt]
+     \textcolor{blue!60!black}{\textbf{T2 Episodic}}\\
+     all stages\\
+     append timeline\\[2pt]
+     \textcolor{teal!60!black}{\textbf{T3 Semantic}}\\
+     Refiner / Tx\\
+     read priors\\[2pt]
+     \textcolor{violet!60!black}{\textbf{T4 Case-based}}\\
+     Diag reads\\
+     similar past\\[2pt]
+     \textit{Stage 7 writes T3 \& T4}};
+
+  % Per-stage dashed connectors to the memory column
+  \foreach \n in {ehr, lab, diag, rev, ref, evalnode, tx}
+    \draw[memarrow] (\n.east) -- ($(memcol.west)!(\n.east)!(memcol.south west)$);
+  \draw[memarrow, very thick, orange!70!black]
+    (mc.east) -- ($(memcol.west)!(mc.east)!(memcol.south west)$);
+
 \end{tikzpicture}
-\caption{Multi-agent execution graph. Stage~1 fans out the EHR Analyst and
-Lab Interpreter in parallel; Stage~2 contains an adaptive self-critique loop
-bounded at three rounds; Stage~6 runs only when Stage~5 produces a DIRECT
-match against the Synthea ground truth.}
+\caption{Multi-agent execution graph with the Stage~7 consolidation node
+and the multi-level memory column (right). Stage~1 fans out the EHR
+Analyst and Lab Interpreter in parallel; Stage~2 contains an adaptive
+self-critique loop bounded at three rounds (and a 3-phase
+with-prior / clean-room / synthesise variant when Tier-4 priors are
+available, Section~\ref{sec:diagnostic_reasoning}); Stage~6 runs only
+when Stage~5 produces a DIRECT match. Dashed lines indicate read/write
+access to the memory subsystem; the orange link from Stage~7 indicates
+the per-run consolidation writes into Tier~3 and Tier~4.}
 \label{fig:agent_pipeline}
 \end{figure}
 
@@ -317,6 +391,115 @@ through a single \texttt{MemoryManager} facade so that agent code
 follows the same call pattern regardless of which tier it touches. The
 entire subsystem is gated by a \texttt{MEMORY\_ENABLED} environment
 flag, which makes before/after experimentation a clean toggle.
+Figure~\ref{fig:multilevel_memory} sketches the resulting architecture.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  agent/.style={rectangle, draw, rounded corners=2pt, minimum height=8mm,
+                minimum width=22mm, align=center, fill=green!15,
+                font=\scriptsize\bfseries},
+  newagent/.style={rectangle, draw, rounded corners=2pt, minimum height=8mm,
+                   minimum width=24mm, align=center, fill=orange!25,
+                   font=\scriptsize\bfseries},
+  facade/.style={rectangle, draw, rounded corners=4pt, minimum height=11mm,
+                 minimum width=148mm, align=center,
+                 fill=violet!22, font=\scriptsize\bfseries},
+  t1/.style={rectangle, draw, rounded corners=3pt, minimum height=18mm,
+             minimum width=33mm, align=center, fill=orange!18,
+             font=\scriptsize},
+  t2/.style={rectangle, draw, rounded corners=3pt, minimum height=18mm,
+             minimum width=33mm, align=center, fill=blue!12,
+             font=\scriptsize},
+  t3/.style={rectangle, draw, rounded corners=3pt, minimum height=18mm,
+             minimum width=33mm, align=center, fill=teal!18,
+             font=\scriptsize},
+  t4/.style={rectangle, draw, rounded corners=3pt, minimum height=18mm,
+             minimum width=33mm, align=center, fill=violet!18,
+             font=\scriptsize},
+  ext/.style={rectangle, draw, dashed, rounded corners=3pt,
+              minimum height=10mm, minimum width=148mm,
+              align=center, fill=gray!8, font=\scriptsize\itshape},
+  scope/.style={font=\tiny\itshape, text=gray!50!black},
+  arrdash/.style={-{Latex[length=1.4mm]}, dashed, gray!70, thin},
+  arr/.style={-{Latex[length=1.6mm]}, semithick}
+]
+  % ── Agent row (top) ──
+  \node[agent] (a1) {EHR};
+  \node[agent, right=2mm of a1] (a2) {Lab};
+  \node[agent, right=2mm of a2] (a3) {Diagnostic};
+  \node[agent, right=2mm of a3] (a4) {Reviewer};
+  \node[agent, right=2mm of a4] (a5) {Refiner};
+  \node[agent, right=2mm of a5] (a6) {Evaluator};
+  \node[agent, right=2mm of a6] (a7) {Treatment};
+  \node[newagent, right=2mm of a7] (a8) {Consolidator};
+
+  % ── MemoryManager facade ──
+  \node[facade, below=4mm of a4, xshift=12mm] (facade)
+    {\texttt{MemoryManager} facade
+     \quad\textnormal{\scriptsize\itshape one entry point: \texttt{mm.working},
+     \texttt{mm.episodic}, \texttt{mm.semantic}, \texttt{mm.case\_based}}};
+
+  % Dashed read/write lines from each agent to the facade
+  \foreach \src in {a1, a2, a3, a4, a5, a6, a7, a8}
+    \draw[arrdash] (\src.south) -- ($(facade.north)!(\src.south)!(facade.north east)$);
+
+  % ── Four tier cards ──
+  \node[t1, below=12mm of facade.south west, xshift=18mm] (t1)
+    {\textbf{Tier 1}\\\textbf{WORKING}\\[1pt]
+     \scriptsize per-agent\\
+     \scriptsize invocation-local\\[2pt]
+     \scriptsize \texttt{state.scratchpad}};
+  \node[t2, right=4mm of t1] (t2)
+    {\textbf{Tier 2}\\\textbf{EPISODIC}\\[1pt]
+     \scriptsize current run\\
+     \scriptsize in-state, on disk\\[2pt]
+     \scriptsize \texttt{session\_memory}};
+  \node[t3, right=4mm of t2] (t3)
+    {\textbf{Tier 3}\\\textbf{SEMANTIC}\\[1pt]
+     \scriptsize cross-session\\
+     \scriptsize disk · per-disease\\[2pt]
+     \scriptsize \texttt{semantic\_memory.json}};
+  \node[t4, right=4mm of t3] (t4)
+    {\textbf{Tier 4}\\\textbf{CASE-BASED}\\[1pt]
+     \scriptsize cross-session\\
+     \scriptsize Qdrant · BioLORD\\[2pt]
+     \scriptsize \texttt{patient\_cases}};
+
+  % Arrows from facade down to each tier
+  \draw[arr] (facade.south) -- ($(t1.north)+(0,1mm)$);
+  \draw[arr] (facade.south) -- ($(t2.north)+(0,1mm)$);
+  \draw[arr] (facade.south) -- ($(t3.north)+(0,1mm)$);
+  \draw[arr] (facade.south) -- ($(t4.north)+(0,1mm)$);
+
+  % ── Scope axis label below tier cards ──
+  \node[scope, below=2mm of t1] (lt1) {one LLM call};
+  \node[scope, below=2mm of t2] (lt2) {one patient run};
+  \node[scope, below=2mm of t3] (lt3) {disease-level aggregate};
+  \node[scope, below=2mm of t4] (lt4) {case-similarity recall};
+  \draw[->, gray!60, thin] ($(lt1.south west)+(-3mm,-1mm)$) --
+        ($(lt4.south east)+(3mm,-1mm)$)
+        node[midway, below=0mm, font=\tiny\itshape, text=gray!70!black]
+            {scope $\rightarrow$ longer lifespan, broader reuse};
+
+  % ── External knowledge base (NICE) shown but excluded from tiers ──
+  \node[ext, below=12mm of t1.south, xshift=63mm] (nice)
+    {\textbf{External knowledge base — not a memory tier} \quad
+     NICE clinical guidelines (Qdrant \texttt{nice\_guidelines}),
+     used by the Treatment agent only};
+
+\end{tikzpicture}
+\caption{Four-tier multi-level memory subsystem layered on the
+LangGraph state. All seven specialised agents (green) and the new
+Stage-7 memory consolidation node (orange) reach memory through a
+single \texttt{MemoryManager} facade (purple) that exposes one method
+per tier. Tiers are scoped from narrowest (per-LLM-call working scratch)
+to broadest (cross-session vector recall over previously processed
+patients). NICE clinical guidelines remain available but live outside
+the memory hierarchy as static external reference knowledge.}
+\label{fig:multilevel_memory}
+\end{figure}
 
 % ── Tier 1 ───────────────────────────────────────────────────────────────────
 \paragraph{Tier 1 --- Working memory.}
@@ -481,10 +664,20 @@ substantially simplifies debugging and observability.
               minimum width=23mm, align=center, fill=blue!10},
   llm/.style={rectangle, draw, rounded corners=2pt, minimum height=11mm,
               minimum width=23mm, align=center, fill=red!15},
-  mem/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
-              minimum width=119mm, align=center, fill=yellow!30},
+  facade/.style={rectangle, draw, rounded corners=3pt, minimum height=8mm,
+                 minimum width=119mm, align=center, fill=violet!20,
+                 font=\scriptsize\bfseries},
+  t1/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+             minimum width=27mm, align=center, fill=orange!18},
+  t2/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+             minimum width=27mm, align=center, fill=blue!12},
+  t3/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+             minimum width=27mm, align=center, fill=teal!18},
+  t4/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+             minimum width=27mm, align=center, fill=violet!18},
   arr/.style={-{Latex[length=1.8mm]}, thick},
-  darr/.style={-{Latex[length=1.6mm]}, thick, dashed, gray!80}
+  darr/.style={-{Latex[length=1.6mm]}, thick, dashed, gray!80},
+  memarr/.style={-{Latex[length=1.4mm]}, dashed, violet!50!black, thin}
 ]
   % Pipeline row
   \node[gate] (in) {Input Gate\\\textit{Pydantic validate}};
@@ -498,12 +691,33 @@ substantially simplifies debugging and observability.
   \draw[arr] (llm) -- (parse);
   \draw[arr] (parse) -- (out);
 
-  % Memory row
-  \node[mem, below=14mm of llm] (memory) {\textbf{Shared Memory (PipelineState)}};
+  % MemoryManager facade row
+  \node[facade, below=10mm of llm] (facade)
+    {\texttt{MemoryManager} facade};
 
-  % Dashed read/write links
-  \draw[darr] (in.south) -- (memory.north -| in.south) node[midway, right=1mm, font=\tiny]{read};
-  \draw[darr] (out.south) -- (memory.north -| out.south) node[midway, right=1mm, font=\tiny]{write};
+  % Four-tier row beneath the facade
+  \node[t1, below=6mm of facade.south west, anchor=north west] (t1)
+    {\textbf{Tier 1}\\Working};
+  \node[t2, right=3mm of t1] (t2)
+    {\textbf{Tier 2}\\Episodic};
+  \node[t3, right=3mm of t2] (t3)
+    {\textbf{Tier 3}\\Semantic};
+  \node[t4, right=3mm of t3] (t4)
+    {\textbf{Tier 4}\\Case-based};
+
+  % Read/write links from gates to facade
+  \draw[darr] (in.south) -- (facade.north -| in.south)
+    node[midway, right=1mm, font=\tiny]{read};
+  \draw[darr] (prompt.south) -- (facade.north -| prompt.south)
+    node[midway, right=1mm, font=\tiny]{read priors};
+  \draw[darr] (out.south) -- (facade.north -| out.south)
+    node[midway, right=1mm, font=\tiny]{write};
+
+  % Facade fan-out to each tier
+  \draw[memarr] (facade.south) -- (t1.north);
+  \draw[memarr] (facade.south) -- (t2.north);
+  \draw[memarr] (facade.south) -- (t3.north);
+  \draw[memarr] (facade.south) -- (t4.north);
 
   % Input/output labels
   \node[above=2mm of in, font=\scriptsize] {\textit{from upstream}};
@@ -511,8 +725,12 @@ substantially simplifies debugging and observability.
 \end{tikzpicture}
 \caption{Generic agent blueprint. Every agent executes Input~Gate~$\to$~Prompt
 Assembler~$\to$~LLM~Invocation~$\to$~Output~Parser~$\to$~Output~Gate.
-Upstream namespaces are read through the Input Gate and the final validated
-output is written through the Output Gate.}
+Upstream namespaces are read through the Input Gate; Tier-3 and Tier-4
+priors are pulled through the Prompt Assembler when relevant
+(Section~\ref{sec:multilevel_memory}); the final validated output and any
+episodic events are written through the Output Gate. All four memory
+tiers are reached through a single \texttt{MemoryManager} facade so the
+agent code is identical regardless of which tier is touched.}
 \label{fig:agent_blueprint}
 \end{figure}
 
@@ -573,45 +791,228 @@ Treatment Planning   & Final diagnosis + evaluation           & treatment\_plann
 \end{table}
 
 \subsection{EHR Analyst}
+\label{sec:agent_ehr}
 The EHR Analyst consumes the \texttt{ehr\_case.json} Gold object and produces
 a structured clinical summary covering demographics, active conditions,
 medication list, relevant history, and prior encounters. The agent is
 prompted to think step-by-step through the EHR and to cite the specific
 record that supports every structured claim, which permits downstream agents
 and human reviewers to verify provenance. Internally the agent runs three
-sequential LLM calls within its blueprint: an unstructured \textit{analysis}
-call, a \textit{structure} call that extracts JSON fields, and a
-\textit{review} call that self-checks the structured output for internal
-consistency.
+sequential LLM calls within its blueprint (Figure~\ref{fig:agent_ehr_flow}):
+an unstructured \textit{analysis} call, a \textit{structure} call that
+extracts JSON fields, and a \textit{review} call that self-checks the
+structured output for internal consistency.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  inp/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=24mm, align=center, fill=yellow!30},
+  llm/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=24mm, align=center, fill=blue!12},
+  outbox/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=28mm, align=center, fill=green!18},
+  arr/.style={-{Latex[length=1.6mm]}, semithick}
+]
+  \node[inp] (in) {\texttt{ehr\_case.json}\\(Gold object)};
+  \node[llm, right=4mm of in] (a)
+    {Call 1: \textbf{analyse}\\\scriptsize free-text reasoning};
+  \node[llm, right=4mm of a] (s)
+    {Call 2: \textbf{structure}\\\scriptsize extract JSON fields};
+  \node[llm, right=4mm of s] (r)
+    {Call 3: \textbf{review}\\\scriptsize self-check consistency};
+  \node[outbox, right=4mm of r] (o)
+    {\texttt{ehr\_analyst}\\\scriptsize structured summary\\\scriptsize + provenance};
+  \draw[arr] (in) -- (a); \draw[arr] (a) -- (s);
+  \draw[arr] (s) -- (r);  \draw[arr] (r) -- (o);
+\end{tikzpicture}
+\caption{EHR Analyst — the analyse/structure/review three-call sequence
+applied within the generic agent blueprint. Each call is a separate LLM
+invocation with its own system prompt loaded from
+\texttt{prompts/ehr\_analyst.yaml}.}
+\label{fig:agent_ehr_flow}
+\end{figure}
 
 \subsection{Lab Interpreter}
+\label{sec:agent_lab}
 The Lab Interpreter consumes \texttt{lab\_case.json} and classifies each
 laboratory observation against reference ranges, interprets temporal trends,
 and ranks findings by clinical severity. Critical values are flagged with an
 explicit \texttt{CRITICAL} marker that propagates downstream. Like the EHR
-Analyst, the Lab Interpreter runs the three-call
-analyse--structure--review sequence.
+Analyst, the Lab Interpreter runs the three-call analyse--structure--review
+sequence (Figure~\ref{fig:agent_lab_flow}); the structure call additionally
+applies a deterministic severity-ranking rule that orders findings by their
+deviation from reference range, putting critical alerts first.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  inp/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=24mm, align=center, fill=yellow!30},
+  llm/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=24mm, align=center, fill=blue!12},
+  rank/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+               minimum width=22mm, align=center, fill=orange!18,
+               font=\scriptsize\itshape},
+  outbox/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=28mm, align=center, fill=green!18},
+  arr/.style={-{Latex[length=1.6mm]}, semithick}
+]
+  \node[inp] (in) {\texttt{lab\_case.json}\\(Gold object)};
+  \node[llm, right=4mm of in] (a)
+    {Call 1: \textbf{analyse}\\\scriptsize classify, trend};
+  \node[llm, right=4mm of a] (s)
+    {Call 2: \textbf{structure}\\\scriptsize JSON + flags};
+  \node[rank, below=4mm of s] (rule)
+    {severity rule\\(deterministic)};
+  \node[llm, right=4mm of s] (r)
+    {Call 3: \textbf{review}\\\scriptsize verify ranking};
+  \node[outbox, right=4mm of r] (o)
+    {\texttt{lab\_interpreter}\\\scriptsize ranked findings\\\scriptsize CRITICAL flags};
+  \draw[arr] (in) -- (a); \draw[arr] (a) -- (s);
+  \draw[arr] (s) -- (r);  \draw[arr] (r) -- (o);
+  \draw[arr, dashed] (s) -- (rule);
+  \draw[arr, dashed] (rule.east) -| (r.south);
+\end{tikzpicture}
+\caption{Lab Interpreter — same three-call blueprint as the EHR Analyst,
+with an additional deterministic severity-ranking step injected between
+the structure and review calls. The ranking rule orders findings by their
+deviation from reference range and propagates a \texttt{CRITICAL} marker
+to downstream agents.}
+\label{fig:agent_lab_flow}
+\end{figure}
 
 \subsection{Diagnostic Reasoning}
+\label{sec:diagnostic_reasoning}
 \label{sec:agent_diag}
-The Diagnostic Reasoning agent is the central hypothesis-generating component
-of the pipeline. Unlike Stage~1 agents, which execute a fixed three-call
-sequence, this agent implements an \textit{adaptive loop} bounded at three
-rounds.
+The Diagnostic Reasoning agent is the central hypothesis-generating
+component of the pipeline. Unlike Stage~1 agents, which execute a fixed
+three-call sequence, this agent implements two distinct reasoning modes
+selected at run time: an \textit{adaptive critique loop} when the
+multi-level memory subsystem is disabled or no quality priors are
+available, and a \textit{three-phase split} when Tier-4 case-based
+recall returns at least one DIRECT-match prior above the configured
+similarity threshold (Section~\ref{sec:tier4}). Both modes are bounded
+to at most three reasoning rounds.
 
-The adaptive loop proceeds as follows. A first call synthesises evidence from
-the Stage~1 outputs, a second call generates at least three candidate
-diagnoses, a third call ranks them by probability, and a fourth call
-critiques the ranking. If the critique call returns a confidence below the
-threshold of 75, a further critique round is executed; otherwise the loop
-terminates. A hard cap of three critique rounds prevents unbounded execution.
+The adaptive critique loop proceeds as follows. A first call synthesises
+evidence from the Stage~1 outputs, a second call generates at least
+three candidate diagnoses, a third call ranks them by probability, and
+subsequent critique rounds re-rank the differential until either a
+confidence threshold of 75 is reached or three rounds have elapsed.
 This adaptive behaviour was motivated by the finding of Shang et
 al.~\cite{Shang2025DynamiCare} that dynamic multi-round reasoning
-significantly outperforms single-pass approaches on complex cases, and by the
-MDAgents architectural precedent of Kim et al.~\cite{Kim2024MDAgents} that
-complexity-based routing improves both accuracy and efficiency.
+significantly outperforms single-pass approaches on complex cases, and by
+the MDAgents architectural precedent of Kim et al.~\cite{Kim2024MDAgents}
+that complexity-based routing improves both accuracy and efficiency.
+
+\paragraph{Three-phase split.}
+When the memory subsystem returns at least one quality prior, the
+adaptive critique loop is replaced by three explicit re-ranking rounds
+designed to harvest the prior without anchoring on it
+(Figure~\ref{fig:agent_diag_flow}).  \textit{Round~A} re-ranks the
+differential with the case-based prior visible and the agent
+instructed to weight the prior but anchor every diagnosis to evidence
+in the current patient's data. \textit{Round~B} re-ranks
+\emph{clean-room}, with the prior suppressed and an explicit
+anti-anchoring instruction (``reason from the patient's evidence
+alone, as if this were the first patient you have ever seen'').
+\textit{Round~C} synthesises rounds A and B: where they agree, the
+consensus is emitted; where they disagree, the agent prefers Round~B
+unless Round~A's choice has a clearly named supporting finding in the
+current case. The split is informed by the same multi-round literature
+above and by the \textit{silent agreement} failure mode identified by
+Wang et al.~\cite{Wang2025Catfish}; the explicit clean-room round is
+this work's contribution.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  inp/.style={rectangle, draw, rounded corners=2pt, minimum height=8mm,
+              minimum width=22mm, align=center, fill=yellow!30},
+  fixed/.style={rectangle, draw, rounded corners=2pt, minimum height=8mm,
+                minimum width=24mm, align=center, fill=blue!12},
+  rA/.style={rectangle, draw, rounded corners=2pt, minimum height=14mm,
+             minimum width=30mm, align=center, fill=violet!18},
+  rB/.style={rectangle, draw, rounded corners=2pt, minimum height=14mm,
+             minimum width=30mm, align=center, fill=blue!18},
+  rC/.style={rectangle, draw, rounded corners=2pt, minimum height=14mm,
+             minimum width=30mm, align=center, fill=teal!18},
+  prior/.style={rectangle, draw, dashed, rounded corners=2pt,
+                minimum height=8mm, minimum width=30mm, align=center,
+                fill=violet!8, font=\scriptsize\itshape},
+  outbox/.style={rectangle, draw, rounded corners=2pt, minimum height=8mm,
+              minimum width=24mm, align=center, fill=green!18},
+  alt/.style={rectangle, draw, rounded corners=2pt, minimum height=14mm,
+              minimum width=30mm, align=center, fill=blue!8,
+              font=\scriptsize\itshape},
+  arr/.style={-{Latex[length=1.6mm]}, semithick},
+  loop/.style={-{Latex[length=1.4mm]}, dashed, semithick, blue!60!black},
+  branch/.style={font=\scriptsize\bfseries, text=violet!60!black}
+]
+  % Top row: fixed pre-rounds
+  \node[inp] (s1) {EHR + Lab\\summaries};
+  \node[fixed, right=3mm of s1] (c1)
+    {Call 1: \textbf{synthesis}};
+  \node[fixed, right=3mm of c1] (c2)
+    {Call 2: \textbf{hypotheses}};
+  \node[fixed, right=3mm of c2] (c3)
+    {Call 3: \textbf{initial rank}};
+  \draw[arr] (s1) -- (c1); \draw[arr] (c1) -- (c2); \draw[arr] (c2) -- (c3);
+
+  % Branch decision
+  \node[branch, below=4mm of c3, align=center] (decision)
+    {if Tier-4 quality priors\\\textnormal{\scriptsize (DIRECT, score $\geq 0.75$)}};
+  \draw[arr] (c3) -- (decision);
+
+  % LEFT branch: 3-phase split (when priors exist)
+  \node[prior, below left=8mm and -8mm of decision] (prior)
+    {Tier-4 prior block};
+  \node[rA, below=4mm of prior] (rA)
+    {\textbf{Round A}\\WITH prior\\\scriptsize re-rank};
+  \node[rB, below=4mm of rA] (rB)
+    {\textbf{Round B}\\CLEAN-ROOM\\\scriptsize anti-anchoring};
+  \node[rC, below=4mm of rB] (rC)
+    {\textbf{Round C}\\synthesise A + B};
+  \draw[arr, violet!60!black] (decision.west) -- ++(-12mm,0) |- (prior.east);
+  \draw[arr] (prior) -- (rA);
+  \draw[arr] (rA) -- (rB);
+  \draw[arr] (rB) -- (rC);
+
+  % RIGHT branch: adaptive critique loop (fallback)
+  \node[alt, below right=8mm and -8mm of decision] (alt)
+    {\textbf{adaptive critique loop}\\$\leq 3$ rounds\\\scriptsize stop at conf $\geq 75$};
+  \draw[arr] (decision.east) -- ++(12mm,0) |- (alt.east);
+  \draw[loop] ($(alt.north east)+(-3mm,-1mm)$)
+    .. controls +(right:8mm) and +(right:8mm) ..
+    ($(alt.south east)+(-3mm,1mm)$);
+
+  % Final structured-JSON call (always)
+  \node[fixed, below=12mm of decision, xshift=0mm, fill=red!12] (jcall)
+    {Final call: \textbf{structured JSON}};
+  \draw[arr] (rC.east) -| (jcall.west);
+  \draw[arr] (alt.west) -| (jcall.east);
+
+  \node[outbox, below=4mm of jcall] (o)
+    {\texttt{diagnostic\_reasoning}\\\scriptsize ranked differential};
+  \draw[arr] (jcall) -- (o);
+
+\end{tikzpicture}
+\caption{Diagnostic Reasoning agent — fixed three-call pre-rounds
+(synthesis, hypothesis, initial rank), then a runtime branch based on
+the availability of Tier-4 quality priors. The 3-phase split (left)
+runs when at least one DIRECT-match prior with cosine similarity
+$\geq 0.75$ is recalled; the adaptive critique loop (right) runs
+otherwise. Both paths terminate in a structured-JSON final call that
+emits the agent's contribution to \texttt{agent\_outputs}.}
+\label{fig:agent_diag_flow}
+\end{figure}
 
 \subsection{Clinical Reviewer}
+\label{sec:agent_reviewer}
 The Clinical Reviewer is an adversarial agent that independently re-examines
 the evidence and the diagnostic agent's differential. It is explicitly
 prompted to challenge the primary diagnosis, surface plausible alternatives
@@ -622,7 +1023,54 @@ framework~\cite{Wang2025Catfish}: by instantiating the reviewer with an
 adversarial rather than confirmatory system prompt, the pipeline forces
 genuine deliberation rather than reflexive consensus.
 
+The agent's internal flow is shown in Figure~\ref{fig:agent_reviewer_flow}.
+With the multi-level memory subsystem enabled, the Reviewer additionally
+reads the Diagnostic agent's Tier-2 critique trail and uses it during
+the verification call to challenge the \emph{path} to the diagnosis,
+not only the diagnosis itself.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  inp/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=26mm, align=center, fill=yellow!30},
+  llm/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=24mm, align=center, fill=blue!12},
+  mem/.style={rectangle, draw, dashed, rounded corners=2pt, minimum height=8mm,
+              minimum width=26mm, align=center, fill=blue!8,
+              font=\scriptsize\itshape},
+  outbox/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=28mm, align=center, fill=green!18},
+  arr/.style={-{Latex[length=1.6mm]}, semithick},
+  memarr/.style={-{Latex[length=1.4mm]}, dashed, blue!60!black, thin}
+]
+  \node[inp] (in) {Stage 1 + 2\\agent outputs};
+  \node[llm, right=4mm of in] (a)
+    {Call 1: \textbf{re-analyse}\\\scriptsize independent read};
+  \node[llm, right=4mm of a] (v)
+    {Call 2: \textbf{verify}\\\scriptsize per-diagnosis};
+  \node[llm, right=4mm of v] (j)
+    {Call 3: \textbf{JSON}\\\scriptsize verdict + flags};
+  \node[outbox, right=4mm of j] (o)
+    {\texttt{clinical\_reviewer}\\\scriptsize CONFIRM\,/\,MODIFY\,/\,REJECT};
+  \draw[arr] (in) -- (a); \draw[arr] (a) -- (v);
+  \draw[arr] (v) -- (j);  \draw[arr] (j) -- (o);
+
+  % Tier-2 read into the verification call
+  \node[mem, above=5mm of v] (t2)
+    {Tier-2: Diagnostic\\critique trail};
+  \draw[memarr] (t2) -- (v);
+\end{tikzpicture}
+\caption{Clinical Reviewer — three-call sequence (independent re-analysis,
+per-diagnosis verification, structured-JSON output) augmented by a Tier-2
+read of the Diagnostic agent's critique trail (dashed) so the verification
+call can challenge the reasoning path, not only the final differential.}
+\label{fig:agent_reviewer_flow}
+\end{figure}
+
 \subsection{Diagnostic Refiner}
+\label{sec:agent_refiner}
 The Diagnostic Refiner merges the Diagnostic Reasoning and Clinical Reviewer
 outputs into a single final differential, reconciling any disagreement between
 the two. When the two agents agree, the refiner acts as a light rewriter that
@@ -630,7 +1078,51 @@ harmonises terminology and adjusts rank positions. When they disagree, the
 refiner applies a small decision procedure: per-diagnosis reviewer flags of
 \textit{verified} promote the diagnosis, \textit{refuted} demote it, and
 \textit{uncertain} retain its position. The final output is written to
-\texttt{agent\_outputs.final\_diagnosis}.
+\texttt{agent\_outputs.final\_diagnosis}. Figure~\ref{fig:agent_refiner_flow}
+sketches the merge step; with multi-level memory enabled, the refiner
+additionally reads the Tier-2 session timeline and any Tier-3 priors for
+the diseases appearing in the candidate differential.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  inp/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=28mm, align=center, fill=yellow!30},
+  llm/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=30mm, align=center, fill=blue!12},
+  mem/.style={rectangle, draw, dashed, rounded corners=2pt, minimum height=8mm,
+              minimum width=30mm, align=center, fill=teal!12,
+              font=\scriptsize\itshape},
+  outbox/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=28mm, align=center, fill=green!18},
+  arr/.style={-{Latex[length=1.6mm]}, semithick},
+  memarr/.style={-{Latex[length=1.4mm]}, dashed, teal!60!black, thin}
+]
+  \node[inp] (diag) {Diagnostic Reasoning\\differential};
+  \node[inp, below=3mm of diag] (rev) {Clinical Reviewer\\verdict + flags};
+  \node[llm, right=6mm of $(diag)!0.5!(rev)$] (merge)
+    {\textbf{merge call}\\\scriptsize verified $\uparrow$, refuted $\downarrow$,\\\scriptsize uncertain held};
+  \node[outbox, right=6mm of merge] (out) {\texttt{final\_diagnosis}};
+  \draw[arr] (diag.east) -- (merge.west);
+  \draw[arr] (rev.east)  -- (merge.west);
+  \draw[arr] (merge) -- (out);
+
+  % Memory reads
+  \node[mem, above=4mm of merge] (t2)
+    {Tier-2 timeline};
+  \node[mem, below=4mm of merge] (t3)
+    {Tier-3 priors\\(per disease in differential)};
+  \draw[memarr] (t2) -- (merge);
+  \draw[memarr] (t3) -- (merge);
+\end{tikzpicture}
+\caption{Diagnostic Refiner — single merge call producing the final
+differential. With multi-level memory enabled, it additionally reads
+the Tier-2 session timeline (above) and any Tier-3 disease-level priors
+for the candidate diagnoses (below); both are dashed because they are
+optional inputs depending on the \texttt{MEMORY\_ENABLED} flag.}
+\label{fig:agent_refiner_flow}
+\end{figure}
 
 \subsection{LLM Evaluator}
 \label{sec:agent_eval}
