@@ -44,7 +44,9 @@ execute in six sequential stages to produce a final clinical decision report.
   % Separator label "data layer"
   \node[caplabel, above=1mm of data] {\textit{Data Layer --- context only}};
 
-  % Row of 6 stages below (left to right)
+  % Row of stages below (left to right) — six diagnostic stages plus
+  % a seventh maintenance stage (memory consolidation, see Section
+  % \ref{sec:consolidation}).
   \node[agent, below=14mm of data, xshift=6mm] (s1a) {1a.\ EHR Analyst};
   \node[agent, right=6mm of s1a] (s1b) {1b.\ Lab Interpreter};
   \node[agent, below=8mm of s1a] (s2) {2.\ Diagnostic Reasoning};
@@ -217,7 +219,10 @@ match against the Synthea ground truth.}
 \label{fig:agent_pipeline}
 \end{figure}
 
-The six stages are summarised below.
+The pipeline comprises six diagnostic stages plus a seventh maintenance
+stage that consolidates each run's outcome into the cross-session
+memory tiers (Section~\ref{sec:consolidation}). The seven stages are
+summarised below.
 \begin{itemize}
   \item \textbf{Stage 1 --- Parallel context extraction:} the EHR Analyst and
   Lab Interpreter run concurrently, each consuming its Gold case file and
@@ -237,6 +242,9 @@ The six stages are summarised below.
   \item \textbf{Stage 6 --- Treatment planning:} for DIRECT matches only, a
   treatment agent retrieves relevant NICE guideline passages from a Qdrant
   vector store and assembles a guideline-grounded treatment plan.
+  \item \textbf{Stage 7 --- Memory consolidation:} a non-LLM maintenance node
+  folds the run's outcome into the cross-session semantic store (Tier~3) and
+  the case-based vector store (Tier~4); see Section~\ref{sec:consolidation}.
 \end{itemize}
 
 % ─────────────────────────────────────────────────────────────────────────────

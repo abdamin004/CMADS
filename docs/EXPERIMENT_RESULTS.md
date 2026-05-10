@@ -1,13 +1,23 @@
-# Experiment Results
+# Experiment Results — historical (March 2026, n = 50)
 
-## CMADS -- MAS Diagnostic Pipeline Evaluation
+> ⚠️  **Superseded.** These numbers are the early 50-patient checkpoint
+> from March 2026 (architecture v4, 18 % DIRECT). They were taken
+> *before* the prompt and lab-vs-EHR rebalancing that produced the
+> current results. **The canonical, current evaluation is the
+> 160-patient cohort summarised in
+> [`docs/progress_presentation/aggregate_160.json`](progress_presentation/aggregate_160.json)**
+> (118 / 160 = 74 % DIRECT, 88 % Found rate). When citing thesis or
+> presentation numbers, use the 160-patient aggregate, not the figures
+> below. This file is preserved for historical context only.
+
+## CMADS -- MAS Diagnostic Pipeline Evaluation (early checkpoint)
 
 | | |
 |---|---|
 | **Project** | Multi-Agent Systems for AI Clinical Decisioning via Automation Workflows |
 | **Author** | Abdelrahman |
-| **Date** | March 2026 |
-| **Scope** | Experimental results from running the full MAS pipeline on 270 verified patients across 8 disease categories |
+| **Date** | March 2026 (early checkpoint — superseded) |
+| **Scope** | First end-to-end evaluation of the v4 architecture on a 50-patient subset of the verified 270-patient cohort |
 
 ---
 

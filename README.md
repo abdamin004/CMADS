@@ -202,20 +202,40 @@ See `pipeline/` for full implementation details.
 
 ## Evaluation Results
 
-Evaluated on 270 LLM-verified patients across 8 diseases:
+Evaluated end-to-end on **160 patients** drawn from the 270-patient
+verified cohort, across 8 disease categories. The canonical aggregate
+lives in [`docs/progress_presentation/aggregate_160.json`](docs/progress_presentation/aggregate_160.json) —
+update README numbers from that file rather than from memory.
 
-| Disease | Count | DIRECT Rate |
-|---------|-------|-------------|
-| Diabetes mellitus type 2 | 53 | 94% |
-| Essential hypertension | 48 | 96% |
-| Chronic kidney disease | 42 | 93% |
-| Metabolic syndrome X | 38 | 92% |
-| Ischemic heart disease | 35 | 91% |
-| Chronic congestive heart failure | 28 | 89% |
-| End-stage renal disease | 16 | 94% |
-| Atherosclerosis of aorta | 10 | 90% |
+**Headline (n = 160)**
 
-Overall DIRECT match rate: **~93%** across completed batches.
+| Metric | Value |
+|---|---:|
+| **DIRECT match** | **118 / 160 · 74 %** |
+| INDIRECT match | 22 / 160 · 14 % |
+| MISS | 20 / 160 · 12 % |
+| **Found rate (DIRECT + INDIRECT)** | **88 %** |
+| Rank-1 when found | 60 % |
+| Avg pipeline time / patient | ~192 s |
+
+**Per-disease breakdown**
+
+| Disease | n | DIRECT | INDIRECT | MISS | Found rate | DIRECT rate |
+|---|--:|--:|--:|--:|--:|--:|
+| End-stage renal disease | 51 | 41 | 9 | 1 | 98 % | 80 % |
+| Metabolic syndrome X | 32 | 29 | 0 | 3 | 91 % | 91 % |
+| Essential hypertension | 25 | 16 | 2 | 7 | 72 % | 64 % |
+| Ischemic heart disease | 22 | 16 | 3 | 3 | 86 % | 73 % |
+| CKD stage 3 | 14 | 8 | 5 | 1 | 93 % | 57 % |
+| Diabetes mellitus type 2 | 8 | 4 | 1 | 3 | 63 % | 50 % |
+| Chronic congestive heart failure | 5 | 3 | 0 | 2 | 60 % | 60 % |
+| CKD stage 2 | 3 | 1 | 2 | 0 | 100 % | 33 % |
+| **Total** | **160** | **118** | **22** | **20** | **88 %** | **74 %** |
+
+> An earlier 50-patient checkpoint at
+> [`docs/EXPERIMENT_RESULTS.md`](docs/EXPERIMENT_RESULTS.md) (March 2026,
+> reporting 18 % DIRECT) is **superseded** by the 160-patient evaluation
+> above and is preserved only for historical context.
 
 ## Documentation
 
