@@ -1,0 +1,712 @@
+\chapter{Methodology}
+\label{chap:methodology}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Overview}
+\label{sec:methodology_overview}
+% ─────────────────────────────────────────────────────────────────────────────
+
+This chapter describes the design and implementation of the proposed Clinical
+Multi-Agent Decisioning System (CMADS). The principal contribution of this
+thesis is the multi-agent reasoning pipeline, and the remainder of this
+chapter is devoted almost entirely to its design. The supporting data layer
+--- a medallion lakehouse built on Synthea-generated patients --- is
+summarised briefly in the Dataset section that follows (Section~\ref{sec:dataset})
+so that the reader has enough context to interpret the pipeline's inputs
+without being distracted from the agentic core of the system.
+
+Figure~\ref{fig:system_architecture} shows the high-level architecture. The
+data layer (top) ends at the Gold case objects; everything below that point
+is the multi-agent system that this chapter is primarily concerned with.
+Seven specialised agents, orchestrated by a LangGraph \texttt{StateGraph},
+execute in six sequential stages to produce a final clinical decision report.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  data/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+               minimum width=34mm, align=center, fill=yellow!30},
+  gold/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+               minimum width=34mm, align=center, fill=yellow!45},
+  agent/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+                minimum width=34mm, align=center, fill=green!15},
+  evalbox/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+                  minimum width=34mm, align=center, fill=red!15},
+  arr/.style={-{Latex[length=1.8mm]}, thick},
+  caplabel/.style={font=\scriptsize\bfseries, text=blue!50!black}
+]
+  % Data layer (single box) and Gold
+  \node[data] (data) {\textbf{Clinical Data Layer}\\Synthea $\to$ Bronze $\to$ Silver $\to$ Gold};
+  \node[gold, right=12mm of data] (goldnode) {Gold Case Objects\\(EHR + Lab JSON)};
+  \draw[arr] (data) -- (goldnode);
+
+  % Separator label "data layer"
+  \node[caplabel, above=1mm of data] {\textit{Data Layer --- context only}};
+
+  % Row of 6 stages below (left to right)
+  \node[agent, below=14mm of data, xshift=6mm] (s1a) {1a.\ EHR Analyst};
+  \node[agent, right=6mm of s1a] (s1b) {1b.\ Lab Interpreter};
+  \node[agent, below=8mm of s1a] (s2) {2.\ Diagnostic Reasoning};
+  \node[agent, right=6mm of s2] (s3) {3.\ Clinical Reviewer};
+  \node[agent, below=8mm of s2] (s4) {4.\ Diagnostic Refiner};
+  \node[evalbox, right=6mm of s4] (s5) {5.\ LLM Evaluator};
+  \node[evalbox, below=8mm of s5, xshift=-20mm] (s6) {6.\ Treatment Planning (RAG)};
+
+  % Arrows from Gold to stage 1 agents
+  \draw[arr] (goldnode.south) -- ++(0,-4mm) -| (s1a.north);
+  \draw[arr] (goldnode.south) -- ++(0,-4mm) -| (s1b.north);
+
+  % Stage 1 fan-in to Stage 2
+  \draw[arr] (s1a.south) -- ++(0,-3mm) -| (s2.north);
+  \draw[arr] (s1b.south) -- ++(0,-3mm) -| (s2.north);
+
+  % Stage 2 -> 3
+  \draw[arr] (s2) -- (s3);
+  % Stage 3 -> 4 (goes down and left)
+  \draw[arr] (s3.south) -- ++(0,-3mm) -| (s4.north);
+  % Stage 4 -> 5
+  \draw[arr] (s4) -- (s5);
+  % Stage 5 -> 6 (DIRECT only)
+  \draw[arr] (s5.south) -- ++(0,-3mm) -| (s6.north) node[midway, right, font=\tiny, xshift=2mm, yshift=4mm]{DIRECT};
+
+  \node[caplabel, below=1mm of s6] {\textit{Multi-Agent Reasoning Pipeline --- thesis focus}};
+\end{tikzpicture}
+\caption{High-level CMADS architecture. The data layer (top) is summarised
+in Section~\ref{sec:dataset}; the remainder of the chapter describes the
+seven-agent reasoning pipeline (bottom). Stage~6 runs only when Stage~5
+produces a DIRECT match.}
+\label{fig:system_architecture}
+\end{figure}
+
+The chapter is organised as follows. Section~\ref{sec:dataset} briefly
+describes the dataset and the data preparation pipeline that produces the
+Gold case objects. Section~\ref{sec:mas_framework} introduces the multi-agent
+framework and the LangGraph orchestrator. Section~\ref{sec:shared_memory}
+details the shared memory design. Section~\ref{sec:agent_blueprint} presents
+the generic agent blueprint. Section~\ref{sec:agents} describes each of the
+seven specialised agents. Section~\ref{sec:rag} covers the
+Retrieval-Augmented Generation layer for treatment planning.
+Section~\ref{sec:llm_config} documents the LLM provider abstraction.
+Section~\ref{sec:evaluation} defines the evaluation framework.
+Section~\ref{sec:env} lists the hardware and software environment, and
+Section~\ref{sec:pipeline_e2e} summarises the end-to-end execution flow.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Dataset}
+\label{sec:dataset}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The patient records consumed by the multi-agent pipeline are produced by
+\textit{Synthea}, an open-source rule-based patient simulator developed by
+the MITRE Corporation. Synthea is a deterministic, state-machine-based
+generator informed by epidemiological data from the Centers for Disease
+Control and the National Institutes of Health, and it emits patient records
+in the FHIR R4 standard. Two properties motivated this choice: Synthea
+guarantees ground truth for every condition, medication, and observation it
+emits, which is essential for the LLM-as-Judge evaluation described in
+Section~\ref{sec:evaluation}; and being fully synthetic, it has no ethical
+or data-governance constraints, enabling open reproducibility.
+
+A cohort of 10{,}000 patients was generated, from which 270 clinically
+diverse cases covering eight target diseases --- ischemic heart disease,
+congestive heart failure, essential hypertension, diabetes mellitus type 2,
+chronic kidney disease stages 2 and 3, end-stage renal disease, and
+metabolic syndrome X --- were selected by a deterministic target-encounter
+algorithm that retains only patients with at least three prior encounters
+and five laboratory observations before the date of diagnosis.
+
+The raw FHIR output passes through a four-stage medallion lakehouse before
+reaching the agents. Bronze stores the raw Parquet-encoded FHIR resources;
+Silver transforms them into the Observational Medical Outcomes Partnership
+Common Data Model (OMOP CDM v5.4) using dbt-core and DuckDB;
+Silver\textsuperscript{+} adds pre-computed derived features such as
+longitudinal laboratory trends and estimated glomerular filtration rate; and
+the Gold layer assembles the OMOP relational data into two JSON artefacts
+per patient: an \texttt{ehr\_case.json} containing demographics, active
+conditions, and history, and a \texttt{lab\_case.json} containing laboratory
+time-series with flagged critical values. A third \texttt{ground\_truth.json}
+file stores the Synthea target condition and is never exposed to any
+reasoning agent. The Gold case objects are the sole input to the multi-agent
+pipeline and are the boundary at which the data layer ends and the agentic
+system begins.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Multi-Agent Framework Architecture}
+\label{sec:mas_framework}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The multi-agent pipeline is orchestrated by \textit{LangGraph}, a graph-based
+workflow engine that models agent execution as a typed state machine. Each
+agent is a node in a \texttt{StateGraph}, edges encode execution order and
+conditional routing, and a shared \texttt{PipelineState} dictionary flows
+through the graph carrying the cumulative output of every previously executed
+agent. The choice of LangGraph over a hand-written orchestrator was motivated
+by three properties: first-class support for parallel fan-out and fan-in,
+which Stage~1 requires; a checkpointing hook that persists the full execution
+state after every agent and supports recovery from partial failures; and
+reducer-based state semantics that prevent one agent from silently
+overwriting another agent's output, directly addressing the concurrency
+corruption risks identified by Chen et al.\ in
+MedSentry~\cite{Chen2025MedSentry}.
+
+Figure~\ref{fig:agent_pipeline} shows the complete execution graph. The
+pipeline is decomposed into six sequential stages, with Stage~1 running two
+agents in parallel and Stage~2 implementing an adaptive self-critique loop
+bounded at three rounds.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  agent/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+                minimum width=44mm, align=center, fill=green!15},
+  stage/.style={rectangle, draw=blue!40, rounded corners=2pt, minimum height=7mm,
+                minimum width=18mm, align=center, fill=blue!10, font=\scriptsize\bfseries},
+  arr/.style={-{Latex[length=1.6mm]}, thick},
+  loopback/.style={-{Latex[length=1.6mm]}, thick, dashed, blue!60!black}
+]
+  % Starting node
+  \node[agent, fill=yellow!40] (gold) {Gold Case Object (EHR + Lab)};
+
+  % Stage 1 (parallel)
+  \node[agent, below left=8mm and -14mm of gold] (ehr) {1a.\ EHR Analyst};
+  \node[agent, below right=8mm and -14mm of gold] (lab) {1b.\ Lab Interpreter};
+
+  % Stage 2
+  \node[agent, below=22mm of gold] (diag) {2. Diagnostic Reasoning (adaptive loop)};
+
+  % Stage 3
+  \node[agent, below=8mm of diag] (rev) {3. Clinical Reviewer (adversarial)};
+
+  % Stage 4
+  \node[agent, below=8mm of rev] (ref) {4. Diagnostic Refiner};
+
+  % Stage 5
+  \node[agent, below=8mm of ref, fill=red!15] (evalnode) {5. LLM Evaluator vs.\ Ground Truth};
+
+  % Stage 6
+  \node[agent, below=8mm of evalnode, fill=red!15] (tx) {6. Treatment Planning (RAG)};
+
+  % Edges
+  \draw[arr] (gold.south) -- ++(0,-3mm) -| (ehr.north);
+  \draw[arr] (gold.south) -- ++(0,-3mm) -| (lab.north);
+  \draw[arr] (ehr.south) |- ($(diag.north)+(-14mm,3mm)$) -- ++(0,-3mm);
+  \draw[arr] (lab.south) |- ($(diag.north)+(14mm,3mm)$) -- ++(0,-3mm);
+  \draw[arr] (diag) -- (rev);
+  \draw[arr] (rev) -- (ref);
+  \draw[arr] (ref) -- (evalnode);
+  \draw[arr] (evalnode) -- node[right, font=\tiny, xshift=1mm]{DIRECT match} (tx);
+
+  % Adaptive loopback
+  \draw[loopback] ($(diag.east)+(0,2mm)$) .. controls +(right:14mm) and +(right:14mm) .. ($(diag.east)+(0,-2mm)$)
+    node[midway, right=3mm, font=\tiny]{critique ($\leq 3$ rounds)};
+
+  % Stage labels
+  \node[stage, left=10mm of ehr, xshift=-4mm] (s1) {Stage 1};
+  \node[stage, left=10mm of diag, xshift=-4mm] (s2) {Stage 2};
+  \node[stage, left=10mm of rev, xshift=-4mm] (s3) {Stage 3};
+  \node[stage, left=10mm of ref, xshift=-4mm] (s4) {Stage 4};
+  \node[stage, left=10mm of evalnode, xshift=-4mm] (s5) {Stage 5};
+  \node[stage, left=10mm of tx, xshift=-4mm] (s6) {Stage 6};
+\end{tikzpicture}
+\caption{Multi-agent execution graph. Stage~1 fans out the EHR Analyst and
+Lab Interpreter in parallel; Stage~2 contains an adaptive self-critique loop
+bounded at three rounds; Stage~6 runs only when Stage~5 produces a DIRECT
+match against the Synthea ground truth.}
+\label{fig:agent_pipeline}
+\end{figure}
+
+The six stages are summarised below.
+\begin{itemize}
+  \item \textbf{Stage 1 --- Parallel context extraction:} the EHR Analyst and
+  Lab Interpreter run concurrently, each consuming its Gold case file and
+  producing a structured clinical summary.
+  \item \textbf{Stage 2 --- Diagnostic reasoning:} an adaptive loop generates
+  a ranked differential of at least three candidates, self-critiques it, and
+  re-ranks for up to three rounds or until a confidence threshold of 75\% is
+  reached.
+  \item \textbf{Stage 3 --- Clinical review:} an adversarial reviewer agent
+  independently re-examines the evidence and issues per-diagnosis verification
+  flags.
+  \item \textbf{Stage 4 --- Diagnostic refinement:} the outputs of Stages~2
+  and 3 are merged into a single final differential.
+  \item \textbf{Stage 5 --- Evaluation:} the final differential is compared
+  against the Synthea ground truth by an LLM-as-Judge evaluator that assigns
+  DIRECT, INDIRECT, or MISS classifications.
+  \item \textbf{Stage 6 --- Treatment planning:} for DIRECT matches only, a
+  treatment agent retrieves relevant NICE guideline passages from a Qdrant
+  vector store and assembles a guideline-grounded treatment plan.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Shared Memory Design}
+\label{sec:shared_memory}
+% ─────────────────────────────────────────────────────────────────────────────
+
+All inter-agent communication is mediated through a typed shared memory
+implemented as a \texttt{TypedDict} named \texttt{PipelineState}. Each field
+of \texttt{PipelineState} is a separate namespace with an explicit reducer
+function that defines how partial updates from different agents are merged.
+This design was chosen over a naive key--value store because it makes
+concurrent-write conflicts impossible by construction: if two agents write to
+the same namespace in parallel, the reducer deterministically resolves the
+merge rather than producing an undefined last-writer-wins state.
+
+Five namespaces partition the shared memory:
+\begin{itemize}
+  \item \texttt{patient\_context} --- the Gold case object, written once by
+  the orchestrator and read by all agents.
+  \item \texttt{agent\_outputs} --- a dictionary with one slot per agent,
+  using a write-own / read-upstream access pattern.
+  \item \texttt{conflicts} --- an append-only log of contradictions detected
+  between agents, populated by the orchestrator's post-stage diff engine.
+  \item \texttt{scratchpad} --- per-agent ephemeral notes, private to the
+  writing agent and not visible to downstream agents.
+  \item \texttt{execution\_trace} --- an append-only invocation log that
+  records the status, duration, and error of every agent run.
+\end{itemize}
+
+Table~\ref{tab:memory_access} summarises the read/write access pattern of
+each agent across the five namespaces. The key invariant is that every
+agent writes only to its own slot in \texttt{agent\_outputs} and reads from
+the slots of upstream agents, which eliminates concurrent-write conflicts by
+construction.
+
+\begin{table}[ht]
+\centering
+\caption{Shared memory access pattern. R = reads, W = writes to own slot.}
+\label{tab:memory_access}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Agent} & \texttt{patient\_context} & \texttt{agent\_outputs} & \texttt{conflicts} & \texttt{scratchpad} & \texttt{execution\_trace} \\
+\midrule
+EHR Analyst          & R & W      & R & RW & W \\
+Lab Interpreter      & R & W      & R & RW & W \\
+Diagnostic Reasoning & R & R~/~W  & R & RW & W \\
+Clinical Reviewer    & R & R~/~W  & R & RW & W \\
+Diagnostic Refiner   & R & R~/~W  & R & RW & W \\
+LLM Evaluator        & R & R~/~W  & -- & RW & W \\
+Treatment Planning   & R & R~/~W  & -- & RW & W \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Agent Blueprint}
+\label{sec:agent_blueprint}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Every specialised agent in the pipeline shares a common internal architecture,
+illustrated in Figure~\ref{fig:agent_blueprint}. The blueprint is implemented
+as a Python base class and specialised by subclasses that supply
+agent-specific prompts, schemas, and post-processing logic. The uniformity of
+this blueprint is a deliberate design decision: it ensures that every agent
+exposes the same failure modes, tracing hooks, and retry semantics, which
+substantially simplifies debugging and observability.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  every node/.style={font=\scriptsize},
+  gate/.style={rectangle, draw, rounded corners=2pt, minimum height=11mm,
+               minimum width=23mm, align=center, fill=orange!20},
+  mod/.style={rectangle, draw, rounded corners=2pt, minimum height=11mm,
+              minimum width=23mm, align=center, fill=blue!10},
+  llm/.style={rectangle, draw, rounded corners=2pt, minimum height=11mm,
+              minimum width=23mm, align=center, fill=red!15},
+  mem/.style={rectangle, draw, rounded corners=2pt, minimum height=10mm,
+              minimum width=119mm, align=center, fill=yellow!30},
+  arr/.style={-{Latex[length=1.8mm]}, thick},
+  darr/.style={-{Latex[length=1.6mm]}, thick, dashed, gray!80}
+]
+  % Pipeline row
+  \node[gate] (in) {Input Gate\\\textit{Pydantic validate}};
+  \node[mod, right=3mm of in] (prompt) {Prompt Assembler\\\textit{YAML template}};
+  \node[llm, right=3mm of prompt] (llm) {LLM Invocation\\\textit{retry + timeout}};
+  \node[mod, right=3mm of llm] (parse) {Output Parser\\\textit{JSON $\to$ Pydantic}};
+  \node[gate, right=3mm of parse] (out) {Output Gate\\\textit{clinical checks}};
+
+  \draw[arr] (in) -- (prompt);
+  \draw[arr] (prompt) -- (llm);
+  \draw[arr] (llm) -- (parse);
+  \draw[arr] (parse) -- (out);
+
+  % Memory row
+  \node[mem, below=14mm of llm] (memory) {\textbf{Shared Memory (PipelineState)}};
+
+  % Dashed read/write links
+  \draw[darr] (in.south) -- (memory.north -| in.south) node[midway, right=1mm, font=\tiny]{read};
+  \draw[darr] (out.south) -- (memory.north -| out.south) node[midway, right=1mm, font=\tiny]{write};
+
+  % Input/output labels
+  \node[above=2mm of in, font=\scriptsize] {\textit{from upstream}};
+  \node[above=2mm of out, font=\scriptsize] {\textit{to downstream}};
+\end{tikzpicture}
+\caption{Generic agent blueprint. Every agent executes Input~Gate~$\to$~Prompt
+Assembler~$\to$~LLM~Invocation~$\to$~Output~Parser~$\to$~Output~Gate.
+Upstream namespaces are read through the Input Gate and the final validated
+output is written through the Output Gate.}
+\label{fig:agent_blueprint}
+\end{figure}
+
+The five stages of the blueprint are as follows.
+\begin{enumerate}
+  \item The \textbf{Input Gate} validates that every required upstream
+  namespace is present and conforms to its Pydantic schema. If validation
+  fails, the agent records a structured error in the \texttt{execution\_trace}
+  and terminates gracefully, allowing downstream agents to continue with
+  partial results.
+  \item The \textbf{Prompt Assembler} constructs the LLM prompt from a
+  versioned YAML template, substituting the validated upstream outputs.
+  Keeping prompts in YAML rather than hard-coded Python strings makes prompt
+  engineering a configuration activity, supporting rapid iteration and
+  version control.
+  \item The \textbf{LLM Invocation} layer dispatches the prompt to the
+  configured language model through the provider-agnostic adapter
+  (Section~\ref{sec:llm_config}). Every call is wrapped in an exponential
+  back-off retry policy (up to three attempts) and a per-call timeout.
+  \item The \textbf{Output Parser} converts the raw LLM response to a
+  Pydantic v2 structured object, applying JSON repair heuristics for common
+  formatting failures.
+  \item The \textbf{Output Gate} applies clinical-plausibility checks before
+  releasing the object to shared memory. For example, the Diagnostic
+  Reasoning Output Gate rejects differentials that contain fewer than three
+  ranked diagnoses, and the Treatment Planning Output Gate rejects plans that
+  reference medications outside the retrieved NICE guideline corpus.
+\end{enumerate}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Agent Specifications}
+\label{sec:agents}
+% ─────────────────────────────────────────────────────────────────────────────
+
+This section describes each of the seven specialised agents in detail. For
+every agent the upstream inputs, downstream outputs, and distinctive
+implementation features are documented. Table~\ref{tab:agent_roles}
+summarises the agents and their shared-memory dependencies.
+
+\begin{table}[ht]
+\centering
+\caption{The seven specialised agents and their shared-memory dependencies.}
+\label{tab:agent_roles}
+\small
+\begin{tabular}{@{}p{30mm}p{40mm}p{40mm}p{30mm}@{}}
+\toprule
+\textbf{Agent} & \textbf{Reads} & \textbf{Writes} & \textbf{Distinctive} \\
+\midrule
+EHR Analyst          & ehr\_case                              & ehr\_analyst       & 3-call sequence \\
+Lab Interpreter      & lab\_case                              & lab\_interpreter   & severity ranking \\
+Diagnostic Reasoning & EHR + Lab outputs                      & diagnostic\_reasoning & adaptive loop \\
+Clinical Reviewer    & Stages 1 \& 2 outputs                  & clinical\_reviewer & adversarial \\
+Diagnostic Refiner   & Diagnostic + Reviewer                  & final\_diagnosis   & merge logic \\
+LLM Evaluator        & Final diagnosis + ground truth         & evaluation         & separate LLM \\
+Treatment Planning   & Final diagnosis + evaluation           & treatment\_planning & RAG + Qdrant \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{EHR Analyst}
+The EHR Analyst consumes the \texttt{ehr\_case.json} Gold object and produces
+a structured clinical summary covering demographics, active conditions,
+medication list, relevant history, and prior encounters. The agent is
+prompted to think step-by-step through the EHR and to cite the specific
+record that supports every structured claim, which permits downstream agents
+and human reviewers to verify provenance. Internally the agent runs three
+sequential LLM calls within its blueprint: an unstructured \textit{analysis}
+call, a \textit{structure} call that extracts JSON fields, and a
+\textit{review} call that self-checks the structured output for internal
+consistency.
+
+\subsection{Lab Interpreter}
+The Lab Interpreter consumes \texttt{lab\_case.json} and classifies each
+laboratory observation against reference ranges, interprets temporal trends,
+and ranks findings by clinical severity. Critical values are flagged with an
+explicit \texttt{CRITICAL} marker that propagates downstream. Like the EHR
+Analyst, the Lab Interpreter runs the three-call
+analyse--structure--review sequence.
+
+\subsection{Diagnostic Reasoning}
+\label{sec:agent_diag}
+The Diagnostic Reasoning agent is the central hypothesis-generating component
+of the pipeline. Unlike Stage~1 agents, which execute a fixed three-call
+sequence, this agent implements an \textit{adaptive loop} bounded at three
+rounds.
+
+The adaptive loop proceeds as follows. A first call synthesises evidence from
+the Stage~1 outputs, a second call generates at least three candidate
+diagnoses, a third call ranks them by probability, and a fourth call
+critiques the ranking. If the critique call returns a confidence below the
+threshold of 75, a further critique round is executed; otherwise the loop
+terminates. A hard cap of three critique rounds prevents unbounded execution.
+This adaptive behaviour was motivated by the finding of Shang et
+al.~\cite{Shang2025DynamiCare} that dynamic multi-round reasoning
+significantly outperforms single-pass approaches on complex cases, and by the
+MDAgents architectural precedent of Kim et al.~\cite{Kim2024MDAgents} that
+complexity-based routing improves both accuracy and efficiency.
+
+\subsection{Clinical Reviewer}
+The Clinical Reviewer is an adversarial agent that independently re-examines
+the evidence and the diagnostic agent's differential. It is explicitly
+prompted to challenge the primary diagnosis, surface plausible alternatives
+that may have been missed, and identify cognitive biases in the diagnostic
+agent's reasoning. This design directly addresses the \textit{silent
+agreement} failure mode identified by Wang et al.\ in the Catfish Agent
+framework~\cite{Wang2025Catfish}: by instantiating the reviewer with an
+adversarial rather than confirmatory system prompt, the pipeline forces
+genuine deliberation rather than reflexive consensus.
+
+\subsection{Diagnostic Refiner}
+The Diagnostic Refiner merges the Diagnostic Reasoning and Clinical Reviewer
+outputs into a single final differential, reconciling any disagreement between
+the two. When the two agents agree, the refiner acts as a light rewriter that
+harmonises terminology and adjusts rank positions. When they disagree, the
+refiner applies a small decision procedure: per-diagnosis reviewer flags of
+\textit{verified} promote the diagnosis, \textit{refuted} demote it, and
+\textit{uncertain} retain its position. The final output is written to
+\texttt{agent\_outputs.final\_diagnosis}.
+
+\subsection{LLM Evaluator}
+\label{sec:agent_eval}
+The LLM Evaluator compares the final differential against the Synthea ground
+truth stored in \texttt{ground\_truth.json}. The evaluator is deliberately
+invoked on a separate LLM configuration (\texttt{LLM\_EVALUATOR\_MODEL}) from
+the reasoning agents, following the methodological convention that the judge
+should not also be the examinee. The evaluator uses the LLM-as-Judge
+methodology described in Section~\ref{sec:evaluation} and assigns one of three
+match classifications: DIRECT (semantic equivalent of the target), INDIRECT
+(clinically related precursor, consequence, or subtype), or MISS (unrelated).
+
+\subsection{Treatment Planning}
+\label{sec:agent_tx}
+The Treatment Planning agent runs only when the evaluator has confirmed a
+DIRECT match, ensuring that guideline-grounded treatment recommendations are
+produced only for correctly identified conditions. It uses Retrieval-Augmented
+Generation over a Qdrant vector store of NICE clinical guidelines
+(Section~\ref{sec:rag}) to retrieve the top-$k$ relevant guideline passages,
+which are then passed to the LLM as context alongside the patient's final
+diagnosis. The agent emits a structured plan containing first-line
+pharmacotherapy, non-pharmacological measures, a monitoring schedule, and
+red-flag symptoms.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Retrieval-Augmented Generation Layer}
+\label{sec:rag}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The Treatment Planning agent is the only agent in the pipeline that consults
+external knowledge at inference time. This deliberate isolation of retrieval
+to the treatment stage keeps the diagnostic reasoning grounded exclusively in
+the patient-specific evidence, and defers external guideline material to the
+point at which it is most clinically appropriate: after a diagnosis has been
+established and verified.
+
+The retrieval corpus consists of NICE (National Institute for Health and Care
+Excellence) clinical guideline documents relevant to the eight target disease
+categories. Guidelines are chunked into overlapping passages of approximately
+400 tokens with 50-token overlap, embedded with the \textit{BioLORD-2023}
+biomedical sentence encoder, and stored in a Qdrant vector collection indexed
+by cosine similarity. The choice of Qdrant over simpler alternatives such as
+in-memory cosine search was motivated by its support for filtered retrieval:
+the treatment agent restricts retrieval to passages tagged with the final
+diagnosis's ICD-10 or SNOMED code, which materially reduces the risk of
+guideline hallucination.
+
+At inference time, the treatment agent issues a query composed of the final
+diagnosis name and the top three supporting findings. The top-five passages
+by cosine similarity are retrieved, deduplicated, and inserted into the LLM
+prompt along with an explicit instruction to cite the retrieved passage
+identifier for every concrete recommendation. The Output Gate rejects any
+plan that references medications or procedures not present in the retrieved
+passages, providing a second layer of defence against hallucinated
+recommendations.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{LLM Configuration and Provider Abstraction}
+\label{sec:llm_config}
+% ─────────────────────────────────────────────────────────────────────────────
+
+To permit experimentation with multiple language models without code changes,
+all LLM calls are routed through a single provider-agnostic adapter that
+implements a uniform \texttt{get\_llm()} interface. The adapter exposes five
+backend providers --- Groq, OpenAI, Anthropic, Google Gemini, and Ollama ---
+behind a common factory that reads configuration from environment variables.
+A second factory, \texttt{get\_evaluator\_llm()}, returns a separately
+configured model for the Evaluator, which allows the judge to run on a
+different provider from the reasoning agents when required by the
+experimental protocol.
+
+Three model configurations were used in this thesis:
+\begin{itemize}
+  \item \textbf{GPT-OSS 120B} served via the Groq cloud API, used as the
+  primary reasoning model.
+  \item \textbf{Med42 70B} (\texttt{thewindmom/llama3-med42-70b}), a Llama-3
+  checkpoint fine-tuned on clinical text, served locally via Ollama and used
+  in the medical-fine-tuning comparison reported in
+  Chapter~\ref{chap:results}.
+  \item \textbf{Qwen3 32B} served via Groq, used exclusively as the LLM
+  Evaluator judge. Qwen3 32B was chosen because it is independent of the two
+  reasoning models under test, preventing the judging result from being
+  biased by shared training data.
+\end{itemize}
+
+All LLM calls are subject to an exponential back-off retry policy capped at
+three attempts and a per-call timeout of 120 seconds. The LangSmith tracing
+integration is enabled for every call, producing an audit trail of prompts,
+responses, and intermediate errors that is stored in a cloud-hosted
+observability platform.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Evaluation Framework}
+\label{sec:evaluation}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Evaluation of the pipeline is driven by two design principles. First, the
+ground truth must be independent of any LLM: because the pipeline itself is
+composed of LLMs, using an LLM-generated ground truth would produce a
+circular evaluation that is biased toward the peculiarities of the particular
+generator model. Synthea's rule-based state machines provide this
+independence. Second, the evaluator should not be the examinee: using the
+same model to generate and judge produces inflated self-consistency scores
+that overestimate real performance. The framework therefore enforces
+separation between the reasoning model and the judge model.
+
+\subsection{Ground Truth Extraction}
+For every Synthea patient, a \texttt{ground\_truth.json} file is materialised
+during Gold assembly. It contains the single \textit{target condition} that
+the patient was intended to carry, expressed as both a SNOMED concept and a
+human-readable string, together with the date of first diagnosis. The file
+is read only by the LLM Evaluator in Stage~5 and is never exposed to any
+reasoning agent.
+
+\subsection{LLM-as-Judge Methodology}
+The LLM Evaluator applies a structured judging prompt that presents the
+target disease together with the top-five diagnoses from the pipeline's final
+differential. The judge classifies each candidate as DIRECT, INDIRECT, or
+UNRELATED according to a fixed rubric with explicit worked examples, then
+selects the best-matching candidate and reports its rank. Temperature is
+fixed at zero and the response schema is a five-line structured format
+parsed by a regex-based parser. Table~\ref{tab:match_types} summarises the
+rubric.
+
+\begin{table}[ht]
+\centering
+\caption{Match-type rubric applied by the LLM Evaluator.}
+\label{tab:match_types}
+\small
+\begin{tabular}{@{}p{22mm}p{95mm}@{}}
+\toprule
+\textbf{Match type} & \textbf{Criterion} \\
+\midrule
+DIRECT   & The candidate names the same disease as the ground truth, possibly
+           under a clinically equivalent synonym (e.g.\ ``Atherosclerotic CVD''
+           is a DIRECT match for ``Ischemic heart disease''). \\
+INDIRECT & The candidate names a cause, consequence, precursor, or subtype of
+           the ground truth (e.g.\ ``CKD stage 4'' is INDIRECT for
+           ``End-stage renal disease''). \\
+MISS     & The candidate has no clinical connection to the ground truth. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Metrics}
+The primary metrics reported in Chapter~\ref{chap:results} are:
+\begin{itemize}
+  \item \textbf{Direct rate} --- the proportion of patients for which any
+  diagnosis in the top five is classified as DIRECT.
+  \item \textbf{Found rate} --- combined DIRECT plus INDIRECT rate.
+  \item \textbf{Miss rate} --- the proportion of patients with no matching
+  diagnosis in the top five.
+  \item \textbf{Top-1 direct rate} --- the proportion for which the primary
+  (rank-1) diagnosis is classified as DIRECT. This is the strictest metric
+  and best reflects clinical usefulness.
+  \item \textbf{Agent success rate} --- per-agent, the proportion of patients
+  for which the agent terminated without error.
+  \item \textbf{Per-patient latency} --- wall-clock time from orchestrator
+  invocation to final-diagnosis write.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Hardware and Software Environment}
+\label{sec:env}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Experiments were executed on a local Apple Silicon workstation for the data
+pipeline and for Ollama-hosted local models (Med42 70B), and on the Groq
+cloud inference platform for the Groq-hosted models (GPT-OSS 120B and
+Qwen3 32B). The Qdrant vector store is hosted on a managed cloud deployment
+to avoid local persistence overhead. Table~\ref{tab:software_stack} lists the
+principal software dependencies.
+
+\begin{table}[ht]
+\centering
+\caption{Principal software dependencies.}
+\label{tab:software_stack}
+\small
+\begin{tabular}{@{}p{34mm}p{34mm}p{58mm}@{}}
+\toprule
+\textbf{Component} & \textbf{Technology} & \textbf{Role} \\
+\midrule
+Orchestration   & LangGraph              & Typed \texttt{StateGraph} with checkpointing \\
+Agent runtime   & LangChain (LCEL)       & Prompt composition and LLM invocation \\
+LLM providers   & Groq, Ollama           & Cloud and local inference back-ends \\
+Vector store    & Qdrant                 & NICE guideline retrieval \\
+Embedding model & BioLORD-2023           & Biomedical sentence encoder \\
+Output schemas  & Pydantic v2            & Structured agent outputs \\
+Data store      & DuckDB                 & Local OMOP CDM warehouse \\
+Transformation  & dbt-core               & SQL transformations with tests \\
+Ingestion       & Python + PyArrow       & Parquet ingestion and JSON assembly \\
+DAG runner      & Prefect                & Data pipeline orchestration \\
+Logging         & structlog              & JSON-lines structured logs \\
+Observability   & LangSmith              & LLM call tracing \\
+Portal          & Streamlit              & Read-only review dashboard \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All environment-specific configuration (provider, model name, API keys,
+Qdrant endpoint, output directory) is externalised into a single
+\texttt{.env} file read by a central \texttt{Config} class at process start.
+This design ensures that experimental variations --- for example, switching
+from GPT-OSS to Med42 --- are a configuration change rather than a code
+change, supporting reproducibility of individual runs.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{End-to-End Execution Pipeline}
+\label{sec:pipeline_e2e}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The complete execution path of a single patient is summarised in
+Algorithm~\ref{alg:e2e}. The pipeline is invoked either through the command
+line (for single-patient or batch processing) or through the Streamlit
+portal (for interactive case review).
+
+\begin{algorithm}[ht]
+\caption{End-to-end processing of a single patient.}
+\label{alg:e2e}
+\begin{algorithmic}[1]
+\STATE Load Gold case objects \texttt{ehr\_case.json} and \texttt{lab\_case.json}
+\STATE Initialise \texttt{PipelineState} with patient context and empty output slots
+\STATE \textbf{Stage 1 (parallel):} invoke EHR Analyst and Lab Interpreter concurrently
+\STATE \textbf{Stage 2:} invoke Diagnostic Reasoning; repeat critique round until
+       confidence $\geq 75$ or three rounds executed
+\STATE \textbf{Stage 3:} invoke Clinical Reviewer with Stage 1 and Stage 2 outputs
+\STATE \textbf{Stage 4:} invoke Diagnostic Refiner to merge Stages 2 and 3
+\STATE \textbf{Stage 5:} invoke LLM Evaluator to classify the final diagnosis
+       against the Synthea ground truth
+\IF{evaluation match type $=$ DIRECT}
+  \STATE \textbf{Stage 6:} invoke Treatment Planning with RAG over Qdrant
+\ELSE
+  \STATE Skip Stage 6 (treatment planning deferred until correct diagnosis)
+\ENDIF
+\STATE Persist \texttt{agent\_outputs}, \texttt{execution\_trace}, and per-agent
+       JSON files to \texttt{data/gold/mas\_results/<patient\_uuid>/}
+\end{algorithmic}
+\end{algorithm}
+
+All agent outputs, the execution trace, and the evaluation result are
+persisted to disk after each patient, providing a durable record that can
+be reloaded by the Streamlit portal or re-analysed offline without re-running
+the pipeline.

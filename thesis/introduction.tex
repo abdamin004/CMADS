@@ -1,0 +1,268 @@
+\chapter{Introduction}
+\label{chap:introduction}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Motivation}
+\label{sec:motivation}
+% ─────────────────────────────────────────────────────────────────────────────
+
+This section situates the thesis within the broader challenge of clinical decision-making
+and explains why multi-agent systems represent the most promising architectural
+direction for clinical AI.  It traces the progression from single-model limitations through
+the emergence of coordinated multi-agent designs, and identifies the specific unsolved
+challenge that this thesis addresses.
+
+Clinical decision-making is one of the most cognitively demanding tasks in modern
+medicine.  At every stage of patient care --- from initial triage and history-taking
+through investigation ordering, differential diagnosis, and treatment planning ---
+clinicians must synthesise information from multiple heterogeneous sources
+simultaneously, weigh competing hypotheses under conditions of uncertainty, and act
+under time pressure.  The consequences of errors at any stage can be severe.  Despite
+decades of investment in clinical decision support systems, the reality of most hospital
+environments is that physicians still navigate these tasks largely in isolation, relying
+on individual memory, pattern recognition, and peer consultation when circumstances
+allow~\cite{Fan2024AIHospital}.
+
+Artificial Intelligence (AI) has long been proposed as a tool to augment clinical
+decision-making, and the emergence of large language models (LLMs) has significantly
+renewed this ambition.  Unlike earlier rule-based clinical decision support tools, LLMs
+trained on vast corpora of medical text are capable of generating contextually relevant
+clinical reasoning, synthesising information across specialties, and communicating
+findings in natural language~\cite{Abbasian2024openCHA}.  They have demonstrated
+impressive performance on standardised medical examinations and benchmark
+question-answering tasks~\cite{Tang2024MedAgents}.  Yet, despite this apparent
+capability, their deployment in real clinical workflows has lagged substantially behind
+the expectations raised by laboratory evaluations~\cite{Yan2024ClinicalLab}.
+
+The fundamental limitation is architectural: a single LLM, regardless of its scale or
+training quality, operates as a monolithic system that processes all clinical inputs
+through a single forward pass, produces a single output, and has no capacity to verify
+its own reasoning, consult an external knowledge source, or correct an error it has
+already made.  Tang~et~al.~\cite{Tang2024MedAgents} demonstrated empirically that 77\%
+of errors made by LLMs on medical tasks are attributable not to failures of reasoning
+but to domain knowledge gaps.  Ke~et~al.~\cite{Ke2024CognitiveBias} showed that single
+LLMs systematically exhibit the same cognitive biases --- anchoring, confirmation, and
+availability bias --- that are the primary sources of diagnostic error in human
+clinicians, and that these biases cannot be self-corrected within a single-agent
+architecture.  Shang~et~al.~\cite{Shang2025DynamiCare} further demonstrated that
+single-pass reasoning is fundamentally inadequate for complex clinical cases, where
+dynamic multi-round information gathering significantly outperforms static approaches.
+Bedi~et~al.~\cite{Bedi2025OptParadox} demonstrated on 2{,}400 real patient cases that
+even the best-performing individual LLM agents, when assembled into a system without
+careful coordination design, produce a hallucination rate of 13.87\% on test result
+reporting --- a level that would be considered clinically unacceptable in any deployed
+system.  Choi~et~al.~\cite{Choi2024MALADE} corroborated this concern in the
+pharmacovigilance domain, showing that non-RAG single-agent systems produce
+substantially higher rates of hallucinated drug--event associations than their
+multi-agent counterparts.
+
+Multi-agent systems (MAS) offer a structural solution to these limitations.  Rather than
+placing the full burden of clinical reasoning on a single model, a multi-agent system
+distributes the task across a coordinated ensemble of specialised agents --- each with a
+defined role, a distinct knowledge focus, and a structured communication interface with
+the other agents in the system~\cite{Kim2024MDAgents}.  The collective output is not the
+output of any single agent but the product of a coordinated workflow in which agents
+check each other's work, challenge each other's conclusions, and escalate unresolved
+disagreements to a higher authority.  This architectural shift from monolithic to
+multi-agent design mirrors the shift from individual clinical decision-making to
+multidisciplinary team (MDT) consultation that clinical medicine has already adopted as
+best practice for complex
+cases~\cite{Fan2024AIHospital,MAC2025npj}.  Chen~et~al.~\cite{Chen2025MDTeamGPT} showed
+that simulating such MDT consultations through structured multi-agent debate produces
+higher diagnostic accuracy than any single-agent configuration, particularly when agents
+begin deliberation with heterogeneous initial diagnoses.
+
+The case for multi-agent systems in clinical AI is no longer merely theoretical.  Recent
+works --- MDAgents at NeurIPS 2024~\cite{Kim2024MDAgents}, ZODIAC at cardiologist-level
+performance~\cite{Zhou2024ZODIAC}, ClinicalLab across eleven real hospital
+departments~\cite{Yan2024ClinicalLab}, and the MAC Framework published in \textit{npj
+Digital Medicine}~\cite{MAC2025npj} --- have demonstrated that multi-agent LLM
+frameworks can approach or match clinician-level performance in specific clinical tasks.
+Chen~et~al.~\cite{Chen2024RareAgents} demonstrated that even an open-source model
+(Llama-3.1-70B) can outperform GPT-4o on rare disease diagnosis when embedded in a
+well-designed multi-agent architecture with persistent memory and tool-use capabilities,
+underscoring that coordination architecture matters more than individual model scale.
+However, a critical unresolved challenge remains: the design of multi-agent clinical
+workflows that are not only accurate but also robust, safe, and generalisable across the
+full complexity of real clinical scenarios.  Bedi~et~al.~\cite{Bedi2025OptParadox}
+identified what they term the Optimisation Paradox --- the finding that a system
+assembled from individually best-performing components consistently underperforms a less
+capable but better-coordinated system --- establishing workflow coordination architecture
+as the primary unsolved design challenge in clinical AI.  It is this challenge that this
+thesis addresses.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Problem Statement}
+\label{sec:problem}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Having established the motivation for multi-agent clinical AI, this section identifies the
+four specific engineering challenges that existing frameworks fail to address
+simultaneously, and frames the precise research gap that this thesis
+targets.
+
+Despite the substantial progress documented in the recent multi-agent clinical AI
+literature, the field currently lacks a validated, end-to-end multi-agent system for
+clinical decisioning that simultaneously addresses the four inter-related engineering
+challenges that real-world clinical deployment requires: coordinated workflow
+orchestration across heterogeneous data sources, adaptive conflict resolution between
+disagreeing agents, automated error recovery within the pipeline, and evaluable safety
+properties~\cite{Kim2024MDAgents,Kim2025TAO,Wu2024EHRFlow}.
+
+The \textbf{first challenge is coordination}.  As Bedi~et~al.~\cite{Bedi2025OptParadox}
+demonstrated, assembling individually capable agents into a system without careful
+coordination design produces worse outcomes than a less capable but coherently designed
+system.  Existing frameworks address coordination in narrow ways: MDAgents~\cite{Kim2024MDAgents}
+uses complexity-based routing but cannot replan once execution has begun; TAO~\cite{Kim2025TAO}
+uses tiered escalation for safety but was not designed for end-to-end diagnostic
+workflows; EHRFlow~\cite{Wu2024EHRFlow} implements sequential error recovery but
+operates only on structured EHR analysis rather than open-ended clinical decisioning.
+No existing framework provides a generalisable coordination architecture for the full
+clinical decisioning pipeline --- from patient data intake to differential diagnosis and
+management recommendation.
+
+The \textbf{second challenge is conflict resolution}.  Fan~et~al.~\cite{Fan2024AIHospital}
+demonstrated empirically that removing structured conflict resolution from a multi-agent
+clinical system causes a statistically significant reduction in diagnostic accuracy,
+establishing it as a structural necessity rather than an optional enhancement.  Yet
+Wang~et~al.~\cite{Wang2025Catfish} identified silent agreement --- the failure of agents
+to genuinely challenge one another even when evidence is ambiguous --- as a systematic
+failure mode that undermines the quality of agent deliberation in most existing
+frameworks.  The Catfish Agent~\cite{Wang2025Catfish} and Layered Debate
+MAS~\cite{Zhao2025LayeredDebate} each address this problem in narrow experimental
+settings, but neither provides a conflict resolution mechanism that is adaptive to case
+complexity, integrated into a full clinical workflow, and generalisable across clinical
+domains.
+
+The \textbf{third challenge is safety}.  Chen~et~al.~\cite{Chen2025MedSentry}
+demonstrated that MAS topology is a primary determinant of clinical safety and that a
+single compromised agent in a centralised system can corrupt system-wide outputs ---
+including generating false prescriptions and distorting diagnoses --- in ways that bypass
+naive safety filters.  Only three of the twenty-two papers reviewed in Chapter~\ref{chap:background}
+address safety as a primary research question, and none evaluates the quantitative
+trade-off between safety constraint enforcement and diagnostic
+accuracy~\cite{Kim2025TAO,Wu2024EHRFlow,Chen2025MedSentry}.
+
+The \textbf{fourth challenge is evaluation}.  The majority of existing frameworks are
+evaluated exclusively on structured multiple-choice question-answering
+benchmarks~\cite{Tang2024MedAgents,Kim2024MDAgents}.  These evaluations measure whether
+agents can select the correct answer from a closed set of options, which is a
+fundamentally different task from generating a complete clinical management plan,
+ordering appropriate investigations, and justifying a differential diagnosis from
+unstructured patient data.  CDR-Agent~\cite{Xiang2025CDRAgent} and
+ClinicalLab~\cite{Yan2024ClinicalLab} represent exceptions, but both evaluate
+domain-specific tasks.  A rigorous evaluation framework for multi-agent clinical
+decisioning must measure performance on the full task, not a simplified proxy.
+
+This thesis addresses all four challenges through the design, implementation, and
+evaluation of a multi-agent system for AI clinical decisioning via automation workflows,
+built on a clinical data lake of 10{,}000 synthetic patients, transformed through a
+medallion lakehouse architecture (Bronze, Silver via OMOP CDM~v5.4, Gold), and evaluated
+using a comprehensive framework combining automated metrics, LLM-as-judge rationale
+scoring, and ground-truth comparison~\cite{Bedi2025OptParadox,Chen2025MedSentry}.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Objectives}
+\label{sec:objectives}
+% ─────────────────────────────────────────────────────────────────────────────
+
+This section translates the four challenges identified in the problem statement into
+concrete, measurable engineering objectives that collectively define the scope of work
+for this thesis.
+
+The primary goal of this thesis is to design, implement, and evaluate an end-to-end
+multi-agent system for AI clinical decisioning that operates over a structured clinical
+data lake, demonstrating that coordinated multi-agent workflows outperform single-agent
+baselines on clinical decisioning tasks while maintaining defined safety and reliability
+properties.  The specific objectives are as follows.
+
+\begin{itemize}
+
+  \item \textbf{Design and implement a clinical data lake pipeline} using the Synthea
+  patient generator, Python-based Bronze ingestion with FHIR~R4 parsing, dbt-core Silver
+  transformation to the OMOP CDM~v5.4 standard, and a Python Gold assembler that
+  produces structured EHR and laboratory case objects for agent consumption --- all
+  orchestrated by a Prefect DAG with automated monitoring and retry logic.
+
+  \item \textbf{Develop a multi-agent decisioning framework} comprising a specialised EHR
+  Agent and Lab Agent built on LangChain and Claude Sonnet, coordinated by a custom
+  Python Multi-Agent Orchestrator that implements adaptive complexity routing, structured
+  inter-agent communication protocols, and a built-in conflict resolution mechanism for
+  handling agent disagreements.
+
+  \item \textbf{Implement adaptive workflow orchestration} in which the Orchestrator
+  dynamically assigns single-agent or collaborative multi-agent processing to each
+  clinical case based on assessed complexity --- mirroring the MDAgents
+  and TAO architectural precedents --- and can trigger escalation and
+  replanning in response to low-confidence or conflicting agent outputs.
+
+  \item \textbf{Integrate Retrieval-Augmented Generation (RAG)} using a FAISS vector
+  store built from curated clinical guideline documents, enabling agents to ground their
+  reasoning in current evidence-based protocols at inference time and reducing
+  hallucinated clinical recommendations --- following the demonstrated 64\% hallucination
+  reduction achieved by Choi~et~al.\ in a comparable RAG-integrated
+  multi-agent system.
+
+  \item \textbf{Build and validate a data quality assurance layer} using dbt schema
+  tests and Great Expectations statistical profile checks, ensuring that the clinical
+  data lake on which agents operate meets defined quality standards for completeness,
+  referential integrity, and clinical plausibility before any agent query is processed.
+
+  \item \textbf{Design and execute a comprehensive evaluation framework} comparing
+  single-agent and multi-agent system configurations across diagnostic accuracy,
+  recommendation completeness, inter-run consistency, hallucination rate, and safety
+  boundary adherence on a held-out set of 100 clinically diverse cases.
+
+  \item \textbf{Implement an end-to-end automated error recovery mechanism} within the
+  data pipeline and agent workflow, following the Debugger Agent pattern established by
+  Wu~et~al.\ in EHRFlow, to ensure that execution failures do not
+  propagate to downstream agents as corrupted inputs and that the system degrades
+  gracefully under data quality failures.
+
+  \item \textbf{Develop a clinical portal using Streamlit} that reads directly from the
+  DuckDB clinical data lake, enabling structured review of agent outputs, data quality
+  dashboard monitoring, and case-level comparison of single-agent versus multi-agent
+  decisioning.
+
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Thesis Outline}
+\label{sec:outline}
+% ─────────────────────────────────────────────────────────────────────────────
+
+This section provides a roadmap of the thesis structure, summarising the purpose and
+content of each chapter to guide the reader through the document.  The structure follows
+a standard empirical research progression from literature review through system design,
+experimentation, and reflection.
+
+This thesis is structured into five chapters, each addressing a distinct phase of the
+research from literature foundation through implementation and evaluation.
+
+\textbf{Chapter~\ref{chap:background}: Background} reviews the existing literature on
+multi-agent LLM frameworks for clinical AI.  Twenty-two papers are reviewed and
+organised into five thematic categories: foundational frameworks, coordination
+architectures, inter-agent deliberation, domain-specific deployments, and safety and
+evaluation.  The chapter identifies the four research gaps that this thesis addresses and
+establishes the architectural vocabulary and design precedents that inform the system
+design.
+
+\textbf{Chapter~3: Methodology} describes the complete system design, including the
+clinical data lake architecture (Synthea data generation, Bronze/Silver/Gold medallion
+pipeline, OMOP CDM~v5.4 transformation, dbt-core models, Prefect orchestration), the
+multi-agent framework design (EHR Agent, Lab Agent, Orchestrator, RAG layer, conflict
+resolution mechanism), the data quality assurance layer, and the evaluation framework
+design.
+
+\textbf{Chapter~4: Results} presents and analyses the system's performance across all
+evaluation dimensions.  This includes data pipeline performance metrics, single-agent
+versus multi-agent comparative results (diagnostic accuracy, hallucination rate,
+consistency, recommendation completeness), conflict resolution mechanism effectiveness,
+and clinical portal demonstration outputs.  Results are interpreted in the context of the
+literature benchmarks established in Chapter~\ref{chap:background}.
+
+\textbf{Chapter~5: Conclusion and Future Work} summarises the thesis contributions,
+reflects on the degree to which the stated objectives were achieved, and discusses the
+limitations of the study design.  Directions for future work are proposed, including
+extension to real EHR data, integration of additional agent specialisms, and prospective
+clinical validation with practising clinicians.

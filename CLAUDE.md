@@ -1,195 +1,181 @@
-# CMADS — Clinical Multi-Agent Decisioning System
+# CLAUDE.md
 
-## Project Summary
-Bachelor thesis project: end-to-end system that generates synthetic patient data (Synthea), processes it through a data pipeline (Bronze→Silver→Silver+→Gold), then runs a multi-agent AI pipeline to diagnose and produce treatment plans.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Synthea** is the single source of truth for ALL patient data. It's a rule-based patient simulator (Java CLI) using state transition machines and Monte Carlo simulation informed by CDC/NIH statistics. No LLM-generated synthetic documents — agents work directly with Synthea's structured data.
+## Project: CMADS — Clinical Multi-Agent Decisioning System
 
-## Architecture at a Glance
-```
-Synthea (Java CLI) → Bronze (Parquet) → Silver (OMOP CDM via dbt+DuckDB)
-  → Silver+ (derived features) → Gold (ehr_case.json + lab_case.json)
-  → Multi-Agent Pipeline (7 agents via LangGraph + LangChain + GPT-o3 120B on Ollama)
-  → Clinical Decision Report
-```
+Bachelor thesis project. A LangGraph-based pipeline of 7 clinical agents that ingests Synthea-generated synthetic patient data, produces a differential diagnosis, evaluates it against ground truth, and (on DIRECT matches only) generates a NICE-guideline-based treatment plan.
 
-## Documentation (in docs/)
-- **SRD.md** — System Requirements Document. Defines WHAT the system does. 96 requirements (MA-xxx, DP-xxx, IF-xxx, NF-xxx).
-- **SDD.md** — System Design Document. Defines HOW. Architecture, shared memory, agent blueprints, execution sequence.
-- **TECH_STACK.md** — Final technology selections for agent pipeline, evaluation, portal.
+Synthea is the **single source of truth** for all patient data — no LLM-generated synthetic documents anywhere. Agents operate on structured Gold-layer JSON.
 
-## Diagrams (in diagrams/)
-- `architecture.svg` — Full system architecture (data pipeline + agent pipeline + shared memory)
-- `shared_memory.svg` — Shared memory namespace design with R/W access patterns per agent
-- `sequence.svg` — Agent execution sequence for a single patient case
-- `agent_blueprint.svg` — Generic agent internal architecture (Input Gate → Prompt Assembler → LLM → Output Parser → Output Gate)
-- `tech_stack.svg` — Technology stack layers
+## Common Commands
 
-## Tech Stack (Agent Pipeline Only)
-| Component | Technology |
-|-----------|-----------|
-| Orchestration | LangGraph (StateGraph) |
-| Agent Runtime | LangChain (LCEL chains) |
-| LLM | GPT-o3 120B via Ollama (local, localhost:11434) |
-| LangChain Class | `ChatOllama` from `langchain-ollama` |
-| Shared Memory | LangGraph State (TypedDict channels) |
-| Checkpointing | LangGraph MemorySaver + custom FileCheckpointer |
-| Output Schemas | Pydantic v2 |
-| Config | YAML files |
-| Evaluation | pandas, scikit-learn, matplotlib, Plotly |
-| Portal | Streamlit + DuckDB (read) |
-| Logging | structlog (JSON lines) |
-| Testing | pytest + pytest-asyncio |
-| Code Quality | ruff |
+All common workflows run through the Makefile:
 
-## Data Pipeline Stack (separate, already documented in Data Eng Spec v3.0)
-| Component | Technology |
-|-----------|-----------|
-| Data Source | Synthea (Java CLI) |
-| Bronze | Python + PyArrow → Parquet |
-| Silver | dbt-core + DuckDB (OMOP CDM v5.4) |
-| Silver+ | dbt-core + DuckDB (derived features) |
-| Gold | Python assembler → JSON |
-| Orchestration | Prefect (local) |
-| Portal Data | DuckDB (clinical.duckdb) |
-
-## Agent Pipeline — 7 Agents in 6 Stages
-
-### Execution Graph
-```
-Stage 1 (parallel): EHR Analyst + Lab Interpreter
-    ↓
-Stage 2: Diagnostic Reasoning (adaptive loop, max 3 rounds)
-    ↓
-Stage 3: Clinical Reviewer (adversarial verification)
-    ↓
-Stage 4: Diagnostic Refiner (merge diagnostic + reviewer)
-    ↓
-Stage 5: LLM Evaluator (compare against ground truth)
-    ↓
-Stage 6: Treatment Planning (DIRECT matches only, NICE guidelines via Qdrant)
+```bash
+make install                                       # pip install -r requirements.txt
+make run-patient UUID=<patient-uuid>               # run MAS pipeline on one patient
+make run-batch BATCH=data/gold/batches/batch_1.json [MAX=5]  # run on a cohort
+make dashboard                                     # Streamlit eval dashboard (port 8503)
+make setup-qdrant                                  # one-time: load NICE guidelines into Qdrant
+make evaluate                                      # run LLM-as-judge evaluator
+make test            # all tests
+make test-mas        # MAS pipeline tests only
+make test-data       # data pipeline tests only
+make lint            # ruff check src/ pipeline/ portal/ tests/
+make format          # ruff format
 ```
 
-### Agent Specifications
+Run a single test: `python3 -m pytest tests/test_mas_pipeline.py::test_name -v`
 
-| Agent | Reads from Memory | Writes to Memory | Key Responsibility |
-|-------|-------------------|------------------|--------------------|
-| EHR Analyst | patient_context (ehr_case) | agent_outputs.ehr_analyst | Extract structured clinical summary from Synthea data |
-| Lab Interpreter | patient_context (lab_case) | agent_outputs.lab_interpreter | Classify labs, interpret trends, rank by severity |
-| Diagnostic Reasoning | ehr_analyst + lab_interpreter outputs | agent_outputs.diagnostic_reasoning | Generate ranked differential diagnosis (≥3) with evidence |
-| Clinical Reviewer | ehr_analyst + lab_interpreter + diagnostic outputs | agent_outputs.clinical_reviewer | Adversarial review, per-diagnosis verification |
-| Diagnostic Refiner | diagnostic + reviewer outputs | agent_outputs.final_diagnosis | Merge perspectives into final differential |
-| LLM Evaluator | final_diagnosis + ground_truth (from disk) | agent_outputs.evaluation | Compare diagnosis against Synthea ground truth (DIRECT/INDIRECT/MISS) |
-| Treatment Planning | final_diagnosis + evaluation + ehr/lab outputs | agent_outputs.treatment_planning | NICE guideline treatment plan via Qdrant vector search |
-
-### Shared Memory Namespaces
-```
-patient_context   — Gold-layer data (written by Orchestrator, read by all)
-agent_outputs     — Per-agent output slots (write-own, read-downstream)
-conflicts         — Contradiction records (written by Orchestrator diff engine)
-scratchpad        — Per-agent ephemeral notes (private)
-execution_trace   — Invocation logs (written by Orchestrator)
+Data pipeline rebuild (rarely needed — Gold data for 270 patients is checked in):
+```bash
+python pipeline/bronze.py batch_10k
+python pipeline/silver.py
+python pipeline/silver_plus.py
+python pipeline/gold.py
 ```
 
-## Project Structure (target)
+## Configuration
+
+All tuneables live in `.env` (loaded by `src/config.py`). **Never hardcode provider/model choices** — the adapter is provider-agnostic.
+
+Key env vars:
+- `LLM_PROVIDER` — `groq` (default), `openai`, `anthropic`, `gemini`, `ollama`
+- `LLM_MODEL` — e.g. `openai/gpt-oss-120b` (default, via Groq)
+- `LLM_EVALUATOR_MODEL` / `LLM_EVALUATOR_PROVIDER` — separate judge model
+- `GROQ_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GOOGLE_API_KEY` — whichever matches the provider
+- `QDRANT_URL` / `QDRANT_API_KEY` — for treatment planning
+- `DIAGNOSTIC_MAX_ROUNDS` (default 3), `DIAGNOSTIC_CONFIDENCE_THRESHOLD` (default 75)
+- `AGENT_TIMEOUT` (seconds, default 300), `LLM_CALL_TIMEOUT`, `LLM_MAX_RETRY_WAIT`
+
+Access from code via `from src.config import cfg` — do not read `os.environ` directly outside `config.py` and `llm/adapter.py`.
+
+## Architecture
+
+### Agent pipeline (6 stages, 7 agents)
+
 ```
-cmads/
-├── config/
-│   ├── pipelines/
-│   │   ├── full_clinical.yaml
-│   │   ├── diagnostic_only.yaml
-│   │   └── no_radiology.yaml
-│   ├── agents/
-│   │   ├── ehr_analyst.yaml
-│   │   ├── lab_interpreter.yaml
-│   │   ├── diagnostic_reasoning.yaml
-│   │   ├── treatment_planning.yaml
-│   │   ├── clinical_reviewer.yaml
-│   │   ├── radiology.yaml
-│   │   └── synthesis.yaml
-│   └── models/
-│       └── ollama.yaml
-├── prompts/
-│   ├── ehr_analyst/v1.0.yaml
-│   ├── lab_interpreter/v1.0.yaml
-│   ├── diagnostic_reasoning/v1.0.yaml
-│   ├── treatment_planning/v1.0.yaml
-│   ├── clinical_reviewer/v1.0.yaml
-│   ├── radiology/v1.0.yaml
-│   └── synthesis/v1.0.yaml
-├── schemas/
-│   ├── ehr_analyst_output.json
-│   ├── lab_interpreter_output.json
-│   ├── diagnostic_output.json
-│   ├── treatment_output.json
-│   ├── radiology_output.json
-│   ├── reviewer_output.json
-│   └── synthesis_output.json
-├── src/
-│   ├── orchestrator/
-│   │   ├── graph.py              # LangGraph StateGraph definition
-│   │   ├── state.py              # PipelineState TypedDict
-│   │   ├── conflict_detector.py  # Post-stage diff engine
-│   │   └── checkpointer.py       # Custom FileCheckpointer
-│   ├── memory/
-│   │   └── shared_memory.py      # SharedMemory wrapper over LangGraph State
-│   ├── agents/
-│   │   ├── base.py               # Base agent class (Input Gate → Prompt → LLM → Parse → Output)
-│   │   ├── ehr_analyst.py
-│   │   ├── lab_interpreter.py
-│   │   ├── diagnostic.py
-│   │   ├── treatment.py
-│   │   ├── radiology.py
-│   │   ├── reviewer.py
-│   │   └── synthesis.py
-│   ├── llm/
-│   │   ├── ollama_adapter.py     # ChatOllama setup + retry wrapper
-│   │   └── callbacks.py          # AgentTracingCallback (structlog)
-│   └── evaluation/
-│       ├── metrics.py            # Diagnostic accuracy, differential recall, etc.
-│       ├── run_evaluation.py     # CLI evaluation runner
-│       └── compare.py            # A/B pipeline comparison
-├── tests/
-│   ├── unit/
-│   ├── integration/
-│   └── fixtures/                 # Sample Gold JSON files for testing
-├── data/
-│   ├── gold/                     # ehr_case.json + lab_case.json per patient
-│   └── clinical.duckdb
-├── outputs/                      # Clinical reports, traces, eval results
-├── logs/
-├── checkpoints/
-├── portal/
-│   ├── app.py
-│   └── pages/
-├── requirements.txt
-├── Makefile
-└── README.md
+Stage 1 (parallel): ehr_analyst + lab_interpreter
+Stage 2: diagnostic_reasoning   (adaptive loop, max 3 rounds)
+Stage 3: clinical_reviewer      (adversarial review)
+Stage 4: final_diagnosis        (refiner — merges diagnostic + reviewer)
+Stage 5: evaluation             (LLM-as-judge vs. Synthea ground truth → DIRECT/INDIRECT/MISS)
+Stage 6: treatment_planning     (NICE guidelines via Qdrant; runs only on DIRECT matches)
 ```
 
-## Key Implementation Notes
+The graph is built in `src/orchestrator/graph.py::compile_pipeline()`. Stage 1 fans out from `START` via `add_conditional_edges`; Stage 2 fans in once both Stage 1 agents have written their output.
 
-1. **LangGraph is the orchestrator** — don't build a custom one. Use `StateGraph`, `add_node`, `add_edge`, parallel fan-out/fan-in.
+### Shared memory = LangGraph State
 
-2. **Shared memory = LangGraph State** — the `PipelineState(TypedDict)` IS the shared memory. Each namespace is a key. Use `Annotated` types with reducer functions for append-only fields.
+`src/orchestrator/state.py` defines `PipelineState(TypedDict)`. **This IS the shared memory** — do not build a separate store. Namespaces:
 
-3. **ChatOllama, not ChatOpenAI** — all LLM calls go through `langchain_ollama.ChatOllama` pointing at localhost:11434. No API keys.
+| Key | Reducer | Purpose |
+|-----|---------|---------|
+| `patient_context` | overwrite | Gold data (set once by orchestrator) |
+| `agent_outputs` | `_merge_agent_outputs` | Per-agent slot; each agent writes `{agent_id: output}` |
+| `conflicts` | `add` (append) | Conflict records |
+| `execution_trace` | `add` (append) | Per-agent invocation trace |
+| `scratchpad` | overwrite | Ephemeral notes |
 
-4. **Pydantic v2 for everything** — agent input/output schemas, config validation, structured LLM output via `.with_structured_output()`.
+Because `agent_outputs` uses a merging reducer, parallel Stage 1 agents can write concurrently without overwriting each other.
 
-5. **Config-driven** — adding/removing/reconfiguring agents must be possible via YAML only (no code changes).
+### Agent blueprint (`src/agents/base.py`)
 
-6. **Graceful degradation** — if an agent fails, the pipeline continues. Synthesis Agent handles partial results.
+Every agent subclasses `BaseAgent` with:
+- `agent_id: str` — also determines the prompt YAML path (`prompts/{agent_id}.yaml`)
+- `output_schema: Type[BaseModel]` — Pydantic v2 schema from `src/schemas/`
+- `build_user_prompt(state) -> str` — required override
+- `run_reasoning(state, llm, json_llm) -> dict` — optional override for multi-call chain-of-thought (default is single-call)
 
-7. **Ground truth from Synthea** — evaluation compares agent output against Synthea's known conditions, meds, and labs. No LLM-generated ground truth.
+`__call__(state)` implements the 5-component blueprint (Input Gate → Prompt → LLM → Parse → Output Gate), writes a trace entry, and returns `{"agent_outputs": {agent_id: ...}, "execution_trace": [...]}`.
 
-## Implementation Priority
-1. `src/orchestrator/state.py` — Define PipelineState
-2. `src/llm/ollama_adapter.py` — ChatOllama wrapper
-3. `src/agents/base.py` — Base agent class
-4. `src/orchestrator/graph.py` — LangGraph StateGraph
-5. One agent end-to-end (EHR Analyst) as proof of concept
-6. Remaining 6 agents
-7. Conflict detector
-8. Evaluation framework
-9. Streamlit portal
+Error handling is **graceful by design**:
+- `SkipAgentException` → emit pre-built result, status `skipped`
+- `ValidationError` → status `partial`, best-effort parse of error
+- any other Exception → `output=None`, status `error`
+- The pipeline never aborts on a single agent failure
+
+The base class contains **heavy JSON repair** (`_extract_json_from_response`) — markdown fences, `<think>` tags, trailing commas, single quotes, unescaped newlines. Keep it; local LLMs produce malformed JSON constantly.
+
+### LLM adapter (`src/llm/adapter.py`)
+
+One factory (`get_llm`) handles all providers via a registry keyed by name. `invoke_with_retry` wraps calls with exponential backoff (capped at `LLM_MAX_RETRY_WAIT`) and a json-mode fallback: if `json_validate_failed` fires on the last attempt, it retries once without `json_mode`. Anthropic has no native json_mode — rely on base-class JSON repair.
+
+LangSmith tracing auto-enables if `LANGSMITH_API_KEY` is set (EU endpoint, project `cmads-clinical-pipeline`).
+
+### Prompts
+
+Prompts live in `prompts/{agent_id}.yaml` (NOT in code). Structure:
+```yaml
+system: |
+  <system prompt — overrides BaseAgent.system_prompt>
+calls:
+  analysis:   { system: ..., user: ... }
+  structure:  { system: ..., user: ... }
+  review:     { system: ..., user: ... }
+```
+
+Multi-call agents use `BaseAgent._run_analysis_structure_review` which expects the three `calls` blocks above. Variables like `{patient_data}`, `{analysis}`, `{output_schema}` are substituted via `str.format`.
+
+### Data paths
+
+Defaults (override in `.env`):
+- `GOLD_DIR` = `data/gold/patient_cases` — one subdir per patient UUID with `ehr_case.json`, `lab_case.json`, `ground_truth.json`
+- `MAS_RESULTS_DIR` = `data/gold/mas_results` — one subdir per patient with `{agent_id}.json` files + `execution_trace.json`
+- `GUIDELINES_DIR` = `config/guidelines` — NICE guideline JSON per disease
+- `DUCKDB_PATH` = `data/clinical.duckdb` — OMOP Silver layer, read by portal
+
+Batches are at `data/gold/batches/batch_{1..6}.json` (lists of UUIDs).
+
+## Project Layout
+
+```
+src/
+  orchestrator/  graph.py (StateGraph), state.py (PipelineState)
+  agents/        base.py + one module per agent:
+                   ehr_analyst, lab_interpreter, diagnostic, reviewer,
+                   refiner (→ final_diagnosis), evaluator, treatment
+  schemas/       Pydantic output schemas per agent
+  llm/           adapter.py (provider-agnostic get_llm + invoke_with_retry)
+  evaluation/    llm_judge.py, judge_common.py
+  vectordb/      setup_qdrant.py, query_guidelines.py
+  config.py      central cfg object (all .env access)
+pipeline/        Bronze → Silver → Silver+ → Gold (dbt + DuckDB + PyArrow)
+prompts/         {agent_id}.yaml — single file per agent
+config/guidelines/  NICE guideline JSON per disease
+portal/          Streamlit dashboard (dashboard.py)
+tests/           pytest; conftest.py loads cfg + cohort fixtures
+docs/            SRD, SDD, TECH_STACK, evaluation methodology, etc.
+data/gold/       patient_cases/, mas_results/, batches/
+```
+
+## Key Implementation Rules
+
+1. **LangGraph is the orchestrator** — never build a custom one. Use `StateGraph`, `add_node`, `add_edge`, `add_conditional_edges`.
+2. **Shared memory = state** — agents read from and return partial `state` dicts; reducers handle merging.
+3. **Config-driven agents** — adding/removing/reconfiguring an agent should mean a YAML prompt + a node added to the graph. Avoid embedding prompts in Python.
+4. **Pydantic v2 only** — all agent outputs validate against a schema in `src/schemas/`.
+5. **Ground truth comes from Synthea**, never from an LLM. The evaluator compares agent output against `ground_truth.json` written by the Gold assembler.
+6. **Graceful degradation** — pipeline must continue even if one agent fails. Preserve the partial/error/skipped trace semantics in `base.py::__call__`.
+7. **Provider-agnostic LLM calls** — always go through `get_llm()`; never import `ChatGroq` / `ChatOpenAI` / etc. directly from agent code.
+8. **Commit discipline** — the Gold `mas_results/*.json` files churn on every run; stage them deliberately, don't blanket-add.
+
+## Notes vault (`notes/`)
+This repo contains an Obsidian vault at `notes/`. Conventions live in `notes/CLAUDE.md`. As part of your normal work in this project:
+
+- **Decisions** — when a non-trivial decision is made (agent design, prompt change, schema change, evaluation methodology tweak, "let's do X instead of Y"), append one bullet to `notes/decisions.md` using the format in `notes/CLAUDE.md`. Do this **before** ending the turn.
+- **Experiments** — when an experiment run produces a result worth remembering (new model, prompt variant, batch comparison), append one bullet to `notes/experiments.md` with DIRECT/INDIRECT/MISS counts and a link to the `mas_results/` path.
+- **Bug investigations** — when you diagnose a non-trivial bug (anything that took more than one Read+Edit cycle), append a section to `notes/questions.md` with root cause + fix reference.
+- **Skip** for routine edits, typos, one-line fixes, and routine pipeline reruns.
+- **Never** put PHI, patient identifiers, secrets, or API keys in the vault.
+
+If a note already exists on the topic, update it rather than creating a new one. Keep entries terse — one bullet, two sentences max — and link to commits / `file:line` for detail.
+
+## Thesis (`thesis/`)
+The Bachelor thesis LaTeX project lives at `thesis/`. **When working on thesis prose, open `thesis/CLAUDE.md` first** — it documents the chapter map, what's stub vs done, the citation conventions, and (critically) the on-disk locations of every empirical number that goes into the Results chapter, so claims trace back to artifacts in this repo rather than being invented.
+
+- Build: `make thesis` (uses `tectonic` if present, else `pdflatex`).
+- Clean: `make thesis-clean`.
+- Watch + rebuild on save: `make thesis-watch` (needs `fswatch`).
+- Build artifacts (`*.aux`, `*.bbl`, `main.pdf`) are gitignored — regenerate on demand.
