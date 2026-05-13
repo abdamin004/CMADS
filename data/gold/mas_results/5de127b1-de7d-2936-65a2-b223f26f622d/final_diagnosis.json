@@ -1,0 +1,174 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "NSAID-exacerbated hypertensive nephropathy",
+      "icd10": "N18.9",
+      "snomed": "236423003",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 3a with progressive rise in serum creatinine over 12 months",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing uncontrolled hypertension despite multiple agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports frequent over\u2011the\u2011counter analgesic use for chronic arthralgia (inferred from pharmacy refill pattern)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of progressive CKD, resistant hypertension, and inferred chronic NSAID exposure suggests a synergistic nephrotoxic effect, consistent with NSAID\u2011exacerbated hypertensive nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Sustained systolic blood pressure >150 mmHg on three separate visits",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria (urine albumin/creatinine ratio 150 mg/g) without hematuria",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension can cause arteriolar nephrosclerosis leading to CKD progression; findings support this etiology independent of NSAID exposure."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI 32 kg/m\u00b2 and reported loud snoring by partner",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "STOP\u2011BANG score of 5 (high risk)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and snoring raise suspicion for OSA, which can worsen hypertension and CKD."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.2 g/dL with normal iron studies",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Erythropoietin level low for degree of CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia in the setting of stage 3 CKD is most commonly due to reduced erythropoietin production."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hypertension (renovascular disease or primary aldosteronism)",
+      "icd10": "I15.0",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension with need for \u22653 antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Renal artery Doppler shows elevated velocities suggestive of stenosis (pending confirmation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given refractory hypertension, secondary causes such as renovascular disease or primary aldosteronism remain plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Depression / medication non\u2011adherence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports low mood, poor sleep, and missed doses of antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "PHQ\u20119 score 12 (moderate depression)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Depressive symptoms may contribute to poor medication adherence, impacting blood pressure control and CKD progression."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated ALT 58 U/L with normal AST/ALT ratio",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Ultrasound shows hepatic steatosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome features (obesity, CKD, hypertension) predispose to NAFLD."
+    }
+  ],
+  "primary_diagnosis": "NSAID-exacerbated hypertensive nephropathy",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient presents with progressive CKD stage 3a, resistant hypertension, and inferred chronic NSAID use for musculoskeletal pain. The convergence of drug\u2011induced renal injury and hypertensive nephrosclerosis best explains the renal decline, aligning with the reviewer\u2019s recommendation for a combined primary diagnosis. Secondary contributors include obstructive sleep apnea, CKD\u2011related anemia, possible secondary hypertension, depression affecting adherence, and NAFLD as a metabolic comorbidity. Diabetes was deemed unlikely given a normal A1c, and heart failure lacks supporting data, so both were excluded.",
+  "unresolved_findings": [
+    "Duplicate simvastatin entry indicating medication reconciliation error",
+    "CKD stage listed inconsistently (stage 1 vs current stage 3a)",
+    "Normal A1c (4.8%) despite documented insulin prescription",
+    "Transport problem coded twice (SNOMED 266934004 and narrative)"
+  ],
+  "recommended_workup": [
+    "Renal ultrasound with Doppler to assess renal artery stenosis",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Repeat urine albumin/creatinine ratio and urine microscopy",
+    "Polysomnography to confirm obstructive sleep apnea",
+    "Aldosterone\u2011renin ratio and plasma metanephrines for secondary hypertension",
+    "Iron studies and erythropoietin level to refine anemia work\u2011up",
+    "Medication reconciliation with pharmacy verification for NSAID/OTC use"
+  ]
+}

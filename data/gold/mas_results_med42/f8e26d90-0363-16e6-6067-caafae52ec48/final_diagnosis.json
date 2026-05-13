@@ -1,0 +1,72 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic Kidney Disease Stage Progression",
+      "icd10": "N18.4 (Chronic kidney disease, stage 4)",
+      "snomed": "90560007 (Chronic renal failure, stage 4)",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "elevated serum creatinine",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "decreased eGFR (20-29 mL/min)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Patient's history of hypertension and diabetes, combined with recent lab results showing significantly reduced kidney function, strongly support CKD stage progression."
+    },
+    {
+      "rank": 2,
+      "name": "Acute Interstitial Nephritis (AIN) - drug-induced",
+      "icd10": "N12.0 (Drug-induced acute interstitial nephritis)",
+      "snomed": "414915002 (Acute interstitial nephritis due to drugs)",
+      "probability": 0.32,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "recent NSAID use",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eosinophilia in blood count",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's recent intake of NSAIDs and eosinophilia suggest a possible drug-induced AIN, though kidney biopsy would be necessary for definitive diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Cardio-Renal Syndrome",
+      "icd10": "I13.2 (Chronic kidney disease with congestive heart failure)",
+      "snomed": "236197007 (Congestive cardiac failure with renal impairment)",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "history of congestive heart failure",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated BNP levels",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's history of CHF and elevated BNP suggest a possible Cardio-Renal Syndrome, but cardiac markers are incomplete, making this less certain."
+    }
+  ],
+  "primary_diagnosis": "Chronic Kidney Disease Stage Progression",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient's severe renal impairment and history of hypertension and diabetes strongly point to CKD stage progression as the primary diagnosis, with AIN and Cardio-Renal Syndrome considered as secondary possibilities based on medication use and cardiac history respectively.",
+  "unresolved_findings": [],
+  "recommended_workup": []
+}

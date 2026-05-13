@@ -1,0 +1,242 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension, likely uncontrolled",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list includes essential hypertension (onset 2008-03-09)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on lisinopril and amlodipine (dual therapy)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Recent systolic/diastolic BP values missing \u2013 cannot confirm control",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, pre\u2011diabetes, and borderline dyslipidaemia present, all of which worsen BP control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a documented chronic condition treated with two antihypertensives, yet no recent BP measurements are available, suggesting possible sub\u2011optimal control. The coexistence of obesity, pre\u2011diabetes, and dyslipidaemia further predisposes to resistant hypertension, making it the most likely active disease driving current cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome (insulin\u2011resistance phenotype)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 1991",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension on dual therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 6.3\u202f% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 201.8\u202fmg/dL and LDL\u2011C 118.2\u202fmg/dL (borderline high)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Four of the five ATP\u2011III criteria are present: central obesity, elevated blood pressure, impaired fasting glucose (prediabetes), and dyslipidaemia. The insulin\u2011resistance cluster explains the hypertension, pre\u2011diabetes, and borderline hyperlipidaemia and underlies the patient\u2019s heightened cardiovascular and renal risk."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic obstructive pulmonary disease (moderate\u2011to\u2011severe)",
+      "icd10": "J44.9",
+      "snomed": "185086009",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list includes chronic obstructive bronchitis (onset 2009\u201103\u201115)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescribed both a long\u2011acting inhaler (fluticasone/salmeterol) and rescue albuterol",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Smoking status not documented, but COPD diagnosis strongly implies tobacco exposure",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Spirometry results missing; severity cannot be staged",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The chronic bronchitis label together with dual inhaler therapy indicates established COPD of at least moderate severity. Absence of spirometry limits precise staging, but the medication regimen would not be used for mild disease."
+    },
+    {
+      "rank": 4,
+      "name": "Major depressive disorder / PTSD secondary to intimate\u2011partner violence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented ongoing intimate\u2011partner abuse (onset 2007\u201103\u201104)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Limited social contact",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "No mental\u2011health screening performed despite psychosocial stressors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic interpersonal violence and social isolation are high\u2011risk factors for major depression, generalized anxiety, and PTSD. Lack of screening does not exclude disease; untreated mood disorder would impede adherence to hypertension, diabetes, and COPD regimens."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 1979",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.1\u202fg/dL (low\u2011normal) and hematocrit 48.8\u202f% (upper normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent chronic inflammatory conditions (hypertension, COPD, obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Iron studies and ferritin missing; etiology not definitively established",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild, longstanding anemia in the setting of chronic inflammatory comorbidities is typical for anemia of chronic disease. Absence of iron studies prevents definitive classification, but the pattern fits this diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Vitamin B12 deficiency (likely pernicious anemia) *prior\u2011only*",
+      "icd10": "D51.0",
+      "snomed": "271442005",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (Hb 12.1\u202fg/dL) and ongoing vitamin B12 injections",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female >50\u202fy, higher prevalence of autoimmune gastritis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Serum B12 level not measured (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Empiric B12 therapy suggests the clinician suspected deficiency. In a woman of this age, pernicious anemia is the most common cause, but without laboratory confirmation the diagnosis remains speculative and appears only because of the prior\u2011based reasoning."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (stage 1\u20113) *prior\u2011only*",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension treated with ACE\u2011inhibitor (lisinopril)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome cluster (obesity, pre\u2011diabetes, dyslipidaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "COPD (systemic hypoxia) as additional risk factor",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "eGFR and renal panel missing (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Epidemiologically, a 58\u2011year\u2011old woman with hypertension, metabolic syndrome, and COPD has a 10\u201115\u202f% chance of stage\u202f1\u20113 CKD. The missing eGFR flag highlights a surveillance failure; however, no direct renal data are present, so the diagnosis is driven primarily by prior\u2011based prevalence assumptions."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension, likely uncontrolled",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "Both rounds agreed on COPD, depression/PTSD, and the presence of a metabolic\u2011syndrome cluster. Round B highlighted uncontrolled essential hypertension as a distinct, actionable disease with clear documentation (diagnosis, dual therapy, and missing BP readings). Because hypertension is directly recorded and treated, it was promoted to the primary diagnosis over the broader metabolic\u2011syndrome label used by Round A. Metabolic syndrome remains a high\u2011probability diagnosis that explains the coexistence of obesity, pre\u2011diabetes, dyslipidaemia, and hypertension. COPD and mood disorder are retained as consensus secondary problems. Anemia of chronic disease is included based on chronic mild anemia and inflammatory comorbidities. Vitamin B12 deficiency and early CKD appear only in the prior\u2011based (Round A) list; they are retained but flagged as prior\u2011only and assigned lower probabilities pending confirmatory testing. All unresolved data gaps (BP, eGFR, spirometry, iron studies, B12 levels, smoking history, mental\u2011health screens, vaccination status) are listed for further work\u2011up.",
+  "unresolved_findings": [
+    "Missing recent systolic and diastolic blood pressure values",
+    "Absent eGFR and renal panel (creatinine, urine albumin\u2011creatinine ratio)",
+    "No documented smoking history despite COPD diagnosis",
+    "Lack of spirometry results to stage COPD",
+    "Absent iron studies, ferritin, total iron\u2011binding capacity, and reticulocyte count for anemia work\u2011up",
+    "No serum vitamin B12, methylmalonic acid, or intrinsic factor antibody testing",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117, PTSD questionnaire)",
+    "Incomplete lipid panel (fasting triglycerides, HDL) and ASCVD risk calculation",
+    "No sleep study to evaluate obstructive sleep apnea",
+    "Vaccination history (influenza, pneumococcal, COVID\u201119) not recorded",
+    "Allergy list absent; reason for astemizole use unclear"
+  ],
+  "recommended_workup": [
+    "Obtain current blood pressure readings (multiple visits) and calculate home BP average",
+    "Repeat comprehensive fasting lipid panel (total cholesterol, LDL, HDL, triglycerides) and perform ASCVD risk calculation",
+    "Measure fasting glucose and repeat HbA1c in 3\u20116 months",
+    "Order serum creatinine with eGFR and urine albumin\u2011creatinine ratio to stage renal function",
+    "Perform spirometry with post\u2011bronchodilator testing to confirm and stage COPD",
+    "Document detailed smoking history (current/former, pack\u2011years)",
+    "Complete CBC with iron studies (serum iron, ferritin, TIBC) and reticulocyte count",
+    "Check serum vitamin B12, methylmalonic acid, homocysteine, and intrinsic factor antibodies",
+    "Screen for depression, anxiety, and PTSD using PHQ\u20119, GAD\u20117, and PCL\u20115",
+    "Update allergy list; consider skin testing or serum IgE if allergic rhinitis suspected",
+    "Consider overnight polysomnography or home sleep apnea testing if symptoms of OSA are present",
+    "Review and update vaccination status (influenza, pneumococcal, COVID\u201119) and administer missing vaccines",
+    "Evaluate QT\u2011prolonging potential of astemizole; obtain baseline ECG"
+  ]
+}

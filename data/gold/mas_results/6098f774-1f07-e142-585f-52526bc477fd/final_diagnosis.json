@@ -1,0 +1,172 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Myelodysplastic syndrome (low/intermediate risk)",
+      "icd10": "D46.9",
+      "snomed": "126910001",
+      "probability": 0.31,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent pancytopenia with anemia, thrombocytopenia, and leukopenia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Macrocytic red cells (MCV elevated) without overt vitamin deficiency",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of alternative cause for cytopenias (no active bleeding, no severe infection)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of multilineage cytopenias in a patient with chronic kidney disease raises suspicion for a primary marrow process. Although marrow confirmation is pending, the pattern and lack of other explanations support MDS as the most likely diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic kidney disease (CKD stage 4-5)",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.2\u202fmg/dL with estimated GFR <30\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus (HbA1c 6.9%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of significant proteinuria data, but CKD severity aligns with diabetic nephropathy pattern",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced renal dysfunction in a diabetic patient is most commonly attributable to diabetic nephropathy, especially when other renal etiologies have not been documented."
+    },
+    {
+      "rank": 3,
+      "name": "Poorly\u2011controlled type 2 diabetes mellitus with metabolic\u2011syndrome X",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.9% (borderline elevated) and fasting glucose trends upward",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented dyslipidemia and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Glycemic control is suboptimal, contributing to both macrovascular (CAD) and microvascular (CKD) complications, and may exacerbate cytopenias via uremic milieu."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic coronary artery disease with recent myocardial infarction",
+      "icd10": "I25.110",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent documented MI and coronary angiography showing obstructive CAD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current lack of antiplatelet therapy noted despite recent MI",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The recent MI is a confirmed fixed diagnosis; its presence influences management (antiplatelet strategy) but does not directly explain cytopenias."
+    },
+    {
+      "rank": 5,
+      "name": "Sepsis (suspected infection)",
+      "icd10": "A41.9",
+      "snomed": "18629004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list includes sepsis; patient is febrile with leukopenia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated lactate (2.4\u202fmmol/L) and mild metabolic acidosis (CO\u2082 21.2\u202fmmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Sepsis can cause leukopenia and metabolic derangements; its contribution to the hematologic picture must be considered, especially while awaiting definitive marrow evaluation."
+    },
+    {
+      "rank": 6,
+      "name": "Monoclonal gammopathy of undetermined significance / early multiple myeloma",
+      "icd10": "R43.3",
+      "snomed": "126910001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD with unexplained anemia and cytopenias raises concern for plasma\u2011cell dyscrasia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without serum protein electrophoresis or free\u2011light\u2011chain data, the likelihood is low, but the diagnosis remains on the differential pending targeted testing."
+    },
+    {
+      "rank": 7,
+      "name": "Drug\u2011induced bone\u2011marrow suppression",
+      "icd10": "D68.9",
+      "snomed": "131148009",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on statin therapy; rare reports of statin\u2011related cytopenia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Temporal relationship and drug exposure are insufficient to prioritize this diagnosis, but it cannot be excluded without medication review and possible drug cessation."
+    }
+  ],
+  "primary_diagnosis": "Myelodysplastic syndrome (low/intermediate risk)",
+  "primary_probability": 0.31,
+  "clinical_reasoning_summary": "The patient presents with multilineage cytopenias, advanced CKD, and a history of diabetes and recent myocardial infarction. The strongest explanatory model is a primary bone\u2011marrow disorder (MDS), supported by persistent pancytopenia and lack of alternative causes. Diabetic kidney disease accounts for the severe renal impairment, while suboptimal glycemic control contributes to overall metabolic stress. Established coronary artery disease with recent MI is a confirmed comorbidity influencing antiplatelet management. Sepsis may be a concurrent driver of leukopenia and metabolic acidosis. Low\u2011probability considerations include an early plasma\u2011cell dyscrasia and drug\u2011induced marrow suppression, retained pending specific investigations.",
+  "unresolved_findings": [
+    "Mild metabolic acidosis (CO\u2082 total 21.2\u202fmmol/L) \u2013 etiology unclear (uremic vs. sepsis vs. mixed)",
+    "Isolated upper\u2011normal alkaline phosphatase without full liver panel",
+    "Absence of documented antiplatelet/anticoagulant therapy despite recent MI",
+    "Missing smoking and alcohol use history",
+    "No recent urine albumin\u2011to\u2011creatinine ratio or renal imaging to stage CKD precisely",
+    "Lack of serum protein electrophoresis, free\u2011light\u2011chain assay, and bone\u2011marrow biopsy"
+  ],
+  "recommended_workup": [
+    "Bone\u2011marrow aspiration and biopsy with cytogenetics for definitive MDS evaluation",
+    "Serum protein electrophoresis and immunofixation plus serum free\u2011light\u2011chain assay",
+    "Urine protein electrophoresis and urine albumin\u2011to\u2011creatinine ratio",
+    "Renal ultrasound or CT to assess for structural disease and rule out obstructive causes",
+    "Repeat complete blood count with differential to monitor trends",
+    "Blood cultures, lactate, and inflammatory markers to clarify sepsis status",
+    "Medication review with possible temporary discontinuation of agents implicated in marrow suppression",
+    "Assessment of antiplatelet eligibility (e.g., platelet function testing) given thrombocytopenia"
+  ]
+}

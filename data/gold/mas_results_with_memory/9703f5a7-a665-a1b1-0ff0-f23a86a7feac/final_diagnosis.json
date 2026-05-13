@@ -1,0 +1,212 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome with insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Controlled hypertension (110/82 mmHg) on therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (prediabetic)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated resting heart rate (99 bpm)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI not recorded but risk factors suggest overweight/obesity",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of hypertension, prediabetic HbA1c, and likely excess adiposity fulfills criteria for metabolic syndrome, indicating underlying insulin resistance."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and elevated heart rate",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Implied obesity (risk factor for metabolic syndrome)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is highly prevalent in patients with obesity and metabolic syndrome; the cardiovascular findings raise suspicion despite lack of sleep study."
+    },
+    {
+      "rank": 3,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "197321009",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome with insulin resistance",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic HbA1c 6.2%",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Insulin resistance is a key driver of hepatic steatosis; in the absence of alcohol use data, NAFLD is a plausible comorbidity."
+    },
+    {
+      "rank": 4,
+      "name": "Atherogenic dyslipidemia (elevated triglycerides / low HDL)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome context suggests dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients with metabolic syndrome commonly exhibit high triglycerides and low HDL; lack of lipid panel does not exclude this pattern."
+    },
+    {
+      "rank": 5,
+      "name": "Major depressive disorder / adjustment disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated resting heart rate possibly reflecting stress",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No mental\u2011health screening was performed; the diagnosis remains speculative but cannot be excluded."
+    },
+    {
+      "rank": 6,
+      "name": "Early type\u20112 diabetes mellitus (high risk)",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low fasting glucose 65.7 mg/dL (contradictory)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prediabetic HbA1c indicates high risk for progression, but current glucose does not meet diabetes criteria."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (stage 1\u20112) secondary to hypertensive/diabetic nephropathy",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and insulin resistance raise concern for early renal injury, but lack of eGFR or albuminuria data limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Asymptomatic bacteriuria / low\u2011grade urinary infection",
+      "icd10": "N39.0",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine (specific gravity 1.00)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Dilute urine could reflect contamination; without culture, true infection is uncertain."
+    },
+    {
+      "rank": 9,
+      "name": "Possible endocrine disorder (Cushing's syndrome, hypothyroidism, primary aldosteronism)",
+      "icd10": "E27.9",
+      "snomed": "237599002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low CO\u2082 (21.8 mmol/L) without pH data",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension on therapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Limited and nonspecific findings; endocrine work\u2011up is low yield at this stage."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome with insulin resistance",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient exhibits key components of metabolic syndrome\u2014prediabetic HbA1c, hypertension, and likely excess adiposity\u2014supporting insulin resistance as the primary diagnosis. This metabolic milieu predisposes to obstructive sleep apnea, NAFLD, and atherogenic dyslipidemia, which are reflected in the adjusted probabilities. Other considerations (depression, early diabetes, CKD, urinary findings, endocrine disorders) have limited supporting data and are retained with low confidence to satisfy a comprehensive differential.",
+  "unresolved_findings": [
+    "Very dilute urine (specific gravity 1.00) without clear cause",
+    "Low fasting glucose (65.7 mg/dL) in a non\u2011diabetic patient",
+    "Borderline low CO\u2082 (21.8 mmol/L) without accompanying pH or anion gap",
+    "Extremely high platelet distribution width (PDW 312.3 fL) \u2013 may be lab artifact",
+    "Borderline low RBC count (4.2 \u00d710\u2076/\u00b5L) without hemoglobin/Hct",
+    "Missing data: BMI, eGFR, LDL/HDL, liver enzymes, thyroid panel, cortisol, aldosterone/renin, urine albumin\u2011creatinine ratio, sleep study, PHQ\u20119"
+  ],
+  "recommended_workup": [
+    "Repeat complete blood count to verify PDW and RBC indices",
+    "Fasting lipid panel (triglycerides, HDL, LDL, total cholesterol)",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase)",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Repeat urine culture if infection suspected",
+    "Overnight polysomnography or home sleep apnea testing",
+    "PHQ\u20119 depression screening questionnaire",
+    "Thyroid panel (TSH, free T4)",
+    "Morning cortisol and ACTH (screen for Cushing's)",
+    "Plasma aldosterone concentration and plasma renin activity",
+    "BMI measurement and waist circumference"
+  ]
+}

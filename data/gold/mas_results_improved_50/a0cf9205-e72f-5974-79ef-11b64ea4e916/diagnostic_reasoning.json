@@ -1,0 +1,233 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (stage 5, ESRD)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 14.1\u202fmL/min/1.73\u202fm\u00b2 \u2013 indicates end\u2011stage renal disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.0\u202fmg/dL \u2013 severe renal impairment",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 434\u202fmg/dL \u2013 nephrotic\u2011range proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "SNOMED \"Disorder of kidney due to diabetes mellitus\" (high relevance)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "SNOMED \"Proteinuria due to type\u202f2 diabetes mellitus\"",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronology of CKD progression from stage\u202f2 to stage\u202f5 over ~12\u202fyears",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in GFR, high creatinine, and nephrotic\u2011range proteinuria together with explicit SNOMED labeling of a diabetes\u2011related kidney disorder point to diabetic nephropathy as the immediate driver of the patient\u2019s ESRD and transplant indication."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 Diabetes Mellitus (undocumented / silent)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "SNOMED label \"Disorder of kidney due to diabetes mellitus\" (high relevance)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria and micro\u2011albuminuria attributed to type\u202f2 diabetes (moderate relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) \u2013 major risk factor for insulin resistance (moderate relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and progressive CKD consistent with diabetic vascular disease (high relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of antidiabetic medication likely reflects documentation gap rather than true absence (weak relevance)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although a formal diabetes diagnosis or therapy is missing, the record explicitly links the kidney disease to diabetes and the metabolic risk profile (obesity, hypertension) strongly suggests underlying type\u202f2 diabetes that is currently undocumented."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis (essential)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension since 1985 (high relevance)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril therapy for blood pressure and proteinuria control (moderate relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) amplifies pressure\u2011related renal injury (moderate relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Progressive CKD despite antihypertensive therapy (moderate relevance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Decades of uncontrolled hypertension, compounded by obesity, produce arteriolar hyalinosis and ischemic glomerular damage that contributes to the observed renal decline alongside diabetic injury."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.08,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia SNOMED code (high relevance)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Epoetin alfa prescribed (high relevance)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15\u202fmL/min/1.73\u202fm\u00b2 \u2013 known trigger for reduced endogenous erythropoietin (moderate relevance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD leads to loss of renal erythropoietin production, resulting in a normocytic, normochromic anemia that is being treated with exogenous EPO."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / CKD\u2011Mineral\u2011Bone Disorder",
+      "icd10": "N25.81",
+      "snomed": "36225008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 14.1\u202fmL/min/1.73\u202fm\u00b2 \u2013 places patient in range where CKD\u2011MBD prevalence exceeds 80\u202f% (moderate relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No calcium, phosphate, or PTH labs documented (gap) \u2013 suggests condition may be unrecognized (weak relevance)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "With GFR <15, phosphate retention, reduced calcitriol synthesis, and hypocalcaemia typically drive secondary hyperparathyroidism; screening is essential before transplantation."
+    },
+    {
+      "rank": 6,
+      "name": "Uremic cardiovascular disease (LVH, CAD)",
+      "icd10": "I13.0",
+      "snomed": "237599009",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension, obesity, probable diabetes \u2013 classic cardiovascular risk profile (moderate relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac evaluation documented (gap) \u2013 raises suspicion of occult disease (weak relevance)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u202f4/5 CKD \u2013 >50\u202f% of such patients have LVH or CAD (moderate relevance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Traditional risk factors combined with uremia predispose to left\u2011ventricular hypertrophy, coronary artery disease, and occasionally uremic pericarditis; cardiac clearance is required prior to transplant."
+    },
+    {
+      "rank": 7,
+      "name": "Colorectal neoplasia recurrence / new carcinoma",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior colon cancer (resolved 2011) and recurrent rectal polyps (moderate relevance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent colonoscopy documented (gap) (weak relevance)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "History of colorectal cancer with ongoing polyp formation raises the possibility of recurrence, especially after future immunosuppression for transplant."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (stage 5, ESRD)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease driven by classic diabetic nephropathy, as evidenced by severe eGFR decline, high creatinine, nephrotic\u2011range proteinuria, and explicit SNOMED labeling of a diabetes\u2011related kidney disorder. Underlying type\u202f2 diabetes, though undocumented, is strongly inferred from renal findings, obesity, and hypertension. Hypertensive nephrosclerosis, CKD\u2011related anemia, and emerging CKD\u2011MBD further explain the clinical picture. Cardiovascular risk and prior colorectal cancer are additional considerations that influence transplant planning and overall prognosis.",
+  "unresolved_findings": [
+    "Absence of documented diabetes diagnosis or antidiabetic medication",
+    "No recent HbA1c, fasting glucose, or oral glucose tolerance test results",
+    "Missing calcium, phosphate, PTH, and vitamin D levels",
+    "No cardiac work\u2011up (ECG, echocardiogram, stress testing)",
+    "No recent colonoscopy or imaging of the colon",
+    "No mental\u2011health screening results (PHQ\u20119, GAD\u20117)",
+    "No sleep study despite obesity"
+  ],
+  "recommended_workup": [
+    "HbA1c and fasting plasma glucose (or OGTT) to confirm type\u202f2 diabetes",
+    "24\u2011hour urine protein quantification and urine albumin\u2011to\u2011creatinine ratio",
+    "Repeat eGFR and serum creatinine trend monitoring",
+    "Comprehensive metabolic panel including calcium, phosphate, magnesium, bicarbonate",
+    "Intact PTH, 25\u2011OH vitamin D, alkaline phosphatase to assess CKD\u2011MBD",
+    "Lipid profile, fasting lipids, and lipoprotein(a)",
+    "Resting ECG and transthoracic echocardiogram; consider coronary calcium scoring or stress test based on risk",
+    "Colonoscopic evaluation (if >1\u202fyear since last) to rule out recurrence",
+    "PHQ\u20119 and GAD\u20117 questionnaires with psychiatric referral as indicated",
+    "Home sleep apnea testing or polysomnography given BMI \u226530",
+    "Vaccination review (hepatitis B, pneumococcal, influenza, COVID\u201119) and update as needed",
+    "Serum potassium level to monitor ACE\u2011I safety",
+    "HLA antibody panel and panel\u2011reactive antibody (PRA) testing to assess transplant sensitization"
+  ]
+}

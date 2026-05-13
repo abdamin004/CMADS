@@ -1,0 +1,161 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin\u2011resistance\u2011driven metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension 133/79 mmHg (stage 1)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic HbA1c 5.9%",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of hypertension, central obesity and pre\u2011diabetes fulfills the criteria for metabolic syndrome and explains the patient\u2019s insulin\u2011resistant state."
+    },
+    {
+      "rank": 2,
+      "name": "Early chronic kidney disease (stage 2\u20113) secondary to hypertension/insulin resistance",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.24,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unclear etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and metabolic syndrome increase CKD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Borderline hyperkalaemia (5.1 mmol/L) with rising trend",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and insulin resistance are leading causes of early CKD; the anemia and mild hyperkalaemia raise suspicion despite missing eGFR data."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia documented in CBC",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Underlying early CKD as a chronic inflammatory state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In the setting of early CKD, anemia of chronic disease is the most common etiology and fits the laboratory pattern."
+    },
+    {
+      "rank": 4,
+      "name": "Sub\u2011clinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.10",
+      "snomed": "414916001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension, obesity, and pre\u2011diabetes confer elevated ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior cardiovascular events but risk factors present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient\u2019s risk factor profile suggests a high probability of sub\u2011clinical atherosclerosis despite lack of imaging."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Obesity (BMI \u226530) is a strong risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep symptoms, but high prevalence in this population",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s obesity, OSA remains a plausible contributor to daytime fatigue and metabolic dysregulation, warranting evaluation."
+    },
+    {
+      "rank": 6,
+      "name": "Primary adrenal insufficiency (Addison\u2019s disease)",
+      "icd10": "E27.1",
+      "snomed": "237073009",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting hypoglycaemia (67.6 mg/dL)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Borderline hyperkalaemia (5.1 mmol/L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated hypoglycaemia and mild hyperkalaemia could reflect early adrenal insufficiency, but the evidence is limited; kept as a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Insulin\u2011resistance\u2011driven metabolic syndrome",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of hypertension, central obesity, and pre\u2011diabetes fulfills metabolic syndrome criteria and drives insulin resistance. This metabolic milieu predisposes to early CKD, which in turn explains the chronic anemia and mild electrolyte abnormalities. Sub\u2011clinical atherosclerosis is likely given the risk factor burden, while obesity raises the possibility of obstructive sleep apnea. Low\u2011probability considerations include primary adrenal insufficiency to account for fasting hypoglycaemia and borderline hyperkalaemia.",
+  "unresolved_findings": [
+    "Isolated leukopenia (3.8 \u00d710\u00b3/\u00b5L) without clear etiology",
+    "Fasting hypoglycaemia (67.6 mg/dL) in a pre\u2011diabetic patient",
+    "Borderline hyperkalaemia (5.1 mmol/L) with rising trend",
+    "Missing eGFR, urine albumin/creatinine ratio, iron studies, repeat CBC with differential, adrenal hormone panel, viral serologies, sleep study"
+  ],
+  "recommended_workup": [
+    "Serum creatinine with eGFR calculation",
+    "Urine albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC)",
+    "Repeat CBC with differential to reassess leukopenia",
+    "Morning cortisol and ACTH levels (adrenal axis evaluation)",
+    "HIV and HCV serologies",
+    "Polysomnography to assess for obstructive sleep apnea",
+    "Vitamin B12 and folate levels",
+    "Medication review for agents causing hypoglycaemia",
+    "Lipid panel and coronary calcium scoring (optional) to evaluate sub\u2011clinical ASCVD"
+  ]
+}

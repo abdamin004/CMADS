@@ -1,0 +1,215 @@
+{
+  "patient_uuid": "47f17893-acd4-a13f-7903-49baea4aaa8b",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-06T00:30:03+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-06T00:30:24+00:00",
+      "summary": "Completed ehr_analyst in 20577ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-06T00:30:03+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-06T00:30:34+00:00",
+      "summary": "Completed lab_interpreter in 30815ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-06T00:30:34+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-06T00:31:03+00:00",
+      "summary": "Round 1 critique: confidence=78, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 78,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-06T00:31:03+00:00",
+      "summary": "Round 1 confidence=78/100",
+      "payload": {
+        "round": 1,
+        "confidence": 78
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-06T00:31:21+00:00",
+      "summary": "Final differential (13 dx, primary=Type 2 Diabetes Mellitus with Metabolic Syndrome, rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "Type 2 Diabetes Mellitus with Metabolic Syndrome",
+        "primary_probability": 0.4,
+        "confidence_trajectory": [
+          78
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-06T00:31:21+00:00",
+      "summary": "Completed diagnostic_reasoning in 47212ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-06T00:31:21+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-06T00:31:53+00:00",
+      "summary": "Completed clinical_reviewer in 32150ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-06T00:31:53+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-06T00:32:05+00:00",
+      "summary": "Final refined diagnosis: Diabetic Nephropathy (CKD progression)",
+      "payload": {
+        "primary_diagnosis": "Diabetic Nephropathy (CKD progression)",
+        "primary_probability": 0.335,
+        "differential_size": 12
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-06T00:32:05+00:00",
+      "summary": "Completed final_diagnosis in 12183ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-06T00:32:07+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-06T00:32:21+00:00",
+      "summary": "Treatment plan generated for 'Diabetic Nephropathy (CKD progression)' (4 meds)",
+      "payload": {
+        "disease": "Diabetic Nephropathy (CKD progression)"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-06T00:32:21+00:00",
+      "summary": "Completed treatment_planning in 13757ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-06T00:32:22+00:00",
+      "summary": "Consolidated outcome for 'Diabetic Nephropathy (CKD progression)' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Diabetic Nephropathy (CKD progression)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "patient_uuid": "255e614d-e800-7d68-d3c3-bffed9f94c38",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:51:03+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:51:26+00:00",
+      "summary": "Completed ehr_analyst in 23227ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:51:03+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:51:25+00:00",
+      "summary": "Completed lab_interpreter in 22532ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:51:26+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:51:27+00:00",
+      "summary": "Recall returned 12, 1 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 1,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.715,
+            "match_type": "DIRECT",
+            "canonical_family": "ESRD",
+            "raw_diagnosis": "End-stage renal disease (ESRD) secondary to diabetic nephropathy and hypertensive nephrosclerosis"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:52:05+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 1
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:52:05+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:52:05+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:52:14+00:00",
+      "summary": "Final differential (5 dx, primary=Diabetic nephropathy (type 2 diabetes mellitus), rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes mellitus)",
+        "primary_probability": 0.55,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:52:14+00:00",
+      "summary": "Completed diagnostic_reasoning in 47717ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:52:14+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:52:35+00:00",
+      "summary": "Completed clinical_reviewer in 21322ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:52:35+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:52:43+00:00",
+      "summary": "Final refined diagnosis: Combined diabetic\u2011hypertensive chronic kidney disease",
+      "payload": {
+        "primary_diagnosis": "Combined diabetic\u2011hypertensive chronic kidney disease",
+        "primary_probability": 0.82,
+        "differential_size": 4
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:52:43+00:00",
+      "summary": "Completed final_diagnosis in 7577ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T15:52:44+00:00",
+      "summary": "Consolidated outcome for 'Combined diabetic-hypertensive chronic kidney disease' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Combined diabetic-hypertensive chronic kidney disease",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

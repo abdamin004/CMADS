@@ -1,0 +1,206 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease, stage 3 (moderate) secondary to hypertensive and diabetic nephropathy",
+      "icd10": "N18.3",
+      "snomed": "431855005",
+      "probability": 0.26,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR approximately 45 mL/min/1.73m\u00b2 indicating stage 3 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy including antihypertensive agents",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced eGFR together with chronic hypertension and diabetes strongly points to CKD stage 3 due to hypertensive and diabetic nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Severe metabolic syndrome with uncontrolled dyslipidemia (very high ASCVD risk)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnoses of hypertension, type 2 diabetes, obesity (BMI not recorded but implied), and dyslipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL and triglycerides",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Very high 10\u2011year ASCVD risk calculated by clinical decision support",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of hypertension, insulin resistance, dyslipidemia and probable obesity fulfills criteria for metabolic syndrome and drives the patient\u2019s ASCVD risk."
+    },
+    {
+      "rank": 3,
+      "name": "Opioid use disorder with possible opioid\u2011induced hyperalgesia",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Extensive chronic opioid therapy for pain, multiple opioid prescriptions noted",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented escalating doses and reports of inadequate analgesia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Pattern of high\u2011dose, long\u2011term opioid use with dose escalation suggests opioid use disorder and raises concern for opioid\u2011induced hyperalgesia."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease secondary to CKD (possible iron\u2011deficiency component)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent normocytic anemia despite iron supplementation",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low reticulocyte count and normal ferritin, suggestive of anemia of chronic disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD commonly causes anemia of chronic disease; the lack of response to iron supports this etiology, though a mixed iron\u2011deficiency component cannot be excluded."
+    },
+    {
+      "rank": 5,
+      "name": "Hypertensive heart disease",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing uncontrolled hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinical impression of target\u2011organ damage (no echocardiogram yet)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension predisposes to left ventricular hypertrophy and heart failure; given the patient\u2019s risk profile, hypertensive heart disease is a plausible comorbidity."
+    },
+    {
+      "rank": 6,
+      "name": "NSAID\u2011induced interstitial nephritis",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy includes regular NSAID use for chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW 182.1 fL) possibly reflecting inflammatory process",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID exposure in a patient with existing CKD can precipitate interstitial nephritis; the inflammatory marker PDW adds weak supportive evidence."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD\u2011NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST in the context of metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance risk factors present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome confers high pre\u2011test probability for NAFLD; liver enzyme abnormalities further support this diagnosis."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and daytime fatigue noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High prevalence of OSA in middle\u2011aged obese men with hypertension makes it a plausible, though unconfirmed, diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease, stage 3 (moderate) secondary to hypertensive and diabetic nephropathy",
+  "primary_probability": 0.26,
+  "clinical_reasoning_summary": "The patient\u2019s reduced eGFR, longstanding hypertension, and diabetes firmly establish CKD stage 3 as the dominant problem. Metabolic syndrome drives cardiovascular risk and contributes to NAFLD/NASH. Chronic opioid therapy underlies opioid use disorder and may exacerbate pain perception. CKD explains the anemia of chronic disease, while hypertension raises the possibility of hypertensive heart disease. NSAID use adds a potential drug\u2011induced interstitial nephritis component. Obesity and hypertension raise suspicion for obstructive sleep apnea, pending formal testing.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 182.1 fL) \u2013 unclear if solely CKD\u2011related or indicative of another hematologic process.",
+    "Persistent anemia despite iron supplementation \u2013 needs further work\u2011up to separate iron\u2011deficiency from anemia of chronic disease.",
+    "Missing recent vital signs (BP, HR), BMI, eGFR trend, lipid panel, and liver enzymes \u2013 limits precise risk quantification.",
+    "No sleep study or liver imaging \u2013 cannot definitively confirm OSA or NAFLD/NASH."
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR with urine albumin\u2011to\u2011creatinine ratio to stage CKD accurately.",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC) and reticulocyte count to clarify anemia etiology.",
+    "Echocardiogram to assess for left ventricular hypertrophy or dysfunction (hypertensive heart disease).",
+    "Renal ultrasound to evaluate structural changes and rule out obstructive causes.",
+    "Discontinue NSAIDs and monitor renal function for improvement (NSAID\u2011induced interstitial nephritis).",
+    "Liver ultrasound with elastography to evaluate for steatosis and fibrosis (NAFLD/NASH).",
+    "Polysomnography to diagnose obstructive sleep apnea.",
+    "Review and optimize opioid regimen; consider referral to pain management and addiction services."
+  ]
+}

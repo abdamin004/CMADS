@@ -1,0 +1,149 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-induced acute/chronic kidney injury (ACE-I + NSAID triple therapy)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.58,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on ACE inhibitor and chronic NSAID use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate ACE inhibitor prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of recent renal function labs (creatinine, eGFR, BUN, potassium)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Concurrent ACE\u2011I and NSAID therapy, especially with duplicate ACE\u2011I dosing, markedly increases the risk of prerenal azotemia and acute tubular necrosis. Lack of recent renal labs prevents detection of early injury, making AKI the most likely imminent problem."
+    },
+    {
+      "rank": 2,
+      "name": "Duplicate ACE inhibitor therapy (medication duplication error)",
+      "icd10": "Y57.9",
+      "snomed": "442452003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Two ACE\u2011I prescriptions listed in medication list",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer flagged duplicate ACE\u2011I as distinct safety issue",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Duplication of ACE\u2011I can lead to excessive renin\u2011angiotensin blockade, potentiating hypotension and renal hypoperfusion, contributing to the AKI risk."
+    },
+    {
+      "rank": 3,
+      "name": "Severe, undertreated atherosclerotic dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 177\u202fmg/dL and total cholesterol 263\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery disease and prior NSTEMI",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Guideline LDL target <70\u202fmg/dL not met",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated LDL in a patient with established ASCVD places her at high risk for recurrent events; current statin intensity appears insufficient, indicating undertreated dyslipidaemia."
+    },
+    {
+      "rank": 4,
+      "name": "High\u2011risk gastrointestinal bleeding",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy (aspirin + P2Y12 inhibitor) plus chronic NSAID use",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Missing gastro\u2011protective therapy (PPI/H2 blocker)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No CBC to assess for occult anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combined antiplatelet and NSAID exposure significantly raises GI bleed risk; lack of prophylaxis and absent hemoglobin data heighten concern."
+    },
+    {
+      "rank": 5,
+      "name": "Undiagnosed diabetes mellitus / pre\u2011diabetes",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI reported inconsistently, approx. 27\u201130 kg/m\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Absence of fasting glucose and HbA1c measurements",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity predisposes to dysglycemia, but without glucose data the likelihood of undiagnosed diabetes remains low."
+    }
+  ],
+  "primary_diagnosis": "Medication-induced acute/chronic kidney injury (ACE-I + NSAID triple therapy)",
+  "primary_probability": 0.58,
+  "clinical_reasoning_summary": "The patient\u2019s concurrent ACE\u2011I, duplicate ACE\u2011I dosing, and chronic NSAID use create a high\u2011risk environment for acute or chronic kidney injury, especially in the absence of recent renal labs. This safety issue dominates the differential. Secondary concerns include medication duplication, markedly elevated LDL in the setting of established ASCVD, and a heightened gastrointestinal bleed risk from combined antiplatelet/NSAID therapy without gastro\u2011protection. Diabetes risk is possible but unsupported by laboratory data.",
+  "unresolved_findings": [
+    "Missing renal function labs (serum creatinine, eGFR, BUN, potassium, urine ACR)",
+    "Absent complete blood count (hemoglobin, hematocrit) to assess anemia or occult bleed",
+    "No fasting glucose or HbA1c",
+    "No liver function tests (ALT, AST) or CK for statin safety monitoring",
+    "Inconsistent BMI reporting",
+    "Smoking status not recorded",
+    "Aspirin dose not specified",
+    "No documented gastro\u2011protective therapy (PPI/H2 blocker)",
+    "No recent cardiac imaging or stress testing"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, BUN, potassium, and urine albumin\u2011creatinine ratio",
+    "Complete blood count with differential",
+    "Fasting plasma glucose and HbA1c",
+    "Comprehensive metabolic panel including ALT, AST, and CK",
+    "Repeat lipid panel to monitor response to intensified statin therapy",
+    "Medication reconciliation focusing on ACE\u2011I duplication and NSAID use",
+    "Consider initiating a proton pump inhibitor for GI protection",
+    "Renal ultrasound if structural abnormality suspected",
+    "Assess smoking status and counsel cessation"
+  ]
+}

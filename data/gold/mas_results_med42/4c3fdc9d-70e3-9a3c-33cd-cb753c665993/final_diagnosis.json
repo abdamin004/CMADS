@@ -1,0 +1,70 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute Myeloid Leukemia (AML)",
+      "icd10": "C92.0",
+      "snomed": "94205005",
+      "probability": 0.75,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Blast cells >20% in bone marrow, Auer rods present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "New onset of fatigue, easy bruising, and petechiae",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High blast percentage with Auer rods confirms acute leukemia. Clinical presentation matches hematopoietic failure symptoms."
+    },
+    {
+      "rank": 2,
+      "name": "Myelodysplastic Syndrome (MDS)",
+      "icd10": "D46",
+      "snomed": "25821008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Cytopenias, dysplastic changes in bone marrow",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "History of chemotherapy for previous cancer",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "MDS is possible given cytopenias and dysplasia. Previous chemotherapy increases risk."
+    },
+    {
+      "rank": 3,
+      "name": "Aplastic Anemia",
+      "icd10": "D61",
+      "snomed": "18510009",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Pancytopenia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Aplastic anemia is less likely due to presence of blasts and Auer rods, but pancytopenia warrants consideration."
+    }
+  ],
+  "primary_diagnosis": "Acute Myeloid Leukemia (AML)",
+  "primary_probability": 0.75,
+  "clinical_reasoning_summary": "The patient presents with symptoms indicative of hematopoietic failure and lab findings show high blast percentage in bone marrow with Auer rods, confirming acute leukemia. MDS is considered secondary due to cytopenias and dysplasia, but the presence of blasts favors AML. Aplastic anemia is less likely given specific leukemic markers.",
+  "unresolved_findings": [],
+  "recommended_workup": [
+    "Flow cytometry for leukemia subtype",
+    "Cytogenetic studies"
+  ]
+}

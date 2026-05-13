@@ -1,0 +1,147 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute non\u2011ST\u2011segment elevation myocardial infarction (NSTEMI) on background atherosclerotic coronary artery disease",
+      "icd10": "I21.4",
+      "snomed": "401314000",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute NSTEMI code (2024\u201107\u201131) and prior MI (2024\u201108\u201111)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity Troponin I 50.1\u202fng/L (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Type\u202f2 diabetes, metabolic syndrome, obesity, hypertriglyceridemia \u2013 major ASCVD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Abnormal cardiac imaging recorded on 2024\u201108\u201105 (coronary/heart)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The documented acute NSTEMI encounter, markedly elevated troponin, prior myocardial infarction, and abnormal coronary imaging together provide unequivocal evidence of an acute coronary syndrome. The extensive atherosclerotic risk profile (diabetes, obesity, metabolic syndrome, dyslipidaemia) raises the pre\u2011test probability, making NSTEMI the most parsimonious explanation for the current presentation."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease (stage\u202f3\u20114) with superimposed acute kidney injury",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.8\u202fmg/dL (significant renal impairment)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Carbon dioxide 21\u202fmmol/L (borderline metabolic acidosis, common in renal dysfunction)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing type\u202f2 diabetes and metabolic syndrome \u2013 risk factors for diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR flag indicating concern for renal function",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A creatinine of 2.8\u202fmg/dL in a diabetic adult is consistent with stage\u202f3\u20114 chronic kidney disease, likely diabetic nephropathy, and may be acutely worsened by contrast exposure during cardiac work\u2011up or by cardiorenal syndrome after the NSTEMI. The accompanying metabolic acidosis and mild anemia further support renal dysfunction."
+    },
+    {
+      "rank": 3,
+      "name": "Non\u2011alcoholic fatty liver disease / hepatic congestion secondary to cardiac dysfunction",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin 7.8\u202fmg/dL (severe hyperbilirubinemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Obesity, type\u202f2 diabetes, hypertriglyceridemia \u2013 classic risk factors for NAFLD/NASH",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented alcohol use or chronic liver disease",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "Recent NSTEMI and possible post\u2011MI heart failure could cause hepatic congestion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The markedly elevated bilirubin could reflect cholestasis from hepatic congestion due to impaired cardiac output, or it could be the hepatic manifestation of NAFLD/NASH in the setting of metabolic syndrome. Without AST/ALT, ALP, or imaging, the exact etiology remains uncertain, hence a lower confidence rating."
+    },
+    {
+      "rank": 4,
+      "name": "Post\u2011myocardial infarction heart failure (HFrEF/HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine, bilirubin, and metabolic acidosis suggest possible low\u2011output state",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of guideline\u2011directed heart\u2011failure therapy (\u03b2\u2011blocker, ACE\u2011I/ARB) in medication list",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "Recent large myocardial injury (NSTEMI) is a common precipitant of new\u2011onset heart failure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While no direct clinical signs of heart failure are documented, the combination of recent myocardial injury, renal dysfunction, hyperbilirubinemia (possible congestive hepatopathy), and missing HF\u2011specific medications raises concern for an unaddressed post\u2011MI heart\u2011failure state. An echocardiogram is required to confirm."
+    }
+  ],
+  "primary_diagnosis": "Acute non\u2011ST\u2011segment elevation myocardial infarction (NSTEMI) on background atherosclerotic coronary artery disease",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "Both the cardiovascular pattern (NSTEMI, prior MI, elevated troponin, coronary imaging) and the metabolic risk profile dominate the picture, making acute coronary syndrome the most likely diagnosis. Renal dysfunction is evident from a creatinine of 2.8\u202fmg/dL, consistent with stage\u202f3\u20114 CKD possibly worsened by the recent cardiac event (cardiorenal syndrome). The isolated hyperbilirubinemia is best explained by either hepatic congestion from a yet\u2011unidentified post\u2011MI heart failure or NAFLD related to metabolic syndrome, but the exact cause remains uncertain. Mild pancytopenia is not fully accounted for by CKD alone and is flagged for further hematologic evaluation. Missing vital signs, eGFR, full lipid panel, and lifestyle data limit precise risk stratification, reinforcing the need for additional work\u2011up.",
+  "unresolved_findings": [
+    "Isolated total bilirubin 7.8\u202fmg/dL without AST/ALT/ALP or direct/indirect fraction \u2013 etiology (cholestasis, hemolysis, congestion) unclear.",
+    "Three\u2011line cytopenia (anemia, thrombocytopenia, leukopenia) \u2013 not fully explained by CKD or heart failure alone.",
+    "Metabolic acidosis (CO\u2082 21\u202fmmol/L) \u2013 source (renal, lactic, respiratory) not defined.",
+    "Missing vital signs (blood pressure, heart rate), eGFR, full lipid panel, smoking/alcohol history \u2013 limits precise risk stratification.",
+    "Medication list captures only diphenhydramine; likely under\u2011documented antiplatelet, statin, antihypertensive, glucose\u2011lowering agents."
+  ],
+  "recommended_workup": [
+    "Repeat high\u2011sensitivity troponin trend and 12\u2011lead ECG to assess ongoing ischemia.",
+    "Transthoracic echocardiogram (evaluate LVEF, wall\u2011motion abnormalities, estimate pulmonary pressures).",
+    "BNP or NT\u2011proBNP to quantify heart\u2011failure severity.",
+    "Coronary angiography (if not already performed) to define anatomy and guide revascularisation.",
+    "Comprehensive renal panel: calculate eGFR, urine albumin\u2011to\u2011creatinine ratio, renal ultrasound to differentiate CKD vs. AKI.",
+    "Full liver panel (AST, ALT, ALP, GGT, direct vs. indirect bilirubin) and hepatitis serologies.",
+    "Abdominal ultrasound or elastography to assess for fatty liver, hepatic congestion, or biliary obstruction.",
+    "Hematology work\u2011up: peripheral blood smear, reticulocyte count, haptoglobin, LDH, coagulation studies; consider bone\u2011marrow biopsy if cytopenias persist.",
+    "Medication reconciliation (including OTC, herbal, antiplatelet, statin, antihypertensive, glucose\u2011lowering agents).",
+    "Document vital signs (BP, HR), smoking status, alcohol use, and screen for obstructive sleep apnea.",
+    "If heart\u2011failure is confirmed, initiate guideline\u2011directed therapy: aspirin (or P2Y12 inhibitor), high\u2011intensity statin, \u03b2\u2011blocker, ACE\u2011I/ARB or ARNI, SGLT2\u2011i as appropriate.",
+    "Consider cardiac MRI or stress testing if echocardiogram is inconclusive."
+  ]
+}

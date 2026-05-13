@@ -1,0 +1,435 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome cluster",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.243,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 2001",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.0%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (DBP 90 mmHg) with no antihypertensive therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic",
+          "finding": "Male, age 58 \u2013 high baseline ASCVD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, impaired glucose tolerance, and untreated hypertension together constitute metabolic syndrome, driving cardiovascular, renal, and musculoskeletal risk."
+    },
+    {
+      "rank": 2,
+      "name": "Early chronic kidney disease (analgesic-related or hypertensive)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.084,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (naproxen) use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated hypertension and obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 5.0 mmol/L (upper\u2011normal, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No eGFR/creatinine data (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs and hypertension are major risk factors for CKD; rising potassium may be an early sign of impaired renal excretion."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia from occult GI blood loss (NSAID\u2011induced ulcer)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.075,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling hemoglobin from 16.5 to 12.5 g/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly high RDW (41.3 fL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use (risk for peptic ulcer)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies or occult blood testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The pattern of falling hemoglobin with high RDW in a chronic NSAID user suggests iron loss, most likely from an occult GI bleed."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease / inflammation",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.084,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW 161.3 fL) indicating platelet activation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal platelet count with mild downward trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic musculoskeletal pain and obesity (low\u2011grade inflammation)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inflammatory states can cause anemia of chronic disease; the platelet activation markers support an inflammatory milieu."
+    },
+    {
+      "rank": 5,
+      "name": "Subclinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.094,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated hypertension and obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "demographic",
+          "finding": "Male, age 58 \u2013 high ASCVD baseline risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome cluster increases 10\u2011year ASCVD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combined risk factors place the patient at elevated risk for silent atherosclerosis despite lack of documented events."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "233100006",
+      "probability": 0.084,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Daytime fatigue not documented but common in this profile",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High pre\u2011test prevalence of OSA in obese middle\u2011aged males",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity is the dominant risk factor; OSA can worsen hypertension, metabolic control, and pain perception."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (steatohepatitis)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.047,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High prevalence of NAFLD in patients with prediabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD likely, though no liver labs or imaging are available."
+    },
+    {
+      "rank": 8,
+      "name": "Depressive / anxiety disorder (adjustment)",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.047,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent stressors (part\u2011time work, psychosocial stress)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain history (risk factor for mood disorders)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stress and chronic pain predispose to depression/anxiety, which remain undocumented."
+    },
+    {
+      "rank": 9,
+      "name": "Progression to overt type\u20112 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.065,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.0%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and sedentary lifestyle inferred",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Without intervention, prediabetes commonly progresses to overt diabetes within a few years."
+    },
+    {
+      "rank": 10,
+      "name": "Gout (NSAID\u2011masked)",
+      "icd10": "M10.9",
+      "snomed": "201460009",
+      "probability": 0.028,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use (often prescribed for gout flares)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Male, middle\u2011aged, obese \u2013 high gout risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs may be suppressing overt gout attacks; hyperuricemia not yet measured."
+    },
+    {
+      "rank": 11,
+      "name": "Vitamin D deficiency / osteomalacia",
+      "icd10": "E55.9",
+      "snomed": "237022007",
+      "probability": 0.028,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and limited outdoor activity (inferred)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic musculoskeletal pain not fully explained by OA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Vitamin D deficiency can exacerbate musculoskeletal pain and contribute to bone health issues."
+    },
+    {
+      "rank": 12,
+      "name": "NSAID\u2011induced peptic ulcer disease / occult GI bleed",
+      "icd10": "K27.9",
+      "snomed": "235719002",
+      "probability": 0.037,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling hemoglobin with high RDW",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented GI evaluation (FOBT, endoscopy)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs are a well\u2011known cause of peptic ulcer disease; anemia pattern suggests occult bleeding."
+    },
+    {
+      "rank": 13,
+      "name": "Vertebral compression fracture / osteoporosis",
+      "icd10": "M48.5",
+      "snomed": "302810001",
+      "probability": 0.028,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011back pain since 2014",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Male, age >55 with chronic steroid\u2011type NSAID exposure \u2013 risk for decreased bone density",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent back pain could be due to an undiagnosed compression fracture, especially without bone\u2011density testing."
+    },
+    {
+      "rank": 14,
+      "name": "Peripheral neuropathy (prediabetic)",
+      "icd10": "G62.9",
+      "snomed": "24700007",
+      "probability": 0.019,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.0%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented neuropathic symptoms (absence)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Early glucose dysregulation can cause subclinical peripheral nerve changes."
+    },
+    {
+      "rank": 15,
+      "name": "Fibromyalgia / central sensitisation",
+      "icd10": "M79.7",
+      "snomed": "64572001",
+      "probability": 0.019,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic widespread pain (onset 2014) with no clear structural cause beyond OA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress and psychosocial factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Widespread pain without clear peripheral pathology fits fibromyalgia, but other diagnoses are more likely."
+    },
+    {
+      "rank": 16,
+      "name": "Early myelodysplastic syndrome / clonal hematopoiesis",
+      "icd10": "D46.9",
+      "snomed": "236423003",
+      "probability": 0.009,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly high RDW and PDW with falling hemoglobin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >60 (near threshold) \u2013 risk factor for MDS",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hematologic dysplasia is a remote possibility given the abnormal red cell indices."
+    },
+    {
+      "rank": 17,
+      "name": "Heart failure with preserved ejection fraction (early)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.009,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, possible sleep apnea",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented dyspnea or edema (absence)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk profile fits HFpEF, but no clinical signs are documented yet."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome cluster",
+  "primary_probability": 0.243,
+  "clinical_reasoning_summary": "The patient presents with obesity, prediabetes, and untreated hypertension, forming a metabolic\u2011syndrome cluster that underlies most of his cardiovascular, renal, and musculoskeletal risk. Chronic NSAID use adds specific threats of peptic ulcer disease, occult GI bleeding, and analgesic\u2011related renal injury, which explain the falling hemoglobin, high RDW, and rising potassium. Additional contributors include possible sleep\u2011disordered breathing, NAFLD, and mood disturbance, all common in this demographic. Missing key investigations (renal function, iron studies, lipid panel, sleep study) limit certainty, so probabilities are moderate and confidence is 68/100.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 161.3 fL) \u2013 unclear etiology",
+    "Rising serum potassium (5.0 mmol/L) without creatinine/eGFR data",
+    "Absence of lipid panel, liver enzymes, vitamin D, iron studies, B12/folate",
+    "No documented smoking/alcohol/physical\u2011activity status",
+    "No family history of cardiovascular, renal, or hematologic disease"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio (renal panel)",
+    "Ferritin, serum iron, total iron\u2011binding capacity, transferrin saturation, reticulocyte count (iron studies)",
+    "Fecal occult blood test (FOBT/FIT) and consider upper endoscopy if positive",
+    "Fasting lipid panel and high\u2011sensitivity C\u2011reactive protein (hs\u2011CRP)",
+    "25\u2011OH vitamin D level",
+    "STOP\u2011BANG questionnaire followed by home sleep\u2011apnea testing if indicated",
+    "ALT, AST, GGT and abdominal ultrasound or FibroScan for NAFLD assessment",
+    "PHQ\u20119 and GAD\u20117 for depression/anxiety screening",
+    "Serum uric acid level",
+    "Dual\u2011energy X\u2011ray absorptiometry (DXA) for osteoporosis evaluation",
+    "Blood pressure trend monitoring and consider ambulatory BP measurement",
+    "Consider renal artery Doppler or aldosterone\u2011renin panel if secondary hypertension suspected"
+  ]
+}

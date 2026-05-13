@@ -1,0 +1,119 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Nephropathy",
+      "icd10": "E11.21 (Diabetes with renal manifestations, type 2)",
+      "snomed": "49435003 (Nephropathies due to type 2 diabetes mellitus)",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated microalbumin/creatinine ratio (2.8 mg/g)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "long-standing type 2 diabetes since 1999",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of long-standing diabetes and abnormal microalbumin/creatinine ratio strongly suggests diabetic nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9 (Secondary hypertension, kidney)",
+      "snomed": "89247008 (Nephrosclerosis due to hypertension)",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "hypertension diagnosis with missing current blood pressure readings",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated creatinine (1.5 mg/dL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension, especially when uncontrolled or poorly monitored as indicated by missing blood pressure readings, can contribute significantly to renal impairment through nephrosclerosis."
+    },
+    {
+      "rank": 3,
+      "name": "Dyslipidemic Syndrome",
+      "icd10": "E78.0 (Pure hypercholesterolemia)",
+      "snomed": "236217003 (Hypercholesterolemia, familial or primary)",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated LDL cholesterol (186.0 mg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "metabolic syndrome X diagnosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated LDL cholesterol and metabolic syndrome X contribute to dyslipidemic syndrome, which increases cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic Kidney Disease of Mixed Etiology",
+      "icd10": "N18.9 (Unspecified chronic kidney disease)",
+      "snomed": "236348004 (Chronic renal failure, unspecified cause)",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated creatinine with missing eGFR data",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "presence of both diabetes and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While CKD of mixed etiology is plausible due to multiple risk factors, it's less specific compared to diabetic nephropathy or hypertensive nephrosclerosis."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid Use Disorder",
+      "icd10": "F11.2 (Mental and behavioral disorders due to opioids: dependence)",
+      "snomed": "237601005 (Opiate dependency syndrome, active)",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "multiple opioid medications prescribed for chronic pain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Opioid use disorder is a concern due to multiple prescriptions, but it's less prominent in this differential given the primary physiological issues."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Nephropathy",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with strong evidence for diabetic nephropathy due to long-standing diabetes and abnormal microalbumin/creatinine ratio, alongside significant hypertensive nephrosclerosis risk from uncontrolled hypertension. Dyslipidemic syndrome contributes to cardiovascular risk but is less directly linked to renal impairment in this case. CKD of mixed etiology remains plausible but less specific given the prominent diabetic and hypertensive components. Opioid use disorder should be considered for comprehensive care, though it's lower on the differential due to focus on primary physiological issues.",
+  "unresolved_findings": [
+    "missing blood pressure readings",
+    "missing lipid profile data (total cholesterol, LDL)",
+    "anemia status unclear due to missing recent lab data"
+  ],
+  "recommended_workup": [
+    "complete renal function tests including eGFR",
+    "lipid panel for total cholesterol and LDL confirmation",
+    "blood pressure readings to assess hypertension control",
+    "hemoglobin and iron studies to reassess anemia status",
+    "review pain management strategy considering opioid use"
+  ]
+}

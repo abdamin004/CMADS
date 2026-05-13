@@ -1,0 +1,222 @@
+{
+  "patient_uuid": "68089d6c-af03-04f9-c862-59358ecb3145",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T17:45:06+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T17:45:31+00:00",
+      "summary": "Completed ehr_analyst in 24191ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T17:45:06+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T17:45:48+00:00",
+      "summary": "Completed lab_interpreter in 41344ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:45:48+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:45:50+00:00",
+      "summary": "Recall returned 12, 1 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 1,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.79,
+            "match_type": "DIRECT",
+            "canonical_family": "IHD",
+            "raw_diagnosis": "Atherosclerotic cardiovascular disease (stable coronary artery disease)"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:46:32+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 1
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:46:32+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:46:32+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:46:39+00:00",
+      "summary": "Final differential (5 dx, primary=Obstructive jaundice (biliary obstruction), rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Obstructive jaundice (biliary obstruction)",
+        "primary_probability": 0.35,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:46:39+00:00",
+      "summary": "Completed diagnostic_reasoning in 51640ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T17:46:39+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T17:46:58+00:00",
+      "summary": "Completed clinical_reviewer in 18878ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:46:58+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:47:05+00:00",
+      "summary": "Final refined diagnosis: Obstructive jaundice (biliary obstruction)",
+      "payload": {
+        "primary_diagnosis": "Obstructive jaundice (biliary obstruction)",
+        "primary_probability": 0.55,
+        "differential_size": 5
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:47:05+00:00",
+      "summary": "Completed final_diagnosis in 7089ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T17:47:06+00:00",
+      "summary": "Consolidated outcome for 'Heart-failure-related hepatic congestion (cardiac hepatopathy)' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Heart-failure-related hepatic congestion (cardiac hepatopathy)",
+        "rank": 2
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

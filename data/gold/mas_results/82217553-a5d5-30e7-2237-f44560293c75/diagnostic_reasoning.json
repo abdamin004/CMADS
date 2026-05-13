@@ -2,156 +2,130 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Metabolic syndrome",
-      "icd10": "E88.81",
-      "snomed": "237599002",
-      "probability": 0.28,
+      "name": "Essential hypertension \u2013 under-treated",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.3,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI \u226530) diagnosed 2010-12-26",
+          "finding": "Blood pressure 150/98 mm Hg (stage 2 hypertension)",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Prediabetes (A1c 6.1%) diagnosed 1999-03-14",
+          "finding": "Only lisinopril 10 mg daily prescribed for hypertension",
           "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 2010",
+          "strength": "moderate"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Fasting glucose 99.8\u202fmg/dL (high\u2011normal, rising)",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Unhealthy alcohol use (moderate risk) onset 2019\u201102\u201110",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Social isolation and unsatisfactory housing",
+          "finding": "Prediabetes (A1c 6.1%, fasting glucose 99.8 mg/dL, rising)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Obesity, impaired glucose tolerance, alcohol excess, and adverse social determinants together constitute metabolic syndrome, which drives hypertension, early renal stress, and future ASCVD risk."
+      "reasoning": "Persistently elevated BP despite monotherapy, together with obesity and early dysglycemia, points to essential hypertension that is inadequately controlled."
     },
     {
       "rank": 2,
-      "name": "Essential hypertension (stage\u202f2, likely resistant)",
-      "icd10": "I10",
-      "snomed": "59621000",
-      "probability": 0.22,
-      "confidence": "moderate-high",
+      "name": "Secondary hypertension (possible primary aldosteronism or renal artery stenosis)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Essential hypertension (stage\u202f2) diagnosed 2007\u201112\u201102",
-          "strength": "strong"
+          "finding": "Uncontrolled BP on ACE\u2011I alone",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN (17 mg/dL, \u2191 trend) with high\u2011normal K\u207a (5.0 mmol/L, \u2191) and falling CO\u2082 (24.8 mmol/L, \u2193)",
+          "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Lisinopril 10\u202fmg daily prescribed",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "BP 150/98\u202fmmHg (most recent)",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Rising BUN and borderline high potassium suggesting renal strain",
-          "strength": "moderate"
+          "finding": "Long\u2011standing hypertension since 2007",
+          "strength": "weak"
         }
       ],
-      "reasoning": "Persistently elevated BP despite ACE\u2011I at sub\u2011maximal dose indicates stage\u202f2 hypertension that may be resistant, requiring intensification of therapy."
+      "reasoning": "Renal\u2011vascular coupling abnormalities and refractory hypertension raise suspicion for a secondary cause such as primary aldosteronism or renal artery stenosis; requires renin\u2011aldosterone testing and imaging."
     },
     {
       "rank": 3,
-      "name": "ACE\u2011inhibitor\u2011induced type\u202f4 renal tubular acidosis (hyper\u2011K\u207a, non\u2011anion\u2011gap metabolic acidosis)",
-      "icd10": "N25.8",
-      "snomed": "302810001",
-      "probability": 0.12,
-      "confidence": "moderate",
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Potassium 5.0\u202fmmol/L (high\u2011normal, rising)",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "CO\u2082 (bicarbonate) 24.8\u202fmmol/L, falling (non\u2011anion\u2011gap metabolic acidosis)",
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Lisinopril 10\u202fmg daily (ACE\u2011I) active medication",
+          "finding": "Essential hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Impaired fasting glucose (A1c 6.1%, fasting glucose 99.8 mg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides 133.6 mg/dL (borderline) and HDL 60.8 mg/dL (protective)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "ACE\u2011I can impair distal potassium secretion and cause a mild non\u2011anion\u2011gap metabolic acidosis; the concurrent rise in K\u207a and fall in bicarbonate fit type\u202f4 RTA."
+      "reasoning": "Three ATP\u2011III criteria (obesity, hypertension, impaired glucose) are met, confirming metabolic syndrome and high cardiovascular risk."
     },
     {
       "rank": 4,
-      "name": "Early chronic kidney disease (hypertensive nephropathy)",
-      "icd10": "N18.3",
+      "name": "Early chronic kidney disease (stage 1\u20112) \u2013 hypertensive/tubulointerstitial",
+      "icd10": "N18.1",
       "snomed": "709044004",
-      "probability": 0.11,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "BUN 17\u202fmg/dL, rising (upper\u2011normal)",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Creatinine 0.7\u202fmg/dL (normal) but eGFR not calculated",
-          "strength": "weak"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Stage\u202f2 hypertension untreated to target",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Hypertension\u2011related renal stress manifested by rising BUN and borderline electrolyte changes suggests early CKD, though definitive staging is limited by missing eGFR and albuminuria data."
-    },
-    {
-      "rank": 5,
-      "name": "Prediabetes progressing toward type\u202f2 diabetes mellitus",
-      "icd10": "R73.03",
-      "snomed": "714628002",
       "probability": 0.1,
       "confidence": "moderate",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Prediabetes (A1c 6.1%)",
-          "strength": "strong"
+          "source": "lab_interpreter",
+          "finding": "Rising BUN (17 mg/dL) with normal creatinine (0.7 mg/dL)",
+          "strength": "moderate"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Fasting glucose 99.8\u202fmg/dL (high\u2011normal, rising)",
+          "finding": "High\u2011normal potassium (5.0 mmol/L) and falling CO\u2082 (24.8 mmol/L)",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Obesity and metabolic syndrome",
+          "finding": "Recurrent urinary tract infections since 1995",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension (150/98 mm Hg)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Combined A1c, fasting glucose, and obesity place the patient at high risk for conversion to overt diabetes within a few years."
+      "reasoning": "Laboratory trends suggest early renal dysfunction despite normal creatinine; hypertension and recurrent UTIs are plausible contributors."
     },
     {
-      "rank": 6,
+      "rank": 5,
       "name": "Obstructive sleep apnea",
       "icd10": "G47.33",
-      "snomed": "233100001",
-      "probability": 0.06,
-      "confidence": "low-moderate",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
@@ -160,24 +134,71 @@
         },
         {
           "source": "ehr_analyst",
-          "finding": "Resistant hypertension despite ACE\u2011I",
+          "finding": "Resistant hypertension despite ACE\u2011I monotherapy",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Social isolation (possible daytime fatigue)",
+          "finding": "Unhealthy alcohol use (onset 2019)",
           "strength": "weak"
         }
       ],
-      "reasoning": "Obesity and resistant hypertension raise pre\u2011test probability; a home sleep test is warranted to confirm."
+      "reasoning": "Obesity and refractory hypertension are classic risk factors; a STOP\u2011BANG screen and polysomnography are needed to confirm."
+    },
+    {
+      "rank": 6,
+      "name": "Iron\u2011deficiency anemia (or anemia of chronic disease)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2007",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Vitamin B12 therapy ongoing (suggests macrocytic component but iron studies missing)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No iron studies or CBC provided (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia persists despite B12 therapy; without iron studies the etiology remains uncertain, making iron\u2011deficiency a plausible concurrent cause."
     },
     {
       "rank": 7,
-      "name": "Non\u2011alcoholic fatty liver disease (NAFLD) / NASH",
+      "name": "Vitamin B12\u2011deficiency anemia (treated)",
+      "icd10": "D51.0",
+      "snomed": "271737000",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia with B12 injections listed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies or macrocytosis data (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The presence of B12 therapy indicates a recognized deficiency; ongoing monitoring is needed to ensure adequacy."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease",
       "icd10": "K76.0",
       "snomed": "235856003",
       "probability": 0.04,
-      "confidence": "low-moderate",
+      "confidence": "low",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
@@ -186,105 +207,61 @@
         },
         {
           "source": "ehr_analyst",
-          "finding": "Unhealthy alcohol use (moderate risk)",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "The combination of obesity, insulin resistance, and alcohol use makes NAFLD/NASH likely, though no liver labs or imaging are available."
-    },
-    {
-      "rank": 8,
-      "name": "Depressive disorder / anxiety",
-      "icd10": "F33.1",
-      "snomed": "35489007",
-      "probability": 0.03,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Social isolation and unsatisfactory housing",
-          "strength": "moderate"
+          "finding": "Unhealthy alcohol use (onset 2019)",
+          "strength": "weak"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Unhealthy alcohol use",
-          "strength": "moderate"
+          "source": "lab_interpreter",
+          "finding": "Liver function tests not provided (data gap)",
+          "strength": "weak"
         }
       ],
-      "reasoning": "Psychosocial stressors suggest possible mood disorder, which may affect adherence and metabolic control."
+      "reasoning": "Risk factors for hepatic steatosis are present; definitive diagnosis requires LFTs and imaging."
     },
     {
       "rank": 9,
-      "name": "Recurrent urinary\u2011tract infection",
+      "name": "Recurrent urinary tract infection",
       "icd10": "N39.0",
       "snomed": "197927001",
-      "probability": 0.02,
-      "confidence": "low",
+      "probability": 0.04,
+      "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Recurrent UTIs documented since 1995",
+          "finding": "Active problem \u2018Recurrent urinary tract infection\u2019 since 1995",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Prediabetes (glycosuria risk)",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Chronic UTIs are a comorbidity likely secondary to hyperglycemia and social factors; they do not drive the primary metabolic derangements."
-    },
-    {
-      "rank": 10,
-      "name": "Secondary hypertension (e.g., renal\u2011artery stenosis, primary aldosteronism)",
-      "icd10": "I15.9",
-      "snomed": "59621000",
-      "probability": 0.02,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Stage\u202f2 hypertension uncontrolled on ACE\u2011I",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Borderline high potassium (could suggest aldosterone excess if low, but here high)",
+          "finding": "No recent urine culture results (data gap)",
           "strength": "weak"
         }
       ],
-      "reasoning": "Secondary causes have not been excluded; if identified, they would re\u2011rank hypertension as primary driver."
+      "reasoning": "Long\u2011standing recurrent UTIs may contribute to renal scarring and CKD; culture and imaging are needed to assess current activity."
     }
   ],
-  "primary_diagnosis": "Metabolic syndrome",
-  "primary_probability": 0.28,
-  "clinical_reasoning_summary": "The patient\u2019s obesity, prediabetes, unhealthy alcohol use, and adverse social determinants constitute metabolic syndrome, which underlies her uncontrolled stage\u202f2 hypertension, early renal electrolyte changes, and risk for progression to diabetes and ASCVD. Hypertension remains uncontrolled on a sub\u2011maximal ACE\u2011I dose, with borderline hyperkalemia and a mild non\u2011anion\u2011gap metabolic acidosis suggesting ACE\u2011inhibitor\u2011induced type\u202f4 RTA. Early CKD cannot be confirmed without eGFR or albuminuria. Additional contributors include possible obstructive sleep apnea, NAFLD, mood disorder, recurrent UTIs, and uninvestigated secondary hypertension. The differential reflects both root\u2011cause (metabolic syndrome) and downstream organ effects, weighted by the strength of available evidence and data gaps.",
+  "primary_diagnosis": "Essential hypertension \u2013 under-treated",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is a 49\u2011year\u2011old female with stage\u20112 hypertension uncontrolled on ACE\u2011I monotherapy, obesity, pre\u2011diabetes, and a long history of recurrent UTIs. The combination of uncontrolled BP, metabolic syndrome components, and early renal laboratory abnormalities points to essential hypertension as the primary driver, with secondary hypertension as a significant alternative. Metabolic syndrome, early CKD, and obstructive sleep apnea are high\u2011yield comorbidities that amplify cardiovascular risk. Anemia is multifactorial, likely involving both B12 deficiency (treated) and possible iron deficiency. Missing key labs (eGFR, iron studies, thyroid panel, liver panel, sleep study) limit certainty for several secondary diagnoses.",
   "unresolved_findings": [
-    "Absence of documented allergy information",
-    "History of tubal ligation (2007) \u2013 not currently relevant",
-    "Full\u2011time low\u2011impact employment (time constraint)",
-    "Education level (high\u2011school) \u2013 health literacy factor",
-    "Single lipid panel only; no trend data",
-    "No recorded blood\u2011pressure trend over time",
-    "Missing eGFR and urine albumin/creatinine ratio",
-    "No recent complete blood count or iron studies",
-    "No current urine culture or urinalysis",
-    "No mental\u2011health screening results"
+    "Missing estimated glomerular filtration rate (eGFR) and urine albumin\u2011creatinine ratio",
+    "Absent complete blood count with indices and iron studies",
+    "No thyroid function tests (TSH, free T4)",
+    "No liver function tests or imaging for steatosis/fibrosis",
+    "No sleep study or STOP\u2011BANG screening results",
+    "Incomplete medication list (OTC NSAIDs, supplements) and unknown smoking status",
+    "No recent urine culture or renal ultrasound"
   ],
   "recommended_workup": [
-    "Serum eGFR calculation and urine albumin/creatinine ratio to stage CKD",
-    "Repeat comprehensive metabolic panel with arterial blood gas to quantify non\u2011anion\u2011gap metabolic acidosis",
-    "Home blood\u2011pressure monitoring and consider titrating lisinopril or adding a thiazide diuretic",
-    "Renal\u2011artery Doppler ultrasound or CT\u2011angiography if hypertension remains uncontrolled after 2 agents",
-    "Plasma aldosterone concentration and plasma renin activity ratio to screen for primary aldosteronism",
-    "Full lipid panel with repeat measurement for ASCVD risk calculation",
-    "Liver function tests (ALT, AST, GGT, bilirubin) and hepatic ultrasound or FibroScan for NAFLD/NASH assessment",
-    "Oral glucose tolerance test or 2\u2011hour post\u2011load glucose to clarify glucose status",
-    "Home sleep apnea test (HSAT) or overnight polysomnography",
-    "Complete blood count with indices, ferritin, folate, reticulocyte count to evaluate for mixed anemia",
-    "PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety screening",
-    "Current urinalysis and urine culture to assess for active UTI",
-    "Dental evaluation for ongoing periodontal disease and nutrition counseling",
-    "Social work referral for housing stability, food security, and community support resources"
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio to stage CKD",
+    "Plasma renin activity, aldosterone level, and aldosterone\u2011to\u2011renin ratio; renal duplex or CTA if abnormal",
+    "CBC with differential, reticulocyte count, serum iron, ferritin, TIBC, vitamin B12, methylmalonic acid, homocysteine",
+    "TSH and free T4 to evaluate hypothyroidism",
+    "Comprehensive liver panel (AST, ALT, GGT, ALP, bilirubin, albumin) and FibroScan or ultrasound",
+    "STOP\u2011BANG questionnaire followed by overnight polysomnography if indicated",
+    "Full medication reconciliation including OTC agents and supplements",
+    "Urine culture, microscopy, and renal ultrasound to assess for active infection or structural abnormalities",
+    "Screening for depression, anxiety, and alcohol\u2011use disorder (PHQ\u20119, GAD\u20117, AUDIT\u2011C)",
+    "Smoking status assessment and counseling if applicable"
   ]
 }

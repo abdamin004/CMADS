@@ -1,0 +1,308 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 42, BMI \u226530 (obesity)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension on dual therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (312.3 fL) indicating systemic inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting heart rate 99 bpm (tachycardia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Male sex, age >40, obesity, hypertension, tachycardia and inflammatory markers together raise pre\u2011test probability of OSA; OSA also explains resistant hypertension and metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic prostatitis / male urinary tract infection",
+      "icd10": "N41.1",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine leukocytes 16.3 /HPF (pyuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior acute infective cystitis treated Apr 2023",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.0 (very dilute)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Pyuria in a male strongly suggests prostatitis or recurrent UTI; recent cystitis increases recurrence risk, and dilute urine may reflect infection\u2011related diuresis."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.2%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome risk cluster",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing lipid panel",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity, prediabetes and metabolic\u2011syndrome strongly predict an atherogenic lipid profile; the missing lipid panel is a data gap that must be filled."
+    },
+    {
+      "rank": 4,
+      "name": "Primary hyperaldosteronism (Conn's syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antihypertensive therapy (lisinopril + amlodipine) despite controlled BP",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia 99 bpm",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Resistant hypertension risk factor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Need for two agents to achieve BP control plus persistent tachycardia raises suspicion for aldosterone excess."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (stage 3)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE inhibitor use (lisinopril)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Pyuria (urine leukocytes 16.3 /HPF)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing eGFR and serum creatinine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "ACE\u2011I therapy and pyuria in a hypertensive, obese patient raise concern for early CKD; lack of renal labs limits certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation (moderate) and chronic stress (moderate)",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No PHQ\u20119/GAD\u20117 scores recorded",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Psychosocial stress as modifier of hypertension and glucose control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented psychosocial stressors without formal screening suggest underlying mood/anxiety disorder contributing to poor adherence and autonomic activation."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic\u2011syndrome components",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW (312.3 fL) indicating systemic inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome predisposes to NAFLD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The classic metabolic profile makes NAFLD highly probable; inflammation marker (PDW) supports hepatic involvement."
+    },
+    {
+      "rank": 8,
+      "name": "Vitamin D deficiency",
+      "icd10": "E55.9",
+      "snomed": "237022003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hispanic ethnicity and obesity (risk factors for low vitamin D)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Limited sun exposure likely given part\u2011time employment and transportation barriers",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High\u2011risk demographic and lifestyle factors make deficiency plausible; deficiency can worsen hypertension and insulin resistance."
+    },
+    {
+      "rank": 9,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW can be seen in iron deficiency",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Potential occult gastrointestinal blood loss not excluded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While PDW is non\u2011specific, iron deficiency remains a differential for platelet size variation and could explain fatigue if present."
+    },
+    {
+      "rank": 10,
+      "name": "Cushing syndrome (endogenous)",
+      "icd10": "E24.9",
+      "snomed": "237596009",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, prediabetes, tachycardia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Rare cause of metabolic\u2011syndrome phenotype",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The constellation could fit Cushing, but prevalence is low; testing is warranted only if more common causes are excluded."
+    },
+    {
+      "rank": 11,
+      "name": "Substance use (tobacco smoking)",
+      "icd10": "F17.210",
+      "snomed": "160603005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "data_quality",
+          "finding": "Missing smoking status",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Potential unknown smoking contributes to ASCVD risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absence of documented smoking creates uncertainty; if present, it would increase cardiovascular risk and affect management."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea",
+  "primary_probability": 0.24,
+  "clinical_reasoning_summary": "The patient is a 42\u2011year\u2011old Hispanic male with obesity, hypertension on dual therapy, prediabetes, and marked psychosocial stressors. Laboratory data show pyuria, a very dilute urine, and a markedly elevated platelet distribution width, suggesting active inflammation or infection. The combination of male sex, age, obesity, hypertension, tachycardia and systemic inflammation raises the pre\u2011test probability of obstructive sleep apnea, which is the top diagnosis. Pyuria in a male points to chronic prostatitis/UTI. The metabolic\u2011syndrome background drives a high likelihood of dyslipidaemia, early CKD, NAFLD, and related complications. Unaddressed psychosocial factors support depression/anxiety. Data gaps (missing lipids, eGFR, smoking status, mental\u2011health screens) limit certainty for several entities, prompting a focused work\u2011up to clarify the leading diagnoses and address modifiable risks.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.0 (very dilute) \u2013 unclear etiology",
+    "Fasting glucose 65.7\u202fmg/dL (borderline low) \u2013 unexplained",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR/serum creatinine and urine albumin\u2011creatinine ratio",
+    "Missing smoking status",
+    "No PHQ\u20119/GAD\u20117 mental\u2011health scores",
+    "Elevated PDW without corroborating inflammatory markers"
+  ],
+  "recommended_workup": [
+    "STOP\u2011Bang questionnaire (\u22653 triggers polysomnography)",
+    "Overnight polysomnography or home sleep\u2011apnoea test",
+    "Mid\u2011stream urine culture with sensitivity; consider expressed prostatic secretions if culture positive",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Comprehensive metabolic panel with serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "PHQ\u20119 and GAD\u20117 questionnaires",
+    "Plasma aldosterone\u2011renin ratio (ARR) with confirmatory testing if abnormal",
+    "25\u2011OH vitamin D level",
+    "CBC with iron studies (ferritin, serum iron, TIBC)",
+    "Overnight low\u2011dose dexamethasone suppression test",
+    "Hepatic ultrasound or FibroScan for NAFLD assessment",
+    "Hepatitis C antibody (reflex to RNA) and 4th\u2011generation HIV Ag/Ab test",
+    "Cotinine urine test or detailed smoking history",
+    "Blood pressure and heart\u2011rate monitoring after sleep study to assess residual sympathetic tone"
+  ]
+}

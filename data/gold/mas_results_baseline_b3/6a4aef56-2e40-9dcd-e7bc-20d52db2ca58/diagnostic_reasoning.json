@@ -1,0 +1,254 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Early chronic kidney disease (CKD stage 1-3)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent diastolic hypertension (95 mmHg) despite thiazide monotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia since 1995 (possible EPO deficiency)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2 flag) and metabolic syndrome risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data-quality flag: missing eGFR/renal labs",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Hypertension resistant to thiazide, chronic normocytic anemia, and obesity are classic early CKD manifestations. Absence of renal labs makes CKD a high\u2011probability hidden driver."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.21,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 1995 without work\u2011up",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, age >50 \u2013 age\u2011appropriate risk for GI blood loss",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social\u2011economic vulnerability (prior homelessness, limited health literacy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data-quality flag: missing iron studies (Ferritin, TSAT)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing anemia in a post\u2011menopausal woman strongly suggests iron loss, most commonly occult GI bleeding. Iron deficiency can also cause a high\u2011output state contributing to resistant diastolic hypertension."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2 flag)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage 2 diastolic hypertension (95 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.3%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data-quality flag: missing lipid panel",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The triad of obesity, hypertension, and impaired glucose tolerance fulfills criteria for metabolic syndrome, conferring high ASCVD risk and explaining many of the patient\u2019s current abnormalities."
+    },
+    {
+      "rank": 4,
+      "name": "Vitamin B12 / Folate deficiency (nutritional cytopenias)",
+      "icd10": "D51.9",
+      "snomed": "302810001",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia (WBC 3.6 \u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unknown type",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low health\u2011literacy and possible poor diet (primary\u2011school education, social isolation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data-quality flag: missing B12/folate labs",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Nutritional deficiencies can cause macrocytic anemia and mild leukopenia. The patient\u2019s socioeconomic context raises the likelihood of inadequate intake or malabsorption."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated diastolic hypertension with normal systolic pressure",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data-quality flag: no sleep study performed",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Obesity\u2011related OSA commonly presents with resistant diastolic hypertension and worsens insulin resistance, fitting the patient\u2019s profile."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary hypertension (e.g., primary aldosteronism, renal artery stenosis, thyroid disease)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 diastolic hypertension despite monotherapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data-quality flag: missing renin\u2011aldosterone, thyroid, and cortisol panels",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Resistant hypertension warrants evaluation for endocrine or renovascular causes; these could be primary drivers if present."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive disorder (chronic psychosocial stress)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, prior homelessness, low education",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No mental\u2011health screening documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stress can exacerbate hypertension, impair medication adherence, and contribute to metabolic derangements."
+    },
+    {
+      "rank": 8,
+      "name": "Myelodysplastic syndrome (MDS)",
+      "icd10": "D46.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia since 1995",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia (WBC 3.6 \u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >55 years",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No repeat CBC trends or bone\u2011marrow evaluation",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Persistent cytopenias in an older adult raise concern for a primary marrow disorder; however, more common reversible causes must be excluded first."
+    }
+  ],
+  "primary_diagnosis": "Early chronic kidney disease (CKD stage 1-3)",
+  "primary_probability": 0.27,
+  "clinical_reasoning_summary": "The patient is a 57\u2011year\u2011old woman with isolated diastolic hypertension, chronic anemia, obesity, and prediabetes. Social determinants suggest poor health\u2011literacy and limited follow\u2011up. Missing renal, iron, and vitamin studies create major data gaps. Integrating the objective findings, the most plausible upstream drivers are early CKD (explaining hypertension and anemia), occult iron\u2011deficiency anemia (potentially causing high\u2011output hypertension), and metabolic syndrome (obesity\u2011driven insulin resistance). Nutritional deficiencies, OSA, secondary endocrine hypertension, depression, and marrow failure are less likely but remain on the differential. Probabilities were calibrated to reflect the strength of evidence and the impact of missing data.",
+  "unresolved_findings": [
+    "Isolated leukopenia (WBC 3.6 \u00d710\u00b3/\u00b5L) not fully explained",
+    "Chronic anemia etiology remains unknown (no iron, B12, folate, or reticulocyte data)",
+    "Missing lipid panel prevents assessment of dyslipidaemia",
+    "Missing renal function (eGFR, creatinine, electrolytes)",
+    "No documented smoking, alcohol, or physical activity history",
+    "No vaccination record",
+    "No sleep study or polysomnography data"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with serum creatinine, eGFR, electrolytes (Na+, K+)",
+    "Urine albumin\u2011to\u2011creatinine ratio",
+    "CBC with differential and reticulocyte count",
+    "Iron studies: ferritin, transferrin saturation, serum iron, TIBC",
+    "Vitamin B12 and folate levels",
+    "Fasting lipid profile (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Thyroid panel (TSH, free T4)",
+    "Plasma renin activity and aldosterone concentration (screen for primary aldosteronism)",
+    "Renal artery Doppler ultrasound if secondary renal cause suspected",
+    "Overnight home sleep apnea test or polysomnography",
+    "Fecal occult blood test and schedule colonoscopy if indicated",
+    "PHQ\u20119 depression screening questionnaire",
+    "Review and update immunization record"
+  ]
+}

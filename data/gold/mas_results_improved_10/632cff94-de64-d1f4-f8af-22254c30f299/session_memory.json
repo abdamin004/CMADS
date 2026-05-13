@@ -1,0 +1,261 @@
+{
+  "patient_uuid": "632cff94-de64-d1f4-f8af-22254c30f299",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T14:55:35+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T14:55:55+00:00",
+      "summary": "Completed ehr_analyst in 20217ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T14:55:35+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T14:55:55+00:00",
+      "summary": "Completed lab_interpreter in 20706ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T14:55:55+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T14:55:56+00:00",
+      "summary": "Recall returned 12, 2 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 2,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.722,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Chronic kidney disease \u2013 diabetic/hypertensive nephropathy"
+          },
+          {
+            "score": 0.637,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Prediabetes / metabolic-syndrome driven insulin resistance"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T14:56:36+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 2
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T14:56:36+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T14:56:36+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T14:56:44+00:00",
+      "summary": "Final differential (5 dx, primary=Chronic kidney disease, stage 3-4, rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Chronic kidney disease, stage 3-4",
+        "primary_probability": 0.4,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T14:56:44+00:00",
+      "summary": "Completed diagnostic_reasoning in 48245ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T14:56:44+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T14:57:02+00:00",
+      "summary": "Completed clinical_reviewer in 18869ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T14:57:02+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T14:57:08+00:00",
+      "summary": "Final refined diagnosis: Chronic kidney disease, stage 3-4",
+      "payload": {
+        "primary_diagnosis": "Chronic kidney disease, stage 3-4",
+        "primary_probability": 0.4,
+        "differential_size": 5
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T14:57:08+00:00",
+      "summary": "Completed final_diagnosis in 5805ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T14:57:09+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T14:57:24+00:00",
+      "summary": "Treatment plan generated for 'Atherosclerotic cardiovascular disease (stable coronary artery disease)' (6 meds)",
+      "payload": {
+        "disease": "Atherosclerotic cardiovascular disease (stable coronary artery disease)"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T14:57:24+00:00",
+      "summary": "Completed treatment_planning in 14829ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T14:57:25+00:00",
+      "summary": "Consolidated outcome for 'Atherosclerotic cardiovascular disease (stable coronary artery disease)' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Atherosclerotic cardiovascular disease (stable coronary artery disease)",
+        "rank": 2
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

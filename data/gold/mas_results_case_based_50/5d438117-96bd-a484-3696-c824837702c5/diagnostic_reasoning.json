@@ -1,0 +1,235 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus with Diabetic Nephropathy",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin (Humulin) therapy listed as critical",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes\u2011related kidney disorder (SNOMED 127013003) onset 1981\u201103\u201122",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria and micro\u2011albuminuria documented since 1985\u20111988",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.4\u202fmg/dL (severity 5) indicating severe renal impairment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Insulin requirement, long\u2011standing proteinuria, and a specific diabetic kidney disease code demonstrate overt type\u202f2 diabetes as the primary driver of the renal pathology."
+    },
+    {
+      "rank": 2,
+      "name": "End\u2011Stage Renal Disease (CKD\u2011stage\u202f5) secondary to diabetic\u2011hypertensive nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 active problem (SNOMED 431857002) with historic progression from stage\u202f1\u20113",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Awaiting kidney transplantation (SNOMED 698306007) listed since 1995\u201109\u201128",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.4\u202fmg/dL and 2.4\u202fmg/dL (both severity 5) indicating eGFR <15\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (SNOMED 271737000) present since 1965\u201101\u201103, typical of ESRD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of advanced CKD staging, very high creatinine values, transplant wait\u2011list status, and CKD\u2011related anemia confirms that the patient has progressed to end\u2011stage renal disease."
+    },
+    {
+      "rank": 3,
+      "name": "Essential Hypertension (poorly controlled)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension coded since 1968\u201101\u201107",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg prescribed for BP control",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress (SNOMED 73595000) documented, a known factor for resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing recent blood pressure measurements flagged as data\u2011quality gap",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension, current antihypertensive therapy, and stress suggest suboptimal BP control, contributing to CKD progression."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (CAD \u00b1 Peripheral Vascular Disease \u00b1 Heart Failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index\u202f3 driven by renal and vascular disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age \u2248\u202f71\u202fy, male demographic, long\u2011standing diabetes and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress (SNOMED 73595000) may exacerbate coronary risk",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing lipid panel flagged, but dyslipidemia is highly likely in this profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient\u2019s age, diabetes, hypertension, CKD, and high Charlson score place him at high risk for coronary artery disease, peripheral arterial disease, and heart failure, all of which impact transplant eligibility."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid Use Disorder with probable Analgesic (NSAID) Nephropathy",
+      "icd10": "F11.20",
+      "snomed": "5602001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Opioid abuse (SNOMED 5602001) coded since 1981\u201103\u201122",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain context implied by long\u2011term opioid therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential concurrent NSAID/acetaminophen use not documented but common in opioid\u2011treated patients",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Analgesic nephropathy (SNOMED 236423003) suggested as a contributing renal insult",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic opioid misuse, likely accompanied by over\u2011the\u2011counter analgesics, can cause additional tubular injury (analgesic nephropathy) that may have accelerated CKD progression."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related Anemia (EPO deficiency \u00b1 iron deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia coded since 1965\u201101\u201103",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 present, a known cause of reduced erythropoietin production",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented iron studies or ESA therapy (data\u2011quality gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic kidney disease at stage\u202f4\u20115 commonly leads to anemia of chronic disease/EPO deficiency; lack of treatment documentation suggests it remains unmanaged."
+    },
+    {
+      "rank": 7,
+      "name": "Secondary Hyperparathyroidism / Renal Osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.03,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 (SNOMED 431857002) indicating likely disturbances in calcium\u2011phosphate metabolism",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No PTH, calcium, phosphate labs available (data\u2011quality gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "At CKD stage\u202f5, secondary hyperparathyroidism is expected, but absence of laboratory confirmation makes this a probable yet unverified diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus with Diabetic Nephropathy",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is an elderly individual with a long history of hypertension, progressive proteinuria, and insulin therapy, indicating overt type\u202f2 diabetes mellitus that has driven diabetic\u2011hypertensive nephropathy. Laboratory data show markedly elevated creatinine, confirming end\u2011stage renal disease, and the patient is already on a transplant waiting list. Hypertension remains a major co\u2011factor, while the combination of age, diabetes, CKD, and documented stress confers high atherosclerotic cardiovascular risk. Chronic opioid misuse, likely with concomitant over\u2011the\u2011counter analgesics, adds a possible analgesic nephropathy component. CKD\u2011related anemia and expected secondary hyperparathyroidism complete the picture of advanced renal disease with systemic sequelae.",
+  "unresolved_findings": [
+    "A1c 3.4% (implausibly low and contradictory to insulin use)",
+    "Discordant serum creatinine values (3.4\u202fmg/dL vs 2.4\u202fmg/dL) without trend data",
+    "Missing recent eGFR, blood pressure, BMI, lipid panel, and imaging studies",
+    "No documented iron studies, ferritin, transferrin saturation, or ESA therapy for anemia",
+    "Absence of PTH, calcium, phosphate, and vitamin D levels",
+    "Unclear current NSAID/acetaminophen use",
+    "Smoking status, alcohol use, and other nephrotoxic exposures not recorded",
+    "No cardiac evaluation (ECG, stress test, echocardiogram) to confirm CAD or heart failure",
+    "No sleep\u2011disordered breathing assessment",
+    "No mental\u2011health screening for depression or anxiety"
+  ],
+  "recommended_workup": [
+    "Obtain current serum creatinine, cystatin\u2011C, and calculate eGFR (including 24\u2011h urine if needed)",
+    "Measure recent blood pressure (office and home averages) to assess control",
+    "Order fasting lipid panel and calculate 10\u2011year ASCVD risk",
+    "Perform cardiac evaluation: ECG, transthoracic echocardiogram, and stress testing or coronary CT angiography",
+    "Complete iron studies (serum iron, ferritin, transferrin saturation) and review ESA prescription",
+    "Check bone\u2011mineral labs: PTH, calcium, phosphate, 25\u2011OH vitamin D",
+    "Renal ultrasound to assess kidney size and rule out obstructive causes",
+    "Detailed medication reconciliation focusing on current NSAID/acetaminophen use and opioid dosing",
+    "Social history interview to document smoking, alcohol, and other nephrotoxic exposures",
+    "Screen for sleep\u2011disordered breathing (STOP\u2011BANG questionnaire, consider polysomnography)",
+    "Administer PHQ\u20119 and GAD\u20117 to evaluate depression and anxiety",
+    "Update transplant evaluation documentation, including cardiovascular clearance and psychosocial assessment"
+  ]
+}

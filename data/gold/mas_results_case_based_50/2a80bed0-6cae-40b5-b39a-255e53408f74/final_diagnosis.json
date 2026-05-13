@@ -1,0 +1,167 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (DBP 90 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.2%)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient presents with three core components of metabolic syndrome\u2014central obesity, elevated blood pressure, and impaired glucose tolerance\u2014meeting established criteria and explaining her elevated cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia (or mixed B12\u2011iron deficiency)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (hemoglobin slightly below normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet distribution width (PDW 397.9 fL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Macrocytic anemia treated with B12",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "An elevated PDW often accompanies iron\u2011deficiency anemia, and the presence of mild anemia without a complete iron panel suggests iron deficiency may be contributing, possibly alongside B12 deficiency."
+    },
+    {
+      "rank": 3,
+      "name": "Vitamin B12 deficiency",
+      "icd10": "E53.8",
+      "snomed": "302810001",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of anemia treated with B12 supplementation",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Macrocytic anemia noted in CBC",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The documented treatment of anemia with B12 and macrocytosis are classic indicators of cobalamin deficiency."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes progressing toward type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599009",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "An HbA1c in the prediabetic range combined with obesity and metabolic syndrome places the patient at high risk for progression to overt type 2 diabetes."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are risk factors for OSA, but no sleep\u2011specific symptoms or polysomnography data are available, making this a plausible but low\u2011confidence consideration."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While hypothyroidism can contribute to weight gain and dyslipidemia, the absence of thyroid labs or suggestive symptoms renders this diagnosis speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive / anxiety disorder secondary to psychosocial stressors",
+      "icd10": "F33.9",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors (housing instability)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors may be contributing to mood symptoms, but no formal psychiatric assessment or medication history is provided."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of hypertension, obesity, and prediabetes fulfills criteria for metabolic syndrome, which accounts for the majority of her cardiovascular risk. Concurrent anemia with macrocytosis and an elevated PDW suggests a mixed iron\u2011deficiency and B12 deficiency picture, both of which are supported by treatment history and laboratory trends. Prediabetes is a logical progression within the metabolic milieu. Secondary considerations such as OSA, hypothyroidism, and mood disorder are entertained based on risk factors and psychosocial context but lack direct supporting data.",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (PDW 397.9 fL) \u2013 etiology unclear",
+    "Mild anemia without full iron/B12/folate panel or MCV",
+    "Absence of lipid panel (total cholesterol, LDL) \u2013 cannot compute ASCVD risk",
+    "Missing eGFR \u2013 renal function unknown",
+    "No documented smoking, alcohol, or physical activity status",
+    "Potential medication adherence issues (medication review flagged 2023-04-28) not yet resolved"
+  ],
+  "recommended_workup": [
+    "Complete lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC) and reticulocyte count",
+    "Serum vitamin B12 and folate levels",
+    "Thyroid function tests (TSH, free T4)",
+    "Renal function panel including eGFR and urine albumin-to-creatinine ratio",
+    "Polysomnography or home sleep apnea testing",
+    "Detailed psychiatric evaluation and PHQ-9/GAD-7 screening",
+    "Review of medication list for adherence and potential contributors to metabolic derangements"
+  ]
+}

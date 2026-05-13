@@ -1,0 +1,349 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled hypertension (primary driver of CAD, CKD, HF)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol succinate 100\u202fmg ER prescribed (beta\u2011blocker often used for hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Demographic risk: 81\u2011year\u2011old Black male (high prevalence of salt\u2011sensitive hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 88\u202fmL/min/1.73\u202fm\u00b2 (borderline low for age) suggesting early CKD, a hypertension complication",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total\u202f=\u202f21\u202fmmol/L (mild metabolic acidosis) compatible with chronic hypertension\u2011related renal impairment",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing recent blood pressure measurements",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index\u202f2 indicating moderate burden of chronic disease, often driven by hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of demographic risk, beta\u2011blocker therapy, early CKD, metabolic acidosis, and the absence of documented blood pressure strongly points to uncontrolled systemic hypertension as the upstream driver of the patient\u2019s CAD, heart\u2011failure and renal decline."
+    },
+    {
+      "rank": 2,
+      "name": "Ischemic cardiomyopathy / chronic heart\u2011failure (HFpEF likely)",
+      "icd10": "I25.5",
+      "snomed": "84114007",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease (SNOMED 414545008) diagnosed in 1998",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Abnormal cardiac imaging (SNOMED 274531002) confirming structural disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "NT\u2011proBNP\u202f=\u202f1050.9\u202fpg/mL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Nitroglycerin 0.4\u202fmg PRN for angina",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Clopidogrel 75\u202fmg daily (secondary CAD prevention)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol succinate 100\u202fmg ER (also used for HF symptom control)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing CAD with ongoing angina therapy, markedly elevated NT\u2011proBNP, and beta\u2011blocker use indicate chronic ischemic cardiomyopathy manifesting as heart\u2011failure, most likely HFpEF given the patient\u2019s preserved ejection fraction risk profile."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced chronic kidney disease (stage\u202f2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium 220\u202fmg PRN for knee osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 88\u202fmL/min/1.73\u202fm\u00b2 (borderline low for age) suggesting early CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total\u202f=\u202f21\u202fmmol/L (mild metabolic acidosis) compatible with reduced renal acid excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f81\u202fy and Black race (higher susceptibility to NSAID nephrotoxicity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elderly patients on chronic NSAIDs are at high risk for renal hypoperfusion and interstitial injury, which aligns with the observed early CKD and metabolic acidosis."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia (iron\u2011replete)",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 1988 (SNOMED 271737000)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "RBC count\u202f=\u202f3.8\u202f\u00d710\u2076/\u00b5L (low, decreasing trend)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Iron saturation\u202f=\u202f53.7\u202f% (borderline high) indicating iron repletion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 88\u202fmL/min/1.73\u202fm\u00b2 (early CKD) \u2013 a common cause of anemia of chronic disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use (potential GI blood loss) adding a mixed etiology",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The long\u2011standing anemia with low RBC, normal/high iron stores, and early CKD fits anemia of chronic disease rather than iron\u2011deficiency, though NSAID\u2011related blood loss may contribute."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic syndrome progressing toward type\u202f2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "237599002",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f>\u202f30) documented since 1975",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c\u202f5.9\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides\u202f=\u202f146.5\u202fmg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 20\u202fmg daily (secondary CAD prevention, implies prior dyslipidemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black male ethnicity (higher risk of insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, pre\u2011diabetes, and dyslipidemia constitute metabolic syndrome, placing the patient at high risk for progression to overt type\u202f2 diabetes."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea (or COPD\u2011related hypoxia) contributing to hypoxemia",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.07,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and male sex (major OSA risk factors)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High hemoglobin (17.2\u202fg/dL) suggesting chronic hypoxemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low CO\u2082 total\u202f=\u202f21\u202fmmol/L (possible chronic respiratory compensation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No documented sleep study or spirometry",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The constellation of obesity, elevated hemoglobin, and low CO\u2082 raises suspicion for chronic intermittent hypoxia from OSA (or COPD), which can worsen cardiovascular and metabolic disease."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / psychosocial maladaptation",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation (onset\u202f2016) and limited social contact (onset\u202f2013)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unsatisfactory housing (onset\u202f1956) \u2013 chronic stressor",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Functional limitation from knee OA reducing activity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial deprivation is a known driver of depressive symptoms, which can further impair medication adherence and self\u2011care."
+    },
+    {
+      "rank": 8,
+      "name": "Occult gastrointestinal bleed / iron\u2011deficiency anemia",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use (NSAID) \u2013 risk for GI mucosal injury",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Decreasing RBC count with chronic anemia trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Paradoxically high hemoglobin (possible hemoconcentration) \u2013 could mask occult blood loss",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID\u2011related GI bleeding remains a plausible, treatable cause of the patient\u2019s chronic anemia despite iron\u2011replete labs."
+    },
+    {
+      "rank": 9,
+      "name": "Myelodysplastic syndrome",
+      "icd10": "D46.9",
+      "snomed": "109989006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f>\u202f80\u202fy (high MDS incidence)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia with decreasing RBC count and no clear iron deficiency",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No peripheral smear or cytogenetics performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While less likely, the age\u2011related risk and unexplained anemia warrant consideration of a clonal marrow disorder."
+    },
+    {
+      "rank": 10,
+      "name": "Cognitive impairment / dementia",
+      "icd10": "F03",
+      "snomed": "428341000124106",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and limited recent vital sign documentation (possible missed appointments)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Functional limitation and medication regimen complexity",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No documented cognitive screening (e.g., MoCA)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cognitive decline could explain poor follow\u2011up and missing data, though no direct evidence is recorded."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled hypertension (primary driver of CAD, CKD, HF)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is an 81\u2011year\u2011old Black male with long\u2011standing ischemic heart disease, obesity, pre\u2011diabetes, and chronic NSAID use. Elevated NT\u2011proBNP, beta\u2011blocker therapy, and nitroglycerin use point to chronic heart\u2011failure secondary to ischemic cardiomyopathy. However, the absence of documented blood pressure combined with demographic risk, early CKD, metabolic acidosis, and the presence of a hypertensive\u2011targeting medication (metoprolol) make uncontrolled hypertension the most plausible upstream driver of CAD, heart\u2011failure, and renal dysfunction. Anemia is iron\u2011replete and likely multifactorial (chronic disease, CKD, possible occult GI loss). Metabolic syndrome, possible sleep\u2011related hypoxia, psychosocial stressors, and age\u2011related marrow changes further complicate the picture. The differential balances these inter\u2011related pathologies, prioritizing hypertension while acknowledging other contributors.",
+  "unresolved_findings": [
+    "High hemoglobin (17.2\u202fg/dL) despite low RBC count and chronic anemia",
+    "Elevated iron saturation (53.7\u202f%) in the setting of anemia",
+    "Mild metabolic acidosis (CO\u2082\u202f=\u202f21\u202fmmol/L) without clear renal or respiratory cause",
+    "Missing recent blood pressure, heart rate, BMI, lipid panel, serum creatinine, urine albumin/creatinine",
+    "No documented sleep study or spirometry to evaluate OSA/COPD",
+    "Absence of cognitive screening results"
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel including serum creatinine, BUN, electrolytes, and CO\u2082",
+    "Urine albumin\u2011to\u2011creatinine ratio and repeat eGFR to stage CKD",
+    "Full lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Multiple seated and standing blood pressure measurements (home BP monitoring if possible)",
+    "Transthoracic echocardiogram with assessment of ejection fraction, diastolic function, and right\u2011ventricular pressures",
+    "Repeat iron studies (serum iron, ferritin, TIBC) and reticulocyte count",
+    "Fecal occult blood test or colonoscopy to evaluate for occult GI bleeding",
+    "Home sleep apnea test or polysomnography; consider spirometry to rule out COPD",
+    "Cognitive screening (MoCA or Mini\u2011Cog) and depression questionnaire (PHQ\u20119)",
+    "Medication reconciliation with focus on indication for metoprolol, need for ACE\u2011I/ARB, and NSAID stewardship",
+    "Functional assessment (6\u2011minute walk test, gait speed) and referral to physical therapy",
+    "Social work / case management referral to address housing instability and social isolation"
+  ]
+}

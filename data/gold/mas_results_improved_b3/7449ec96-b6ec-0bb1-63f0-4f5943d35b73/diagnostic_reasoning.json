@@ -1,0 +1,229 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication\u2011induced electrolyte disturbance (possible diuretic use)",
+      "icd10": "E87.6",
+      "snomed": "271327008",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated CO\u2082 (28.8\u202fmmol/L) with high\u2011normal chloride (108.7\u202fmmol/L) and low\u2011normal potassium (3.9\u202fmmol/L) suggest metabolic alkalosis with renal potassium loss",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN (16.5\u202fmg/dL) with stable creatinine (0.8\u202fmg/dL) \u2192 BUN/Cr ratio approaching 20:1, compatible with volume contraction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list is missing; no documented diuretic or alkalinizing agent",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of metabolic alkalosis, mild hypokalaemia, and a rising BUN/Cr ratio is classic for thiazide or loop diuretic use. Because the medication list is absent, this iatrogenic cause is a leading, treatable driver of the laboratory abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Primary hyper\u2011aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f1 hypertension (BP 132/84\u202fmmHg) in a young\u2011middle\u2011aged adult with obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic alkalosis with low\u2011normal potassium and a BUN/Cr ratio trending toward 20:1",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity and pre\u2011diabetes increase the prevalence of autonomous aldosterone production",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Primary aldosteronism produces hypertension, sodium retention, metabolic alkalosis, and potassium wasting. The lab pattern fits, and the absence of a documented diuretic makes an endocrine cause more likely."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f1 hypertension (BP 132/84\u202fmmHg) documented on multiple visits",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) and pre\u2011diabetes are classic risk modifiers for primary hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal lipid panel does not exclude hypertension; metabolic risk is high",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets criteria for primary hypertension and will likely coexist with any secondary driver identified."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.16,
+      "confidence": "moderate\u2011high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and pre\u2011diabetes (A1c\u202f6.1\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lipid panel within normal limits but does not exclude the syndrome; three of five ATP\u2011III criteria are present",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Chronic psychosocial stress can exacerbate insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient fulfills central obesity, elevated blood pressure, and impaired fasting glucose, satisfying the definition of metabolic syndrome despite favorable lipids."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep\u2011apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "235856003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Obesity and hypertension are strong risk factors for OSA",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study; sleep symptoms not recorded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is a common, treatable contributor to resistant hypertension and insulin resistance; given the patient\u2019s obesity and HTN, it remains a plausible secondary factor."
+    },
+    {
+      "rank": 6,
+      "name": "Early pre\u2011renal/volume\u2011contracted acute kidney injury",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN with stable creatinine and BUN/Cr ratio approaching 20:1",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling sodium (139.6\u202fmmol/L) and potassium (3.9\u202fmmol/L) suggest mild volume depletion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The lab trend is compatible with early pre\u2011renal azotemia, possibly secondary to diuretic use, dehydration, or high protein intake."
+    },
+    {
+      "rank": 7,
+      "name": "Adjustment disorder with mixed anxiety and depressed mood",
+      "icd10": "F43.23",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, intimate\u2011partner abuse, and social isolation documented since 2017",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic alkalosis could be secondary to chronic catecholamine excess (weak link)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors strongly suggest a stress\u2011related psychiatric condition that may worsen adherence and metabolic control."
+    },
+    {
+      "rank": 8,
+      "name": "Renal artery stenosis (RAS)",
+      "icd10": "I70.2",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f1 hypertension in a patient with early renal laboratory changes",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity and hypertension increase atherosclerotic RAS risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "RAS can cause refractory hypertension and a rising BUN/Cr ratio; prevalence is low but must be considered when secondary causes are being evaluated."
+    },
+    {
+      "rank": 9,
+      "name": "Other low\u2011probability entities (e.g., NAFLD, gout, anemia, PTSD)",
+      "icd10": "Z13.9",
+      "snomed": "123037004",
+      "probability": 0.04,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Obesity predisposes to NAFLD and gout; psychosocial trauma predisposes to PTSD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "These conditions are possible but lack specific supporting data in the current record."
+    }
+  ],
+  "primary_diagnosis": "Medication\u2011induced electrolyte disturbance (possible diuretic use)",
+  "primary_probability": 0.14,
+  "clinical_reasoning_summary": "The patient presents with stage\u20111 hypertension, obesity, and pre\u2011diabetes, establishing a high\u2011risk metabolic\u2011cardiovascular phenotype. Laboratory trends (metabolic alkalosis, low\u2011normal potassium, rising BUN/Cr) point toward a volume\u2011contraction state. Because the medication list is absent, an iatrogenic diuretic effect is the most plausible driver and is prioritized. Secondary endocrine hypertension (primary hyper\u2011aldosteronism) and common contributors such as obstructive sleep apnea are also considered. Essential hypertension and metabolic syndrome are likely background conditions that will coexist. Psychosocial stressors explain the adjustment disorder diagnosis and may worsen adherence. Probabilities were calibrated to population priors and adjusted for the strength of the available evidence, summing to 1.0.",
+  "unresolved_findings": [
+    "Mild metabolic alkalosis with high CO\u2082 and chloride despite no documented diuretic or alkalinizing agent use",
+    "Rising BUN with stable creatinine suggesting early pre\u2011renal azotemia",
+    "Falling potassium and sodium without a clear etiology",
+    "Missing key data: exact BMI, medication list, eGFR, urine albumin\u2011creatinine ratio, sleep history, home blood\u2011pressure recordings"
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation (prescription, OTC, supplements) to identify diuretic or other agents",
+    "Plasma aldosterone concentration (PAC) and plasma renin activity (PRA) with aldosterone\u2011to\u2011renin ratio (ARR) off diuretics",
+    "Repeat basic metabolic panel with urine electrolytes (Na, K, Cl) to differentiate renal vs extrarenal losses",
+    "Estimated glomerular filtration rate (eGFR) and urine albumin\u2011creatinine ratio",
+    "STOP\u2011BANG questionnaire followed by home sleep\u2011apnea testing if screen positive",
+    "24\u2011hour ambulatory blood\u2011pressure monitoring or home BP log to confirm hypertension pattern and nocturnal dipping",
+    "Targeted psychosocial interview (PHQ\u20119, GAD\u20117, safety assessment for intimate\u2011partner violence)",
+    "If ARR is elevated, perform confirmatory suppression testing for primary aldosteronism",
+    "If diuretic use is confirmed, consider dose reduction or discontinuation and repeat electrolytes before further endocrine work\u2011up",
+    "Lifestyle counseling: low\u2011sodium, potassium\u2011rich diet, weight\u2011loss program, regular aerobic activity"
+  ]
+}

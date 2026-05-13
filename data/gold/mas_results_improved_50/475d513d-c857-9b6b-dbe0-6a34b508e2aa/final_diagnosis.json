@@ -1,0 +1,168 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension, uncontrolled with early target-organ damage",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 133 mmHg, DBP 94 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented early target\u2011organ damage in problem list",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Blood pressure readings meet criteria for stage 2 hypertension and the problem list notes early organ involvement, making uncontrolled hypertension the dominant diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome \u2013 insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530, exact value missing)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemia noted in problem list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, impaired glucose tolerance, and dyslipidemia fulfills criteria for metabolic syndrome, driving cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic dyslipidemia (elevated LDL, low HDL)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL and low HDL on recent lipid panel (partial data, patient on low\u2011dose statin)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lipid abnormalities persist despite statin therapy, contributing to atherogenic risk and aligning with metabolic syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Gout, active hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "235595009",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "New gout diagnosis in problem list; no urate\u2011lowering therapy initiated",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Clinical documentation confirms gout; lack of treatment suggests ongoing hyperuricemia."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (CKD) stage\u202f2",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Estimated GFR \u224870\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f2 CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "eGFR falls within stage\u202f2 range; absence of albuminuria data limits certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list notes anemia severity 3 without iron deficiency work\u2011up",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic disease and early CKD can cause normocytic anemia; documented anemia severity supports this diagnosis."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and refractory hypertension raise pre\u2011test probability for OSA",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but no sleep study has been performed; OSA remains plausible."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome confer high pre\u2011test probability for NAFLD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although liver enzymes are not available, the metabolic profile suggests NAFLD as a possible comorbidity."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension, uncontrolled with early target-organ damage",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with classic metabolic\u2011syndrome features\u2014obesity, prediabetes, dyslipidemia, and hypertension. Blood pressure readings meet stage\u202f2 criteria and target\u2011organ damage is documented, making uncontrolled hypertension the primary problem. Metabolic syndrome underlies the dyslipidemia, prediabetes, and contributes to gout, early CKD, and possible anemia of chronic disease. Missing key laboratory data (uric acid, urine albumin, CBC, iron studies, liver enzymes) limit precise staging of CKD, assessment of gout activity, and evaluation for NAFLD and OSA, which are therefore retained as lower\u2011probability but plausible diagnoses.",
+  "unresolved_findings": [
+    "Missing exact BMI value (obesity status inferred)",
+    "Absent serum uric\u2011acid level",
+    "No iron studies, ferritin, or complete blood count values to characterize anemia",
+    "Lack of urine albumin\u2011to\u2011creatinine ratio or proteinuria data for precise CKD staging",
+    "No liver function tests or imaging to assess for NAFLD",
+    "No sleep study or symptom documentation for obstructive sleep apnea"
+  ],
+  "recommended_workup": [
+    "Obtain measured BMI and waist circumference",
+    "Serum uric acid level",
+    "Complete blood count with iron studies (serum iron, ferritin, TIBC)",
+    "Urine albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive lipid panel (LDL, HDL, triglycerides, non\u2011HDL)",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase)",
+    "Fasting glucose and repeat HbA1c if indicated",
+    "Overnight polysomnography to evaluate for OSA"
+  ]
+}

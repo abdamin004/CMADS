@@ -1,0 +1,146 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.62,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30 kg/m\u00b2) in middle\u2011aged male",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (BP 110/82 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.2%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (312.3 fL) suggesting platelet activation/inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly low serum CO\u2082 (21.8 mmol/L) possibly reflecting early metabolic derangement",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 ATP\u2011III criteria (central obesity, elevated blood pressure, impaired fasting glucose). Platelet activation and low CO\u2082 support a pro\u2011inflammatory, early metabolic disturbance, making metabolic syndrome the most likely unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Asymptomatic urinary\u2011tract infection / chronic bacterial colonisation",
+      "icd10": "N39.0",
+      "snomed": "36971009",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Dilute urine (specific gravity 1.000) with possible pyuria on urinalysis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male gender (asymptomatic bacteriuria uncommon but possible with chronic colonisation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Urinalysis suggests possible bacterial presence despite lack of symptoms. Confirmation with urine culture is required to differentiate true infection from colonisation."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "18286008",
+      "probability": 0.09,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Tachycardia (HR 99 bpm) and hypertension in an obese individual",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and possible poor sleep hygiene",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and cardiovascular signs raise pre\u2011test probability for OSA, but no sleep\u2011specific data are available; thus it remains a plausible but unconfirmed contributor."
+    },
+    {
+      "rank": 4,
+      "name": "Early diabetic (prediabetic) nephropathy / renal tubular dysfunction",
+      "icd10": "E11.21",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly low serum CO\u2082 (21.8 mmol/L) possibly indicating mild metabolic acidosis",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low RBC count (4.2\u202f\u00d710\u2076/\u00b5L) suggesting early anemia of chronic disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prediabetes alone rarely causes nephropathy; the laboratory abnormalities are nonspecific, so this diagnosis is kept but weighted low pending renal function testing."
+    },
+    {
+      "rank": 5,
+      "name": "Depressive / anxiety disorder secondary to chronic stress",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, refugee status, transportation barriers",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors are present, but without screening tools the presence of mood or anxiety disorder remains speculative."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.62,
+  "clinical_reasoning_summary": "The patient\u2019s cardiometabolic profile (obesity, hypertension, prediabetes) fulfills ATP\u2011III criteria for metabolic syndrome, which best explains the constellation of laboratory and vital\u2011sign abnormalities. Secondary considerations include possible asymptomatic bacteriuria, OSA, early renal involvement, and psychosocial distress, each supported by limited or indirect evidence. Targeted work\u2011up is needed to confirm or exclude these alternatives.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (312.3\u202ffL) \u2013 unclear if artifact or marker of inflammation/hematologic disease.",
+    "Mildly low serum CO\u2082 (21.8\u202fmmol/L) \u2013 cause not identified (metabolic acidosis vs respiratory compensation).",
+    "Borderline low red blood cell count (4.2\u202f\u00d710\u2076/\u00b5L) \u2013 possible early anemia of chronic disease or iron deficiency.",
+    "Low fasting glucose (65.7\u202fmg/dL) in a prediabetic patient \u2013 could reflect laboratory variation or early insulin hypersecretion.",
+    "Dilute urine (specific gravity 1.000) without clear etiology.",
+    "Tachycardia (HR 99\u202fbpm) despite controlled blood pressure."
+  ],
+  "recommended_workup": [
+    "Urine culture and repeat urinalysis to confirm or exclude infection/prostatitis.",
+    "Comprehensive renal panel: eGFR, urine albumin\u2011creatinine ratio, serum electrolytes, and tubular function tests.",
+    "Fasting lipid profile and calculation of 10\u2011year ASCVD risk; consider statin eligibility.",
+    "Repeat platelet distribution width and consider inflammatory markers (CRP, ESR).",
+    "Overnight polysomnography or home sleep apnea testing.",
+    "Mental\u2011health screening with PHQ\u20119 and GAD\u20117 questionnaires.",
+    "Repeat serum CO\u2082 and arterial blood gas if metabolic acidosis suspected.",
+    "Complete blood count with iron studies to evaluate anemia.",
+    "Assessment of lifestyle factors (diet, physical activity) and referral to nutrition/weight\u2011management program."
+  ]
+}

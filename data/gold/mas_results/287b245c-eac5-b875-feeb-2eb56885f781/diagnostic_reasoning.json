@@ -1,0 +1,297 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list includes \"Disorder of kidney due to diabetes mellitus\" (SNOMED 127013003)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2) documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2018",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3 mg/dL (severity 5)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index = 2 (CKD + hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The explicit diabetic kidney disease label together with obesity and hypertension points to diabetes as the primary driver of CKD. The markedly elevated creatinine supports advanced diabetic nephropathy, despite missing glucose/A1c data."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2018 with long\u2011term treatment",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure at visit 104/64 mmHg on lisinopril + amlodipine",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension is a major driver of CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension is a classic cause of CKD. Although BP is currently controlled, chronic pressure injury likely contributed to the current renal dysfunction."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced acute\u2011on\u2011chronic kidney injury / chronic interstitial nephritis",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium 220\u202fmg for osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD diagnosis on problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine 3.3 mg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent ACE\u2011I therapy (lisinopril) increases susceptibility to NSAID nephrotoxicity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic NSAID exposure in a patient with existing CKD can precipitate an acute rise in creatinine and interstitial injury. A drug holiday could clarify contribution."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive uropathy from benign prostatic hyperplasia (BPH)",
+      "icd10": "N40.0",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 61 \u2013 demographic risk for BPH",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented lower urinary tract symptoms (data gap)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine without clear etiology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In older men, BPH can cause urinary obstruction and secondary renal impairment. Absence of urinary symptom documentation makes this a plausible but unconfirmed contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Atherosclerotic renal artery stenosis",
+      "icd10": "I70.2",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia and obesity \u2013 atherosclerotic risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension treated with ACE\u2011I (may unmask RAS)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High creatinine despite controlled BP",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Atherosclerotic disease can cause renal artery stenosis, leading to refractory hypertension and renal dysfunction. Imaging is needed to confirm."
+    },
+    {
+      "rank": 6,
+      "name": "Primary glomerulonephritis (e.g., IgA, membranous, FSGS)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine without known etiology",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No urine protein data (missing) \u2013 could reveal glomerular disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absent urinalysis data leaves primary glomerular disease as a remote possibility; would be supported by proteinuria or active sediment."
+    },
+    {
+      "rank": 7,
+      "name": "Cardiorenal syndrome (heart failure with renal involvement)",
+      "icd10": "I13.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension increase risk for heart failure",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac evaluation data (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential subclinical cardiac dysfunction could contribute to renal impairment, but no cardiac data are available."
+    },
+    {
+      "rank": 8,
+      "name": "Multiple myeloma / monoclonal gammopathy of renal significance",
+      "icd10": "C90.0",
+      "snomed": "126910009",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >60 and CKD without clear cause",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine (non\u2011specific)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although the prior probability is low without anemia, hypercalcemia, or bone pain, a serum/urine protein electrophoresis is inexpensive and could rule out this serious cause."
+    },
+    {
+      "rank": 9,
+      "name": "Contrast\u2011induced acute kidney injury",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented recent contrast exposure (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If the patient had a recent iodinated contrast study, it could explain a sudden creatinine rise; currently unknown."
+    },
+    {
+      "rank": 10,
+      "name": "Other drug\u2011induced interstitial nephritis (non\u2011NSAID)",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list shows only naproxen as nephrotoxic agent; no PPIs, antibiotics, or other culprits documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possibility remains for other nephrotoxic drugs not captured in the current list."
+    },
+    {
+      "rank": 11,
+      "name": "Atherosclerotic coronary artery disease (silent CAD)",
+      "icd10": "I25.10",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, hyperlipidemia, obesity \u2013 high cardiovascular risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No smoking/alcohol data (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While CAD does not directly explain the creatinine, it contributes to overall vascular risk and could coexist."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is a 61\u2011year\u2011old obese male with hypertension, hyperlipidemia, and a problem\u2011list label for diabetic kidney disease. The only available laboratory value is a markedly elevated serum creatinine (3.3\u202fmg/dL), which is inconsistent with the recorded CKD stage\u202f1, indicating advanced renal dysfunction. The convergence of obesity, hypertension, and the diabetic kidney disease label makes undiagnosed/untreated type\u202f2 diabetes the most plausible primary driver of CKD. Hypertensive nephrosclerosis remains a strong co\u2011factor. Chronic naproxen use provides a plausible acute\u2011on\u2011chronic insult. Missing key data (eGFR, urine ACR, HbA1c, lipid panel, urinary symptoms) limit certainty, leading to a moderate overall confidence (65/100). The differential was re\u2011ranked to reflect these considerations, with probabilities calibrated to the patient\u2019s risk profile and data gaps.",
+  "unresolved_findings": [
+    "Serum creatinine 3.3\u202fmg/dL discordant with CKD stage\u202f1 label",
+    "Diabetic kidney disease label without documented HbA1c or glucose values",
+    "Duplicate Simvastatin entry (possible dosing error)",
+    "Missing eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Absent smoking and alcohol use documentation",
+    "No reported lower urinary tract symptoms despite age and male sex",
+    "No recent imaging (renal ultrasound, duplex Doppler, cardiac echo)"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR (CKD\u2011EPI) with cystatin\u2011C if needed",
+    "Spot urine albumin\u2011to\u2011creatinine ratio",
+    "HbA1c and fasting glucose; consider oral hypoglycemic therapy if diabetic",
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Comprehensive urinalysis with microscopy and urine protein\u2011to\u2011creatinine ratio",
+    "Renal ultrasound with Doppler to assess for hydronephrosis, renal artery stenosis, and kidney size",
+    "Bladder scan for post\u2011void residual volume to evaluate for BPH obstruction",
+    "ECG and BNP; if abnormal, proceed to transthoracic echocardiogram",
+    "Serum protein electrophoresis, urine protein electrophoresis, and serum free\u2011light\u2011chain assay",
+    "Serum calcium, phosphate, intact PTH, and 25\u2011OH vitamin D",
+    "Structured social\u2011history interview (smoking pack\u2011years, alcohol intake, recent iodinated contrast exposure)",
+    "Full medication reconciliation focusing on NSAID dosing, duplicate statin, and other potential nephrotoxins"
+  ]
+}

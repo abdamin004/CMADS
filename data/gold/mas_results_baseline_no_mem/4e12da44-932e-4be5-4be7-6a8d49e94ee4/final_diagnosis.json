@@ -1,0 +1,154 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic-syndrome-driven essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (126/84 mmHg) with elevated resting heart rate (93 bpm)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and prediabetes (A1c 6.2%) indicating metabolic syndrome",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of elevated blood pressure, prediabetes, and likely obesity fits a metabolic-syndrome-driven essential hypertension pattern, which explains the mild hypertension and contributes to other cardiometabolic abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Early hypertensive/diabetic chronic kidney disease (CKD stage 2-3)",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and prediabetes present, both risk factors for CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperkalemia and hyperchloremia trending upward",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While renal function labs are missing, the presence of hypertension and early glucose dysregulation raises concern for incipient CKD; however, lack of eGFR/creatinine data makes this diagnosis only moderately plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Iron-deficiency anemia with reactive thrombocytosis",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (hemoglobin slightly low) with a rising platelet count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies yet, but thrombocytosis often accompanies iron deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The pattern of mild anemia together with a sharp increase in platelets is classic for reactive thrombocytosis secondary to iron deficiency; definitive confirmation requires iron studies."
+    },
+    {
+      "rank": 4,
+      "name": "Severe panic-type anxiety disorder (untreated)",
+      "icd10": "F41.0",
+      "snomed": "197480006",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented severe untreated anxiety with frequent palpitations and tachycardia",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient's reported severe anxiety symptoms, elevated resting heart rate, and lack of treatment support a primary panic disorder contributing to autonomic symptoms."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI missing but risk implied) and hypertension raise suspicion for OSA",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic risk profile, OSA is a plausible contributor to hypertension and daytime fatigue, but no sleep study data are available."
+    },
+    {
+      "rank": 6,
+      "name": "Non-alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome components (obesity, prediabetes) increase NAFLD risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The metabolic milieu suggests possible hepatic steatosis, yet no liver enzymes or imaging have been performed to confirm."
+    },
+    {
+      "rank": 7,
+      "name": "Essential thrombocythemia (early myeloproliferative neoplasm)",
+      "icd10": "D47.3",
+      "snomed": "414545008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet count without clear iron deficiency yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While reactive thrombocytosis is more likely, a primary myeloproliferative process cannot be excluded without iron studies and bone marrow evaluation."
+    }
+  ],
+  "primary_diagnosis": "Metabolic-syndrome-driven essential hypertension",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s cardiometabolic profile\u2014stage 1 hypertension, prediabetes, and probable obesity\u2014most strongly supports metabolic-syndrome-driven essential hypertension as the primary driver of his clinical picture. Early CKD remains a concern given the hypertension and glucose intolerance, but the absence of renal function labs limits certainty. The rising platelet count alongside mild anemia points toward iron-deficiency anemia with reactive thrombocytosis, which should be prioritized for laboratory confirmation. Severe untreated anxiety likely contributes to tachycardia and perceived symptom burden. Secondary considerations include OSA, NAFLD, and, less likely, essential thrombocythemia.",
+  "unresolved_findings": [
+    "Rising platelet count without definitive iron or inflammatory markers",
+    "Borderline hyperkalaemia despite thiazide diuretic",
+    "Borderline hyperchloraemia",
+    "Missing eGFR, serum creatinine, urine albumin\u2011to\u2011creatinine ratio",
+    "Missing iron studies, ferritin, B12, folate",
+    "Missing full fasting lipid panel (LDL, total cholesterol)",
+    "No documented smoking, alcohol, diet, or physical\u2011activity data",
+    "Absence of thyroid function tests"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio to assess renal function",
+    "Comprehensive iron panel (serum iron, ferritin, TIBC) plus vitamin B12 and folate",
+    "Fasting lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Thyroid panel (TSH, free T4)",
+    "Polysomnography or home sleep apnea testing",
+    "Repeat CBC with differential to monitor platelet trend",
+    "Renal artery duplex ultrasound if renovascular hypertension remains a concern after labs",
+    "Consider plasma metanephrines only if hypertension becomes refractory"
+  ]
+}

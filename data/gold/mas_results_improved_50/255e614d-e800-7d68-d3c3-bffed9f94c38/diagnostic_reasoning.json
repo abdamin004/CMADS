@@ -1,0 +1,182 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 diabetes mellitus)",
+      "icd10": "E11.21",
+      "snomed": "127013003",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Disorder of kidney due to diabetes mellitus (onset 1982-12-01)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria due to type 2 diabetes mellitus (onset 1983-11-02)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Microalbuminuria due to type 2 diabetes mellitus (onset 1982-12-01)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 28.6\u202fmL/min/1.73\u202fm\u00b2 (stage 4 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 447\u202fmg/dL (heavy proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Trace urine glucose (1.6\u202fmg/dL) and ketonuria (9.6\u202fmg/dL) despite no serum glucose data",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and long\u2011standing hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple SNOMED entries explicitly link the kidney disease to diabetes, and the laboratory profile (stage 4 CKD, heavy proteinuria, glucosuria, ketonuria) is classic for advanced diabetic nephropathy. Hypertension and obesity are common co\u2011factors that accelerate progression."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (essential hypertension\u2011related CKD)",
+      "icd10": "I12.9",
+      "snomed": "59621000",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension documented since 1975",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current therapy limited to low\u2011dose hydrochlorothiazide (suboptimal for CKD stage 4)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low urine specific gravity (1.00) indicating impaired concentrating ability",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis (CO\u2082 20.9\u202fmmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Decades of untreated or inadequately treated hypertension are a well\u2011established cause of CKD and proteinuria. The absence of renin\u2011angiotensin blockade further supports hypertension as a parallel driver of renal injury."
+    },
+    {
+      "rank": 3,
+      "name": "Proximal renal tubular dysfunction (partial Fanconi\u2011type) secondary to chronic CKD",
+      "icd10": "N25.9",
+      "snomed": "431857002",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.00 (very low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Trace glucosuria with no documented hyperglycemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 9.6\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hydrochlorothiazide use (can exacerbate tubular losses)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of low urine specific gravity, glucosuria, and ketonuria in the setting of advanced CKD suggests a generalized proximal tubular reabsorption defect, likely secondary to chronic tubulointerstitial injury rather than a primary inherited Fanconi syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Obesity\u2011related metabolic syndrome with non\u2011alcoholic fatty liver disease (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive (0.8\u202fmg/dL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and probable diabetes place the patient at high risk for NAFLD/NASH. The bilirubinuria is not typical for renal disease alone and may reflect early hepatic involvement, though direct hepatic labs are missing."
+    },
+    {
+      "rank": 5,
+      "name": "Medication\u2011related renal injury (thiazide\u2011induced hyperuricemia / possible undocumented NSAID use)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg daily",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No ACE\u2011I/ARB documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Uric acid not measured (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thiazides can raise serum uric acid and contribute to gouty nephropathy; undocumented NSAID use could cause interstitial nephritis. Evidence is indirect, so probability remains low."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes mellitus)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "Both independent analyses converge on diabetic nephropathy as the dominant driver of the patient\u2019s stage\u202f4 CKD, supported by long\u2011standing diabetes\u2011related kidney SNOMED codes, heavy proteinuria, and reduced eGFR. Hypertensive nephrosclerosis is a substantial co\u2011morbidity given a 45\u2011year history of untreated hypertension and suboptimal antihypertensive regimen. The low urine specific gravity, glucosuria, and ketonuria point to a secondary proximal tubular dysfunction that likely reflects chronic CKD injury. NAFLD/NASH, medication\u2011related renal injury, and atherosclerotic cardiovascular disease appear only with limited supporting data and are retained with low probabilities. Overall confidence in the differential is high.",
+  "unresolved_findings": [
+    "Urine bilirubin positivity (0.8\u202fmg/dL) \u2013 not fully explained by renal disease alone",
+    "Very low urine specific gravity (1.00) beyond typical CKD concentrating defect",
+    "Missing recent measurements: blood pressure, HbA1c, lipid panel, liver function tests, uric acid, mineral\u2011bone labs"
+  ],
+  "recommended_workup": [
+    "Serum HbA1c and fasting glucose to quantify diabetes control",
+    "Comprehensive metabolic panel (electrolytes, bicarbonate, calcium, phosphate, uric acid, liver enzymes, bilirubin)",
+    "Lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Renal ultrasound to assess kidney size, cysts, and rule out obstruction or renal artery stenosis",
+    "Abdominal ultrasound with elastography or FibroScan to evaluate for NAFLD/NASH",
+    "Urine culture and microscopy to exclude infection as cause of bilirubinuria",
+    "Serum hepatitis B/C serologies if liver disease suspected",
+    "Serum parathyroid hormone, 25\u2011OH vitamin D, and phosphate to assess CKD\u2011Mineral\u2011Bone Disorder",
+    "Complete blood count with iron studies to screen for anemia of chronic disease",
+    "Blood pressure measurement (clinic and home) and initiation of ACE\u2011I or ARB; consider SGLT2 inhibitor if eGFR \u226530\u202fmL/min/1.73\u202fm\u00b2",
+    "Medication review for nephrotoxins (NSAIDs, herbal supplements) and optimization of diuretic regimen",
+    "Referral to dietitian for renal\u2011appropriate nutrition and weight management",
+    "Psychosocial assessment (depression screen, substance use, housing stability) to address adherence barriers"
+  ]
+}

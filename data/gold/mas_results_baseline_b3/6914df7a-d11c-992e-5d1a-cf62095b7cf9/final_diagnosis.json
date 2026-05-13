@@ -1,0 +1,174 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-Stage Renal Disease due to Diabetic Nephropathy",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes with documented progressive decline in eGFR",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine markedly elevated, eGFR <15 mL/min/1.73m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "Renal ultrasound showing small, echogenic kidneys consistent with chronic diabetic nephropathy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has advanced diabetic kidney disease with eGFR in the end\u2011stage range and imaging findings typical for diabetic nephropathy, supporting ESRD as the primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin/hematocrit with normocytic, normochromic indices",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Reduced erythropoietin production expected in ESRD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic kidney failure impairs erythropoietin synthesis, leading to anemia typical of CKD, matching the laboratory profile."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic Coronary Artery Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, dyslipidemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chest discomfort on exertion reported in prior visits",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s extensive atherosclerotic risk profile, CAD remains plausible, though no definitive cardiac testing has been performed."
+    },
+    {
+      "rank": 4,
+      "name": "Major Depressive Disorder",
+      "icd10": "F33.9",
+      "snomed": "370143000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented persistent low mood, anhedonia, and functional impairment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior trial of antidepressants with limited response",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical notes indicate depressive symptoms; however, evidence for treatment resistance is lacking, so the diagnosis is retained without that qualifier."
+    },
+    {
+      "rank": 5,
+      "name": "Iatrogenic Hypoglycemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 3.3% indicating over\u2011aggressive glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current insulin regimen with recent dose escalations",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "An abnormally low A1c in a diabetic patient suggests frequent hypoglycemic episodes secondary to medication, warranting this diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Hyperkalemia",
+      "icd10": "E87.5",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential risk due to ESRD and use of potassium\u2011sparing agents (not yet confirmed)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While hyperkalemia is a common complication of ESRD, no serum potassium value is available; probability is kept minimal."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid Use Disorder",
+      "icd10": "F11.20",
+      "snomed": "1916003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic prescription of hydrocodone for pain",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prescription opioid use alone does not meet criteria for OUD; retained only as a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "End-Stage Renal Disease due to Diabetic Nephropathy",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s advanced diabetic kidney disease with eGFR <15 mL/min/1.73m\u00b2 and characteristic imaging confirms ESRD as the dominant problem. Consequent anemia of chronic kidney disease accounts for the hematologic abnormalities. A low A1c of 3.3% reveals iatrogenic hypoglycemia from aggressive insulin therapy. Cardiovascular risk factors make atherosclerotic CAD plausible, while depressive symptoms support major depressive disorder. Hyperkalemia and opioid use disorder are retained only as low\u2011probability possibilities due to insufficient objective data.",
+  "unresolved_findings": [
+    "Current serum potassium, bicarbonate, magnesium, phosphate levels",
+    "Recent blood pressure measurements and home BP trends",
+    "Full lipid panel (LDL, HDL, triglycerides)",
+    "Complete blood count with hemoglobin/hematocrit and iron studies",
+    "Urinalysis results (proteinuria, hematuria)",
+    "Renal ultrasound or other imaging of kidneys",
+    "Cardiac evaluation results (ECG, stress test, echocardiogram)",
+    "Detailed substance\u2011use history beyond hydrocodone (tobacco, alcohol, illicit drugs)",
+    "Vaccination status (HBV, pneumococcal, influenza, COVID\u201119)",
+    "Formal psychosocial transplant eligibility assessment"
+  ],
+  "recommended_workup": [
+    "Serum potassium, bicarbonate, magnesium, phosphate",
+    "Comprehensive lipid panel",
+    "CBC with iron studies and ferritin",
+    "Repeat hemoglobin A1c and point\u2011of\u2011care glucose monitoring",
+    "Renal ultrasound (if not already performed)",
+    "Electrocardiogram and stress testing or coronary CT angiography",
+    "Echocardiogram to assess cardiac function",
+    "Parathyroid hormone and vitamin D levels",
+    "Detailed substance\u2011use assessment",
+    "Vaccination review and updates",
+    "Psychosocial evaluation for transplant eligibility"
+  ]
+}

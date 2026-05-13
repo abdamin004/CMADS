@@ -1,0 +1,151 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 diabetes mellitus related chronic kidney disease)",
+      "icd10": "E11.21",
+      "snomed": "90734009",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle\u2011aged male with type 2 diabetes, uncontrolled hypertension, CKD stage 2 with microalbuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Progressive decline in estimated GFR consistent with diabetic kidney disease trajectory",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular and renal risk due to combined diabetes and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s longstanding type 2 diabetes, presence of microalbuminuria, and progressive CKD are classic for diabetic nephropathy. Hypertension further accelerates renal injury, making DKD the most likely primary etiology."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis / hypertensive chronic kidney disease",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 uncontrolled hypertension (146/107 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD with proteinuria in the setting of severe hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe, poorly controlled hypertension can cause intrinsic renal damage independent of diabetes. It likely acts as a co\u2011factor, contributing to CKD progression alongside diabetic nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease / anemia of chronic disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia in the context of CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin consistent with anemia of chronic disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to reduced erythropoietin production, resulting in anemia. The finding aligns with the patient\u2019s renal impairment and is well supported."
+    },
+    {
+      "rank": 4,
+      "name": "Acute kidney injury superimposed on chronic kidney disease",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine reported as 7.6\u202fmg/dL (outlier, possible lab error)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential exposure to nephrotoxic agents not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The markedly elevated creatinine could represent an acute insult on chronic disease, but the value may be erroneous. Confirmation is required before firm attribution."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hypertension (primary aldosteronism, renal\u2011artery stenosis, obstructive sleep apnea)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite multiple agents (details unavailable)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No specific clinical clues (e.g., hypokalemia, abdominal bruit) are present, making secondary causes less likely, but they cannot be excluded without targeted testing."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin without liver function tests",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors raise suspicion for NAFLD, but lack of hepatic labs makes this diagnosis tentative."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes mellitus related chronic kidney disease)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient\u2019s profile of type 2 diabetes with microalbuminuria, uncontrolled stage 2 hypertension, and progressive CKD strongly points to diabetic nephropathy as the dominant process. Hypertensive nephrosclerosis contributes as a co\u2011factor, while anemia reflects the downstream effect of CKD. An acute rise in creatinine may indicate superimposed AKI, but the value is likely erroneous and requires verification. Secondary hypertension and NAFLD remain possible but are weakly supported by the current data.",
+  "unresolved_findings": [
+    "Serum creatinine 7.6\u202fmg/dL (single outlier, possible lab error)",
+    "Positive urine bilirubin without accompanying liver function tests",
+    "HbA1c reported as 3.2\u202f% (likely erroneous)",
+    "Absence of quantitative proteinuria measurement (UACR or 24\u2011h collection)",
+    "No documented renin\u2011angiotensin system blocker despite CKD and hypertension",
+    "Medication list not provided; potential nephrotoxic agents unassessed"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR",
+    "Quantitative proteinuria assessment (UACR or 24\u2011hour urine protein)",
+    "Renal ultrasound to evaluate structural causes and rule out obstruction",
+    "Repeat HbA1c or obtain fasting glucose to verify glycemic control",
+    "Comprehensive medication reconciliation focusing on nephrotoxins and antihypertensives",
+    "Initiate ACE inhibitor or ARB unless contraindicated",
+    "Liver function panel (AST, ALT, ALP, GGT, bilirubin) to clarify urine bilirubin finding",
+    "Screen for secondary hypertension (plasma renin activity, aldosterone, renal artery Doppler, sleep study if OSA suspected)"
+  ]
+}

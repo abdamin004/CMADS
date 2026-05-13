@@ -1,0 +1,174 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension with metabolic\u2011syndrome phenotype",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 160/87 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Atherogenic dyslipidemia (low HDL, borderline\u2011high LDL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of sustained stage 2 hypertension, obesity, and atherogenic dyslipidemia is classic for essential hypertension driven by metabolic\u2011syndrome factors. Elevated PDW further supports heightened cardiovascular risk associated with this phenotype."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011resistant / pre\u2011diabetic state (early type\u20112 diabetes)",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL and borderline\u2011high LDL suggest insulin resistance",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and atherogenic dyslipidemia are strong predictors of early insulin resistance, even though direct glycaemic measurements are missing."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (major risk factor for OSA)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW (possible marker of intermittent hypoxia\u2011related inflammation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension raise suspicion for OSA, though symptom screening (snoring, daytime sleepiness) is absent, making the diagnosis provisional."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hypertension \u2013 primary aldosteronism / early chronic kidney disease",
+      "icd10": "I15.2",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension uncontrolled on limited data",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Absence of electrolyte, renin/aldosterone, and renal function labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the lack of renal and electrolyte data, secondary causes cannot be excluded; primary aldosteronism and early CKD remain possibilities but are weakly supported."
+    },
+    {
+      "rank": 5,
+      "name": "Sub\u2011clinical atherosclerotic cardiovascular disease (high ASCVD risk)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Atherogenic dyslipidemia (low HDL, borderline\u2011high LDL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW (platelet activation marker)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factor profile suggests elevated ASCVD risk, but without imaging (coronary calcium score, carotid ultrasound) the disease remains sub\u2011clinical and speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic\u2011syndrome phenotype",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Atherogenic dyslipidemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD, yet no liver enzymes or imaging are available, making this a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension with metabolic\u2011syndrome phenotype",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage 2 hypertension, obesity, and atherogenic dyslipidemia, forming a classic metabolic\u2011syndrome picture that most plausibly explains the hypertension. Indirect evidence of insulin resistance supports a pre\u2011diabetic state, while obesity also raises suspicion for obstructive sleep apnea. Absence of renal, electrolyte, and glycaemic data prevents exclusion of secondary hypertension, early CKD, and pre\u2011diabetes. Elevated platelet distribution width suggests heightened cardiovascular risk, prompting consideration of sub\u2011clinical atherosclerosis and NAFLD, though these remain speculative without imaging or liver studies.",
+  "unresolved_findings": [
+    "Missing fasting glucose/HbA1c \u2013 cannot confirm or exclude dysglycemia.",
+    "Absent serum creatinine/eGFR, electrolytes, and urine albumin \u2013 CKD and secondary hypertension cannot be ruled out.",
+    "No serum potassium, aldosterone/renin measurements \u2013 primary aldosteronism not assessable.",
+    "No liver function tests or imaging \u2013 NAFLD/NASH status unknown.",
+    "Single blood pressure reading; no trend data.",
+    "Medication adherence unknown.",
+    "Smoking, alcohol use, physical activity, and family history not documented.",
+    "Elevated PDW not yet confirmed on repeat CBC."
+  ],
+  "recommended_workup": [
+    "Fasting glucose and HbA1c (or oral glucose tolerance test) to assess dysglycemia.",
+    "Serum creatinine, eGFR, electrolytes, and urine albumin-to-creatinine ratio for renal function and CKD evaluation.",
+    "Plasma aldosterone concentration and plasma renin activity (or aldosterone\u2011renin ratio) to screen for primary aldosteronism.",
+    "Comprehensive liver panel (AST, ALT, GGT, alkaline phosphatase) and abdominal ultrasound to evaluate NAFLD/NASH.",
+    "Repeat complete blood count to confirm PDW elevation.",
+    "Ambulatory blood pressure monitoring to verify hypertension severity and variability.",
+    "Polysomnography or home sleep apnea testing to diagnose OSA.",
+    "Detailed lifestyle questionnaire covering smoking, alcohol intake, diet, physical activity, and medication adherence.",
+    "Cardiovascular risk imaging (coronary calcium score or carotid intima\u2011media thickness) to detect sub\u2011clinical ASCVD."
+  ]
+}

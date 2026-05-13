@@ -1,0 +1,180 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 29.9) and stage\u20111 hypertension (132/86 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL and elevated platelet activation markers (MPV, PDW)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile consistent with metabolic syndrome criteria",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 criteria (central obesity, elevated blood pressure, dyslipidemia) defining metabolic syndrome, which drives his overall risk."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented untreated obstructive sleep apnea",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet activation markers suggesting pro\u2011thrombotic state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is confirmed in the chart and contributes to hypertension, insulin resistance, and platelet activation, increasing cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Pre\u2011diabetes / insulin resistance",
+      "icd10": "R73.03",
+      "snomed": "237599009",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension present, both strong risk factors for insulin resistance",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL and elevated platelet indices, patterns often seen in early dysglycemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, pre\u2011diabetes is likely even though glucose/HbA1c values are missing."
+    },
+    {
+      "rank": 4,
+      "name": "Essential hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/86 mmHg (stage\u20111 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current therapy limited to low\u2011dose lisinopril",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated BP meets criteria for essential hypertension and requires intensified management."
+    },
+    {
+      "rank": 5,
+      "name": "Subclinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.10",
+      "snomed": "414916001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet activation markers (MPV, PDW) indicating a pro\u2011atherogenic state",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High aggregate cardiovascular risk from metabolic syndrome and OSA",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While risk is high, no imaging evidence of plaque exists; therefore the diagnosis remains speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Mild anemia of chronic disease / early iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia noted on CBC",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory milieu from obesity and OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The anemia is mild and could be due to chronic disease or early iron deficiency; further iron studies are needed."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present, classic risk factors for NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No liver enzymes reported, but risk profile suggests possible fatty liver",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic context, NAFLD is plausible despite lack of liver function data."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of obesity, stage\u20111 hypertension, dyslipidemia (low HDL) and pro\u2011thrombotic platelet indices fulfills the criteria for metabolic syndrome, which is the dominant driver of his cardiovascular risk. Untreated obstructive sleep apnea further amplifies hypertension, insulin resistance, and platelet activation. The metabolic milieu makes pre\u2011diabetes/insulin resistance highly probable, while essential hypertension is already documented. Subclinical atherosclerosis is possible but lacks imaging confirmation. Mild anemia may reflect chronic inflammation, and NAFLD is a common comorbidity in this phenotype, though liver data are missing.",
+  "unresolved_findings": [
+    "Missing fasting glucose/HbA1c \u2013 cannot confirm pre\u2011diabetes or overt diabetes.",
+    "Absent renal function data (serum creatinine, eGFR, urine albumin/creatinine ratio) \u2013 CKD status unknown.",
+    "No liver function tests or imaging \u2013 NAFLD cannot be assessed.",
+    "Lifestyle variables (smoking, alcohol use, physical activity, diet) not documented.",
+    "No CPAP prescription or polysomnography report \u2013 severity and treatment status of OSA uncertain.",
+    "Iron studies, B12, folate, and inflammatory markers (CRP) missing \u2013 anemia etiology unclear.",
+    "No vascular imaging (carotid duplex, coronary calcium) to confirm subclinical atherosclerosis."
+  ],
+  "recommended_workup": [
+    "Fasting glucose and HbA1c",
+    "Comprehensive lipid panel (LDL, HDL, triglycerides)",
+    "Renal panel: serum creatinine, eGFR, urine albumin/creatinine ratio",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase, bilirubin)",
+    "Abdominal ultrasound or FibroScan to evaluate for NAFLD",
+    "Iron studies (serum iron, ferritin, TIBC), vitamin B12, folate, and CRP",
+    "Repeat CBC with indices to characterize anemia",
+    "Polysomnography (if not performed) and CPAP titration",
+    "Carotid duplex ultrasound or coronary calcium scoring for subclinical atherosclerosis",
+    "Lifestyle assessment questionnaire (smoking, alcohol, diet, activity)"
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "patient_uuid": "1cddc6d8-aca9-157f-216e-931aff7c5ab4",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T17:39:17+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T17:39:38+00:00",
+      "summary": "Completed ehr_analyst in 21478ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T17:39:17+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T17:39:38+00:00",
+      "summary": "Completed lab_interpreter in 20913ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:39:38+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:39:40+00:00",
+      "summary": "Recall returned 12, 0 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 0,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": []
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:40:15+00:00",
+      "summary": "Round 1 critique: confidence=84, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 84,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:40:15+00:00",
+      "summary": "Round 1 confidence=84/100",
+      "payload": {
+        "round": 1,
+        "confidence": 84
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:40:29+00:00",
+      "summary": "Final differential (10 dx, primary=Medication\u2011induced acute\u2011on\u2011chronic kidney injury (NSAID + A, rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "Medication\u2011induced acute\u2011on\u2011chronic kidney injury (NSAID + ACE\u2011I/ARB \u00b1 diuretic, possible SGLT2\u2011i)",
+        "primary_probability": 0.3,
+        "confidence_trajectory": [
+          84
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:40:29+00:00",
+      "summary": "Completed diagnostic_reasoning in 50655ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T17:40:29+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T17:40:59+00:00",
+      "summary": "Completed clinical_reviewer in 30410ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:40:59+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:41:07+00:00",
+      "summary": "Final refined diagnosis: Advanced diabetic\u2011hypertensive chronic kidney disease (stage 4) with nephrotic\u2011r",
+      "payload": {
+        "primary_diagnosis": "Advanced diabetic\u2011hypertensive chronic kidney disease (stage 4) with nephrotic\u2011range proteinuria",
+        "primary_probability": 0.38,
+        "differential_size": 9
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:41:07+00:00",
+      "summary": "Completed final_diagnosis in 7542ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T17:41:08+00:00",
+      "summary": "Consolidated outcome for 'Advanced diabetic-hypertensive chronic kidney disease (stage 4) with nephrotic-range proteinuria' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Advanced diabetic-hypertensive chronic kidney disease (stage 4) with nephrotic-range proteinuria",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

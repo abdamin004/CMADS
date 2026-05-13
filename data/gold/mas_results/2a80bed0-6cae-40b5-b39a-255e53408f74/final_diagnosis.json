@@ -1,0 +1,271 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.365,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (BP 128/90)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI flagged as elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.2%)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient exhibits the core components of metabolic syndrome\u2014central obesity, hypertension, and impaired glucose tolerance\u2014supporting this as the most likely unifying diagnosis despite missing lipid data."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension increase OSA risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High pre\u2011test probability based on BMI and neck circumference (not recorded)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are strong risk factors for OSA; although sleep\u2011related symptoms are not documented, the pre\u2011test probability is moderate."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (low hemoglobin/hematocrit)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis (potential source of blood loss) and possible dietary insufficiency",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is present; iron studies are pending, but iron\u2011deficiency remains plausible given chronic sinusitis and possible menstrual losses."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High prevalence of NAFLD in patients with insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, NAFLD is a common comorbidity even though liver enzymes were not provided."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (hypertensive nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (risk factor for CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and diabetes predispose to early CKD; renal function data are missing, so probability remains moderate."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Weight gain and fatigue reported (implicit)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms overlap with metabolic syndrome; without thyroid labs the diagnosis remains speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Combined vitamin B12 and folate deficiency",
+      "icd10": "D51.0; D52.9",
+      "snomed": "124058000",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on B12 therapy (makes pure B12 deficiency less likely)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia suggesting possible megaloblastic process",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Leukopenia raises concern for macrocytic anemia, but therapy and lack of labs lower confidence."
+    },
+    {
+      "rank": 8,
+      "name": "Primary hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension (BP 128/90 despite therapy)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension could be secondary to aldosterone excess, but prevalence is low and hormonal data are absent."
+    },
+    {
+      "rank": 9,
+      "name": "Major depressive disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stressors noted (full\u2011time employment, higher education)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No documented depressive symptoms or screening results; diagnosis remains questionable."
+    },
+    {
+      "rank": 10,
+      "name": "Polycystic ovary syndrome",
+      "icd10": "E28.2",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity in a reproductive\u2011age female",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Gynecologic data are lacking; PCOS is possible but not substantiated."
+    },
+    {
+      "rank": 11,
+      "name": "Folate deficiency anemia",
+      "icd10": "D52.9",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dietary risk factors not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated folate deficiency is uncommon without other risk factors; labs are missing."
+    },
+    {
+      "rank": 12,
+      "name": "Anemia of chronic disease (from chronic sinusitis)",
+      "icd10": "D63.8",
+      "snomed": "271327008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Sinusitis alone is unlikely to cause significant anemia; kept for completeness."
+    },
+    {
+      "rank": 13,
+      "name": "Undiagnosed HIV infection",
+      "icd10": "B20",
+      "snomed": "86406008",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented risk factors; HIV test not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability; included as a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.365,
+  "clinical_reasoning_summary": "The patient presents with hypertension, obesity, and prediabetes\u2014three cardinal features of metabolic syndrome\u2014making it the most likely unifying diagnosis. Co\u2011existing anemia raises the possibility of iron\u2011deficiency, while the metabolic milieu predisposes to NAFLD, early CKD, and OSA. Other considerations (hypothyroidism, vitamin deficiencies, secondary hypertension, mood disorder) are less supported due to missing targeted investigations.",
+  "unresolved_findings": [
+    "Fasting lipid panel (total, LDL, HDL, triglycerides) \u2013 needed to confirm metabolic syndrome criteria",
+    "Thyroid function tests (TSH, free T4, anti\u2011TPO) \u2013 to evaluate hypothyroidism",
+    "Iron studies (serum iron, ferritin, TIBC, transferrin saturation) \u2013 to confirm/exclude iron\u2011deficiency anemia",
+    "Vitamin B12, methylmalonic acid, homocysteine, folate levels \u2013 to assess combined deficiencies",
+    "Renal function (serum creatinine, eGFR) and urine albumin \u2013 to stage CKD",
+    "Sleep study or validated questionnaire \u2013 to diagnose OSA",
+    "Comprehensive menstrual history \u2013 to quantify potential iron loss",
+    "HIV/HCV serology \u2013 to rule out occult infection"
+  ],
+  "recommended_workup": [
+    "Complete fasting lipid profile",
+    "Thyroid panel (TSH, free T4, anti\u2011TPO antibodies)",
+    "Iron studies with ferritin and transferrin saturation",
+    "Serum vitamin B12, methylmalonic acid, homocysteine, and folate levels",
+    "Serum creatinine, eGFR, and urine albumin/creatinine ratio",
+    "Overnight polysomnography or home sleep apnea testing",
+    "Detailed menstrual and gynecologic history",
+    "HIV and hepatitis C serologies",
+    "Abdominal ultrasound to assess hepatic steatosis and renal morphology"
+  ]
+}

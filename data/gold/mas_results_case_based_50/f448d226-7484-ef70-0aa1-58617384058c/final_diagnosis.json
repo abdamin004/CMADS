@@ -1,0 +1,169 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome (insulin\u2011resistance core)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag present in patient record",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 160 mmHg) despite low\u2011dose lisinopril",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress noted as contributing factor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, insulin\u2011resistance\u2013related hypertension, and metabolic stress together constitute classic metabolic syndrome, which is the most plausible driver of the resistant hypertension."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled Primary Hypertension (treatment\u2011failure component)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent SBP 160 mmHg on low\u2011dose ACE inhibitor",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented dose escalation or addition of second antihypertensive agent",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The blood pressure remains markedly elevated despite therapy, indicating true treatment\u2011resistant hypertension rather than white\u2011coat effect."
+    },
+    {
+      "rank": 3,
+      "name": "Medication Non\u2011adherence / Sub\u2011therapeutic Dosing",
+      "icd10": "Z91.14",
+      "snomed": "160573003",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Only low\u2011dose lisinopril prescribed; no recent pharmacy refill data",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient flagged for chronic stress, a known risk factor for poor adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Absence of refill information and the low dose suggest that non\u2011adherence or under\u2011dosing may be a major contributor to uncontrolled BP."
+    },
+    {
+      "rank": 4,
+      "name": "Pre\u2011diabetes / Early Type\u202f2 Diabetes Mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599009",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome raise risk for impaired glucose metabolism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, early dysglycemia is plausible, though glucose/HbA1c data are missing."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI in obese range and hypertension, both risk factors for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated resting heart rate (94 bpm) suggestive of sympathetic over\u2011activity",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA can exacerbate hypertension; screening is warranted despite lack of a formal sleep study."
+    },
+    {
+      "rank": 6,
+      "name": "Perimenopausal Hormonal Transition",
+      "icd10": "N95.1",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle\u2011aged female; age range compatible with perimenopause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hormonal fluctuations may modestly influence blood pressure, but are unlikely to be the primary driver."
+    },
+    {
+      "rank": 7,
+      "name": "Early Chronic Kidney Disease (hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing uncontrolled hypertension raises suspicion for renal involvement",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal function has not been assessed; CKD remains a possible but unconfirmed contributor."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome (insulin\u2011resistance core)",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, chronic stress, and stage 2 hypertension despite low\u2011dose ACE inhibition point to metabolic syndrome as the central pathophysiologic process driving resistant hypertension. Uncontrolled primary hypertension and probable medication non\u2011adherence further amplify the blood pressure elevation. Co\u2011existing metabolic derangements (pre\u2011diabetes) and common comorbidities (OSA) are plausible contributors. Perimenopause and early hypertensive nephropathy are considered but carry lower likelihood given current data gaps.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 442.3 fL) without inflammatory markers",
+    "Low\u2011normal red blood cell count (4.2 \u00d710\u2076/\u00b5L) lacking iron studies",
+    "Missing fasting glucose/HbA1c",
+    "Missing renal function (eGFR, urine albumin)",
+    "Absent aldosterone\u2011renin ratio",
+    "No cortisol or dexamethasone suppression test",
+    "No thyroid function tests (TSH, free T4)",
+    "No antiphospholipid antibody panel",
+    "No sleep study or STOP\u2011BANG assessment",
+    "Unrecorded smoking, alcohol, physical activity, and dietary habits",
+    "No medication refill/adherence data"
+  ],
+  "recommended_workup": [
+    "Fasting plasma glucose and HbA1c",
+    "Comprehensive lipid panel",
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio",
+    "Aldosterone\u2011renin ratio with plasma aldosterone concentration",
+    "Late\u2011night salivary cortisol or 1\u2011mg dexamethasone suppression test",
+    "TSH and free T4",
+    "Antiphospholipid antibody panel (lupus anticoagulant, anticardiolipin, \u03b22\u2011glycoprotein I)",
+    "Overnight polysomnography or home sleep apnea testing",
+    "Structured medication adherence assessment (pharmacy refill review, pill count)",
+    "Lifestyle questionnaire covering diet, physical activity, alcohol, and tobacco use"
+  ]
+}

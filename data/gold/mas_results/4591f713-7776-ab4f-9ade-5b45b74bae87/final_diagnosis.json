@@ -1,0 +1,140 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus with early diabetic nephropathy",
+      "icd10": "E11.21",
+      "snomed": "44054006",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle\u2011aged male with metabolic syndrome, hypertension, hyperlipidemia, and documented diabetes on insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (1.5\u202fmg/dL) consistent with early CKD; proteinuria noted but quantitative measurement missing",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Long\u2011standing diabetes and hypertension are major risk factors for diabetic kidney disease",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s metabolic profile, documented insulin use, and early CKD with modest creatinine elevation fit the classic presentation of diabetic nephropathy. Although the HbA1c entry is implausibly low, this is likely a data error and does not diminish the overall pattern."
+    },
+    {
+      "rank": 2,
+      "name": "Medication\u2011induced ACE\u2011I renal dysfunction (acute\u2011on\u2011chronic AKI)",
+      "icd10": "T46.6X5A",
+      "snomed": "444814009",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on three antihypertensive agents including an ACE inhibitor",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Discrepancy between serum creatinine (1.5\u202fmg/dL) and whole\u2011blood creatinine (2.7\u202fmg/dL) suggests possible acute rise",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood pressure is low\u2011normal (107/68\u202fmmHg) on maximal therapy, raising concern for over\u2011diuresis or ACE\u2011I effect",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of ACE\u2011I therapy, low\u2011normal blood pressure, and an unexplained creatinine discrepancy raises the possibility of an ACE\u2011I\u2011related acute kidney injury superimposed on chronic diabetic nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis (mixed with diabetic injury)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Well\u2011controlled hypertension on three agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic modest elevation of creatinine without overt proteinuria quantification",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension contributes to chronic kidney changes that can coexist with diabetic nephropathy, making isolated attribution difficult but still plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011diabetic renal disease (glomerulonephritis / interstitial nephritis / light\u2011chain deposition)",
+      "icd10": "N03.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of definitive immunologic or monoclonal protein data",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones present despite insulin therapy (could reflect metabolic stress)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While possible, there is insufficient laboratory evidence (e.g., ANA, complement, serum protein electrophoresis) to strongly support a primary non\u2011diabetic renal pathology."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, dyslipidemia, diabetes) present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive without documented liver disease (possible false\u2011positive)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD plausible, but urine bilirubin is an unreliable marker and no hepatic imaging or enzymes are provided."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus with early diabetic nephropathy",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s metabolic syndrome, documented insulin therapy, and early CKD are most consistent with diabetic nephropathy, which the reviewer endorsed as the primary diagnosis. A notable creatinine discrepancy and low\u2011normal blood pressure on ACE\u2011I therapy raise the possibility of an ACE\u2011I\u2011induced acute\u2011on\u2011chronic kidney injury, warranting a secondary high probability. Hypertensive nephrosclerosis likely contributes as a mixed pathology. Non\u2011diabetic renal disease and NAFLD remain possible but lack supporting laboratory data, and plasma cell dyscrasia and subclinical atherosclerosis were deemed unsupported and removed.",
+  "unresolved_findings": [
+    "Urine bilirubin positive without documented liver disease",
+    "Isolated low alkaline phosphatase",
+    "Discrepancy between serum creatinine (1.5\u202fmg/dL) and whole\u2011blood creatinine (2.7\u202fmg/dL)",
+    "Implausible HbA1c value of 3.1% (likely data entry error)",
+    "Urinary ketones despite ongoing insulin therapy"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR using standardized assay; obtain a second measurement to resolve discrepancy",
+    "Quantify proteinuria (UACR or 24\u2011hour urine protein) to assess severity of nephropathy",
+    "Renal ultrasound to evaluate kidney size and rule out obstructive causes",
+    "Review ACE\u2011I dose; consider temporary hold and monitor renal function trends",
+    "Comprehensive metabolic panel including liver enzymes, bilirubin fractions, and alkaline phosphatase",
+    "Repeat HbA1c or obtain fructosamine to verify glycemic control",
+    "Serum and urine protein electrophoresis with immunofixation to exclude monoclonal gammopathy",
+    "Autoimmune panel (ANA, complement levels) if proteinuria is nephritic in pattern",
+    "Consider renal biopsy if proteinuria >1\u202fg/day and etiology remains unclear"
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "patient_uuid": "c573e85c-8478-e81e-1653-52f024227d1f",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:31:12+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:31:34+00:00",
+      "summary": "Completed ehr_analyst in 21964ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:31:12+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:31:37+00:00",
+      "summary": "Completed lab_interpreter in 24746ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:31:37+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:31:38+00:00",
+      "summary": "Recall returned 12, 1 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 1,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.754,
+            "match_type": "DIRECT",
+            "canonical_family": "metabolic_syndrome",
+            "raw_diagnosis": "Metabolic syndrome (obesity\u2011driven insulin resistance)"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:32:18+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 1
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:32:18+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:32:18+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:32:25+00:00",
+      "summary": "Final differential (5 dx, primary=Heterozygous familial hypercholesterolemia, rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Heterozygous familial hypercholesterolemia",
+        "primary_probability": 0.4,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:32:25+00:00",
+      "summary": "Completed diagnostic_reasoning in 48006ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:32:25+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:32:42+00:00",
+      "summary": "Completed clinical_reviewer in 16591ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:32:42+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:32:47+00:00",
+      "summary": "Final refined diagnosis: Heterozygous familial hypercholesterolemia (FH)",
+      "payload": {
+        "primary_diagnosis": "Heterozygous familial hypercholesterolemia (FH)",
+        "primary_probability": 0.45,
+        "differential_size": 5
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:32:47+00:00",
+      "summary": "Completed final_diagnosis in 5422ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:32:48+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:33:01+00:00",
+      "summary": "Treatment plan generated for 'Essential (primary) hypertension' (5 meds)",
+      "payload": {
+        "disease": "Essential (primary) hypertension"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:33:01+00:00",
+      "summary": "Completed treatment_planning in 13277ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T18:33:02+00:00",
+      "summary": "Consolidated outcome for 'Essential (primary) hypertension' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Essential (primary) hypertension",
+        "rank": 2
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

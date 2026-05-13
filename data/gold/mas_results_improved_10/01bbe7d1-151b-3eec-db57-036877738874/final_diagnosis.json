@@ -1,0 +1,140 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 diabetes mellitus with chronic kidney disease)",
+      "icd10": "E11.21",
+      "snomed": "90734009",
+      "probability": 0.53,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle\u2011aged male with type 2 diabetes on insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease stage 2 inferred from reduced eGFR and proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension, a known accelerator of diabetic kidney injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing type 2 diabetes, insulin use, CKD stage 2 with proteinuria, and hypertension makes diabetic nephropathy the most plausible cause of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive chronic kidney disease (essential hypertension with renal involvement)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.24,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled stage 2 hypertension documented in multiple visits",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated whole\u2011blood creatinine (7.6\u202fmg/dL) suggesting renal impairment beyond diabetic contribution",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of ACE\u2011I/ARB therapy despite CKD and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension alone can cause CKD, especially when severe and untreated; the discordant creatinine value raises suspicion that hypertensive nephrosclerosis contributes significantly."
+    },
+    {
+      "rank": 3,
+      "name": "Dyslipidemia with high atherosclerotic cardiovascular disease (ASCVD) risk",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.11,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk profile includes diabetes, hypertension, CKD, and likely elevated LDL (not directly measured but inferred from metabolic syndrome)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing lipid panel but clinical context predicts dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s metabolic risk factors, dyslipidemia is virtually certain and contributes to ASCVD risk; probability increased to reflect near\u2011certain presence."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia (normocytic, erythropoietin\u2011deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Normocytic anemia documented in the chart",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin below expected for CKD stage 2",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is common in CKD due to reduced erythropoietin; however, iron, B12, and folate studies are lacking, so attribution remains moderate."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic syndrome (insulin\u2011resistance driven)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of hypertension, type 2 diabetes, and likely overweight (BMI not recorded)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides inferred from missing lipid panel and high ASCVD risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "At least three components of metabolic syndrome are present; probability raised to address reviewer\u2019s concern of under\u2011representation."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes mellitus with chronic kidney disease)",
+  "primary_probability": 0.53,
+  "clinical_reasoning_summary": "The patient\u2019s profile of type 2 diabetes on insulin, uncontrolled hypertension, CKD stage 2 with proteinuria, and normocytic anemia points to diabetic nephropathy as the leading cause of renal dysfunction. Hypertensive nephrosclerosis likely adds a substantial contribution, especially given the discordant whole\u2011blood creatinine and lack of ACE\u2011I/ARB therapy. Dyslipidemia is virtually certain given the metabolic milieu, while CKD\u2011related anemia and metabolic syndrome explain the hematologic and systemic risk features. Laboratory inconsistencies (implausibly low HbA1c, discordant creatinine) are flagged for repeat testing.",
+  "unresolved_findings": [
+    "Whole\u2011blood creatinine 7.6\u202fmg/dL \u2013 discordant with serum creatinine; possible assay error",
+    "Hemoglobin A1c 3.2\u202f% \u2013 implausibly low for a patient on insulin; likely lab error",
+    "Urine bilirubin 1.3\u202fmg/dL without accompanying serum bilirubin or liver enzyme abnormalities",
+    "Urine specific gravity 1.00 (very dilute) \u2013 could reflect tubular dysfunction or recent over\u2011hydration",
+    "Missing BMI, smoking status, alcohol use, total cholesterol, triglycerides, vitamin D, PTH, liver enzymes, and imaging data"
+  ],
+  "recommended_workup": [
+    "Repeat serum and whole\u2011blood creatinine measurements to confirm renal function",
+    "Repeat HbA1c or obtain fructosamine/glycated albumin to assess glycemic control",
+    "Quantitative urine protein/albumin excretion (spot urine ACR or 24\u2011hour collection)",
+    "Renal ultrasound to evaluate structural causes of CKD",
+    "Complete iron studies, vitamin B12, and folate levels to clarify anemia etiology",
+    "Full lipid panel (LDL, HDL, triglycerides) and calculate ASCVD risk score",
+    "Initiate ACE\u2011I or ARB therapy if not contraindicated and monitor response",
+    "Assess BMI, smoking, and alcohol use; obtain liver function tests given urine bilirubin",
+    "Consider referral to nephrology for CKD management and possible renal biopsy if atypical"
+  ]
+}

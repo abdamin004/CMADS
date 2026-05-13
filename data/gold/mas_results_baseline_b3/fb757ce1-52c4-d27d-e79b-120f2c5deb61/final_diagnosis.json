@@ -1,0 +1,242 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease stage 3-4 (diabetic-hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes and hypertension with declining eGFR",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine consistent with eGFR 30-44 mL/min/1.73m2",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High CKD risk based on diabetes duration and blood pressure profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has longstanding type 2 diabetes and resistant hypertension, both major risk factors for CKD. Laboratory data show reduced eGFR in the range of stage 3-4, supporting diabetic-hypertensive nephropathy as the leading diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of type 2 diabetes in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated HbA1c (>7%) on recent labs",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Established diagnosis with laboratory confirmation; contributes to CKD and metabolic syndrome."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome (insulin resistance)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Elevated waist circumference, triglycerides, and fasting glucose",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidemia pattern (high TG, low HDL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination of obesity, dyslipidemia, hypertension, and impaired glucose tolerance fulfills criteria for metabolic syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Essential hypertension (likely resistant)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension on three antihypertensive agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "unavailable",
+          "finding": "Absence of recent BP readings limits confirmation of resistance",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Patient is on multiple agents yet BP control is uncertain; likely resistant hypertension contributing to CKD progression."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid use disorder / opioid\u2011related adverse effects",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid prescription for pain management",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Reported constipation and occasional sedation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic opioid therapy raises concern for dependence and side effects; no formal OUD assessment documented."
+    },
+    {
+      "rank": 6,
+      "name": "Gout, chronic, undertreated",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of gout flares and urate\u2011lowering therapy listed",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum uric acid not available (gap noted)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prior gout diagnosis with possible suboptimal control; CKD may exacerbate hyperuricemia."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia with low reticulocyte count",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3\u20114 present, a known cause of anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia pattern aligns with CKD\u2011related anemia; iron studies pending to exclude iron deficiency."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_note",
+          "finding": "Snoring reported, BMI >30 kg/m2",
+          "strength": "weak"
+        },
+        {
+          "source": "unavailable",
+          "finding": "No STOP\u2011BANG score or polysomnography performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors present but lacking objective testing; probability downgraded."
+    },
+    {
+      "rank": 9,
+      "name": "Depressive disorder / anxiety (unspecified)",
+      "icd10": "F33.9",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_note",
+          "finding": "Patient reports low mood and worry, but no formal screening",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms noted without validated scales; low confidence."
+    },
+    {
+      "rank": 10,
+      "name": "Atherosclerotic cardiovascular disease (subclinical CAD / possible heart failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk based on age, diabetes, hypertension",
+          "strength": "weak"
+        },
+        {
+          "source": "unavailable",
+          "finding": "No ECG, stress test, or echocardiogram performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk profile suggests possible subclinical disease, but no objective cardiac data; kept low."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease stage 3-4 (diabetic-hypertensive nephropathy)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s combination of longstanding type 2 diabetes, resistant hypertension, and reduced eGFR points to chronic kidney disease stage 3\u20114 as the most likely and clinically impactful diagnosis. Diabetes and metabolic syndrome remain significant contributors, while hypertension likely drives CKD progression. Opioid therapy raises concerns for dependence and adverse effects. Gout, anemia, and possible sleep apnea, depression, and subclinical ASCVD are present but with lower probabilities. The differential reflects the reviewer\u2019s probability adjustments and prioritizes CKD as the primary focus.",
+  "unresolved_findings": [
+    "Exact blood pressure readings (clinic/home) not provided",
+    "Full fasting lipid panel values (total cholesterol, LDL\u2011C, HDL\u2011C) missing",
+    "Urinalysis and urine albumin\u2011creatinine ratio absent",
+    "Renal imaging (ultrasound/CT) not documented",
+    "Serum uric acid level not available",
+    "Iron studies, B12, folate, reticulocyte count missing",
+    "Opioid urine drug screen and functional pain assessment not recorded",
+    "Depression/anxiety screening scores (PHQ\u20119, GAD\u20117) absent",
+    "Vaccination status (influenza, pneumococcal, shingles) not listed",
+    "Sleep study results or STOP\u2011BANG score not documented"
+  ],
+  "recommended_workup": [
+    "Obtain ambulatory blood pressure monitoring and document home BP readings",
+    "Complete fasting lipid panel with LDL\u2011C, HDL\u2011C, triglycerides",
+    "Perform urine albumin\u2011creatinine ratio and repeat urinalysis",
+    "Renal ultrasound to assess kidney size and rule out obstructive causes",
+    "Measure serum uric acid level",
+    "Order iron studies, vitamin B12, folate, and reticulocyte count to characterize anemia",
+    "Conduct opioid urine drug screen and formal opioid use disorder assessment (e.g., DSM\u20115 criteria)",
+    "Administer PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety screening",
+    "Schedule polysomnography or home sleep apnea testing; calculate STOP\u2011BANG score",
+    "Review and update vaccination status; administer indicated vaccines",
+    "Consider baseline ECG and, if indicated, stress testing or echocardiography for ASCVD evaluation"
+  ]
+}

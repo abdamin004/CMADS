@@ -1,193 +1,209 @@
 \chapter{Background}
 \label{chap:background}
 
-% ─────────────────────────────────────────────────────────────────────────────
+\FloatBarrier
+% -----------------------------------------------------------------------------
 \section{Concepts Overview}
 \label{sec:concepts}
-% ─────────────────────────────────────────────────────────────────────────────
+% -----------------------------------------------------------------------------
 
-This section provides an overview of the key concepts and terminology necessary to
-understand the design and motivation of a multi-agent system for AI clinical decisioning
-via automation workflows.  The concepts introduced here form the foundation for the
-literature review that follows, covering the limitations of single-model AI in
-healthcare, the principles of multi-agent
-system design, the role of large language models in clinical
-applications, and the fundamentals of automation workflow
-orchestration.
+This chapter gives the background needed to understand the system built in this
+thesis. It first explains why a single LLM is not enough for clinical decision
+support, then introduces multi-agent systems, clinical LLM agents, retrieval, and
+workflow design. The second half of the chapter reviews the papers that shaped
+the implementation choices used later in Chapter~3.
 
-% ─────────────────────────────────────────────────────────────────────────────
+\FloatBarrier
+% -----------------------------------------------------------------------------
 \subsection{The Limitations of Single-Model AI in Clinical Settings}
 \label{subsec:single_model_limits}
-% ─────────────────────────────────────────────────────────────────────────────
+% -----------------------------------------------------------------------------
 
-The following subsection examines the three core limitations of single-model AI in
-clinical settings --- the knowledge gap problem, the single-pass reasoning constraint,
-and cognitive reasoning failures --- that collectively motivate the transition to
-multi-agent architectures.
+Single LLM systems have been used for diagnosis support, drug recommendation, and
+clinical documentation. They can produce useful medical text and often perform
+well on question-answering benchmarks \cite{Abbasian2024openCHA}. However, a
+clinical workflow is harder than a benchmark. The model has to work with partial
+evidence, uncertainty, and information that may be spread across many parts of a
+patient record.
 
-Artificial Intelligence has increasingly been applied to medical tasks, including
-diagnosis support, drug recommendation, and clinical documentation.  Early approaches
-relied on single large language models (LLMs) --- systems trained on vast corpora of
-text that can generate clinically plausible responses to natural language
-prompts~\cite{Abbasian2024openCHA}.  While these models have demonstrated impressive
-performance on structured question-answering tasks, their deployment in real-world
-clinical settings exposes a set of persistent limitations~\cite{Yan2024ClinicalLab}.
+The first problem is missing knowledge. A model only has the knowledge learned
+during training unless it is connected to external data or tools. It cannot
+automatically query a patient database, check a current guideline, or calculate a
+clinical score. Tang et al. found that 77\% of LLM medical-task errors were
+linked to domain knowledge gaps rather than pure reasoning failure
+\cite{Tang2024MedAgents}. This supports the idea of using specialist agents and
+retrieval, instead of asking one model to carry the whole task.
 
-The most significant limitation is the \textit{knowledge gap problem}.  A single LLM,
-regardless of scale, encodes a fixed set of parametric knowledge from its training data
-and has no mechanism to access real-time patient information, query external clinical
-databases, or perform analytical computations.  Tang~et~al.~\cite{Tang2024MedAgents}
-demonstrated empirically that 77\% of errors made by LLMs on medical tasks are
-attributable to domain knowledge gaps rather than failures in reasoning --- a finding
-that directly motivates the multi-agent approach, in which specialist agents pool
-complementary knowledge to compensate for any individual agent's deficiencies.
+The second problem is single-pass reasoning. A normal LLM call produces one
+answer from one prompt. Clinical reasoning often needs several rounds: collect
+evidence, form a differential, check missing information, revise the answer, and
+only then decide. Shang et al. showed that dynamic multi-round decision-making
+performed better than single-pass approaches on complex patient cases
+\cite{Shang2025DynamiCare}.
 
-A second limitation is the \textit{single-pass reasoning constraint}.  Standard LLMs
-produce responses in a single forward pass, which is fundamentally unsuitable for
-clinical decisioning tasks that require iterative information gathering, differential
-diagnosis across multiple hypotheses, and adaptation to evolving patient presentations.
-Shang~et~al.~\cite{Shang2025DynamiCare} showed that dynamic, multi-round clinical
-decision-making significantly outperformed single-pass approaches on complex patient
-cases, establishing iterative reasoning as a structural requirement for clinical AI.
+The third problem is bias. LLMs can anchor on an early diagnosis, look mainly for
+evidence that supports it, or rely on familiar patterns. These are similar to
+known diagnostic biases in human medicine. Ke et al. showed that multi-agent
+conversation with a critical evaluator reduced anchoring, availability, and
+confirmation bias compared with a single-agent setting \cite{Ke2024CognitiveBias}.
 
-Third, single models are prone to \textit{cognitive reasoning failures}, including
-anchoring bias --- the tendency to over-weight an initial diagnosis ---
-confirmation bias, and availability bias.  Ke~et~al.~\cite{Ke2024CognitiveBias}
-demonstrated through a controlled simulation study that these biases occur
-systematically in single LLM-based clinical agents and are substantially reduced when a
-multi-agent framework with a dedicated critical evaluator is used instead.
-
-% ─────────────────────────────────────────────────────────────────────────────
+\FloatBarrier
+% -----------------------------------------------------------------------------
 \subsection{Multi-Agent Systems: Principles and Architecture}
 \label{subsec:mas_principles}
-% ─────────────────────────────────────────────────────────────────────────────
+% -----------------------------------------------------------------------------
 
-Having identified the limitations of single-model approaches, this subsection introduces
-the multi-agent system paradigm as an architectural response, covering the core design
-dimensions of topology, coordination, and agent
-specialisation.
+A multi-agent system (MAS) divides a task between several agents. In clinical AI,
+each agent usually has a role, such as retrieving information, reading the EHR,
+interpreting labs, reasoning about diagnoses, or reviewing the answer
+\cite{Kim2024MDAgents}. The agents exchange structured messages and can use
+different prompts, tools, or knowledge sources.
 
-A multi-agent system (MAS) is a computational framework in which multiple autonomous
-agents --- each capable of perceiving its environment, reasoning over inputs, and taking
-actions --- collaborate to accomplish tasks that would be too complex or too broad for
-any single agent to handle alone~\cite{Kim2024MDAgents}.  In the context of LLM-based
-clinical AI, each agent is a language model instance assigned a specific role, knowledge
-domain, or workflow function.  Agents communicate through structured message-passing
-protocols and may have access to distinct tool sets, knowledge bases, or data
-sources~\cite{Abbasian2024openCHA}.
+The way agents are connected matters. In a centralised design, one orchestrator
+assigns work and combines the outputs. In a decentralised design, agents exchange
+messages more directly. In a hierarchical design, simple cases can be handled at
+a lower level and difficult or risky cases can be escalated. Chen et al. showed
+that topology affects safety: centralised systems were more vulnerable to a
+compromised agent, while decentralised systems were more resilient
+\cite{Chen2025MedSentry}. Kim et al. also used a tiered design in TAO to improve
+safety handling \cite{Kim2025TAO}.
 
-The architectural design of a MAS can take several forms depending on how agents are
-coordinated.  In a \textbf{centralised} architecture, all agents report to a single
-orchestrator agent that plans, delegates, and synthesises outputs.  In a
-\textbf{decentralised} architecture, agents communicate peer-to-peer without a central
-coordinator.  \textbf{Hierarchical} architectures combine elements of both, grouping
-agents into tiers with escalation pathways between
-levels~\cite{Kim2025TAO}.  Chen~et~al.~\cite{Chen2025MedSentry} demonstrated empirically
-that the choice of topology has a direct and measurable effect on clinical safety --- a
-centralised MAS was found to be the most vulnerable to adversarial manipulation, while a
-decentralised topology was the most resilient.
+Specialisation is another important idea. A clinical MAS should not use several
+copies of the same general agent and expect them to add much value. The stronger
+pattern is to give agents different responsibilities, such as a Retrieval Agent,
+Reasoning Agent, Synthesis Agent, or Critical Evaluator. This pattern appears in
+many of the systems reviewed in this chapter
+\cite{Zhou2024ZODIAC,Yan2024ClinicalLab}.
 
-Agent specialisation is a further architectural dimension.  Rather than deploying
-identical generalist agents, a specialised MAS assigns distinct roles --- such as a
-Retrieval Agent, a Reasoning Agent, a Synthesis Agent, or a Critical Evaluator --- to
-separate agents, enabling each to be optimised for its specific function within the
-workflow~\cite{Zhou2024ZODIAC,Yan2024ClinicalLab}.  This specialisation principle is
-operationalised across nearly all frameworks reviewed in this chapter.
-
-% ─────────────────────────────────────────────────────────────────────────────
+\FloatBarrier
+% -----------------------------------------------------------------------------
 \subsection{Large Language Models as Clinical Agents}
 \label{subsec:llm_agents}
-% ─────────────────────────────────────────────────────────────────────────────
+% -----------------------------------------------------------------------------
 
-This subsection describes how large language models serve as the reasoning backbone of
-individual agents within a multi-agent clinical system, and introduces
-retrieval-augmented generation as the primary mechanism for extending agent knowledge
-beyond parametric training data.
+In this thesis, an LLM agent is a model call wrapped in a defined role, a prompt,
+an input format, and an output schema. The LLM provides the language reasoning,
+but the surrounding workflow controls what evidence the model sees and how its
+answer is checked.
 
-Large language models are neural network architectures trained on large-scale text
-corpora using self-supervised objectives, enabling them to generate coherent,
-contextually appropriate text across a wide range of domains~\cite{Tang2024MedAgents}.
-In the context of multi-agent clinical systems, LLMs function as the reasoning backbone
-of individual agents: given a structured prompt describing the agent's role, the clinical
-context, and any inputs from other agents, the LLM generates the agent's response or
-action~\cite{Kim2024MDAgents}.
+Different LLMs vary in size, training data, instruction following, and medical
+accuracy. The literature shows that the largest model is not always the best
+choice if the workflow is weak. Chen et al. reported that a Llama-3.1-70B
+multi-agent system outperformed GPT-4o on rare-disease diagnosis when the smaller
+model was supported by memory and tools \cite{Chen2024RareAgents}. This is
+important for this thesis because it shifts attention from only choosing a model
+to designing the workflow around the model.
 
-Contemporary LLMs --- including GPT-4, Claude, Gemini, and open-source models such as
-Llama-3 --- differ in their parameter counts, training data compositions,
-instruction-following capabilities, and factual accuracy on medical benchmarks.
-Chen~et~al.~\cite{Chen2024RareAgents} demonstrated that a Llama-3.1-70B-backed
-multi-agent system could outperform GPT-4o on rare disease diagnosis tasks, establishing
-that agent architecture and coordination quality can compensate for differences in
-individual model capability.
+Retrieval-Augmented Generation (RAG) is one way to reduce missing knowledge. With
+RAG, an agent receives retrieved documents, such as clinical guidelines, before
+it writes its answer. Choi et al. showed that adding RAG to a multi-agent
+pharmacovigilance system reduced hallucinated drug-event associations by 64\%
+\cite{Choi2024MALADE}. This motivates the guideline retrieval used later by the
+Treatment Planning agent.
 
-The use of \textit{retrieval-augmented generation} (RAG) extends the effective knowledge
-of an LLM agent beyond its parametric training data by retrieving relevant documents,
-clinical guidelines, or patient records at inference time.
-Choi~et~al.~\cite{Choi2024MALADE} demonstrated that RAG integration within a
-multi-agent pharmacovigilance system reduced hallucinated drug--event associations by
-64\% compared to non-RAG baselines --- a clinically critical improvement that has been
-replicated across multiple reviewed frameworks~\cite{Lu2024TriageAgent,Chen2024RareAgents}.
-
-% ─────────────────────────────────────────────────────────────────────────────
+\FloatBarrier
+% -----------------------------------------------------------------------------
 \subsection{Automation Workflow Design in Clinical AI}
 \label{subsec:workflow_design}
-% ─────────────────────────────────────────────────────────────────────────────
+% -----------------------------------------------------------------------------
 
-This subsection introduces the concept of automation workflow design --- the systematic
-decomposition of clinical tasks into structured agent pipelines --- and identifies the
-four inter-related design challenges that any well-designed clinical workflow must
-address.
+Automation workflow design means breaking a clinical task into clear steps and
+deciding which agent or tool handles each step. It also defines how outputs move
+between agents and where quality checks are placed \cite{Barra2025Agentic}.
 
-Automation workflow design refers to the systematic decomposition of a complex clinical
-task into a structured sequence of sub-tasks, each assigned to a specialised agent or
-tool, with defined handoff protocols and quality-control mechanisms between
-stages~\cite{Barra2025Agentic}.  The workflow pattern is the core architectural
-contribution that distinguishes different MAS frameworks from one another.
+Most clinical MAS workflows follow a simple pattern: gather evidence, analyse it,
+then produce a final answer. Later systems extend this pattern with parallel
+agent work, adaptive loops, retrieval, review, and error recovery
+\cite{Tang2024MedAgents,Barra2025Agentic,Lu2024TriageAgent,Wu2024EHRFlow}.
+Bedi et al. add an important warning: better individual agents do not guarantee a
+better system if the handoffs between agents are poor \cite{Bedi2025OptParadox}.
 
-The foundational workflow pattern --- gather, analyse, synthesise --- was established by
-Tang~et~al.~\cite{Tang2024MedAgents} in MedAgents and has been extended by subsequent
-frameworks in various directions: adding parallelisation of independent sub-tasks
-\cite{Barra2025Agentic}, introducing iterative multi-round loops with dynamic stopping
-criteria~\cite{Lu2024TriageAgent}, adding error-recovery sub-loops~\cite{Wu2024EHRFlow},
-and extending to dynamic multi-round patient
-interaction~\cite{Shang2025DynamiCare}.  Bedi~et~al.~\cite{Bedi2025OptParadox}
-provided the critical theoretical insight that workflow coordination quality ---
-specifically the compatibility of agents across handoff boundaries --- is a stronger
-determinant of overall system performance than the quality of individual components.
+For this thesis, the workflow must handle four practical needs. It must divide
+the clinical task into agent roles, coordinate the order of execution, allow
+agents to challenge each other, and prevent one weak output from silently
+corrupting later stages. The literature review below explains how earlier work
+handled these needs and where gaps remain.
 
-A well-designed clinical automation workflow must therefore address four inter-related
-design challenges: task decomposition into appropriately scoped agent roles; coordination
-protocols governing inter-agent communication; conflict resolution mechanisms for
-handling agent disagreements; and safety mechanisms ensuring outputs remain within
-clinically acceptable bounds~\cite{Fan2024AIHospital,Wang2025Catfish,Chen2025MedSentry}.
-The following literature review examines how the current body of research has addressed
-each of these challenges.
+\FloatBarrier
+% -----------------------------------------------------------------------------
+\subsection{Clinical Reasoning and Decision-Making}
+\label{subsec:clinical_reasoning}
+% -----------------------------------------------------------------------------
 
-% ─────────────────────────────────────────────────────────────────────────────
+The systems reviewed in this chapter all attempt to support a process that
+clinicians normally carry out themselves. A short primer on that process helps
+to read the rest of the chapter, especially for readers from a computing
+background.
+
+A \emph{differential diagnosis} is a ranked list of conditions that could
+plausibly explain a patient's presentation. Clinicians build it by combining
+the patient's history, current symptoms, vital signs, prior conditions,
+medications, and laboratory and imaging findings, and they update it as new
+information arrives. The ranking is not just a list of possibilities; each
+candidate carries an implicit probability and an implicit cost of missing it,
+and treatment decisions are made against the top-ranked candidate while
+remaining alert to the alternatives. A clinical decision support (CDS) system
+is any tool intended to help with this process, from rule-based alerts in an
+electronic health record through to the multi-agent LLM systems reviewed
+below.
+
+Clinical reasoning is well documented to be cognitive-bias-prone. Three biases
+matter most in the literature reviewed here. \emph{Anchoring} occurs when an
+early hypothesis disproportionately influences later reasoning: a clinician
+who suspects pulmonary embolism early may interpret a borderline D-dimer as
+supportive even when the broader history points elsewhere.
+\emph{Availability bias} occurs when recently seen or memorable cases are
+weighted too heavily: a doctor who recently diagnosed a rare condition may
+over-suspect it in the next patient. \emph{Confirmation bias} is the tendency
+to look for evidence that supports an initial hypothesis and to discount
+evidence that contradicts it. Ke et al.\ show that LLM agents reproduce these
+biases when used as single models and that structured multi-agent
+configurations can attenuate them~\cite{Ke2024CognitiveBias}.
+
+Two further properties of clinical reasoning shape the design of any CDS
+system. First, the evidence is \emph{longitudinal}: laboratory trends over
+months matter, not just the most recent value. Second, the reasoning is
+\emph{multi-source}: a single answer typically rests on data from the history,
+the examination, the chart, and any retrieved guideline or reference. A CDS
+system that processes only the current visit, or only one type of evidence,
+will miss precisely the cases where reasoning is hardest. The pipeline built
+in this thesis is designed to combine these sources explicitly, and the
+review below selects work that does the same.
+
+\FloatBarrier
+% -----------------------------------------------------------------------------
 \section{Search Strategy}
 \label{sec:search}
-% ─────────────────────────────────────────────────────────────────────────────
+% -----------------------------------------------------------------------------
 
-A structured search of the academic literature was conducted across five databases:
-arXiv, PubMed, ACL Anthology, IEEE Xplore, and Semantic Scholar.  Search terms were
-drawn from the core concepts of the thesis: ``multi-agent system AND clinical decision'',
-``LLM agent AND medical reasoning'', ``automation workflow AND clinical AI'', ``multi-agent
-AND electronic health records'', and ``agent collaboration AND healthcare''.  Results were
-filtered to publications from 2024 onwards to ensure relevance to the current state of
-the field, with one exception for foundational conceptual papers.
+The literature search focused on recent multi-agent and agentic LLM work in
+clinical AI. Searches were conducted between January and May 2026 in arXiv,
+PubMed, ACL Anthology, IEEE Xplore, and Semantic Scholar. The main search
+terms were ``multi-agent system AND clinical decision'', ``LLM agent AND
+medical reasoning'', ``automation workflow AND clinical AI'', ``multi-agent
+AND electronic health records'', and ``agent collaboration AND healthcare''.
+The five searches together returned approximately 410 candidate articles
+across the databases, with substantial overlap between sources.
 
-Articles were included if they: (1)~proposed or evaluated a multi-agent or agentic LLM
-framework; (2)~applied the framework to a clinical or medical task; (3)~reported
-quantitative performance metrics or clinician-validated outcomes; and (4)~were published
-in a peer-reviewed venue or as a preprint on arXiv with full methodological disclosure.
-Articles were excluded if they described single-model AI systems without agent
-coordination, focused exclusively on medical image analysis without a clinical decisioning
-component, or were review articles without original empirical contributions.  Following
-this process, 22 papers were selected and organised into the five thematic categories
-described in the sections that follow.  Table~\ref{tab:inclusion} summarises the
-inclusion and exclusion criteria applied.
+The candidate set was filtered in three stages. First, duplicate records and
+non-research items (editorials, course notes, blog posts) were removed,
+reducing the set to about 180 distinct articles. Second, titles and abstracts
+were screened against the inclusion and exclusion criteria of
+Table~\ref{tab:inclusion}; this left approximately 55 articles for full-text
+review. Third, full-text review removed papers that did not propose or
+evaluate a working multi-agent system, that focused only on medical image
+analysis without a clinical decision component, or that were review articles
+without an original empirical contribution. After this process, 22 papers
+were retained and grouped into the five themes used in the literature
+review.
 
-\begin{table}[H]
+A paper was included when it proposed or evaluated a multi-agent or agentic
+LLM system, applied it to a medical task, and reported either quantitative
+results or clinician-reviewed outcomes. Single-model systems, image-only
+systems without clinical decision support, and review papers without new
+experiments were excluded. Table~\ref{tab:inclusion} summarises the criteria.
+
+\begin{table}[!htbp]
 \centering
 \caption{Inclusion and Exclusion Criteria for Selected Articles}
 \label{tab:inclusion}
@@ -200,10 +216,10 @@ Publication Period
   & 2024--2025 (2023 for foundational works)
   & Articles published before 2023 \\[4pt]
 System Type
-  & Multi-agent or agentic LLM frameworks for clinical/medical tasks
+  & Multi-agent or agentic LLM systems for clinical/medical tasks
   & Single-model AI systems without agent coordination \\[4pt]
 Task Domain
-  & Clinical decisioning, medical diagnosis, EHR analysis, clinical workflow automation
+  & Clinical decision support, medical diagnosis, EHR analysis, clinical workflow automation
   & Medical image analysis without clinical decisioning component \\[4pt]
 Evidence Type
   & Quantitative metrics or clinician-validated outcomes with full methodological disclosure

@@ -1,0 +1,138 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Essential (primary) hypertension, obesity-related",
+      "original_probability": 0.45,
+      "verified_probability": 0.38,
+      "confidence_score": 82,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "BP 143/105 mmHg (stage 2) despite lisinopril",
+        "Obesity (BMI >=30) documented since 1986",
+        "Prediabetes (A1c 5.9%)",
+        "Metabolic\u2011syndrome pattern (obesity + HTN + impaired glucose)"
+      ],
+      "evidence_gaps": [
+        "No ambulatory or home BP monitoring",
+        "No medication adherence assessment",
+        "No secondary hypertension labs (renin, aldosterone, renal imaging)"
+      ],
+      "concerns": [
+        "Probability may be slightly high given other contributors but overall ranking is appropriate"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "NSAID\u2011induced hypertension with early renal dysfunction",
+      "original_probability": 0.3,
+      "verified_probability": 0.27,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Chronic naproxen 220 mg BID for osteoarthritis",
+        "ACE\u2011I + NSAID triple\u2011hit risk flag in EHR",
+        "Borderline low CO2 (20.3 mmol/L) suggesting mild metabolic acidosis",
+        "High\u2011normal hematocrit (49.6%) possibly from hemoconcentration"
+      ],
+      "evidence_gaps": [
+        "Creatinine is normal but no trend or eGFR reported",
+        "No urine albumin/creatinine ratio or urinalysis",
+        "No documented volume status assessment"
+      ],
+      "concerns": [
+        "Labeling as \"early renal dysfunction\" is speculative without renal function trends"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Iron\u2011deficiency anemia secondary to occult GI bleed from chronic NSAID use",
+      "original_probability": 0.12,
+      "verified_probability": 0.04,
+      "confidence_score": 35,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Anemia listed in problem list",
+        "Chronic naproxen use, a known risk for GI bleed"
+      ],
+      "evidence_gaps": [
+        "No hemoglobin, MCV, or iron studies",
+        "Hematocrit is high (49.6%), which contradicts iron\u2011deficiency",
+        "No fecal occult blood test or endoscopy"
+      ],
+      "concerns": [
+        "Probability is too high given contradictory lab data",
+        "Diagnosis appears speculative"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Reactive platelet activation / early myeloproliferative disorder (elevated PDW)",
+      "original_probability": 0.08,
+      "verified_probability": 0.22,
+      "confidence_score": 45,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Platelet\u2011distribution width 347 fL (severity 4 critical outlier)",
+        "High\u2011normal hematocrit (49.6%) which can accompany relative thrombocytosis",
+        "Chronic inflammation from osteoarthritis/NSAID use"
+      ],
+      "evidence_gaps": [
+        "No platelet count reported",
+        "No peripheral smear, JAK2/CALR/MPL mutation testing",
+        "No documented splenomegaly or thrombotic events"
+      ],
+      "concerns": [
+        "Critical PDW finding is under\u2011weighted in the original differential",
+        "Possibility of lab artifact not excluded"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Early chronic kidney disease (functional AKI) from ACE\u2011I/NSAID \"triple\u2011hit\"",
+      "original_probability": 0.05,
+      "verified_probability": 0.09,
+      "confidence_score": 30,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "ACE\u2011I + NSAID combination flagged for renal risk",
+        "Borderline low CO2 suggesting possible tubular effect",
+        "High\u2011normal hematocrit possibly from hemoconcentration"
+      ],
+      "evidence_gaps": [
+        "Creatinine is normal and no eGFR trend",
+        "No urinalysis, urine ACR, or renal imaging",
+        "No documented rise in BUN/Cr"
+      ],
+      "concerns": [
+        "Diagnosis is speculative without objective renal impairment data"
+      ],
+      "verdict": "questionable"
+    }
+  ],
+  "overall_confidence": 62,
+  "consistency_checks": [
+    {
+      "area": "BP and hypertension diagnoses",
+      "status": "consistent",
+      "detail": "Both essential hypertension and NSAID\u2011induced hypertension explain the stage 2 BP reading."
+    },
+    {
+      "area": "Platelet\u2011distribution width explanation",
+      "status": "inconsistent",
+      "detail": "The critical PDW abnormality is only linked to a low\u2011probability diagnosis; it should be given higher weight."
+    }
+  ],
+  "critical_findings_addressed": [
+    "Platelet\u2011distribution width 347 fL"
+  ],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "Critical PDW finding is under\u2011weighted in the differential",
+    "Speculative anemia diagnosis contradicts high hematocrit",
+    "Lack of renal function trends and secondary hypertension work\u2011up",
+    "Missing common secondary causes such as obstructive sleep apnea, primary aldosteronism, and renovascular disease"
+  ],
+  "recommended_primary": "Essential (primary) hypertension, obesity-related (metabolic\u2011syndrome phenotype)",
+  "recommended_primary_confidence": 85,
+  "review_summary": "The differential correctly identifies essential hypertension as the dominant problem and reasonably includes NSAID\u2011related BP elevation. However, the critical PDW abnormality is severely under\u2011prioritized, and several speculative diagnoses (iron\u2011deficiency anemia, early CKD) lack supporting data. Adjusted probabilities reflect a higher weight for the platelet/MPN work\u2011up and lower weight for the weak anemia and CKD entries. Overall reasoning quality is moderate with key gaps in secondary hypertension evaluation and hematologic work\u2011up."
+}

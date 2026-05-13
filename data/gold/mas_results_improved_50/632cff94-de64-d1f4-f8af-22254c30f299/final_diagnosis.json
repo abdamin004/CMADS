@@ -1,0 +1,146 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute-on-chronic kidney injury (CKD stage 3 with superimposed AKI)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.0\u202fmg/dL with eGFR 81.9\u202fmL/min/1.73\u202fm\u00b2 (discordant values)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and diabetes risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy including ACE\u2011I/ARB and possible NSAID use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The marked discrepancy between creatinine and eGFR suggests an acute decline in renal function superimposed on underlying chronic kidney disease. Hypertension, pre\u2011diabetes, and nephrotoxic medication exposure increase the likelihood of AKI on CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic cardiovascular disease \u2013 post\u2011myocardial infarction secondary prevention",
+      "icd10": "I25.2",
+      "snomed": "53741008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (controlled BP, obesity, prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current antihypertensive regimen, likely on statin (though lipid panel missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A known prior MI places the patient in a high\u2011risk ASCVD category requiring secondary prevention. Absence of recent cardiac imaging limits assessment of residual ischemia but does not diminish the diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI missing but clinical note indicates overweight/obese habitus)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (hypertension, prediabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors strongly associate with hepatic steatosis. Lack of imaging or fibrosis markers prevents further sub\u2011classification."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes progressing toward type\u202f2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2\u202f% (prediabetic range)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Family history of diabetes (implied by risk profile)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated HbA1c in the prediabetic range, combined with metabolic syndrome, suggests progression risk."
+    },
+    {
+      "rank": 5,
+      "name": "Major depressive disorder / post\u2011traumatic stress disorder secondary to intimate\u2011partner abuse",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of intimate\u2011partner abuse and psychosocial stressors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mental\u2011health screening completed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Significant psychosocial trauma raises suspicion for mood and stress\u2011related disorders, though lack of validated screening limits certainty."
+    }
+  ],
+  "primary_diagnosis": "Acute-on-chronic kidney injury (CKD stage 3 with superimposed AKI)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with a discordant creatinine/eGFR pair indicating an acute decline in renal function atop chronic kidney disease, supported by hypertension, pre\u2011diabetes, and potential nephrotoxic drug exposure. Cardiovascular history of prior MI makes ASCVD the next most likely diagnosis. Metabolic syndrome drives NAFLD and prediabetes considerations, while documented intimate\u2011partner abuse raises concern for depressive and PTSD disorders despite absent formal screening. All probabilities have been calibrated to reflect the reviewer\u2019s adjustments and the need to prioritize the acute renal injury.",
+  "unresolved_findings": [
+    "Discordance between serum creatinine (3.0\u202fmg/dL) and eGFR (81.9\u202fmL/min/1.73\u202fm\u00b2)",
+    "Missing current BMI value",
+    "Missing total cholesterol, HDL\u2011C, and LDL\u2011C values",
+    "No urine albumin\u2011to\u2011creatinine ratio or proteinuria data",
+    "No hepatitis B/C serologies (relevant given refugee status)",
+    "No serum creatine kinase (CK) level to evaluate for statin\u2011associated myopathy",
+    "No formal mental\u2011health screening results (PHQ\u20119, PTSD checklist)",
+    "Unclear NSAID exposure (relevant for AKI risk)",
+    "No echocardiographic data to confirm or exclude HFpEF",
+    "Nature of anemia (microcytic vs normocytic) not specified"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and eGFR with timing to confirm AKI trend",
+    "Urine albumin\u2011to\u2011creatinine ratio and urine microscopy for proteinuria",
+    "Renal ultrasound to assess structural causes",
+    "Comprehensive medication review focusing on ACE\u2011I/ARB, NSAIDs, and other nephrotoxins",
+    "Hepatitis B and C serologies",
+    "Liver fibrosis assessment (FibroScan or serum fibrosis panel)",
+    "Complete lipid panel (total cholesterol, HDL\u2011C, LDL\u2011C, triglycerides)",
+    "Cardiac echocardiogram to evaluate for heart failure or residual ischemia",
+    "Mental\u2011health screening with PHQ\u20119 and PCL\u20115",
+    "Full anemia workup: CBC indices, iron studies, B12, folate"
+  ]
+}

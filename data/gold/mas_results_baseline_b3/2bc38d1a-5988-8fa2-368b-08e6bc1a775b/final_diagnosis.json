@@ -1,0 +1,164 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (advanced diabetic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.69,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus on insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease with reduced eGFR (stage 3-4) and proteinuria (if documented)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated risk of diabetic kidney disease based on duration of diabetes and glycemic control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has insulin\u2011treated diabetes and evidence of CKD, making diabetic nephropathy the most likely cause of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive/vascular nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension (though recent BP values missing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD progression disproportionate to diabetic control alone",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled hypertension commonly co\u2011exists with diabetes and accelerates CKD; reviewer noted under\u2011estimation of its contribution."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (coronary artery disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes and hypertension are major CAD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk based on age, sex, and comorbidities (if available)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s risk profile, occult CAD is plausible and may contribute to overall morbidity."
+    },
+    {
+      "rank": 4,
+      "name": "Alcoholic liver disease (steatohepatitis / early cirrhosis)",
+      "icd10": "K70.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented alcohol use (quantity not specified)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of liver function tests limits confirmation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Alcohol intake could explain potential liver enzyme abnormalities; however, lack of labs makes this provisional."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, possible obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No liver imaging or enzymes available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in diabetics; without imaging/labs the diagnosis remains plausible but unconfirmed."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary hyperparathyroidism of renal origin",
+      "icd10": "N25.81",
+      "snomed": "237073009",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD expected to cause phosphate retention and PTH elevation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "PTH, calcium, phosphate not measured yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal CKD commonly leads to secondary hyperparathyroidism; lack of labs prevents confirmation."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (advanced diabetic kidney disease)",
+  "primary_probability": 0.69,
+  "clinical_reasoning_summary": "The patient\u2019s insulin\u2011treated diabetes and chronic kidney disease make diabetic nephropathy the dominant explanation for renal impairment. Hypertensive nephrosclerosis likely contributes to CKD progression, and the cardiovascular risk profile supports underlying atherosclerotic disease. Liver involvement remains uncertain due to missing labs, with both alcoholic and non\u2011alcoholic fatty liver disease plausible. Secondary hyperparathyroidism is expected in advanced CKD but lacks laboratory confirmation. Unexplained findings (e.g., HbA1c 4%) highlight data gaps that must be addressed.",
+  "unresolved_findings": [
+    "HbA1c reported as 4\u202f% (discordant with insulin therapy)",
+    "No recent blood pressure measurements or antihypertensive medication documented",
+    "Absence of ACE\u2011I/ARB, statin, or SGLT2\u2011i therapy in medication list",
+    "Missing comprehensive renal panel (eGFR, urine protein quantification, electrolytes, calcium/phosphate, PTH)",
+    "No liver function tests or imaging to assess alcoholic/NAFLD status",
+    "No viral serologies (HCV, HIV, HBV)",
+    "No BMI, weight, or waist circumference data",
+    "No cardiac evaluation results (stress test, coronary calcium, ECG)",
+    "No pulmonary function testing",
+    "No sleep study data"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and fasting glucose to resolve discordant result",
+    "Obtain current blood pressure readings and review antihypertensive regimen",
+    "Comprehensive renal panel: eGFR, urine albumin\u2011to\u2011creatinine ratio, electrolytes, calcium, phosphate, PTH",
+    "Liver function tests (AST, ALT, GGT, alkaline phosphatase, bilirubin) and abdominal ultrasound",
+    "Viral serologies: hepatitis C antibody, hepatitis B surface antigen, HIV screen",
+    "Lipid panel and initiate statin therapy per guidelines",
+    "Cardiovascular assessment: ECG, stress test or coronary calcium scoring, echocardiogram if indicated",
+    "Pulmonary function tests to evaluate for COPD",
+    "Overnight polysomnography for obstructive sleep apnea evaluation",
+    "Medication reconciliation focusing on NSAID use",
+    "Start guideline\u2011directed renal protective therapy (ACE\u2011I/ARB, SGLT2\u2011i) if not contraindicated",
+    "Lifestyle counseling: alcohol moderation, smoking cessation, weight management"
+  ]
+}

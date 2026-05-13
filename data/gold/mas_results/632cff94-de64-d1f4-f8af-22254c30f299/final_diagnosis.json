@@ -1,0 +1,205 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute ST-segment elevation myocardial infarction (STEMI)",
+      "icd10": "I21.3",
+      "snomed": "22298006",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Sudden onset chest pain radiating to left arm, diaphoresis, and shortness of breath",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "ECG showing >2 mm ST elevation in anterior leads",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I >10 ng/mL",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Classic acute coronary syndrome presentation with ECG changes and markedly elevated cardiac biomarkers points to an acute STEMI as the most likely emergent diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic cardiovascular disease (metabolic\u2011syndrome driven)",
+      "icd10": "I70.9",
+      "snomed": "53741008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, dyslipidemia, and type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL cholesterol 160 mg/dL, HbA1c 6.2%",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Longstanding metabolic risk factors predispose to diffuse atherosclerosis, contributing to both chronic coronary disease and the acute plaque rupture that precipitated the STEMI."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis / chronic kidney disease progression",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.0 mg/dL with eGFR 81.9 mL/min/1.73m\u00b2 (discordant, suggesting chronic kidney injury)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension documented in prior visits",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension leads to nephrosclerotic changes; the discordant eGFR/creatinine values reflect reduced renal reserve and ongoing CKD progression."
+    },
+    {
+      "rank": 4,
+      "name": "Medication\u2011induced acute kidney injury (possible ACE\u2011I/ARB exposure)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Narrative mentions multiple antihypertensive agents; however, exact medication list incomplete",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Acute rise in serum creatinine without obvious obstructive cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the incomplete medication record, a drug\u2011induced AKI cannot be excluded, especially if ACE\u2011I or ARB therapy was recently intensified."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia (erythropoietin deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.5 g/dL with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 3\u20114 documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced erythropoietin production in CKD explains the normocytic anemia observed."
+    },
+    {
+      "rank": 6,
+      "name": "Major depressive disorder / PTSD secondary to psychosocial stressors",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports persistent low mood, nightmares, and hypervigilance after recent traumatic events",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and documented mood symptoms support a comorbid depressive/PTSD diagnosis, which may affect adherence and recovery."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic heart failure (post\u2011MI) \u2013 cardiorenal syndrome",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction noted; no recent echocardiogram available",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BNP not ordered yet; renal dysfunction could be secondary to low cardiac output",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While a prior MI raises suspicion for heart failure, objective data (e.g., BNP, echo) are lacking, making this diagnosis less certain."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports loud snoring and daytime fatigue; BMI in overweight range",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical features suggest OSA, which can exacerbate hypertension and CKD, but no sleep study has been performed."
+    },
+    {
+      "rank": 9,
+      "name": "Protein\u2011losing nephropathy (hypogammaglobulinemia)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum globulin 3.2 g/L (low) without hepatic dysfunction",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dipstick +1 (suggesting protein loss)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low serum globulin together with proteinuria points toward a protein\u2011losing renal process, which may coexist with CKD."
+    }
+  ],
+  "primary_diagnosis": "Acute ST-segment elevation myocardial infarction (STEMI)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with classic acute coronary syndrome findings (chest pain, ST elevations, high troponin), making STEMI the most urgent and probable diagnosis. Underlying metabolic syndrome drives extensive atherosclerotic disease, contributing to both the acute event and chronic cardiovascular burden. Hypertensive nephrosclerosis explains the discordant renal labs, while medication\u2011induced AKI remains a possible contributor given uncertain drug exposure. CKD\u2011related anemia, depression/PTSD, and a protein\u2011losing nephropathy account for laboratory and psychosocial abnormalities. Heart failure and obstructive sleep apnea are considered but lack objective confirmation.",
+  "unresolved_findings": [
+    "Incomplete medication list \u2013 unable to verify dual ACE\u2011I/ARB therapy",
+    "Low globulin not fully explained despite protein\u2011losing nephropathy hypothesis"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG and serial cardiac enzymes",
+    "Urgent coronary angiography",
+    "Comprehensive medication reconciliation",
+    "Renal ultrasound and repeat serum creatinine/eGFR",
+    "Urine protein quantification (24\u2011hour) and serum immunoglobulin levels",
+    "BNP or NT\u2011proBNP and transthoracic echocardiogram",
+    "Polysomnography for obstructive sleep apnea",
+    "Psychiatric evaluation for depression/PTSD"
+  ]
+}

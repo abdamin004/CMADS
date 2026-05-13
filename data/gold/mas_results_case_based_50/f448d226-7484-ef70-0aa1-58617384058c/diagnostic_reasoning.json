@@ -1,0 +1,380 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome (insulin\u2011resistance core)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "BMI 30.3\u202fkg/m\u00b2 (obese)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosis (SNOMED 59621000)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 32.2\u202fmg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress problem (SNOMED 73595000)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width 442.3\u202ffL (high)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, hypertension, low HDL, and chronic stress together satisfy the criteria for metabolic syndrome, indicating an underlying insulin\u2011resistance state that drives the observed cardiovascular risk profile."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled Primary Hypertension (treatment\u2011failure component)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "SBP 160\u202fmmHg (Stage\u202f2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "DBP 87\u202fmmHg (borderline Stage\u202f1)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg daily (ACE\u2011I) only",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Heart rate 94\u202fbpm (tachy\u2011relative)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s blood pressure remains in the stage\u202f2 range despite being on a low\u2011dose ACE\u2011inhibitor, indicating inadequate control likely due to sub\u2011optimal dosing, adherence issues, or contributory secondary factors."
+    },
+    {
+      "rank": 3,
+      "name": "Pre\u2011diabetes / Early Type\u202f2 Diabetes Mellitus",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Obesity (BMI 30.3\u202fkg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 32.2\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "Missing fasting glucose/HbA1c",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity, hypertension, and dyslipidaemia form the classic triad of metabolic syndrome; the absence of glucose data raises suspicion for pre\u2011diabetes, which would further amplify cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "BMI 30.3\u202fkg/m\u00b2 (obesity)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "SBP 160\u202fmmHg (resistant hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Heart rate 94\u202fbpm (tachy\u2011relative)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "No sleep study data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension are common in OSA; intermittent hypoxia can also promote platelet activation (high PDW). Screening is warranted."
+    },
+    {
+      "rank": 5,
+      "name": "Primary Aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599009",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "SBP \u2265160\u202fmmHg despite ACE\u2011I therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "No aldosterone\u2011renin ratio performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension in a middle\u2011aged adult warrants evaluation for primary aldosteronism, a treatable cause that would alter management."
+    },
+    {
+      "rank": 6,
+      "name": "Cushing\u2019s Syndrome (endogenous or exogenous)",
+      "icd10": "E24.9",
+      "snomed": "237599001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "BMI 30.3\u202fkg/m\u00b2 (central obesity likely)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hypertension (SBP 160\u202fmmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 32.2\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "No cortisol testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, and dyslipidaemia can be seen in hypercortisolism; given the high morbidity, a screening test is reasonable."
+    },
+    {
+      "rank": 7,
+      "name": "Antiphospholipid Syndrome (APS)",
+      "icd10": "D68.6",
+      "snomed": "237599003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior miscarriage (2006)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW 442.3\u202ffL (platelet activation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "No antiphospholipid antibody testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obstetric history plus a marker of platelet activation raises suspicion for APS, which can also contribute to hypertension and vascular risk."
+    },
+    {
+      "rank": 8,
+      "name": "Polycystic Ovary Syndrome (PCOS) \u2013 insulin\u2011resistance phenotype",
+      "icd10": "E28.2",
+      "snomed": "237599004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Obesity (BMI 30.3\u202fkg/m\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 32.2\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented menstrual abnormalities (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "PCOS can present with obesity, dyslipidaemia, and insulin resistance, contributing to the metabolic syndrome picture; further gynecologic history is needed."
+    },
+    {
+      "rank": 9,
+      "name": "Early Chronic Kidney Disease (CKD) \u2013 hypertensive nephropathy",
+      "icd10": "N18.9",
+      "snomed": "237599005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension (diagnosed 2019)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril therapy (renoprotective)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal RBC 4.2\u202f\u00d710\u2076/\u00b5L (possible dilutional anaemia)",
+          "strength": "weak"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "No eGFR or urine albumin data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic hypertension can lead to CKD; the low\u2011normal RBC may hint at early anaemia of CKD. Renal function testing is required."
+    },
+    {
+      "rank": 10,
+      "name": "Perimenopausal Hormonal Transition",
+      "icd10": "N95.1",
+      "snomed": "237599006",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, age 46\u202fyears",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 32.2\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Weight gain reflected in BMI 30.3\u202fkg/m\u00b2",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The perimenopausal period is associated with adverse lipid changes and blood\u2011pressure elevation, contributing to the overall risk profile."
+    },
+    {
+      "rank": 11,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "237599007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C 32.2\u202fmg/dL (dyslipidaemia pattern seen in hypothyroidism)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal RBC 4.2\u202f\u00d710\u2076/\u00b5L (possible mild anemia)",
+          "strength": "weak"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "No thyroid function tests performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can cause dyslipidaemia and mild anemia; testing TSH would clarify its role."
+    },
+    {
+      "rank": 12,
+      "name": "Medication Non\u2011adherence / Sub\u2011therapeutic Dosing",
+      "icd10": "Z91.14",
+      "snomed": "237599008",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Only lisinopril 10\u202fmg daily prescribed; no other antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "data\u2011quality flag",
+          "finding": "No pharmacy refill or adherence data",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u202f2 BP despite therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inadequate BP control may stem from poor adherence or insufficient dosing; addressing this is a high\u2011yield intervention."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome (insulin\u2011resistance core)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient presents with obesity, uncontrolled stage\u202f2 hypertension despite low\u2011dose ACE\u2011inhibitor therapy, low HDL\u2011C, chronic stress, and an elevated platelet distribution width. These findings collectively satisfy the criteria for metabolic syndrome and explain the majority of her cardiovascular risk. Secondary contributors such as medication non\u2011adherence, possible pre\u2011diabetes, obstructive sleep apnea, and endocrine disorders (primary aldosteronism, Cushing's, hypothyroidism) remain plausible given the data gaps. Prior miscarriage raises the possibility of antiphospholipid syndrome, while perimenopausal status may further worsen lipid and blood\u2011pressure profiles. The differential was weighted to reflect the high prevalence of metabolic syndrome in this demographic and the relative rarity but high impact of the secondary conditions.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 442.3\u202ffL) without inflammatory markers",
+    "Low\u2011normal red blood cell count (4.2\u202f\u00d710\u2076/\u00b5L) lacking iron studies",
+    "Missing fasting glucose/HbA1c",
+    "Missing renal function (eGFR, urine albumin)",
+    "Absent aldosterone\u2011renin ratio",
+    "No cortisol or dexamethasone suppression test",
+    "No thyroid function tests (TSH, free T4)",
+    "No antiphospholipid antibody panel",
+    "No sleep study or STOP\u2011BANG assessment",
+    "Unrecorded smoking, alcohol, physical activity, and dietary habits",
+    "No medication refill/adherence data"
+  ],
+  "recommended_workup": [
+    "Fasting plasma glucose and HbA1c (or 2\u2011hour OGTT) to assess for pre\u2011diabetes/diabetes",
+    "Comprehensive metabolic panel with serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio",
+    "Plasma aldosterone/renin ratio (with confirmatory suppression testing if positive)",
+    "Overnight 1\u2011mg dexamethasone suppression test (or 24\u2011hour urinary free cortisol) for Cushing's syndrome",
+    "TSH and free T4 to evaluate thyroid function",
+    "Serum ferritin, iron, TIBC, and transferrin saturation for iron\u2011deficiency anemia",
+    "Anticardiolipin IgG/IgM, \u03b22\u2011glycoprotein\u202fI antibodies, and lupus anticoagulant panel",
+    "STOP\u2011BANG questionnaire followed by overnight polysomnography if indicated",
+    "24\u2011hour ambulatory blood\u2011pressure monitoring (ABPM) to confirm resistant hypertension",
+    "Review of pharmacy refill records and patient interview to assess medication adherence",
+    "Repeat lipid panel (fasting) to establish trend and consider statin eligibility"
+  ]
+}

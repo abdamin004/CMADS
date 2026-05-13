@@ -1,0 +1,318 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL-C 32.2 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline-high LDL-C 126.6 mg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 160 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic psychosocial stress",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, low HDL, borderline LDL, and uncontrolled hypertension together satisfy \u22653 criteria for metabolic syndrome, indicating insulin resistance as a central driver of the patient's cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233604007",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting heart rate 94 bpm",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension are major risk factors for OSA; elevated resting HR further supports sympathetic over\u2011activity typical of untreated sleep apnea."
+    },
+    {
+      "rank": 3,
+      "name": "Medication non\u2011adherence",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Only low\u2011dose lisinopril 10\u202fmg daily prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled BP despite therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No data on medication refill or adherence",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent stage\u20112 hypertension on monotherapy raises suspicion that the patient may not be taking the medication as prescribed or is missing doses."
+    },
+    {
+      "rank": 4,
+      "name": "Uncontrolled essential hypertension (stage\u202f2)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "SBP 160 mmHg, DBP 87 mmHg",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension classification",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW 442.3 fL (platelet activation)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Blood pressure readings meet criteria for stage\u202f2 hypertension and remain uncontrolled, representing the primary cardiovascular problem."
+    },
+    {
+      "rank": 5,
+      "name": "Undiagnosed type\u202f2 diabetes / pre\u2011diabetes",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing fasting glucose / HbA1c",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL-C",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Obesity and dyslipidaemia raise the pre\u2011test probability of insulin resistance; absent glycaemic labs create a critical data gap that must be filled."
+    },
+    {
+      "rank": 6,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599001",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on ACE\u2011I",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (risk factor for secondary causes)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension warrants screening for primary aldosteronism; prevalence in resistant cases is ~5\u201110\u202f%."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / anxiety (stress\u2011related)",
+      "icd10": "F41.9",
+      "snomed": "48694002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic psychosocial stress documented since 2019",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting heart rate 94 bpm",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No mental\u2011health medications recorded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic stress can exacerbate hypertension and dyslipidaemia; lack of documented treatment suggests an untreated mood disorder."
+    },
+    {
+      "rank": 8,
+      "name": "Polycystic ovary syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of miscarriage (2006)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and possible insulin resistance raise suspicion for PCOS, which can also contribute to reproductive complications."
+    },
+    {
+      "rank": 9,
+      "name": "Thyroid disorder (hypo\u2011 or hyper\u2011thyroidism)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia (HR 94 bpm)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing thyroid function tests",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can cause both tachycardia and hypertension; absence of labs makes this a differential to be ruled out."
+    },
+    {
+      "rank": 10,
+      "name": "Substance\u2011induced hypertension (cocaine/amphetamines)",
+      "icd10": "I15.9",
+      "snomed": "237599004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated HR and BP without clear secondary cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented substance use (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Stimulant use can acutely raise BP and HR; lack of screening data leaves this as a possible but unconfirmed contributor."
+    },
+    {
+      "rank": 11,
+      "name": "Antiphospholipid antibody syndrome (primary APS)",
+      "icd10": "D68.6",
+      "snomed": "237599005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of miscarriage (2006)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW 442.3 fL (platelet activation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female sex, age 46",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Miscarriage plus platelet activation raises suspicion for a hypercoagulable state; definitive testing is required."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome / insulin resistance",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient is a 46\u2011year\u2011old obese woman with stage\u202f2 hypertension uncontrolled on low\u2011dose lisinopril, low HDL, borderline LDL, and chronic psychosocial stress. These findings fulfill metabolic\u2011syndrome criteria and explain most of the cardiovascular risk. Obesity and hypertension also create a high pre\u2011test probability for obstructive sleep apnea, which could be a reversible driver of the resistant BP. The limited antihypertensive regimen and lack of adherence data suggest medication non\u2011adherence as a contributory factor. Missing glycaemic, renal, thyroid, and coagulation labs leave several secondary causes (diabetes, primary aldosteronism, APS, thyroid disease) as plausible but unconfirmed. Elevated PDW points toward platelet activation, supporting both a pro\u2011thrombotic state (APS) and the overall atherothrombotic risk. The differential therefore balances chronic metabolic disease with reversible secondary contributors that require targeted work\u2011up.",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (PDW 442.3\u202ffL) without accompanying inflammatory markers",
+    "Borderline low RBC (4.2\u202f\u00d710\u2076/\u00b5L) and high RDW (41.9\u202ffL) despite normal hemoglobin",
+    "Missing key laboratory data: fasting glucose/HbA1c, eGFR, urine albumin, aldosterone/renin, thyroid panel, antiphospholipid antibodies, iron studies",
+    "No documented smoking, alcohol, physical activity, or OTC medication use"
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation including OTC, supplements, herbal products, OCP/HRT, NSAIDs, decongestants, licorice",
+    "Medication adherence assessment (pharmacy refill audit, Morisky\u20118 questionnaire)",
+    "Plasma aldosterone\u2011to\u2011renin ratio (ARR) with appropriate wash\u2011out if needed",
+    "Home sleep\u2011apnoea test (type\u202fIII) or full polysomnography",
+    "Fasting plasma glucose and HbA1c (or 2\u2011hour OGTT if borderline)",
+    "Thyroid function tests (TSH, free T4, free T3)",
+    "Overnight 1\u2011mg dexamethasone suppression test (screen for Cushing syndrome)",
+    "Plasma free metanephrines (or 24\u2011h urine metanephrines) for pheochromocytoma",
+    "Duplex renal\u2011artery Doppler or CTA/MRA for renovascular disease",
+    "Antiphospholipid antibody panel (lupus anticoagulant, anticardiolipin IgG/IgM, \u03b22\u2011glycoprotein\u202fI) and ANA",
+    "Basic metabolic panel with creatinine, eGFR, and spot urine albumin\u2011to\u2011creatinine ratio",
+    "Iron studies (ferritin, serum iron, TIBC), vitamin B12, folate",
+    "CRP and ESR to assess for chronic inflammation",
+    "Serum calcium, phosphate, PTH (screen for hyperparathyroidism)",
+    "Standardised alcohol (AUDIT\u2011C) and tobacco use questionnaires",
+    "Urine toxicology screen for stimulants (cocaine, amphetamines, methamphetamine)",
+    "Family history of premature cardiovascular disease, hypertension, and diabetes"
+  ]
+}

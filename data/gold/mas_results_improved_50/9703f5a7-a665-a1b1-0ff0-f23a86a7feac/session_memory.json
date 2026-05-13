@@ -1,0 +1,267 @@
+{
+  "patient_uuid": "9703f5a7-a665-a1b1-0ff0-f23a86a7feac",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:34:16+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:34:35+00:00",
+      "summary": "Completed ehr_analyst in 18843ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:34:16+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:34:38+00:00",
+      "summary": "Completed lab_interpreter in 21887ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:34:38+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:34:40+00:00",
+      "summary": "Recall returned 12, 3 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 3,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.706,
+            "match_type": "DIRECT",
+            "canonical_family": "metabolic_syndrome",
+            "raw_diagnosis": "Uncontrolled essential hypertension associated with metabolic syndrome"
+          },
+          {
+            "score": 0.702,
+            "match_type": "DIRECT",
+            "canonical_family": "metabolic_syndrome",
+            "raw_diagnosis": "Metabolic syndrome / insulin-resistance"
+          },
+          {
+            "score": 0.666,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Insulin\u2011resistance\u2011driven metabolic syndrome"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:35:19+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 3
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:35:19+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:35:19+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:35:28+00:00",
+      "summary": "Final differential (5 dx, primary=Metabolic syndrome, rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Metabolic syndrome",
+        "primary_probability": 0.46,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:35:28+00:00",
+      "summary": "Completed diagnostic_reasoning in 49966ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:35:28+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:35:47+00:00",
+      "summary": "Completed clinical_reviewer in 19077ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:35:47+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:35:54+00:00",
+      "summary": "Final refined diagnosis: Metabolic syndrome",
+      "payload": {
+        "primary_diagnosis": "Metabolic syndrome",
+        "primary_probability": 0.62,
+        "differential_size": 5
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:35:54+00:00",
+      "summary": "Completed final_diagnosis in 7132ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:35:56+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:36:13+00:00",
+      "summary": "Treatment plan generated for 'Metabolic syndrome' (5 meds)",
+      "payload": {
+        "disease": "Metabolic syndrome"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:36:13+00:00",
+      "summary": "Completed treatment_planning in 16771ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T15:36:14+00:00",
+      "summary": "Consolidated outcome for 'Metabolic syndrome' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Metabolic syndrome",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Non-ST elevation myocardial infarction (NSTEMI)",
+      "icd10": "I21.4",
+      "snomed": "413444003",
+      "probability": 0.31,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High-sensitivity troponin I = 108 ng/L (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI on 23-Apr-2022",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current aspirin 81\u202fmg for secondary prevention",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol succinate 50\u202fmg (post\u2011MI \u03b2\u2011blocker)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (age ~60, hypertension, hyperlipidemia, diabetes, prior MI)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of a P2Y12 inhibitor (dual antiplatelet therapy gap)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The markedly elevated troponin far exceeds the modest rise expected from chronic CKD, and the patient has a known prior NSTEMI, multiple atherosclerotic risk factors, and is on aspirin but missing a P2Y12 inhibitor, making an acute coronary syndrome the most likely explanation."
+    },
+    {
+      "rank": 2,
+      "name": "Multifactorial acute kidney injury (AKI) on chronic kidney disease (CKD)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 3.1 mg/dL (severity 5) and another value 1.9 mg/dL, both above expected for CKD stage 2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick = 304.5 mg/dL (significant proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity = 1.0 (very dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 2 documented, diabetic nephropathy noted",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) prescribed for renal protection",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg (diuretic) could contribute to volume depletion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The discordance between documented CKD stage 2 and the high creatinine values, together with new proteinuria and dilute urine, indicates an acute superimposed renal insult, likely multifactorial (prerenal from diuretic use, hemodynamic compromise from possible cardiac ischemia, and nephrotoxic exposure)."
+    },
+    {
+      "rank": 3,
+      "name": "Type 2 (demand) myocardial ischemia",
+      "icd10": "I21.A1",
+      "snomed": "413444003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I = 108 ng/L (could reflect supply\u2011demand mismatch)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, diabetes, anemia not documented but possible hidden, and diuretic therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High baseline cardiovascular risk (multiple comorbidities)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In the absence of clear ECG changes, the troponin rise may represent myocardial injury secondary to increased oxygen demand (e.g., tachycardia, anemia, hypoxia) rather than plaque rupture."
+    },
+    {
+      "rank": 4,
+      "name": "Pulmonary embolism with right\u2011ventricular strain",
+      "icd10": "I26.99",
+      "snomed": "59276003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin can occur in PE with RV strain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and possible reduced mobility (intimate\u2011partner abuse, limited contact)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age and comorbid atherosclerotic disease increase VTE risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "PE can cause troponin elevation and renal hypoperfusion; the patient\u2019s psychosocial stressors may predispose to venous stasis, making this a plausible alternative."
+    },
+    {
+      "rank": 5,
+      "name": "Acute decompensated heart failure / cardiorenal syndrome",
+      "icd10": "I50.23",
+      "snomed": "164873001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol and lisinopril therapy suggest prior LV dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin may be secondary to myocardial strain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure currently controlled (118/85 mmHg) but diuretic use indicates volume management",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Heart failure can precipitate renal dysfunction (cardiorenal syndrome) and cause mild troponin leak; the medication profile supports underlying systolic dysfunction."
+    },
+    {
+      "rank": 6,
+      "name": "Statin\u2011related rhabdomyolysis",
+      "icd10": "M62.82",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate simvastatin prescriptions (10\u202fmg & 40\u202fmg) suggesting recent dose escalation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No CK reported (data gap), but rhabdomyolysis would explain AKI",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High-dose simvastatin can cause muscle breakdown leading to AKI; however, lack of CK data limits certainty."
+    },
+    {
+      "rank": 7,
+      "name": "Acute viral myocarditis",
+      "icd10": "I40.9",
+      "snomed": "302810001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin without clear ischemic ECG (pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent viral prodrome not documented (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Myocarditis can present with troponin rise and nonspecific symptoms; low pre\u2011test probability but remains a consideration."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive uropathy (post\u2011renal AKI)",
+      "icd10": "N13.2",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low urine specific gravity (1.0) suggesting dilute urine",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented urinary obstruction, but could be occult",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Post\u2011renal obstruction can cause abrupt creatinine rise; ultrasound is needed to exclude."
+    },
+    {
+      "rank": 9,
+      "name": "Atheroembolic renal disease",
+      "icd10": "N28.0",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Extensive atherosclerotic disease (hyperlipidemia, prior MI)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria and rising creatinine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cholesterol crystal emboli can cause renal dysfunction and proteinuria, especially after recent vascular manipulation (not documented)."
+    },
+    {
+      "rank": 10,
+      "name": "Acute interstitial nephritis (drug\u2011induced)",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy with possible NSAID or PPI exposure (not listed)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No eosinophils reported (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Drug\u2011induced AIN can cause AKI and proteinuria; limited data makes this less likely."
+    }
+  ],
+  "primary_diagnosis": "Non-ST elevation myocardial infarction (NSTEMI)",
+  "primary_probability": 0.31,
+  "clinical_reasoning_summary": "The patient presents with a markedly elevated high\u2011sensitivity troponin I (108\u202fng/L) in the context of prior NSTEMI, multiple atherosclerotic risk factors, and incomplete antiplatelet therapy, making an acute coronary syndrome the most probable primary driver (30%+ probability). The concurrent rise in serum creatinine to 3.1\u202fmg/dL, significant proteinuria, and dilute urine indicate an acute kidney injury superimposed on known CKD stage\u202f2, likely secondary to hemodynamic compromise from the cardiac event (AKI on CKD). Secondary considerations include demand ischemia, pulmonary embolism, acute decompensated heart failure, and medication\u2011related rhabdomyolysis, each supported by specific laboratory or medication clues. Probabilities were calibrated to reflect the strength of troponin elevation, the breadth of cardiovascular risk, and the renal data, while ensuring the total sums to 1.0.",
+  "unresolved_findings": [
+    "Elevated troponin I without documented chest pain or ECG changes",
+    "Discrepancy between CKD stage\u202f2 and creatinine 3.1\u202fmg/dL",
+    "Urine specific gravity = 1.0 (very low)",
+    "Duplicate simvastatin prescriptions (10\u202fmg & 40\u202fmg) \u2013 unclear dosing timeline",
+    "Missing P2Y12 inhibitor despite recent NSTEMI",
+    "Absence of documented antidiabetic medication despite diabetes diagnosis",
+    "Missing key labs (eGFR, total cholesterol, BMI, liver function tests)",
+    "Dental tooth loss (potential chronic inflammation)",
+    "Criminal record (social history, no direct pathophysiologic link)"
+  ],
+  "recommended_workup": [
+    "Serial high\u2011sensitivity troponin measurements (0\u202fh, 3\u20116\u202fh) to assess trend",
+    "12\u2011lead ECG urgently to look for ischemic changes or RV strain",
+    "Bedside transthoracic echocardiogram (assessment of wall\u2011motion abnormalities, EF, RV size, IVC collapsibility)",
+    "Serum creatine kinase and myoglobin to evaluate for rhabdomyolysis",
+    "Complete medication reconciliation including OTC agents, recent contrast exposure, NSAIDs, PPIs",
+    "Comprehensive metabolic panel with eGFR calculation",
+    "BNP or NT\u2011proBNP to gauge heart\u2011failure contribution",
+    "D\u2011dimer (followed by CT pulmonary angiography if elevated)",
+    "Renal ultrasound to rule out obstructive uropathy",
+    "Urine microscopy (look for granular casts, eosinophils)",
+    "CBC with differential and reticulocyte count (evaluate for anemia or hemolysis)",
+    "SARS\u2011CoV\u20112 PCR or viral panel if infectious etiology suspected"
+  ]
+}

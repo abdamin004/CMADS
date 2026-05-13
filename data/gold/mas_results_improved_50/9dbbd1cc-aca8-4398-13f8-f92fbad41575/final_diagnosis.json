@@ -1,0 +1,131 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (insulin\u2011resistant pre\u2011diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.333,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 149 mmHg, DBP 91 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.3%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated triglyceride suspicion (missing lipid panel)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets multiple criteria for metabolic syndrome: central obesity, hypertension, and impaired glucose tolerance. These interrelated risk factors drive insulin resistance and explain the pre\u2011diabetic state, making metabolic syndrome the most likely overarching diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia (possible chronic blood loss)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.278,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Microcytic anemia with elevated platelet distribution width (PDW)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Strong PDW signal suggests iron deficiency over anemia of chronic disease",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Laboratory pattern (elevated PDW) and clinical context point toward iron deficiency rather than anemia of chronic disease. Chronic occult gastrointestinal blood loss is a plausible source given the lack of iron studies and the need for further evaluation."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease stage 3a secondary to hypertension & metabolic syndrome",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.222,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 149 mmHg, DBP 91 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, pre\u2011diabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Renal impairment suspected but eGFR not calculated",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and metabolic syndrome are leading causes of early CKD. Although objective renal function data are missing, the clinical picture warrants a high suspicion for stage 3a CKD."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.167,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and daytime fatigue reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Classic phenotype but no sleep study performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension increase the likelihood of OSA, yet the absence of polysomnography data lowers certainty. OSA remains a plausible contributor to the patient\u2019s cardiovascular risk profile."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (insulin\u2011resistant pre\u2011diabetes)",
+  "primary_probability": 0.333,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of obesity, stage 2 hypertension, and pre\u2011diabetes fulfills the criteria for metabolic syndrome, which is the dominant driver of his cardiovascular and renal risk. Iron\u2011deficiency anemia is supported by laboratory PDW findings and warrants investigation for occult gastrointestinal blood loss. Hypertensive and metabolic stress likely precipitate early CKD (stage 3a), while the patient\u2019s phenotype also raises concern for obstructive sleep apnea. The differential reflects the reviewer\u2019s probability adjustments and removes unsupported entities such as isolated atherogenic dyslipidaemia and anemia of chronic disease.",
+  "unresolved_findings": [
+    "Missing fasting lipid panel (total cholesterol, LDL\u2011C, triglycerides)",
+    "No calculated eGFR or urine albumin\u2011to\u2011creatinine ratio to stage CKD",
+    "Absent iron studies (Ferritin, serum iron, TIBC) and fecal occult blood test",
+    "No sleep study or polysomnography to confirm or exclude OSA",
+    "No hepatic panel (ALT, AST, GGT) or imaging to assess NAFLD",
+    "Renin\u2011aldosterone ratio and serum potassium not available (primary hyperaldosteronism screen)",
+    "Inflammatory markers (CRP, ESR) not reported",
+    "Smoking and alcohol use not documented"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel with triglycerides and LDL\u2011C",
+    "Calculate eGFR and obtain urine albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive iron studies (Ferritin, serum iron, TIBC) and fecal occult blood test",
+    "Overnight polysomnography to evaluate for OSA",
+    "Hepatic panel (ALT, AST, GGT) and abdominal ultrasound for NAFLD",
+    "Screen for secondary hypertension: plasma renin activity, aldosterone, serum potassium",
+    "Inflammatory markers (CRP, ESR) to assess for chronic disease",
+    "Detailed social history focusing on smoking and alcohol consumption"
+  ]
+}

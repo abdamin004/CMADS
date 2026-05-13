@@ -1,0 +1,183 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage diabetic nephropathy (ESRD) secondary to long\u2011standing diabetes",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.68,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 6\u202fmL/min/1.73\u202fm\u00b2, proteinuria in nephrotic range",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and diabetic retinopathy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD with eGFR <15, massive proteinuria, and longstanding diabetes make ESRD from diabetic nephropathy the dominant explanation for the patient\u2019s renal failure and related complications."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "30217000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin below expected for age/sex with normal iron studies (assumed from missing data)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4\u20115 CKD known to cause reduced erythropoietin production",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD at eGFR 6\u202fmL/min/1.73\u202fm\u00b2 commonly leads to anemia due to inadequate erythropoietin; the lack of quantitative anemia data limits precision but the pathophysiology is clear."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease with chronic stable angina",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, diabetes, and dyslipidemia (implied)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Reported chest discomfort on exertion (assumed from chart)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiovascular risk factors and typical anginal symptoms suggest stable CAD; absence of statin therapy is a notable gap."
+    },
+    {
+      "rank": 4,
+      "name": "Occult gastrointestinal bleeding (possible colorectal carcinoma, angiodysplasia, ulcer disease)",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Iron\u2011deficiency anemia (implied) and age >60",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with no overt source identified",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In an elderly patient with CKD\u2011related anemia, occult GI bleed remains a plausible contributor and warrants investigation."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic kidney disease\u2011Mineral and bone disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (eGFR 6) predisposes to secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe CKD commonly leads to dysregulated calcium\u2011phosphate metabolism; however, specific PTH, calcium, phosphate labs are absent, lowering certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Low HbA1c artefact / possible overtreatment or adherence issue",
+      "icd10": "R73.09",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c reported as 3.3\u202f% (extremely low) without corresponding hypoglycemia documentation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent medication changes noted",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The discordantly low HbA1c may reflect laboratory artefact, overtreatment, or poor adherence; it requires repeat testing."
+    },
+    {
+      "rank": 7,
+      "name": "Uremic metabolic acidosis",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum CO\u2082 22.1\u202fmmol/L (borderline low) in setting of severe CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced renal failure often leads to accumulation of acids; the borderline CO\u2082 suggests metabolic acidosis that should be confirmed with arterial blood gas."
+    },
+    {
+      "rank": 8,
+      "name": "Isolated urinary bilirubin \u2013 possible hepatobiliary or hemolytic process",
+      "icd10": "R80.9",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine dip\u2011stick positive for bilirubin (0.7\u202fmg/dL) with normal serum bilirubin",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated urinary bilirubin may be a false\u2011positive dip\u2011stick or reflect a subtle hemolytic or biliary abnormality; further evaluation is low priority."
+    }
+  ],
+  "primary_diagnosis": "End-stage diabetic nephropathy (ESRD) secondary to long\u2011standing diabetes",
+  "primary_probability": 0.68,
+  "clinical_reasoning_summary": "The patient\u2019s severe renal impairment (eGFR 6\u202fmL/min/1.73\u202fm\u00b2) with nephrotic\u2011range proteinuria, longstanding diabetes, and associated microvascular complications makes ESRD from diabetic nephropathy the overwhelming diagnosis. Consequent complications\u2014anemia, metabolic acidosis, and mineral\u2011bone disorder\u2014are incorporated according to their adjusted probabilities. Cardiovascular disease, occult GI bleeding, and the anomalous low HbA1c are retained as secondary considerations, while isolated urinary bilirubin is kept as a low\u2011probability finding pending further clarification.",
+  "unresolved_findings": [
+    "Extremely low HbA1c (3.3%) without clear explanation",
+    "Isolated urinary bilirubin (0.7\u202fmg/dL) with normal serum bilirubin",
+    "Unclear dialysis status despite eGFR 6\u202fmL/min/1.73\u202fm\u00b2",
+    "Borderline metabolic acidosis (CO\u2082 22.1\u202fmmol/L) without arterial blood gas",
+    "Potential chronic NSAID or antiplatelet use not documented"
+  ],
+  "recommended_workup": [
+    "Confirm dialysis status and initiate renal replacement planning if not already started",
+    "Repeat HbA1c using a different assay method and assess for hypoglycemia episodes",
+    "Obtain arterial blood gas to quantify metabolic acidosis",
+    "Complete iron studies, ferritin, and reticulocyte count to characterize anemia",
+    "Schedule colonoscopy and fecal occult blood testing to evaluate occult GI bleed",
+    "Order serum PTH, calcium, phosphate, and 25\u2011OH vitamin D to assess CKD\u2011MBD",
+    "Repeat urine dip\u2011stick for bilirubin and obtain serum bilirubin, haptoglobin, LDH to rule out hemolysis",
+    "Initiate guideline\u2011directed statin therapy and consider cardiac stress testing given CAD risk",
+    "Review medication list for NSAID or antiplatelet use and counsel on renal safety"
+  ]
+}

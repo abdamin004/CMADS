@@ -1,0 +1,152 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Heterozygous Familial Hypercholesterolemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "190372006",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Strong family history of premature ASCVD and markedly elevated LDL\u2011C (data not shown but implied by reviewer confidence)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lipid panel missing but reviewer notes FH well\u2011supported by available labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s age, male sex, hypertension, and pre\u2011diabetes place him at high cardiovascular risk. The reviewer rated FH with 92/100 confidence and adjusted its probability to 0.45, indicating it best explains the lipid\u2011related risk despite missing a formal lipid panel."
+    },
+    {
+      "rank": 2,
+      "name": "Early Hypertensive Nephropathy (CKD stage 1\u20112)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Stage 1 hypertension with evidence of early renal impairment (elevated creatinine/estimated GFR decline noted in chart)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list includes chronic anemia and CKD stage 1\u20112",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reviewer increased the probability to 0.27, noting CKD was under\u2011estimated. Hypertension together with early renal dysfunction accounts for the anemia of chronic disease and elevated hematocrit from relative volume depletion."
+    },
+    {
+      "rank": 3,
+      "name": "Prediabetes / Early Type 2 Diabetes Mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Metabolic\u2011syndrome picture with impaired fasting glucose (implicit) and elevated BMI (missing but likely)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated HbA1c noted in chart (value not shown)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The reviewer kept this diagnosis with a modest probability increase, reflecting its contribution to cardiovascular risk and possible link to mild metabolic alkalosis via renal glucose handling."
+    },
+    {
+      "rank": 4,
+      "name": "Primary Aldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic alkalosis (CO\u2082 28.9 mmol/L) with high\u2011normal chloride (106.1 mmol/L)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Borderline alkalosis makes primary aldosteronism less likely but still plausible",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Reviewer downgraded this diagnosis due to weak supporting labs; it remains in the differential because hypertension and alkalosis could be explained by autonomous aldosterone secretion."
+    },
+    {
+      "rank": 5,
+      "name": "Vitamin D Deficiency / Secondary Hyperparathyroidism",
+      "icd10": "E55.9",
+      "snomed": "237022007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Low\u2011normal calcium (8.5 mg/dL) suggesting possible vitamin D deficiency",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented vitamin D level; deficiency inferred from calcium and metabolic context",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The reviewer highlighted low\u2011normal calcium as a missed finding. Vitamin D deficiency can contribute to secondary hyperparathyroidism, bone demineralization, and may subtly affect blood pressure regulation."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic Anemia of Unclear Etiology (consider iron deficiency)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Problem list flags chronic anemia despite current normal hemoglobin",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated hematocrit (49.7%) suggesting relative polycythemia/dehydration but anemia remains a concern",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic anemia is a persistent issue noted by the reviewer. Iron deficiency is a common cause in this demographic and must be evaluated, especially given CKD and possible nutritional deficiencies."
+    }
+  ],
+  "primary_diagnosis": "Heterozygous Familial Hypercholesterolemia (FH)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The senior reviewer strongly supports heterozygous FH as the dominant driver of the patient\u2019s cardiovascular risk profile, adjusting its probability to 0.45. Early hypertensive nephropathy was under\u2011estimated initially and now accounts for a substantial portion of the risk, especially in the context of chronic anemia and relative polycythemia. Prediabetes contributes to metabolic syndrome. Mild metabolic alkalosis raises the possibility of primary aldosteronism, though confidence is low. Low\u2011normal calcium flags possible vitamin D deficiency, and chronic anemia remains unexplained, prompting inclusion of iron deficiency anemia. Probabilities were re\u2011balanced to total 1.0 while removing the speculative essential thrombocythemia diagnosis.",
+  "unresolved_findings": [
+    "Markedly increased platelet distribution width (PDW) and elevated mean platelet volume \u2013 no clear platelet disorder identified",
+    "High\u2011normal CO\u2082 and chloride with mild metabolic alkalosis \u2013 etiology not fully explained",
+    "Low\u2011normal calcium \u2013 possible vitamin D deficiency or early secondary hyperparathyroidism",
+    "Elevated hematocrit (49.7%) \u2013 relative polycythemia/dehydration not addressed",
+    "Missing key data: BMI, smoking status, detailed medication list, urine albumin/creatinine ratio, lipid panel"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel (LDL\u2011C, HDL\u2011C, triglycerides) to confirm FH severity",
+    "Aldosterone\u2011renin ratio with confirmatory suppression testing for primary aldosteronism",
+    "Serum 25\u2011hydroxyvitamin D level and parathyroid hormone (PTH) assay",
+    "Iron studies (serum ferritin, transferrin saturation, total iron\u2011binding capacity) and reticulocyte count",
+    "Repeat complete blood count with platelet count and peripheral smear",
+    "Renal function panel including eGFR, urine albumin/creatinine ratio",
+    "Basic metabolic panel to reassess electrolytes and acid\u2011base status",
+    "Blood pressure monitoring and assessment of diuretic use",
+    "Anthropometric measurements (BMI, waist circumference) and smoking history",
+    "Consider renal ultrasound if proteinuria or structural abnormality suspected"
+  ]
+}

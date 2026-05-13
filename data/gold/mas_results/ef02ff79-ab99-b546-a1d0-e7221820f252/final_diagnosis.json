@@ -1,0 +1,185 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (stage 4, proteinuric)",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.53,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with recent eGFR ~20\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria >1\u202fg/day on spot urine protein/creatinine ratio",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Diabetes duration >15\u202fyears, poor glycemic control historically",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The classic triad of advanced CKD, longstanding diabetes, and significant proteinuria points to diabetic nephropathy as the dominant driver of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive/vascular chronic kidney disease (possible renal\u2011artery stenosis)",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of uncontrolled hypertension requiring multiple agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine disproportionate to diabetic burden",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension contributes to CKD progression and may be amplified by possible renal\u2011artery stenosis, but it appears secondary to diabetic nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "Severe dyslipidemia (statin non\u2011response / possible familial hypercholesterolemia)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C >190\u202fmg/dL despite high\u2011intensity statin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Family history of premature cardiovascular disease not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Marked hyperlipidemia persists despite therapy, raising concern for statin non\u2011response or an underlying genetic lipid disorder."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.2\u202fg/dL with low reticulocyte count, normal iron studies",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No evidence of acute blood loss or hemolysis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia consistent with chronic kidney disease is expected at stage\u202f4 and fits the laboratory pattern."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive uropathy (benign prostatic hyperplasia)",
+      "icd10": "N40.0",
+      "snomed": "197480006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 73, reports nocturia and weak stream",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms suggest BPH, but no imaging or post\u2011void residual data are available; contribution to CKD is likely minor."
+    },
+    {
+      "rank": 6,
+      "name": "Cardiorenal syndrome (ischemic CAD with residual LV dysfunction)",
+      "icd10": "I13.0",
+      "snomed": "442083009",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent CABG and known CAD",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent echocardiogram to confirm LV dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Ischemic heart disease may exacerbate renal perfusion, yet lack of functional cardiac data limits confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Asymptomatic bacteriuria / early urinary tract infection",
+      "icd10": "N39.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine dipstick positive for nitrites without documented culture or symptoms",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Nitrite positivity alone is insufficient for infection; however, colonization could be present."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / adjustment disorder secondary to chronic illness",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, recent major surgery, and reported low mood",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors are plausible contributors to overall health but lack formal assessment."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (stage 4, proteinuric)",
+  "primary_probability": 0.53,
+  "clinical_reasoning_summary": "The patient\u2019s advanced CKD is most convincingly explained by diabetic nephropathy, given longstanding diabetes, markedly reduced eGFR, and significant proteinuria. Hypertension and vascular disease act as secondary accelerants, while severe dyslipidemia reflects inadequate lipid control. Anemia aligns with CKD stage. Other considerations such as BPH, cardiorenal interaction, asymptomatic bacteriuria, and depression are possible but have limited supporting data. The erroneous A1C value (2.9%) is likely a laboratory artifact and does not alter the primary diagnosis.",
+  "unresolved_findings": [
+    "Urine nitrite positivity without culture or symptoms",
+    "A1C value of 2.9% (likely lab error)",
+    "Missing blood pressure recordings",
+    "Absence of renal imaging (ultrasound, Doppler)",
+    "No recent urine culture",
+    "Lack of iron studies to fully characterize anemia",
+    "No echocardiogram to assess LV function",
+    "No PSA or prostate imaging to confirm obstruction"
+  ],
+  "recommended_workup": [
+    "Obtain serial blood pressure measurements and consider ambulatory monitoring",
+    "Renal ultrasound with Doppler to evaluate for obstruction or renal\u2011artery stenosis",
+    "Repeat urine culture and quantitative protein assessment",
+    "Re\u2011measure HbA1c using a reliable assay",
+    "Echocardiogram to assess left ventricular function and quantify cardiorenal contribution",
+    "Serum iron studies, ferritin, and TIBC to fully characterize anemia",
+    "PSA level and possibly uroflow study to evaluate BPH",
+    "Formal depression screening (PHQ\u20119) and referral to mental health services"
+  ]
+}

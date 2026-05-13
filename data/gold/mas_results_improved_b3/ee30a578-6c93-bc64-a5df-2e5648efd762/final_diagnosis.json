@@ -1,0 +1,137 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy",
+      "icd10": "N08.3",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes mellitus documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR consistent with CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Proteinuria noted in chart (implicit from CKD staging)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes is the primary driver of CKD in this patient; the advanced reduction in eGFR together with proteinuria fits the classic temporal cascade of diabetic kidney disease."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension recorded as a comorbidity",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 4 without clear diabetic\u2011specific lesions (biopsy not performed)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension can independently cause progressive renal scarring; given the lack of definitive diabetic renal pathology, a contributory role of hypertensive nephrosclerosis is plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin consistent with anemia in CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "CKD stage 4 providing physiologic basis for reduced erythropoietin production",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to anemia via decreased erythropoietin; the laboratory anemia aligns with this mechanism, though iron studies are pending."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (untreated or suboptimally treated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of obstructive sleep apnea",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Obesity noted, a major risk factor for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is confirmed, but the record does not clarify CPAP adherence; untreated OSA could exacerbate hypertension and cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Atherosclerotic cardiovascular disease (ischemic heart disease / HFpEF)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "High burden of cardiovascular risk factors (diabetes, hypertension, CKD, obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "No documented ischemic heart disease on prior studies",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While the patient carries substantial risk, there is no concrete evidence of overt ASCVD; the low probability reflects uncertainty about documented disease."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s advanced CKD (stage 4) in the setting of long\u2011standing diabetes, hypertension, obesity, and documented OSA points to diabetic nephropathy as the dominant process, with hypertensive nephrosclerosis contributing. Anemia is most consistent with CKD\u2011related erythropoietin deficiency. OSA likely remains undertreated, and while cardiovascular risk is high, there is no documented ASCVD. Gaps in laboratory and therapeutic data (CKD\u2011MBD labs, ACEi/ARB use, iron studies, CPAP adherence) limit precise quantification of each component.",
+  "unresolved_findings": [
+    "Missing current systolic and diastolic blood pressure values",
+    "No recent hemoglobin A1c or fasting glucose to confirm diabetes control",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No current BMI measurement",
+    "No laboratory data for calcium, phosphate, PTH, vitamin D (CKD\u2011MBD assessment)",
+    "Unclear whether the patient is using CPAP or other OSA therapy",
+    "No documented erythropoiesis\u2011stimulating agent use or iron studies for anemia",
+    "No documented cardiovascular imaging or stress testing"
+  ],
+  "recommended_workup": [
+    "Obtain serum calcium, phosphate, PTH, and 25\u2011OH vitamin D to assess CKD\u2011MBD",
+    "Repeat hemoglobin A1c and fasting glucose to evaluate diabetes control",
+    "Complete fasting lipid panel",
+    "Measure current blood pressure and calculate BMI",
+    "Order iron studies (serum iron, ferritin, transferrin saturation) and consider ESA trial if indicated",
+    "Review CPAP adherence data or repeat sleep study if compliance uncertain",
+    "Consider initiating or confirming ACE inhibitor/ARB therapy for renin\u2011angiotensin blockade",
+    "Cardiovascular risk assessment: ECG, echocardiogram, and consider stress testing or coronary calcium scoring"
+  ]
+}

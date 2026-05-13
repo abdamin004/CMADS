@@ -1,0 +1,178 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Early chronic kidney disease (stage 1-2) with non-anion-gap metabolic acidosis",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Non-anion-gap metabolic acidosis (low HCO3-, normal anion gap)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild normocytic anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The presence of a non-anion-gap metabolic acidosis in the setting of otherwise normal labs raises suspicion for early CKD, which can cause impaired acid excretion. Although renal function tests are missing, the combination of anemia and metabolic acidosis is compatible with stage 1\u20112 CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Medication non-adherence / psychosocial barrier",
+      "icd10": "Z91.14",
+      "snomed": "422587007",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on a single antihypertensive despite uncontrolled blood pressure",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No documented adherence assessment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Uncontrolled hypertension with minimal pharmacotherapy suggests possible non\u2011adherence or psychosocial barriers to medication use."
+    },
+    {
+      "rank": 3,
+      "name": "Prediabetes / impaired glucose tolerance",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c = 6.4%",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "A1c of 6.4% meets criteria for prediabetes, indicating impaired glucose tolerance that warrants lifestyle and possibly pharmacologic intervention."
+    },
+    {
+      "rank": 4,
+      "name": "Essential hypertension (primary)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented elevated blood pressure readings",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Primary hypertension is the most common cause of elevated BP and is supported by the lack of secondary causes on current data."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors (obesity, hypertension)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While OSA is a plausible contributor to hypertension, there is no documented snoring, witnessed apneas, or daytime sleepiness, lowering confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Normocytic anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Normocytic anemia could represent early iron deficiency, but lack of microcytosis and iron studies makes this diagnosis uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Secondary hypertension (primary aldosteronism or renovascular disease)",
+      "icd10": "I15.0",
+      "snomed": "237599009",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant\u2011type hypertension on minimal therapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary causes are considered given hypertension severity, but only one agent is used, and no confirmatory labs (aldosterone/renin) are available."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic disease (CKD\u2011related or inflammatory)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Normocytic anemia without iron studies",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Could be related to early CKD or chronic inflammation, but insufficient data to differentiate from iron deficiency."
+    },
+    {
+      "rank": 9,
+      "name": "Laboratory artefact \u2013 implausibly high platelet\u2011distribution width (PDW)",
+      "icd10": "R79.89",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "PDW reported as 484.2 fL (physiologically implausible)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The extreme PDW value is most consistent with a lab measurement error; repeat testing is required."
+    }
+  ],
+  "primary_diagnosis": "Early chronic kidney disease (stage 1-2) with non-anion-gap metabolic acidosis",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with hypertension, mild normocytic anemia, and a non-anion-gap metabolic acidosis. In the absence of renal function data, early CKD remains the most plausible unifying diagnosis, especially given the metabolic derangement and anemia. Medication non\u2011adherence is a strong alternative explanation for uncontrolled blood pressure. Laboratory evidence confirms prediabetes, which adds cardiovascular risk. Other considerations (OSA, iron deficiency, secondary hypertension) have weaker supporting data. A spurious PDW result is identified as a lab artefact.",
+  "unresolved_findings": [
+    "Non\u2011anion\u2011gap metabolic acidosis without renal function or urine electrolyte data",
+    "Missing lipid panel, thyroid studies, inflammatory markers, and renal labs",
+    "Hyperchloremia without clear etiology (dietary vs iatrogenic vs renal)",
+    "Normocytic anemia without iron, B12, folate, or reticulocyte studies"
+  ],
+  "recommended_workup": [
+    "Repeat platelet distribution width measurement",
+    "Serum creatinine, eGFR, and urine albumin/creatinine ratio to assess kidney function",
+    "Comprehensive metabolic panel including electrolytes and arterial blood gas",
+    "Iron studies (serum iron, ferritin, transferrin saturation) and reticulocyte count",
+    "Vitamin B12 and folate levels",
+    "Fasting glucose and repeat HbA1c",
+    "Lipid panel and thyroid function tests",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Aldosterone\u2011renin ratio and renal artery imaging if secondary hypertension suspected"
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive biliary obstruction (choledocholithiasis)",
+      "icd10": "K80.1",
+      "snomed": "235719002",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated bilirubin levels (magnitude noted in chart)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Cholestatic pattern suggested by pending ALP/GGT (not yet obtained)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: diabetes, prior gallstone disease (implied)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Significant hyperbilirubinemia in a diabetic patient with risk factors points to mechanical blockage of the common bile duct. Absence of imaging makes obstruction the leading hypothesis, pending confirmation."
+    },
+    {
+      "rank": 2,
+      "name": "Myocardial ischemia (unstable angina / demand ischemia)",
+      "icd10": "I20.0",
+      "snomed": "194828000",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (160/96 mmHg) and known coronary risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin noted (single value, trend unavailable)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertensive surge with elevated troponin suggests myocardial oxygen supply-demand mismatch or plaque instability. Lack of ECG and serial biomarkers limits precise classification, but ischemia remains plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic kidney disease with chronic kidney disease and superimposed acute kidney injury",
+      "icd10": "N08.3",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Baseline CKD stage 1, diabetic nephropathy documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum creatinine (trend not fully detailed)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Very dilute urine (specific gravity 1.0) indicating possible renal concentrating defect",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing diabetes explains chronic renal impairment; the abrupt rise in creatinine and dilute urine suggest an acute insult, possibly prerenal or intrinsic AKI."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive emergency / urgency",
+      "icd10": "I16.1",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 160/96 mmHg with end\u2011organ risk (kidney, heart)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of target\u2011organ damage documentation (e.g., papilledema) but high risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe hypertension can precipitate or worsen both renal dysfunction and myocardial ischemia, warranting urgent control."
+    },
+    {
+      "rank": 5,
+      "name": "Acute cholangitis / biliary sepsis",
+      "icd10": "K83.0",
+      "snomed": "235719002",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated bilirubin with possible infection risk (no temperature data provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Pending inflammatory markers (CRP, WBC) not yet available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If obstruction is present, bacterial overgrowth can lead to cholangitis. Lack of fever or leukocytosis makes this less likely than pure obstruction, but it must be considered because management differs (antibiotics, urgent drainage)."
+    },
+    {
+      "rank": 6,
+      "name": "Insulin\u2011induced hypoglycemia / overtreatment of glucose",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "A1c reported as 3 (suggesting possible overtreatment)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented symptomatic hypoglycemia episodes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Very low A1c raises concern for insulin excess, but absence of clinical hypoglycemia signs makes this diagnosis speculative."
+    }
+  ],
+  "primary_diagnosis": "Obstructive biliary obstruction (choledocholithiasis)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient presents with marked hyperbilirubinemia, hypertension, diabetes, and worsening renal function. The dominant picture is a mechanical blockage of the common bile duct (choledocholithiasis), supported by cholestatic labs and risk factors, making it the most likely diagnosis. Concurrently, elevated troponin and severe hypertension raise the possibility of myocardial ischemia, while chronic diabetic nephropathy with an acute rise in creatinine suggests superimposed AKI. Hypertensive urgency may be driving both renal and cardiac stress. A secondary concern is that obstruction could be complicated by infection (acute cholangitis), which would alter management. Insulin\u2011induced hypoglycemia remains a remote possibility given an unusually low A1c but lacks clinical corroboration.",
+  "unresolved_findings": [
+    "Absence of abdominal imaging (ultrasound/MRCP) to confirm or exclude biliary obstruction or cholangitis.",
+    "Missing liver enzyme panel (ALT, AST, ALP, GGT) and INR to characterize injury pattern.",
+    "No ECG, serial troponins, or echocardiography to delineate type of myocardial ischemia.",
+    "Lack of eGFR trend and urine albumin\u2011to\u2011creatinine ratio for precise CKD staging.",
+    "Urine specific gravity 1.0 unexplained \u2013 could reflect diuretic effect, over\u2011hydration, or renal concentrating defect.",
+    "Dyslipidemia (LDL 151 mg/dL) not linked to a specific diagnosis."
+  ],
+  "recommended_workup": [
+    "Abdominal ultrasound followed by MRCP if ultrasound inconclusive to assess for choledocholithiasis or stricture.",
+    "Complete liver function panel (ALT, AST, ALP, GGT, bilirubin fractions) and coagulation profile (INR).",
+    "Blood cultures and inflammatory markers (CBC with differential, CRP) to evaluate for cholangitis.",
+    "12\u2011lead ECG and serial high\u2011sensitivity troponins; consider stress testing or coronary angiography based on results.",
+    "Transthoracic echocardiogram to assess cardiac function and rule out heart failure contributing to hepatic congestion.",
+    "Repeat serum creatinine with eGFR calculation and urine albumin\u2011to\u2011creatinine ratio; renal ultrasound if indicated.",
+    "Continuous blood pressure monitoring and initiation of IV antihypertensives if hypertensive emergency confirmed.",
+    "Review insulin regimen; obtain point\u2011of\u2011care glucose checks to rule out occult hypoglycemia."
+  ]
+}

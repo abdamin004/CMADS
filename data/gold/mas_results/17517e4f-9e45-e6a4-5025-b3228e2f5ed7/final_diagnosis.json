@@ -2,92 +2,87 @@
   "differential": [
     {
       "rank": 1,
-      "name": "End-stage diabetic nephropathy",
-      "icd10": "E11.22",
-      "snomed": "44054006",
-      "probability": 0.54,
+      "name": "End-stage renal disease (dialysis-na\u00efve) secondary to diabetic nephropathy and hypertensive nephrosclerosis",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.68,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Long-standing type 2 diabetes mellitus with documented poor glycemic control and diabetic retinopathy",
+          "finding": "eGFR 6 mL/min/1.73 m\u00b2 meeting criteria for ESRD",
           "strength": "strong"
         },
         {
-          "source": "lab_interpreter",
-          "finding": "eGFR <15\u202fmL/min/1.73\u202fm\u00b2 and markedly elevated serum creatinine consistent with stage\u202f5 CKD",
+          "source": "ehr_analyst",
+          "finding": "long-standing diabetes mellitus and hypertension",
           "strength": "strong"
-        },
-        {
-          "source": "comorbidity",
-          "finding": "Concurrent hypertension and hyperlipidemia, common accelerants of diabetic kidney disease",
-          "strength": "moderate"
         }
       ],
-      "reasoning": "The patient\u2019s advanced CKD in the setting of longstanding diabetes, retinal microvascular disease, and severe proteinuria points to diabetic nephropathy as the dominant driver of renal failure."
+      "reasoning": "Advanced CKD with eGFR <15 and presence of diabetic and hypertensive etiologies fulfills ESRD definition; lack of dialysis initiation suggests dialysis-na\u00efve status."
     },
     {
       "rank": 2,
-      "name": "Hypertensive nephrosclerosis",
-      "icd10": "I12.9",
-      "snomed": "38341003",
-      "probability": 0.24,
+      "name": "Ischemic heart disease with chronic stable angina",
+      "icd10": "I20.9",
+      "snomed": "194828000",
+      "probability": 0.09,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "History of chronic uncontrolled hypertension for >10\u202fyears",
+          "finding": "history of chest discomfort consistent with stable angina",
           "strength": "moderate"
         },
         {
-          "source": "imaging",
-          "finding": "Renal ultrasound (if performed) shows small, echogenic kidneys suggestive of chronic hypertensive changes",
+          "source": "ehr_analyst",
+          "finding": "diabetes and hypertension as major cardiovascular risk factors",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Long\u2011standing hypertension contributes to arteriolar sclerosis and interstitial fibrosis, which can coexist with diabetic nephropathy and further impair renal function."
+      "reasoning": "Patient\u2019s risk profile and reported anginal symptoms make chronic stable ischemic heart disease a plausible comorbidity."
     },
     {
       "rank": 3,
-      "name": "Ischemic heart disease / chronic coronary artery disease",
-      "icd10": "I25.10",
-      "snomed": "53741008",
+      "name": "Severe hypoglycemia risk due to insulin therapy in advanced CKD",
+      "icd10": "E16.2",
+      "snomed": "271327008",
       "probability": 0.07,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Documented prior myocardial infarction and chronic coronary artery disease",
+          "finding": "patient on insulin therapy with eGFR <30 mL/min/1.73 m\u00b2",
           "strength": "strong"
         },
         {
-          "source": "risk_scores",
-          "finding": "High ASCVD risk score based on age, diabetes, and hypertension",
-          "strength": "moderate"
+          "source": "ehr_analyst",
+          "finding": "known reduced insulin clearance in advanced CKD",
+          "strength": "strong"
         }
       ],
-      "reasoning": "While coronary disease is established, its current contribution to the acute presentation appears limited; however, it remains a relevant comorbidity in the overall risk profile."
+      "reasoning": "Reduced renal clearance of insulin markedly increases hypoglycemia risk in this setting."
     },
     {
       "rank": 4,
-      "name": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism)",
-      "icd10": "N18.6",
-      "snomed": "41672002",
-      "probability": 0.06,
+      "name": "Chronic kidney disease\u2011Mineral and Bone Disorder (CKD\u2011MBD) with secondary hyperparathyroidism",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.05,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "lab_interpreter",
-          "finding": "Advanced CKD (stage\u202f5) creates a high pre\u2011test probability for secondary hyperparathyroidism despite missing PTH, calcium, phosphate values",
+          "finding": "absence of calcium, phosphate, PTH, and vitamin D labs despite ESRD",
           "strength": "moderate"
         },
         {
-          "source": "comorbidity",
-          "finding": "Long\u2011standing diabetes and hypertension predispose to disturbances in mineral metabolism",
-          "strength": "weak"
+          "source": "ehr_analyst",
+          "finding": "advanced CKD stage 5 predisposes to secondary hyperparathyroidism",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "In ESRD, dysregulated calcium\u2011phosphate metabolism and elevated PTH are expected; lack of specific labs warrants targeted testing."
+      "reasoning": "Given ESRD, CKD\u2011MBD is highly likely, though biochemical confirmation is missing."
     },
     {
       "rank": 5,
@@ -95,92 +90,93 @@
       "icd10": "D63.1",
       "snomed": "271442005",
       "probability": 0.05,
-      "confidence": "moderate",
+      "confidence": "high",
       "supporting_evidence": [
         {
           "source": "lab_interpreter",
-          "finding": "Stage\u202f5 CKD predicts anemia prevalence >80\u202f%; CBC not yet available but anemia is clinically likely",
+          "finding": "low hemoglobin consistent with CKD\u2011related anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "no iron studies to separate iron\u2011deficiency component",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Given the severity of renal failure, erythropoietin deficiency\u2011related anemia is highly probable, though confirmatory CBC is pending."
+      "reasoning": "CKD commonly causes normocytic anemia; iron studies are needed to assess mixed etiology."
     },
     {
       "rank": 6,
-      "name": "Occult chronic liver disease (e.g., NAFLD or hepatitis C)",
-      "icd10": "K76.0",
-      "snomed": "235856003",
+      "name": "Occult gastrointestinal bleeding (possible uremic gastritis, angiodysplasia, or NSAID ulcer)",
+      "icd10": "K92.2",
+      "snomed": "371923003",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "positive fecal occult blood test",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "risk factors include uremia and possible NSAID use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "FOBT positivity in a CKD patient raises concern for occult GI source; low probability but clinically important."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "42343007",
       "probability": 0.02,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Positive urine bilirubin without documented liver disease and low serum globulin suggest possible hepatic dysfunction",
-          "strength": "weak"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "Metabolic syndrome components (diabetes, obesity) increase risk for NAFLD",
+          "source": "ehr_analyst",
+          "finding": "no objective cardiac imaging available; symptoms not documented",
           "strength": "weak"
         }
       ],
-      "reasoning": "The urine bilirubin and hypogammaglobulinemia raise suspicion for an underlying liver process, but evidence remains limited."
+      "reasoning": "HFpEF is a possible comorbidity in hypertensive, diabetic patients but lacks supporting echo or natriuretic peptide data."
     },
     {
-      "rank": 7,
-      "name": "Congestive heart failure / uremic cardiomyopathy",
-      "icd10": "I50.9",
-      "snomed": "84114007",
+      "rank": 8,
+      "name": "Psychosocial stressors impacting adherence and transplant eligibility",
+      "icd10": "Z60.9",
+      "snomed": "162573006",
       "probability": 0.01,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "History of dyspnea on exertion and peripheral edema in the setting of ESRD",
-          "strength": "moderate"
-        },
-        {
-          "source": "imaging",
-          "finding": "Echocardiogram (if performed) may show reduced ejection fraction consistent with uremic cardiomyopathy",
+          "finding": "documented psychosocial barriers to medication adherence and transplant evaluation",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Heart failure is a common complication of advanced CKD; evaluation with cardiac imaging is warranted."
-    },
-    {
-      "rank": 8,
-      "name": "Medication\u2011induced nephrotoxicity",
-      "icd10": "N99.0",
-      "snomed": "442083009",
-      "probability": 0.005,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Potential exposure to nephrotoxic agents (e.g., NSAIDs, contrast) noted in medication list (details pending)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "While medication toxicity could have contributed earlier, the patient is already at ESRD; its role as a primary driver is minimal."
+      "reasoning": "Psychosocial factors can affect transplant candidacy and overall management, though current probability is low."
     }
   ],
-  "primary_diagnosis": "End-stage diabetic nephropathy",
-  "primary_probability": 0.54,
-  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease in the context of long\u2011standing type\u202f2 diabetes, uncontrolled hypertension, and established macrovascular disease. The reviewer\u2019s probability adjustments elevate diabetic nephropathy to the dominant etiology, with hypertensive nephrosclerosis as a significant co\u2011factor. Secondary complications of ESRD\u2014including CKD\u2011MBD, anemia, and potential cardiac dysfunction\u2014are incorporated based on typical prevalence, despite missing specific laboratory data. A low\u2011probability occult liver process is retained to explain unexplained urine bilirubin and hypogammaglobulinemia, while medication\u2011induced nephrotoxicity is kept only as a remote contributor.",
+  "primary_diagnosis": "End-stage renal disease (dialysis-na\u00efve) secondary to diabetic nephropathy and hypertensive nephrosclerosis",
+  "primary_probability": 0.68,
+  "clinical_reasoning_summary": "The patient meets ESRD criteria (eGFR 6 mL/min/1.73 m\u00b2) in the context of longstanding diabetes and hypertension, making dialysis\u2011na\u00efve ESRD the dominant diagnosis. Cardiovascular disease, hypoglycemia risk, CKD\u2011MBD, anemia, occult GI bleeding, possible HFpEF, and psychosocial barriers are recognized comorbidities with probabilities adjusted per reviewer confidence. Gaps in laboratory data, medication reconciliation, and cardiac imaging limit certainty for several secondary diagnoses.",
   "unresolved_findings": [
-    "Positive urine bilirubin without documented liver disease",
-    "Low serum globulin (2.3\u202f\u00b5g/L) not fully explained by proteinuria alone",
-    "Trace urine glucose and ketones despite unclear glycaemic control",
-    "Absence of serum electrolytes, bicarbonate, potassium, sodium, and complete CBC"
+    "Very dilute urine specific gravity 1.0 (could suggest diabetes insipidus or excessive fluid intake beyond CKD expectations)",
+    "Absence of recent vital signs, lipid panel, and repeat renal labs (last visit documented in 2001)",
+    "Potential medication gaps (no explicit list of ACE\u2011I/ARB, NSAIDs, ESA, phosphate binders, statin, antiplatelet agents)",
+    "No documented dialysis initiation despite eGFR 6 mL/min/1.73 m\u00b2"
   ],
   "recommended_workup": [
-    "Serum PTH, calcium, phosphate, and 25\u2011OH vitamin D levels to assess CKD\u2011MBD",
-    "Complete blood count with iron studies, reticulocyte count, and erythropoietin level for anemia evaluation",
-    "Comprehensive liver panel (AST, ALT, ALP, GGT, total and direct bilirubin) and hepatitis C serology",
-    "Repeat urine analysis with quantitative protein, bilirubin, and glucose measurements",
-    "Renal ultrasound to evaluate kidney size, echogenicity, and rule out obstructive causes",
-    "Echocardiogram to assess left ventricular function and screen for uremic cardiomyopathy",
-    "Medication reconciliation focusing on nephrotoxic agents (NSAIDs, aminoglycosides, contrast media)",
-    "Serum electrolyte panel and bicarbonate to guide metabolic management"
+    "Formal dialysis eligibility assessment and discussion of initiation timing",
+    "Comprehensive CKD-MBD panel: serum calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Iron studies (ferritin, transferrin saturation) to delineate anemia etiology",
+    "Review and reconcile current medication list, ensure renin\u2011angiotensin system blockade and anemia management",
+    "Cardiac evaluation: ECG and transthoracic echocardiogram to assess for HFpEF or ischemia",
+    "Stress testing or coronary imaging if angina symptoms persist",
+    "Repeat fecal occult blood test and consider upper/lower endoscopy for GI bleed source",
+    "Structured psychosocial assessment (social work, transplant counseling) to address adherence barriers",
+    "Urine osmolality and water balance studies to investigate dilute urine finding"
   ]
 }

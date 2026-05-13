@@ -1,0 +1,129 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive biliary disease (cholestasis)",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin 13.7 mg/dL (severe hyperbilirubinemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented liver disease; cholestatic pattern suspected",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Marked conjugated hyperbilirubinemia without clear hepatocellular injury strongly suggests biliary obstruction; urgent imaging is required to rule out choledocholithiasis or malignancy."
+    },
+    {
+      "rank": 2,
+      "name": "Ongoing myocardial injury (NSTEMI or demand ischemia)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I without documented ACS symptoms",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (160/96 mmHg) increasing myocardial oxygen demand",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin in the setting of severe hypertension may represent demand ischemia or a non\u2011ST elevation MI; further cardiac work\u2011up is needed."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertension\u2011mediated organ damage (CKD with possible LV hypertrophy)",
+      "icd10": "I12.9",
+      "snomed": "59621000",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Markedly elevated blood pressure (160/96 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Evidence of renal impairment (creatinine elevation, proteinuria noted in chart)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic uncontrolled hypertension predisposes to CKD and cardiac remodeling; lack of echo data limits confirmation of HFpEF, so focus is on renal sequelae."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic kidney disease secondary to hypertension/diabetes",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of diabetes mellitus on insulin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Reduced eGFR (numeric value missing but implied by CKD documentation)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Both hypertension and diabetes are plausible contributors to CKD; the exact proportion is uncertain without detailed labs."
+    },
+    {
+      "rank": 5,
+      "name": "Major depressive disorder affecting adherence and lifestyle",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of major depressive disorder",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Non\u2011adherence to medication regimen noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Depression likely contributes to poor disease control (e.g., hypertension, diabetes) but does not directly explain the acute laboratory abnormalities."
+    }
+  ],
+  "primary_diagnosis": "Obstructive biliary disease (cholestasis)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "Severe isolated hyperbilirubinemia is the most urgent abnormality, pointing to obstructive cholestasis that requires immediate imaging. Elevated troponin in the context of uncontrolled hypertension raises concern for myocardial injury, while chronic hypertension and diabetes explain the renal dysfunction. Depression is a contributing psychosocial factor. Hemolytic anemia was excluded due to lack of supporting labs.",
+  "unresolved_findings": [
+    "Discordant A1c value (3.3%) versus insulin therapy",
+    "Unclear indication for diphenhydramine use",
+    "Missing key laboratory data: BMI, numeric eGFR, full lipid panel, CBC with indices, liver enzymes (AST, ALT, ALP, GGT), hemolysis panel",
+    "Elevated troponin I without documented acute coronary syndrome symptoms"
+  ],
+  "recommended_workup": [
+    "Right upper quadrant ultrasound (first\u2011line for biliary obstruction)",
+    "Magnetic resonance cholangiopancreatography (MRCP) if US inconclusive",
+    "Fractionated bilirubin (direct vs indirect) and liver enzyme panel",
+    "Repeat A1c with point\u2011of\u2011care glucose verification",
+    "Complete blood count with differential and reticulocyte count",
+    "Hemolysis panel (LDH, haptoglobin, peripheral smear)",
+    "12\u2011lead ECG and serial troponins",
+    "Transthoracic echocardiogram to assess LV function and hypertrophy",
+    "Comprehensive metabolic panel including renal function (eGFR) and lipid profile"
+  ]
+}

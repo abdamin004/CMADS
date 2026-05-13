@@ -1,0 +1,255 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 2000",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lipid panel shows LDL 69.8\u202fmg/dL, HDL 50\u202fmg/dL, TG 116\u202fmg/dL (borderline) and trend data missing, raising concern for dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Protease\u2011inhibitor therapy (darunavir/ritonavir) known to cause insulin resistance and dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets three core components of metabolic syndrome: central obesity, impaired glucose regulation, and probable dyslipidemia (exacerbated by protease\u2011inhibitor therapy). This cluster drives hypertension, low bicarbonate, rising sodium/BUN, and contributes to OSA and anemia."
+    },
+    {
+      "rank": 2,
+      "name": "Protease\u2011inhibitor\u2013induced hypertension / metabolic derangement",
+      "icd10": "Z79.899",
+      "snomed": "410942007",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Current antiretroviral regimen includes darunavir/ritonavir",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Darunavir/ritonavir associated with increased sympathetic tone, sodium retention and insulin resistance",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated sodium (141.7\u202fmmol/L, rising) and low CO\u2082 (21.2\u202fmmol/L) suggest volume expansion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Protease\u2011inhibitor therapy can directly raise blood pressure via RAAS activation and promote metabolic abnormalities that underlie the hypertension observed."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.23,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension (BP 159/112\u202fmmHg) with no antihypertensive medication listed",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sodium 141.7\u202fmmol/L (upper\u2011normal) and CO\u2082 21.2\u202fmmol/L (low) indicating early volume\u2011related changes",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity, pre\u2011diabetes, HIV\u2011associated inflammation, untreated OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The blood\u2011pressure reading meets criteria for stage\u20112 hypertension and is the immediate therapeutic target, though it is largely a manifestation of upstream metabolic and medication\u2011driven factors."
+    },
+    {
+      "rank": 4,
+      "name": "Tenofovir\u2011associated proximal tubular dysfunction",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term exposure to tenofovir disoproxil fumarate",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low CO\u2082 (21.2\u202fmmol/L) with high\u2011normal chloride (107.1\u202fmmol/L) indicating a non\u2011anion\u2011gap metabolic acidosis typical of proximal RTA",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN (8.5\u202fmg/dL) and sodium trend upward despite normal creatinine",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Chronic anemia of unclear etiology, a possible early CKD manifestation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Tenofovir can cause proximal tubular injury leading to hyperchloremic metabolic acidosis and subtle rises in BUN/Na\u207a before creatinine elevation, warranting surveillance."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed OSA (onset 2018) with no documented CPAP therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity and hypertension, both strongly associated with OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA contributes to sympathetic surges, insulin resistance, and resistant hypertension, amplifying the metabolic\u2011syndrome impact."
+    },
+    {
+      "rank": 6,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237380009",
+      "probability": 0.06,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe, refractory hypertension without potassium measurement",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Absence of aldosterone\u2011renin testing despite uncontrolled BP",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If present, primary aldosteronism would be a direct driver of sodium retention and hypertension; low\u2011cost screening (ARR) is warranted."
+    },
+    {
+      "rank": 7,
+      "name": "HIV\u2011associated nephropathy / chronic kidney disease",
+      "icd10": "N08.3",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic HIV infection on long\u2011term ART",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "HIV\u2011associated inflammation and anemia of chronic disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis and rising BUN suggest early renal involvement",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "HIV can cause focal segmental glomerulosclerosis and tubular dysfunction, contributing to the observed laboratory pattern and anemia."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic disease / multifactorial anemia",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2008",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Chronic HIV infection, possible renal insufficiency, inflammatory state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is present but its precise etiology (CKD, inflammation, medication effect) remains unclear; further work\u2011up is needed."
+    },
+    {
+      "rank": 9,
+      "name": "Renal artery stenosis (atherosclerotic)",
+      "icd10": "I70.1",
+      "snomed": "41436004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Male, age \u226555, uncontrolled hypertension, likely atherosclerotic risk profile",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging of renal arteries performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Atherosclerotic RAS can cause refractory hypertension and mild rises in BUN/Na\u207a; considered if other causes are excluded."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "A 58\u2011year\u2011old man with chronic HIV on a protease\u2011inhibitor regimen presents with stage\u20112 hypertension, obesity, pre\u2011diabetes, and a borderline lipid profile, fulfilling metabolic\u2011syndrome criteria. Protease\u2011inhibitor therapy likely amplifies hypertension and metabolic derangements. Uncontrolled essential hypertension is the immediate clinical problem but is largely downstream of the metabolic milieu. Laboratory clues (non\u2011anion\u2011gap metabolic acidosis, rising Na\u207a/BUN) raise concern for tenofovir\u2011related proximal tubular dysfunction and possible HIV\u2011associated renal injury. Untreated obstructive sleep apnea further aggravates sympathetic drive. Primary aldosteronism and renal artery stenosis remain low\u2011probability but high\u2011impact differentials that require targeted screening. Anemia of chronic disease is present but its cause is multifactorial.",
+  "unresolved_findings": [
+    "Mild non\u2011anion\u2011gap metabolic acidosis (CO\u2082 21.2\u202fmmol/L, chloride 107.1\u202fmmol/L) without clear etiology",
+    "Rising serum sodium (141.7\u202fmmol/L) and BUN (8.5\u202fmg/dL) despite normal creatinine",
+    "Missing recent BMI/waist circumference measurements",
+    "Absent eGFR, urine albumin\u2011to\u2011creatinine ratio, and urine electrolyte studies to evaluate renal tubular function",
+    "Incomplete lipid panel trends and lack of repeat HbA1c",
+    "No documented antihypertensive therapy despite stage\u20112 hypertension",
+    "No CPAP or other OSA therapy documented",
+    "No potassium level or aldosterone\u2011renin testing performed"
+  ],
+  "recommended_workup": [
+    "Repeat basic metabolic panel with urine electrolytes, fractional excretion of phosphate and uric acid, urine \u03b22\u2011microglobulin, and urine albumin\u2011to\u2011creatinine ratio to assess proximal tubular function",
+    "Serum creatinine, eGFR (CKD\u2011EPI), and renal ultrasound to stage CKD and evaluate kidney size",
+    "24\u2011hour ambulatory blood pressure monitoring to confirm resistant hypertension",
+    "Fasting lipid panel (total, LDL, HDL, triglycerides) plus ApoB and lipoprotein(a) for comprehensive dyslipidemia assessment",
+    "Repeat HbA1c and fasting glucose to monitor glucose metabolism",
+    "Polysomnography or validated home sleep apnea test; initiate CPAP if moderate\u2011to\u2011severe OSA is confirmed",
+    "Plasma aldosterone\u2011renin ratio with confirmatory suppression testing to rule out primary aldosteronism",
+    "Renal artery duplex Doppler or CTA/MRA if hypertension remains refractory after addressing other causes",
+    "Complete blood count with iron studies, ferritin, transferrin saturation, vitamin B12, folate, reticulocyte count, and erythropoietin level to elucidate anemia etiology",
+    "Medication review: consider switching tenofovir disoproxil fumarate to tenofovir alafenamide or alternative NRTI if tubular dysfunction is confirmed; evaluate possibility of switching protease inhibitor to an integrase\u2011strand inhibitor and reassess blood pressure after 4\u20136 weeks",
+    "Lifestyle counseling focusing on weight loss, dietary sodium restriction, regular aerobic exercise, and stress\u2011reduction techniques",
+    "Vaccination status review (influenza, pneumococcal, hepatitis B, COVID\u201119) and mental health screening (PHQ\u20119, GAD\u20117)"
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Multifactorial resistant hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (132/89 mmHg) on dual antihypertensive therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Obesity, prediabetes, anemia contributing to elevated BP",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent elevated blood pressure despite two agents suggests resistant hypertension; multiple cardiometabolic risk factors reinforce a multifactorial etiology."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes, hypertension, dyslipidemia (missing but risk implied)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of obesity, impaired glucose, and hypertension fulfills criteria for metabolic syndrome, driving cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and elevated resting heart rate (97 bpm)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension refractory to treatment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension raise suspicion for OSA, which can exacerbate BP control."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin/hematocrit with microcytosis (implied)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Potential occult GI loss or nutritional deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia noted in labs without clear source; iron deficiency is common in this age group and can affect cardiovascular status."
+    },
+    {
+      "rank": 5,
+      "name": "Medication non\u2011adherence",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite dual therapy and no documented adherence assessment",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Depression/anxiety noted as possible barrier",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lack of adherence is a frequent driver of apparent resistant hypertension and is not captured elsewhere."
+    },
+    {
+      "rank": 6,
+      "name": "NSAID\u2011induced renal dysfunction",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Use of over\u2011the\u2011counter NSAIDs (diphenhydramine noted, suggesting possible analgesic use)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Renal risk elevated in setting of hypertension and NSAID exposure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs can blunt antihypertensive effect and impair renal function, contributing to resistant hypertension."
+    },
+    {
+      "rank": 7,
+      "name": "Adrenal insufficiency",
+      "icd10": "E27.2",
+      "snomed": "237009002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low fasting glucose (66.5 mg/dL) unexplained by other diagnoses",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of cortisol assessment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypoglycemia in a non\u2011diabetic adult raises concern for adrenal insufficiency; warrants endocrine evaluation."
+    },
+    {
+      "rank": 8,
+      "name": "Early chronic kidney disease (CKD) stage 2\u20113",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing renal labs (eGFR, creatinine, urine ACR) limits assessment",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and NSAID exposure increase CKD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Potential early CKD could contribute to resistant hypertension, but data are lacking."
+    },
+    {
+      "rank": 9,
+      "name": "Primary hyper\u2011aldosteronism (Conn syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent hypertension with normal potassium (data not shown)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible secondary cause of resistant hypertension, but no laboratory confirmation."
+    },
+    {
+      "rank": 10,
+      "name": "Depression / anxiety affecting medication adherence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented mood symptoms and potential impact on adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychiatric comorbidity can impair consistent medication use, worsening BP control."
+    },
+    {
+      "rank": 11,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present; liver enzymes not reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in metabolic syndrome but lacks direct evidence in this case."
+    },
+    {
+      "rank": 12,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "124030002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available; symptoms not described",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Could contribute to hypertension and dyslipidemia, but no supporting labs."
+    }
+  ],
+  "primary_diagnosis": "Multifactorial resistant hypertension",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with stage 1 hypertension that remains uncontrolled on two agents, in the context of obesity, prediabetes, and anemia. These cardiometabolic risk factors together constitute metabolic syndrome and drive a multifactorial resistant hypertension picture. Obstructive sleep apnea, medication non\u2011adherence, NSAID\u2011related renal effects, and adrenal insufficiency are additional contributors, each supported by specific findings or plausible mechanisms. Early CKD and primary hyperaldosteronism remain possible but lack confirmatory data. Less likely diagnoses (NAFLD, hypothyroidism) are retained for completeness.",
+  "unresolved_findings": [
+    "Low fasting glucose (66.5 mg/dL) discordant with pre\u2011diabetes",
+    "High\u2011normal platelet count and elevated MPV without iron studies",
+    "Missing lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C)",
+    "Missing eGFR/creatinine and urine albumin\u2011creatinine ratio",
+    "Unclear indication for diphenhydramine use",
+    "Missing smoking status"
+  ],
+  "recommended_workup": [
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Plasma aldosterone concentration and plasma renin activity ratio",
+    "Serum cortisol and ACTH stimulation test for adrenal insufficiency",
+    "Comprehensive metabolic panel including eGFR, serum creatinine, and urine albumin\u2011creatinine ratio",
+    "Complete iron studies (serum ferritin, transferrin saturation, TIBC)",
+    "Lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Medication review focusing on NSAID use and adherence assessment (pill counts, pharmacy refill data)",
+    "Thyroid function tests (TSH, free T4)",
+    "Abdominal ultrasound if NAFLD suspected",
+    "Screen for depression/anxiety (PHQ\u20119, GAD\u20117) and assess adherence barriers"
+  ]
+}

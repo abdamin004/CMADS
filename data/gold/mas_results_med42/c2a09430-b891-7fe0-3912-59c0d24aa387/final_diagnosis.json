@@ -1,0 +1,93 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Multifactorial Cardiovascular Risk Syndrome",
+      "icd10": "I25.909 (Other forms of chronic ischemic heart disease) + multiple relevant risk factors' codes",
+      "snomed": "194962007 (Chronic coronary syndrome) + specific SNOMED codes for hypertension, hyperlipidemia",
+      "probability": 0.47,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "history of myocardial infarction",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated LDL cholesterol levels (from external labs)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "high Framingham cardiovascular risk score",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient's history of MI, current hypertension, hyperlipidemia, and high calculated cardiovascular risk scores strongly support multifactorial cardiovascular risk syndrome."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Nephropathy with CKD Progression",
+      "icd10": "E11.239 (Diabetic nephropathy) + N18.3-5 (Chronic kidney disease stages 3-5)",
+      "snomed": "73211009 (Diabetic nephropathies) + 236684008 (Chronic kidney diseases stage 3-5)",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "diabetes mellitus type 2",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "microalbuminuria, reduced eGFR (from external labs)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "known CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient's diabetes, microalbuminuria, and documented CKD progression confirm diabetic nephropathy with CKD progression."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic Syndrome",
+      "icd10": "E66.1 (Metabolic syndrome)",
+      "snomed": "55478003 (Metabolic syndrome X)",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "obesity (BMI >30, though exact value missing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "hypertriglyceridemia, low HDL cholesterol",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient's obesity (though precise BMI is missing), hypertriglyceridemia, low HDL cholesterol, and hypertension support metabolic syndrome."
+    }
+  ],
+  "primary_diagnosis": "Multifactorial Cardiovascular Risk Syndrome",
+  "primary_probability": 0.47,
+  "clinical_reasoning_summary": "The patient presents with a complex cardiovascular profile including history of myocardial infarction, hypertension, hyperlipidemia, and high calculated risk scores, leading to multifactorial cardiovascular risk syndrome as the primary diagnosis. Diabetic nephropathy with CKD progression is supported by diabetes mellitus type 2, microalbuminuria, and documented CKD stages. Metabolic syndrome is plausible but incomplete due to missing precise BMI data.",
+  "unresolved_findings": [
+    "Missing total cholesterol levels",
+    "Incomplete metabolic syndrome evaluation (BMI)"
+  ],
+  "recommended_workup": [
+    "Complete lipid profile including total cholesterol",
+    "Precise BMI measurement"
+  ]
+}

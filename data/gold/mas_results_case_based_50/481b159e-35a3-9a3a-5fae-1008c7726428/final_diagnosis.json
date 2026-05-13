@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.276,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented obstructive sleep apnea, no therapy recorded",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) noted in chart",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA is present and explains hypertension, obesity\u2011related metabolic derangements, and elevated cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.286,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/86 mmHg (stage 1 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Three of the five criteria for metabolic syndrome (central obesity, elevated BP, low HDL) are documented; missing fasting glucose/TG data limit full confirmation."
+    },
+    {
+      "rank": 3,
+      "name": "Insulin\u2011resistance / pre\u2011diabetes",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.153,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome criteria met",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors strongly suggest insulin resistance, but biochemical confirmation (fasting glucose/HbA1c) is lacking."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hypertension due to OSA",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.102,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated OSA documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated blood pressure (132/86 mmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is a recognized cause of secondary hypertension; lack of ambulatory BP monitoring prevents definitive attribution."
+    },
+    {
+      "rank": 5,
+      "name": "Atherogenic dyslipidaemia (low HDL \u00b1 \u2191 TG)",
+      "icd10": "E78.5",
+      "snomed": "302810001",
+      "probability": 0.051,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides not elevated",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low HDL is present, but without hypertriglyceridaemia the full atherogenic dyslipidaemia phenotype is uncertain."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.071,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and metabolic syndrome raise suspicion for NAFLD, but liver enzymes or imaging are not yet obtained."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "236423003",
+      "probability": 0.041,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension present (risk factor for CKD)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No renal function labs are available; CKD remains a possibility given hypertension and metabolic risk."
+    },
+    {
+      "rank": 8,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/86 mmHg",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Primary hypertension is possible but less likely given the strong association with untreated OSA."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea, untreated",
+  "primary_probability": 0.276,
+  "clinical_reasoning_summary": "The patient\u2019s profile of obesity, documented untreated obstructive sleep apnea, and stage 1 hypertension points to OSA as the dominant driver of his cardiovascular and metabolic risk. Metabolic syndrome is also highly probable, supported by obesity, hypertension, and low HDL. Insulin resistance/pre\u2011diabetes is plausible given the same risk factors, though laboratory confirmation is pending. Secondary hypertension secondary to OSA is reasonable, but ambulatory BP data are lacking. Atherogenic dyslipidaemia, NAFLD/NASH, early CKD, and primary hypertension remain possible but have weaker supporting evidence.",
+  "unresolved_findings": [
+    "Absence of recent polysomnography data to quantify OSA severity",
+    "Missing fasting glucose/HbA1c to confirm pre\u2011diabetes or insulin resistance",
+    "No renal function tests (creatinine, eGFR, albuminuria) to assess CKD",
+    "Lack of liver enzymes or imaging for NAFLD/NASH confirmation",
+    "Atherogenic dyslipidaemia diagnosis lacks documented hypertriglyceridaemia",
+    "Single blood pressure measurement; no trend or ambulatory data"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography or home sleep apnea testing to grade OSA severity",
+    "Fasting glucose and HbA1c",
+    "Comprehensive lipid panel including triglycerides",
+    "Renal function panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Liver function tests (ALT, AST, GGT) and hepatic ultrasound or FibroScan",
+    "24\u2011hour ambulatory blood pressure monitoring"
+  ]
+}

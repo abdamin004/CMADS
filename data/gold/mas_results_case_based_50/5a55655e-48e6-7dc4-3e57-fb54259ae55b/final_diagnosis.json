@@ -1,0 +1,216 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic cardiovascular disease (high\u2011risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "multiple cardiovascular risk factors (hypertension, dyslipidemia, type 2 diabetes, metabolic syndrome)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "elevated 10\u2011year ASCVD risk (high\u2011risk category)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s clustering of hypertension, diabetes, severe dyslipidemia and metabolic syndrome yields a high 10\u2011year ASCVD risk, making sub\u2011clinical coronary artery disease the most likely serious condition."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011resistance\u2011driven metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "documented hypertension, type 2 diabetes, dyslipidemia, and obesity (implied by metabolic risk)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "high triglycerides, low HDL, elevated LDL",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of central obesity, hypertension, hyperglycemia and atherogenic dyslipidemia fulfills criteria for metabolic syndrome driven by insulin resistance."
+    },
+    {
+      "rank": 3,
+      "name": "Resistant essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "persistent hypertension despite multiple antihypertensive agents (implied by resistant label)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "hypertension listed as a chronic condition",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a core component of the patient\u2019s risk profile and appears refractory, fitting the definition of resistant essential hypertension."
+    },
+    {
+      "rank": 4,
+      "name": "New/worsening type 2 diabetes mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "rising fasting glucose / hyperglycemia trend noted in labs",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "existing diagnosis of type 2 diabetes with recent deterioration",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory trends indicate worsening glycemic control, warranting recognition as a distinct, progressive diabetic process."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (diabetic\u2011hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "hypertension and diabetes present, both risk factors for CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "borderline hyperkalaemia (5.1\u202fmmol/L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s long\u2011standing hypertension and diabetes, early nephropathy is plausible despite lack of quantified eGFR."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "metabolic syndrome and dyslipidemia increase NAFLD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The metabolic milieu predisposes to hepatic steatosis, making NAFLD/NASH a reasonable consideration."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "obesity and resistant hypertension are risk factors for OSA",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While not documented, the patient\u2019s metabolic profile raises suspicion for OSA."
+    },
+    {
+      "rank": 8,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "low HDL and dyslipidemia can be associated with hypothyroidism (indirect)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No thyroid function tests are available; the diagnosis remains speculative."
+    },
+    {
+      "rank": 9,
+      "name": "Gout (thiazide\u2011induced hyperuricaemia)",
+      "icd10": "M10.9",
+      "snomed": "2016009",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "patient is on thiazide diuretic for hypertension (implied)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without uric acid levels or clinical gout attacks, this remains a low\u2011probability consideration."
+    },
+    {
+      "rank": 10,
+      "name": "Chronic anemia of uncertain etiology",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.015,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "anemia listed as a comorbidity",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "discordant CBC values (normal hemoglobin with low RBC/Hct)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is documented, though its type is unclear; it warrants inclusion."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic cardiovascular disease (high\u2011risk)",
+  "primary_probability": 0.27,
+  "clinical_reasoning_summary": "The patient presents with a constellation of hypertension, type 2 diabetes, severe dyslipidemia and features of metabolic syndrome, generating a high 10\u2011year ASCVD risk that supersedes other considerations. Metabolic syndrome remains a central driver, while resistant hypertension and worsening diabetes further amplify cardiovascular danger. Early renal involvement, NAFLD/NASH, and possible sleep\u2011disordered breathing are plausible secondary sequelae. Less supported entities (hypothyroidism, gout, anemia) are retained with low probabilities pending targeted testing.",
+  "unresolved_findings": [
+    "Borderline hyperkalaemia (5.1\u202fmmol/L) not fully explained",
+    "Borderline low calcium (8.8\u202fmg/dL) without clear etiology",
+    "Discordant CBC values (normal hemoglobin with low RBC/Hct)",
+    "Missing eGFR and urine albumin/creatinine ratio",
+    "Absence of any lipid\u2011lowering medication despite markedly abnormal lipids",
+    "Missing recent vital signs (BP, BMI) and fasting lipid panel"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin/creatinine ratio to stage CKD",
+    "Thyroid stimulating hormone (TSH) and free T4 to evaluate hypothyroidism",
+    "Serum uric acid level and joint assessment for gout",
+    "Polysomnography or home sleep apnea testing",
+    "Repeat serum calcium and potassium with fasting status",
+    "Comprehensive fasting lipid panel",
+    "Blood pressure measurement and ambulatory monitoring",
+    "BMI calculation and waist circumference",
+    "HbA1c and fasting glucose to confirm diabetes progression"
+  ]
+}

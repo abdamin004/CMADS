@@ -1,0 +1,200 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Kidney Disease with superimposed prerenal acute kidney injury (volume depletion)",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease flags and hypertension noted in comorbidity list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (values 1.5\u202fmg/dL and 2.7\u202fmg/dL) indicating reduced renal function",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.00 (extremely dilute) suggesting volume depletion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on thiazide diuretic therapy, raising risk of over\u2011diuresis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has documented CKD consistent with diabetic nephropathy and concurrent laboratory evidence of volume depletion (very dilute urine, possible over\u2011diuresis). These findings together explain the discordant creatinine values and support a combined diagnosis of diabetic kidney disease with a superimposed prerenal AKI."
+    },
+    {
+      "rank": 2,
+      "name": "Overt Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Metabolic syndrome and dyslipidemia documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior diagnosis of diabetes in problem list",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Although the recorded A1C of 3.1\u202f% is clearly erroneous, the overall clinical picture (metabolic syndrome, CKD, antihyperglycemic therapy) strongly supports the presence of established type\u202f2 diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Thiazide\u2011induced Over\u2011diuresis / Volume Depletion",
+      "icd10": "E86.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Current prescription of thiazide diuretic",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.00 indicating dilute urine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thiazide therapy combined with low urine concentration points to excessive diuresis, which likely contributes to the prerenal component of the AKI."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Metabolic syndrome and dyslipidemia present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is a strong risk factor for NAFLD/NASH, though imaging and liver enzymes are missing."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension noted in risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension raise pre\u2011test probability for OSA, but no sleep\u2011related symptoms are documented."
+    },
+    {
+      "rank": 6,
+      "name": "Depression / Anxiety (mood disorder)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stressors noted in chart review",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mood disorder may affect medication adherence and lifestyle, influencing overall disease control."
+    },
+    {
+      "rank": 7,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing hypertension documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Proteinuria and diabetic kidney disease are more explanatory; hypertensive nephrosclerosis remains a less likely contributor."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary Hypertension (renovascular)",
+      "icd10": "I15.0",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant\u2011type blood pressure despite multiple agents",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No specific imaging or clinical clues point to a renovascular cause, but the resistant pattern keeps it on the list."
+    },
+    {
+      "rank": 9,
+      "name": "Atherosclerotic Cardiovascular Disease (high 10\u2011yr risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High calculated 10\u2011year ASCVD risk based on dyslipidemia and diabetes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk is high but there is no documented prior ASCVD event; therefore it remains a background concern rather than an active diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Kidney Disease with superimposed prerenal acute kidney injury (volume depletion)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient exhibits chronic kidney disease consistent with diabetic nephropathy, evidenced by elevated and discordant serum creatinine values and CKD flags. Concurrently, a very dilute urine specimen and thiazide therapy indicate volume depletion, providing a plausible mechanism for a superimposed prerenal acute kidney injury. Diabetes mellitus remains highly likely despite an implausible A1C entry, given the metabolic syndrome context. Over\u2011diuresis, NAFLD/NASH, obstructive sleep apnea, and mood disorder are supported by risk\u2011factor clustering, while hypertensive nephrosclerosis, secondary hypertension, and ASCVD are retained at low probabilities due to limited direct evidence.",
+  "unresolved_findings": [
+    "Discordant serum creatinine values (1.5\u202fmg/dL vs 2.7\u202fmg/dL)",
+    "Implausibly low A1C of 3.1\u202f% (likely data entry error)",
+    "Missing eGFR calculation",
+    "Missing BMI measurement",
+    "Missing full lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing urine albumin\u2011to\u2011creatinine ratio",
+    "No recent fasting glucose or reliable A1C",
+    "No liver function tests or imaging for NAFLD/NASH",
+    "No serum uric acid or comprehensive electrolyte panel",
+    "Urine specific gravity = 1.00 (extremely dilute) without clear volume status documentation"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR using a consistent assay",
+    "Obtain a reliable glycemic assessment (repeat A1C or fasting plasma glucose)",
+    "Measure urine albumin\u2011to\u2011creatinine ratio to stage diabetic kidney disease",
+    "Comprehensive metabolic panel including electrolytes, bicarbonate, and uric acid",
+    "Assess volume status clinically and consider bedside ultrasound for IVC collapsibility",
+    "Renal ultrasound to evaluate for obstructive causes and renal size",
+    "Liver panel (AST, ALT, ALP, GGT, bilirubin) and abdominal ultrasound to evaluate for NAFLD/NASH",
+    "Polysomnography or home sleep apnea testing given obesity and hypertension",
+    "Standardized depression and anxiety screening tools (PHQ\u20119, GAD\u20117)",
+    "Review antihypertensive regimen; consider reducing thiazide dose if volume depleted"
+  ]
+}

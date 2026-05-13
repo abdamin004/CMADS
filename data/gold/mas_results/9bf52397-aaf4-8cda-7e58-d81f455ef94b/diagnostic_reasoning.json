@@ -2,450 +2,299 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Masked hypertension",
-      "icd10": "I10",
-      "snomed": "38341003",
-      "probability": 0.21,
-      "confidence": "moderate",
+      "name": "Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.3,
+      "confidence": "high",
       "supporting_evidence": [
         {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 7.7% (diagnostic for diabetes)",
+          "strength": "strong"
+        },
+        {
           "source": "ehr_analyst",
-          "finding": "Single blood pressure reading 95/81 mmHg with tachycardia 96 bpm suggests possible orthostatic or masked hypertension",
+          "finding": "Metformin ER 500\u202fmg prescribed for glycaemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented (chronic)",
           "strength": "moderate"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Obesity (BMI category 30+)",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Prediabetes (HbA1c 7.7%)",
-          "strength": "strong"
-        },
-        {
           "source": "lab_interpreter",
-          "finding": "Elevated creatinine 1.6 mg/dL and eGFR 60.3 mL/min/1.73m\u00b2 (stage 2 CKD)",
-          "strength": "strong"
+          "finding": "Micro\u2011albuminuria (albumin/creatinine ratio 6\u202fmg/g)",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Obesity, pre\u2011diabetes and early CKD are classic risk factors for hypertension. A single low systolic reading with a relatively high heart rate raises suspicion for masked hypertension that may be uncovered with out\u2011of\u2011office measurements."
+      "reasoning": "Elevated A1c above diagnostic threshold together with metformin therapy confirms type 2 diabetes, which also explains early nephropathy (micro\u2011albuminuria) and contributes to dyslipidaemia and cardiovascular risk."
     },
     {
       "rank": 2,
-      "name": "Metabolic syndrome / pre\u2011diabetes (early type 2 diabetes)",
-      "icd10": "E88.81",
-      "snomed": "237599002",
-      "probability": 0.17,
-      "confidence": "moderate",
+      "name": "Masked/Primary Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "moderate-high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Active problem \"Prediabetes\" and Metformin ER prescription",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Hemoglobin A1c 7.7%",
+          "finding": "BP flag \u2018stage\u202f1 hypertension\u2019 despite a single reading of 95/81\u202fmmHg",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI category 30+)",
-          "strength": "strong"
+          "finding": "Tachycardia HR 96\u202fbpm",
+          "strength": "moderate"
         },
         {
-          "source": "lab_interpreter",
-          "finding": "Borderline dyslipidemia (LDL\u2011C 129.2 mg/dL, Total Chol 205.5 mg/dL)",
+          "source": "ehr_analyst",
+          "finding": "Obesity (risk factor for hypertension)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Elevated A1c, obesity and dyslipidemia fulfill criteria for metabolic syndrome, driving downstream organ injury."
+      "reasoning": "The presence of a hypertension alert suggests intermittent or masked elevation not captured by a single office reading; combined with obesity and tachycardia, hypertension likely contributes to CKD progression and ASCVD risk."
     },
     {
       "rank": 3,
-      "name": "Obstructive sleep apnea",
-      "icd10": "G47.33",
-      "snomed": "7340000",
-      "probability": 0.11,
-      "confidence": "moderate",
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI 30+)",
+          "finding": "Obesity",
           "strength": "strong"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Tachycardia (HR 96 bpm) without clear cause",
+          "source": "lab_interpreter",
+          "finding": "LDL 129.2\u202fmg/dL and total cholesterol 205.5\u202fmg/dL (borderline dyslipidaemia)",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Prediabetes and hypertension risk factors",
+          "finding": "BP flag stage\u202f1 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 7.7\u202f% (insulin resistance)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Obesity and cardiovascular risk factors make OSA highly prevalent; it can contribute to masked hypertension and insulin resistance."
+      "reasoning": "The clustering of obesity, dyslipidaemia, hypertension flag, and hyperglycaemia fulfills criteria for metabolic syndrome, representing the underlying physiologic driver of several downstream conditions."
     },
     {
       "rank": 4,
-      "name": "Non\u2011alcoholic fatty liver disease / steato\u2011hepatitis",
-      "icd10": "K76.0",
-      "snomed": "235856003",
-      "probability": 0.12,
-      "confidence": "moderate",
+      "name": "Stage 3a Chronic Kidney Disease (diabetic/hypertensive etiology)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.13,
+      "confidence": "moderate-high",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Obesity and metabolic syndrome",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Prediabetes (A1c 7.7%)",
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.6\u202fmg/dL",
           "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Borderline elevated liver enzymes not yet measured (data gap noted)",
-          "strength": "weak"
+          "finding": "eGFR 60.3\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Micro\u2011albuminuria (ACR 6\u202fmg/g)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperkalaemia K\u207a 5.2\u202fmmol/L",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb 12.3\u202fg/dL)",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Metabolic syndrome is the leading cause of NAFLD; prevalence >50% in similar patients, pending liver panel."
+      "reasoning": "Reduced eGFR with albuminuria and accompanying electrolyte and haematologic abnormalities indicate CKD stage 3a, likely secondary to long\u2011standing diabetes and/or hypertension."
     },
     {
       "rank": 5,
-      "name": "Stage 2 chronic kidney disease (multifactorial)",
-      "icd10": "N18.2",
-      "snomed": "709044004",
-      "probability": 0.07,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "197321009",
+      "probability": 0.09,
       "confidence": "moderate",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Creatinine 1.6 mg/dL, eGFR 60.3 mL/min/1.73m\u00b2",
-          "strength": "strong"
-        },
-        {
           "source": "ehr_analyst",
-          "finding": "Metformin use (requires dose adjustment in CKD)",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Hypertension risk (possible masked hypertension)",
+          "finding": "Obesity",
           "strength": "moderate"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Potential analgesic exposure (acetaminophen/oxycodone)",
+          "source": "lab_interpreter",
+          "finding": "Insulin resistance (A1c 7.7\u202f%)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Elevated creatinine with eGFR in CKD stage 2 likely reflects combined effects of hypertension, hyperglycemia, and possible analgesic nephropathy."
+      "reasoning": "Obesity combined with insulin resistance confers a high pre\u2011test probability of hepatic steatosis; evaluation is warranted despite lack of liver enzyme data."
     },
     {
       "rank": 6,
-      "name": "Diabetic/autonomic neuropathy",
-      "icd10": "G63.2",
-      "snomed": "23762003",
-      "probability": 0.05,
-      "confidence": "low",
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.055,
+      "confidence": "low-moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Prediabetes with A1c 7.7%",
+          "finding": "Obesity (major risk factor for OSA)",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Tachycardia (HR 96 bpm) without arrhythmia noted",
+          "finding": "Possible masked hypertension and tachycardia",
           "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Mild hyperkalaemia 5.2 mmol/L (could reflect autonomic dysfunction)",
-          "strength": "weak"
         }
       ],
-      "reasoning": "Early autonomic neuropathy can manifest as resting tachycardia and orthostatic changes in patients with impaired glucose metabolism."
+      "reasoning": "The risk profile suggests OSA, which can aggravate hypertension, insulin resistance, and CKD; formal sleep testing is needed."
     },
     {
       "rank": 7,
-      "name": "Chronic musculoskeletal pain (osteoarthritis \u00b1 fibromyalgia)",
-      "icd10": "M25.5",
-      "snomed": "279039007",
-      "probability": 0.05,
+      "name": "Vitamin B12 Deficiency (metformin\u2011related)",
+      "icd10": "E53.8",
+      "snomed": "271442005",
+      "probability": 0.025,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Low\u2011dose opioid/acetaminophen prescription indicates chronic pain",
+          "finding": "Chronic metformin use",
           "strength": "strong"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "History of fractures and chronic pain not otherwise specified",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity \u2013 risk factor for osteoarthritis",
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb 12.3\u202fg/dL) without iron studies",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Opioid use without a documented pain source suggests non\u2011specific musculoskeletal pain; obesity predisposes to OA, and psychosocial stressors raise possibility of fibromyalgia."
+      "reasoning": "Metformin can impair B12 absorption, leading to macrocytic or normocytic anemia; testing B12 will clarify this contribution."
     },
     {
       "rank": 8,
-      "name": "Coronary artery disease / sub\u2011clinical atherosclerosis",
+      "name": "Coronary Artery Disease (subclinical)",
       "icd10": "I25.10",
       "snomed": "53741008",
-      "probability": 0.04,
-      "confidence": "low",
+      "probability": 0.025,
+      "confidence": "low-moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Multiple ASCVD risk factors (obesity, prediabetes, dyslipidemia, CKD)",
-          "strength": "strong"
+          "finding": "Diabetes, dyslipidaemia, hypertension risk factors",
+          "strength": "moderate"
         },
         {
-          "source": "lab_interpreter",
-          "finding": "LDL\u2011C 129.2 mg/dL (borderline high)",
+          "source": "risk_scores",
+          "finding": "Elevated ASCVD risk profile (age 55, female, multiple risk factors)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Risk factor burden suggests possible sub\u2011clinical CAD; definitive assessment would need coronary calcium scoring or stress testing."
+      "reasoning": "Given the cumulative risk factors, silent CAD is plausible and would influence preventive therapy."
     },
     {
       "rank": 9,
-      "name": "Depression / anxiety",
-      "icd10": "F33.1",
-      "snomed": "35489007",
-      "probability": 0.048,
-      "confidence": "moderate",
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.015,
+      "confidence": "low-moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "History of intimate partner abuse, social isolation, chronic pain",
+          "finding": "Obesity, hypertension, diabetes, CKD",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Full\u2011time employment limiting self\u2011care time",
+          "finding": "Tachycardia HR 96\u202fbpm",
           "strength": "weak"
         }
       ],
-      "reasoning": "Psychosocial stressors and chronic pain are common precipitants of mood disorders; screening is warranted."
+      "reasoning": "The classic HFpEF phenotype includes these comorbidities; early disease may be asymptomatic but warrants screening with NT\u2011proBNP and echocardiography."
     },
     {
       "rank": 10,
-      "name": "Metformin\u2011associated vitamin B12 deficiency",
-      "icd10": "E53.8",
-      "snomed": "271442005",
-      "probability": 0.03,
+      "name": "Chronic Rhinosinusitis",
+      "icd10": "J32.9",
+      "snomed": "444814009",
+      "probability": 0.015,
       "confidence": "low",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Long\u2011term Metformin ER therapy",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Mild anemia (Hb 12.3 g/dL)",
+          "finding": "Active problem of chronic sinusitis since 1931",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Metformin can cause B12 malabsorption leading to mild anemia; labs needed to confirm."
+      "reasoning": "Documented chronic sinusitis is an isolated ENT condition not linked to the metabolic/renal picture."
     },
     {
       "rank": 11,
-      "name": "Vitamin D deficiency",
-      "icd10": "E55.9",
-      "snomed": "160903006",
-      "probability": 0.03,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity and CKD (both associated with low 25\u2011OH\u2011vitamin D)",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "No vitamin D level measured (data gap)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "High prevalence in this demographic; deficiency may contribute to bone pain and fatigue."
-    },
-    {
-      "rank": 12,
-      "name": "Hypothyroidism (sub\u2011clinical or overt)",
-      "icd10": "E03.9",
-      "snomed": "124056006",
+      "name": "Chronic Musculoskeletal Pain / Osteoarthritis",
+      "icd10": "M25.5",
+      "snomed": "239872002",
       "probability": 0.015,
       "confidence": "low",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity, dyslipidemia, mild anemia \u2013 classic associations",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Thyroid function tests not ordered (data gap)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Potential contributor to metabolic abnormalities; needs TSH testing."
-    },
-    {
-      "rank": 13,
-      "name": "Iron\u2011deficiency anemia",
-      "icd10": "D50.9",
-      "snomed": "271442009",
-      "probability": 0.015,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "Hemoglobin 12.3 g/dL (mild anemia)",
+          "finding": "Long\u2011term opioid/acetaminophen therapy for chronic pain, historic ankle fracture",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No iron studies performed (data gap)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Mild anemia could be iron\u2011deficiency; iron studies required."
-    },
-    {
-      "rank": 14,
-      "name": "Primary hyperparathyroidism",
-      "icd10": "E21.0",
-      "snomed": "237557009",
-      "probability": 0.01,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "Mild hyperkalaemia (possible early electrolyte disturbance)",
-          "strength": "weak"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "CKD stage 2 (can cause secondary changes, but primary still possible)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Low probability but considered given CKD and electrolyte findings; calcium/PTH labs needed."
-    },
-    {
-      "rank": 15,
-      "name": "Renal artery stenosis",
-      "icd10": "I70.1",
-      "snomed": "236423003",
-      "probability": 0.008,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Potential resistant hypertension (if masked hypertension confirmed)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Consider only if hypertension persists despite treatment; imaging required."
-    },
-    {
-      "rank": 16,
-      "name": "Analgesic\u2011nephropathy (acetaminophen\u2011related)",
-      "icd10": "N14.2",
-      "snomed": "236423003",
-      "probability": 0.008,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic low\u2011dose acetaminophen/oxycodone prescription",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Stage 2 CKD with elevated creatinine",
+          "finding": "Obesity (mechanical load)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Long\u2011term acetaminophen can contribute to CKD; dose assessment needed."
-    },
-    {
-      "rank": 17,
-      "name": "Chronic hepatitis C infection",
-      "icd10": "B18.2",
-      "snomed": "235856003",
-      "probability": 0.008,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "No hepatitis screening documented (data gap)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Age group at risk; would affect liver assessment if present."
-    },
-    {
-      "rank": 18,
-      "name": "Gout / hyperuricemia",
-      "icd10": "M10.9",
-      "snomed": "239873007",
-      "probability": 0.008,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "Mild hyperkalaemia (suggests electrolyte handling issues, but uric acid not measured)",
-          "strength": "weak"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "CKD and metabolic syndrome increase gout risk",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Possible contributor to joint pain; uric acid level needed."
+      "reasoning": "Chronic pain likely secondary to prior injury and degenerative changes; contributes to opioid exposure but is downstream of metabolic disease."
     }
   ],
-  "primary_diagnosis": "Masked hypertension",
-  "primary_probability": 0.21,
-  "clinical_reasoning_summary": "The patient is a 55\u2011year\u2011old obese female with pre\u2011diabetes (A1c 7.7%), borderline dyslipidemia, stage 2 CKD (creatinine 1.6 mg/dL, eGFR 60), mild anemia, and chronic low\u2011dose opioid use. These findings cluster into a metabolic\u2011vascular syndrome that drives downstream organ injury. A single low systolic BP reading with tachycardia raises suspicion for masked hypertension, which is the most likely upstream driver and would explain the early CKD, tachycardia, and future cardiovascular risk. Obstructive sleep apnea, NAFLD, and multifactorial CKD are the next most probable conditions given the same risk profile. Musculoskeletal pain, CAD, depression, and several micronutrient deficiencies are included as secondary considerations. Unresolved data gaps (BP trends, urine albumin, liver panel, sleep study, pain characterization, vitamin levels) limit certainty, yielding an overall moderate confidence in the top diagnoses.",
+  "primary_diagnosis": "Type 2 Diabetes Mellitus",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is a 55\u2011year\u2011old obese female with an A1c of 7.7% and metformin therapy, establishing type 2 diabetes as the principal driver of her metabolic derangements. Obesity, borderline dyslipidaemia, and a hypertension alert indicate metabolic syndrome, which together explain early diabetic kidney injury (stage 3a CKD with micro\u2011albuminuria, mild hyperkalaemia, anemia). The high ASCVD risk profile raises concern for subclinical coronary disease and possible HFpEF. Additional contributors include possible obstructive sleep apnea, metformin\u2011related vitamin B12 deficiency, and NAFLD. Chronic sinusitis and musculoskeletal pain are documented but unrelated to the core metabolic\u2011renal cascade. Unresolved findings such as the BP discrepancy, hyperkalaemia source, and anemia aetiology guide the recommended work\u2011up.",
   "unresolved_findings": [
-    "Numeric BMI value missing \u2013 cannot quantify obesity severity.",
-    "Single blood pressure measurement \u2013 unable to confirm hypertension or orthostatic changes.",
-    "Smoking, alcohol, physical activity, family history, allergy, vaccination, and mental health data absent.",
-    "Pain characteristics (location, intensity, duration) not documented despite opioid prescription.",
-    "Platelet distribution width (PDW) value appears mis\u2011scaled \u2013 needs repeat lab.",
-    "Limited lipid panel \u2013 no HDL trend, no triglyceride trend beyond a single normal value."
+    "Blood pressure discrepancy (recorded 95/81\u202fmmHg vs stage\u202f1 hypertension flag).",
+    "Mild hyperkalaemia (K\u207a 5.2\u202fmmol/L) \u2013 etiology not established.",
+    "Mild anemia (Hb 12.3\u202fg/dL) \u2013 cause not fully clarified.",
+    "Elevated MPV (12.2\u202ffL) without clear clinical context.",
+    "Missing data: BMI, smoking status, alcohol use, family history, vaccination status, allergy list, repeat lipid panel, urinalysis, iron studies."
   ],
   "recommended_workup": [
-    "24\u2011h ambulatory blood pressure monitoring (ABPM) or multiple seated/standing BP readings.",
-    "Urine albumin\u2011creatinine ratio (ACR) and repeat eGFR in 3 months.",
-    "Comprehensive fasting lipid panel (HDL, triglycerides, non\u2011HDL, ApoB).",
-    "Home sleep apnea test or in\u2011lab polysomnography.",
-    "Detailed pain assessment (WOMAC, DN4) and targeted imaging of symptomatic joints.",
-    "Exact BMI measurement and waist circumference.",
-    "Serum vitamin B12, methylmalonic acid, homocysteine.",
-    "Serum 25\u2011OH vitamin D level.",
-    "Thyroid function tests (TSH, free T4).",
-    "Iron studies (Ferritin, serum iron, TIBC, transferrin saturation).",
-    "PHQ\u20119 and GAD\u20117 questionnaires for depression/anxiety.",
-    "Medication reconciliation focusing on total acetaminophen dose and NSAID use.",
-    "Full hepatic panel (ALT, AST, GGT, ALP, bilirubin) plus FibroScan or hepatic ultrasound.",
-    "Vaccination status review (influenza, COVID\u201119, pneumococcal, hepatitis B, shingles).",
-    "Repeat CBC with platelet indices to confirm PDW.",
-    "If hypertension persists after ABPM, consider renal artery duplex ultrasound."
+    "Repeat blood pressure measurement on at least two separate occasions; consider 24\u2011hour ambulatory BP monitoring.",
+    "Comprehensive metabolic panel with repeat creatinine, eGFR, and potassium to confirm hyperkalaemia and assess trends.",
+    "Urinalysis with albumin\u2011to\u2011creatinine ratio, microscopy, and urine sodium/potassium.",
+    "Full lipid panel (LDL, HDL, triglycerides) and calculation of 10\u2011year ASCVD risk score.",
+    "Iron studies (serum ferritin, iron, TIBC) and reticulocyte count to differentiate anemia of CKD vs iron deficiency.",
+    "Serum vitamin B12 and methylmalonic acid levels to evaluate metformin\u2011related deficiency.",
+    "CBC with differential and repeat MPV; consider platelet function testing if clinically indicated.",
+    "Medication reconciliation including OTC, herbal, and supplement use; specifically assess for ACE\u2011I/ARB, potassium\u2011sparing diuretics, NSAIDs.",
+    "Lifestyle assessment: smoking status, alcohol intake, dietary sodium/potassium, physical activity.",
+    "Vaccination review (influenza, pneumococcal, COVID\u201119, shingles) and update as needed.",
+    "Abdominal ultrasound or FibroScan to assess for NAFLD/NASH and hepatic fibrosis.",
+    "Overnight polysomnography or home sleep apnea test to diagnose OSA.",
+    "Resting ECG and, if indicated, stress testing or coronary calcium scoring to screen for subclinical CAD.",
+    "NT\u2011proBNP and transthoracic echocardiogram to evaluate for HFpEF.",
+    "Renal ultrasound to evaluate kidney size and rule out structural causes of CKD.",
+    "Referral to nephrology for CKD management and medication optimisation (metformin dose, consider SGLT2 inhibitor).",
+    "Endocrinology referral for intensive diabetes management (possible addition of GLP\u20111 RA or SGLT2 inhibitor).",
+    "Pain specialist or physiatry evaluation for chronic musculoskeletal pain; assess need for opioid taper."
   ]
 }

@@ -1,0 +1,185 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin\u2011induced overtreatment / iatrogenic hypoglycaemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on high\u2011dose insulin therapy with recent episodes of symptomatic hypoglycaemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low HbA1c 3\u202f% (possible overtreatment or lab error)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Immediate safety risk due to hypoglycaemia",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of intensive insulin regimen, documented hypoglycaemic episodes, and an implausibly low HbA1c suggests iatrogenic over\u2011insulinisation, representing the most urgent and likely diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Kidney Disease (proteinuric CKD)",
+      "icd10": "E11.22",
+      "snomed": "236423003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated urine albumin/creatinine ratio consistent with proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.1\u202fmg/dL with eGFR \u224866\u202fmL/min/1.73\u202fm\u00b2 (discrepant, suggests CKD progression)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type\u202f2 diabetes mellitus",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Proteinuria in a diabetic patient with reduced renal function points to diabetic nephropathy, though the creatinine\u2011eGFR mismatch warrants repeat testing."
+    },
+    {
+      "rank": 3,
+      "name": "Heterozygous Familial Hypercholesterolaemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "414916001",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe LDL\u2011C elevation (>190\u202fmg/dL) despite statin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of secondary causes (no hypothyroidism, nephrotic syndrome, or cholestasis identified)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Marked hypercholesterolaemia without clear secondary etiology raises suspicion for FH, but lack of family history or genetic confirmation limits certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (high\u2011risk phenotype)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple risk factors: diabetes, hypertension, dyslipidaemia, smoking history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factor burden suggests high atherosclerotic risk, but no documented coronary events or imaging findings confirm established disease."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic Fatty Liver Disease / Metabolic\u2011associated Fatty Liver Disease (NAFLD/MAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated ALT/AST with triglycerides >150\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk profile and liver enzyme abnormalities are compatible with NAFLD, though urine bilirubin remains unexplained."
+    },
+    {
+      "rank": 6,
+      "name": "Hypertensive Heart Disease (concentric LVH with diastolic dysfunction)",
+      "icd10": "I11.0",
+      "snomed": "302810001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension with elevated blood pressure readings",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Echocardiogram (if available) showing concentric left ventricular hypertrophy and impaired relaxation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension can cause LVH and diastolic dysfunction, but lack of definitive imaging limits confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive Sleep Apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f>\u202f30) and reported daytime fatigue/snoring",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors are present, but no polysomnography has been performed to confirm diagnosis."
+    },
+    {
+      "rank": 8,
+      "name": "Major Depressive / Anxiety Disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports psychosocial stressors and low mood",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stress is noted, yet formal psychiatric assessment is lacking, making this a less certain contributor."
+    }
+  ],
+  "primary_diagnosis": "Insulin\u2011induced overtreatment / iatrogenic hypoglycaemia",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient's intensive insulin regimen with documented hypoglycaemic episodes and an implausibly low HbA1c makes iatrogenic insulin overtreatment the most urgent and probable diagnosis. Co\u2011existing diabetic kidney disease is supported by proteinuria and reduced renal function, while severe hypercholesterolaemia raises suspicion for heterozygous FH, albeit without confirmatory data. Atherosclerotic cardiovascular disease, NAFLD, hypertensive heart disease, OSA, and mood disorder remain possible contributors but have weaker supporting evidence. Unexplained urine bilirubin and the creatinine\u2011eGFR discrepancy require further investigation.",
+  "unresolved_findings": [
+    "Urine bilirubin 1\u202fmg/dL without corresponding serum bilirubin or liver imaging",
+    "Discrepant creatinine 2.1\u202fmg/dL with eGFR \u224866\u202fmL/min/1.73\u202fm\u00b2 (possible lab variation)",
+    "Very low HbA1c 3\u202f% \u2013 could reflect lab error, acute fasting state, or overtreatment"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and eGFR with fasting sample to verify renal function",
+    "Repeat HbA1c and obtain point\u2011of\u2011care glucose profile to rule out lab error",
+    "Quantitative urine bilirubin fractionation and liver ultrasound to evaluate bilirubin source",
+    "Genetic testing for LDLR/APOB/PCSK9 mutations to confirm familial hypercholesterolaemia",
+    "24\u2011hour urine protein quantification for precise assessment of diabetic nephropathy",
+    "Polysomnography to confirm or exclude obstructive sleep apnoea",
+    "Transthoracic echocardiogram to assess left ventricular geometry and diastolic function",
+    "Formal psychiatric screening (PHQ\u20119, GAD\u20117) for depressive/anxiety disorders"
+  ]
+}

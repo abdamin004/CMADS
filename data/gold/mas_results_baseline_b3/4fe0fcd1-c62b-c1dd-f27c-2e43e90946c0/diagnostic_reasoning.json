@@ -1,0 +1,375 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and male sex over 60 years",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension despite three antihypertensives",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Tachycardia (HR 94 bpm) at rest",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate chronic psychosocial stress",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity, male sex, age >60, resistant hypertension and resting tachycardia are classic risk factors for OSA, which can drive both hypertension and anemia of chronic disease."
+    },
+    {
+      "rank": 2,
+      "name": "Multifactorial resistant hypertension (obesity\u2011driven + sub\u2011therapeutic beta\u2011blockade)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 144/96 mmHg (stage 2) on three agents (losartan, metoprolol, duplicate HCTZ)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol tartrate 25 mg BID (likely sub\u2011therapeutic for HR 94 bpm)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate hydrochlorothiazide entry (possible dosing error)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent stage\u20112 hypertension despite three antihypertensives, sub\u2011optimal beta\u2011blocker dosing, and obesity point to resistant hypertension with modifiable medication factors."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease stage 3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Losartan 100 mg (renoprotective) prescribed, suggesting concern for renal disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (Hb 13.4 g/dL, Hct 37.1%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension despite ARB and thiazide",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR data flagged as data_quality issue",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD commonly presents with resistant hypertension and normocytic anemia; the absence of renal labs creates uncertainty, but the therapeutic pattern (ARB, thiazide) raises suspicion."
+    },
+    {
+      "rank": 4,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237600008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three agents including a thiazide",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate hydrochlorothiazide (high dose) raises suspicion for volume\u2011independent hypertension",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and male sex are risk factors for primary aldosteronism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A classic phenotype of resistant hypertension, especially with thiazide exposure, warrants screening for primary aldosteronism."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease / inflammation",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (Hb 13.4 g/dL, MCV 89.4 fL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated MPV (11.7 fL) and PDW (341.4 fL) suggesting platelet activation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Upper\u2011normal rising leukocytes (9.8 x10\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic psychosocial stress and uncontrolled hypertension (low\u2011grade inflammation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The anemia is normocytic with inflammatory laboratory signals and no overt bleeding source, fitting anemia of chronic disease."
+    },
+    {
+      "rank": 6,
+      "name": "Renal artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite ARB and thiazide",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male age 61 with atherosclerotic risk factors (obesity, prior NSTEMI)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Atherosclerotic renal artery disease can cause refractory hypertension; imaging is needed to confirm."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "42343007",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension and obesity, both risk factors for HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated MPV/PDW indicating possible vascular stress",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity\u2011related hypertension predisposes to diastolic dysfunction; BNP/echo would clarify."
+    },
+    {
+      "rank": 8,
+      "name": "Medication non\u2011adherence",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate hydrochlorothiazide entry suggests possible prescription confusion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low education, unstable housing, and chronic stress",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Social determinants and medication complexity increase the risk of missed doses, contributing to uncontrolled BP."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Normocytic anemia and diastolic hypertension can be seen in hypothyroidism",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid labs available (data_quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction is a possible contributor to anemia and hypertension; testing is required."
+    },
+    {
+      "rank": 10,
+      "name": "Iron\u2011deficiency anemia (early)",
+      "icd10": "D50.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia with normal RDW (early stage may precede microcytosis)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low socioeconomic status and possible dietary insufficiency",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Early iron deficiency can present with normocytic anemia before MCV changes; iron studies are needed."
+    },
+    {
+      "rank": 11,
+      "name": "Pheochromocytoma",
+      "icd10": "E27.5",
+      "snomed": "237600008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Tachycardia and resistant hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although rare, catecholamine\u2011producing tumor can cause labile hypertension and tachycardia; screening if symptoms arise."
+    },
+    {
+      "rank": 12,
+      "name": "Cushing's syndrome",
+      "icd10": "E24.9",
+      "snomed": "237600008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and possible mild anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Endogenous hypercortisolism can produce the observed metabolic profile; consider if clinical stigmata appear."
+    },
+    {
+      "rank": 13,
+      "name": "Myeloproliferative neoplasm (essential thrombocythemia)",
+      "icd10": "D47.1",
+      "snomed": "41672002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated MPV and PDW with a falling platelet count trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Upper\u2011normal leukocyte count",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Platelet activation parameters suggest a possible early myeloproliferative process; peripheral smear and JAK2 testing are indicated."
+    },
+    {
+      "rank": 14,
+      "name": "Chronic hepatitis C infection",
+      "icd10": "B18.2",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low education, possible past incarceration (criminal record), and unknown substance use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hepatitis C can cause chronic inflammation and anemia of chronic disease; screening is low\u2011cost and indicated."
+    },
+    {
+      "rank": 15,
+      "name": "Depression / anxiety contributing to non\u2011adherence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic psychosocial stress, intimate\u2011partner abuse history, unstable housing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mental health burden can impair medication adherence and blood pressure control; screening with PHQ\u20119/GAD\u20117 is warranted."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient is a 61\u2011year\u2011old obese male with prior NSTEMI, on guideline\u2011directed secondary prevention, yet he has stage\u20112 hypertension despite three antihypertensives, a sub\u2011therapeutic beta\u2011blocker dose, and duplicate thiazide entry. Normocytic anemia with inflammatory laboratory signals points to anemia of chronic disease. Missing renal labs prevent definitive CKD staging, but the therapeutic pattern (ARB, thiazide) raises suspicion. Obesity, age, and resistant hypertension strongly suggest obstructive sleep apnea, which can also exacerbate hypertension and anemia. Social determinants (unstable housing, low education, chronic stress) increase the likelihood of medication non\u2011adherence and may amplify cardiovascular risk. The differential therefore prioritises OSA, resistant hypertension, CKD, and endocrine causes, while also considering less common entities such as primary aldosteronism, renal artery stenosis, HFpEF, and hematologic or infectious contributors.",
+  "unresolved_findings": [
+    "Elevated mean platelet volume (11.7 fL) and platelet distribution width (341.4 fL) without a clear diagnosis",
+    "Rising leukocyte count (9.8 x10\u00b3/\u00b5L) in the upper\u2011normal range",
+    "Falling platelet count trend (still within normal limits)",
+    "Missing renal function data (eGFR, serum creatinine, urine albumin\u2011creatinine ratio)",
+    "Absent glucose/A1c measurements",
+    "Undocumented smoking, alcohol use, and physical activity status",
+    "Uncertainty whether duplicate hydrochlorothiazide reflects a dosing error or intentional high dose"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Serum electrolytes, especially potassium, to assess for hypokalemia",
+    "Plasma aldosterone concentration and plasma renin activity (calculate ARR) to screen for primary aldosteronism",
+    "Home sleep apnea test or overnight polysomnography",
+    "BNP or NT\u2011proBNP followed by transthoracic echocardiogram to evaluate for HFpEF",
+    "Iron studies (serum ferritin, transferrin saturation, total iron\u2011binding capacity) and reticulocyte count",
+    "Thyroid panel (TSH, free T4)",
+    "Vitamin B12 and folate levels",
+    "Peripheral blood smear and JAK2 V617F mutation testing for myeloproliferative neoplasm",
+    "Plasma free metanephrines or 24\u2011hour urine catecholamines to rule out pheochromocytoma",
+    "1\u2011mg dexamethasone suppression test for Cushing's syndrome if clinical suspicion arises",
+    "Hepatitis C antibody with reflex RNA testing and HIV screening",
+    "PHQ\u20119 and GAD\u20117 questionnaires to assess depression and anxiety",
+    "Medication adherence assessment (pharmacy refill data, Morisky\u20118 questionnaire)",
+    "Repeat FIT or consider colonoscopy if hemoglobin continues to decline despite negative FIT",
+    "Renal artery duplex ultrasound or CT angiography if renovascular hypertension is suspected",
+    "Comprehensive social\u2011determinant assessment (housing stability, food security, transportation) to guide adherence interventions"
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "patient_uuid": "00b9c124-b59f-dc05-05cb-342168de4125",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T16:46:00+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T16:46:18+00:00",
+      "summary": "Completed ehr_analyst in 17667ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T16:46:00+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T16:46:21+00:00",
+      "summary": "Completed lab_interpreter in 20770ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:46:21+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:46:23+00:00",
+      "summary": "Recall returned 12, 2 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 2,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.505,
+            "match_type": "DIRECT",
+            "canonical_family": "metabolic_syndrome",
+            "raw_diagnosis": "Metabolic syndrome / insulin-resistance"
+          },
+          {
+            "score": 0.503,
+            "match_type": "DIRECT",
+            "canonical_family": "metabolic_syndrome",
+            "raw_diagnosis": "Metabolic syndrome"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:47:00+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 2
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:47:00+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:47:00+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:47:05+00:00",
+      "summary": "Final differential (4 dx, primary=Acute Bacterial Urinary Tract Infection, rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Acute Bacterial Urinary Tract Infection",
+        "primary_probability": 0.45,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:47:05+00:00",
+      "summary": "Completed diagnostic_reasoning in 43998ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T16:47:05+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T16:47:23+00:00",
+      "summary": "Completed clinical_reviewer in 18193ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:47:23+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:47:30+00:00",
+      "summary": "Final refined diagnosis: Acute Bacterial Urinary Tract Infection",
+      "payload": {
+        "primary_diagnosis": "Acute Bacterial Urinary Tract Infection",
+        "primary_probability": 0.45,
+        "differential_size": 7
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:47:30+00:00",
+      "summary": "Completed final_diagnosis in 6765ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T16:47:31+00:00",
+      "summary": "Consolidated outcome for 'Acute Bacterial Urinary Tract Infection' (MISS)",
+      "payload": {
+        "match_type": "MISS",
+        "matched_diagnosis": "Acute Bacterial Urinary Tract Infection",
+        "rank": 0
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

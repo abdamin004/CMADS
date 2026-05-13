@@ -1,0 +1,128 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (diabetic kidney disease)",
+      "icd10": "E11.21",
+      "snomed": "90734009",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease stage 2 with micro\u2011albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated risk of diabetic kidney disease given hypertension and duration of diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has longstanding diabetes and CKD with albuminuria, making diabetic nephropathy the most likely primary etiology of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia in the setting of CKD stage 2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin consistent with CKD\u2011related anemia (exact values not provided)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD at this stage commonly leads to reduced erythropoietin production, explaining the observed anemia."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension (SBP 146 mmHg, DBP 107 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD progression could be accelerated by hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While diabetes is the dominant cause, chronic hypertension likely contributes to renal injury."
+    },
+    {
+      "rank": 4,
+      "name": "Acute on chronic kidney injury (AKI\u2011on\u2011CKD)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Discordant serum creatinine values (7.6\u202fmg/dL vs 1.9\u202fmg/dL) suggesting possible acute deterioration",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potential unit error or recent AKI not captured in chronic staging",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The marked creatinine discrepancy raises concern for an acute insult superimposed on chronic disease."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism (CKD\u2011MBD)",
+      "icd10": "N25.81",
+      "snomed": "399720001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD stage predisposes to mineral\u2011bone disorder",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal dysfunction can lead to phosphate retention and reduced vitamin D activation, but no laboratory confirmation is available."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (diabetic kidney disease)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s chronic diabetes and hypertension, together with documented CKD stage 2 and micro\u2011albuminuria, point to diabetic nephropathy as the principal driver of renal disease. Anemia is expected at this level of kidney dysfunction. Hypertension adds a secondary insult, and the creatinine discrepancy suggests a possible acute on chronic kidney injury that must be clarified. Secondary hyperparathyroidism remains a theoretical concern given CKD but lacks supporting labs.",
+  "unresolved_findings": [
+    "Discordant serum creatinine values (7.6\u202fmg/dL vs 1.9\u202fmg/dL) \u2013 possible unit error or acute\u2011on\u2011chronic injury.",
+    "Implausibly low HbA1c of 3.2\u202f% \u2013 likely data entry error.",
+    "Missing laboratory data: calcium, phosphate, PTH, vitamin D, iron studies, ferritin, transferrin saturation, potassium.",
+    "Absence of documented renin\u2011angiotensin system blockade, SGLT2 inhibitor, and statin therapy despite clear indications."
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine with verification of units and timing.",
+    "Repeat HbA1c (or alternative glycemic marker) to confirm glycemic control.",
+    "Comprehensive metabolic panel including calcium, phosphate, potassium, magnesium.",
+    "Serum intact PTH and 25\u2011OH vitamin D levels to assess CKD\u2011MBD.",
+    "Iron studies (serum iron, ferritin, transferrin saturation) to characterize anemia.",
+    "Quantitative urine protein/albumin excretion (24\u2011hour collection or spot urine protein\u2011to\u2011creatinine ratio).",
+    "Renal ultrasound to evaluate kidney size and rule out obstructive causes.",
+    "Consider renal biopsy if AKI etiology remains unclear after non\u2011invasive workup."
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome (Full Expression)",
+      "icd10": "E88.81",
+      "snomed": "237777002",
+      "probability": 0.95,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "diabetic nephropathy, hypertension, hyperlipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated liver enzymes, dyslipidemia",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Patient presents with multiple chronic conditions indicative of metabolic syndrome including diabetic nephropathy and cardiovascular risk factors like hypertension and hyperlipidemia. Lab results show significant liver dysfunction and dyslipidemia."
+    },
+    {
+      "rank": 2,
+      "name": "Non-Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K75.81",
+      "snomed": "414915002",
+      "probability": 0.85,
+      "confidence": "strong",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated liver enzymes, trends of worsening liver function",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "metabolic syndrome context",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient's lab results indicate significant liver dysfunction consistent with NAFLD. The presence of metabolic syndrome further supports this diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic Nephropathy Progression",
+      "icd10": "E11.239",
+      "snomed": "73211009",
+      "probability": 0.75,
+      "confidence": "strong",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "diabetic nephropathy, CKD Stage 1",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "renal function assessment potentially confounded by hydration status",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient has documented diabetic nephropathy and is at CKD Stage 1. However, renal function assessment may be influenced by hydration status."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome (Full Expression)",
+  "primary_probability": 0.95,
+  "clinical_reasoning_summary": "The patient's clinical presentation and lab results strongly support metabolic syndrome with complications including diabetic nephropathy and NAFLD. The dominant metabolic syndrome context makes hypothyroidism less likely, while DILI is unsupported given the strong evidence for metabolic causes of liver dysfunction.",
+  "unresolved_findings": [],
+  "recommended_workup": [
+    "hydration status assessment",
+    "thyroid function tests (to rule out hypothyroidism)",
+    "liver biopsy if NAFLD progression suspected"
+  ]
+}

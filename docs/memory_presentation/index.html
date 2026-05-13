@@ -338,6 +338,191 @@ ul.bullets li strong { color: var(--ink); font-weight: 500; }
   max-width: none;
 }
 
+/* ── Block-diagram slide (slide 2) — native HTML ───────────── */
+.slide.block-slide {
+  padding: 3vh 3vw 3vh;
+  display: flex;
+  flex-direction: column;
+}
+.slide.block-slide .kicker { margin-bottom: 0.2rem; }
+.slide.block-slide h2.title {
+  font-size: clamp(1.2rem, 1.7vw, 1.6rem);
+  margin-bottom: 0.7rem;
+  max-width: none;
+  line-height: 1.2;
+}
+.slide.block-slide .callout {
+  flex: 0 0 auto;
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  padding: 0.55rem 0.95rem;
+}
+
+/* Pipeline diagram container fills remaining vertical space.
+   Everything inside scales down via clamp() so the whole figure is
+   always visible without ever clipping. */
+.pipeline-diagram {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 0;
+}
+
+/* Shared-state band */
+.pd-sharedstate {
+  background: linear-gradient(135deg, #1ABC9C, #148F77);
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.pd-sharedstate-title {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 600;
+}
+.pd-sharedstate-channels {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.78rem;
+  color: #e8f8f5;
+  letter-spacing: 0.04em;
+}
+.pd-sharedstate-channels .vest { opacity: 0.55; text-decoration: line-through; }
+
+/* Read/write dotted line */
+.pd-rwline {
+  height: 0.4rem;
+  border-top: 1.5px dashed #16a085;
+  margin: 0;
+}
+
+/* Five stages in a horizontal grid */
+.pd-stages {
+  display: grid;
+  grid-template-columns: 1.1fr 0.18fr 1.1fr 0.18fr 1fr 0.18fr 0.95fr 0.18fr 0.95fr;
+  align-items: stretch;
+  gap: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pd-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--ink-faint);
+  font-weight: 600;
+}
+.pd-stage {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 0.55rem;
+  min-width: 0;
+  min-height: 0;
+}
+.pd-stage-label {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pd-agent {
+  flex: 1 1 0;
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  margin-bottom: 0.4rem;
+}
+.pd-agent:last-child { margin-bottom: 0; }
+.pd-agent-name {
+  font-family: "Fraunces", serif;
+  font-size: clamp(0.85rem, 1.05vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.15;
+}
+.pd-agent-meta {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.66rem;
+  color: rgba(255,255,255,0.82);
+  margin-top: 0.3rem;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+/* Stage colour palette */
+.pd-stage.s1   { background: rgba(31, 78, 121, 0.06); border-color: #5499c7; }
+.pd-stage.s1 .pd-stage-label { color: #1f4e79; }
+.pd-agent.s1   { background: linear-gradient(180deg, #2980B9, #1B5E7B); }
+
+.pd-stage.s2   { background: rgba(211, 84, 0, 0.06); border-color: #d35400; }
+.pd-stage.s2 .pd-stage-label { color: #a04000; }
+.pd-agent.s2   { background: linear-gradient(180deg, #D35400, #A04000); }
+
+.pd-stage.s3   { background: rgba(142, 68, 173, 0.06); border-color: #8e44ad; }
+.pd-stage.s3 .pd-stage-label { color: #6c3483; }
+.pd-agent.s3   { background: linear-gradient(180deg, #8E44AD, #5B2C6F); }
+
+.pd-stage.s4   { background: rgba(44, 62, 80, 0.06); border-color: #34495e; }
+.pd-stage.s4 .pd-stage-label { color: #2c3e50; }
+.pd-agent.s4   { background: linear-gradient(180deg, #2C3E50, #17202A); }
+
+.pd-stage.s5   { background: rgba(39, 174, 96, 0.06); border-color: #27ae60; }
+.pd-stage.s5 .pd-stage-label { color: #196f3d; }
+.pd-agent.s5   { background: linear-gradient(180deg, #27AE60, #196F3D); }
+
+/* Stage 6 — full-width treatment band */
+.pd-stage6 {
+  background: linear-gradient(180deg, #16A085, #0E6251);
+  border-radius: 8px;
+  padding: 0.55rem 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.pd-stage6-name {
+  font-family: "Fraunces", serif;
+  font-size: 1.0rem;
+  font-weight: 500;
+  color: #fff;
+}
+.pd-stage6-meta {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.74rem;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.03em;
+}
+.pd-stage6-gate {
+  font-family: "Geist Mono", monospace;
+  font-size: 0.7rem;
+  color: #fde9a8;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.25);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+}
+
 /* ── Slide 4 · 4-tier architecture (native HTML) ────────────── */
 .arch-agents {
   border: 1px solid var(--rule);
@@ -827,10 +1012,10 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
 <section class="slide">
   <div class="cover-mark">
     <div class="glyph"></div>
-    <div class="word">CMADS  ·  Bachelor Thesis</div>
+    <div class="word">CMADS  ·  Clinical Multi-Agent Decisioning System</div>
   </div>
 
-  <span class="kicker">Deep dive · supervisor follow-up · May 2026</span>
+  <span class="kicker">Bachelor Thesis · deep-dive · supervisor follow-up · May 2026</span>
 
   <h1 class="display">
     Multi-Level<br>
@@ -855,9 +1040,106 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
   </p>
 </section>
 
-<!-- ───────────────────── 2 · THE GAP ─────────────────── -->
+<!-- ───────────────────── 2 · BLOCK DIAGRAM · OLD PROBLEM ─── -->
+<section class="slide block-slide">
+  <span class="kicker">02 · the pipeline before memory</span>
+  <h2 class="title">
+    Seven specialised agents over <em>one shared state</em> —
+    but the path between them was opaque.
+  </h2>
+
+  <div class="pipeline-diagram">
+
+    <!-- Shared state bar -->
+    <div class="pd-sharedstate">
+      <div>
+        <div class="pd-sharedstate-title">SHARED STATE</div>
+        <div class="pd-sharedstate-channels">LangGraph StateGraph · TypedDict with merge reducers</div>
+      </div>
+      <div style="text-align: right;">
+        <div class="pd-sharedstate-channels"><strong>patient_context · agent_outputs · execution_trace</strong></div>
+        <div class="pd-sharedstate-channels"><span class="vest">conflicts</span> · <span class="vest">scratchpad</span> &nbsp;<em>(declared, never written)</em></div>
+      </div>
+    </div>
+
+    <div class="pd-rwline" title="read / write"></div>
+
+    <!-- Five stages -->
+    <div class="pd-stages">
+
+      <div class="pd-stage s1">
+        <div class="pd-stage-label">Stage 1 · Parallel</div>
+        <div class="pd-agent s1">
+          <div class="pd-agent-name">EHR Analyst</div>
+          <div class="pd-agent-meta">structured clinical summary · 3 LLM calls</div>
+        </div>
+        <div class="pd-agent s1">
+          <div class="pd-agent-name">Lab Interpreter</div>
+          <div class="pd-agent-meta">classify · trend · rank by severity</div>
+        </div>
+      </div>
+
+      <div class="pd-arrow">→</div>
+
+      <div class="pd-stage s2">
+        <div class="pd-stage-label">Stage 2 · Adaptive Loop</div>
+        <div class="pd-agent s2">
+          <div class="pd-agent-name">Diagnostic Reasoning</div>
+          <div class="pd-agent-meta">ranked differential ≥3 · max 3 critique rounds · stop at confidence ≥75</div>
+        </div>
+      </div>
+
+      <div class="pd-arrow">→</div>
+
+      <div class="pd-stage s3">
+        <div class="pd-stage-label">Stage 3 · Adversarial</div>
+        <div class="pd-agent s3">
+          <div class="pd-agent-name">Clinical Reviewer</div>
+          <div class="pd-agent-meta">independent second opinion · per-dx CONFIRM / MODIFY / REJECT</div>
+        </div>
+      </div>
+
+      <div class="pd-arrow">→</div>
+
+      <div class="pd-stage s4">
+        <div class="pd-stage-label">Stage 4 · Merge</div>
+        <div class="pd-agent s4">
+          <div class="pd-agent-name">Diagnostic Refiner</div>
+          <div class="pd-agent-meta">merge Diagnostic + Reviewer → final differential</div>
+        </div>
+      </div>
+
+      <div class="pd-arrow">→</div>
+
+      <div class="pd-stage s5">
+        <div class="pd-stage-label">Stage 5 · Evaluate</div>
+        <div class="pd-agent s5">
+          <div class="pd-agent-name">LLM Evaluator</div>
+          <div class="pd-agent-meta">Qwen3-32B vs Synthea ground truth · DIRECT / INDIRECT / MISS</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stage 6 spans full width and only fires on DIRECT -->
+    <div class="pd-stage6">
+      <div>
+        <div class="pd-stage6-name">Stage 6 · Treatment Planning Agent</div>
+        <div class="pd-stage6-meta">NICE guideline retrieval via Qdrant + BioLORD-2023 embeddings</div>
+      </div>
+      <div class="pd-stage6-gate">runs only on DIRECT matches</div>
+    </div>
+
+  </div>
+
+  <div class="callout warn">
+    <strong>Old problem.</strong>  The shared state held each agent's final JSON — not the path that produced it. The Reviewer challenged the Diagnostic agent's differential blind to its critique rounds, and across runs nothing flowed at all — every patient started cold.
+  </div>
+</section>
+
+<!-- ───────────────────── 3 · THE GAP ─────────────────── -->
 <section class="slide">
-  <span class="kicker">02 · The problem</span>
+  <span class="kicker">03 · The problem</span>
   <h2 class="title">
     The old shared state hid the <em>reasoning chain</em> the agents needed
     to challenge each other.
@@ -898,7 +1180,7 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
 
 <!-- ───────────────────── 3 · OLD vs NEW ──────────────── -->
 <section class="slide diagram-native">
-  <span class="kicker">03 · old memory  vs.  new memory</span>
+  <span class="kicker">04 · old memory  vs.  new memory</span>
   <h2 class="title">
     Same LangGraph state — every channel now <em>load-bearing</em>,
     plus three layers above and beyond.
@@ -1003,7 +1285,7 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
 
 <!-- ───────────────────── 4 · THE 4 TIERS (NATIVE) ────── -->
 <section class="slide diagram-native">
-  <span class="kicker">04 · architecture</span>
+  <span class="kicker">05 · architecture</span>
   <h2 class="title">
     Four tiers, layered on the LangGraph state — accessed through
     <em>one MemoryManager facade.</em>
@@ -1030,7 +1312,7 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
     <div class="arch-facade-sub">mm.working.put()  ·  mm.episodic.summarize()  ·  mm.semantic.recall()  ·  mm.case_based.recall(patient_context)</div>
   </div>
 
-  <!-- 4 tier cards -->
+  <!-- 4 tier cards · each one explains WHAT THE TIER DOES -->
   <div class="arch-tiers">
 
     <div class="arch-tier" style="--accent: var(--t1);">
@@ -1044,12 +1326,12 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
         <div class="val">state.scratchpad[agent_id]</div>
       </div>
       <div class="arch-tier-purpose">
-        Scratch space inside one agent invocation. Tracks the Diagnostic
-        agent's confidence trajectory and critique trail across rounds.
+        Scratch space inside one agent invocation. The previously-unused
+        <code>scratchpad</code> channel, now load-bearing — the
+        multi-round Diagnostic loop tracks its own confidence trajectory
+        and critique trail across LLM calls. Cleared at every invocation;
+        never visible to other agents — that's Tier 2's role.
       </div>
-      <div class="arch-tier-code">mm.working.put(
-  "trajectory",
-  [60, 72, 78])</div>
     </div>
 
     <div class="arch-tier" style="--accent: var(--t2);">
@@ -1060,15 +1342,16 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
       </div>
       <div class="arch-tier-row">
         <div class="lbl">where</div>
-        <div class="val">state.session_memory<br>→ session_memory.json</div>
+        <div class="val">session_memory  +  session_summary<br>→ session_memory.json</div>
       </div>
       <div class="arch-tier-purpose">
-        Typed timeline of decisions, critiques, confidence checks.
-        Reviewer + Refiner read the reasoning chain — not just the final JSON.
+        The run's typed timeline plus a per-agent digest.
+        <strong>session_memory</strong> is an append-only list of Pydantic
+        events — critique, confidence_check, decision — that the Reviewer
+        reads when challenging the path and the Refiner reads in full.
+        <strong>session_summary</strong> is a one-line scoreboard per
+        agent for cheap "is everything OK?" checks.
       </div>
-      <div class="arch-tier-code">{event: "critique",
- round: 2,
- confidence: 78}</div>
     </div>
 
     <div class="arch-tier" style="--accent: var(--t3);">
@@ -1082,12 +1365,12 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
         <div class="val">data/gold/memory/<br>semantic_memory.json</div>
       </div>
       <div class="arch-tier-purpose">
-        Per-disease aggregate stats — DIRECT/INDIRECT/MISS counts,
-        rank-1 frequency, observed evidence patterns. Updated by Stage 7.
+        A small JSON file keyed by disease — DIRECT / INDIRECT / MISS
+        counts, rank-1 frequency, observed evidence patterns, running
+        average confidence. Updated by Stage 7 after every patient.
+        Read by the Refiner and Treatment as Bayesian-style priors over
+        the disease names appearing in the current differential.
       </div>
-      <div class="arch-tier-code">{"Hypertension":
-  {runs: 14, direct: 9,
-   rank1: 7, conf: 81.2}}</div>
     </div>
 
     <div class="arch-tier" style="--accent: var(--t4);">
@@ -1101,12 +1384,12 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
         <div class="val">Qdrant collection<br>"patient_cases"</div>
       </div>
       <div class="arch-tier-purpose">
-        Past patient cases — features (demographics, conditions, meds,
-        labs) embedded with BioLORD. Diagnostic recalls top-K similar.
+        Each finished patient embedded with BioLORD-2023 (demographics +
+        active conditions + medications + key labs) with the run's
+        outcome as payload. The Diagnostic agent opens its prompt with
+        the top-K most similar past patients — case-based recall, not
+        static lookup. Graceful degradation if Qdrant is unreachable.
       </div>
-      <div class="arch-tier-code">mm.case_based.recall(
-  patient_context,
-  top_k=5)</div>
     </div>
 
   </div>
@@ -1121,128 +1404,9 @@ table.matrix tr.new td { background: rgba(245, 158, 11, 0.08); }
   </div>
 </section>
 
-<!-- ───────────────────── 5 · TIER 1 + 2 ──────────────── -->
+<!-- ───────────────────── 5 · PIPELINE INTEGRATION ────── -->
 <section class="slide">
-  <span class="kicker">05 · inside the run</span>
-  <h2 class="title">
-    Tier 1 · <em>Working</em>   /   Tier 2 · <em>Episodic</em>
-  </h2>
-
-  <div class="grid-2">
-    <div class="card t1">
-      <span class="num">— TIER 1 · WORKING MEMORY</span>
-      <div class="meta">PER-AGENT  ·  INVOCATION-LOCAL  ·  IN-STATE</div>
-      <h3>Scratch space inside <em>one</em> agent invocation.</h3>
-      <p style="margin-top: 0.7rem;">
-        Lives in <code class="mono">state.scratchpad[agent_id]</code> —
-        a previously-unused channel that the multi-round Diagnostic agent
-        now uses to track its own confidence trajectory and critique trail
-        across LLM calls.
-      </p>
-      <p style="margin-top: 0.6rem;">
-        Cleared at the start of every invocation; never visible to other
-        agents — that role is Tier 2's.
-      </p>
-<pre>mm = MemoryManager.from_state(state, self.agent_id)
-mm.working.put("confidence_trajectory", [60, 72, 78])
-mm.working.append_to("critique_trail",
-    {"round": 2, "confidence": 72, "adequate": False})</pre>
-    </div>
-
-    <div class="card t2">
-      <span class="num">— TIER 2 · EPISODIC MEMORY</span>
-      <div class="meta">CURRENT RUN  ·  IN-STATE  ·  PERSISTED TO DISK</div>
-      <h3>A typed timeline of <em>decisions and critiques.</em></h3>
-      <p style="margin-top: 0.7rem;">
-        New state channel <code class="mono">session_memory</code>
-        (append-reducer). Each entry is a Pydantic-validated SessionEvent
-        — <code class="mono">critique</code>, <code class="mono">confidence_check</code>,
-        <code class="mono">decision</code>, lifecycle markers.
-      </p>
-      <p style="margin-top: 0.6rem;">
-        The Reviewer reads the Diagnostic agent's trail and challenges the
-        path, not just the destination. The Refiner reads the full timeline
-        plus Tier-3 priors before producing the final differential.
-      </p>
-<pre>self._pending_memory_events.append(
-  EpisodicMemory.write(
-    event_type="critique",
-    agent_id=self.agent_id,
-    summary=f"Round {n} conf={c} adequate={a}",
-    payload={"round": n, "confidence": c}))</pre>
-    </div>
-  </div>
-</section>
-
-<!-- ───────────────────── 6 · TIER 3 + 4 ──────────────── -->
-<section class="slide">
-  <span class="kicker">06 · beyond the run</span>
-  <h2 class="title">
-    Tier 3 · <em>Semantic</em>   /   Tier 4 · <em>Case-Based</em>
-  </h2>
-
-  <div class="grid-2">
-    <div class="card t3">
-      <span class="num">— TIER 3 · SEMANTIC MEMORY</span>
-      <div class="meta">CROSS-SESSION  ·  ON DISK  ·  PER-DISEASE</div>
-      <h3>Per-disease aggregate stats, <em>updated by Stage 7.</em></h3>
-      <p style="margin-top: 0.7rem;">
-        Lives in <code class="mono">data/gold/memory/semantic_memory.json</code>
-        — a small JSON keyed by disease name. Tracks DIRECT/INDIRECT/MISS
-        counts, rank-1 frequency, average primary confidence, observed
-        evidence patterns.
-      </p>
-      <p style="margin-top: 0.6rem;">
-        Updated by the new <code class="mono">memory_consolidation_node</code>
-        after every patient. Atomic write via tmp-file + replace; recall is
-        case-insensitive; corrupt files degrade to <code class="mono">None</code> instead
-        of crashing the run.
-      </p>
-<pre>store = SemanticMemory(cfg.SEMANTIC_MEMORY_PATH)
-insight = store.recall("Hypertension")
-# {runs:14, direct:9, rank1:7, avg_conf:81.2}
-store.consolidate("Hypertension", "DIRECT", rank=1, ...)</pre>
-    </div>
-
-    <div class="card t4">
-      <span class="num">— TIER 4 · CASE-BASED MEMORY</span>
-      <div class="meta">CROSS-SESSION  ·  QDRANT  ·  patient_cases COLLECTION</div>
-      <h3>Past patient cases, <em>retrieved by similarity.</em></h3>
-      <p style="margin-top: 0.7rem;">
-        After every run, Stage-7 embeds the patient's clinical features
-        (demographics + active conditions + medications + key labs) using
-        BioLORD-2023 and upserts to a new Qdrant collection
-        <code class="mono">patient_cases</code>, with the run's outcome
-        as payload.
-      </p>
-      <p style="margin-top: 0.6rem;">
-        On a new patient, the Diagnostic agent recalls the top-K most
-        similar past patients and uses them as a Bayesian-style prior —
-        "patients with this profile usually landed on diagnosis X".
-        Graceful degradation: empty list if Qdrant is unreachable.
-      </p>
-<pre>cases = mm.case_based.recall(
-  patient_context, top_k=5,
-  exclude_uuid=current_uuid)
-# [{patient_uuid: "...", score: 0.91,
-#   matched_diagnosis: "Hypertension",
-#   match_type: "DIRECT", rank_when_found: 1}, …]</pre>
-    </div>
-  </div>
-
-  <p class="body" style="margin-top: 1.2rem; max-width: 60em; color: var(--ink-faint);">
-    <span class="mono">note</span>  ·  NICE clinical guidelines stay in
-    Qdrant under the separate <code class="mono">nice_guidelines</code>
-    collection, used by the Treatment agent for drug + contraindication
-    lookup. They are external reference knowledge — accessible through
-    <code class="mono">mm.knowledge_base</code> — but no longer presented
-    as a memory tier.
-  </p>
-</section>
-
-<!-- ───────────────────── 7 · PIPELINE INTEGRATION ────── -->
-<section class="slide">
-  <span class="kicker">07 · pipeline integration</span>
+  <span class="kicker">06 · pipeline integration</span>
   <h2 class="title">
     How memory flows through the seven agents — and the
     <em>one new maintenance node.</em>
@@ -1305,6 +1469,36 @@ store.consolidate("Hypertension", "DIRECT", rank=1, ...)</pre>
     the timeline + Tier-3 priors. Stage-7 folds the outcome into both
     Tier 3 (disease aggregate) and Tier 4 (patient-case vector).
   </div>
+</section>
+
+<!-- ───────────────────── 7 · HONEST LIMITATIONS ────────── -->
+<section class="slide">
+  <span class="kicker">07 · honest limitations</span>
+  <h2 class="title">
+    What could <em>go wrong</em> with the design.
+  </h2>
+
+  <ul class="bullets warn" style="font-size: 1.2rem; max-width: 56em; margin-top: 1.5rem;">
+    <li>
+      <strong>Context inflation.</strong>
+      Every agent now reads episodic timeline plus semantic priors plus
+      similar past cases. Prompts grow with every patient — more tokens,
+      more cost, and possibly less focus on the patient in front of us.
+    </li>
+    <li>
+      <strong>Anchoring bias.</strong>
+      Case-based recall tells the Diagnostic agent "patients like this
+      had disease X." It can pull toward X even when the current patient
+      has a genuinely novel presentation — exactly what a diagnostic
+      system shouldn't do.
+    </li>
+    <li>
+      <strong>Cold start.</strong>
+      Tier 3 and Tier 4 are empty on the first patient; priors only
+      kick in once the store warms up. The first 20–30 runs in any new
+      disease area effectively still run memory-off.
+    </li>
+  </ul>
 </section>
 
 <!-- ───────────────────── 8 · A/B RESULTS ─────────────── -->
@@ -1371,7 +1565,7 @@ store.consolidate("Hypertension", "DIRECT", rank=1, ...)</pre>
 
 <!-- ───────────────────── 9 · SUMMARY + NEXT STEPS ────── -->
 <section class="slide">
-  <span class="kicker">09 · summary  ·  next steps</span>
+  <span class="kicker">09 · summary</span>
   <h2 class="title">
     Where the feature stands — and the path to scale.
   </h2>
@@ -1411,10 +1605,7 @@ store.consolidate("Hypertension", "DIRECT", rank=1, ...)</pre>
   </div>
 
   <ul class="bullets gain" style="margin-top: 2rem; max-width: 60em;">
-    <li><strong>Validate at 270-patient cohort scale</strong> — quantify per-disease deltas; check whether priors help the weakest categories (CKD staging, plain hypertension).</li>
-    <li><strong>Warm-start the semantic store</strong> from the existing 160-patient results so priors kick in from patient 1 of any new run.</li>
-    <li><strong>Test memory × LLM</strong> — does the gain hold for Med42 70B or Claude Sonnet, or is it model-specific?</li>
-    <li><strong>Audit recall events</strong> in the trace itself, so we can see which prior fired in each agent decision.</li>
+    <li><strong>Run the same A/B on the full 160-patient cohort</strong> — tighten the confidence interval and see whether the gain is uniform across diseases.</li>
   </ul>
 
   <p class="body" style="margin-top: 2rem; color: var(--ink-faint); font-family: 'Fraunces', serif; font-style: italic; font-size: 1.4rem;">

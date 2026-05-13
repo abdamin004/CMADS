@@ -1,0 +1,217 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "190332009",
+      "probability": 0.64,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension (BP 132/86 mmHg) and obesity risk factors",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly low HDL cholesterol",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of hypertension, presumed obesity, low HDL and systemic inflammation fulfills criteria for metabolic syndrome, driving most of the patient's risk."
+    },
+    {
+      "rank": 2,
+      "name": "Untreated obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "2331000016105",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of OSA without CPAP usage",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated hematocrit (49.2%) discordant with low RBC/Hgb suggesting hypoxia-driven erythrocytosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "OSA contributes to hypertension and metabolic dysregulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA exacerbates hypertension, insulin resistance, and may explain the high\u2011normal hematocrit, making it a key contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Borderline anemia (low RBC/Hgb) with high\u2011normal hematocrit",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of iron studies; need ferritin, serum iron, TIBC",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The discordant hematologic pattern raises suspicion for iron deficiency, possibly from occult GI loss, pending iron studies."
+    },
+    {
+      "rank": 4,
+      "name": "Pre\u2011diabetes / early type\u20112 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk without documented glucose values",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, early dysglycemia is plausible; confirmation requires fasting glucose/HbA1c."
+    },
+    {
+      "rank": 5,
+      "name": "Early hypertensive/obesity\u2011related chronic kidney disease (CKD)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension and obesity risk factors",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal function data missing (creatinine/eGFR, urine ACR)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and obesity predispose to CKD, but lack of renal labs makes this diagnosis uncertain."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Liver enzymes not available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome raises NAFLD risk, yet no hepatic labs or imaging are available to substantiate."
+    },
+    {
+      "rank": 7,
+      "name": "Subclinical atherosclerotic cardiovascular disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, low HDL, and systemic inflammation markers",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk estimate (implied)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors suggest early atherosclerosis, but no imaging (e.g., coronary calcium) to confirm."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary polycythemia",
+      "icd10": "D75.0",
+      "snomed": "302810001",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011normal hematocrit (49.2%) with untreated OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypoxia from OSA can stimulate erythropoiesis, accounting for the elevated hematocrit."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism (subclinical)",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome features could be exacerbated by thyroid dysfunction; thyroid labs missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can mimic or worsen metabolic abnormalities; testing is required."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven metabolic syndrome",
+  "primary_probability": 0.64,
+  "clinical_reasoning_summary": "The patient presents with hypertension, presumed obesity, low HDL and systemic inflammation, fulfilling criteria for metabolic syndrome, which the reviewer identified as the dominant pathology. Untreated obstructive sleep apnea further aggravates hypertension, insulin resistance, and may explain the high\u2011normal hematocrit. Ancillary possibilities include iron\u2011deficiency anemia, early dysglycemia, and early CKD, each supported by risk factors but limited by missing laboratory data. Secondary polycythemia and hypothyroidism are added as plausible contributors given the hematocrit finding and the metabolic picture. NAFLD and subclinical ASCVD remain possible but low\u2011probability entities due to absent hepatic and cardiovascular imaging.",
+  "unresolved_findings": [
+    "Missing serum creatinine/eGFR and urine albumin\u2011creatinine ratio",
+    "Missing fasting glucose/HbA1c",
+    "Missing iron studies (ferritin, serum iron, TIBC)",
+    "Absent liver function tests (ALT, AST, GGT)",
+    "No thyroid function tests (TSH, free T4)",
+    "No documented CPAP usage despite OSA diagnosis",
+    "Lack of lipid panel beyond low HDL",
+    "Limited lifestyle data (smoking, alcohol, activity)"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Fasting glucose and HbA1c",
+    "Iron studies: ferritin, serum iron, total iron\u2011binding capacity",
+    "Liver function tests (ALT, AST, GGT, bilirubin)",
+    "Thyroid panel: TSH and free T4",
+    "Full lipid panel (LDL, triglycerides, total cholesterol)",
+    "Repeat polysomnography or home sleep apnea testing and initiate CPAP adherence monitoring",
+    "Abdominal ultrasound or FibroScan to evaluate for NAFLD",
+    "Coronary artery calcium scoring or carotid intima\u2011media thickness ultrasound for subclinical ASCVD"
+  ]
+}

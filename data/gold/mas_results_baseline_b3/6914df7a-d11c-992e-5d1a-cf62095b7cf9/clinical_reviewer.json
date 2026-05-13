@@ -1,0 +1,170 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "End-Stage Renal Disease (ESRD) due to Diabetic Nephropathy",
+      "original_probability": 0.55,
+      "verified_probability": 0.45,
+      "confidence_score": 92,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "eGFR\u202f4.2\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+        "Serum creatinine\u202f3.5\u202fmg/dL",
+        "Long\u2011standing insulin\u2011requiring diabetes mellitus",
+        "Awaiting kidney transplantation since\u202f2016"
+      ],
+      "evidence_gaps": [
+        "Current dialysis modality/status",
+        "Quantitative proteinuria data"
+      ],
+      "concerns": [
+        "Original probability was lower than warranted given objective data"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Atherosclerotic Coronary Artery Disease (CAD)",
+      "original_probability": 0.18,
+      "verified_probability": 0.15,
+      "confidence_score": 45,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Risk factors: hypertension, insulin\u2011requiring diabetes, metabolic syndrome, dyslipidemia, CKD stage\u202f5"
+      ],
+      "evidence_gaps": [
+        "ECG, stress test, coronary imaging",
+        "Lipid panel values",
+        "History of chest pain or prior cardiac events"
+      ],
+      "concerns": [
+        "No direct cardiac investigations provided; diagnosis remains unconfirmed"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Hyper-Kalaemia (Acute Electrolyte Disturbance)",
+      "original_probability": 0.09,
+      "verified_probability": 0.03,
+      "confidence_score": 30,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "eGFR\u202f<\u202f5\u202fmL/min/1.73\u202fm\u00b2 and ACE\u2011I use increase risk"
+      ],
+      "evidence_gaps": [
+        "Serum potassium level",
+        "ECG changes indicative of hyperkalaemia"
+      ],
+      "concerns": [
+        "Diagnosis presented as active condition despite lacking potassium measurement"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Major Depressive Disorder (MDD)",
+      "original_probability": 0.09,
+      "verified_probability": 0.1,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "EHR notes of MDD diagnosis",
+        "Dual SSRI therapy",
+        "Psychosocial stressors and PTSD documented"
+      ],
+      "evidence_gaps": [
+        "PHQ\u20119 or other severity scores",
+        "Documentation of prior antidepressant trials to justify \"treatment\u2011resistant\" label"
+      ],
+      "concerns": [
+        "\"Treatment\u2011resistant\" qualifier not supported by available data"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Opioid Use Disorder (Moderate\u2011Severe)",
+      "original_probability": 0.05,
+      "verified_probability": 0.02,
+      "confidence_score": 25,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Chronic hydrocodone prescription listed"
+      ],
+      "evidence_gaps": [
+        "Dose, duration, functional impairment, DSM\u20115 criteria",
+        "Urine drug screen, addiction\u2011medicine consult"
+      ],
+      "concerns": [
+        "Chronic prescription alone does not meet criteria for OUD"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Anemia of Chronic Kidney Disease",
+      "original_probability": 0.04,
+      "verified_probability": 0.25,
+      "confidence_score": 70,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Flag \"has_anemia\" in comorbidity list",
+        "CKD stage\u202f5 (high prevalence of anemia)"
+      ],
+      "evidence_gaps": [
+        "CBC values (Hb, Hct)",
+        "Iron studies, ferritin, transferrin saturation",
+        "ESA therapy documentation"
+      ],
+      "concerns": [
+        "Probability was underestimated relative to CKD severity"
+      ],
+      "verdict": "supported"
+    }
+  ],
+  "overall_confidence": 68,
+  "consistency_checks": [
+    {
+      "area": "Renal function vs. diagnosis",
+      "status": "consistent",
+      "detail": "eGFR and creatinine values directly support ESRD diagnosis."
+    },
+    {
+      "area": "Cardiovascular risk factors vs. CAD diagnosis",
+      "status": "consistent",
+      "detail": "Risk factors present but no confirmatory cardiac testing; CAD remains plausible."
+    },
+    {
+      "area": "Electrolyte disturbance vs. hyperkalaemia diagnosis",
+      "status": "inconsistent",
+      "detail": "No potassium measurement provided; hyperkalaemia cannot be confirmed."
+    },
+    {
+      "area": "Psychiatric documentation vs. MDD treatment\u2011resistant label",
+      "status": "inconsistent",
+      "detail": "MDD is documented, but evidence for treatment resistance is missing."
+    },
+    {
+      "area": "Opioid prescription vs. OUD diagnosis",
+      "status": "inconsistent",
+      "detail": "Prescription alone does not satisfy DSM\u20115 criteria for disorder."
+    }
+  ],
+  "critical_findings_addressed": [
+    "eGFR\u202f4.2\u202fmL/min/1.73\u202fm\u00b2",
+    "Serum creatinine\u202f3.5\u202fmg/dL",
+    "Long\u2011standing insulin\u2011requiring diabetes",
+    "Essential hypertension",
+    "Anemia flag",
+    "Metabolic syndrome / dyslipidemia",
+    "Risk for hyper\u2011kalaemia (via hyper\u2011kalaemia diagnosis)"
+  ],
+  "critical_findings_missed": [
+    "A1C\u202f3.3\u202f% (abnormally low) \u2013 suggests possible iatrogenic hypoglycemia not addressed"
+  ],
+  "top_concerns": [
+    "Over\u2011stated probability for active hyper\u2011kalaemia and opioid use disorder",
+    "Missing diagnosis of iatrogenic hypoglycemia despite very low A1C",
+    "Lack of confirmatory cardiac testing for CAD",
+    "Unsupported \"treatment\u2011resistant\" qualifier for MDD",
+    "Absence of key laboratory values (serum K\u207a, CBC, iron studies, lipid panel, PTH, vitamin D)"
+  ],
+  "recommended_primary": "End-Stage Renal Disease (ESRD) due to Diabetic Nephropathy",
+  "recommended_primary_confidence": 95,
+  "review_summary": "The differential correctly identifies ESRD as the dominant problem and captures several important comorbidities. However, probabilities for several conditions are mis\u2011aligned with the evidence, and key diagnoses such as iatrogenic hypoglycemia are omitted. The \"treatment\u2011resistant\" label for depression and the active hyper\u2011kalaemia diagnosis lack supporting data. Adjusted probabilities and confidence scores reflect a more evidence\u2011based ranking, and the reviewer highlights missing labs and necessary cardiac work\u2011up to solidify the remaining differentials."
+}

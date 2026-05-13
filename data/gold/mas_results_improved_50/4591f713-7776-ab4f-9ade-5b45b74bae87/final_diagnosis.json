@@ -1,0 +1,103 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Kidney Disease (CKD stage 3a\u2011b)",
+      "icd10": "E11.21",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine elevated consistent with eGFR \u224845\u202fmL/min/1.73\u202fm\u00b2 (stage 3 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of albuminuria data limits confirmation of diabetic nephropathy",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on insulin therapy despite only prediabetes documented, indicating established diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine suggests moderate CKD; in a patient with established type 2 diabetes on insulin, diabetic nephropathy is the most plausible etiology. Missing albuminuria data prevents full staging, but the laboratory evidence justifies a CKD 3a\u2011b diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 Diabetes Mellitus (established, likely under\u2011coded)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list records prediabetes only, but medication list includes insulin",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c reported as 3.1\u202f% (likely erroneous) while patient receives insulin, indicating prior hyperglycemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome components present (obesity, hypertension, dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of insulin therapy, metabolic syndrome, and discordant HbA1c strongly suggests that the patient has established type 2 diabetes that is currently under\u2011coded in the problem list."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive Heart Disease (LVH / diastolic dysfunction)",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, currently well\u2011controlled (107/68\u202fmmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age and long\u2011standing hypertension increase risk for LVH and diastolic dysfunction",
+          "strength": "weak"
+        },
+        {
+          "source": "imaging",
+          "finding": "No cardiac imaging or ECG available to confirm LVH/HFpEF",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given chronic hypertension, hypertensive heart disease is plausible, but the lack of objective cardiac imaging or ECG data makes this diagnosis speculative."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Kidney Disease (CKD stage 3a\u2011b)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient exhibits clear laboratory evidence of moderate chronic kidney disease in the setting of established type 2 diabetes, making diabetic kidney disease the most urgent focus despite a higher overall probability for diabetes itself. Diabetes is strongly supported by insulin use and metabolic syndrome, while hypertensive heart disease remains a possible but unconfirmed contributor due to absent cardiac imaging. Data quality issues (erroneous HbA1c, missing eGFR, albuminuria, lipid panel) limit precise risk stratification and underscore the need for targeted workup.",
+  "unresolved_findings": [
+    "Missing current BMI and weight despite documented obesity",
+    "Absent eGFR calculation and formal CKD staging",
+    "No urine albumin\u2011to\u2011creatinine ratio",
+    "No recent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Erroneous HbA1c value (3.1\u202f%) conflicting with insulin therapy",
+    "No cardiac imaging or ECG to confirm LVH/HFpEF",
+    "No liver function tests or imaging to evaluate for NAFLD"
+  ],
+  "recommended_workup": [
+    "Calculate eGFR using latest creatinine and confirm CKD stage",
+    "Obtain urine albumin\u2011to\u2011creatinine ratio",
+    "Repeat HbA1c with proper laboratory verification",
+    "Comprehensive lipid panel",
+    "Echocardiogram and ECG to assess for LVH and diastolic dysfunction",
+    "Liver function tests and abdominal ultrasound to screen for NAFLD",
+    "Measure height, weight, and calculate BMI"
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "patient_uuid": "94f2b376-c5f5-64a2-8442-1d5e23325955",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:04:33+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:04:55+00:00",
+      "summary": "Completed ehr_analyst in 21262ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:04:33+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:04:54+00:00",
+      "summary": "Completed lab_interpreter in 20523ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:04:55+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:04:56+00:00",
+      "summary": "Recall returned 12, 3 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 3,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.658,
+            "match_type": "DIRECT",
+            "canonical_family": "IHD",
+            "raw_diagnosis": "Atherosclerotic cardiovascular disease (stable coronary artery disease)"
+          },
+          {
+            "score": 0.636,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Metabolic syndrome"
+          },
+          {
+            "score": 0.618,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Metabolic syndrome with essential hypertension and pre-diabetes"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:05:34+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 3
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:05:34+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:05:34+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:05:41+00:00",
+      "summary": "Final differential (5 dx, primary=Essential (primary) hypertension, obesity-related, rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Essential (primary) hypertension, obesity-related",
+        "primary_probability": 0.45,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:05:41+00:00",
+      "summary": "Completed diagnostic_reasoning in 46229ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:05:41+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:06:00+00:00",
+      "summary": "Completed clinical_reviewer in 19020ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:06:00+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:06:07+00:00",
+      "summary": "Final refined diagnosis: Essential (primary) hypertension, obesity-related (metabolic\u2011syndrome phenotype)",
+      "payload": {
+        "primary_diagnosis": "Essential (primary) hypertension, obesity-related (metabolic\u2011syndrome phenotype)",
+        "primary_probability": 0.38,
+        "differential_size": 6
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:06:07+00:00",
+      "summary": "Completed final_diagnosis in 6980ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:06:08+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:06:24+00:00",
+      "summary": "Treatment plan generated for 'Essential (primary) hypertension, obesity-related (metabolic-syndrome phenotype)' (5 meds)",
+      "payload": {
+        "disease": "Essential (primary) hypertension, obesity-related (metabolic-syndrome phenotype)"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:06:24+00:00",
+      "summary": "Completed treatment_planning in 15802ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T15:06:25+00:00",
+      "summary": "Consolidated outcome for 'Essential (primary) hypertension, obesity-related (metabolic-syndrome phenotype)' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Essential (primary) hypertension, obesity-related (metabolic-syndrome phenotype)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus with Diabetic Nephropathy",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient has advanced CKD stage 4 attributed to diabetic nephropathy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic hyperglycemia history, insulin therapy documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High Charlson comorbidity index driven by diabetes and renal disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of insulin dependence, documented diabetic nephropathy, and CKD stage 4 makes diabetes the dominant driver of the patient\u2019s renal dysfunction and overall morbidity."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related Anemia (EPO deficiency \u00b1 iron deficiency)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia noted in problem list for patient with advanced CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin/hematocrit values (specific numbers not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies or ESA therapy documented, raising suspicion for CKD\u2011related anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In CKD stage 4, reduced erythropoietin production and possible iron deficiency commonly cause anemia; the lack of iron studies or ESA use supports this as an active issue."
+    },
+    {
+      "rank": 3,
+      "name": "Advanced Chronic Kidney Disease stage 4 secondary to diabetic\u2011hypertensive nephropathy",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 documented with eGFR likely 15\u201129\u202fmL/min/1.73\u202fm\u00b2 (exact value missing)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent uncontrolled hypertension and diabetes noted as etiologic factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s renal function is markedly reduced, consistent with stage 4 CKD; diabetes and hypertension are the primary contributors."
+    },
+    {
+      "rank": 4,
+      "name": "Essential Hypertension (poorly controlled)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as a chronic condition; described as uncontrolled",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of recent blood pressure measurements noted as a concern",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Poorly controlled blood pressure contributes to CKD progression and cardiovascular risk, making it a key comorbidity."
+    },
+    {
+      "rank": 5,
+      "name": "Atherosclerotic Cardiovascular Disease (CAD \u00b1 PAD \u00b1 Heart Failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors present: diabetes, hypertension, CKD, chronic opioid use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No explicit documentation of CAD, PAD, or HF, but plausible given comorbidity burden",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While not documented, the patient\u2019s risk profile makes atherosclerotic disease plausible and warrants evaluation."
+    },
+    {
+      "rank": 6,
+      "name": "Opioid Use Disorder with probable NSAID\u2011related Nephropathy",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid abuse documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented NSAID use; analgesic nephropathy component speculative",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioid use is confirmed; NSAID exposure is uncertain, so the nephrotoxic contribution is possible but not definitive."
+    },
+    {
+      "rank": 7,
+      "name": "Secondary Hyperparathyroidism / Renal Osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "399720009",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 present, a known trigger for mineral\u2011bone disorder",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No PTH, calcium, phosphate, or vitamin D labs available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given advanced CKD, secondary hyperparathyroidism is plausible, but lack of laboratory confirmation lowers confidence."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus with Diabetic Nephropathy",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with advanced CKD stage 4 driven primarily by longstanding type 2 diabetes and uncontrolled hypertension. Diabetes accounts for the majority of renal injury and systemic complications. Anemia related to reduced erythropoietin production, hypertension, and the possibility of atherosclerotic cardiovascular disease further compound morbidity. Opioid dependence is confirmed, while NSAID exposure remains uncertain. Secondary hyperparathyroidism is a potential consequence of CKD but lacks laboratory confirmation.",
+  "unresolved_findings": [
+    "A1c 3.4% (implausibly low and contradictory to insulin use)",
+    "Discordant serum creatinine values (3.4\u202fmg/dL vs 2.4\u202fmg/dL) without trend data",
+    "Missing recent eGFR, blood pressure, BMI, lipid panel, and imaging studies",
+    "No documented iron studies, ferritin, transferrin saturation, or ESA therapy for anemia",
+    "Absence of PTH, calcium, phosphate, and vitamin D levels",
+    "Unclear current NSAID/acetaminophen use",
+    "Smoking status, alcohol use, and other nephrotoxic exposures not recorded",
+    "No cardiac evaluation (ECG, stress test, echocardiogram) to confirm CAD or heart failure",
+    "No sleep\u2011disordered breathing assessment",
+    "No mental\u2011health screening for depression or anxiety"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR to confirm CKD stage and trend",
+    "Comprehensive metabolic panel including calcium, phosphate, magnesium, and bicarbonate",
+    "Intact PTH, 25\u2011OH vitamin D, and vitamin D metabolites",
+    "Complete blood count with iron studies (serum iron, ferritin, transferrin saturation) and consider ESA trial",
+    "HbA1c repeat with appropriate assay to verify glycemic control",
+    "24\u2011hour urine protein or spot urine albumin\u2011creatinine ratio",
+    "Blood pressure measurement series and ambulatory BP monitoring",
+    "Lipid profile (LDL, HDL, triglycerides)",
+    "Cardiac evaluation: ECG, transthoracic echocardiogram, and stress testing as indicated",
+    "Vascular imaging for peripheral arterial disease if clinically indicated",
+    "Medication reconciliation focusing on renoprotective agents (ACEi/ARB, SGLT2 inhibitors) and NSAID use",
+    "Screening for sleep\u2011disordered breathing (questionnaire and polysomnography if needed)",
+    "Mental health assessment for depression, anxiety, and substance\u2011use counseling"
+  ]
+}

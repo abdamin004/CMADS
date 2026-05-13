@@ -1,0 +1,176 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "414916001",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension (stage 2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes / impaired glucose tolerance",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient exhibits the three core components of metabolic syndrome\u2014elevated blood pressure, central obesity, and dysglycemia\u2014making this the most likely unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary hypertension",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite multiple agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension that is difficult to control raises suspicion for secondary causes such as primary aldosteronism, renal artery stenosis, or thyroid dysfunction."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 1995",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing anemia without a known cause warrants evaluation for iron deficiency, especially occult GI loss, despite the chronicity."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (CKD) stage 1\u20113",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and metabolic risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but lack of renal function labs makes CKD less certain; retained as a plausible contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and hypertension increase OSA risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical risk factors suggest OSA, though no sleep study has been performed."
+    },
+    {
+      "rank": 6,
+      "name": "Vitamin B12 / Folate deficiency (nutritional cytopenias)",
+      "icd10": "E53.8",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unclear type",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without red\u2011cell indices or dietary data, deficiency remains a less likely explanation."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive disorder / chronic psychosocial stress",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability and lack of mental\u2011health assessment make this unlikely."
+    },
+    {
+      "rank": 8,
+      "name": "Myelodysplastic syndrome (MDS)",
+      "icd10": "D46.9",
+      "snomed": "429858007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Isolated leukopenia (WBC 3.6\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "MDS is rare and would typically present with additional cytopenias; retained only for completeness."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of hypertension, obesity, and prediabetes fulfills the criteria for metabolic syndrome, which the reviewer identified as the most strongly supported diagnosis. Resistant hypertension suggests a secondary etiology, warranting further endocrine and vascular evaluation. Chronic anemia raises concern for iron deficiency, yet the absence of iron studies limits certainty. CKD remains plausible given the metabolic milieu but lacks laboratory confirmation. Obstructive sleep apnea is a common comorbidity in obese hypertensive patients and should be investigated. Nutritional deficiencies, mood disorder, and MDS are less likely based on the limited data available.",
+  "unresolved_findings": [
+    "Isolated leukopenia (WBC 3.6\u202f\u00d710\u00b3/\u00b5L)",
+    "Chronic anemia etiology remains unknown (no iron, B12, folate, or reticulocyte data)",
+    "Missing lipid panel for dyslipidaemia assessment",
+    "Missing renal function tests (creatinine, eGFR, urine albumin)",
+    "No documented smoking, alcohol, or physical activity history",
+    "No vaccination record",
+    "No sleep study or polysomnography data"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with serum creatinine, eGFR, and urine albumin/creatinine ratio",
+    "Complete iron studies (serum iron, ferritin, TIBC, transferrin saturation)",
+    "Vitamin B12 and folate levels",
+    "Full CBC with red\u2011cell indices and reticulocyte count",
+    "Fasting lipid panel",
+    "HbA1c and fasting glucose",
+    "Polysomnography or home sleep apnea testing",
+    "Renin\u2011aldosterone ratio and plasma aldosterone concentration",
+    "Thyroid function tests (TSH, free T4)",
+    "Renal artery Doppler ultrasound or CT angiography if secondary hypertension suspected"
+  ]
+}

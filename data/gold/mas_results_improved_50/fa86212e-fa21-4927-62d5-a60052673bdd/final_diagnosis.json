@@ -1,0 +1,157 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension, likely uncontrolled",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of hypertension on problem list; patient on dual antihypertensive therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk due to uncontrolled blood pressure (BP values missing but therapy escalation suggests poor control)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a known history of hypertension and is prescribed two antihypertensive agents, indicating prior difficulty achieving control. Absence of recent BP measurements prevents confirmation, but the therapeutic regimen and comorbidities (obesity, metabolic syndrome) make uncontrolled hypertension the most likely primary problem."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome (insulin\u2011resistance phenotype)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.24,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30), prediabetes, dyslipidemia noted in chart",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose/prediabetic range",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination of central obesity, impaired glucose tolerance, and lipid abnormalities fulfills criteria for metabolic syndrome, contributing to cardiovascular risk and possibly to uncontrolled hypertension."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic obstructive pulmonary disease (moderate\u2011to\u2011severe)",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "COPD listed in problem list; chronic dyspnea reported",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Severity cannot be confirmed without spirometry; likely moderate\u2011to\u2011severe based on symptom burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s documented COPD and symptom profile suggest ongoing airflow limitation. Lack of spirometry prevents precise staging, but the clinical picture supports at least moderate disease."
+    },
+    {
+      "rank": 4,
+      "name": "Major depressive disorder / PTSD secondary to intimate\u2011partner violence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of intimate\u2011partner violence, limited social support, and prior mental\u2011health encounters",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No formal screening completed; provisional diagnosis pending PHQ\u20119/GAD\u20117/PTSD checklist",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and prior documentation raise concern for depressive and trauma\u2011related disorders, though objective screening is lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and daytime fatigue noted",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Sleep study not performed; OSA considered given risk profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and uncontrolled hypertension are strong risk factors for OSA; the condition could further exacerbate blood pressure and cardiovascular risk, warranting evaluation."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented without clear iron studies",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Laboratory pattern atypical; iron deficiency or mixed anemia more likely",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is present, but without iron studies the etiology is uncertain. The reviewer downgraded this diagnosis, retaining it only as a low\u2011probability possibility."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension, likely uncontrolled",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient\u2019s complex comorbidity profile is dominated by uncontrolled essential hypertension, supported by dual therapy and high cardiovascular risk. Metabolic syndrome underlies both hypertension and obesity, while COPD contributes to dyspnea and may be moderate\u2011to\u2011severe. Significant psychosocial stressors raise suspicion for depressive and trauma\u2011related disorders, though formal screening is pending. Obstructive sleep apnea is a plausible contributor given obesity and hypertension, and anemia of chronic disease remains a low\u2011probability consideration pending iron studies.",
+  "unresolved_findings": [
+    "Missing recent systolic and diastolic blood pressure values",
+    "Absent spirometry results to confirm COPD severity",
+    "No renal function panel (creatinine, eGFR, urine albumin\u2011creatinine ratio)",
+    "Lack of iron studies, ferritin, total iron\u2011binding capacity, and reticulocyte count",
+    "No serum vitamin B12, methylmalonic acid, or intrinsic factor antibody testing",
+    "Absence of formal mental\u2011health screening (PHQ\u20119, GAD\u20117, PTSD questionnaire)",
+    "Incomplete lipid panel (fasting triglycerides, HDL) and ASCVD risk calculation",
+    "No sleep study (polysomnography) to evaluate obstructive sleep apnea",
+    "Vaccination status (influenza, pneumococcal, COVID\u201119) not recorded",
+    "Allergy list absent; reason for astemizole use unclear"
+  ],
+  "recommended_workup": [
+    "Obtain repeat blood pressure measurements (clinic and home or ambulatory monitoring)",
+    "Perform spirometry with post\u2011bronchodilator testing",
+    "Order comprehensive renal panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Order iron studies: serum iron, ferritin, TIBC, transferrin saturation, reticulocyte count",
+    "Check vitamin B12 level, methylmalonic acid, and intrinsic factor antibodies if indicated",
+    "Administer PHQ\u20119, GAD\u20117, and PTSD checklist (PCL\u20115) for mental\u2011health screening",
+    "Complete fasting lipid panel and calculate 10\u2011year ASCVD risk",
+    "Refer for overnight polysomnography to assess for obstructive sleep apnea",
+    "Review and update vaccination history (influenza, pneumococcal, COVID\u201119)",
+    "Clarify medication allergy list and reason for astemizole use"
+  ]
+}

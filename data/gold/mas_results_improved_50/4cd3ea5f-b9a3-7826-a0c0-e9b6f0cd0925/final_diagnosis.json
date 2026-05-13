@@ -1,0 +1,134 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (CKD Stage 3b with overt proteinuria)",
+      "icd10": "E11.21",
+      "snomed": "90734009",
+      "probability": 0.65,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR consistent with stage 3b chronic kidney disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "documented proteinuria (urine albumin/creatinine ratio elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "longstanding type 2 diabetes mellitus",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of reduced eGFR (~45\u202fmL/min/1.73\u202fm\u00b2), overt proteinuria, and a history of diabetes makes diabetic nephropathy the dominant explanation for the patient's renal impairment."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin overtreatment / high risk of hypoglycemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hemoglobin A1c 3.8% (very low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on insulin therapy (dose not specified)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A markedly low A1c in an insulin\u2011treated diabetic raises concern for overtreatment and potential hypoglycemia, especially without recent glucose monitoring data."
+    },
+    {
+      "rank": 3,
+      "name": "Masked / untreated hypertension contributing to CKD progression",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Historical flag for stage\u202f1 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current single BP reading 114/82\u202fmmHg (normal)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prior documentation of hypertension suggests chronic exposure that may be under\u2011treated; a single normal reading does not exclude masked hypertension, which can accelerate CKD."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Positive urine bilirubin without serum LFTs",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity label (BMI not quantified)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and a nonspecific urine bilirubin finding raise the possibility of NAFLD, but lack of liver enzymes or imaging makes this diagnosis speculative."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease secondary to CKD",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3b (eGFR ~45) which commonly causes anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low hemoglobin noted (exact value not provided)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic kidney disease frequently leads to anemia of chronic disease; however, iron studies are missing, limiting certainty."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (CKD Stage 3b with overt proteinuria)",
+  "primary_probability": 0.65,
+  "clinical_reasoning_summary": "The patient's renal profile (eGFR ~45\u202fmL/min/1.73\u202fm\u00b2, overt proteinuria) in the setting of longstanding diabetes overwhelmingly points to diabetic nephropathy as the primary problem. A surprisingly low A1c suggests possible insulin overtreatment, while a historic hypertension flag raises concern for masked hypertension that could be accelerating kidney injury. Obesity and a solitary positive urine bilirubin hint at NAFLD, but without liver function tests the likelihood is low. Anemia is plausible given CKD, yet iron studies are absent. Overall, the weighted probabilities reflect the reviewer\u2019s confidence adjustments and the strength of available evidence.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented liver function tests",
+    "Very low hemoglobin A1c (3.8%) \u2013 could represent overtreatment, assay interference, or lab error",
+    "Missing lipid panel (total cholesterol, LDL, HDL) despite hypertriglyceridemia",
+    "Absence of quantitative BMI despite obesity label",
+    "Single normal blood pressure reading conflicting with hypertension flag; no ambulatory BP data"
+  ],
+  "recommended_workup": [
+    "Repeat hemoglobin A1c using an alternative assay or point\u2011of\u2011care method to rule out laboratory error",
+    "Obtain a fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Order serum liver function tests (ALT, AST, GGT, total and direct bilirubin) and consider hepatic ultrasound to evaluate for NAFLD/NASH",
+    "Measure weight and height to calculate BMI; assess for metabolic syndrome components",
+    "Perform ambulatory blood pressure monitoring (ABPM) to clarify hypertension status",
+    "Collect iron studies (serum ferritin, transferrin saturation) and reticulocyte count to characterize anemia",
+    "Review insulin dosing schedule and obtain recent self\u2011monitored blood glucose logs",
+    "Quantify urine albumin\u2011to\u2011creatinine ratio if not already documented"
+  ]
+}

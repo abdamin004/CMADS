@@ -1,0 +1,226 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Undiagnosed/under-treated Type 2 Diabetes",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.35,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Kidney disorder coded as \"disorder of kidney due to diabetes mellitus\" (onset 2021\u201106\u201128)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine (3.3\u202fmg/dL) suggestive of diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiometabolic risk profile (age 61, male, obesity, HTN, CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The presence of a diabetes\u2011related kidney disorder despite no recorded diabetes diagnosis strongly implies undiagnosed type 2 diabetes. Combined with obesity, hypertension, and CKD, the pre\u2011test probability is high."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Kidney Disease \u2013 stage 3\u20114 (mixed aetiology)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3\u202fmg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 1 coded but inconsistent with labs, indicating likely progression",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes\u2011related kidney disorder as chronic risk factors",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (naproxen) use adding nephrotoxic burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The creatinine level corresponds to an eGFR in the 20\u201145\u202fmL/min range (stage 3\u20114). Multiple chronic insults (HTN, probable diabetes, NSAID) explain the mixed aetiology."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced Acute Kidney Injury on CKD",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen 220\u202fmg daily for osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent lisinopril 10\u202fmg (ACE\u2011I) \u2013 known triple\u2011hit with NSAID",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine fluctuation from 3.3\u202fmg/dL to 1.4\u202fmg/dL (decreasing trend)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The temporal creatinine swing together with chronic NSAID and ACE\u2011I use suggests an acute superimposed AKI on underlying CKD."
+    },
+    {
+      "rank": 4,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, CKD \u2013 classic HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the high prevalence of HFpEF in older, hypertensive, obese patients with CKD, it is a plausible downstream consequence even though no cardiac exam data are available."
+    },
+    {
+      "rank": 5,
+      "name": "High\u2011risk Sub\u2011clinical Atherosclerotic Cardiovascular Disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia treated with low\u2011dose simvastatin 10\u202fmg",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 61, hypertension, obesity, probable diabetes, CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk (>30%) based on available factors",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of multiple risk factors places the patient in a high\u2011risk ASCVD category, even though lipid values and smoking status are missing."
+    },
+    {
+      "rank": 6,
+      "name": "Hyperkalaemia / Electrolyte Disturbance",
+      "icd10": "E87.5",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011I (lisinopril) + NSAID (naproxen) in CKD \u2013 known to raise serum potassium",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No potassium value recorded (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Medication combination and reduced renal function predispose to hyperkalaemia; lack of labs makes this a concern."
+    },
+    {
+      "rank": 7,
+      "name": "Sub\u2011optimal Lipid Management (Low\u2011intensity Statin)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 10\u202fmg (low\u2011intensity) despite high cardiovascular risk",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing lipid panel values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Guidelines recommend moderate\u2011 to high\u2011intensity statin for this risk profile; current therapy is likely insufficient."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3\u20114 (estimated) \u2013 anemia prevalence \u224840% at this stage",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No CBC available (data\u2011quality gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the likely CKD stage, anemia is common, but absence of CBC data limits certainty."
+    }
+  ],
+  "primary_diagnosis": "Undiagnosed/under-treated Type 2 Diabetes",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient is a 61\u2011year\u2011old obese male with hypertension, hyperlipidemia, and chronic NSAID use. A kidney disorder is explicitly coded as diabetes\u2011related, yet no diabetes diagnosis or glycaemic labs exist, making undiagnosed type 2 diabetes the most probable underlying condition. Laboratory data reveal a markedly elevated creatinine (3.3\u202fmg/dL) inconsistent with the recorded CKD stage 1, indicating stage 3\u20114 CKD from mixed diabetic, hypertensive, and NSAID insults. The concurrent use of lisinopril and naproxen explains a possible acute kidney injury superimposed on CKD. The risk factor constellation also points to high ASCVD risk, potential HFpEF, and medication\u2011related electrolyte disturbances. Missing key labs (eGFR, A1c, lipid panel, potassium, CBC) and lack of recent primary\u2011care contact create data gaps that lower confidence for several secondary diagnoses.",
+  "unresolved_findings": [
+    "Discrepancy between CKD stage 1 coding and creatinine 3.3\u202fmg/dL",
+    "Absence of eGFR, A1c, fasting glucose, lipid panel, and potassium values",
+    "No documented smoking status",
+    "No recorded diabetes diagnosis despite diabetes\u2011related kidney disorder",
+    "Last primary\u2011care encounter was a dental radiograph in July\u202f2022"
+  ],
+  "recommended_workup": [
+    "HbA1c and fasting glucose (or oral glucose tolerance test) to confirm diabetes status",
+    "Repeat comprehensive metabolic panel with serum creatinine, BUN, electrolytes, and calculated eGFR",
+    "Urine albumin\u2011to\u2011creatinine ratio to assess proteinuria and diabetic nephropathy",
+    "Full lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Serum potassium level and other electrolytes",
+    "CBC with iron studies to evaluate anemia of CKD",
+    "BNP or NT\u2011proBNP and focused cardiac exam; consider echocardiogram for HFpEF",
+    "Smoking history assessment",
+    "Serum uric acid to screen for gout",
+    "Calcium, phosphate, and PTH to evaluate CKD\u2011MBD",
+    "Medication reconciliation with emphasis on NSAID cessation and ACE\u2011I monitoring",
+    "Depression screening (PHQ\u20119) and medication adherence assessment"
+  ]
+}

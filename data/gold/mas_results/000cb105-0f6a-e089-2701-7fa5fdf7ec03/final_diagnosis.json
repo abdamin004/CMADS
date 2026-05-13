@@ -1,0 +1,217 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease with sub-optimal secondary prevention (possible graft failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction and coronary artery bypass graft surgery",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented antiplatelet therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No high\u2011intensity statin prescribed despite prior ASCVD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension untreated",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior MI/CABG places the patient at high risk for recurrent ischemia; the absence of antiplatelet, high\u2011intensity statin, and antihypertensive therapy indicates sub\u2011optimal secondary prevention and raises concern for graft occlusion."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f>\u202f30), hypertension, and dyslipidemia risk factors noted",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk estimate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, hypertension, and likely dyslipidemia fulfills criteria for metabolic syndrome, contributing to cardiovascular risk but is a background factor rather than the immediate actionable problem."
+    },
+    {
+      "rank": 3,
+      "name": "Medication non\u2011adherence",
+      "icd10": "Z91.14",
+      "snomed": "422034002",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pharmacy refill data shows gaps in antihypertensive and statin fills",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports occasional missed doses of prescribed meds",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inconsistent medication intake likely contributes to uncontrolled hypertension and inadequate lipid control, worsening cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Clinical inertia",
+      "icd10": "Z92.3",
+      "snomed": "424124008",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent medication adjustments despite persistently elevated blood pressure readings",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lack of documented plan to intensify antiplatelet or statin therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The care team has not escalated therapy in response to ongoing risk factor elevations, representing prescriber inertia."
+    },
+    {
+      "rank": 5,
+      "name": "NSAID\u2011induced peptic ulcer disease with iron\u2011deficiency anemia",
+      "icd10": "K27.9",
+      "snomed": "235719002",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use for osteoarthritis pain",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Microcytic anemia (low hemoglobin, low MCV) with low ferritin",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011term NSAID exposure predisposes to peptic ulceration; the iron\u2011deficiency pattern of anemia supports chronic blood loss from a gastrointestinal source."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic kidney disease risk (hypertensive/NSAID\u2011related)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and regular NSAID consumption",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal function labs pending (creatinine, eGFR)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and NSAID use are risk factors for CKD; without renal labs the diagnosis remains presumptive."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion and elevated BNP noted in prior visit",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "No recent echocardiogram available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms compatible with HFpEF but lack of objective cardiac imaging makes the likelihood modest."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and daytime fatigue reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but absence of diagnostic testing limits certainty."
+    },
+    {
+      "rank": 9,
+      "name": "Unexplained anemia (non\u2011iron deficiency)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia present but iron studies inconclusive",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While iron deficiency is likely, the possibility of anemia of chronic disease cannot be excluded without full iron panel."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease with sub-optimal secondary prevention (possible graft failure)",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient\u2019s prior myocardial infarction and CABG, combined with absent antiplatelet, high\u2011intensity statin, and untreated hypertension, make sub\u2011optimal secondary prevention the most urgent and probable diagnosis. Metabolic syndrome underlies the overall risk profile. Medication non\u2011adherence and clinical inertia further perpetuate uncontrolled risk factors. NSAID use explains the peptic ulcer and iron\u2011deficiency anemia. CKD risk, HFpEF, OSA, and a residual unexplained anemia are less certain but merit consideration.",
+  "unresolved_findings": [
+    "Missing lipid panel values (LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Missing renal function labs (creatinine, eGFR, urine albumin\u2011to\u2011creatinine ratio)",
+    "Missing comprehensive iron studies (ferritin, transferrin saturation)",
+    "No recent cardiac imaging (echocardiogram, stress test, coronary CT)",
+    "No sleep study to confirm obstructive sleep apnea",
+    "No peripheral arterial disease assessment (ABI)"
+  ],
+  "recommended_workup": [
+    "Obtain fasting lipid panel and calculate LDL\u2011C, HDL\u2011C, triglycerides",
+    "Order serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio",
+    "Complete iron studies (serum iron, ferritin, TIBC, transferrin saturation) and consider fecal occult blood test",
+    "Schedule transthoracic echocardiogram and consider stress imaging to evaluate graft patency and ventricular function",
+    "Refer for polysomnography to assess for obstructive sleep apnea",
+    "Perform ankle\u2011brachial index if peripheral arterial disease is suspected"
+  ]
+}

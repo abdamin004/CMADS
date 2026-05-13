@@ -1,0 +1,308 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (insulin resistance)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia (treated with simvastatin)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 7.0% (diabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome listed as active problem",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The coexistence of obesity, hypertension, dyslipidemia, and impaired glucose tolerance fulfills criteria for metabolic syndrome, which is the upstream driver of the patient's diabetes, CKD, and gout."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 7.0%",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 124.9 mg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2 listed as high\u2011priority problem",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated A1c and fasting glucose confirm diabetes, which contributes to the renal dysfunction and cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease stage 3a (diabetic & hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.9 mg/dL (\u2191)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 72.5 mL/min/1.73m\u00b2 (borderline \u2193)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 5.1 mmol/L (borderline \u2191)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Bicarbonate 20.9 mmol/L (low\u2011normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.9 g/dL (low\u2011normal for male)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension on lisinopril + HCTZ",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated creatinine with reduced eGFR, mild hyperkalaemia, metabolic acidosis, and anemia in the setting of longstanding diabetes and hypertension indicate stage 3a CKD, most likely due to diabetic and hypertensive nephropathy."
+    },
+    {
+      "rank": 4,
+      "name": "Essential hypertension (likely resistant)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2000, on lisinopril 10\u202fmg + HCTZ 25\u202fmg",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 5.1 mmol/L (borderline \u2191) suggesting reduced renal potassium excretion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Blood pressure remains uncontrolled despite two antihypertensives, indicating possible resistant hypertension, especially in the context of CKD."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "182721006",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex, age 73",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Chronic kidney disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Older, obese males with hypertension have a high pre\u2011test probability for OSA, which can worsen hypertension, glucose control, and CKD progression."
+    },
+    {
+      "rank": 6,
+      "name": "Gout, chronic, undertreated",
+      "icd10": "M10.9",
+      "snomed": "20142004",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic gout diagnosed 1997, no urate\u2011lowering therapy listed",
+          "strength": "strong"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Hydrochlorothiazide use (raises serum uric acid)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome and obesity (risk factors for hyperuricemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of a known gout history, diuretic use, and metabolic syndrome suggests ongoing hyperuricemia and risk of flares without urate\u2011lowering therapy."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid use disorder / opioid\u2011related adverse effects",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication_list",
+          "finding": "Dual long\u2011acting opioids (oxycodone ER 10\u202fmg q12h + hydrocodone ER 10\u202fmg q12h)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011back pain and chronic pain listed as high\u2011priority problems",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "High\u2011dose, dual\u2011opioid regimen in an elderly patient raises risk for dependence, sedation, constipation, and respiratory depression."
+    },
+    {
+      "rank": 8,
+      "name": "Depressive disorder / anxiety (unspecified)",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress documented since 2020\u201107\u201116",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain and high opioid use (risk factors for mood disorder)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal psychiatric diagnosis recorded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The psychosocial stressors, chronic pain, and opioid exposure make depression or anxiety likely, though not yet documented."
+    },
+    {
+      "rank": 9,
+      "name": "Atherosclerotic cardiovascular disease (subclinical CAD / possible heart failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular risk profile: age 73, male, hypertension, dyslipidemia, diabetes, CKD, obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Chronic kidney disease (accelerates atherosclerosis)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the risk factors, silent coronary artery disease or early heart failure is plausible, though no cardiac testing has been performed."
+    },
+    {
+      "rank": 10,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.9 g/dL (low\u2011normal for male)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 3a",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Mild anemia in CKD is typical of anemia of chronic disease; iron studies are missing to exclude iron\u2011deficiency."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (insulin resistance)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient presents with obesity, hypertension, dyslipidemia, and borderline hyperglycemia, fulfilling metabolic syndrome criteria. This syndrome drives the development of type 2 diabetes, which together with hypertension has produced stage 3a CKD. The CKD explains the mild anemia, electrolyte abnormalities, and altered drug clearance. Additional high\u2011yield conditions\u2014obstructive sleep apnea, depression/anxiety, subclinical atherosclerotic disease, gout, and opioid\u2011related risks\u2014are supported by the risk factor profile but lack direct documentation, prompting further evaluation. The differential ranks metabolic syndrome first as the upstream pathophysiologic driver, followed by its major downstream sequelae and other comorbidities.",
+  "unresolved_findings": [
+    "Exact blood pressure readings (clinic/home) not provided",
+    "Full fasting lipid panel values (total cholesterol, LDL\u2011C, HDL\u2011C) missing",
+    "Urinalysis and urine albumin\u2011creatinine ratio absent",
+    "Renal imaging (ultrasound/CT) not documented",
+    "Serum uric acid level not available",
+    "Iron studies, B12, folate, reticulocyte count missing",
+    "Opioid urine drug screen and functional pain assessment not recorded",
+    "Depression/anxiety screening scores (PHQ\u20119, GAD\u20117) absent",
+    "Vaccination status (influenza, pneumococcal, shingles) not listed",
+    "Sleep study results or STOP\u2011BANG score not documented"
+  ],
+  "recommended_workup": [
+    "Obtain recent blood pressure measurements; consider ambulatory BP monitoring",
+    "Order fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Perform urine albumin\u2011creatinine ratio and repeat urinalysis",
+    "Renal ultrasound to assess kidney size, obstruction, and echogenicity",
+    "Serum uric acid level to guide gout management",
+    "Iron studies (serum iron, ferritin, transferrin saturation), vitamin B12, folate, reticulocyte count",
+    "STOP\u2011BANG questionnaire followed by overnight polysomnography if indicated",
+    "PHQ\u20119 and GAD\u20117 screening for depression and anxiety",
+    "Baseline ECG; consider stress test or coronary calcium scoring; obtain BNP/NT\u2011proBNP and transthoracic echocardiogram to evaluate for heart failure",
+    "Opioid urine drug screen and standardized pain functional assessment (e.g., Oswestry Disability Index)",
+    "Review and update vaccination status (influenza annually, pneumococcal PCV20 or PCV15\u202f+\u202fPPSV23, shingles Shingrix)",
+    "Medication reconciliation: resolve duplicate simvastatin, assess need for dual long\u2011acting opioids, consider taper plan, evaluate diuretic choice in context of gout and CKD"
+  ]
+}

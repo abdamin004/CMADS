@@ -1,0 +1,240 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "NSAID and ACE\u2011I induced acute\u2011on\u2011chronic kidney injury (possible acute interstitial nephritis)",
+      "icd10": "N17.9",
+      "snomed": "423849009",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium use for osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg (ACE\u2011I) for hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3\u202fmg/dL (severe elevation)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria 68.1\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity, hypertension, CKD risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of chronic NSAID exposure and an ACE\u2011I in a patient with underlying CKD creates a classic scenario for drug\u2011induced AKI, often mediated by acute interstitial nephritis. The marked rise in creatinine together with proteinuria supports an acute insult superimposed on chronic disease."
+    },
+    {
+      "rank": 2,
+      "name": "Acute tubular necrosis from volume depletion / occult sepsis",
+      "icd10": "N17.0",
+      "snomed": "302810001",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia 3.7\u202f\u00d710\u00b3/\u00b5L",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Heart rate 95\u202fbpm (borderline tachycardia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated CRP 9.1\u202fmg/L",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Full\u2011time employment with possible inadequate fluid intake",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Leukopenia and modestly elevated CRP suggest a low\u2011grade infection or systemic inflammatory response. In the setting of possible volume depletion (full\u2011time work, NSAID use), prerenal azotemia can progress to ATN, explaining the high creatinine."
+    },
+    {
+      "rank": 3,
+      "name": "Undiagnosed / poorly\u2011controlled type\u202f2 diabetes mellitus (diabetic nephropathy)",
+      "icd10": "E11.21",
+      "snomed": "44054006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "SNOMED label \"disorder of kidney due to diabetes mellitus\"",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 13.4\u202fmg/dL (ketonuria)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented diabetes medication or recent HbA1c",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The presence of a diabetes\u2011related kidney disorder code and ketonuria strongly point toward underlying diabetes, even though glucose metrics are missing. Diabetic nephropathy could be contributing to the proteinuria and renal dysfunction."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive/post\u2011renal acute kidney injury",
+      "icd10": "N13.30",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male gender, age >60 (higher prevalence of BPH)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria 68.1\u202fmg/dL",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While no urinary symptoms are documented, male patients of this age can develop obstructive uropathy (e.g., BPH). Obstruction would cause a rapid creatinine rise and proteinuria, so it remains a plausible, though less likely, contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Acute pyelonephritis / urinary\u2011tract infection",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated CRP 9.1\u202fmg/L",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia 3.7\u202f\u00d710\u00b3/\u00b5L (possible early infection)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented urinary symptoms (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "UTI can present with systemic inflammation and a rise in creatinine, especially in patients with CKD. The lack of documented dysuria does not exclude it, given possible atypical presentation in the elderly."
+    },
+    {
+      "rank": 6,
+      "name": "Hypertensive nephrosclerosis / vascular chronic kidney disease",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2018, on lisinopril and amlodipine",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Long\u2011standing hypertension and CKD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension can cause progressive arteriolar nephrosclerosis, contributing to the observed renal impairment, though the acute creatinine jump suggests an additional superimposed insult."
+    },
+    {
+      "rank": 7,
+      "name": "Rhabdomyolysis (statin\u202f\u00b1\u202fNSAID related)",
+      "icd10": "M62.82",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 10\u202fmg (low\u2011dose but still a myotoxic agent)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use (potential synergistic myotoxicity)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No CK level reported (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Statins, especially when combined with NSAIDs, can precipitate rhabdomyolysis, which can cause AKI. Lack of CK data makes this less likely but still possible."
+    },
+    {
+      "rank": 8,
+      "name": "Hyperuricemia / gout\u2011related tubular injury",
+      "icd10": "M10.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and CKD (risk factors for hyperuricemia)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No serum uric acid reported (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated uric acid can precipitate crystal\u2011induced tubular obstruction and AKI, especially in patients with CKD and NSAID use. Absence of uric acid measurement limits certainty."
+    }
+  ],
+  "primary_diagnosis": "NSAID and ACE\u2011I induced acute\u2011on\u2011chronic kidney injury (possible acute interstitial nephritis)",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The 61\u2011year\u2011old male presents with severe creatinine elevation, proteinuria, and ketonuria in the context of obesity, hypertension, hyperlipidemia, and chronic NSAID use. The strongest signal is drug\u2011induced acute kidney injury, supported by chronic naproxen and ACE\u2011I therapy, high creatinine, and proteinuria. Secondary considerations include volume\u2011depletion/ sepsis\u2011related ATN (leukopenia, elevated CRP, tachycardia), undiagnosed diabetes (diabetes\u2011related kidney disorder code and ketonuria), and less likely obstructive, infectious, vascular, rhabdomyolysis, or gout\u2011related mechanisms. Missing data (eGFR, HbA1c, uric acid, CK, imaging) create uncertainty, especially for the cytopenias and urinary bilirubin, which remain unexplained.",
+  "unresolved_findings": [
+    "Thrombocytopenia (platelets 124\u202f\u00d710\u00b3/\u00b5L) and leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L) \u2013 not explained by CKD alone",
+    "Positive urine bilirubin without serum bilirubin or liver enzyme data",
+    "Elevated ferritin (503\u202f\u00b5g/L) \u2013 could be acute\u2011phase or iron overload",
+    "Ketonuria without confirmed glucose status",
+    "Missing quantitative values for eGFR, HbA1c, lipid panel, BMI"
+  ],
+  "recommended_workup": [
+    "Hold naproxen and lisinopril for 48\u202fh; repeat serum creatinine and calculate eGFR",
+    "Renal/bladder ultrasound (point\u2011of\u2011care) to assess for obstruction",
+    "HbA1c (or fasting glucose) to confirm or exclude diabetes",
+    "Urinalysis with culture; repeat CBC with differential",
+    "Serum creatine kinase (CK) and myoglobin to evaluate rhabdomyolysis",
+    "Serum uric acid level",
+    "Peripheral blood smear, reticulocyte count, vitamin B12, folate, iron studies (serum iron, TIBC, transferrin saturation)",
+    "Hepatitis B/C serologies and HIV Ag/Ab testing",
+    "Basic liver panel (AST, ALT, ALP, total bilirubin) to interpret urinary bilirubin",
+    "BNP and bedside echocardiogram if signs of volume overload emerge",
+    "If creatinine remains >3\u202fmg/dL after initial interventions, consider renal\u2011artery Doppler/CTA and possible renal biopsy"
+  ]
+}

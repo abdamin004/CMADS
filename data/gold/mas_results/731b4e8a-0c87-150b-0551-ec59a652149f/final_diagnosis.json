@@ -1,0 +1,172 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea (untreated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of sleep apnea with no CPAP prescription",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity (BMI >30) and hypertension increase OSA severity risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA contributes to resistant hypertension and metabolic derangements; the patient's obesity and lack of CPAP support make this the most likely driver of his uncontrolled blood pressure."
+    },
+    {
+      "rank": 2,
+      "name": "Tenofovir-associated Fanconi syndrome (proximal renal tubular dysfunction)",
+      "icd10": "N25.9",
+      "snomed": "236423003",
+      "probability": 0.27,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on tenofovir-containing ART regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling serum CO\u2082 suggesting non\u2011anion\u2011gap metabolic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Tenofovir can cause proximal tubular dysfunction leading to bicarbonate loss and metabolic acidosis; the observed drop in CO\u2082 without anion\u2011gap elevation raises suspicion despite missing urine studies."
+    },
+    {
+      "rank": 3,
+      "name": "Medication non\u2011adherence (antihypertensive & ART)",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented antihypertensive regimen or refill data",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Persistently elevated BP despite multiple agents in chart",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Absence of medication lists and refill verification suggests possible non\u2011adherence, which could explain uncontrolled hypertension and suboptimal HIV control."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild normocytic anemia documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Chronic inflammation from HIV and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic inflammatory states can cause anemia of chronic disease; the lack of iron studies prevents definitive classification."
+    },
+    {
+      "rank": 5,
+      "name": "Primary hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated serum sodium",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated mild hypernatremia raises the possibility, but absence of hypokalemia, renin/aldosterone measurements, and imaging makes this unlikely."
+    },
+    {
+      "rank": 6,
+      "name": "HIV\u2011associated chronic kidney disease (HIVAN or ART\u2011related nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing HIV infection on ART",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal involvement is possible in HIV, yet normal creatinine and lack of proteinuria data lower its likelihood."
+    },
+    {
+      "rank": 7,
+      "name": "Renal artery stenosis",
+      "icd10": "I70.2",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Severe hypertension in a smoker (smoking status undocumented)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No bruits, imaging, or abrupt creatinine rise after ACE/ARB; therefore low probability."
+    },
+    {
+      "rank": 8,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild anemia without iron studies",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Iron deficiency cannot be excluded but lacks supporting labs or GI bleed evaluation."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea (untreated)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled hypertension, obesity, and metabolic abnormalities are most plausibly driven by untreated obstructive sleep apnea, supported by documented OSA and lack of CPAP therapy. Tenofovir\u2011related proximal tubular dysfunction and medication non\u2011adherence are the next most likely contributors given the ART regimen and missing medication documentation. Lesser possibilities include anemia of chronic disease, primary hyperaldosteronism, HIV\u2011related kidney disease, renal artery stenosis, and iron\u2011deficiency anemia, each limited by absent confirmatory data.",
+  "unresolved_findings": [
+    "Rising serum sodium without documented potassium level",
+    "Decreasing CO\u2082 without anion\u2011gap calculation or urine studies",
+    "Missing eGFR, urine protein, and urine electrolyte data",
+    "Undocumented smoking, alcohol, and NSAID use",
+    "Absence of lipid\u2011lowering therapy despite cardiovascular risk",
+    "No documented CPAP use or adherence data for OSA"
+  ],
+  "recommended_workup": [
+    "Polysomnography with severity scoring and CPAP titration",
+    "Comprehensive renal panel: eGFR, serum electrolytes, urine protein/creatinine ratio, urine electrolytes for Fanconi evaluation",
+    "Aldosterone/renin ratio to assess primary hyperaldosteronism",
+    "Iron studies (ferritin, transferrin saturation) and inflammatory markers to differentiate anemia types",
+    "Renal artery duplex ultrasound or CTA if suspicion persists",
+    "Medication reconciliation and pharmacy refill review to assess adherence",
+    "Lipid profile and initiation of statin therapy per guidelines"
+  ]
+}

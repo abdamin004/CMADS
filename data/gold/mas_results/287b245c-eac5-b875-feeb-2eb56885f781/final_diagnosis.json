@@ -1,0 +1,138 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertensive nephrosclerosis (mixed hypertensive/diabetic CKD)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of long\u2011standing hypertension, prior uncontrolled BP likely",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011vascular phenotype with obesity and dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension is a common cause of CKD and can coexist with early diabetic changes; prior uncontrolled pressures explain renal impairment despite current controlled BP."
+    },
+    {
+      "rank": 2,
+      "name": "NSAID\u2011induced acute\u2011on\u2011chronic kidney injury / chronic interstitial nephritis",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented regular NSAID use for osteoarthritis pain",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (3.3\u202fmg/dL) without clear acute precipitant",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs can cause both chronic interstitial nephritis and precipitate an acute rise in creatinine on top of existing CKD, fitting the observed renal dysfunction."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic nephropathy",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Label of early diabetic kidney disease in problem list",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Although objective diabetes data are missing, the presence of a diabetes label and metabolic risk factors keep diabetic nephropathy in the differential, albeit with reduced weight."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic renal artery stenosis",
+      "icd10": "I70.2",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of atherosclerotic disease risk factors (dyslipidemia, hypertension)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Atherosclerotic disease could cause renovascular hypertension and CKD, but no imaging or bruit data are available, making this a less likely contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive uropathy from benign prostatic hyperplasia (BPH)",
+      "icd10": "N40.0",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age >60, known BPH on medication list",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absence of lower urinary tract symptoms lowers pre\u2011test probability, yet BPH remains a possible reversible cause of CKD."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic kidney disease, unspecified (multifactorial)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.13,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Discrepancy between CKD stage label and actual eGFR/creatinine",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Missing urine albumin\u2011to\u2011creatinine ratio and sediment data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given incomplete data, a portion of the renal impairment may be due to uncharacterized or overlapping etiologies."
+    }
+  ],
+  "primary_diagnosis": "Hypertensive nephrosclerosis (mixed hypertensive/diabetic CKD)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient exhibits a metabolic\u2011vascular phenotype with longstanding hypertension, obesity, and dyslipidemia. Current BP is controlled, but prior uncontrolled pressures likely contributed to hypertensive nephrosclerosis, which the reviewer judged most probable. Regular NSAID use provides a plausible precipitant for an acute rise in creatinine superimposed on chronic disease. A diabetes label without laboratory confirmation lowers confidence in diabetic nephropathy but does not exclude it. Renal artery stenosis and BPH are possible but lack supporting imaging or symptom data. The remaining uncertainty is captured by an unspecified CKD category pending further workup.",
+  "unresolved_findings": [
+    "Serum creatinine 3.3\u202fmg/dL discordant with CKD stage label",
+    "Absence of documented HbA1c or glucose values despite diabetic kidney disease label",
+    "Missing urine albumin\u2011to\u2011creatinine ratio and sediment analysis",
+    "Incomplete medication reconciliation for OTC NSAIDs and recent ACE\u2011I changes",
+    "No renal imaging (ultrasound, Doppler) to assess obstruction or renovascular disease"
+  ],
+  "recommended_workup": [
+    "Obtain HbA1c and fasting glucose to confirm diabetes status",
+    "Urine albumin\u2011to\u2011creatinine ratio and microscopic sediment",
+    "Renal ultrasound with Doppler to evaluate for obstruction and renal artery stenosis",
+    "Review full medication list, including OTC NSAIDs and recent ACE\u2011I/ARB adjustments",
+    "Repeat blood pressure trend review from prior visits",
+    "Consider renal biopsy only if non\u2011invasive workup remains inconclusive"
+  ]
+}

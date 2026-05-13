@@ -1,0 +1,137 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive jaundice (biliary obstruction)",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Isolated total bilirubin elevation to 7.6\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI and ongoing cardiovascular risk factors (hypertension, metabolic syndrome, obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No abdominal imaging performed yet",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A markedly elevated total bilirubin without accompanying transaminase or alkaline phosphatase data raises suspicion for a cholestatic process. In an elderly male with risk factors for gallstones and possible biliary sludge, obstructive jaundice is the most plausible explanation, pending imaging confirmation."
+    },
+    {
+      "rank": 2,
+      "name": "Heart\u2011failure\u2011related hepatic congestion (cardiac hepatopathy)",
+      "icd10": "K76.0",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of recent NSTEMI and chronic hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of anemia and volume overload risk",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac imaging or natriuretic peptide data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Acute or chronic right\u2011sided heart failure can cause passive hepatic congestion and mild hyperbilirubinemia. The bilirubin level is higher than typical for isolated congestion, but given the recent myocardial injury, cardiac hepatopathy remains a reasonable secondary consideration."
+    },
+    {
+      "rank": 3,
+      "name": "Hemolytic anemia",
+      "icd10": "D59.9",
+      "snomed": "302810001",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia in the chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of hemolysis labs (retic count, haptoglobin, LDH, smear)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia could be due to an undiagnosed hemolytic process, which would raise indirect bilirubin. The current data lack fractionated bilirubin and hemolysis markers, so this remains plausible but less likely than obstructive causes."
+    },
+    {
+      "rank": 4,
+      "name": "Drug\u2011induced cholestatic liver injury (statin\u202f\u00b1\u202fprasugrel)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on high\u2011intensity statin and antiplatelet therapy",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent dose escalation or known prior liver injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Statin\u2011related cholestasis is rare and would typically present with elevated ALP/GGT, which are not available. The lack of a temporal relationship reduces confidence."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD\u2011NASH)",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, pre\u2011diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging or liver enzyme data to suggest steatosis or inflammation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While NAFLD is common in this risk profile, isolated bilirubin >5\u202fmg/dL without transaminase elevation is atypical, making it the least likely explanation."
+    }
+  ],
+  "primary_diagnosis": "Obstructive jaundice (biliary obstruction)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with a marked isolated total bilirubin elevation (7.6\u202fmg/dL) in the setting of cardiovascular comorbidities and metabolic risk factors. The most compelling explanation is biliary obstruction, despite the absence of imaging and a full cholestatic lab panel. Cardiac hepatopathy and hemolysis are plausible alternatives given recent myocardial injury and documented anemia, but each lacks key supporting data. Drug\u2011induced cholestasis and NAFLD/NASH are considered low\u2011probability contributors.",
+  "unresolved_findings": [
+    "No fractionated bilirubin (direct vs indirect) to differentiate cholestasis from hemolysis",
+    "Absent full liver panel (AST, ALT, ALP, GGT)",
+    "No abdominal imaging (ultrasound, CT, or MRCP) to evaluate the biliary tree",
+    "Missing cardiac imaging (echocardiogram) and natriuretic peptide levels",
+    "No hemolysis work\u2011up (reticulocyte count, haptoglobin, LDH, peripheral smear, direct Coombs)"
+  ],
+  "recommended_workup": [
+    "Abdominal ultrasound with Doppler; if nondiagnostic, proceed to MRCP to assess for biliary obstruction",
+    "Complete liver function tests including AST, ALT, ALP, GGT",
+    "Bilirubin fractionation to determine direct vs indirect component",
+    "Hemolysis panel: reticulocyte count, haptoglobin, LDH, peripheral smear, direct Coombs test",
+    "Transthoracic echocardiogram and measurement of BNP/NT\u2011proBNP to evaluate for cardiac congestion",
+    "Review medication list for recent dose changes; consider temporary hold of statin if cholestasis suspected"
+  ]
+}

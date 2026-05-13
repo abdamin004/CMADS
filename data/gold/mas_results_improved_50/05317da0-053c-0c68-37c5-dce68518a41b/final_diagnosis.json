@@ -1,0 +1,143 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute non-ST-segment elevation myocardial infarction (NSTEMI)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.68,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinical impression documents recent NSTEMI with typical chest discomfort",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated cardiac troponin above 99th percentile with rising trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ECG showing ischemic changes without ST\u2011segment elevation",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Multiple cardiovascular risk factors (diabetes, metabolic syndrome, obesity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of unequivocal troponin rise, ischemic ECG changes, and a documented recent NSTEMI in a high\u2011risk patient makes NSTEMI the most likely active diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Acute kidney injury on chronic kidney disease (CKD stage 3\u20114)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Comorbidity flags indicate CKD stage 3\u20114",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and BUN with recent rise compared to prior values",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis (CO\u2082 21\u202fmmol/L) suggesting renal acid\u2011base contribution",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Baseline CKD is known, and the acute rise in creatinine with accompanying metabolic acidosis points to superimposed AKI, though prior labs are unavailable to quantify the chronic component."
+    },
+    {
+      "rank": 3,
+      "name": "Congestive hepatopathy (cardiac\u2011related liver dysfunction)",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated total bilirubin 7.8\u202fmg/dL with normal AST/ALT/ALP",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI and possible left\u2011ventricular dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated bilirubin without hepatocellular enzyme rise suggests cholestasis secondary to hepatic venous congestion from impaired cardiac output, consistent with congestive hepatopathy."
+    },
+    {
+      "rank": 4,
+      "name": "Early disseminated intravascular coagulation (DIC) / consumptive coagulopathy",
+      "icd10": "D65",
+      "snomed": "1658000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Three\u2011line cytopenia (anemia, thrombocytopenia, leukopenia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Thrombocytopenia noted without clear alternative cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The presence of multilineage cytopenias raises suspicion for a consumptive process such as early DIC, though coagulation studies are missing; probability is modest pending confirmatory labs."
+    },
+    {
+      "rank": 5,
+      "name": "Cardiogenic shock / acute decompensated heart failure",
+      "icd10": "I50.21",
+      "snomed": "425690006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI with potential left\u2011ventricular impairment",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis (CO\u2082 21\u202fmmol/L) possibly reflecting tissue hypoperfusion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While cardiac dysfunction could progress to shock, the lack of vital signs, hemodynamic measurements, or overt pulmonary edema makes this diagnosis speculative."
+    }
+  ],
+  "primary_diagnosis": "Acute non-ST-segment elevation myocardial infarction (NSTEMI)",
+  "primary_probability": 0.68,
+  "clinical_reasoning_summary": "The patient\u2019s presentation is dominated by a recent NSTEMI confirmed by troponin elevation and ischemic ECG changes, making it the primary diagnosis. Superimposed acute kidney injury on known CKD is supported by rising creatinine and metabolic acidosis. Isolated hyperbilirubinemia without transaminase elevation points toward congestive hepatopathy secondary to cardiac dysfunction. Multilineage cytopenias raise concern for early DIC, though coagulation data are lacking. Cardiogenic shock remains a remote possibility given the absence of hemodynamic data.",
+  "unresolved_findings": [
+    "Isolated total bilirubin 7.8\u202fmg/dL without AST/ALT/ALP or direct/indirect fraction \u2013 etiology unclear (cholestasis, hemolysis, congestion).",
+    "Three\u2011line cytopenia (anemia, thrombocytopenia, leukopenia) \u2013 not fully explained by CKD or heart failure alone.",
+    "Metabolic acidosis (CO\u2082 21\u202fmmol/L) \u2013 source (renal, lactic, respiratory) not defined.",
+    "Missing vital signs (blood pressure, heart rate), eGFR, full lipid panel, smoking/alcohol history \u2013 limits precise risk stratification.",
+    "Medication list captures only diphenhydramine; likely under\u2011documented antiplatelet, statin, antihypertensive, glucose\u2011lowering agents."
+  ],
+  "recommended_workup": [
+    "Complete coagulation panel: PT, aPTT, INR, fibrinogen, D\u2011dimer to evaluate for DIC.",
+    "Repeat CBC with peripheral smear, reticulocyte count, haptoglobin, LDH to assess for hemolysis vs marrow suppression.",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, direct/indirect bilirubin) and abdominal ultrasound to characterize hepatic congestion.",
+    "Transthoracic echocardiogram to quantify left\u2011ventricular ejection fraction and assess for signs of congestion or shock.",
+    "Renal ultrasound and baseline serum creatinine/eGFR trend to delineate chronic vs acute kidney injury.",
+    "Serial high\u2011sensitivity troponin measurements and 12\u2011lead ECG to monitor myocardial injury progression.",
+    "Vital sign monitoring and invasive hemodynamic assessment if clinical instability develops."
+  ]
+}

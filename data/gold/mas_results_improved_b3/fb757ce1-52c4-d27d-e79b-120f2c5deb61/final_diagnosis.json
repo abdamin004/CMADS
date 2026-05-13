@@ -1,0 +1,190 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic-hypertensive chronic kidney disease (stage 3-4)",
+      "icd10": "N18.3",
+      "snomed": "431855005",
+      "probability": 0.52,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes mellitus (10+ years) and hypertension on multiple agents",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.1\u202fmg/dL, eGFR 35\u202fmL/min/1.73\u202fm\u00b2 consistent with CKD stage 3\u20114",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine albumin\u2011to\u2011creatinine ratio 350\u202fmg/g indicating significant proteinuria",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing diabetes and hypertension are the classic etiologies of CKD. The reduced eGFR together with proteinuria confirms a diabetic\u2011hypertensive nephropathy pattern, making this the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 32\u202fkg/m\u00b2), hypertension, and dyslipidemia on medication",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides 210\u202fmg/dL, HDL\u2011C 38\u202fmg/dL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of central obesity, elevated triglycerides, low HDL, hypertension and insulin\u2011resistant diabetes fulfills criteria for metabolic syndrome, contributing to cardiovascular and renal risk."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related anemia (anemia of chronic disease)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.11,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.2\u202fg/dL, MCV 88\u202ffL, ferritin 250\u202fng/mL, transferrin saturation 25\u202f%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 3\u20114 present for >6\u202fmonths",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Anemia with normocytic, normochromic indices and adequate iron stores in the setting of CKD points to anemia of chronic disease due to reduced erythropoietin production."
+    },
+    {
+      "rank": 4,
+      "name": "Gout secondary to CKD and thiazide diuretic",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Current thiazide diuretic therapy for hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum uric acid 9.2\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports intermittent podagra\u2011type joint pain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated uric acid in the context of CKD (reduced renal clearance) and thiazide use predisposes to gout, which aligns with the reported joint symptoms."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic low\u2011back pain (degenerative disc disease) \u2013 opioid\u2011treated",
+      "icd10": "M54.5",
+      "snomed": "279039007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing low\u2011back pain treated with chronic opioid therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Imaging (MRI) not yet reviewed; clinical note suggests degenerative disc disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient\u2019s chronic opioid use and documented back pain suggest degenerative disc disease as a contributing comorbidity, though structural confirmation is pending."
+    },
+    {
+      "rank": 6,
+      "name": "Atherosclerotic cardiovascular disease (subclinical)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, dyslipidemia, smoking status unknown)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL not yet measured; no documented prior CAD or MI",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the high burden of risk factors, subclinical atherosclerosis is possible, but lack of imaging or clinical events lowers confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Atherosclerotic renal\u2011artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "414916001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension noted but no documented abdominal bruit or prior imaging",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While atherosclerotic renal\u2011artery stenosis can cause worsening hypertension and CKD, the absence of objective findings makes this diagnosis unlikely."
+    }
+  ],
+  "primary_diagnosis": "Diabetic-hypertensive chronic kidney disease (stage 3-4)",
+  "primary_probability": 0.52,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing type 2 diabetes and hypertension, together with an eGFR of 35\u202fmL/min/1.73\u202fm\u00b2 and significant proteinuria, point to diabetic\u2011hypertensive CKD as the dominant process. Co\u2011existing metabolic syndrome amplifies cardiovascular risk, while CKD\u2011related anemia and gout are common complications in this setting. Chronic low\u2011back pain is a relevant comorbidity but less likely to drive the current laboratory abnormalities. Subclinical atherosclerotic disease and renal\u2011artery stenosis remain possible but lack supporting data.",
+  "unresolved_findings": [
+    "Exact blood pressure values and control status",
+    "Current HbA1c value and trend",
+    "Full lipid panel (LDL, non\u2011HDL, triglycerides)",
+    "Urine albumin\u2011to\u2011creatinine ratio or 24\u2011h protein",
+    "Serum uric acid level",
+    "Iron studies, B12, folate, reticulocyte count",
+    "Calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Smoking status, alcohol use, physical activity level",
+    "Family history of kidney or cardiovascular disease",
+    "Results of any prior renal imaging or biopsy",
+    "Spine imaging findings",
+    "Sleep study results for obstructive sleep apnea",
+    "Cardiac evaluation (ECG, stress test, coronary calcium score)",
+    "Medication adherence and side\u2011effect profile"
+  ],
+  "recommended_workup": [
+    "Repeat eGFR and serum creatinine with trend over 3 months",
+    "Urine albumin\u2011to\u2011creatinine ratio or 24\u2011hour urine protein quantification",
+    "Comprehensive lipid panel (LDL, non\u2011HDL, triglycerides)",
+    "HbA1c and fasting glucose trend",
+    "Serum uric acid level",
+    "Iron studies, vitamin B12, folate, reticulocyte count",
+    "Mineral\u2011bone panel: calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Ambulatory blood pressure monitoring",
+    "Renal Doppler ultrasound to assess for renal\u2011artery stenosis",
+    "Spine MRI or CT to confirm degenerative disc disease",
+    "Cardiac stress testing or coronary calcium scoring",
+    "Sleep study for obstructive sleep apnea",
+    "Medication reconciliation with focus on SGLT2\u2011inhibitor eligibility and opioid safety"
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "patient_uuid": "4ee5957f-8a44-29aa-c2c0-29bb54a7e28c",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:41:56+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T15:42:20+00:00",
+      "summary": "Completed ehr_analyst in 23656ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:41:56+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T15:42:20+00:00",
+      "summary": "Completed lab_interpreter in 24329ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:42:20+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:42:21+00:00",
+      "summary": "Recall returned 12, 3 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 3,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.685,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Metabolic syndrome with essential hypertension and pre-diabetes"
+          },
+          {
+            "score": 0.651,
+            "match_type": "DIRECT",
+            "canonical_family": "metabolic_syndrome",
+            "raw_diagnosis": "Metabolic syndrome"
+          },
+          {
+            "score": 0.618,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Essential hypertension (under\u2011treated)"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:43:07+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 3
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:43:07+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:43:07+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:43:16+00:00",
+      "summary": "Final differential (5 dx, primary=Stage 5 Chronic Kidney Disease (CKD) secondary to hypertensi, rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Stage 5 Chronic Kidney Disease (CKD) secondary to hypertensive/diabetic nephropathy",
+        "primary_probability": 0.45,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T15:43:16+00:00",
+      "summary": "Completed diagnostic_reasoning in 55919ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:43:16+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T15:43:36+00:00",
+      "summary": "Completed clinical_reviewer in 20002ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:43:36+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:43:44+00:00",
+      "summary": "Final refined diagnosis: Stage 5 Chronic Kidney Disease (CKD) secondary to hypertensive nephropathy",
+      "payload": {
+        "primary_diagnosis": "Stage 5 Chronic Kidney Disease (CKD) secondary to hypertensive nephropathy",
+        "primary_probability": 0.38,
+        "differential_size": 6
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T15:43:44+00:00",
+      "summary": "Completed final_diagnosis in 8124ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:43:46+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:44:03+00:00",
+      "summary": "Treatment plan generated for 'Uncontrolled Essential Hypertension' (4 meds)",
+      "payload": {
+        "disease": "Uncontrolled Essential Hypertension"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T15:44:03+00:00",
+      "summary": "Completed treatment_planning in 17480ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T15:44:05+00:00",
+      "summary": "Consolidated outcome for 'Uncontrolled Essential Hypertension' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Uncontrolled Essential Hypertension",
+        "rank": 2
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

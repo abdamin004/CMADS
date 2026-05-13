@@ -1,0 +1,191 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome with associated atherosclerotic cardiovascular disease risk",
+      "icd10": "E88.81",
+      "snomed": "190332001",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (126/84 mmHg) and obesity (BMI not recorded but implied by clinical note)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.2%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple metabolic risk factors present; ASCVD risk calculation pending due to missing lipid panel",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient exhibits classic components of metabolic syndrome\u2014hypertension, obesity, and impaired glucose tolerance\u2014placing him at high risk for atherosclerotic cardiovascular disease despite missing lipid values."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia with reactive thrombocytosis",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia of unclear etiology in a middle\u2011aged male",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Thrombocytosis noted on CBC (platelet count elevated)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia in this demographic raises concern for iron deficiency; the accompanying thrombocytosis is a common reactive pattern pending iron studies."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension noted; daytime fatigue and anxiety reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "High pre\u2011test likelihood given metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, and reported anxiety/fatigue suggests a high probability of OSA, warranting formal sleep study."
+    },
+    {
+      "rank": 4,
+      "name": "Occult gastrointestinal malignancy / GI blood loss",
+      "icd10": "C80.1",
+      "snomed": "363406005",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained anemia in a middle\u2011aged male",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Red\u2011flag anemia without identified source",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia without clear cause in this age group mandates evaluation for occult GI bleeding or malignancy."
+    },
+    {
+      "rank": 5,
+      "name": "Essential thrombocythemia (early myeloproliferative neoplasm)",
+      "icd10": "D47.3",
+      "snomed": "10828004",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet count persisting despite anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While thrombocytosis may be reactive, a primary myeloproliferative process cannot be excluded without JAK2 testing."
+    },
+    {
+      "rank": 6,
+      "name": "Early chronic kidney disease (stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension and mild hyperkalaemia noted",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Renal function tests (eGFR, urine ACR) not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and electrolyte abnormality raise suspicion for early CKD, but definitive labs are missing."
+    },
+    {
+      "rank": 7,
+      "name": "Panic disorder / severe anxiety",
+      "icd10": "F41.0",
+      "snomed": "197480006",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe anxiety documented; patient reports social isolation and part\u2011time employment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anxiety is evident but appears secondary to multiple medical stressors; probability lowered relative to metabolic issues."
+    },
+    {
+      "rank": 8,
+      "name": "Medication\u2011related hyperkalaemia",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild elevation of serum potassium",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Potential contributing medications (e.g., ACE inhibitor) not listed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild hyperkalaemia could be drug\u2011induced; low probability given limited data."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome with associated atherosclerotic cardiovascular disease risk",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of hypertension, obesity, and prediabetes fulfills criteria for metabolic syndrome, making ASCVD the dominant chronic concern. Anemia of unknown origin is present, prompting consideration of iron deficiency, occult GI blood loss, and reactive thrombocytosis. Obesity and hypertension also raise the pre\u2011test probability of obstructive sleep apnea. Lesser\u2011probability entities include early CKD, essential thrombocythemia, panic disorder, and medication\u2011related hyperkalaemia. Probabilities have been adjusted per the senior reviewer\u2019s expertise, unsupported diagnoses removed, and the ranking reflects the relative clinical impact.",
+  "unresolved_findings": [
+    "Missing total cholesterol, LDL\u2011C, and HDL\u2011C values",
+    "Exact BMI and waist circumference not recorded",
+    "eGFR and urine albumin\u2011to\u2011creatinine ratio absent",
+    "Iron studies, ferritin, B12, folate not performed",
+    "Stool occult blood testing not performed",
+    "Smoking status unknown",
+    "No sleep study or STOP\u2011BANG screening completed",
+    "Renin/aldosterone panel not obtained"
+  ],
+  "recommended_workup": [
+    "Obtain full fasting lipid panel and calculate 10\u2011year ASCVD risk",
+    "Measure BMI and waist circumference",
+    "Order serum creatinine with eGFR calculation and urine albumin\u2011to\u2011creatinine ratio",
+    "Perform iron studies (serum iron, ferritin, TIBC) and vitamin B12/folate levels",
+    "Conduct fecal occult blood test; consider colonoscopy if positive",
+    "Screen for obstructive sleep apnea with polysomnography or home sleep apnea test",
+    "Review current medications for agents that raise potassium; adjust if needed",
+    "Repeat CBC to confirm thrombocytosis; if persistent, send JAK2 V617F mutation testing",
+    "Document smoking status and counsel on cessation if applicable"
+  ]
+}

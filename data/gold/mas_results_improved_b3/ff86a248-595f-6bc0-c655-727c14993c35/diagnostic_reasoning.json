@@ -1,0 +1,171 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute coronary syndrome \u2013 ongoing NSTEMI (type 1 myocardial infarction)",
+      "icd10": "I21.4",
+      "snomed": "401314000",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute NSTEMI documented on 2023-08-06",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High-sensitivity troponin I 107 ng/L (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple atherosclerotic risk factors (HTN, DM, hyperlipidemia, obesity, metabolic syndrome)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of guideline-directed \u03b2\u2011blocker and P2Y12 inhibitor after NSTEMI",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Recent NSTEMI coding together with a markedly elevated troponin indicates active myocardial injury. The dense burden of ASCVD risk factors makes plaque rupture the most plausible mechanism, and missing secondary\u2011prevention agents raise concern for persistent ischemia."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease, stage 3b (diabetic/vascular) with possible acute\u2011on\u2011chronic injury",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.5 mg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 86.7 mL/min/1.73 m\u00b2 (discordant with creatinine, suggesting acute change)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing hypertension and newly diagnosed type 2 diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Regular ibuprofen 400 mg PRN for chronic pain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine in a hypertensive, diabetic patient points to CKD of mixed vascular and diabetic origin. The eGFR\u2011creatinine mismatch suggests an acute rise, likely precipitated by NSAID exposure, superimposed on chronic disease."
+    },
+    {
+      "rank": 3,
+      "name": "Medication\u2011related thrombocytopenia / CKD\u2011associated platelet dysfunction",
+      "icd10": "D69.6",
+      "snomed": "271737000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count 108 \u00d710\u00b3/\u00b5L, trending downward",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic ibuprofen use and daily low-dose aspirin",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD (creatinine 2.5 mg/dL) which can cause mild thrombocytopenia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The falling platelet count is most plausibly due to a combination of NSAID/aspirin\u2011induced inhibition and CKD\u2011related impaired platelet production, raising bleeding risk and limiting antiplatelet intensity after MI."
+    },
+    {
+      "rank": 4,
+      "name": "Type 2 diabetes mellitus \u2013 suboptimally controlled",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "New diagnosis of type 2 diabetes on 2023-07-31",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Random glucose 177 mg/dL (hyperglycemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 6.7% (above target for secondary prevention)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metformin ER 500 mg daily prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome as amplifying factors",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Hyperglycemia and an A1c above target indicate inadequate glycemic control, which accelerates atherosclerosis, worsens hypertension, and contributes to CKD progression. Intensifying diabetes management is essential to reduce recurrent cardiovascular events."
+    },
+    {
+      "rank": 5,
+      "name": "Leukopenia of unclear etiology (possible bone\u2011marrow suppression, infection, or medication effect)",
+      "icd10": "D72.819",
+      "snomed": "271737001",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukocyte count 3.6 \u00d710\u00b3/\u00b5L, falling trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid (Percocet) and NSAID use; no documented chemotherapy or immunosuppressants",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Leukopenia is notable but lacks a clear cause in the current data set. Differential includes medication effect, early CKD\u2011related marrow suppression, or occult infection; further evaluation is required."
+    }
+  ],
+  "primary_diagnosis": "Acute coronary syndrome \u2013 ongoing NSTEMI (type 1 myocardial infarction)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The dominant problem is an ongoing NSTEMI, evidenced by recent coding and a markedly elevated high\u2011sensitivity troponin. A dense cluster of ASCVD risk factors (hypertension, diabetes, hyperlipidemia, obesity, metabolic syndrome) makes plaque\u2011rupture the most parsimonious mechanism, and the lack of \u03b2\u2011blocker and P2Y12 therapy raises concern for persistent ischemia. Concurrent CKD stage 3b, likely diabetic/vascular, explains the elevated creatinine and contributes to platelet dysfunction; NSAID use likely adds an acute\u2011on\u2011chronic renal insult. Thrombocytopenia appears medication\u2011related or CKD\u2011associated, influencing antiplatelet safety. Diabetes control is suboptimal, further fueling cardiovascular risk. Leukopenia remains unexplained and warrants work\u2011up. Overall confidence in the primary diagnosis is high.",
+  "unresolved_findings": [
+    "Mild hyperchloremia (Cl 107.5 mmol/L) \u2013 unclear clinical significance",
+    "Borderline albumin 5.2 g/dL \u2013 may reflect dehydration or lab variation",
+    "Discrepancy between creatinine (2.5 mg/dL) and eGFR (86.7 mL/min/1.73 m\u00b2) \u2013 suggests acute\u2011on\u2011chronic renal change"
+  ],
+  "recommended_workup": [
+    "Serial high\u2011sensitivity troponin measurements and 12\u2011lead ECG to assess for dynamic changes",
+    "Urgent coronary angiography (invasive or CT) to define coronary anatomy and guide revascularization",
+    "Transthoracic echocardiogram with assessment of left\u2011ventricular ejection fraction and wall\u2011motion abnormalities",
+    "Repeat comprehensive metabolic panel with cystatin\u2011C\u2013based eGFR or measured GFR to confirm renal trend",
+    "Renal ultrasound to evaluate for obstructive causes and assess kidney size",
+    "Repeat CBC with peripheral smear; iron studies, ferritin, vitamin B12, folate, and reticulocyte count to characterize anemia, thrombocytopenia, and leukopenia",
+    "Platelet function testing and a trial discontinuation of ibuprofen/aspirin to evaluate medication\u2011related thrombocytopenia",
+    "Infectious work\u2011up (urinalysis, urine culture, chest X\u2011ray, blood cultures) given leukopenia and social risk factors",
+    "Screen for hepatitis C and HIV (considering CKD and thrombocytopenia)",
+    "Medication reconciliation focusing on NSAID use, dosing of metformin relative to eGFR, and addition of \u03b2\u2011blocker and P2Y12 inhibitor after bleeding risk assessment",
+    "Consider intensifying diabetes therapy (e.g., addition of SGLT2 inhibitor or GLP\u20111 receptor agonist) to improve cardiovascular outcomes",
+    "Sleep study (polysomnography) to evaluate for obstructive sleep apnea given obesity, hypertension, and cardiovascular disease"
+  ]
+}

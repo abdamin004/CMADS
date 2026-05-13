@@ -1,0 +1,408 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2019, BP 128/90 mmHg (stage 2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.2%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social determinants: housing instability, social isolation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing lipid panel and eGFR (data\u2011quality flags)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 criteria (obesity, hypertension, impaired glucose regulation) defining metabolic syndrome. Social stressors likely worsen control. Missing lipids and renal function prevent full staging but the existing cluster makes this the most probable overarching diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Major depressive disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Housing instability and social isolation flagged",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk\u2011activity involvement (low severity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential impact on medication adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Unstable housing and isolation are strong risk factors for depression, which can explain poor hypertension control, erratic eating patterns (low fasting glucose) and reduced follow\u2011up. No mental\u2011health screen is present, so probability is moderate."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite thiazide monotherapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 64.7 mg/dL (borderline low, falling trend)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and refractory hypertension are classic OSA risk factors. Night\u2011time hypoglycemia can be a secondary manifestation. A STOP\u2011BANG screen followed by polysomnography would confirm."
+    },
+    {
+      "rank": 4,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension difficult to control",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing lipid panel (dyslipidaemia often accompanies hypothyroidism)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social stressors may mask classic hypothyroid symptoms",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can cause weight gain, hypertension, and dyslipidaemia, mimicking metabolic syndrome. Absence of thyroid labs makes this a plausible upstream driver."
+    },
+    {
+      "rank": 5,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 11.8 g/dL, Hematocrit 33.3% (borderline low, falling)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female sex, food insecurity, possible menstrual blood loss (history not captured)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing iron studies, ferritin, TIBC",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Normocytic anemia in a premenopausal woman with possible dietary insufficiency suggests early iron deficiency, which can be normocytic before becoming microcytic."
+    },
+    {
+      "rank": 6,
+      "name": "Combined vitamin B12 and folate deficiency",
+      "icd10": "D53.0",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Monthly vitamin B12 injections (5 mg/ML)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia (3.7 \u00d710\u00b3/\u00b5L) and anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing serum B12 and folate levels",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The anemia is normocytic with leukopenia, a pattern seen in combined B12/folate deficiency. Ongoing B12 therapy suggests presumed deficiency, but lack of labs leaves the exact etiology uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension despite thiazide monotherapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (could be anemia of CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR and urine ACR",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension can cause CKD, which in turn contributes to anemia and may limit BP control. Renal labs are needed to confirm."
+    },
+    {
+      "rank": 8,
+      "name": "Primary hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599001",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on low\u2011dose thiazide alone",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing potassium level (hypokalaemia would be a clue)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Secondary hypertension due to aldosterone excess is a consideration given refractory BP, but lack of electrolyte data lowers confidence."
+    },
+    {
+      "rank": 9,
+      "name": "Polycystic ovary syndrome",
+      "icd10": "E28.2",
+      "snomed": "237599003",
+      "probability": 0.03,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Menstrual history not documented (potential oligomenorrhoea)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "PCOS can present with obesity, insulin resistance, and hypertension. Absence of gynecologic data makes this a lower\u2011probability diagnosis."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome cluster (obesity, prediabetes, hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing liver function tests",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NAFLD is common in metabolic syndrome; liver labs are needed to confirm."
+    },
+    {
+      "rank": 11,
+      "name": "Folate deficiency anemia",
+      "icd10": "D52.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Food insecurity and possible poor dietary folate intake",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia and anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing serum folate level",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Folate deficiency can cause macrocytic anemia and leukopenia; without folate labs the diagnosis remains speculative."
+    },
+    {
+      "rank": 12,
+      "name": "Anemia of chronic disease (from chronic sinusitis)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis since 1985",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing inflammatory condition could contribute to anemia of chronic disease, but the contribution is likely minor."
+    },
+    {
+      "rank": 13,
+      "name": "Cushing syndrome",
+      "icd10": "E24.9",
+      "snomed": "237599004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, impaired glucose tolerance",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented cortisol testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rare but can explain the triad of findings; low probability without suggestive signs."
+    },
+    {
+      "rank": 14,
+      "name": "Stimulant\u2011related hypertension and marrow stress",
+      "icd10": "F15.20",
+      "snomed": "386661006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk\u2011activity involvement (low severity) \u2013 unspecified high\u2011risk behavior",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia and anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If the risk activity involves stimulant use, it could raise BP and affect marrow; however, no toxicology data are available."
+    },
+    {
+      "rank": 15,
+      "name": "Undiagnosed HIV infection",
+      "icd10": "B20",
+      "snomed": "86406008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social instability and possible high\u2011risk behavior",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia and anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "HIV can cause cytopenias and contribute to metabolic derangements; low probability without risk factor specifics."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient presents with a classic metabolic\u2011cardiovascular cluster (obesity, hypertension, prediabetes) compounded by significant psychosocial stressors that likely impair adherence and diet. This makes metabolic syndrome the most probable overarching diagnosis. Secondary considerations include mood disorder, obstructive sleep apnea, and endocrine or renal contributors that could drive the resistant hypertension and anemia. Nutritional deficiencies (iron, B12/folate) are supported by anemia and leukopenia, but missing iron studies and vitamin levels prevent definitive classification. Rare but high\u2011yield entities (hypothyroidism, CKD, primary hyperaldosteronism, Cushing) remain in the differential pending targeted testing.",
+  "unresolved_findings": [
+    "Risk\u2011activity involvement (unspecified activity)",
+    "Full\u2011time employment (low severity)",
+    "Higher education (low severity)",
+    "Mild fasting hypoglycemia (64.7 mg/dL) \u2013 atypical for obesity/prediabetes",
+    "Exact BMI value and waist circumference",
+    "eGFR, serum creatinine, electrolytes (especially potassium)",
+    "Fasting lipid panel (total, LDL, HDL, triglycerides)",
+    "Thyroid panel (TSH, free T4, anti\u2011TPO)",
+    "Iron studies (ferritin, serum iron, TIBC, transferrin saturation)",
+    "Serum vitamin B12, methylmalonic acid, homocysteine",
+    "Serum folate or RBC folate",
+    "Complete CBC with MCV, RDW, reticulocyte count, platelets, peripheral smear",
+    "Menstrual history (frequency, volume) to assess iron loss",
+    "Substance\u2011use toxicology screen",
+    "HIV/HCV serology",
+    "Allergy and adverse\u2011drug reaction history"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with eGFR and serum potassium",
+    "Urine albumin\u2011to\u2011creatinine ratio",
+    "Fasting lipid profile",
+    "Thyroid function tests (TSH, free T4, anti\u2011TPO)",
+    "Iron studies (ferritin, serum iron, TIBC, transferrin saturation)",
+    "Serum vitamin B12, methylmalonic acid, homocysteine",
+    "Serum folate (or RBC folate)",
+    "Repeat CBC with indices and peripheral smear",
+    "PHQ\u20119 and GAD\u20117 questionnaires",
+    "STOP\u2011BANG questionnaire; if positive, schedule overnight polysomnography",
+    "Plasma aldosterone/renin ratio (followed by saline suppression if elevated)",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase, bilirubin)",
+    "Detailed menstrual history and consider pelvic ultrasound if heavy menses suspected",
+    "Urine drug screen for stimulants, cocaine, cannabinoids",
+    "4\u2011generation HIV antigen/antibody test and HCV antibody",
+    "Allergy and medication adverse\u2011reaction review"
+  ]
+}

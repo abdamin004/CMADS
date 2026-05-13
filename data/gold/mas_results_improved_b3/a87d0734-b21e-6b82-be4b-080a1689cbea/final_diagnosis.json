@@ -1,0 +1,273 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented; classic triad of obesity, hypertension, erythrocytosis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin/hematocrit consistent with secondary erythrocytosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Prediabetes (A1c 6.0%) and stage 1 hypertension (137/83 mmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension together with unexplained erythrocytosis strongly suggest OSA; untreated OSA can drive metabolic derangements and increase cardiovascular risk, making it the most plausible unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic Cardiovascular Disease (ASCVD) secondary to metabolic syndrome",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe dyslipidemia (LDL 174.8\u202fmg/dL, total cholesterol 257\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome phenotype (obesity, prediabetes, hypertension)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of markedly elevated LDL, hypertension, and obesity places the patient at high 10\u2011year ASCVD risk, warranting immediate high\u2011intensity statin therapy."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) Hypertension, sub\u2011optimally controlled",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 137/83 mmHg (stage 1 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to metabolic syndrome and ASCVD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented elevated BP despite therapy indicates sub\u2011optimal control, contributing to cardiovascular risk and possibly to erythrocytosis via hypoxia."
+    },
+    {
+      "rank": 4,
+      "name": "Familial Hypercholesterolemia (heterozygous)",
+      "icd10": "E78.0",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL 174.8\u202fmg/dL markedly elevated",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented family history or tendon xanthomas",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe hypercholesterolemia could be due to FH, but lack of family history makes metabolic syndrome a more likely driver; still retained as plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary erythrocytosis (OSA\u2011related or smoking)",
+      "icd10": "D75.1",
+      "snomed": "302810001",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin/hematocrit",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking status not recorded; OSA suspected",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Erythrocytosis is likely driven by chronic intermittent hypoxia from OSA; smoking could also contribute but data missing."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome (obesity, dyslipidemia, prediabetes) predisposes to NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Liver enzymes not reported; imaging absent",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High prevalence in this phenotype; lack of liver labs makes certainty low but remains plausible."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism (sub\u2011clinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "12403003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemia can be exacerbated by hypothyroidism",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Thyroid function tests missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the lipid profile, hypothyroidism is a reasonable contributor; testing is needed."
+    },
+    {
+      "rank": 8,
+      "name": "Psychiatric sequelae of intimate\u2011partner violence (PTSD / depression)",
+      "icd10": "F43.10",
+      "snomed": "47505003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented intimate\u2011partner violence and chronic stress",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated risk for PTSD and depression in IPV survivors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychological stress contributes to poor adherence, metabolic dysregulation, and may exacerbate hypertension."
+    },
+    {
+      "rank": 9,
+      "name": "Polycystic Ovary Syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No menstrual or androgen data provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without gynecologic data, PCOS remains a low\u2011probability consideration despite obesity."
+    },
+    {
+      "rank": 10,
+      "name": "Polycythemia Vera",
+      "icd10": "D45",
+      "snomed": "19096002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Erythrocytosis present",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No splenomegaly, low JAK2 testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low prevalence and lack of classic features make PV unlikely."
+    },
+    {
+      "rank": 11,
+      "name": "Cushing Syndrome",
+      "icd10": "E24.9",
+      "snomed": "237599002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No cushingoid features documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rarity and absence of physical signs render this diagnosis improbable."
+    },
+    {
+      "rank": 12,
+      "name": "Early Chronic Kidney Disease (CKD, stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine reported as normal; eGFR not calculated",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without evidence of reduced eGFR or albuminuria, CKD is unlikely at this stage."
+    }
+  ],
+  "primary_diagnosis": "Obstructive Sleep Apnea (OSA)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with obesity, hypertension, prediabetes, severe dyslipidemia, and unexplained erythrocytosis. The reviewer and evidence point to obstructive sleep apnea as the unifying pathophysiologic driver, explaining hypoxia\u2011induced erythrocytosis and worsening metabolic derangements. Metabolic syndrome confers a high ASCVD risk, justifying immediate high\u2011intensity statin therapy. Sub\u2011optimal blood pressure control, possible secondary erythrocytosis, and psychosocial stressors further shape the differential. Less likely entities (PV, Cushing, CKD, PCOS) are retained for completeness but carry low probabilities.",
+  "unresolved_findings": [
+    "Implausibly high platelet distribution width (PDW 152.3 fL) \u2013 likely lab artefact",
+    "Missing numeric BMI value",
+    "Absent smoking status",
+    "Incomplete lipid panel (HDL, triglycerides, ApoB not reported)",
+    "Missing eGFR calculation and urine albumin/creatinine ratio",
+    "No thyroid function tests (TSH, free T4)",
+    "No liver function tests or imaging to assess NAFLD/NASH",
+    "No menstrual or androgen profile to evaluate PCOS",
+    "No family history of premature CAD or hypercholesterolaemia",
+    "No documented physical activity, diet, or alcohol use"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography to confirm OSA severity",
+    "Full fasting lipid panel including HDL, triglycerides, and ApoB",
+    "Thyroid panel (TSH, free T4, possibly free T3)",
+    "Liver ultrasound or FibroScan to evaluate NAFLD/NASH",
+    "Repeat eGFR calculation and urine albumin/creatinine ratio",
+    "Comprehensive smoking history and cotinine testing if needed",
+    "CBC with JAK2 V617F mutation if polycythemia vera remains a concern",
+    "Pelvic ultrasound and serum androgen levels (testosterone, DHEAS) for PCOS evaluation",
+    "Blood pressure home monitoring and medication adherence assessment",
+    "Mental health screening (PHQ-9, PCL-5) and safety planning for intimate\u2011partner violence"
+  ]
+}

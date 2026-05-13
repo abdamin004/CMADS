@@ -1,0 +1,99 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Nephropathy",
+      "icd10": "E11.21 (Diabetes type 2 with renal manifestations)",
+      "snomed": "155044000119103 (Diabetic nephropathies, type 2 diabetes)",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine at 1.4 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes Mellitus Type 2 since May 2020, poorly controlled (HbA1c 6.7%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Microalbuminuria with microalbumin/creatinine ratio of 13.3 mg/g",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Uncontrolled diabetes (HbA1c), elevated creatinine, and presence of microalbuminuria strongly suggest diabetic nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Microcytic Anemia due to Gastrointestinal Bleeding",
+      "icd10": "D50.8 (Other specified nutritional anemias) + K92.1 (Gastrointestinal hemorrhage)",
+      "snomed": "23613005 (Iron deficiency anaemia due to gastrointestinal blood loss)",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low MCH at 27.0 pg and MCV at 81.9 fL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Gastrointestinal hemoglobin in stool at 4.5 ng/mL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low MCH and MCV suggest microcytic anemia, likely due to chronic gastrointestinal bleeding as indicated by fecal hemoglobin."
+    },
+    {
+      "rank": 3,
+      "name": "Hypokalemia",
+      "icd10": "E87.6 (Hypokalaemia)",
+      "snomed": "23635009 (Hypokalaemia, electrolyte imbalance)",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling potassium levels at 4.9 mmol/L",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Decreasing potassium levels indicate hypokalemia, possibly exacerbated by diuretic use (hydrochlorothiazide) for hypertension."
+    },
+    {
+      "rank": 4,
+      "name": "Non-Alcoholic Fatty Liver Disease",
+      "icd10": "K76.0 (Fatty liver, non-alcoholic)",
+      "snomed": "414055009 (Non-alcoholic fatty liver disease)",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing obesity and metabolic syndrome risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although not directly evidenced, long-term obesity and metabolic syndrome increase the likelihood of NAFLD; however, this diagnosis requires further hepatic function tests for confirmation."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Nephropathy",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient's uncontrolled diabetes, elevated creatinine, and microalbuminuria strongly point to diabetic nephropathy as the primary diagnosis. Microcytic anemia due to gastrointestinal bleeding is also likely given low MCH, MCV, and fecal hemoglobin findings. Hypokalemia is evident from falling potassium levels, possibly related to diuretic use. NAFLD remains a possibility but requires further investigation via hepatic function tests.",
+  "unresolved_findings": [
+    "No recent blood pressure readings",
+    "Specific staging of chronic kidney disease missing",
+    "Hepatic function tests (ALT, AST, bilirubin, albumin, ALP) not performed",
+    "Gastrointestinal evaluation to clarify bleeding etiology"
+  ],
+  "recommended_workup": [
+    "Complete lipid profile including total cholesterol and LDL levels",
+    "Renal function tests including eGFR for kidney status clarification",
+    "Blood pressure monitoring for hypertension management",
+    "Hepatic function tests (ALT, AST, bilirubin, albumin, ALP) to rule out liver involvement in metabolic syndrome or medication effects",
+    "Gastrointestinal evaluation (e.g., endoscopy) to investigate source of gastrointestinal bleeding and manage anemia accordingly"
+  ]
+}

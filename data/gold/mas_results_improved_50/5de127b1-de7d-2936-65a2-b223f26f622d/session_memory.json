@@ -1,0 +1,234 @@
+{
+  "patient_uuid": "5de127b1-de7d-2936-65a2-b223f26f622d",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T16:40:59+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T16:41:20+00:00",
+      "summary": "Completed ehr_analyst in 20719ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T16:40:59+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T16:41:19+00:00",
+      "summary": "Completed lab_interpreter in 20533ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:41:20+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:41:21+00:00",
+      "summary": "Recall returned 12, 3 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 3,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.766,
+            "match_type": "DIRECT",
+            "canonical_family": "ESRD",
+            "raw_diagnosis": "Diabetic nephropathy (stage 5, ESRD)"
+          },
+          {
+            "score": 0.719,
+            "match_type": "DIRECT",
+            "canonical_family": "ESRD",
+            "raw_diagnosis": "End-stage renal disease (ESRD) secondary to diabetic nephropathy and hypertensive nephrosclerosis"
+          },
+          {
+            "score": 0.7,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Atherosclerotic coronary artery disease with recent STEMI and ongoing myocardial injury"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:42:00+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 3
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:42:00+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:42:00+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:42:06+00:00",
+      "summary": "Final differential (5 dx, primary=Diabetic nephropathy (CKD secondary to type 2 diabetes), rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "Diabetic nephropathy (CKD secondary to type 2 diabetes)",
+        "primary_probability": 0.55,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:42:06+00:00",
+      "summary": "Completed diagnostic_reasoning in 46676ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T16:42:06+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T16:42:28+00:00",
+      "summary": "Completed clinical_reviewer in 21945ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:42:28+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:42:37+00:00",
+      "summary": "Final refined diagnosis: Diabetic nephropathy (CKD secondary to type 2 diabetes)",
+      "payload": {
+        "primary_diagnosis": "Diabetic nephropathy (CKD secondary to type 2 diabetes)",
+        "primary_probability": 0.4,
+        "differential_size": 7
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:42:37+00:00",
+      "summary": "Completed final_diagnosis in 8638ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T16:42:38+00:00",
+      "summary": "Consolidated outcome for 'Diabetic nephropathy (CKD secondary to type 2 diabetes)' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Diabetic nephropathy (CKD secondary to type 2 diabetes)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

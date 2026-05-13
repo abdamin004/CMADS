@@ -1,0 +1,233 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.345,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, daytime fatigue reported",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High pre\u2011test probability based on BMI \u226530 and resistant hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Classic triad of obesity, resistant hypertension, and daytime symptoms makes OSA the most likely driver of cardiovascular strain."
+    },
+    {
+      "rank": 2,
+      "name": "Medication non\u2011adherence / pseudo\u2011resistant hypertension",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented multiple antihypertensive prescriptions with inconsistent refill history",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_observation",
+          "finding": "Blood pressure remains uncontrolled despite escalated regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Non\u2011adherence is common and can mimic true resistant hypertension, contributing to uncontrolled BP."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530), pre\u2011diabetes (A1c 5.9%), hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides (not provided but implied by phenotype)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of central obesity, hypertension, and impaired glucose tolerance fulfills criteria for metabolic syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Early hypertensive nephrosclerosis / chronic kidney disease (non\u2011NSAID related)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing stage 2 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling total CO\u2082 suggesting possible metabolic acidosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic pressure overload can cause early CKD; lack of renal labs limits certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic pain syndrome (low\u2011back osteoarthritis / knee osteoarthritis)",
+      "icd10": "G89.4",
+      "snomed": "279039007",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic low\u2011back and knee pain with NSAID use",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Persistent musculoskeletal pain is clearly documented and contributes to functional limitation and NSAID exposure."
+    },
+    {
+      "rank": 6,
+      "name": "NSAID\u2011induced chronic kidney disease / interstitial nephritis",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic high\u2011dose NSAID use for pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_observation",
+          "finding": "Elevated hematocrit and metabolic acidosis raise suspicion for renal impairment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs can cause tubulo\u2011interstitial injury; missing creatinine/eGFR data lowers certainty."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / anxiety contributing to poor self\u2011care",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Notes mention mood symptoms and low motivation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychiatric comorbidity may affect medication adherence and lifestyle choices."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome phenotype",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High prevalence in patients with metabolic syndrome; no imaging yet performed."
+    },
+    {
+      "rank": 9,
+      "name": "Primary hyperaldosteronism (Conn syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_observation",
+          "finding": "Resistant hypertension with hypokalemia not documented (absence lowers likelihood)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability without supporting electrolyte abnormalities."
+    },
+    {
+      "rank": 10,
+      "name": "NSAID\u2011related gastrointestinal ulcer / occult bleed",
+      "icd10": "K25.9",
+      "snomed": "235719002",
+      "probability": 0.015,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Current hematocrit is elevated, making active bleed less likely",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs predispose to ulcer disease, but lack of anemia makes active bleed less probable."
+    },
+    {
+      "rank": 11,
+      "name": "Early myeloproliferative neoplasm (e.g., polycythemia vera)",
+      "icd10": "D45.1",
+      "snomed": "41672002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hematocrit without clear anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary causes (e.g., dehydration, OSA) are more likely; low prevalence."
+    }
+  ],
+  "primary_diagnosis": "Obstructive Sleep Apnea (OSA)",
+  "primary_probability": 0.345,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, resistant hypertension, and daytime symptoms create a high pre\u2011test probability for OSA, which the reviewer identified as the most likely diagnosis. Contributing factors include medication non\u2011adherence, metabolic syndrome, early hypertensive kidney injury, chronic NSAID exposure, and musculoskeletal pain. Psychiatric comorbidity and NAFLD are also plausible given the metabolic milieu. Low\u2011confidence entities such as primary hyperaldosteronism, GI ulcer, and early myeloproliferative disease remain possible but less likely.",
+  "unresolved_findings": [
+    "Elevated hematocrit vs. coded anemia (discordant)",
+    "Markedly high platelet\u2011distribution width without inflammatory markers",
+    "Falling total CO\u2082 without anion\u2011gap data or lactate",
+    "Missing quantitative BMI value",
+    "Absent smoking status and family history",
+    "No recent lipid panel or eGFR",
+    "No iron studies, B12, folate, or reticulocyte count"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography to confirm OSA severity",
+    "Comprehensive renal panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Basic metabolic panel with anion gap and lactate",
+    "Complete blood count with iron studies, B12, folate, reticulocyte count to evaluate hematocrit elevation",
+    "Fasting lipid profile",
+    "Abdominal ultrasound or FibroScan to assess NAFLD",
+    "Aldosterone\u2011renin ratio with confirmatory testing if indicated",
+    "Medication adherence assessment (pharmacy refill review, pill counts)",
+    "Repeat CBC and PDW trend monitoring"
+  ]
+}

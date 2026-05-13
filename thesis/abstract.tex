@@ -1,6 +1,35 @@
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
+
 This thesis presents the design, implementation, and evaluation of a multi-agent
-system for AI clinical decisioning via automation workflows, built on a synthetic
-clinical data lake of 10{,}000 patients and evaluated using a comprehensive
-framework comparing single-agent and multi-agent configurations.
+system for clinical decisioning that targets the workflow-coordination problem
+identified by recent literature as the primary unsolved challenge in clinical AI.
+A seven-agent LangGraph pipeline --- EHR Analyst, Lab Interpreter, Diagnostic
+Reasoning, Clinical Reviewer, Diagnostic Refiner, LLM Evaluator, and Treatment
+Planning --- is arranged in a six-stage state graph with parallel evidence gathering,
+an adaptive multi-round diagnostic loop, and a non-destructive Reviewer-Refiner
+deliberation pattern that preserves the original diagnostic output for audit.  A
+four-tier shared-memory subsystem inspired by the CoALA architecture --- working,
+episodic, semantic, and case-based --- augments the agents with persistent state
+across cases, paired with a disease canonicaliser and a three-phase diagnostic
+protocol that mitigates anchoring on retrieved priors.
+
+Patient data originates from a Synthea-driven medallion lake (Bronze FHIR-R4
+ingestion, Silver transformation to OMOP CDM v5.4 via dbt-core, Gold case assembly
+in Python over DuckDB) yielding 1{,}000 synthetic patients across eight disease
+families, with one structured EHR case and one laboratory case per patient and a
+hidden ground-truth label.  Treatment plans are generated only on confirmed
+diagnoses and are grounded in NICE guideline passages retrieved from a Qdrant
+vector store.  Evaluation uses an LLM-as-judge protocol that compares free-text
+differential diagnoses against the hidden Synthea ground truth on a three-label
+scale (DIRECT / INDIRECT / MISS) with rank-1-when-found, on a 270-patient principal
+cohort and a held-out multi-level versus single-level memory A/B with a cold-start
+cohort-leakage protocol that isolates same-cohort priors from genuine algorithm
+improvement.
+
+The structured multi-agent pipeline produces clinically plausible diagnoses at a
+rate that justifies its architectural complexity, and the shared-memory subsystem
+measurably improves diagnostic accuracy beyond the inflation attributable to
+same-cohort priors.  A doctor-facing Streamlit dashboard exposes agent reasoning,
+memory operations, and retrieved guideline evidence for clinical review, supporting
+calibrated trust rather than uncritical acceptance of model output.

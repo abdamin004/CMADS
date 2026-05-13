@@ -1,0 +1,377 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic kidney disease stage 2-3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.225,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low serum bicarbonate (20.3 mmol/L) with non\u2011anion\u2011gap metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline high BUN (18.9 mg/dL) with normal creatinine (1.1 mg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension treated with amlodipine and hydrochlorothiazide",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and obesity predispose to CKD; the low bicarbonate and rising BUN suggest early renal tubular dysfunction despite preserved creatinine, making CKD the most plausible upstream driver."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled essential hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2013, on amlodipine\u202f+\u202fhydrochlorothiazide",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent blood\u2011pressure readings",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation potentially impairing medication adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a known hypertensive history with no recent BP data; uncontrolled HTN could explain CKD progression, metabolic acidosis, and contributes to overall cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia secondary to gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia since 2009",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood (5.1 ng/mL) \u2013 critical",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Colon polyp identified in 2019 (pathology unknown)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Vitamin B12 injections (empiric therapy)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Occult lower GI bleeding together with chronic anemia points toward iron deficiency; the polyp is a plausible source, pending pathology."
+    },
+    {
+      "rank": 4,
+      "name": "Colorectal neoplasm (adenocarcinoma or advanced adenoma)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.115,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood test",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Colon polyp noted in 2019 without documented pathology",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 50 \u2013 age\u2011related screening threshold",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A positive FOBT in a 50\u2011year\u2011old male carries a significant positive predictive value for advanced adenoma or cancer; lack of pathology makes this a high\u2011priority differential."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011neoplastic lower gastrointestinal bleed (e.g., angiodysplasia, diverticulosis)",
+      "icd10": "K92.2",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood test",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented upper GI evaluation (EGD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented NSAID or anticoagulant use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If the colon polyp is benign, other sources such as angiodysplasia or diverticula could explain the occult bleed."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease (CKD\u2011related)",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia since 2009",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal BUN/creatinine ratio but possible early CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If CKD is present, anemia of chronic disease is a plausible contributor, especially if iron studies later show normal iron stores."
+    },
+    {
+      "rank": 7,
+      "name": "Renal tubular acidosis type 4 (hyperchloremic metabolic acidosis)",
+      "icd10": "N25.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low bicarbonate (20.3 mmol/L) with normal anion gap, hyperchloremia (Cl 101.9 mmol/L)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thiazide\u2011induced metabolic alkalosis; no documented diarrhea or laxative use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The pattern fits a non\u2011anion\u2011gap acidosis; renal tubular dysfunction secondary to early CKD is a leading hypothesis."
+    },
+    {
+      "rank": 8,
+      "name": "Mixed iron\u2011 and vitamin B12\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Vitamin B12 injections ongoing",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive FOBT suggesting iron loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Concurrent iron loss from GI bleed and empiric B12 therapy could produce a mixed macro\u2011/micro\u2011cytic picture."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.055,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, BMI \u226530, hypertension, metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is common in obese hypertensive males and can worsen blood\u2011pressure control and metabolic derangements."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome (obesity, HTN, pre\u2011diabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome strongly predicts NAFLD, which can contribute to low\u2011grade inflammation and may affect acid\u2011base balance."
+    },
+    {
+      "rank": 11,
+      "name": "Renal artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension possibly resistant (no recent BP data)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension in a middle\u2011aged male raises the possibility of renovascular disease."
+    },
+    {
+      "rank": 12,
+      "name": "Myelodysplastic syndrome",
+      "icd10": "D46.9",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unclear type",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent unexplained anemia in a 50\u2011year\u2011old warrants consideration of marrow pathology if iron/B12 studies are normal."
+    },
+    {
+      "rank": 13,
+      "name": "Pernicious anemia (vitamin B12 deficiency)",
+      "icd10": "D51.0",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Vitamin B12 injections prescribed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Empiric B12 therapy suggests clinician suspicion; definitive diagnosis requires serum B12 and MMA levels."
+    },
+    {
+      "rank": 14,
+      "name": "Medication\u2011induced non\u2011anion\u2011gap metabolic acidosis",
+      "icd10": "E87.2",
+      "snomed": "236423003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented use of agents classically causing non\u2011AG acidosis (e.g., carbonic anhydrase inhibitors)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unlikely given medication list, but retained as a remote possibility."
+    },
+    {
+      "rank": 15,
+      "name": "Multiple myeloma",
+      "icd10": "C90.0",
+      "snomed": "126910001",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN with normal creatinine and unexplained anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Plasma\u2011cell dyscrasia can cause anemia and renal tubular dysfunction; low prevalence but warrants screening if work\u2011up remains inconclusive."
+    },
+    {
+      "rank": 16,
+      "name": "Inflammatory bowel disease",
+      "icd10": "K51.9",
+      "snomed": "235856003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Occult GI bleeding without identified source",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "IBD can cause chronic occult bleeding; low prevalence in this age group but considered if colonoscopy is negative."
+    },
+    {
+      "rank": 17,
+      "name": "Cushing\u2019s syndrome",
+      "icd10": "E24.9",
+      "snomed": "236423003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, pre\u2011diabetes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Phenotype overlaps with metabolic syndrome; low likelihood but kept as a zebra."
+    }
+  ],
+  "primary_diagnosis": "Chronic kidney disease stage 2-3",
+  "primary_probability": 0.225,
+  "clinical_reasoning_summary": "The patient presents with a constellation of hypertension, obesity, pre\u2011diabetes, and chronic anemia. Laboratory data reveal a non\u2011anion\u2011gap metabolic acidosis and a rising BUN despite normal creatinine, suggesting early renal tubular dysfunction. The long\u2011standing hypertension and metabolic syndrome are classic precipitants of CKD, making CKD the most plausible upstream process. Concurrently, a positive fecal occult blood test and a historic colon polyp raise the specter of iron\u2011deficiency anemia from occult lower GI bleeding, with colorectal neoplasm as a serious possibility. Additional contributors include possible obstructive sleep apnea, NAFLD, and rare entities such as renal artery stenosis or plasma\u2011cell dyscrasia. Data gaps (missing CBC indices, iron studies, B12 level, eGFR, recent BP readings, colon\u2011polyp pathology) limit certainty, yielding an overall confidence score of 78/100.",
+  "unresolved_findings": [
+    "Low serum bicarbonate with non\u2011anion\u2011gap metabolic acidosis (no documented GI loss, renal tubular data, or medication cause)",
+    "Rising BUN with normal creatinine (pre\u2011renal or early renal dysfunction)",
+    "Positive fecal occult blood without confirmed source (polyp pathology missing, no colonoscopy report)",
+    "Missing CBC with MCV, reticulocyte count, iron studies, ferritin, folate, and B12 levels",
+    "Missing recent blood\u2011pressure measurements",
+    "Missing eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Absence of documented family history of cardiovascular disease or colorectal cancer"
+  ],
+  "recommended_workup": [
+    "CBC with differential, MCV, and reticulocyte count",
+    "Serum iron, ferritin, total iron\u2011binding capacity, and transferrin saturation",
+    "Serum vitamin B12 and methylmalonic acid levels",
+    "Serum creatinine with calculated eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Current blood\u2011pressure measurement (office, home log, or 24\u2011h ABPM)",
+    "Retrieve pathology report of the 2019 colon polyp; if unavailable, repeat colonoscopy with polypectomy and biopsies",
+    "Upper endoscopy (EGD) if colonoscopy is negative and anemia persists",
+    "STOP\u2011BANG questionnaire followed by polysomnography if indicated for obstructive sleep apnea",
+    "Liver panel (ALT, AST, GGT) and abdominal ultrasound or FibroScan for NAFLD/NASH assessment",
+    "Renal artery duplex ultrasound or CT\u2011angiography if hypertension remains uncontrolled",
+    "Serum protein electrophoresis with immunofixation and free light\u2011chain assay if anemia remains unexplained after iron/B12 work\u2011up",
+    "Comprehensive medication reconciliation including over\u2011the\u2011counter agents and supplements"
+  ]
+}

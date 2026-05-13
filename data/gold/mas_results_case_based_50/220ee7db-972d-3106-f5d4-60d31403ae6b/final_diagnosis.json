@@ -1,0 +1,164 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Multifactorial chronic kidney disease \u2013 diabetic nephropathy + hypertensive nephrosclerosis (+ possible analgesic nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with HbA1c >7% and hypertension documented for >5 years",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Estimated glomerular filtration rate (eGFR) 38 mL/min/1.73m\u00b2, persistent proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Regular use of over\u2011the\u2011counter analgesics for chronic musculoskeletal pain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of poorly controlled diabetes and longstanding hypertension explains the CKD stage 3\u20134 with proteinuria. Analgesic exposure may contribute as a secondary insult."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea syndrome",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Snoring, witnessed apneas, daytime somnolence, BMI 32 kg/m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High STOP\u2011BANG score documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical features and risk factors strongly suggest OSA, which can worsen hypertension and CKD progression."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.2 g/dL with normocytic, normochromic indices; reticulocyte count low",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3\u20134 without other sources of blood loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011related decreased erythropoietin production accounts for the observed anemia, a common complication at this disease stage."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease \u2013 high risk (no established CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple risk factors: diabetes, hypertension, dyslipidemia, smoking history",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL cholesterol 130 mg/dL (pending detailed lipid panel)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient carries a high 10\u2011year ASCVD risk, but no imaging or symptom data confirm overt coronary artery disease; therefore classified as high\u2011risk atherosclerosis."
+    },
+    {
+      "rank": 5,
+      "name": "Analgesic (acetaminophen/NSAID)\u2011induced chronic interstitial nephropathy",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic daily use of NSAIDs/acetaminophen for >3 years",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stable serum creatinine trend with occasional spikes coinciding with NSAID courses",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While diabetes and hypertension are dominant, prolonged NSAID exposure may have contributed to interstitial injury."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "413350009",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of intermittent claudication and diminished pedal pulses",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk supports systemic atherosclerosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factor burden and peripheral symptoms make PAD plausible, though objective imaging is pending."
+    }
+  ],
+  "primary_diagnosis": "Multifactorial chronic kidney disease \u2013 diabetic nephropathy + hypertensive nephrosclerosis (+ possible analgesic nephropathy)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient\u2019s CKD is driven primarily by longstanding diabetes and hypertension, with possible additive injury from chronic analgesic use. Complications of CKD (anemia) and common comorbidities (OSA, high ASCVD risk, PAD) are incorporated based on documented risk factors and limited objective data. Diagnoses lacking supporting evidence (COPD, HFpEF) were removed, and probabilities were adjusted per reviewer guidance.",
+  "unresolved_findings": [
+    "Current blood pressure values and control status",
+    "Detailed lipid panel (LDL, HDL, triglycerides)",
+    "Quantitative urine albumin\u2011to\u2011creatinine ratio",
+    "Renal ultrasound findings and Doppler assessment for renal\u2011artery stenosis",
+    "Exact duration/dose of NSAID/acetaminophen use",
+    "Cardiac imaging results (echocardiogram, stress test, coronary calcium score)",
+    "Pulmonary function tests (spirometry, DLCO)",
+    "CKD\u2011MBD labs (calcium, phosphate, PTH, vitamin D)",
+    "Ankle\u2011brachial index or peripheral vascular imaging",
+    "Frailty / functional status assessment",
+    "Psychosocial screening (depression, support, substance use)",
+    "Family history of kidney disease or premature ASCVD"
+  ],
+  "recommended_workup": [
+    "Obtain 24\u2011hour urine albumin\u2011creatinine ratio or spot ACR",
+    "Renal Doppler ultrasound to assess for renal artery stenosis",
+    "Comprehensive lipid panel and calculation of ASCVD risk score",
+    "Polysomnography to confirm obstructive sleep apnea",
+    "Echocardiogram and/or stress testing to clarify cardiovascular risk",
+    "Ankle\u2011brachial index measurement for PAD confirmation",
+    "Complete anemia work\u2011up (iron studies, B12, folate)",
+    "CKD\u2011MBD panel (serum calcium, phosphate, PTH, 25\u2011OH vitamin D)",
+    "Detailed medication review focusing on NSAID/acetaminophen dosage and duration",
+    "Spirometry if respiratory symptoms emerge"
+  ]
+}

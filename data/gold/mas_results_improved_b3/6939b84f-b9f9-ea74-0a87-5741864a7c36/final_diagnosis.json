@@ -1,0 +1,219 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced chronic kidney disease (stage 4) with complications",
+      "icd10": "N18.4",
+      "snomed": "431855005",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic kidney disease progressing to stage 4 in prior notes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and reduced eGFR consistent with stage 4 CKD (eGFR 15\u201129 mL/min/1.73m\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and diabetes mellitus as CKD risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has established CKD with evidence of advanced renal dysfunction. This underlies many downstream problems (electrolyte derangements, anemia, medication dosing issues) and aligns with the reviewer\u2019s primary recommendation."
+    },
+    {
+      "rank": 2,
+      "name": "Heart failure (mixed systolic/diastolic) secondary to ischemic cardiomyopathy and prosthetic aortic valve",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of ischemic heart disease and prior myocardial infarction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of a prosthetic aortic valve implanted years ago",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "High prevalence of HF in CKD population; reviewer notes possible decompensation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Ischemic cardiomyopathy and a prosthetic valve predispose to both systolic and diastolic dysfunction. In the setting of CKD, volume overload is common, making HF a plausible concurrent diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Hyperkalaemia related to CKD and possible RAAS blockade",
+      "icd10": "E87.5",
+      "snomed": "302810001",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 4 limits potassium excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Presumed use of ACE\u2011I/ARB based on typical CKD management",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to hyperkalaemia, especially if RAAS inhibitors are used. Lack of a recent electrolyte panel reduces certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Medication\u2011induced hypoglycaemia (overtreatment of diabetes)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes mellitus on insulin or sulfonylurea therapy (inferred)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer notes high risk of overtreatment in CKD patients",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal impairment reduces insulin clearance and can potentiate hypoglycaemia when glucose\u2011lowering agents are not dose\u2011adjusted."
+    },
+    {
+      "rank": 5,
+      "name": "Atrial fibrillation (paroxysmal or persistent)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age and cardiovascular disease increase AF risk (inferred)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "AF is common in patients with HF and CKD, but no ECG or rhythm monitoring data were provided, making this a low\u2011confidence possibility."
+    },
+    {
+      "rank": 6,
+      "name": "Prosthetic aortic valve complication (stenosis, thrombosis, or endocarditis)",
+      "icd10": "T82.6XXA",
+      "snomed": "442083009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of a prosthetic aortic valve",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Valve complications are possible but no clinical or laboratory clues (e.g., murmur, fever, elevated inflammatory markers) were identified."
+    },
+    {
+      "rank": 7,
+      "name": "Acute\u2011on\u2011chronic kidney injury (AKI on CKD)",
+      "icd10": "N19",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential recent nephrotoxic exposure (NSAIDs, contrast) inferred from medication list gaps",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Reviewer found no objective rise in creatinine; probability downgraded but retained as a remote possibility."
+    },
+    {
+      "rank": 8,
+      "name": "Cardiorenal syndrome (type 2 \u2013 chronic interaction of HF and CKD)",
+      "icd10": "I13.2",
+      "snomed": "302810001",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer added this unifying concept to explain bidirectional HF\u2011CKD interaction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Co\u2011existence of advanced CKD and probable chronic HF",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Type 2 CRS captures the chronic, mutually worsening relationship between HF and CKD, fitting the overall clinical picture."
+    },
+    {
+      "rank": 9,
+      "name": "Hypertensive emergency/urgency",
+      "icd10": "I16.0",
+      "snomed": "38341003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension noted in history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without current blood pressure readings, the presence of an acute hypertensive crisis cannot be confirmed."
+    },
+    {
+      "rank": 10,
+      "name": "Cognitive\u2011impairment\u2011related medication non\u2011adherence",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer highlighted cognitive impairment as a critical but omitted factor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cognitive deficits can lead to missed doses or dosing errors, exacerbating CKD, HF, and electrolyte issues, though direct evidence is lacking."
+    }
+  ],
+  "primary_diagnosis": "Advanced chronic kidney disease (stage 4) with complications",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is advanced CKD stage 4, which drives electrolyte disturbances, anemia, and medication dosing challenges. Co\u2011existing cardiovascular disease (ischemic cardiomyopathy, prosthetic aortic valve) makes chronic heart failure likely, and the interaction between the two organs is captured by type 2 cardiorenal syndrome. Secondary considerations include hyperkalaemia, hypoglycaemia from overtreatment, and possible arrhythmia or valve complications, all of which are plausible but lack concrete recent data. Cognitive impairment may be contributing to medication non\u2011adherence, further destabilizing the clinical picture.",
+  "unresolved_findings": [
+    "Missing current electrolyte panel (potassium, bicarbonate, acid\u2011base status)",
+    "No recent medication list to verify ACE\u2011I/ARB, insulin, sulfonylureas, or potassium\u2011sparing agents",
+    "Absent vital signs (blood pressure, heart rate, weight trend, edema assessment)",
+    "No recent echocardiogram or prosthetic valve Doppler study",
+    "No ECG or rhythm monitoring to confirm atrial fibrillation",
+    "Lack of recent hemoglobin/hematocrit trends to assess anemia severity"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with serum potassium and bicarbonate",
+    "Repeat eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Medication reconciliation focusing on RAAS inhibitors, insulin/sulfonylureas, NSAIDs, and potassium\u2011sparing diuretics",
+    "12\u2011lead ECG and ambulatory rhythm monitoring",
+    "Transthoracic echocardiogram with Doppler assessment of prosthetic aortic valve gradients",
+    "Blood pressure measurement (multiple readings) and orthostatic assessment",
+    "Cognitive screening (e.g., Mini\u2011Cog) and medication adherence evaluation"
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (132/86 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Patient meets ATP\u2011III criteria with three components (central obesity, elevated blood pressure, low HDL), establishing metabolic syndrome as the dominant cardiometabolic condition."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of untreated obstructive sleep apnea",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity contributes to OSA severity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is a confirmed comorbidity that markedly increases cardiovascular risk and interacts with metabolic syndrome; its presence is certain despite the lack of recent sleep study data."
+    },
+    {
+      "rank": 3,
+      "name": "Essential hypertension (stage 1, partially controlled)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/86 mmHg (stage 1)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Partial control on current antihypertensive regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a documented problem contributing to cardiovascular risk and is a core component of metabolic syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Dyslipidaemia \u2013 isolated low HDL",
+      "icd10": "E78.6",
+      "snomed": "271327008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol identified as the most abnormal lipid parameter",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Low HDL further elevates cardiovascular risk and aligns with the metabolic syndrome profile, though it does not independently meet full dyslipidaemia criteria."
+    },
+    {
+      "rank": 5,
+      "name": "Prediabetes / impaired fasting glucose",
+      "icd10": "R73.03",
+      "snomed": "237599009",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension place patient at high risk for dysglycemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without fasting glucose or HbA1c values the diagnosis remains speculative; risk factors justify inclusion but with low certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome increase NAFLD risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High\u2011risk profile suggests NAFLD, but absence of liver enzymes or imaging makes the diagnosis uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease / inflammation\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild anemia noted on CBC",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies or inflammatory markers available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is present but etiology is undefined; chronic disease is plausible given cardiometabolic burden, yet confirmation requires further labs."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient exhibits a classic cardiometabolic constellation: obesity, stage 1 hypertension, low HDL, and documented untreated obstructive sleep apnea. These findings satisfy ATP\u2011III criteria for metabolic syndrome, which is therefore the leading diagnosis. OSA, while already confirmed, amplifies cardiovascular risk and is ranked second. Essential hypertension and isolated low HDL are integral components of the syndrome and merit separate acknowledgment. Prediabetes, NAFLD, and anemia of chronic disease are plausible but lack objective laboratory confirmation, resulting in lower probabilities.",
+  "unresolved_findings": [
+    "Missing fasting glucose, HbA1c, and oral glucose tolerance test \u2013 cannot confirm or exclude prediabetes/diabetes.",
+    "Absent liver function tests (ALT, AST, GGT) and abdominal imaging \u2013 NAFLD cannot be confirmed or excluded.",
+    "No renal panel (creatinine, eGFR, urinalysis) \u2013 early CKD cannot be assessed.",
+    "Thyroid function tests not available \u2013 hypothyroidism not ruled out.",
+    "Iron studies, vitamin B12, folate missing \u2013 anemia etiology remains uncertain.",
+    "Non\u2011standard PDW and RDW values \u2013 interpretation uncertain."
+  ],
+  "recommended_workup": [
+    "Fasting glucose and HbA1c (or oral glucose tolerance test) to evaluate dysglycemia.",
+    "Comprehensive lipid panel with LDL, triglycerides, and repeat HDL.",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase, bilirubin) and abdominal ultrasound to assess for NAFLD.",
+    "Renal function panel: serum creatinine, eGFR, urinalysis for proteinuria.",
+    "Thyroid panel: TSH and free T4.",
+    "Iron studies (serum iron, ferritin, TIBC), vitamin B12, folate levels.",
+    "Repeat CBC with indices to characterize anemia.",
+    "Sleep study (polysomnography) if recent data are lacking to quantify OSA severity."
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Iron-deficiency anemia (likely secondary to chronic NSAID gastrointestinal loss)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild anemia on CBC with low hemoglobin/hematocrit",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Reactive high\u2011normal platelet count",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a mild microcytic anemia pattern consistent with iron loss. Chronic NSAID use predisposes to gastrointestinal bleeding, making iron\u2011deficiency anemia the most plausible explanation despite the absence of iron studies."
+    },
+    {
+      "rank": 2,
+      "name": "Borderline low fasting glucose / possible hypoglycemia",
+      "icd10": "E16.2",
+      "snomed": "422587007",
+      "probability": 0.2,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 66.5 mg/dL (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Trend of decreasing fasting glucose and A1c",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A single low fasting glucose could represent a laboratory artefact, but the trend suggests possible true hypoglycemia that is not explained by the other diagnoses."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and hypertension (132/89 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline high triglycerides",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9%)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets 2\u20113 ATP\u2011III criteria (obesity, hypertension, dyslipidemia, prediabetes). Although fasting glucose is low, the overall risk factor clustering supports metabolic syndrome as a contributing diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "233100006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension, both risk factors for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s obesity and hypertension, OSA remains plausible, but lack of symptom documentation (snoring, daytime sleepiness) lowers confidence."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (NSAID\u2011associated / hypertensive nephropathy)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and chronic NSAID use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No renal function labs available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but without creatinine/eGFR or urine ACR data the diagnosis remains speculative."
+    }
+  ],
+  "primary_diagnosis": "Iron-deficiency anemia (likely secondary to chronic NSAID gastrointestinal loss)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s mild anemia together with chronic NSAID use most strongly points to iron\u2011deficiency anemia, which the reviewer elevated to primary status. Borderline low fasting glucose is noted but may be artefactual; metabolic syndrome is supported by obesity, hypertension, dyslipidemia, and prediabetes, though fasting glucose does not meet the classic criterion. Obstructive sleep apnea is plausible given obesity, while early CKD is only risk\u2011based without laboratory confirmation. Probabilities were normalized to sum to 1.0.",
+  "unresolved_findings": [
+    "Missing lipid panel (total cholesterol, LDL, HDL)",
+    "Absent renal function data (serum creatinine, eGFR, urine albumin\u2011creatinine ratio)",
+    "No iron studies (serum iron, ferritin, transferrin saturation)",
+    "Unknown indication for diphenhydramine use",
+    "No documented smoking, alcohol, or physical activity status",
+    "No liver enzymes or imaging to assess for NAFLD",
+    "No sleep study or validated questionnaire to confirm OSA",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117)"
+  ],
+  "recommended_workup": [
+    "Serum iron, ferritin, total iron\u2011binding capacity, transferrin saturation",
+    "Fecal occult blood test and, if positive, endoscopic evaluation for GI bleeding",
+    "Repeat fasting glucose and oral glucose tolerance test",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Renal function panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Polysomnography or home sleep apnea testing",
+    "Liver function tests and abdominal ultrasound to evaluate for NAFLD",
+    "Detailed lifestyle assessment (smoking, alcohol, physical activity)",
+    "Mental\u2011health screening questionnaires (PHQ\u20119, GAD\u20117)"
+  ]
+}

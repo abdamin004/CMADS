@@ -2,306 +2,259 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Undiagnosed or inadequately controlled hypertension",
-      "icd10": "I10",
-      "snomed": "38341003",
-      "probability": 0.46,
+      "name": "Ischemic cardiomyopathy (HFrEF)",
+      "icd10": "I25.5",
+      "snomed": "414545008",
+      "probability": 0.3,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Metoprolol succinate 100\u202fmg ER prescribed (beta\u2011blocker) without documented hypertension diagnosis",
-          "strength": "strong"
-        },
-        {
-          "source": "risk_factors/demographics",
-          "finding": "Age\u202f81, Black male, obesity (BMI\u202f>\u202f30), prediabetes (A1c\u202f5.9\u202f%) \u2013 high prevalence of hypertension (>80\u202f%) in this group",
+          "finding": "Ischemic heart disease (onset 1998\u201111\u201103)",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Data\u2011quality flag: No recent blood pressure measurements recorded",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic NSAID (naproxen) use, which is contraindicated in uncontrolled hypertension",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "History of coronary artery disease (CAD) diagnosed 1998",
-          "strength": "strong"
-        }
-      ],
-      "reasoning": "The combination of a beta\u2011blocker prescription, demographic risk, and absence of documented BP values strongly suggests that hypertension is present but undocumented, serving as the primary upstream driver of CAD progression, possible heart\u2011failure development, and renal risk."
-    },
-    {
-      "rank": 2,
-      "name": "Chronic kidney disease (NSAID\u2011 and hypertension\u2011mediated)",
-      "icd10": "N18.9",
-      "snomed": "709044004",
-      "probability": 0.17,
-      "confidence": "moderate-high",
-      "supporting_evidence": [
-        {
-          "source": "data-quality flags",
-          "finding": "eGFR and serum creatinine not recorded",
+          "finding": "Abnormal cardiac imaging (onset 1998\u201111\u201112)",
           "strength": "strong"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Chronic naproxen sodium use (NSAID) in an elderly patient",
-          "strength": "strong"
-        },
-        {
-          "source": "risk_factors/demographics",
-          "finding": "Probable hypertension (see diagnosis #1) increasing renal vascular injury risk",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic anemia with falling RBC count",
-          "strength": "moderate"
-        },
-        {
-          "source": "risk_factors/demographics",
-          "finding": "Age\u202f81, Black race \u2013 higher baseline CKD prevalence",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Missing renal labs together with NSAID exposure and likely hypertension make CKD the most plausible explanation for the anemia, potential volume overload (elevated NT\u2011proBNP), and overall cardio\u2011renal risk."
-    },
-    {
-      "rank": 3,
-      "name": "Chronic ischemic heart disease with early\u2011stage heart failure (HF\u2011pEF likely)",
-      "icd10": "I50.9",
-      "snomed": "84114007",
-      "probability": 0.15,
-      "confidence": "high",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Coronary artery disease diagnosed 1998 with abnormal coronary imaging",
+          "source": "medication",
+          "finding": "Metoprolol succinate 100\u202fmg ER (HF secondary prevention)",
           "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "NT\u2011proBNP 1050.9\u202fpg/mL (elevated, stable)",
+          "finding": "NT\u2011proBNP 1050.9\u202fpg/mL (markedly elevated)",
           "strength": "strong"
         },
+        {
+          "source": "risk_scores",
+          "finding": "Age 81, male, Black, high ASCVD burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing CAD with structural cardiac abnormality, high\u2011dose beta\u2011blocker, antiplatelet therapy, and markedly elevated BNP strongly point to systolic dysfunction from ischemic injury as the primary driver of heart failure."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive heart disease with HFpEF",
+      "icd10": "I11.0",
+      "snomed": "38341003",
+      "probability": 0.22,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI\u202f>\u202f30) and metabolic syndrome features",
-          "strength": "strong"
-        },
-        {
-          "source": "risk_factors/demographics",
-          "finding": "Probable hypertension (diagnosis #1) contributing to LV diastolic dysfunction",
+          "finding": "Obesity (BMI \u226530) and prediabetes (A1c 5.9%)",
           "strength": "moderate"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Medications for angina (nitroglycerin PRN) and CAD (clopidogrel, simvastatin)",
-          "strength": "strong"
+          "source": "data_quality",
+          "finding": "Missing recent blood\u2011pressure readings",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High BNP can be seen in HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "Chronic NSAID use (naproxen) contributing to volume overload",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Elevated NT\u2011proBNP in the setting of longstanding CAD, obesity, and likely hypertension points to heart failure, most consistent with a preserved\u2011ejection\u2011fraction phenotype common in elderly Black patients."
+      "reasoning": "In an elderly Black male with obesity and likely uncontrolled hypertension (BP data absent), concentric LV remodeling leading to diastolic dysfunction is plausible and can produce the observed BNP elevation."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced chronic kidney disease / cardio\u2011renal syndrome",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication",
+          "finding": "Chronic naproxen sodium 220\u202fmg for osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 88.1\u202fmL/min/1.73\u202fm\u00b2 (borderline low for age)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 total 21\u202fmmol/L (borderline low, metabolic acidosis)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index\u202f2, high clinical complexity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term NSAID exposure can reduce renal perfusion, leading to mild CKD and fluid retention that worsens heart\u2011failure symptoms and raises BNP."
     },
     {
       "rank": 4,
-      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "name": "Anemia of chronic disease / renal insufficiency",
       "icd10": "D63.8",
-      "snomed": "271442005",
-      "probability": 0.07,
+      "snomed": "271737000",
+      "probability": 0.12,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Chronic anemia diagnosed 1988",
+          "finding": "Chronic anemia (onset 1988\u201109\u201106)",
           "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "RBC count decreasing trend (3.8\u202f\u00d710\u2076/\u00b5L)",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Iron saturation 53.7\u202f% (mildly elevated) suggesting functional iron sequestration",
+          "finding": "RBC count 3.8\u202f\u00d7\u202f10\u2076/\u00b5L (low, decreasing trend)",
           "strength": "moderate"
         },
         {
-          "source": "diagnosis #2 (CKD)",
-          "finding": "CKD can cause anemia of chronic disease",
-          "strength": "indirect"
+          "source": "lab_interpreter",
+          "finding": "eGFR 88.1\u202fmL/min/1.73\u202fm\u00b2 (mild renal impairment)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing iron, B12, folate studies",
+          "strength": "weak"
         }
       ],
-      "reasoning": "The long\u2011standing anemia with a falling RBC count and modestly high iron saturation fits anemia of chronic disease, likely driven by the presumed CKD."
+      "reasoning": "Long\u2011standing CKD and systemic inflammation can blunt erythropoietin production, producing a normocytic anemia consistent with the observed low RBC count."
     },
     {
       "rank": 5,
-      "name": "Obstructive sleep apnea",
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal bleeding",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.08,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication",
+          "finding": "Chronic naproxen use (risk for gastritis/ulcer)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low RBC count",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing iron studies and stool occult blood test",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID\u2011related mucosal injury could cause slow blood loss leading to iron deficiency; however, the high\u2011normal transferrin saturation makes pure iron deficiency less likely."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea (OSA) with secondary polycythaemia",
       "icd10": "G47.33",
       "snomed": "7340000",
-      "probability": 0.04,
+      "probability": 0.07,
       "confidence": "low-moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI\u202f>\u202f30)",
-          "strength": "strong"
-        },
-        {
-          "source": "risk_factors/demographics",
-          "finding": "Probable hypertension (diagnosis #1)",
+          "finding": "Obesity (BMI \u226530)",
           "strength": "moderate"
         },
         {
-          "source": "data-quality flags",
+          "source": "lab_interpreter",
+          "finding": "High hemoglobin 17.2\u202fg/dL with low RBC count (possible relative polycythaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
           "finding": "No sleep study performed",
           "strength": "weak"
         }
       ],
-      "reasoning": "Obesity and hypertension raise the pre\u2011test probability of OSA, which can exacerbate hypertension and HF\u2011pEF, but lack of screening data keeps confidence low."
-    },
-    {
-      "rank": 6,
-      "name": "Aortic stenosis (moderate to severe)",
-      "icd10": "I35.0",
-      "snomed": "59273002",
-      "probability": 0.03,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "risk_factors/demographics",
-          "finding": "Age\u202f>\u202f80 years",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "History of CAD",
-          "strength": "moderate"
-        },
-        {
-          "source": "data-quality flags",
-          "finding": "No cardiac murmur documented, no echocardiogram performed",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Degenerative aortic stenosis is common in octogenarians and can cause elevated BNP and anemia, but no exam or imaging data are available."
+      "reasoning": "Obesity predisposes to OSA, which can cause intermittent hypoxia, secondary erythrocytosis, and contribute to hypertension and HFpEF."
     },
     {
       "rank": 7,
-      "name": "Iron overload disorder (possible hereditary hemochromatosis or secondary)",
-      "icd10": "E83.1",
-      "snomed": "235719002",
-      "probability": 0.02,
+      "name": "Myelodysplastic syndrome (MDS)",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.04,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Iron saturation 53.7\u202f% (elevated)",
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unclear etiology since 1988",
           "strength": "moderate"
         },
         {
-          "source": "data-quality flags",
-          "finding": "Ferritin and TIBC not measured",
+          "source": "ehr_analyst",
+          "finding": "Age 81 (risk factor for clonal marrow disorders)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No peripheral smear or bone\u2011marrow work\u2011up",
           "strength": "weak"
         }
       ],
-      "reasoning": "Elevated saturation raises the possibility of iron overload, but without ferritin/TIBC or clinical liver findings the probability remains low."
+      "reasoning": "In an elderly patient with long\u2011standing unexplained anemia, MDS is a possible marrow failure syndrome that should be excluded."
     },
     {
       "rank": 8,
-      "name": "Occult gastrointestinal bleeding (NSAID + antiplatelet related)",
-      "icd10": "K92.2",
-      "snomed": "236423003",
+      "name": "Hereditary or secondary iron overload (hemochromatosis\u2011like)",
+      "icd10": "E83.1",
+      "snomed": "414545008",
       "probability": 0.02,
-      "confidence": "low",
+      "confidence": "very low",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Concurrent naproxen (NSAID) and clopidogrel use",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic anemia with decreasing RBC count",
+          "source": "lab_interpreter",
+          "finding": "Transferrin saturation 53.7\u202f% (borderline high)",
           "strength": "moderate"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Hemoglobin 17.2\u202fg/dL (borderline high) \u2013 discordant, suggests possible hemoconcentration rather than active bleed",
+          "finding": "High hemoglobin 17.2\u202fg/dL",
           "strength": "weak"
-        }
-      ],
-      "reasoning": "NSAID + antiplatelet therapy can cause occult GI blood loss, potentially contributing to the falling RBC count, though current hemoglobin does not support active bleeding."
-    },
-    {
-      "rank": 9,
-      "name": "Depressive disorder secondary to social isolation",
-      "icd10": "F33.1",
-      "snomed": "35489007",
-      "probability": 0.02,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Social isolation (diagnosed 2016) and unsatisfactory housing (diagnosed 1956)",
-          "strength": "strong"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "No formal depression diagnosis recorded",
+          "source": "data_quality",
+          "finding": "Missing ferritin and HFE genetic testing",
           "strength": "weak"
         }
       ],
-      "reasoning": "Psychosocial stressors may impair medication adherence and lifestyle measures, but no documented mood disorder limits certainty."
-    },
-    {
-      "rank": 10,
-      "name": "Myelodysplastic syndrome (early)",
-      "icd10": "D46.9",
-      "snomed": "10828004",
-      "probability": 0.01,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Age\u202f>\u202f80 with chronic anemia",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "No other cytopenias or bone\u2011marrow data reported",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Age\u2011related marrow failure is a remote possibility; lack of additional hematologic abnormalities makes this unlikely."
+      "reasoning": "Elevated transferrin saturation raises the remote possibility of iron overload, but the concurrent anemia makes true hemochromatosis unlikely."
     }
   ],
-  "primary_diagnosis": "Undiagnosed or inadequately controlled hypertension",
-  "primary_probability": 0.46,
-  "clinical_reasoning_summary": "The patient is an 81\u2011year\u2011old Black male with longstanding CAD, obesity, and prediabetes. Medications (metoprolol, clopidogrel, nitroglycerin) and the absence of documented blood pressure values strongly imply undiagnosed hypertension, which is the most prevalent condition in this demographic and serves as the upstream driver of his cardiac and renal pathology. Missing renal labs, together with chronic NSAID use, raise high suspicion for CKD, which can explain the anemia of chronic disease and contribute to volume overload reflected by an elevated NT\u2011proBNP. The BNP elevation, CAD history, and metabolic risk factors point to early heart\u2011failure with preserved ejection fraction. Secondary considerations (OSA, aortic stenosis, iron overload, occult GI bleed, depression, MDS) are included based on supporting but weaker evidence. The differential probabilities were calibrated using base\u2011rates and the strength of each piece of evidence, summing to ~1.0.",
+  "primary_diagnosis": "Ischemic cardiomyopathy (HFrEF)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is an 81\u2011year\u2011old Black male with long\u2011standing ischemic heart disease, high\u2011dose beta\u2011blocker, antiplatelet therapy, and a markedly elevated NT\u2011proBNP, indicating systolic heart failure from coronary artery disease. Missing blood\u2011pressure data and the presence of obesity and prediabetes raise the possibility of hypertensive HFpEF as a co\u2011existing driver. Chronic naproxen use likely contributes to mild CKD and volume overload, forming a cardio\u2011renal syndrome. A long\u2011standing anemia of unclear type is evident, with low RBC count but paradoxically high hemoglobin, suggesting anemia of chronic disease, possible occult GI blood loss, or marrow pathology. Additional considerations include OSA\u2011related secondary polycythaemia, myelodysplastic syndrome, and remote iron overload. The differential was ranked by integrating the strength of each evidence cluster, adjusting for missing data, and avoiding anchoring bias.",
   "unresolved_findings": [
-    "Hemoglobin 17.2\u202fg/dL (borderline high) despite low RBC count",
-    "Elevated iron saturation without ferritin/TIBC",
-    "Low\u2011normal CO\u2082 total (21\u202fmmol/L) suggesting mild metabolic acidosis",
-    "Missing eGFR, serum creatinine, and full lipid panel",
-    "Absence of documented hypertension or angina diagnoses despite relevant medications",
-    "No documented cardiac murmur or echocardiographic data"
+    "High hemoglobin (17.2\u202fg/dL) with low RBC count \u2013 discordant hematologic picture",
+    "Borderline high transferrin saturation (53.7\u202f%) without ferritin or iron studies",
+    "Missing allergy information",
+    "\"Risk activity involvement\" problem with undefined activity",
+    "Full\u2011time employment at age 81 without functional status measures",
+    "Medication\u2011review flag due (2020) indicating possible unreconciled meds"
   ],
   "recommended_workup": [
-    "24\u2011hour ambulatory blood pressure monitoring or multiple seated BP readings",
-    "Serum creatinine, eGFR, BUN, and urine albumin\u2011to\u2011creatinine ratio",
-    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
-    "Transthoracic echocardiogram with Doppler diastology to assess EF, diastolic function, and valve disease",
-    "Iron studies: ferritin, total iron\u2011binding capacity, transferrin saturation; consider HFE genetic testing if ferritin elevated",
-    "Fecal occult blood test (FIT) or stool immunochemical test to evaluate occult GI bleeding",
-    "Home sleep apnea screening (e.g., overnight pulse\u2011ox) or formal polysomnography if indicated",
-    "Medication reconciliation and adherence assessment (pharmacy refill data, patient interview)",
-    "Brief depression screening (PHQ\u20119 or Geriatric Depression Scale)",
-    "If anemia persists after CKD evaluation, consider reticulocyte count and peripheral smear to rule out myelodysplastic syndrome"
+    "Transthoracic echocardiogram with ejection fraction, diastolic parameters, and valve assessment",
+    "Accurate blood\u2011pressure measurement (office, home, or ambulatory) to assess hypertension control",
+    "Serial renal function tests (creatinine trend, urine albumin\u2011creatinine ratio, renal ultrasound)",
+    "Comprehensive iron panel (serum iron, ferritin, TIBC), B12, folate, reticulocyte count, and stool occult blood test",
+    "Peripheral blood smear and, if indicated, bone\u2011marrow biopsy to evaluate for MDS",
+    "Home sleep apnea testing or polysomnography",
+    "Pulmonary function testing and chest imaging to assess for COPD or pulmonary hypertension",
+    "6\u2011minute walk test or other functional status assessment",
+    "Medication reconciliation and review of NSAID necessity; consider alternative analgesics",
+    "Social work referral to address housing instability and social isolation"
   ]
 }

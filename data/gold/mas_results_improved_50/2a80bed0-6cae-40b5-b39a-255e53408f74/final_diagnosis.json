@@ -1,0 +1,152 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension, uncontrolled, secondary to obesity and metabolic syndrome",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 128 mmHg, DBP 90 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30 kg/m\u00b2) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.2%) indicating metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has persistent stage\u20112 hypertension in the setting of obesity and metabolic syndrome, making uncontrolled essential hypertension the dominant driver of the clinical picture and the primary therapeutic target."
+    },
+    {
+      "rank": 2,
+      "name": "Vitamin B12\u2011deficiency anemia",
+      "icd10": "D51.0",
+      "snomed": "271442005",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Macrocytic anemia (elevated MCV) with low serum B12 (implied by treatment history)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent cytopenias despite B12 therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Macrocytosis and documented B12 replacement explain the anemia; incomplete repletion or ongoing malabsorption accounts for lingering cytopenias."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep\u2011disordered breathing (OSA)",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Risk noted but no screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and uncontrolled hypertension raise pre\u2011test probability for OSA; screening is warranted as it may worsen BP control."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes (impaired glucose tolerance)",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (prediabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low fasting glucose (64.7 mg/dL) discordant with prediabetes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A1c places the patient in the prediabetic range, but the low fasting glucose is atypical and may reflect lab error, reactive hypoglycemia, or early insulin resistance."
+    },
+    {
+      "rank": 5,
+      "name": "Early myelodysplastic syndrome (MDS) or other marrow stress",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia (WBC 3.7\u202f\u00d710\u00b3/\u00b5L) and elevated platelet\u2011distribution width (PDW 397.9\u202ffL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent cytopenias despite B12 therapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While B12 deficiency can cause cytopenias, the combination of leukopenia and abnormal platelet indices raises a low\u2011probability concern for early marrow dysplasia."
+    },
+    {
+      "rank": 6,
+      "name": "Iron\u2011deficiency anemia (mixed aetiology)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia noted without iron studies; macrocytosis present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Macrocytic picture and lack of iron studies make iron deficiency unlikely; retained only as a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension, uncontrolled, secondary to obesity and metabolic syndrome",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is uncontrolled stage\u20112 hypertension driven by obesity and metabolic syndrome, warranting immediate BP management. Macrocytic anemia is best explained by vitamin B12 deficiency, though incomplete response suggests ongoing deficiency or additional marrow stress. Obesity also raises suspicion for obstructive sleep apnea, which could further impair BP control. Prediabetes is supported by A1c, yet the low fasting glucose is unexplained and merits further evaluation. Early MDS remains a low\u2011probability consideration given the leukopenia and platelet distribution abnormalities. Iron deficiency is unlikely given the macrocytosis and absence of supporting labs.",
+  "unresolved_findings": [
+    "Low fasting glucose (64.7\u202fmg/dL) despite prediabetes",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR/renal function estimate",
+    "Absent documentation of smoking, alcohol, and drug use",
+    "No documented sleep history or apnea screening",
+    "Markedly elevated platelet\u2011distribution width (PDW 397.9\u202ffL)",
+    "Leukopenia (WBC 3.7\u202f\u00d710\u00b3/\u00b5L) without clear etiology"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel",
+    "Serum creatinine and eGFR",
+    "Comprehensive sleep study (polysomnography) or home sleep apnea test",
+    "Repeat iron studies (serum ferritin, transferrin saturation)",
+    "Serum vitamin B12 and methylmalonic acid levels to assess adequacy of replacement",
+    "Reticulocyte count and peripheral smear",
+    "Oral glucose tolerance test or continuous glucose monitoring to clarify glucose dysregulation",
+    "Consider bone marrow biopsy if cytopenias persist after correction of B12 deficiency"
+  ]
+}

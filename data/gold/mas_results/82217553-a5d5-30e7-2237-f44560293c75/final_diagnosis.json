@@ -2,231 +2,201 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Essential hypertension (stage 2, likely resistant)",
+      "name": "Essential hypertension \u2013 under-treated",
       "icd10": "I10",
       "snomed": "38341003",
-      "probability": 0.38,
+      "probability": 0.3,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Blood pressure readings consistently 150/98 mmHg",
+          "finding": "Stage 2 hypertension (150/98 mmHg) despite current antihypertensive regimen",
           "strength": "strong"
         },
         {
           "source": "risk_scores",
-          "finding": "Stage 2 hypertension per ACC/AHA guidelines",
-          "strength": "strong"
-        },
-        {
-          "source": "comorbidity",
-          "finding": "Obesity and prediabetes increasing vascular resistance",
+          "finding": "Obesity documented, contributing to elevated blood pressure",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Repeated clinic measurements demonstrate stage 2 hypertension despite multiple antihypertensive agents, indicating resistant hypertension. Cardiometabolic risk factors support a primary hypertensive etiology."
+      "reasoning": "Persistent elevated BP in a middle\u2011aged woman with obesity and suboptimal medication adherence suggests under\u2011treated essential hypertension as the primary driver of her clinical picture."
     },
     {
       "rank": 2,
-      "name": "Early chronic kidney disease (hypertensive nephropathy)",
-      "icd10": "N18.3",
-      "snomed": "709044004",
-      "probability": 0.22,
-      "confidence": "moderate",
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Long\u2011standing uncontrolled hypertension",
+          "finding": "Obesity (documented), prediabetes (A1c 6.1%), dyslipidemia hinted by incomplete lipid profile",
           "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Mildly elevated serum creatinine (value not provided) with no eGFR reported",
+          "finding": "Elevated fasting glucose and triglycerides (partial data)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, impaired glucose tolerance, and probable dyslipidemia fulfills criteria for metabolic syndrome, which amplifies cardiovascular risk and may worsen hypertension control."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (stage 1\u20112) \u2013 hypertensive/tubulointerstitial",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN, high\u2011normal potassium, and falling bicarbonate suggesting early renal stress",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of eGFR and urine ACR data, but hypertension and metabolic syndrome are risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertensive patients with metabolic syndrome often develop early CKD; laboratory trends point toward subtle renal impairment despite missing definitive GFR/albuminuria measurements."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and resistant hypertension raise suspicion for OSA",
           "strength": "moderate"
         },
         {
           "source": "risk_scores",
-          "finding": "High renal risk given BP >140/90 and diabetes\u2011prediabetes",
-          "strength": "moderate"
+          "finding": "No STOP\u2011BANG screening performed yet",
+          "strength": "weak"
         }
       ],
-      "reasoning": "Uncontrolled hypertension predisposes to hypertensive nephropathy; absence of eGFR/ACR data warrants assuming early CKD pending further testing."
+      "reasoning": "Obesity\u2011related OSA can contribute to refractory hypertension; lack of screening makes this a plausible but not confirmed diagnosis."
     },
     {
-      "rank": 3,
-      "name": "ACE\u2011inhibitor\u2011induced type 4 renal tubular acidosis (hyper\u2011K\u207a, non\u2011anion\u2011gap metabolic acidosis)",
-      "icd10": "E83.2",
-      "snomed": "236423003",
-      "probability": 0.11,
+      "rank": 5,
+      "name": "Secondary hypertension (possible primary aldosteronism or renal artery stenosis)",
+      "icd10": "I15.0",
+      "snomed": "38341003",
+      "probability": 0.07,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Patient on chronic ACE\u2011inhibitor therapy",
-          "strength": "strong"
+          "finding": "Resistant hypertension despite multiple agents",
+          "strength": "moderate"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Hyperkalemia (K\u207a 5.6 mEq/L) with normal anion gap metabolic acidosis (if available)",
-          "strength": "moderate"
+          "finding": "High\u2011normal potassium (suggests possible aldosterone excess)",
+          "strength": "weak"
         }
       ],
-      "reasoning": "ACE\u2011inhibitors can cause type 4 RTA manifested by hyperkalemia and non\u2011anion\u2011gap acidosis; urine studies are lacking, so diagnosis remains plausible."
-    },
-    {
-      "rank": 4,
-      "name": "Prediabetes progressing toward type 2 diabetes mellitus",
-      "icd10": "R73.03",
-      "snomed": "237599002",
-      "probability": 0.09,
-      "confidence": "high",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "HbA1c 6.1% (prediabetic range)",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity and family history of diabetes",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Elevated HbA1c in the prediabetic range combined with obesity places the patient at high risk for progression to overt type 2 diabetes."
-    },
-    {
-      "rank": 5,
-      "name": "Recurrent urinary\u2011tract infection",
-      "icd10": "N39.0",
-      "snomed": "68566005",
-      "probability": 0.05,
-      "confidence": "high",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Documented history of multiple UTIs over past year",
-          "strength": "strong"
-        },
-        {
-          "source": "comorbidity",
-          "finding": "Female gender and possible post\u2011menopausal status increase UTI risk",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Repeated episodes of symptomatic infection indicate a chronic/recurrent UTI pattern requiring further urologic evaluation."
+      "reasoning": "Persistent high BP with subtle electrolyte changes warrants evaluation for endocrine or renovascular causes, though prevalence is low."
     },
     {
       "rank": 6,
-      "name": "Anemia (iron\u2011deficiency or anemia of chronic disease/CKD\u2011related)",
-      "icd10": "D64.9",
+      "name": "Iron\u2011deficiency anemia (or anemia of chronic disease)",
+      "icd10": "D50.9",
       "snomed": "271442005",
       "probability": 0.04,
       "confidence": "moderate",
       "supporting_evidence": [
         {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia noted on chart without recent iron studies",
+          "strength": "moderate"
+        },
+        {
           "source": "lab_interpreter",
-          "finding": "Low hemoglobin (value not provided) without iron studies",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic disease burden (HTN, CKD risk) that can cause anemia of chronic disease",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Anemia is noted but etiology is unclear; both iron deficiency and CKD\u2011related anemia are plausible."
-    },
-    {
-      "rank": 7,
-      "name": "Metabolic syndrome (partial criteria)",
-      "icd10": "E88.81",
-      "snomed": "237599002",
-      "probability": 0.05,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity (BMI not recorded) and prediabetes",
-          "strength": "moderate"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "Elevated blood pressure",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Only two of the five classic criteria are documented; therefore metabolic syndrome is possible but not definitively met."
-    },
-    {
-      "rank": 8,
-      "name": "Obstructive sleep apnea",
-      "icd10": "G47.33",
-      "snomed": "73430006",
-      "probability": 0.04,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity noted; no documented sleep symptoms",
+          "finding": "Incomplete CBC; anemia persists despite B12 repletion",
           "strength": "weak"
         }
       ],
-      "reasoning": "Obesity raises suspicion for OSA, but lack of sleep\u2011related complaints makes this a low\u2011probability consideration."
+      "reasoning": "Anemia may be multifactorial; iron deficiency remains plausible given recurrent UTIs and possible occult blood loss."
+    },
+    {
+      "rank": 7,
+      "name": "Recurrent urinary tract infection",
+      "icd10": "N39.0",
+      "snomed": "68566005",
+      "probability": 0.02,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of multiple documented UTIs",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Repeated infections are a documented problem and may contribute to anemia and renal stress."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome increase NAFLD risk; liver enzymes not yet assessed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, NAFLD is plausible though lacking direct laboratory or imaging confirmation."
     },
     {
       "rank": 9,
-      "name": "Depressive or anxiety disorder",
-      "icd10": "F33.1",
-      "snomed": "35489007",
+      "name": "Vitamin B12\u2011deficiency anemia (treated)",
+      "icd10": "D51.9",
+      "snomed": "271442005",
       "probability": 0.02,
       "confidence": "low",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Social determinants (low health literacy, time constraints) and chronic illness burden",
+          "finding": "Prior B12 deficiency documented and treated, yet anemia persists",
           "strength": "weak"
         }
       ],
-      "reasoning": "Psychosocial stressors are present, yet no formal mental\u2011health screening has been performed."
-    },
-    {
-      "rank": 10,
-      "name": "Secondary hypertension (renal\u2011artery stenosis, primary aldosteronism)",
-      "icd10": "I15.0",
-      "snomed": "38341003",
-      "probability": 0.01,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Resistant hypertension despite three agents",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Secondary causes should be evaluated after optimizing current therapy; current data are insufficient to prioritize."
+      "reasoning": "Persistent anemia despite B12 repletion suggests other etiologies; B12 deficiency alone unlikely to explain current picture."
     }
   ],
-  "primary_diagnosis": "Essential hypertension (stage 2, likely resistant)",
-  "primary_probability": 0.38,
-  "clinical_reasoning_summary": "The patient presents with stage 2 hypertension that remains uncontrolled despite multiple agents, making resistant essential hypertension the most likely primary diagnosis. Uncontrolled blood pressure, obesity, and prediabetes place her at high risk for early hypertensive nephropathy and progression to chronic kidney disease. ACE\u2011inhibitor therapy may be contributing to a type 4 RTA, while recurrent UTIs, anemia, and possible metabolic syndrome further compound cardiovascular risk. Secondary hypertension, sleep apnea, and mood disorders are considered but have weaker supporting evidence. Targeted investigations are required to refine probabilities and guide management.",
+  "primary_diagnosis": "Essential hypertension \u2013 under-treated",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled stage 2 hypertension, obesity, and prediabetes point to essential hypertension that is insufficiently managed, compounded by metabolic syndrome which amplifies cardiovascular risk. Early renal dysfunction is suggested by subtle lab abnormalities, while obstructive sleep apnea and secondary causes of hypertension remain plausible contributors. Chronic anemia is likely multifactorial, with iron deficiency being the leading consideration. Recurrent UTIs, NAFLD, and residual B12 deficiency are less likely but still possible.",
   "unresolved_findings": [
-    "Missing eGFR and urine albumin/creatinine ratio",
-    "No urine electrolyte panel to confirm type 4 RTA",
-    "Absence of iron studies, ferritin, TIBC",
-    "No lipid panel trend data",
-    "No documented sleep study or screening for OSA",
-    "No formal depression/anxiety screening results",
-    "Lack of imaging for renal artery stenosis"
+    "Missing estimated glomerular filtration rate (eGFR) and urine albumin\u2011creatinine ratio",
+    "Absent complete blood count with indices and iron studies",
+    "No thyroid function tests (TSH, free T4)",
+    "No liver function tests or imaging for steatosis/fibrosis",
+    "No sleep study or STOP\u2011BANG screening results",
+    "Incomplete medication list (OTC NSAIDs, supplements) and unknown smoking status",
+    "No recent urine culture or renal ultrasound"
   ],
   "recommended_workup": [
-    "Serum creatinine with eGFR calculation and urine albumin/creatinine ratio",
-    "Renal ultrasound with Doppler to assess for renal artery stenosis",
-    "Plasma renin activity and aldosterone concentration",
-    "Urine electrolytes and urine pH to evaluate for type 4 RTA",
-    "Complete iron panel (serum iron, ferritin, TIBC, transferrin saturation)",
-    "Fasting lipid panel and repeat in 3\u20136 months",
-    "Overnight polysomnography or home sleep apnea test",
-    "PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety",
-    "Repeat HbA1c in 3 months to monitor progression toward diabetes"
+    "Serum creatinine with eGFR and urine albumin\u2011creatinine ratio to assess renal function",
+    "Comprehensive CBC with iron studies (serum iron, ferritin, TIBC) and reticulocyte count",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism as a contributor to hypertension and weight gain",
+    "Lipid panel and fasting glucose/HbA1c repeat",
+    "Aldosterone\u2011renin ratio with confirmatory testing for primary aldosteronism if elevated",
+    "Renal artery duplex ultrasound or CT angiography if secondary hypertension suspected",
+    "Overnight polysomnography or home sleep apnea testing",
+    "Liver function tests and abdominal ultrasound or FibroScan to evaluate for NAFLD or alcohol\u2011related injury",
+    "Review and update medication list, including OTC NSAIDs and supplements",
+    "Repeat urine culture if symptomatic and consider renal ultrasound for structural assessment"
   ]
 }

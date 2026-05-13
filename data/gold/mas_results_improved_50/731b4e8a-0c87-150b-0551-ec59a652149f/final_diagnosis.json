@@ -1,0 +1,171 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension, untreated (stage\u20112)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.45,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 159/112 mmHg (stage\u20112 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted in clinical impression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has markedly elevated systolic and diastolic pressures consistent with stage\u20112 hypertension and is not receiving any antihypertensive therapy, making untreated essential hypertension the most likely driver of his elevated BP."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep\u2011apnea syndrome (untreated or sub\u2011optimally treated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of obstructive sleep apnea",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CPAP prescription or adherence data recorded",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and hypertension are strong risk factors for OSA\u2011related BP elevation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA contributes to resistant\u2011type hypertension; lack of CPAP therapy likely leaves the condition untreated, supporting its role in the patient\u2019s blood pressure profile."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease / tenofovir\u2011associated proximal tubular dysfunction",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic HIV infection on tenofovir\u2011containing ART",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low total CO\u2082 (21.2 mmol/L) suggesting possible tubular acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR and urine albumin data, raising concern for unrecognized CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Tenofovir can cause proximal tubular injury leading to early CKD and metabolic acidosis; the low CO\u2082 and lack of renal labs make this a plausible contributor."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome (early)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic A1c of 5.9%",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, prediabetes, and hypertension fulfills criteria for early metabolic syndrome, which can exacerbate blood pressure and cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Sub\u2011optimal virologic control of chronic HIV infection",
+      "icd10": "B20",
+      "snomed": "86406008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Detectable HIV\u20111 RNA (21 copies/mL)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stable ART regimen reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low\u2011level viremia may reflect assay variability or early adherence issues; its impact on current presentation is uncertain but cannot be excluded."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease / HIV\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia noted without recent iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "HIV infection present, a known cause of anemia of chronic disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In the setting of chronic HIV infection, anemia of chronic disease is plausible; lack of iron, B12, folate studies limits precise classification."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension, untreated (stage\u20112)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s markedly elevated, untreated blood pressure is the dominant finding, making untreated essential hypertension the most likely primary diagnosis. Co\u2011existing obstructive sleep apnea, early kidney injury from tenofovir, and early metabolic syndrome each contribute to hypertension and overall cardiovascular risk. Low\u2011level HIV viremia and chronic anemia are present but have weaker links to the acute presentation. All diagnoses are supported by documented findings, though several key laboratory assessments are missing.",
+  "unresolved_findings": [
+    "Low total CO\u2082 (21.2 mmol/L) with falling trend \u2013 etiology not defined",
+    "Missing BMI value despite documented obesity",
+    "Absent eGFR, urine albumin\u2011creatinine ratio, and lipid panel",
+    "No documented antihypertensive therapy",
+    "No CPAP prescription or adherence data for OSA",
+    "Incomplete anemia work\u2011up (iron studies, B12, folate, reticulocyte count)"
+  ],
+  "recommended_workup": [
+    "Repeat basic metabolic panel with focus on CO\u2082 and renal function (creatinine, eGFR)",
+    "Urine albumin\u2011creatinine ratio and urine beta\u20112 microglobulin to assess tubular function",
+    "Fasting lipid panel (LDL, triglycerides)",
+    "Polysomnography or home sleep apnea testing and CPAP adherence assessment",
+    "Comprehensive anemia evaluation: ferritin, transferrin saturation, serum iron, B12, folate, reticulocyte count",
+    "Calculate BMI using measured height/weight",
+    "Initiate antihypertensive therapy per guideline (e.g., ACE inhibitor or ARB) and monitor response",
+    "Consider renal\u2011sparing ART modification if tubular dysfunction confirmed"
+  ]
+}

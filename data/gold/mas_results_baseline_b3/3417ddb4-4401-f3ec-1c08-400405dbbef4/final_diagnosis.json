@@ -1,0 +1,291 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus (new\u2011onset/under\u2011treated)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "HbA1c 6.8% (prediabetic range, discordant with normal fasting glucose)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding prediabetes noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Severe LDL\u2011C elevation suggests underlying metabolic derangement",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated HbA1c despite normal fasting glucose raises concern for early or under\u2011treated diabetes; combined with severe hypercholesterolaemia and chronic anemia, diabetes is likely contributing to metabolic abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Familial hypercholesterolaemia (primary severe hypercholesterolaemia)",
+      "icd10": "E78.01",
+      "snomed": "237599002",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Extremely high LDL\u2011C (value not provided but described as severe)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No secondary cause (e.g., DMPA effect insufficient) identified",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Family history of hypercholesterolaemia not documented but high suspicion given lipid pattern",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe isolated LDL\u2011C elevation without triglyceride rise or secondary medication effect strongly points to a genetic lipid disorder such as familial hypercholesterolaemia."
+    },
+    {
+      "rank": 3,
+      "name": "Mixed iron\u2011deficiency / anemia of chronic disease",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia noted in chart",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies, B12, folate available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent anemia without work\u2011up suggests a mixed etiology; both iron deficiency (possible chronic blood loss) and anemia of chronic disease (inflammation from pain, metabolic syndrome) are plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599009",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c 6.8%) and severe LDL\u2011C elevation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing BMI/waist circumference data; hypertension flag inconsistent",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Combination of dysglycaemia and dyslipidaemia meets several components of metabolic syndrome, though lack of obesity and blood pressure data limits certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Degenerative disc disease / osteoporosis\u2011related axial pain",
+      "icd10": "M48.06",
+      "snomed": "239873007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic musculoskeletal pain causing functional disability and unemployment",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging results provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing axial pain in a middle\u2011aged woman is likely due to degenerative disc disease and possible osteoporotic changes, especially given limited activity."
+    },
+    {
+      "rank": 6,
+      "name": "Subclinical hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia present without clear etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Thyroid function tests not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia and dyslipidaemia can be associated with early thyroid dysfunction; lack of labs makes this tentative but plausible."
+    },
+    {
+      "rank": 7,
+      "name": "Early diabetic nephropathy / CKD\u2011related anemia",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia and diabetes risk present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No albuminuria or eGFR data provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given diabetes risk, early nephropathy could contribute to anemia, but absence of renal markers limits confidence."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic risk factors (prediabetes, dyslipidaemia) present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No hepatic imaging or liver enzymes reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD, yet lack of imaging or labs makes this speculative."
+    },
+    {
+      "rank": 9,
+      "name": "Secondary dyslipidaemia from depot medroxyprogesterone acetate (DMPA)",
+      "icd10": "E78.5",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on DMPA therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C elevation far exceeds typical DMPA effect",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "DMPA can raise lipids, but the magnitude suggests an additional primary cause (e.g., familial hypercholesterolaemia)."
+    },
+    {
+      "rank": 10,
+      "name": "Vitamin D deficiency",
+      "icd10": "E55.9",
+      "snomed": "237022007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic musculoskeletal pain and limited outdoor activity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No 25\u2011OH vitamin D level measured",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors for deficiency are present, but without lab confirmation the probability remains modest."
+    },
+    {
+      "rank": 11,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic fatigue not documented; no sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given obesity risk (unknown) and metabolic syndrome, OSA is possible but lacks supporting data."
+    },
+    {
+      "rank": 12,
+      "name": "Major depressive disorder / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Functional disability and unemployment due to chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors are present, yet lack of screening limits certainty."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus (new\u2011onset/under\u2011treated)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient exhibits discordant glycaemic markers (HbA1c 6.8% with normal fasting glucose) alongside markedly elevated LDL\u2011C, chronic anemia, and severe musculoskeletal pain. The reviewer highlighted the omission of familial hypercholesterolaemia, which now accounts for the most likely primary lipid disorder. Diabetes is prioritized as the leading diagnosis due to its metabolic impact and the reviewer\u2019s high confidence. Secondary considerations include mixed anemia, metabolic syndrome, and degenerative spine disease, each supported by available chart data. Several entities remain speculative because of missing laboratory or imaging results, prompting targeted work\u2011up recommendations.",
+  "unresolved_findings": [
+    "Normal fasting glucose (76\u202fmg/dL) despite elevated HbA1c (6.8%) \u2013 cause unclear",
+    "Severe LDL\u2011C elevation without full lipid panel or triglyceride data",
+    "Mild electrolyte shifts (K\u207a 5.1\u202fmmol/L, Cl\u207b 107\u202fmmol/L) with no clear etiology",
+    "Blood pressure reading 99/82\u202fmmHg versus stage\u20111 hypertension flag \u2013 data inconsistency",
+    "Absence of BMI, waist circumference, and complete lipid panel components",
+    "Missing iron studies, ferritin, transferrin saturation, B12, folate, reticulocyte count",
+    "No thyroid function tests (TSH, free T4)",
+    "No albuminuria or eGFR values to assess diabetic nephropathy",
+    "No hepatic imaging or liver enzyme panel for NAFLD assessment",
+    "No sleep study or validated sleep questionnaire for OSA"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and perform oral glucose tolerance test to clarify glycaemic status",
+    "Comprehensive fasting lipid panel including LDL\u2011C, HDL\u2011C, triglycerides, and apolipoprotein B",
+    "Genetic testing for familial hypercholesterolaemia (LDLR, APOB, PCSK9)",
+    "Thyroid panel (TSH, free T4) to evaluate subclinical hypothyroidism",
+    "Iron studies: serum iron, ferritin, transferrin saturation, total iron\u2011binding capacity, and reticulocyte count",
+    "Vitamin B12 and folate levels",
+    "Renal assessment: urine albumin\u2011to\u2011creatinine ratio and eGFR",
+    "Liver ultrasound with elastography and ALT/AST to assess NAFLD",
+    "Dual\u2011energy X\u2011ray absorptiometry (DEXA) for osteoporosis evaluation",
+    "Spine MRI or X\u2011ray to characterize degenerative disc disease",
+    "Polysomnography or home sleep apnea testing",
+    "Measurement of BMI, waist circumference, and blood pressure on multiple occasions",
+    "25\u2011OH vitamin D level"
+  ]
+}

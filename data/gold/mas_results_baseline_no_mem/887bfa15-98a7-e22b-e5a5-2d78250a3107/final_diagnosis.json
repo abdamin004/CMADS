@@ -1,0 +1,331 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (uncontrolled type 2 diabetes, hypertension, obesity)",
+      "icd10": "E88.81",
+      "snomed": "190332009",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed type 2 diabetes, hypertension, BMI >30 kg/m2",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High Charlson comorbidity index (3) and multiple cardiovascular risk factors",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of uncontrolled diabetes, hypertension, and obesity drives metabolic syndrome, which underlies most of the patient\u2019s cardiovascular and renal risk."
+    },
+    {
+      "rank": 2,
+      "name": "Early diabetic nephropathy / chronic kidney disease stage 3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR ~45 mL/min/1.73m2 (implied by CKD stage 3 comment)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced eGFR in the setting of diabetes and hypertension is most consistent with early diabetic nephropathy, though NSAID exposure may contribute."
+    },
+    {
+      "rank": 3,
+      "name": "Opioid\u2011use disorder / opioid\u2011related adverse effects",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid prescription among 11 active medications",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Risk of dependence and opioid\u2011related side effects noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Polypharmacy with chronic opioids raises the likelihood of dependence and opioid\u2011related complications such as constipation and endocrine dysfunction."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic coronary artery disease (stable/incipient)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome and multiple cardiovascular risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No direct imaging or ischemia data yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the high atherosclerotic burden from metabolic syndrome, CAD is plausible despite lack of documented ischemia."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (moderate\u2011to\u2011severe)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension present, risk factors for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No symptom screen or sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension suggest OSA, but lack of objective testing lowers certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Depressive and anxiety disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented stress without formal mental\u2011health diagnosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Psychiatric symptoms plausible given chronic illness burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic medical complexity and documented stress support a mood/anxiety disorder, though formal evaluation is pending."
+    },
+    {
+      "rank": 7,
+      "name": "NSAID\u2011induced gastropathy",
+      "icd10": "K21.9",
+      "snomed": "235719002",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use among 11 medications",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Unexplained mild hyperchloremia and GI symptoms not documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term NSAID exposure predisposes to gastric mucosal injury, potentially contributing to occult GI bleeding."
+    },
+    {
+      "rank": 8,
+      "name": "NSAID\u2011induced interstitial nephritis",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent NSAID, ACE\u2011I, and thiazide therapy (triple\u2011whammy)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising hyperchloremia and mild hyperkalaemia without clear cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAID exposure can cause interstitial nephritis, which may explain electrolyte abnormalities and worsening renal function."
+    },
+    {
+      "rank": 9,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia noted in labs (not detailed but typical at eGFR ~45)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer notes anemia likely under\u2011estimated",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Stage 3 CKD commonly leads to anemia due to reduced erythropoietin production."
+    },
+    {
+      "rank": 10,
+      "name": "Acute kidney injury risk (triple\u2011whammy: ACE\u2011I + thiazide + NSAID)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent ACE\u2011I, thiazide diuretic, and NSAID therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer rates risk as high",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The medication combination markedly increases AKI risk, especially in the setting of existing CKD."
+    },
+    {
+      "rank": 11,
+      "name": "Secondary hypertension (renal\u2011artery stenosis, primary aldosteronism, etc.)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite multiple agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer notes possibility but evidence limited",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent hypertension may be driven by secondary causes; further evaluation is warranted."
+    },
+    {
+      "rank": 12,
+      "name": "Peripheral neuropathy (diabetic or opioid\u2011induced)",
+      "icd10": "G62.9",
+      "snomed": "24700007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes and chronic opioid use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Both diabetes and opioids can cause peripheral neuropathy, but clinical documentation is limited."
+    },
+    {
+      "rank": 13,
+      "name": "Occult gastrointestinal bleeding / peptic ulcer disease",
+      "icd10": "K27.9",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia and hyperchloremia possibly reflecting GI loss",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer rates as questionable",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia and electrolyte shifts could stem from occult GI bleeding, but evidence is sparse."
+    },
+    {
+      "rank": 14,
+      "name": "Non\u2011alcoholic fatty liver disease / steato\u2011hepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No liver enzymes or imaging provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD, though direct evidence is lacking."
+    },
+    {
+      "rank": 15,
+      "name": "Latent infections (TB, hepatitis B/C)",
+      "icd10": "B20",
+      "snomed": "235719002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer assigns low confidence",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Screening for latent infections is prudent given immunomodulating therapies, but current data do not suggest active disease."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (uncontrolled type 2 diabetes, hypertension, obesity)",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of uncontrolled type 2 diabetes, hypertension, and obesity defines metabolic syndrome, which drives the majority of cardiovascular and renal risk. Early diabetic nephropathy (CKD stage 3) is evident from reduced eGFR and contributes to anemia and heightened AKI susceptibility, especially given the triple\u2011whammy of ACE\u2011I, thiazide, and chronic NSAID use. Chronic opioid therapy raises the likelihood of opioid\u2011use disorder and related adverse effects. Atherosclerotic CAD is plausible given the high atherosclerotic burden, while secondary contributors such as obstructive sleep apnea, NSAID\u2011induced gastropathy, and interstitial nephritis explain several laboratory abnormalities (hyperchloremia, mild hyperkalaemia). Psychiatric stressors, possible secondary hypertension, and other low\u2011probability entities complete the differential.",
+  "unresolved_findings": [
+    "Hyperchloremia (Cl\u207b 109.9 mmol/L, rising) \u2013 unclear clinical correlate",
+    "Mild hyperkalaemia (K\u207a 5.1 mmol/L, rising) \u2013 may be ACE\u2011I effect or early renal dysfunction",
+    "Urine leukocytes without documented urinary symptoms \u2013 possible asymptomatic bacteriuria or contamination",
+    "Missing recent values (BP, BMI, HR, eGFR, total cholesterol) \u2013 limits current risk quantification",
+    "Stress documented without formal mental\u2011health diagnosis \u2013 potential under\u2011evaluated psychiatric condition"
+  ],
+  "recommended_workup": [
+    "Polysomnography or home sleep apnea testing to evaluate for OSA",
+    "Renal ultrasound and urine protein quantification (albumin\u2011creatinine ratio) to stage CKD and assess for NSAID nephropathy",
+    "Comprehensive metabolic panel repeat to monitor electrolytes and renal function",
+    "Fecal occult blood test or upper endoscopy if anemia persists to rule out occult GI bleeding",
+    "Liver ultrasound and ALT/AST assessment for NAFLD evaluation",
+    "Aldosterone\u2011renin ratio and renal artery Doppler to investigate secondary hypertension",
+    "Screening for latent TB (IGRA) and hepatitis B/C serologies given immunomodulating medication exposure",
+    "Assessment of opioid use disorder using DSM\u20115 criteria and urine drug screen",
+    "Complete blood count with iron studies to characterize CKD\u2011related anemia",
+    "Review and possibly taper NSAID therapy; consider gastroprotective agents"
+  ]
+}

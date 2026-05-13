@@ -1,0 +1,203 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension (SBP 137, DBP 84)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated resting heart rate (97 bpm) indicating autonomic stress",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets the ATP III criteria for metabolic syndrome (central obesity, hypertension, elevated fasting glucose). This clustering drives the majority of cardiometabolic risk and explains most observed abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity with BMI \u226530 and daytime fatigue (implied by elevated HR)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Hypertension and tachycardia without other cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity predisposes to OSA, which can cause resistant hypertension and sympathetic overactivity, accounting for the elevated heart rate. Objective sleep testing is pending."
+    },
+    {
+      "rank": 3,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, insulin resistance)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild elevation of liver enzymes (not provided but anticipated in context)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The high prevalence of NAFLD in patients with metabolic syndrome makes it a likely concurrent condition, though imaging/labs are pending."
+    },
+    {
+      "rank": 4,
+      "name": "Early Chronic Kidney Disease (possible type\u20114 RTA)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline\u2011high creatinine and hyperchloremic metabolic acidosis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes pre\u2011risk for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Early CKD is suggested by rising creatinine and acid\u2011base disturbance; type\u20114 RTA is a plausible mechanism given hyperchloremia and mild acidosis."
+    },
+    {
+      "rank": 5,
+      "name": "Renal Tubular Acidosis (type\u202f4)",
+      "icd10": "N25.8",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperchloremic metabolic acidosis with normal anion gap",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Mildly elevated potassium (if present) would support type\u20114 RTA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The acid\u2011base pattern fits type\u20114 RTA, which can coexist with early CKD and hypertension."
+    },
+    {
+      "rank": 6,
+      "name": "Depressive / Anxiety Disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stressors noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Elevated resting heart rate may be partly autonomic from anxiety",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Stress and possible mood disorder can contribute to poor lifestyle adherence and sympathetic tone, modestly influencing the clinical picture."
+    },
+    {
+      "rank": 7,
+      "name": "Thyroid Dysfunction",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Tachycardia (HR 97) and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While tachycardia could stem from thyroid disease, lack of specific symptoms or labs makes this less likely."
+    },
+    {
+      "rank": 8,
+      "name": "Vitamin B12 Deficiency",
+      "icd10": "D51.9",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of B12 injection (prophylactic)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No laboratory evidence of deficiency; injection suggests prophylaxis rather than active disease."
+    },
+    {
+      "rank": 9,
+      "name": "Polycystic Ovarian Syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No reproductive or androgenic findings documented; probability remains minimal."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with classic features of metabolic syndrome\u2014obesity, hypertension, and prediabetes\u2014which together drive most of the observed cardiometabolic risk. Obstructive sleep apnea is a common comorbidity in this population and likely contributes to the elevated heart rate and blood pressure. The emerging hyperchloremic metabolic acidosis with borderline creatinine points toward early chronic kidney disease, possibly with a superimposed type\u20114 renal tubular acidosis. Non\u2011alcoholic fatty liver disease is highly prevalent in metabolic syndrome and should be considered. Secondary contributors such as thyroid dysfunction, mood disorder, vitamin B12 deficiency, and PCOS are less likely but retained for completeness. Unsupported entities (primary hyperaldosteronism, renal artery stenosis, pheochromocytoma, iron\u2011deficiency anemia, Cushing\u2019s syndrome) were removed per reviewer guidance.",
+  "unresolved_findings": [
+    "Hyperchloremic metabolic acidosis without clear etiology",
+    "Discordant low fasting glucose (66.7\u202fmg/dL) with prediabetic A1c",
+    "Elevated resting heart rate (97\u202fbpm) not fully explained",
+    "Missing lipid panel, eGFR, urine albumin/creatinine ratio, thyroid function tests, CBC, iron studies, ABG, urine electrolytes, mental\u2011health screening scores"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography to confirm or exclude obstructive sleep apnea",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Renal function panel including eGFR and urine albumin/creatinine ratio",
+    "Thyroid function tests (TSH, free T4)",
+    "Arterial blood gas and serum electrolytes with urine electrolytes to characterize acid\u2011base disorder",
+    "Renal ultrasound if structural disease suspected",
+    "Repeat fasting glucose and consider oral glucose tolerance test",
+    "CBC with iron studies and vitamin B12 level",
+    "Standardized depression and anxiety screening questionnaires (PHQ\u20119, GAD\u20117)"
+  ]
+}

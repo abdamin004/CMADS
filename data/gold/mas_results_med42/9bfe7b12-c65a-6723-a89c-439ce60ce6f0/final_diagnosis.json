@@ -1,0 +1,62 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute Pyelonephritis",
+      "icd10": "N12.6 (Pyelonephritis, acute, with other specified complications)",
+      "snomed": "36294008 (Acute pyelonephritis)",
+      "probability": 0.75,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukocytosis, elevated CRP, and positive urine culture for E. coli",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports severe flank pain, fever, and nausea",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Combination of clinical symptoms (flank pain, fever) with laboratory findings (leukocytosis, elevated CRP, positive urine culture for E. coli) strongly supports acute pyelonephritis."
+    },
+    {
+      "rank": 2,
+      "name": "Nephrolithiasis",
+      "icd10": "N20.0 (Hydronephrosis with renal stone)",
+      "snomed": "236919007 (Kidney calculus with hydronephrosis)",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "imaging",
+          "finding": "CT scan shows right renal pelvis dilation and a 5 mm stone in the proximal ureter",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Imaging evidence of hydronephrosis with a visible ureteral stone supports nephrolithiasis, though less likely given current infection markers."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic Interstitial Nephritis",
+      "icd10": "N12.0 (Chronic interstitial nephritis)",
+      "snomed": "36343008 (Chronic interstitial nephritis)",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of long-term NSAID use and previous episodes of acute kidney injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While chronic interstitial nephritis is possible due to NSAID history, current presentation dominated by infection markers makes it less likely."
+    }
+  ],
+  "primary_diagnosis": "Acute Pyelonephritis",
+  "primary_probability": 0.75,
+  "clinical_reasoning_summary": "The patient's severe flank pain, fever, leukocytosis, elevated CRP, and positive urine culture for E. coli strongly indicate acute pyelonephritis as the primary diagnosis. Nephrolithiasis is considered secondary due to imaging findings but less likely given current infection markers. Chronic interstitial nephritis remains a possibility based on NSAID history but is less probable in this acute presentation.",
+  "unresolved_findings": [],
+  "recommended_workup": []
+}

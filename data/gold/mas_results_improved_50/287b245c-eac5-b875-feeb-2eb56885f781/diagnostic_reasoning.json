@@ -1,0 +1,145 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (diabetic nephropathy)",
+      "icd10": "E11.22",
+      "snomed": "127013003",
+      "probability": 0.55,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem code \u201cDisorder of kidney due to diabetes mellitus\u201d (onset 2021-06-28)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3\u202fmg/dL \u2013 severe renal impairment",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, hyperlipidemia \u2013 metabolic\u2011syndrome cluster",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent A1c and eGFR values (data\u2011quality flag)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A documented SNOMED link explicitly ties the kidney disorder to diabetes. The markedly elevated creatinine is consistent with progressive diabetic nephropathy, which often outpaces the outdated CKD\u2011stage\u20111 label. Metabolic\u2011syndrome risk factors further support undiagnosed/under\u2011controlled type\u202f2 diabetes as the unifying etiology."
+    },
+    {
+      "rank": 2,
+      "name": "NSAID\u2011induced chronic interstitial nephritis / acute\u2011on\u2011chronic kidney injury",
+      "icd10": "N17.9",
+      "snomed": "418799008",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium 220\u202fmg PRN for hip osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine 3.3\u202fmg/dL in a patient with known CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data flag: NSAID_use_in_ckd \u2013 contraindicated",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L) and thrombocytopenia (124\u202f\u00d710\u00b3/\u00b5L) \u2013 pattern seen in drug\u2011induced hypersensitivity interstitial nephritis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011term naproxen exposure in the setting of pre\u2011existing renal disease can cause chronic interstitial nephritis and precipitate an acute rise in creatinine. The medication flag and the temporal relationship to renal dysfunction make NSAID nephrotoxicity a plausible secondary contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Early myelodysplastic syndrome (MDS) or other marrow failure disorder",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Thrombocytopenia (124\u202f\u00d710\u00b3/\u00b5L) and leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L) with relative basophilia (0.4\u202f\u00d710\u00b3/\u00b5L, 3.8\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >\u202f60\u202fyears \u2013 epidemiologic risk factor for MDS",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented medication that commonly causes cytopenias (ACE\u2011I, statin, NSAID are rare culprits)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of mild pancytopenia and disproportionate basophilia is atypical for uremia alone and raises concern for a primary hematologic process such as early MDS, especially in an older adult. Evidence is limited, so confidence remains low."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis / CKD progression due to uncontrolled hypertension",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension treated with lisinopril 10\u202fmg and amlodipine 2.5\u202fmg",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3\u202fmg/dL indicating CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure currently 104/64\u202fmmHg \u2013 may reflect recent intensification but historic readings were higher (not shown)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome risk factors (obesity, hyperlipidemia) that exacerbate hypertensive kidney damage",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension is a major driver of CKD independent of diabetes. The presence of antihypertensive therapy and the degree of renal impairment support hypertensive nephrosclerosis as a contributing diagnosis, especially given the lack of recent BP trends."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (diabetic nephropathy)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s record contains a specific SNOMED code linking kidney disease to diabetes, and the severe creatinine elevation is most parsimoniously explained by diabetic nephropathy, especially given the metabolic\u2011syndrome background and missing glycemic monitoring. Chronic naproxen use provides a credible secondary hit that may be worsening renal function. Unexplained cytopenias and basophilia suggest a concurrent marrow process (early MDS), but the evidence is weaker. Hypertensive nephrosclerosis remains a plausible co\u2011factor given long\u2011standing hypertension and CKD. Hypertensive nephrosclerosis and chronic hepatitis C were not retained as primary differentials due to lack of direct supporting data.",
+  "unresolved_findings": [
+    "Thrombocytopenia (124\u202f\u00d710\u00b3/\u00b5L) and leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L) not fully explained by CKD alone",
+    "Relative basophilia (0.4\u202f\u00d710\u00b3/\u00b5L, 3.8\u202f%)",
+    "Elevated CRP (9.1\u202fmg/L) without identified source",
+    "Missing key laboratory values: HbA1c, eGFR, lipid panel, BMI"
+  ],
+  "recommended_workup": [
+    "HbA1c, fasting plasma glucose, and oral glucose tolerance test to confirm diabetes status and control",
+    "Serum creatinine with cystatin\u2011C and calculation of eGFR; urine albumin\u2011to\u2011creatinine ratio to stage CKD and assess proteinuria",
+    "Discontinue naproxen; substitute with acetaminophen or topical agents and re\u2011measure creatinine in 2\u202fweeks",
+    "Renal ultrasound to evaluate kidney size, echogenicity, and exclude obstruction",
+    "Consider renal biopsy if creatinine does not improve after NSAID cessation to differentiate diabetic vs. drug\u2011induced nephropathy",
+    "Repeat CBC with peripheral smear; if cytopenias persist, refer for bone\u2011marrow evaluation to rule out MDS",
+    "Viral serologies: hepatitis C antibody with RNA PCR, HIV antigen/antibody, hepatitis B surface antigen",
+    "Autoimmune panel (ANA, ANCA, complement levels) to exclude vasculitis",
+    "Comprehensive lipid panel and ASCVD risk calculation; consider escalating statin intensity per ACC/AHA guidelines",
+    "Screen for obstructive sleep apnea (STOP\u2011BANG) given obesity and hypertension",
+    "Home blood pressure monitoring and medication adherence review"
+  ]
+}

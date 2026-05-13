@@ -1,0 +1,235 @@
+{
+  "patient_uuid": "f3f779a3-6781-4147-2cf7-01d51887e0e1",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:06:07+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:06:29+00:00",
+      "summary": "Completed ehr_analyst in 21458ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:06:07+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:06:29+00:00",
+      "summary": "Completed lab_interpreter in 21977ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:06:29+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:06:31+00:00",
+      "summary": "Recall returned 12, 0 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 0,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": []
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:06:59+00:00",
+      "summary": "Round 1 critique: confidence=87, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 87,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:06:59+00:00",
+      "summary": "Round 1 confidence=87/100",
+      "payload": {
+        "round": 1,
+        "confidence": 87
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:07:07+00:00",
+      "summary": "Final differential (6 dx, primary=End-stage diabetic-hypertensive nephropathy (CKD Stage 5), rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+        "primary_probability": 0.4,
+        "confidence_trajectory": [
+          87
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:07:07+00:00",
+      "summary": "Completed diagnostic_reasoning in 37268ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:07:07+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:07:32+00:00",
+      "summary": "Completed clinical_reviewer in 25327ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:07:32+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:07:41+00:00",
+      "summary": "Final refined diagnosis: End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+      "payload": {
+        "primary_diagnosis": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+        "primary_probability": 0.44,
+        "differential_size": 10
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:07:41+00:00",
+      "summary": "Completed final_diagnosis in 9179ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:07:42+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:07:57+00:00",
+      "summary": "Treatment plan generated for 'End-stage diabetic-hypertensive nephropathy (CKD Stage 5)' (6 meds)",
+      "payload": {
+        "disease": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:07:57+00:00",
+      "summary": "Completed treatment_planning in 14523ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T18:07:58+00:00",
+      "summary": "Consolidated outcome for 'End-stage diabetic-hypertensive nephropathy (CKD Stage 5)' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

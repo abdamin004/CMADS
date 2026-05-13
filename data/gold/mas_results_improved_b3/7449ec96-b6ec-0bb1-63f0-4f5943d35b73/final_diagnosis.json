@@ -1,0 +1,182 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/84 mmHg (stage 1 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and pre\u2011diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal fasting glucose with elevated HbA1c (6.1%) indicating insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets criteria for stage 1 hypertension with persistent elevated BP readings in the setting of obesity and early insulin resistance, making essential hypertension the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 (obesity) and waist circumference not recorded but implied",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic HbA1c 6.1% with normal fasting glucose",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated blood pressure (132/84 mmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, elevated blood pressure, and impaired glucose regulation fulfills criteria for metabolic syndrome, contributing to cardiovascular risk and supporting the overall clinical picture."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) is a major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep\u2011related symptoms, but screening not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s obesity and lack of sleep assessment, OSA remains plausible and may contribute to hypertension and metabolic derangements; further evaluation is warranted."
+    },
+    {
+      "rank": 4,
+      "name": "Primary hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599009",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal serum potassium with mild metabolic alkalosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension not yet documented but BP remains elevated despite lifestyle measures",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of hypertension, low\u2011normal potassium, and metabolic alkalosis raises suspicion for primary aldosteronism; confirmatory aldosterone\u2011renin ratio testing is needed."
+    },
+    {
+      "rank": 5,
+      "name": "Medication\u2011induced electrolyte disturbance (possible diuretic effect)",
+      "icd10": "E87.6",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling serum potassium and sodium with mild metabolic alkalosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list incomplete; diuretic use not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Electrolyte trends are compatible with diuretic\u2011induced losses, but absence of medication data makes this hypothesis weak; medication reconciliation is essential."
+    },
+    {
+      "rank": 6,
+      "name": "Early pre\u2011renal/volume\u2011contracted acute kidney injury",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN with stable creatinine suggesting early pre\u2011renal azotemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Evidence of volume depletion (low sodium, metabolic alkalosis)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The laboratory pattern points toward early pre\u2011renal injury, likely secondary to volume contraction; assessment of volume status and possible diuretic effect is needed."
+    },
+    {
+      "rank": 7,
+      "name": "Adjustment disorder with mixed anxiety and depressed mood",
+      "icd10": "F43.23",
+      "snomed": "44465002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant psychosocial stressors (intimate partner abuse, social isolation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mood or anxiety assessment performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While psychosocial stressors are present, there is no documented mood or anxiety symptomatology; the diagnosis remains possible but low\u2011probability pending formal evaluation."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, pre\u2011diabetes, and stage 1 hypertension point to essential hypertension as the dominant process, amplified by metabolic syndrome. Secondary contributors include possible obstructive sleep apnea, early pre\u2011renal AKI from volume contraction, and a low\u2011probability primary aldosteronism. Medication\u2011induced electrolyte loss remains speculative due to missing medication data, and psychosocial stressors may underlie an adjustment disorder but lack objective assessment.",
+  "unresolved_findings": [
+    "Mild metabolic alkalosis with high CO\u2082 and chloride despite no documented diuretic or alkalinizing agent use",
+    "Rising BUN with stable creatinine suggesting early pre\u2011renal azotemia",
+    "Falling potassium and sodium without a clear etiology",
+    "Missing key data: exact BMI, complete medication list, eGFR, urine albumin\u2011creatinine ratio, sleep history, home blood\u2011pressure recordings",
+    "Psychosocial stressors not formally evaluated with validated tools"
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation, focusing on diuretic use",
+    "Aldosterone\u2011renin ratio (ARR) testing with confirmatory suppression testing if indicated",
+    "24\u2011hour urine electrolytes (sodium, potassium) to assess renal handling",
+    "Serum and urine osmolality, fractional excretion of sodium to evaluate volume status",
+    "Polysomnography or home sleep apnea testing given obesity risk",
+    "Repeat basic metabolic panel with attention to trends in electrolytes and BUN/creatinine",
+    "Renal ultrasound with Doppler if suspicion for renal artery stenosis persists after initial workup",
+    "Validated depression and anxiety screening tools (PHQ\u20119, GAD\u20117)",
+    "Home blood\u2011pressure monitoring to characterize true BP burden"
+  ]
+}

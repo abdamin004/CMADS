@@ -1,0 +1,253 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.246,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed obstructive sleep apnea (onset 2014)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CPAP or other therapy documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (stage\u202f1)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA drives intermittent hypoxia, sympathetic surges and insulin resistance, explaining the patient\u2019s hypertension, dyslipidaemia and platelet activation. Absence of CPAP makes it the most actionable upstream problem."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.287,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (stage\u202f1)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol (27.8\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet mean volume (11.4\u202ffL) and platelet distribution width (432.6\u202ffL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex, age 42\u202fyears",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 ATP\u2011III criteria (central obesity, hypertension, low HDL). Platelet size abnormalities are frequently observed in insulin\u2011resistant states, reinforcing the metabolic\u2011vascular phenotype."
+    },
+    {
+      "rank": 3,
+      "name": "Insulin\u2011resistance / pre\u2011diabetes",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.148,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet mean volume (11.4\u202ffL) and platelet distribution width (432.6\u202ffL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol (27.8\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u226530)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "MPV/PDW elevation and atherogenic dyslipidaemia are surrogate markers of insulin resistance. In the context of obesity and OSA, pre\u2011diabetes is highly plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hypertension due to OSA",
+      "icd10": "I15.0",
+      "snomed": "59621000",
+      "probability": 0.098,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed obstructive sleep apnea (onset 2014)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (stage\u202f1) with current BP 132/86\u202fmmHg",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg daily prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CPAP therapy documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA can cause resistant or secondary hypertension via chronic sympathetic activation. The modest BP control on a single ACE\u2011inhibitor suggests a contributory OSA\u2011driven component."
+    },
+    {
+      "rank": 5,
+      "name": "Atherogenic dyslipidaemia (low HDL\u202f+\u202f\u2191 triglycerides)",
+      "icd10": "E78.5",
+      "snomed": "13644009",
+      "probability": 0.082,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol (27.8\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u226530)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low HDL is a hallmark of the atherogenic dyslipidaemia seen in insulin\u2011resistant states; triglycerides are not yet measured but are likely elevated given the metabolic context."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.057,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome criteria met",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NAFLD/NASH is a hepatic manifestation of insulin resistance and metabolic syndrome; obesity and dyslipidaemia raise its likelihood."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (stage\u202f1\u20112)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.041,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (stage\u202f1) on ACE\u2011inhibitor",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Borderline low erythrocyte count (4.0\u202f10^6/uL) and hemoglobin (13.6\u202fg/dL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and borderline anemia raise suspicion for early CKD; ACE\u2011inhibitor use may mask creatinine rise."
+    },
+    {
+      "rank": 8,
+      "name": "Gout / hyperuricaemia",
+      "icd10": "M10.-",
+      "snomed": "237599009",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex, age 42\u202fyears",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Male gender confers baseline risk; no uric\u2011acid data yet, so probability remains low."
+    },
+    {
+      "rank": 9,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.016,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2016",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current BP 132/86\u202fmmHg (stage\u202f1)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg daily prescribed",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Remains a residual label for any BP elevation not fully explained by OSA\u2011related secondary mechanisms."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea, untreated",
+  "primary_probability": 0.246,
+  "clinical_reasoning_summary": "A 42\u2011year\u2011old obese male presents with untreated obstructive sleep apnea, stage\u20111 hypertension, markedly low HDL and platelet size abnormalities. The untreated OSA is the most plausible upstream driver, causing secondary hypertension, insulin resistance and the metabolic\u2011syndrome phenotype. Metabolic syndrome remains a strong downstream cluster, while insulin resistance, atherogenic dyslipidaemia, NAFLD/NASH, early CKD and gout are plausible sequelae. Essential hypertension is retained as a residual diagnosis. Missing data (fasting glucose/HbA1c, triglycerides, renal and liver panels, repeat BP trends, uric acid) limit certainty and may shift probabilities upon acquisition.",
+  "unresolved_findings": [
+    "Borderline low erythrocyte count (4.0\u202f10^6/uL) and hemoglobin (13.6\u202fg/dL) \u2013 possible mild anemia of chronic disease or dilutional effect.",
+    "Absence of documented smoking, alcohol, physical activity, dietary habits, and family history \u2013 limits full cardiovascular risk stratification.",
+    "Single blood pressure measurement \u2013 no trend data to assess control over time."
+  ],
+  "recommended_workup": [
+    "Polysomnography or validated home sleep apnea test with CPAP titration.",
+    "Fasting glucose and HbA1c (or 2\u2011hour OGTT if borderline).",
+    "Full fasting lipid panel including triglycerides and LDL\u2011C.",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio.",
+    "Liver function tests (ALT, AST, GGT) and hepatic ultrasound or FibroScan.",
+    "Repeat CBC with iron studies, B12, folate, and reticulocyte count.",
+    "Serial blood pressure recordings (clinic and home) over 3\u20116\u202fmonths.",
+    "Serum uric\u2011acid level.",
+    "Comprehensive lifestyle questionnaire (diet, sodium intake, physical activity, smoking, alcohol).",
+    "10\u2011year ASCVD risk calculation incorporating updated labs."
+  ]
+}

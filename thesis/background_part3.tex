@@ -1,65 +1,112 @@
+\FloatBarrier
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Memory and State in Multi-Agent Clinical Systems}
+\label{subsec:memory_state}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The systems reviewed so far treat each clinical case as a fresh problem.
+Useful information from one case is not carried into the next: there is no
+record of which evidence patterns supported which conclusions, no record of
+which agents tended to disagree on which kinds of cases, and no record of how
+the system handled similar patients before. This is a known limitation of the
+foundational and coordination work and shapes the memory subsystem that the
+thesis builds in Chapter~\ref{chap:methodology}.
+
+The conceptual taxonomy used for the memory design in this thesis is drawn
+from the Cognitive Architecture for Language Agents (CoALA) family of work.
+CoALA distinguishes four memory categories. \emph{Working} memory holds the
+state of the current task --- the prompt, the intermediate outputs, the
+scratchpad. \emph{Episodic} memory is an append-only timeline of events from
+prior runs, useful for replaying what happened in a particular case.
+\emph{Semantic} memory stores summarised, condition-level aggregates --- for
+example, the typical evidence patterns that supported a confirmed match for a
+given disease across many runs. \emph{Case-based} memory stores prior
+patients as searchable records that can be retrieved by similarity to the
+current patient. The thesis instantiates all four tiers in
+Section~\ref{sec:shared_memory}.
+
+Three papers from the broader review intersect this design. RareAgents
+combines persistent memory with tool use and shows that an open-source
+backbone with memory beats a larger general model on rare-disease
+diagnosis~\cite{Chen2024RareAgents}; this is the closest published example of
+case-based retrieval changing diagnostic behaviour. MDTeamGPT introduces a
+self-evolving memory that updates which discussion patterns work for which
+case types~\cite{Chen2025MDTeamGPT}; the mechanism is closer in spirit to
+semantic memory than to case-based memory. The MALADE pharmacovigilance
+pipeline is the most direct example of retrieval-augmented generation in a
+multi-agent clinical setting, and reports a 64\% reduction in hallucinated
+drug--event associations when retrieval is added~\cite{Choi2024MALADE}; this
+result motivates the NICE-guideline retrieval used by the Treatment Planning
+agent in this thesis.
+
+None of these systems separates the cohort used to populate the case store
+from the cohort used to evaluate the with-memory configuration. The risk is
+that the recall step retrieves near-duplicate prior runs of the very cases
+under evaluation, which inflates apparent accuracy without genuine algorithm
+improvement. The cohort-leakage protocol used in
+Chapter~\ref{chap:results} is a direct response to this gap and is, to the
+best of the author's knowledge, the first reported leakage-controlled
+evaluation of a memory-augmented clinical multi-agent system.
+
+\FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Domain-Specific Clinical Workflow Deployment}
 \label{subsec:domain}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The preceding subsections established the theoretical and architectural foundations of
-multi-agent clinical AI.  This subsection shifts from design principles to empirical
-evidence, reviewing seven papers that deploy multi-agent automation workflows in
-specific, concrete clinical domains --- from cardiology and inpatient pathway management
-through pharmacovigilance, emergency triage, and rare disease
-diagnosis.
-Collectively, these works provide the empirical evidence base that near-clinician
-performance is achievable when multi-agent systems are carefully tailored to
-domain-specific requirements.
-Table~\ref{tab:tracker_domain} provides an overview before the detailed discussion.
+The previous sections focused on general design ideas. The papers in this group
+look at systems built for specific clinical domains, including cardiology,
+inpatient pathways, pharmacovigilance, emergency triage, and rare-disease
+diagnosis. They are useful because they show how multi-agent ideas behave when
+applied to real or realistic clinical tasks. Table~\ref{tab:tracker_domain} gives
+an overview.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{Literature Tracker: Domain-Specific Clinical Workflow Deployment}
 \label{tab:tracker_domain}
 \begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{p{2.0cm} p{2.0cm} p{2.3cm} p{2.3cm} p{3.0cm} p{2.5cm}}
+\begin{tabular}{p{2.0cm} p{2.5cm} p{2.3cm} p{2.3cm} p{3.0cm} p{2.0cm}}
 \toprule
 \textbf{Paper} & \textbf{Domain} & \textbf{Architecture Type} & \textbf{Evaluation Scope} & \textbf{Key Result} & \textbf{Thesis Relevance} \\
 \midrule
-ZODIAC~\cite{Zhou2024ZODIAC}
+ZODIAC \newline \cite{Zhou2024ZODIAC}
   & Cardiology
   & 5-agent with human review
   & Real patient data; 8 metrics
   & Cardiologist-level on 7/8 metrics
   & SaMD compliance framing \\[3pt]
-MAP~\cite{Chen2025MAP}
+MAP \newline \cite{Chen2025MAP}
   & Inpatient pathway
   & 5-stage pathway agents
   & MAP-Bench; 4 departments
   & $+$23\% workflow adherence
   & Full pathway automation \\[3pt]
-ClinicalLab~\cite{Yan2024ClinicalLab}
+ClinicalLab \newline \cite{Yan2024ClinicalLab}
   & 11 departments
   & Coordinator + Chief Physician
   & 1{,}500 real cases
   & Within 5\% of senior physicians; 4.1/5 satisfaction
   & Broadest real-world deployment \\[3pt]
-MALADE~\cite{Choi2024MALADE}
-  & Pharmacovigilance
+MALADE \newline \cite{Choi2024MALADE}
+  & Pharmaco\-vigilance
   & 4-agent RAG pipeline
   & OMOP benchmark
   & $-$64\% hallucinations with RAG
   & RAG + dynamic routing precedent \\[3pt]
-CDR-Agent~\cite{Xiang2025CDRAgent}
+CDR-Agent \newline \cite{Xiang2025CDRAgent}
   & Decision rules
   & 4-stage pipeline
   & 500 UCSF notes; 12 CDRs
   & 94.2\% rule selection; 91\% clinician-acceptable
   & Deferral as safety mechanism \\[3pt]
-TriageAgent~\cite{Lu2024TriageAgent}
+TriageAgent \newline \cite{Lu2024TriageAgent}
   & Emergency triage
   & 5-stage with confidence scoring
   & GPT-3.5-turbo
   & $+$5.55\% over MedAgents
   & Confidence-aware stopping \\[3pt]
-RareAgents~\cite{Chen2024RareAgents}
+RareAgents \newline \cite{Chen2024RareAgents}
   & Rare disease
   & MDT + memory + tools
   & RareBench + MIMIC-IV-Ext-Rare
@@ -70,105 +117,71 @@ RareAgents~\cite{Chen2024RareAgents}
 \end{adjustbox}
 \end{table}
 
-The strongest real-world clinical validation result in this entire review comes from
-ZODIAC, proposed by Zhou~et~al.~\cite{Zhou2024ZODIAC} as a multi-agent framework for
-cardiological diagnosis comprising five specialised agents covering cardiac data
-extraction, arrhythmia detection, report generation, clinical reasoning, and human
-review.  Each agent was fine-tuned on real patient data adjudicated by practising
-cardiologists~\cite{Zhou2024ZODIAC}.  The framework achieved cardiologist-level
-performance on 7 of 8 clinical evaluation metrics and outperformed general-purpose GPT-4
-on cardiac diagnostic tasks.  ZODIAC is notable for its explicit framing as a
-Software-as-a-Medical-Device (SaMD) compliant system, with human cardiologist review
-integrated as a final workflow stage~\cite{Zhou2024ZODIAC}.
+ZODIAC by Zhou et al. applies multi-agent design to cardiology
+\cite{Zhou2024ZODIAC}. It uses five agents for cardiac data extraction,
+arrhythmia detection, report generation, clinical reasoning, and human review.
+The agents were fine-tuned on real patient data reviewed by cardiologists. The
+system reached cardiologist-level performance on 7 of 8 metrics and outperformed
+general-purpose GPT-4 on cardiac tasks. It is also relevant because it includes
+human cardiologist review as part of the workflow.
 
-While ZODIAC demonstrated depth in a single specialty, the MAP framework by
-Chen~et~al.~\cite{Chen2025MAP} addressed breadth by modelling the full scope of
-inpatient clinical pathway automation.  MAP covers the five stages of the inpatient
-pathway --- admission assessment, daily monitoring, medication planning, procedure
-recommendation, and discharge summary generation --- as a multi-agent pipeline with
-agents specialised per pathway stage~\cite{Chen2025MAP}.  The MAP-Bench benchmark was
-introduced as the first standardised evaluation resource for end-to-end inpatient
-pathway automation, derived from real EHR data across four clinical departments.
-Multi-agent decomposition by pathway stage improved overall workflow adherence scores by
-23\% over single-agent baselines, and department-specific agent specialisation
-outperformed general agents across all four departments~\cite{Chen2025MAP}.
+MAP by Chen et al. studies inpatient pathway automation \cite{Chen2025MAP}. It
+covers admission assessment, daily monitoring, medication planning, procedure
+recommendation, and discharge summary generation. The authors also introduced
+MAP-Bench, built from real EHR data across four departments. Splitting the work
+by pathway stage improved workflow adherence by 23\% over single-agent baselines.
+Department-specific agents also performed better than general agents.
 
-The broadest real-world deployment in this review is ClinicalLab, presented by
-Yan~et~al.~\cite{Yan2024ClinicalLab}, which covers 11 clinical departments and 1{,}500
-real patient cases.  The framework combines department-specific specialist agents, a
-Coordinator agent for intelligent routing (reducing unnecessary specialist agent calls by
-34\%), and a Chief Physician agent for final synthesis and
-adjudication~\cite{Yan2024ClinicalLab}.  The system achieved diagnostic accuracy within
-5\% of senior physician performance across all departments and recorded a clinician
-satisfaction score of 4.1/5 in live hospital deployment.  The Coordinator's routing
-mechanism and the Chief Physician's arbitration role are directly relevant architectural
-precedents for the orchestrator and conflict resolution mechanisms designed in this
-thesis~\cite{Kim2024MDAgents,Fan2024AIHospital}.
+ClinicalLab by Yan et al. is the broadest deployment in this review
+\cite{Yan2024ClinicalLab}. It covers 11 departments and 1{,}500 real patient
+cases. The system uses department-specific specialist agents, a Coordinator for
+routing, and a Chief Physician for final synthesis. It achieved diagnostic
+accuracy within 5\% of senior physicians and received a clinician satisfaction
+score of 4.1/5. The Coordinator and Chief Physician roles are especially relevant
+to this thesis because they resemble the orchestrator and reviewer roles.
 
-In the pharmacovigilance domain, Choi~et~al.~\cite{Choi2024MALADE} demonstrated
-RAG-integrated multi-agent orchestration with MALADE.  The four-agent pipeline achieved
-18\% higher adverse drug event identification precision and 12\% higher recall than
-single-agent GPT-4~\cite{Choi2024MALADE}.  RAG integration reduced hallucinated
-drug--event associations by 64\% compared to non-RAG multi-agent baselines --- the
-largest hallucination reduction result in this review.  An important architectural
-contribution is the Orchestrator agent's dynamic task routing capability: when retrieval
-quality falls below a threshold, the Orchestrator reassigns the extraction task to an
-alternative retrieval strategy rather than propagating low-quality inputs
-downstream~\cite{Choi2024MALADE,Wu2024EHRFlow}.
+MALADE by Choi et al. applies a RAG-based multi-agent pipeline to
+pharmacovigilance \cite{Choi2024MALADE}. The system improved adverse drug event
+identification precision by 18\% and recall by 12\% compared with single-agent
+GPT-4. RAG reduced hallucinated drug-event associations by 64\%. The important
+design point is that the orchestrator can reroute the task when retrieval quality
+is weak, instead of passing poor evidence to later stages.
 
-Turning to clinical decision rule automation, Xiang~et~al.~\cite{Xiang2025CDRAgent}
-proposed CDR-Agent, a four-stage pipeline automating the execution of clinical decision
-rules (CDRs) --- formal evidence-based protocols such as the HEART Score, Wells
-Criteria, and Ottawa Rules.  The Select--Extract--Calculate--Recommend pipeline achieved
-94.2\% rule selection accuracy and 89.1\% variable extraction F1 across 12 CDRs on 500
-real de-identified UCSF clinical notes, with 91\% of recommendations rated as clinically
-acceptable or better by UCSF clinicians~\cite{Xiang2025CDRAgent}.  The Rule Selection
-Agent correctly declined to apply any CDR in 88\% of out-of-scope cases ---
-demonstrating correct deferral behaviour as a safety
-property~\cite{Xiang2025CDRAgent,Kim2025TAO}.  Single-agent GPT-4 achieved only 71.4\%
-end-to-end accuracy on the same tasks~\cite{Xiang2025CDRAgent}.
+CDR-Agent by Xiang et al. automates clinical decision rules such as the HEART
+Score, Wells Criteria, and Ottawa Rules \cite{Xiang2025CDRAgent}. Its
+Select--Extract--Calculate--Recommend pipeline reached 94.2\% rule selection
+accuracy and 89.1\% variable extraction F1 on 500 de-identified UCSF notes. UCSF
+clinicians rated 91\% of recommendations as clinically acceptable or better. The
+system also correctly declined to apply a rule in 88\% of out-of-scope cases,
+which is useful evidence for deferral as a safety behaviour.
 
-In emergency medicine, Lu~et~al.~\cite{Lu2024TriageAgent} presented TriageAgent at
-EMNLP 2024, the only peer-reviewed multi-agent framework specifically targeting
-emergency triage.  The framework implements a five-stage pipeline with self-confidence
-scoring at each stage and an early-stopping mechanism that terminates deliberation when
-agent consensus confidence is sufficient~\cite{Lu2024TriageAgent}.  RAG integration of
-the Emergency Severity Index (ESI) version~4 handbook grounded agent deliberation in
-current clinical protocols~\cite{Choi2024MALADE}.  TriageAgent outperformed all LLM
-baselines including MedAgents~\cite{Tang2024MedAgents} by 5.55\% on GPT-3.5-turbo.
+TriageAgent by Lu et al. focuses on emergency triage \cite{Lu2024TriageAgent}.
+It uses a five-stage pipeline with confidence scoring and early stopping. If
+agent confidence is high enough, the system stops further deliberation. It also
+uses RAG over the Emergency Severity Index handbook. On GPT-3.5-turbo, it
+outperformed MedAgents by 5.55\%. This supports confidence-aware stopping in
+agent workflows.
 
-Finally, Chen~et~al.~\cite{Chen2024RareAgents} addressed rare disease diagnosis with
-RareAgents, which requires multi-system, multi-specialty reasoning under severely limited
-training data.  RareAgents builds on Llama-3.1-70B and incorporates three architectural
-innovations beyond standard MAS designs: a persistent memory mechanism that stores case
-history as vector embeddings; a medical tool-use layer providing access to drug
-databases, phenotype ontologies, and clinical literature; and five specialist MDT agents
-covering neurology, genetics, metabolism, haematology, and
-immunology~\cite{Chen2024RareAgents}.  Evaluated on RareBench and the
-MIMIC-IV-Ext-Rare benchmark, RareAgents outperformed GPT-4o and all domain-specific
-fine-tuned models~\cite{Chen2024RareAgents}.  The 41\% reduction in hallucinated
-medication recommendations through tool-use integration further underscores the clinical
-safety benefit~\cite{Chen2025MedSentry}.  Notably, the result that a smaller open-source
-model (Llama-3.1-70B) can outperform a larger proprietary model (GPT-4o) when embedded
-in a well-designed multi-agent architecture reinforces the Optimisation Paradox finding
-by Bedi~et~al.~\cite{Bedi2025OptParadox}: coordination quality dominates individual
-model capability.
+RareAgents by Chen et al. addresses rare-disease diagnosis
+\cite{Chen2024RareAgents}. It uses Llama-3.1-70B with persistent memory, medical
+tool use, and five specialist MDT agents. On RareBench and MIMIC-IV-Ext-Rare,
+RareAgents outperformed GPT-4o and domain-specific fine-tuned models. Tool use
+also reduced hallucinated medication recommendations by 41\%. This is important
+because it shows again that workflow, memory, and tools can matter more than
+model size alone.
 
+\FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Safety, Robustness, and Evaluation of Clinical MAS}
 \label{subsec:safety}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The domain-specific deployments reviewed above demonstrate that multi-agent systems can
-achieve near-clinician performance, but achieving high accuracy is insufficient for
-clinical deployment without corresponding safety and robustness
-guarantees.  This subsection reviews the two papers
-that directly address the safety and reliability properties of multi-agent clinical
-systems --- an area that, despite its critical importance, is addressed by only a small
-minority of the reviewed literature.
-Table~\ref{tab:tracker_safety} provides an overview before the detailed discussion.
+The domain papers show promising accuracy, but accuracy alone is not enough for a
+clinical system. The system also has to be safe, reliable, and able to recover
+from errors. Only a small number of reviewed papers focus directly on these
+issues. Table~\ref{tab:tracker_safety} summarises the two most relevant papers.
 
-\begin{table}[ht]
+\begin{table}[!htbp]
 \centering
 \caption{Literature Tracker: Safety, Robustness, and Evaluation}
 \label{tab:tracker_safety}
@@ -192,44 +205,27 @@ EHRFlow~\cite{Wu2024EHRFlow}
 \end{adjustbox}
 \end{table}
 
-The most comprehensive study of safety vulnerabilities in clinical MAS was conducted by
-Chen~et~al.~\cite{Chen2025MedSentry}, who introduced MedSentry as the first systematic
-empirical investigation of adversarial risks specific to multi-agent LLM architectures
-in medical contexts.  The study tested four distinct MAS topologies --- centralised,
-decentralised, layered, and shared-pool --- by injecting a single fine-tuned
-dark-personality agent designed to produce harmful medical outputs into each
-configuration~\cite{Chen2025MedSentry}.  Five thousand adversarial medical prompts
-spanning 25 clinical topic areas were applied.  The centralised topology was the most
-vulnerable: a single compromised component was sufficient to corrupt system-wide outputs,
-including generating false drug prescriptions, distorting diagnoses, and facilitating
-unauthorised extraction of patient data~\cite{Chen2025MedSentry}.  The decentralised
-topology was the most resilient.  Adversarial prompt engineering bypassed naive safety
-filters in all four topologies, motivating the use of agent isolation at communication
-boundaries and prompt purification as the most effective
-countermeasures~\cite{Kim2025TAO}.  This paper makes a unique contribution by
-demonstrating that MAS topology is itself a primary determinant of clinical
-safety~\cite{Chen2025MedSentry}.  Figure~\ref{fig:medsentry} presents the defence
-evaluation results across the four topologies.
+MedSentry by Chen et al. studies adversarial safety in clinical multi-agent
+systems \cite{Chen2025MedSentry}. The authors tested centralised, decentralised,
+layered, and shared-pool topologies by adding one compromised agent and then
+running 5{,}000 adversarial medical prompts. The centralised topology was the
+most vulnerable because one compromised component could influence the whole
+system. The decentralised topology was the most resilient. The study also showed
+that simple safety filters could be bypassed, so agent isolation and prompt
+purification are needed. Figure~\ref{fig:medsentry} shows the defence results.
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{images/medsentry_fig3}
-\caption[MedSentry defence evaluation across MAS topologies]{Multi-agent system defence evaluation from Chen~et~al.~\cite{Chen2025MedSentry}.  (a)~Absolute performance scores across conditions (baseline, attack, defence) for four MAS topologies.  (b)~Percentage change showing defence effectiveness relative to the attack condition and the baseline.  The decentralised topology shows the highest absolute performance and resilience, while the centralised topology is most vulnerable to adversarial manipulation --- demonstrating that MAS topology is a primary determinant of clinical safety.}
+\caption[MedSentry defence evaluation across MAS topologies]{Multi-agent system defence evaluation from Chen~et~al.~\cite{Chen2025MedSentry}. The decentralised topology shows the strongest resilience, while the centralised topology is most vulnerable to adversarial manipulation.}
 \label{fig:medsentry}
 \end{figure}
 
-Complementing MedSentry's focus on adversarial resilience,
-Wu~et~al.~\cite{Wu2024EHRFlow} addressed the distinct problem of operational
-reliability with EHRFlow, published at the KDD 2024 Workshop on AI for Healthcare.
-EHRFlow demonstrates automated, error-resilient EHR analysis through a four-agent
-iterative pipeline: the Coder Agent translates natural language clinical queries into
-executable Python analysis code; the Executor Agent runs the generated code; the
-Debugger Agent automatically identifies execution errors and generates corrected code;
-and the Summariser Agent converts raw computational outputs into clinically
-interpretable narrative findings~\cite{Wu2024EHRFlow}.  EHRFlow achieved substantially
-higher task completion rates than single-agent systems on clinical EHR analysis tasks
-including cohort selection, longitudinal laboratory trend analysis, and outcome
-prediction~\cite{Wu2024EHRFlow}.  The critical differentiating component was the
-Debugger Agent's automated error-recovery loop, which prevented execution failures from
-propagating downstream~\cite{Wu2024EHRFlow} --- a design pattern directly adopted in
-this thesis.
+EHRFlow by Wu et al. focuses on operational reliability instead of adversarial
+attack \cite{Wu2024EHRFlow}. It uses four agents: a Coder Agent that writes
+analysis code, an Executor Agent that runs it, a Debugger Agent that fixes errors,
+and a Summariser Agent that turns outputs into readable findings. It achieved
+higher task completion than single-agent systems on EHR analysis tasks such as
+cohort selection, lab trend analysis, and outcome prediction. The main lesson for
+this thesis is that failures should be handled inside the workflow before they
+propagate to later agents.

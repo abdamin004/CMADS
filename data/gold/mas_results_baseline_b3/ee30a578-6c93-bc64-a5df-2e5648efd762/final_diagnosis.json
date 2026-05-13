@@ -1,0 +1,169 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy with superimposed hypertensive nephrosclerosis",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.57,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension with target\u2011organ damage",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage 4 chronic kidney disease (eGFR <30\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 3.4\u202fmg/dL indicating ongoing hyperglycemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of advanced diabetic kidney disease and longstanding hypertension explains the severe CKD, proteinuria (if present) and resistant hypertension. Ketoneuria supports uncontrolled diabetes, reinforcing diabetic nephropathy as the dominant process."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related anemia (EPO deficiency \u00b1 iron\u2011deficiency component)",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.155,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia in the setting of stage 4 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented iron studies; iron deficiency cannot be excluded",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is a common complication of advanced CKD due to reduced erythropoietin production; the possibility of concurrent iron deficiency is plausible given missing iron studies."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (untreated) \u2013 sympathetic driver of resistant hypertension",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.065,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of OSA without confirmed CPAP adherence",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated STOP\u2011BANG score suggesting high likelihood of untreated OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA can sustain sympathetic overactivity, contributing to resistant hypertension and accelerating CKD progression."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic renal\u2011artery stenosis",
+      "icd10": "I70.2",
+      "snomed": "414916001",
+      "probability": 0.045,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes and hypertension, both risk factors for atherosclerosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While plausible given the vascular risk profile, no imaging or blood pressure gradient data are available, making this diagnosis speculative."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / early NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.045,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, obesity likely)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD plausible, but urine bilirubin is atypical for NAFLD and no liver imaging or enzymes are provided."
+    },
+    {
+      "rank": 6,
+      "name": "Adynamic bone disease / severe vitamin\u202fD deficiency (CKD\u2011MBD)",
+      "icd10": "M81.0",
+      "snomed": "399720009",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD with no recorded mineral metabolism labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to adynamic bone disease, especially when vitamin D status is unknown; missing calcium, phosphate, PTH, and vitamin D labs limit certainty."
+    },
+    {
+      "rank": 7,
+      "name": "Hemolysis or early cholestatic liver disease (alternative cause of bilirubinuria)",
+      "icd10": "R17",
+      "snomed": "271442005",
+      "probability": 0.035,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.2\u202fmg/dL without concurrent liver function tests",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low alkaline phosphatase (25.4\u202fU/L) in stage 4 CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Bilirubinuria could reflect cholestasis or hemolysis; however, absent liver enzymes, hemolysis markers, and imaging make this diagnosis tentative."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy with superimposed hypertensive nephrosclerosis",
+  "primary_probability": 0.57,
+  "clinical_reasoning_summary": "The patient\u2019s advanced CKD is most convincingly explained by longstanding type 2 diabetes complicated by hypertensive nephrosclerosis, supported by severe eGFR reduction, ketonuria, and documented hypertension. Secondary complications of CKD\u2014anemia, mineral\u2011bone disorder, and possible contribution of untreated obstructive sleep apnea to resistant hypertension\u2014are incorporated. Vascular atherosclerosis, NAFLD, and cholestatic/hemolytic processes remain possible but lack objective data, and monoclonal gammopathy is excluded as unsupported.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.2\u202fmg/dL without concurrent liver function tests",
+    "Low alkaline phosphatase (25.4\u202fU/L) in stage\u202f4 CKD",
+    "Very dilute urine (specific gravity 1.00) \u2013 unclear if over\u2011hydration, diuretic effect, or post\u2011dialysis",
+    "Missing iron studies, ferritin, transferrin saturation",
+    "Missing vitamin\u202fD, calcium, phosphate, PTH levels",
+    "Absent HbA1c and fasting glucose values",
+    "No documented CPAP adherence data for OSA"
+  ],
+  "recommended_workup": [
+    "Serum HbA1c and fasting glucose to quantify glycemic control",
+    "Renal artery duplex ultrasound or CT angiography to evaluate for RAS",
+    "Polysomnography results and CPAP adherence report",
+    "Complete iron panel (serum iron, ferritin, transferrin saturation)",
+    "Mineral metabolism panel: calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, total and direct bilirubin)",
+    "Hemolysis workup: LDH, haptoglobin, reticulocyte count, peripheral smear",
+    "Repeat urinalysis with microscopy and quantitative protein assessment",
+    "Renal ultrasound to assess kidney size and echogenicity"
+  ]
+}

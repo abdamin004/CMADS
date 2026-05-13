@@ -1,0 +1,170 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Colorectal neoplasm (advanced adenoma or early carcinoma)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Positive fecal occult blood test (5.1\u202fng/mL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle\u2011aged male with obesity, hypertension, and prediabetes (high ASCVD risk)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic occult GI blood loss suggested by FOBT",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Occult GI bleeding in a patient with significant cardiometabolic risk factors raises pre\u2011test probability for colorectal neoplasm; the positive FOBT and lack of recent colonoscopic pathology support this as the most likely source."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia secondary to chronic occult GI bleed",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia treated with B12 injections (potentially masking iron deficiency)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood indicating chronic blood loss",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of documented anemia and occult GI bleeding strongly suggests iron\u2011deficiency anemia, even though B12 therapy may obscure classic iron studies."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome / insulin resistance (prediabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530), hypertension, and prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated ASCVD risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The triad of central obesity, elevated blood pressure, and impaired glucose tolerance fulfills criteria for metabolic syndrome, which is virtually certain in this phenotype."
+    },
+    {
+      "rank": 4,
+      "name": "Peptic ulcer disease (upper GI source of occult bleed)",
+      "icd10": "K25.9",
+      "snomed": "235719002",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Occult GI bleeding without documented lower GI source (colonoscopy pathology pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of upper\u2011GI evaluation (EGD not performed)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the positive FOBT and lack of confirmed lower\u2011GI lesion, an upper\u2011GI source such as a peptic ulcer must be considered."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis (low CO2 20.3\u202fmmol/L) suggestive of hepatic metabolic disturbance",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is highly prevalent in patients with obesity and insulin resistance; while no liver imaging is available, the phenotype makes it plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Early hypertensive chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.2",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension and mild metabolic acidosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension raises suspicion for early CKD, but lack of renal function labs makes this diagnosis speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Helicobacter pylori infection (gastritis)",
+      "icd10": "B98.0",
+      "snomed": "235719002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Occult GI bleed with no evaluated upper GI tract",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "H. pylori is a common cause of gastritis and ulcer disease that can produce occult bleeding; testing has not been performed."
+    }
+  ],
+  "primary_diagnosis": "Colorectal neoplasm (advanced adenoma or early carcinoma)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient presents with occult gastrointestinal bleeding, anemia, and a high\u2011risk cardiometabolic profile. Positive fecal occult blood strongly points toward a colorectal source, making colorectal neoplasm the leading diagnosis. Iron\u2011deficiency anemia is a logical consequence of chronic blood loss. Metabolic syndrome is virtually certain given obesity, hypertension, and prediabetes. Upper\u2011GI etiologies (peptic ulcer disease, H. pylori gastritis) remain possible and must be ruled out because lower\u2011GI pathology is not yet confirmed. NAFLD and early hypertensive CKD are plausible comorbidities but have lower supporting data.",
+  "unresolved_findings": [
+    "Missing renal function labs (creatinine, eGFR, urine ACR)",
+    "Absent iron studies (serum iron, ferritin, transferrin saturation)",
+    "No colonoscopy pathology report (size, histology, dysplasia)",
+    "No upper\u2011GI evaluation (EGD, H. pylori testing)",
+    "Lack of sleep apnea screening (STOP\u2011BANG, polysomnography)",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117)",
+    "Absent comprehensive liver panel and hepatic imaging",
+    "Unrecorded smoking, alcohol use, physical activity, and diet details"
+  ],
+  "recommended_workup": [
+    "Repeat colonoscopy with biopsy review or obtain pathology report if already performed",
+    "Complete iron panel (serum iron, ferritin, TIBC, transferrin saturation)",
+    "Upper endoscopy (EGD) with biopsies for H. pylori and ulcer assessment",
+    "Renal function panel (serum creatinine, eGFR, urine albumin/creatinine ratio)",
+    "Comprehensive metabolic panel including liver enzymes",
+    "Abdominal ultrasound or FibroScan to evaluate for NAFLD",
+    "Sleep study (polysomnography) if clinical suspicion for OSA persists",
+    "Mental\u2011health screening questionnaires (PHQ\u20119, GAD\u20117)",
+    "Lifestyle assessment (smoking, alcohol, diet, activity) for risk modification"
+  ]
+}

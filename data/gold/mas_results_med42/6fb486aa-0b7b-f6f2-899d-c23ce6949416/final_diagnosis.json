@@ -1,0 +1,64 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic Kidney Disease (CKD) with Anemia and Metabolic Syndrome",
+      "icd10": "N18.9 (CKD, unspecified), D64.9 (Anemia, unspecified), E88.81 (Metabolic syndrome)",
+      "snomed": "361232007 (CKD), 190247002 (Anemia), 237246003 (Metabolic syndrome)",
+      "probability": 0.95,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal function flags, anemia flag, metabolic syndrome flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin (missing exact value), abnormal A1c noted as unusually low",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "History of hypertension, diabetes risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Presence of renal function flags and anemia flag in EHR, along with metabolic syndrome indicators. Though specific lab values (eGFR, hemoglobin/hematocrit) are missing, the overall pattern supports CKD with associated complications."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.9,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension flag present",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "History of hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Flag for hypertension in EHR, but current management efficacy unclear due to missing blood pressure data."
+    }
+  ],
+  "primary_diagnosis": "Chronic Kidney Disease (CKD) with Anemia and Metabolic Syndrome",
+  "primary_probability": 0.95,
+  "clinical_reasoning_summary": "The patient presents with strong evidence for CKD, anemia, and metabolic syndrome based on flags in the EHR and risk factors. Hypertension is also likely but requires further evaluation of current management due to missing BP data.",
+  "unresolved_findings": [
+    "missing eGFR, lipids, hemoglobin/hematocrit values",
+    "unusually low A1c"
+  ],
+  "recommended_workup": [
+    "eGFR measurement",
+    "complete lipid profile",
+    "hemoglobin and hematocrit levels",
+    "re-evaluate A1c with possible repeat test"
+  ]
+}

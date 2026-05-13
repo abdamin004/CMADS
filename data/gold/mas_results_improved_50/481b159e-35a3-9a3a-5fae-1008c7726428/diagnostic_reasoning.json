@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 2010",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (stage\u202f1) on lisinopril",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol (27.8\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated obstructive sleep apnea (contributing to insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Three core components of metabolic syndrome are present: central obesity, elevated blood pressure, and markedly low HDL cholesterol. OSA further aggravates insulin resistance, making the clustering of these risk factors highly suggestive of metabolic syndrome, which unifies the patient\u2019s cardiometabolic abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed obstructive sleep apnea in 2014, no CPAP adherence data",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated MPV (11.4\u202ffL) suggesting platelet activation, a known consequence of intermittent hypoxia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Borderline\u2011controlled hypertension (132/86\u202fmmHg) despite ACE\u2011inhibitor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA is a recognized driver of secondary hypertension and dyslipidaemia (especially low HDL). Persistent elevated blood pressure despite therapy, together with laboratory evidence of platelet activation, supports OSA as an active contributor to the patient\u2019s risk profile."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease (inflammation\u2011related)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low erythrocyte count (4.0\u202f\u00d710\u2076/\u00b5L) and borderline hemoglobin (13.6\u202fg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic indices (MCV 87.8\u202ffL, MCH 29.8\u202fpg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline high MPV (11.4\u202ffL) indicating platelet activation/inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, OSA, and metabolic\u2011syndrome create low\u2011grade systemic inflammation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild normocytic anemia with normal red\u2011cell indices and laboratory evidence of low\u2011grade inflammation fits anemia of chronic disease. The inflammatory milieu is plausibly driven by adipose\u2011tissue cytokines and intermittent hypoxia from OSA."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes / Impaired fasting glucose",
+      "icd10": "R73.03",
+      "snomed": "237599009",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and metabolic syndrome components",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol (27.8\u202fmg/dL) \u2013 a marker of insulin resistance",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated obstructive sleep apnea, a known risk factor for glucose intolerance",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing fasting glucose/HbA1c \u2013 cannot confirm but risk is high",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of obesity, low HDL, and untreated OSA places the patient at high risk for insulin resistance and early dysglycemia. Absence of glucose testing is a data gap, so prediabetes is a probable but unconfirmed diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Suspected non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol (27.8\u202fmg/dL) \u2013 associated with hepatic steatosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated obstructive sleep apnea, which correlates with NAFLD severity",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Absent liver function tests and imaging \u2013 cannot confirm presence",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s obesity, dyslipidaemia, and OSA, NAFLD is a likely subclinical condition. Lack of liver enzymes or imaging prevents definitive diagnosis, but the risk profile warrants evaluation."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, stage\u20111 hypertension, and markedly low HDL cholesterol satisfy the three mandatory components of metabolic syndrome, making it the most parsimonious unifying diagnosis. Untreated obstructive sleep apnea amplifies insulin resistance, contributes to hypertension and dyslipidaemia, and is therefore a distinct, modifiable contributor. A mild normocytic anemia with elevated MPV suggests anemia of chronic disease driven by low\u2011grade inflammation from adiposity and OSA. Risk factors also raise the likelihood of pre\u2011diabetes and NAFLD, though direct laboratory confirmation is missing. No direct evidence exists for overt diabetes, chronic kidney disease, or established atherosclerotic disease, so those entities are not retained as primary differentials.",
+  "unresolved_findings": [
+    "Missing fasting glucose, HbA1c, and oral glucose tolerance test \u2013 cannot assess dysglycemia.",
+    "Absent renal function panel (creatinine, eGFR, urinalysis).",
+    "No liver function tests or imaging \u2013 NAFLD cannot be confirmed or excluded.",
+    "Thyroid function tests not available \u2013 hypothyroidism not ruled out.",
+    "Iron studies, B12, folate missing \u2013 anemia etiology not definitively characterized.",
+    "Non\u2011standard PDW and RDW values \u2013 interpretation uncertain.",
+    "No documented smoking, alcohol use, physical activity, or family history \u2013 limits risk stratification.",
+    "Psychosocial isolation noted but no formal mood or anxiety assessment."
+  ],
+  "recommended_workup": [
+    "Fasting plasma glucose and HbA1c (screen for pre\u2011diabetes/diabetes).",
+    "Oral glucose tolerance test if fasting results are borderline.",
+    "Comprehensive lipid panel (repeat HDL, LDL, triglycerides) and calculate 10\u2011year ASCVD risk.",
+    "Polysomnography or home sleep apnea test; initiate CPAP trial with adherence monitoring.",
+    "Liver function tests (AST, ALT, GGT, bilirubin) and hepatic ultrasound or FibroScan for NAFLD/NASH evaluation.",
+    "Iron studies (serum iron, ferritin, transferrin saturation) plus vitamin B12 and folate levels to clarify anemia cause.",
+    "High\u2011sensitivity CRP or ESR to quantify systemic inflammation.",
+    "Serum creatinine, eGFR, and urinalysis for early chronic kidney disease assessment.",
+    "Thyroid panel (TSH, free T4) to exclude hypothyroidism.",
+    "Cardiovascular imaging (coronary calcium score or carotid intima\u2011media thickness) if ASCVD risk is intermediate or higher.",
+    "PHQ\u20119 and GAD\u20117 questionnaires to screen for depression and anxiety given social isolation.",
+    "Aldosterone/renin ratio if secondary hypertension is suspected."
+  ]
+}

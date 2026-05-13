@@ -1,0 +1,268 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Frailty / clinical frailty syndrome",
+      "icd10": "R54",
+      "snomed": "271442005",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Limited social contact, implausible full\u2011time employment record, >100 ED visits, polypharmacy (15 meds)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f=\u202f100\u202fy, male sex, multiple comorbidities",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "CKD\u20114, heart failure, osteoporosis, diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced age combined with high health\u2011care utilization, polypharmacy and limited support meets criteria for clinical frailty, which drives vulnerability to all other conditions."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled type 2 diabetes mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type\u202f2 diabetes diagnosed 1981, diabetic retinopathy, high cardiovascular risk",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Glycosuria on urine dip\u2011stick, macro\u2011albuminuria (371.7\u202fmg/g), heavy proteinuria (437.4\u202fmg/dL)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing diabetes with evidence of hyperglycemia (glycosuria) and end\u2011organ damage (nephropathy, retinopathy) indicates poor glycaemic control driving renal and vascular complications."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic heart failure (ischemic cardiomyopathy)",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of MI (2003) and CABG (1984), multiple antiplatelet agents, two \u03b2\u2011blockers, frequent ED visits",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior revascularisation and ongoing anti\u2011ischemic therapy together with recurrent acute care encounters suggest chronic systolic dysfunction secondary to coronary disease."
+    },
+    {
+      "rank": 4,
+      "name": "Atrial fibrillation (paroxysmal or persistent)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Two \u03b2\u2011blockers (possible rate control), antiplatelet\u2011only regimen despite high stroke risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u2011adjusted AF prevalence ~15\u201120\u202f% in centenarians",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The medication pattern and age make occult AF likely; absence of anticoagulation further raises suspicion."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic kidney disease stage\u202f4 secondary to diabetic nephropathy",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR\u202f24.6\u202fmL/min/1.73\u202fm\u00b2, serum creatinine\u202f2.3\u202fmg/dL, macro\u2011albuminuria (371.7\u202fmg/g), heavy proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes, hypertension, CKD\u2011related anemia noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Objective renal function data place the patient in stage\u202f4 CKD, and the diabetic context explains the proteinuric pattern."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related anemia (possible iron\u2011deficiency component)",
+      "icd10": "D63.1",
+      "snomed": "302509004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia secondary to CKD listed in problem list, chronic ibuprofen use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No iron studies provided; anemia inferred from CKD stage",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD stage\u202f4 commonly causes anemia; NSAID use raises the possibility of occult GI blood loss contributing."
+    },
+    {
+      "rank": 7,
+      "name": "Severe aortic stenosis",
+      "icd10": "I35.0",
+      "snomed": "713427006",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Age\u2011adjusted prevalence of severe AS \u224810\u202f% in men >90\u202fy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Frequent ED visits, possible syncope\u2011like presentations (not detailed)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given age and cardiovascular disease burden, severe AS is a plausible contributor to heart failure symptoms and should be ruled out with echo."
+    },
+    {
+      "rank": 8,
+      "name": "CKD\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Osteoporosis with high fracture risk, CKD\u20114",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No calcium/phosphate/PTH labs yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to secondary hyperparathyroidism and contributes to bone disease."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / vascular cognitive impairment",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Limited social contact, high health\u2011care utilization, possible mood impact",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Social isolation and frequent ED visits in the elderly are associated with depression and cognitive decline."
+    },
+    {
+      "rank": 10,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Systemic atherosclerosis (MI, CABG) but no leg\u2011specific symptoms recorded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Atherosclerotic burden makes PAD plausible, though no clinical clues are present."
+    },
+    {
+      "rank": 11,
+      "name": "Diabetic peripheral neuropathy (painful)",
+      "icd10": "E11.40",
+      "snomed": "24700007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic neck and low\u2011back pain noted; no explicit neuropathic descriptors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes duration makes neuropathy likely, but pain location suggests musculoskeletal rather than neuropathic origin."
+    },
+    {
+      "rank": 12,
+      "name": "Undiagnosed malignancy (renal, prostate, colorectal)",
+      "icd10": "C80.1",
+      "snomed": "363406005",
+      "probability": 0.01,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No red\u2011flag symptoms documented; kept for completeness",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood but retained as a safety net diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Frailty / clinical frailty syndrome",
+  "primary_probability": 0.2,
+  "clinical_reasoning_summary": "The patient is a 100\u2011year\u2011old male with extensive multimorbidity. Age\u2011adjusted priors heavily favour frailty, uncontrolled diabetes, and cardiovascular disease. Laboratory data confirm stage\u20114 CKD with diabetic nephropathy, while the problem list and medication profile reveal chronic heart failure, anemia, osteoporosis, and polypharmacy. The combination of high health\u2011care utilization, limited social support, and implausible employment entry points to a frailty syndrome that underlies and amplifies all other conditions. Probabilities were calibrated using epidemiologic priors for centenarians and the strength of supporting evidence from the EHR analyst and lab interpreter. Unresolved data gaps (e.g., HbA1c, ECG, echocardiogram, frailty metrics) were noted as they could shift the ranking.",
+  "unresolved_findings": [
+    "Whole\u2011blood creatinine 4.7\u202fmg/dL vs serum creatinine 2.3\u202fmg/dL \u2013 possible lab error or timing mismatch",
+    "Implausible full\u2011time employment record \u2013 likely data entry error, obscures functional status",
+    "Missing recent blood pressure, lipid panel, and HbA1c values",
+    "No cardiac imaging (echocardiogram) or vascular studies (ABI) available",
+    "Absence of iron studies, ferritin/TSAT, and occult blood testing for anemia work\u2011up",
+    "No CKD\u2011MBD labs (calcium, phosphate, PTH, 25\u2011OH\u2011vit D)",
+    "No formal frailty assessment (CFS, gait speed, ADL/IADL)",
+    "No cognitive or depression screening results"
+  ],
+  "recommended_workup": [
+    "Comprehensive frailty assessment (Clinical Frailty Scale, gait speed, grip strength, ADL/IADL inventory)",
+    "HbA1c measurement or 14\u2011day continuous glucose monitoring",
+    "12\u2011lead ECG plus 2\u2011week ambulatory rhythm monitor to detect atrial fibrillation",
+    "Transthoracic echocardiogram with Doppler assessment of valve gradients and ejection fraction; obtain BNP",
+    "Repeat renal panel (serum & whole\u2011blood creatinine, BUN, electrolytes) and urine ACR to evaluate for acute\u2011on\u2011chronic injury",
+    "Iron studies (Ferritin, TSAT), reticulocyte count, and fecal occult blood test to clarify anemia aetiology",
+    "CKD\u2011MBD labs: calcium, phosphate, intact PTH, 25\u2011OH vitamin D, alkaline phosphatase",
+    "Full medication reconciliation with clinical pharmacist focusing on NSAID use, duplicate \u03b2\u2011blockers, and deprescribing opportunities",
+    "Mini\u2011Cog or MoCA and PHQ\u20119 for cognitive and mood assessment",
+    "Ankle\u2011brachial index or duplex ultrasound to screen for peripheral arterial disease",
+    "Diabetic neuropathy evaluation (DN4 questionnaire, monofilament testing)",
+    "Consider age\u2011appropriate cancer screening (urinalysis cytology, PSA, colonoscopy if not contraindicated) based on life expectancy and goals of care"
+  ]
+}

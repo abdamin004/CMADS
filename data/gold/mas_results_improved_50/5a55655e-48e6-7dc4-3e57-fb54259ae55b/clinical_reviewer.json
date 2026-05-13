@@ -1,0 +1,127 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Atherosclerotic coronary artery disease (subclinical or stable)",
+      "original_probability": 0.45,
+      "verified_probability": 0.55,
+      "confidence_score": 78,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "LDL-C 162.8 mg/dL, total cholesterol 257.8 mg/dL, triglycerides 306.9 mg/dL, HDL-C 33.6 mg/dL",
+        "Hypertension, type 2 diabetes, obesity, age 72, male sex",
+        "No documented statin therapy indicating untreated high risk"
+      ],
+      "evidence_gaps": [
+        "No imaging (coronary calcium score, CT angiography) or stress testing",
+        "No symptom review for angina or dyspnea",
+        "No record of prior lipid\u2011lowering therapy"
+      ],
+      "concerns": [
+        "Probability under\u2011estimated given age and risk factor burden",
+        "Lack of confirmatory cardiac testing limits certainty about plaque stability"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Type 2 diabetes mellitus \u2013 post\u2011prandial hyperglycaemia",
+      "original_probability": 0.3,
+      "verified_probability": 0.25,
+      "confidence_score": 70,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Random glucose 152.7 mg/dL (abnormal for random sample)",
+        "Discordant HbA1c 5.6% suggesting post\u2011prandial spikes",
+        "Patient on metformin XR 500 mg"
+      ],
+      "evidence_gaps": [
+        "Fasting glucose or 2\u2011hour OGTT not provided",
+        "Repeat HbA1c trend missing",
+        "No CGM or 7\u2011day finger\u2011stick profile to confirm post\u2011prandial pattern",
+        "Medication list incomplete (no SGLT2i/GLP\u20111 RA status)"
+      ],
+      "concerns": [
+        "Qualifier \"post\u2011prandial hyperglycaemia\" is plausible but not confirmed",
+        "Probability should reflect near\u2011certain presence of diabetes with suboptimal control"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Primary hypothyroidism",
+      "original_probability": 0.15,
+      "verified_probability": 0.05,
+      "confidence_score": 20,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Severe hypercholesterolaemia and hypertriglyceridaemia can be seen in hypothyroidism"
+      ],
+      "evidence_gaps": [
+        "No serum TSH, free T4, or thyroid antibodies",
+        "No clinical signs (cold intolerance, weight gain, bradycardia) documented"
+      ],
+      "concerns": [
+        "Diagnosis is speculative; metabolic syndrome provides a more parsimonious explanation",
+        "Probability over\u2011estimated without any thyroid labs"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Anemia of chronic disease (mixed with possible iron\u2011deficiency)",
+      "original_probability": 0.1,
+      "verified_probability": 0.15,
+      "confidence_score": 35,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Hct 37.2% (borderline low) and RBC 4.1 x10^6/\u00b5L",
+        "Chronic inflammatory conditions (HTN, DM, metabolic syndrome, chronic sinusitis)",
+        "Long\u2011standing anemia documented since 1983"
+      ],
+      "evidence_gaps": [
+        "Iron studies (serum iron, ferritin, TIBC)",
+        "Vitamin B12, folate levels",
+        "Reticulocyte count",
+        "Inflammatory markers (CRP, ESR) to support chronic disease component"
+      ],
+      "concerns": [
+        "DA does not differentiate pure anemia of chronic disease from mixed iron\u2011deficiency",
+        "Probability may be slightly low given documented chronic anemia"
+      ],
+      "verdict": "plausible"
+    }
+  ],
+  "overall_confidence": 58,
+  "consistency_checks": [
+    {
+      "area": "Risk factor alignment",
+      "status": "consistent",
+      "detail": "Hypertension, diabetes, obesity, age, and lipid profile all align with high ASCVD risk and CAD diagnosis."
+    },
+    {
+      "area": "Critical lab coverage",
+      "status": "consistent",
+      "detail": "All severity \u22653 laboratory abnormalities are linked to at least one diagnosis in the differential."
+    },
+    {
+      "area": "Missing blood pressure measurement",
+      "status": "inconsistent",
+      "detail": "EHR lists hypertension but no recent BP reading; this gap is not addressed by any diagnosis."
+    }
+  ],
+  "critical_findings_addressed": [
+    "LDL-C 162.8 mg/dL (severity 4)",
+    "Triglycerides 306.9 mg/dL (severity 4)",
+    "Total cholesterol 257.8 mg/dL (severity 4)",
+    "HDL-C 33.6 mg/dL (severity 3)",
+    "Random glucose 152.7 mg/dL (severity 4)"
+  ],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "Under\u2011estimation of CAD probability and its placement as primary diagnosis",
+    "Over\u2011emphasis on primary hypothyroidism without any thyroid testing",
+    "Absence of a current blood pressure measurement despite known hypertension",
+    "Missing high\u2011yield differentials (early renal electrolyte disturbance, obstructive sleep apnea, psychosocial adherence barriers)",
+    "Lack of confirmatory testing for post\u2011prandial hyperglycaemia"
+  ],
+  "recommended_primary": "Atherosclerotic coronary artery disease (subclinical or stable)",
+  "recommended_primary_confidence": 78,
+  "review_summary": "The Diagnostic Agent identified the two dominant metabolic/cardiovascular problems but undervalued CAD probability, over\u2011valued hypothyroidism, and omitted several clinically important differentials. Adjusted probabilities reflect the stronger evidence for CAD and diabetes, while reducing the speculative hypothyroidism. Overall, the differential is moderately reliable but requires refinement and additional work\u2011up."
+}

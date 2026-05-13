@@ -1,0 +1,145 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "190332009",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented (BMI not recorded)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (BP 137/84 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.9% (prediabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and limited laboratory monitoring",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient exhibits the classic triad of obesity, elevated blood pressure, and impaired glucose regulation, fulfilling criteria for metabolic syndrome and explaining the overall cardiovascular risk profile."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 137/84 mmHg (stage 1 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent hypertension noted in prior visits",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Consistent elevation of blood pressure meets criteria for essential hypertension, independent of secondary causes."
+    },
+    {
+      "rank": 3,
+      "name": "Renal tubular acidosis, proximal type (type 2)",
+      "icd10": "N25.1",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Progressive normal-anion-gap metabolic acidosis (low CO\u2082, high Cl\u207b)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of documented urinary studies to differentiate RTA subtypes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The hyperchloremic, normal-anion-gap acidosis raises suspicion for proximal RTA, but lack of urine studies limits certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes progressing toward type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.9% (prediabetic)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Random glucose 66.7 mg/dL (low\u2011normal, fasting status unknown)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension as metabolic risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prediabetic HbA1c in the context of obesity and hypertension indicates high risk for progression to type 2 diabetes."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep\u2011related symptoms (snoring, witnessed apneas, daytime sleepiness)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, a risk factor for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA, but absence of clinical sleep history makes this diagnosis speculative."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of obesity, stage 1 hypertension, and prediabetic HbA1c fulfills criteria for metabolic syndrome, which is the most probable unifying diagnosis. Essential hypertension is also clearly present. A normal-anion-gap metabolic acidosis suggests proximal renal tubular acidosis, though urine studies are lacking. Prediabetes is confirmed by HbA1c and carries a moderate risk of progression. Obstructive sleep apnea remains a remote possibility given obesity but lacks supporting symptomatology.",
+  "unresolved_findings": [
+    "Normal\u2011anion\u2011gap metabolic acidosis \u2013 etiology not yet identified (proximal RTA vs chronic gastrointestinal bicarbonate loss)",
+    "Low\u2011normal random glucose (66.7\u202fmg/dL) \u2013 fasting status unknown",
+    "Missing fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR and urine albumin\u2011creatinine ratio to assess renal function",
+    "No documented sleep\u2011related symptoms to confirm OSA",
+    "Serum vitamin B12 level not available (potential deficiency)",
+    "Smoking and alcohol use not captured"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Urine electrolytes, urine pH, urine anion gap, and urine ammonium to characterize RTA",
+    "Comprehensive medication review for agents causing bicarbonate loss",
+    "Polysomnography or home sleep apnea testing",
+    "Repeat fasting glucose and HbA1c in 3\u20136 months",
+    "Serum vitamin B12 level"
+  ]
+}

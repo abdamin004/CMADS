@@ -1,0 +1,157 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (chronic kidney disease stage 3b with proteinuria)",
+      "icd10": "E11.22",
+      "snomed": "127013003",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes diagnosed 2005 with micro\u2011albuminuria since 2010",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.1\u202fmg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 38.7\u202fmL/min/1.73\u202fm\u00b2 (CKD stage 3b)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 338\u202fmg/dL (\u22483+, significant proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list includes chronic kidney disease stage 2 and disorder of kidney due to diabetes mellitus",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Multiple decades of diabetes, documented micro\u2011albuminuria, current high\u2011grade proteinuria, elevated creatinine and reduced eGFR together constitute classic diabetic nephropathy, explaining CKD stage 3b and the mild anemia."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin overtreatment with risk of hypoglycemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 3.8\u202f% (unusually low for a patient on NPH/regular insulin)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Only insulin listed; no other glucose\u2011lowering agents or dose\u2011adjustment aids",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Reduced renal clearance (eGFR 38.7) prolongs insulin half\u2011life, increasing hypoglycemia risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A very low A1c in the context of basal\u2011bolus insulin and impaired renal function suggests overtreatment and recurrent hypoglycemia, a safety\u2011critical issue that must be addressed."
+    },
+    {
+      "rank": 3,
+      "name": "Masked/untreated hypertension contributing to CKD progression",
+      "icd10": "I12.9",
+      "snomed": "59621000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure recorded 114/82\u202fmmHg but flagged as stage\u202f1 hypertension (possible historic elevation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication listed despite multiple high\u2011risk conditions",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 3b (eGFR 38.7) which is commonly accelerated by untreated hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The discrepancy between a single normal reading and a hypertension flag, together with the absence of therapy, points to masked or undertreated hypertension\u2014a known driver of diabetic kidney disease progression."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30), hypertriglyceridemia, and long\u2011standing type 2 diabetes (metabolic syndrome)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.0\u202fmg/dL (positive) raising suspicion for hepatic dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic\u2011syndrome components confer a high pre\u2011test probability for NAFLD. Positive urine bilirubin is indirect evidence; definitive diagnosis requires liver enzymes and imaging."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease secondary to CKD",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.9\u202fg/dL, mild anemia with a downward trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 3b (eGFR 38.7) and longstanding anemia documented since 1987",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD reduces erythropoietin production, leading to a normocytic, mild anemia that aligns with the observed laboratory trend."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (chronic kidney disease stage 3b with proteinuria)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s >15\u2011year history of type 2 diabetes, documented micro\u2011albuminuria, current high\u2011grade proteinuria, elevated serum creatinine and eGFR 38.7\u202fmL/min/1.73\u202fm\u00b2 converge on diabetic nephropathy as the dominant unifying diagnosis. Secondary concerns include insulin overtreatment (very low A1c with impaired renal clearance), likely masked hypertension (BP flag vs single reading and no antihypertensives), possible NAFLD/NASH given metabolic syndrome and urine bilirubin, and anemia of chronic disease from CKD. Psychosocial stressors and therapeutic gaps (absence of ACE\u2011I/ARB, SGLT2\u2011i, statin, CPAP) further compound risk. Probabilities were allocated using Bayesian weighting of prevalence, severity, and supporting evidence.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented liver function tests",
+    "Very low hemoglobin A1c (3.8\u202f%) \u2013 could represent overtreatment, assay interference, or lab error",
+    "Missing lipid panel (total cholesterol, LDL, HDL) despite hypertriglyceridemia",
+    "Absence of quantitative BMI despite obesity label",
+    "Single normal blood pressure reading conflicting with hypertension flag; no ambulatory BP data"
+  ],
+  "recommended_workup": [
+    "Repeat hemoglobin A1c on an alternative platform or use fructosamine/glycated albumin to rule out assay interference",
+    "24\u2011hour ambulatory blood pressure monitoring to confirm masked hypertension",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, total and direct bilirubin, albumin) and abdominal ultrasound or FibroScan for NAFLD/NASH",
+    "Hemolysis work\u2011up: haptoglobin, LDH, indirect bilirubin, reticulocyte count, peripheral smear",
+    "24\u2011hour urine protein quantification or urine albumin\u2011to\u2011creatinine ratio for precise proteinuria assessment",
+    "Renal ultrasound to evaluate for structural disease or obstruction",
+    "Initiate an ACE inhibitor or ARB and an SGLT2 inhibitor for renal protection after confirming contraindications",
+    "Review and adjust insulin regimen; consider basal insulin analogues or dose reduction given eGFR 38\u202fmL/min",
+    "Sleep study review and CPAP titration if not already in use",
+    "Erythropoietin level and iron studies to further characterize anemia of chronic disease"
+  ]
+}

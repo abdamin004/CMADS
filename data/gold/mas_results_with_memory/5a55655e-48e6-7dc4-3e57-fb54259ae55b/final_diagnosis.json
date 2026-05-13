@@ -1,0 +1,214 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin-resistant Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.323,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented hypertension, type 2 diabetes risk, central obesity noted in history",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose trend and marked dyslipidemia (high LDL, triglycerides, low HDL)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Combined presence of hypertension, hyperglycemia, and atherogenic dyslipidemia fulfills criteria for metabolic syndrome driven by insulin resistance."
+    },
+    {
+      "rank": 2,
+      "name": "Atherogenic Dyslipidaemia (untreated)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.216,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High total cholesterol, elevated LDL, high triglycerides, low HDL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin therapy documented despite dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory profile demonstrates classic atherogenic pattern; lack of treatment increases cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Non-alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.118,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, insulin resistance, dyslipidemia) present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST (if available) or pattern suggestive of fatty liver",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors strongly predispose to hepatic steatosis; imaging pending but clinical suspicion high."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic Kidney Disease, probable stage 3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.098,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mildly elevated potassium (5.1 mmol/L) with rising trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: hypertension, diabetes risk, dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Electrolyte abnormality and risk profile suggest early CKD, though objective eGFR data are missing."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnoea (probable)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.088,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension noted; high pre\u2011test probability for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical risk factors raise suspicion; objective testing required for confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Resistant / Poorly\u2011controlled Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.059,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension documented; medication list suggests multiple agents (if present)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent blood pressure readings unavailable",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential resistant hypertension given comorbidities, but lack of recent BP data limits certainty."
+    },
+    {
+      "rank": 7,
+      "name": "Asymptomatic Coronary Artery Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.049,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular risk profile (metabolic syndrome, dyslipidemia, hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented chest pain or angina",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors make subclinical CAD plausible; asymptomatic status warrants non\u2011invasive assessment."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of Chronic Disease / CKD\u2011related",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.029,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia noted without iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential early CKD could explain anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia could be multifactorial; CKD contribution plausible but not confirmed."
+    },
+    {
+      "rank": 9,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and metabolic syndrome are risk factors for HFpEF",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No echocardiogram or symptom data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Speculative given absent cardiac imaging or clinical signs; retained for completeness."
+    }
+  ],
+  "primary_diagnosis": "Insulin-resistant Metabolic Syndrome",
+  "primary_probability": 0.323,
+  "clinical_reasoning_summary": "The patient exhibits classic features of insulin-resistant metabolic syndrome: hypertension, hyperglycemia trend, and atherogenic dyslipidemia. These drive the high cardiovascular risk and underlie secondary conditions such as NAFLD, CKD, and possible coronary artery disease. Lack of recent renal function data, blood pressure measurements, and treatment documentation (e.g., statin, antihypertensives) limit certainty for several comorbidities, prompting adjusted probabilities. The differential reflects the spectrum of metabolic\u2011related organ involvement, prioritizing the syndrome itself as the primary diagnosis.",
+  "unresolved_findings": [
+    "Borderline elevated potassium (5.1 mmol/L) with rising trend \u2013 cannot be fully attributed without eGFR/urine data",
+    "Low\u2011normal total calcium (8.8 mg/dL) \u2013 possible vitamin D deficiency, no PTH or vitamin D levels",
+    "Chronic anemia of unknown etiology \u2013 iron studies, B12, folate, and reticulocyte count missing",
+    "Missing recent blood pressure readings, BMI, and weight trends",
+    "Absence of recent renal function (creatinine, eGFR, albuminuria) and liver imaging"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin/creatinine ratio to stage CKD",
+    "Comprehensive iron panel, vitamin B12, folate, and reticulocyte count for anemia work\u2011up",
+    "Serum 25\u2011OH vitamin D and PTH levels for calcium abnormality",
+    "Ambulatory blood pressure monitoring or clinic BP series to assess control/resistance",
+    "Polysomnography or home sleep apnea testing",
+    "Echocardiogram with diastolic function assessment for HFpEF",
+    "Liver ultrasound or FibroScan to evaluate NAFLD severity",
+    "Coronary artery calcium scoring or stress testing for subclinical CAD",
+    "Review and optimize medication list (statin, antihypertensives, glucose\u2011lowering agents)"
+  ]
+}

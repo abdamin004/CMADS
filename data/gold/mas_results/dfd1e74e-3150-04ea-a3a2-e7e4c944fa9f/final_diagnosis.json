@@ -1,0 +1,225 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome / Insulin Resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.51,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and prediabetes (A1c 6.1%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (BP 146/87 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL cholesterol (implied by lipid profile comment)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of central obesity, elevated blood pressure, impaired glucose tolerance, and dyslipidemia fulfills the criteria for metabolic syndrome and drives the patient's cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of Mixed Etiology (nutritional deficiency vs chronic disease)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia without clear iron, B12, folate, or reticulocyte data",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated RDW",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "An elevated RDW with anemia suggests a mixed picture possibly due to nutritional deficiencies (iron, B12, folate) and chronic disease related to hypertension and metabolic syndrome."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension, both risk factors for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While no sleep study data are available, the patient's obesity and hypertension raise the pre\u2011test probability for OSA, which could further exacerbate metabolic derangements."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, insulin resistance) increase risk for NAFLD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the high prevalence of NAFLD in patients with metabolic syndrome, it remains a plausible contributor to abnormal liver enzymes (if present) and overall metabolic burden."
+    },
+    {
+      "rank": 5,
+      "name": "Familial Hypercholesterolemia (heterozygous)",
+      "icd10": "E78.0",
+      "snomed": "190332001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated LDL cholesterol noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented secondary causes for hyperlipidemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The degree of LDL elevation may be disproportionate to lifestyle factors alone, raising suspicion for a genetic lipid disorder."
+    },
+    {
+      "rank": 6,
+      "name": "Vitamin D Deficiency / Secondary Hyperparathyroidism",
+      "icd10": "E55.9",
+      "snomed": "237022007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal calcium (8.6 mg/dL) without documented vitamin D or PTH levels",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low\u2011normal calcium in the setting of unknown vitamin D status suggests possible deficiency, which can contribute to secondary hyperparathyroidism and bone health concerns."
+    },
+    {
+      "rank": 7,
+      "name": "Early Hypertensive Chronic Kidney Disease (stage 1\u20112)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension without documented renal function data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension can cause early CKD; however, lack of creatinine/eGFR and urine ACR limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Primary Hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension noted, but no hypokalemia reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While resistant hypertension raises suspicion, the absence of classic electrolyte abnormalities makes this less likely."
+    },
+    {
+      "rank": 9,
+      "name": "Medication\u2011Induced Secondary Hypertension / Dyslipidaemia",
+      "icd10": "I15.9",
+      "snomed": "237599006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication history not provided, limiting assessment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential contribution cannot be evaluated without medication data; retained with minimal probability."
+    },
+    {
+      "rank": 10,
+      "name": "Renovascular Hypertension",
+      "icd10": "I15.0",
+      "snomed": "237599008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging or clinical clues suggest renal artery stenosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood given lack of supporting findings."
+    },
+    {
+      "rank": 11,
+      "name": "Hemoglobinopathy (Sickle\u2011Cell Trait or Thalassaemia\u2011Minor)",
+      "icd10": "D57.3",
+      "snomed": "237599005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated RDW without clear iron studies",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "RDW elevation could reflect a hemoglobinopathy, but prevalence and lack of ethnic-specific data make this unlikely."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome / Insulin Resistance",
+  "primary_probability": 0.51,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, stage 2 hypertension, prediabetes, and dyslipidemia fulfill criteria for metabolic syndrome, which is the dominant driver of his cardiovascular risk and likely underlies many of the ancillary findings (elevated LDL, possible NAFLD, early CKD). Anemia of mixed etiology is the next most plausible diagnosis given the documented anemia and elevated RDW. Obstructive sleep apnea is plausible due to obesity and hypertension, though objective testing is lacking. Other considerations (NAFLD, familial hypercholesterolemia, vitamin D deficiency) are supported by risk factor clustering but carry lower probabilities. Renal and endocrine secondary causes are retained with minimal weight because of insufficient data.",
+  "unresolved_findings": [
+    "Low\u2011normal calcium (8.6\u202fmg/dL) without vitamin D or PTH levels",
+    "Hyperchloremia (111\u202fmmol/L) with normal CO\u2082",
+    "Elevated RDW without iron, B12, folate, or reticulocyte data",
+    "Missing serum creatinine/eGFR and urine ACR",
+    "Absent medication and substance\u2011use history",
+    "No documented smoking, alcohol, or physical\u2011activity status",
+    "No family history of premature ASCVD, diabetes, CKD, or familial hypercholesterolemia"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel with LDL subfraction analysis",
+    "Comprehensive metabolic panel including calcium, phosphorus, magnesium, and bicarbonate",
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio",
+    "Iron studies (serum iron, ferritin, TIBC), vitamin B12, folate, and reticulocyte count",
+    "25\u2011hydroxy vitamin D level and parathyroid hormone (PTH)",
+    "Thyroid\u2011stimulating hormone (TSH) to rule out hypothyroidism",
+    "Aldosterone\u2011renin ratio to screen for primary hyperaldosteronism",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Liver ultrasound or FibroScan to assess for NAFLD/NASH",
+    "Detailed medication review for agents causing secondary hypertension or dyslipidemia",
+    "Family history interview focusing on premature cardiovascular disease and lipid disorders"
+  ]
+}

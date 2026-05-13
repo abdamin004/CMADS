@@ -1,0 +1,165 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 2016",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension, BP 137/84\u202fmmHg on lisinopril",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia 97\u202fbpm and chronic stress",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.9\u202f% (prediabetic range)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets the classic cluster of obesity, elevated blood pressure, impaired glucose tolerance and a sympathetic\u2011driven tachycardia, which together define metabolic syndrome. This unifying diagnosis explains the majority of her cardiometabolic risk and drives the need for intensified lifestyle and pharmacologic interventions."
+    },
+    {
+      "rank": 2,
+      "name": "Renal tubular acidosis, proximal type (type 2)",
+      "icd10": "N25.8",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Decreasing CO\u2082 (22.8\u202fmmol/L) with rising chloride (110.5\u202fmmol/L) indicating a normal\u2011anion\u2011gap metabolic acidosis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Calculated anion gap \u2248\u202f8\u202fmmol/L (normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented diuretic, acetazolamide, or high\u2011chloride IV fluid exposure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The electrolyte pattern (low CO\u2082, hyperchloremia, normal anion gap) is most consistent with a proximal renal tubular defect. Other causes such as chronic gastrointestinal bicarbonate loss are less evident, making type\u202f2 RTA the most plausible primary explanation for the acid\u2011base disturbance."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 137/84\u202fmmHg despite lisinopril 10\u202fmg daily",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting heart rate 97\u202fbpm (sympathetic over\u2011activity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal potassium (4.4\u202fmmol/L) \u2013 does not exclude early hypertension\u2011related renal changes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent stage\u202f1 hypertension in a middle\u2011aged woman, with only a single antihypertensive agent, fits primary hypertension. It is a core component of metabolic syndrome but also stands as an independent diagnosis that may require additional agents."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes progressing toward type\u202f2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "714628002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.9\u202f% (borderline prediabetic)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Random glucose 66.7\u202fmg/dL (low\u2011normal, suggests possible fasting state or early insulin hypersecretion)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension \u2013 strong risk factors for progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s glycemic indices sit at the upper end of normal, and the presence of obesity and hypertension places her at high risk for conversion to overt diabetes. Ongoing monitoring and preventive measures are warranted."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and resting tachycardia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and full\u2011time employment (possible sleep deprivation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA commonly co\u2011exists with metabolic syndrome and can worsen blood pressure control and insulin resistance. No sleep\u2011related symptoms are documented, so it remains a less likely but plausible contributor."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "Both rounds agreed that the dominant problem is metabolic syndrome, which unifies the patient\u2019s obesity, stage\u202f1 hypertension, pre\u2011diabetes, and sympathetic tachycardia. The concurrent normal\u2011anion\u2011gap metabolic acidosis is best explained by proximal renal tubular acidosis (type\u202f2), a conclusion supported by the electrolyte pattern and the lack of an obvious iatrogenic chloride load. Essential hypertension and the risk of progression to type\u202f2 diabetes are retained as separate, though they are also components of the broader syndrome. Obstructive sleep apnea is retained as a low\u2011probability secondary factor. Diagnoses that appeared only in earlier drafts (vitamin\u202fB12 deficiency, chronic stress\u2011related anxiety/depression, early CKD) were excluded because their supporting evidence was weak or indirect.",
+  "unresolved_findings": [
+    "Normal\u2011anion\u2011gap metabolic acidosis \u2013 etiology not yet identified (proximal RTA vs chronic gastrointestinal bicarbonate loss)",
+    "Low\u2011normal random glucose (66.7\u202fmg/dL) \u2013 unclear if fasting or hypoglycemic tendency",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR and urine albumin\u2011creatinine ratio to assess renal function",
+    "No documented sleep\u2011related symptoms to confirm OSA",
+    "Serum vitamin B12 level not available (potential deficiency)",
+    "Smoking and alcohol use not captured"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Calculate eGFR using serum creatinine, age, and sex",
+    "Urine albumin\u2011creatinine ratio and urinalysis with microscopy",
+    "Arterial blood gas to confirm metabolic acidosis and assess pH",
+    "Urine electrolytes, urine pH, and urine anion gap to evaluate for renal tubular acidosis",
+    "Detailed medication and over\u2011the\u2011counter supplement review (including laxatives, diuretics, carbonic anhydrase inhibitors)",
+    "STOP\u2011BANG questionnaire and referral for polysomnography to assess for obstructive sleep apnea",
+    "Serum vitamin B12, methylmalonic acid, and homocysteine levels",
+    "Repeat HbA1c and fasting plasma glucose or oral glucose tolerance test",
+    "Assessment of dietary habits and possible chronic laxative use",
+    "Morning serum cortisol and 1\u2011mg dexamethasone suppression test to rule out Cushing\u2019s syndrome (if clinically indicated)",
+    "Aldosterone\u2011renin ratio to screen for primary hyperaldosteronism (if hypertension remains uncontrolled)"
+  ]
+}

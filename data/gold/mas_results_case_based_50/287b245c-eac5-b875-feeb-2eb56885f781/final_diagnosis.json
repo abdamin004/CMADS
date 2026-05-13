@@ -1,0 +1,198 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "NSAID and ACE\u2011I induced acute\u2011on\u2011chronic kidney injury with possible acute interstitial nephritis",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current prescription of non\u2011steroidal anti\u2011inflammatory drug and ACE inhibitor",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Acute rise in serum creatinine (exact value not provided)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, hypertension, dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of NSAID and ACE\u2011I use in a patient with baseline CKD predisposes to both hemodynamic AKI and drug\u2011induced acute interstitial nephritis. The abrupt creatinine rise fits an acute\u2011on\u2011chronic picture, and the reviewer highlighted this as the most likely diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Acute tubular necrosis secondary to volume depletion or occult sepsis",
+      "icd10": "N17.0",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Tachycardia (HR 95 bpm) with borderline low blood pressure (104/64 mmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated inflammatory markers (not detailed) suggesting possible infection",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of clear hypovolemic history but risk present due to NSAID use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "ATN can result from unrecognized volume depletion or sepsis, both plausible in this setting. The reviewer downgraded this diagnosis but still considered it plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic nephropathy (undiagnosed or poorly controlled type\u202f2 diabetes)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, dyslipidemia \u2013 classic metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Ketonuria without documented serum glucose",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented HbA1c or fasting glucose",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors and ketonuria raise suspicion for undiagnosed diabetes contributing to CKD, though objective glycemic data are missing, lowering confidence."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis / vascular chronic kidney disease",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension (well\u2011controlled at 104/64 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Baseline CKD without other clear etiology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension can cause progressive renal vascular injury; it explains background CKD but not the acute creatinine rise, making it a secondary contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive/post\u2011renal acute kidney injury (benign prostatic hyperplasia)",
+      "icd10": "N13.2",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male patient with risk factors for BPH (age not specified but implied older adult)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging performed to assess urinary tract obstruction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without imaging or urinary symptoms, obstruction remains possible but unlikely; retained for completeness."
+    },
+    {
+      "rank": 6,
+      "name": "Acute pyelonephritis / urinary\u2011tract infection",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L) atypical for uncomplicated UTI",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No reported dysuria, flank pain, or fever",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Infection could explain AKI and inflammatory markers, but lack of urinary symptoms and atypical leukopenia lower its likelihood."
+    },
+    {
+      "rank": 7,
+      "name": "Drug\u2011induced bone marrow suppression (possible NSAID/ACE\u2011I related cytopenias)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Thrombocytopenia (platelets 124\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No alternative hematologic or hepatic cause identified",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The reviewer highlighted unexplained cytopenias. Certain drugs (including some NSAIDs) can cause marrow suppression; this diagnosis accounts for those findings while acknowledging low certainty."
+    }
+  ],
+  "primary_diagnosis": "NSAID and ACE\u2011I induced acute\u2011on\u2011chronic kidney injury with possible acute interstitial nephritis",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient\u2019s acute kidney injury most plausibly reflects an NSAID and ACE\u2011I mediated insult on pre\u2011existing CKD, with a component of drug\u2011induced acute interstitial nephritis. Contributing factors such as possible volume depletion, occult infection, undiagnosed diabetes, and chronic hypertensive injury are incorporated as secondary possibilities. Unexplained cytopenias and urine bilirubin remain outside the renal differential and warrant separate evaluation.",
+  "unresolved_findings": [
+    "Thrombocytopenia (platelets 124\u202f\u00d710\u00b3/\u00b5L)",
+    "Leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L)",
+    "Positive urine bilirubin without serum bilirubin or liver enzyme data",
+    "Ketonuria without confirmed serum glucose or HbA1c",
+    "Elevated ferritin (503\u202f\u00b5g/L) \u2013 unclear if acute\u2011phase or iron overload",
+    "Missing quantitative values for eGFR, HbA1c, lipid panel, BMI"
+  ],
+  "recommended_workup": [
+    "Repeat CBC with differential and peripheral smear to characterize cytopenias",
+    "Serum electrolytes, BUN, creatinine trend, and calculation of eGFR",
+    "Urine culture and sensitivity; repeat urinalysis with microscopy for eosinophils",
+    "Renal ultrasound to assess for obstruction or hydronephrosis",
+    "Serum eosinophil count and consider renal biopsy if AIN remains uncertain",
+    "Fasting glucose, HbA1c, and oral glucose tolerance test to evaluate for diabetes",
+    "Comprehensive liver panel (AST, ALT, ALP, total and direct bilirubin) and abdominal imaging if bilirubin persists",
+    "Serum ferritin, iron studies, and inflammatory markers (CRP, ESR) to interpret hyperferritinemia",
+    "Blood cultures and procalcitonin if infection is suspected"
+  ]
+}

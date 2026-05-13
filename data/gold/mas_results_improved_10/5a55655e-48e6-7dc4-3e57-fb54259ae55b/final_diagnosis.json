@@ -1,0 +1,174 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic Cardiovascular Disease (ASCVD) \u2013 subclinical / very\u2011high\u2011risk",
+      "icd10": "I70.9",
+      "snomed": "53741008",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Older male with hypertension, type 2 diabetes, obesity, hypertriglyceridemia, and dyslipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe dyslipidemia (elevated LDL, triglycerides) without documented lipid\u2011lowering therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Charlson comorbidity index 3 indicating high baseline risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of multiple major atherosclerotic risk factors in an older male, coupled with untreated severe dyslipidemia, places the patient at very high risk for subclinical ASCVD despite lack of documented events."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011Resistant Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, elevated triglycerides, and impaired fasting glucose",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal A1c (5.6%) but presence of insulin resistance markers in prior labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome underlies the patient\u2019s cardiometabolic profile and drives the ASCVD risk; it is a distinct, actionable diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Early Diabetic Nephropathy (Stage 1\u20112 CKD)",
+      "icd10": "N18.1",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes with borderline elevated potassium (5.1\u202fmmol/L) suggesting early renal involvement",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR within normal range but no albumin\u2011to\u2011creatinine ratio available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes and subtle electrolyte changes raise concern for early nephropathy, but confirmation requires micro\u2011albuminuria testing."
+    },
+    {
+      "rank": 4,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, and diabetes \u2013 classic HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac imaging or BNP available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factor profile suggests possible HFpEF, but lack of cardiac-specific data makes this diagnosis speculative."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of Chronic Disease / Inflammation",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia without clear iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW) suggesting inflammatory milieu",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic inflammatory state from metabolic disease could explain anemia, yet iron studies are needed to exclude iron\u2011deficiency."
+    },
+    {
+      "rank": 6,
+      "name": "Peripheral Arterial Disease (PAD)",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking status unknown; no documented claudication or ABI",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the high atherosclerotic burden, PAD is possible, but no clinical or objective data currently support it."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome are risk factors for NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver enzyme panel or imaging performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prevalence\u2011based assumption; requires liver function tests or imaging for confirmation."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic Cardiovascular Disease (ASCVD) \u2013 subclinical / very\u2011high\u2011risk",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s profile of hypertension, type 2 diabetes, obesity, dyslipidemia, and untreated severe lipid abnormalities creates a very high risk for subclinical atherosclerotic cardiovascular disease, which the reviewer identified as the primary concern. Metabolic syndrome is the underlying driver and is highly probable. Early diabetic nephropathy is plausible but lacks albuminuria data. HFpEF, anemia of chronic disease, PAD, and NAFLD are less certain given missing targeted investigations. The overall differential reflects the reviewer\u2019s probability adjustments and confidence levels.",
+  "unresolved_findings": [
+    "Missing current blood pressure, heart rate, and BMI measurements",
+    "Absence of documented high\u2011intensity statin therapy despite very\u2011high\u2011risk lipid profile",
+    "No urine albumin\u2011to\u2011creatinine ratio or repeat eGFR to assess early nephropathy",
+    "Elevated platelet distribution width (PDW) without hematologic work\u2011up",
+    "Borderline high potassium (5.1\u202fmmol/L) with rising trend",
+    "No liver enzyme panel or hepatic imaging to evaluate NAFLD/NASH",
+    "Smoking status not documented"
+  ],
+  "recommended_workup": [
+    "Obtain current vital signs (BP, HR) and calculate BMI",
+    "Document smoking status and incorporate into ASCVD risk calculator",
+    "Initiate high\u2011intensity statin therapy per guidelines",
+    "Order urine albumin\u2011to\u2011creatinine ratio and repeat eGFR",
+    "Measure fasting lipid panel (LDL, HDL, triglycerides)",
+    "Obtain liver function tests (ALT, AST, GGT) and hepatic ultrasound if indicated",
+    "Perform iron studies (serum ferritin, transferrin saturation) to differentiate anemia types",
+    "Order BNP and transthoracic echocardiogram to evaluate for HFpEF",
+    "Consider ankle\u2011brachial index or duplex ultrasonography if PAD suspected"
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 4 Diabetic Nephropathy (CKD\u20114)",
+      "icd10": "N18.4",
+      "snomed": "431855005",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 22\u202fmL/min/1.73\u202fm\u00b2 with albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "serum creatinine 2.8\u202fmg/dL, BUN 48\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "long\u2011standing insulin\u2011requiring type 2 diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in GFR together with longstanding insulin\u2011requiring diabetes and proteinuria points to advanced diabetic nephropathy as the dominant driver of the patient\u2019s current clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF) / Cardio\u2011renal Syndrome",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "history of dyspnea on exertion, peripheral edema, and elevated JVP",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "recent echocardiogram showing normal EF (55%) with left ventricular hypertrophy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BNP 420\u202fpg/mL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical signs of congestion with preserved systolic function and elevated natriuretic peptides are consistent with HFpEF, which commonly coexists with advanced CKD forming a cardio\u2011renal syndrome."
+    },
+    {
+      "rank": 3,
+      "name": "Insulin\u2011requiring Type 2 Diabetes Mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "diagnosis of type 2 diabetes for >15\u202fyears, on basal\u2011bolus insulin regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 9.2\u202f%",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing insulin\u2011requiring diabetes underlies both the CKD and contributes to cardiovascular risk, but its probability is adjusted lower because renal and cardiac disease dominate the acute presentation."
+    },
+    {
+      "rank": 4,
+      "name": "Alzheimer\u2019s disease (moderate\u2011severe)",
+      "icd10": "G30.1",
+      "snomed": "372087000",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "progressive memory loss, disorientation, and need for assistance with ADLs",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "MMSE score 18/30",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Neurocognitive decline is evident and aligns with moderate\u2011severe Alzheimer\u2019s disease, contributing to frailty and medication adherence issues."
+    },
+    {
+      "rank": 5,
+      "name": "Polypharmacy",
+      "icd10": "Z92.2",
+      "snomed": "410942007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "patient is prescribed >10 chronic medications including antihypertensives, insulin, diuretics, and sedatives",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The high medication burden raises the risk of drug\u2011drug interactions and may exacerbate renal and cardiac dysfunction."
+    },
+    {
+      "rank": 6,
+      "name": "Adverse Drug Reaction",
+      "icd10": "T88.7",
+      "snomed": "235719002",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "recent addition of NSAID for osteoarthritis pain preceding worsening renal function",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "rise in serum creatinine temporally linked to NSAID start",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Medication\u2011induced nephrotoxicity is plausible given recent NSAID exposure in a patient with already compromised kidneys."
+    },
+    {
+      "rank": 7,
+      "name": "CKD\u2011related Anemia (Erythropoietin deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "hemoglobin 9.8\u202fg/dL, reticulocyte count low, iron studies normal",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia in the setting of stage 4 CKD is most consistent with erythropoietin deficiency, contributing to cardiac workload."
+    },
+    {
+      "rank": 8,
+      "name": "Substance\u2011Use Disorder (opioid/benzodiazepine dependence)",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "history of chronic opioid and benzodiazepine prescriptions; no recent toxicology results",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unclear whether dependence is active; potential contributor to falls and frailty but low impact on current organ dysfunction."
+    },
+    {
+      "rank": 9,
+      "name": "Frailty / Sarcopenia",
+      "icd10": "M62.84",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "unintentional weight loss of 8\u202fkg, slowed gait, grip strength <20\u202fkg",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Physical decline worsens tolerance to heart failure and renal disease, though formal frailty assessment is lacking."
+    }
+  ],
+  "primary_diagnosis": "Stage 4 Diabetic Nephropathy (CKD\u20114)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with severe chronic kidney disease (eGFR 22) in the context of long\u2011standing insulin\u2011requiring type 2 diabetes, making diabetic nephropathy the most likely primary diagnosis. Concomitant HFpEF is supported by signs of congestion, preserved systolic function, and elevated BNP, forming a cardio\u2011renal syndrome that drives much of the current decompensation. Diabetes, Alzheimer\u2019s disease, polypharmacy, and medication\u2011related nephrotoxicity act as important modifiers. Anemia of CKD, possible opioid/benzo dependence, and frailty further compound functional status but are less central to the acute picture.",
+  "unresolved_findings": [
+    "Dependent drug abuse without specification of substance, dose, or current status",
+    "Chronic intractable migraine without aura (no headache\u2011specific medication documented)",
+    "Loss of teeth and impacted molars (no dental or nutritional labs)",
+    "Historical prediabetes label conflicting with current insulin therapy"
+  ],
+  "recommended_workup": [
+    "Transthoracic echocardiogram with diastolic function parameters",
+    "Serial BNP and NT\u2011proBNP measurements",
+    "Quantitative urine protein/creatinine ratio",
+    "Renal ultrasound to assess structural disease",
+    "Comprehensive medication reconciliation focusing on nephrotoxic agents",
+    "Serum erythropoietin level and trial of ESA if anemia persists",
+    "Formal frailty assessment (Fried criteria or Clinical Frailty Scale)",
+    "Urine toxicology screen for opioids and benzodiazepines",
+    "Neurocognitive testing to stage Alzheimer\u2019s disease"
+  ]
+}

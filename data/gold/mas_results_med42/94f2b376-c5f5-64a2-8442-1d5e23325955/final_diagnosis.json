@@ -1,0 +1,97 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertension (Stage 2)",
+      "icd10": "I10 (Essential hypertension, stage 2)",
+      "snomed": "155053000 |Severe essential hypertension|",
+      "probability": 1.0,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Consistently elevated blood pressure readings (>140/90 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile based on age, sex, and family history",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Persistent high blood pressures documented in medical records combined with a significant cardiovascular risk profile support Stage 2 Hypertension diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Prediabetic State",
+      "icd10": "R73.0 (Impaired glucose regulation, prediabetic state)",
+      "snomed": "237246003 |Prediabetic state|",
+      "probability": 1.0,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting plasma glucose between 100-125 mg/dL (impaired fasting glucose)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "History of obesity and sedentary lifestyle",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lab results showing impaired fasting glucose along with risk factors like obesity and inactivity support Prediabetic State diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia (unspecified type)",
+      "icd10": "D64.9 (Anemia, unspecified)",
+      "snomed": "271737000 |Anaemia|",
+      "probability": 0.9,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin <13 g/dL for males or <12 g/dL for females",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports fatigue and weakness",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low hemoglobin levels combined with patient-reported symptoms of fatigue suggest Anemia, though specific type needs further investigation."
+    },
+    {
+      "rank": 4,
+      "name": "Osteoarthritis",
+      "icd10": "M19.9 (Osteoarthritis, unspecified joint)",
+      "snomed": "396271007 |Osteoarthritis|",
+      "probability": 1.0,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "imaging",
+          "finding": "Joint space narrowing and osteophytes on X-ray",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports chronic joint pain and stiffness",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Radiographic findings of joint degeneration along with patient-reported symptoms confirm Osteoarthritis."
+    }
+  ],
+  "primary_diagnosis": "Hypertension (Stage 2)",
+  "primary_probability": 1.0,
+  "clinical_reasoning_summary": "The patient presents with multiple chronic conditions supported by strong evidence from labs, imaging, and clinical history. Hypertension Stage 2 is the primary diagnosis due to consistently elevated blood pressures and high cardiovascular risk profile. Prediabetic State and Osteoarthritis are also confirmed based on lab values and imaging, respectively. Anemia requires further specification of type given lack of explicit severity values.",
+  "unresolved_findings": [],
+  "recommended_workup": [
+    "Further evaluation for Anemia type (e.g., iron studies, B12 levels)",
+    "Lipid profile to assess cardiovascular risk",
+    "HbA1c test to confirm Prediabetic State"
+  ]
+}

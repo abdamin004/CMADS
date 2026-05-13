@@ -1,0 +1,183 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication non-adherence / poor hypertension control",
+      "icd10": "Z91.14",
+      "snomed": "428371000124106",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension (SBP 151 mmHg, DBP 105 mmHg) despite prescribed antihypertensive regimen",
+          "strength": "moderate"
+        },
+        {
+          "source": "social_determinants",
+          "finding": "Transportation barriers and low health literacy limiting medication acquisition and follow\u2011up",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled blood pressure in a young adult with documented barriers to medication access strongly suggests non\u2011adherence as the dominant driver of resistant hypertension."
+    },
+    {
+      "rank": 2,
+      "name": "Primary aldosteronism (Conn syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension in a patient under 40 years old",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of potassium and aldosterone measurements (missing labs)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Young age and refractory hypertension raise suspicion for primary aldosteronism, but lack of electrolyte and hormonal data limits certainty."
+    },
+    {
+      "rank": 3,
+      "name": "Fibromuscular dysplasia of renal arteries",
+      "icd10": "I77.5",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female gender and early\u2011onset resistant hypertension",
+          "strength": "weak"
+        },
+        {
+          "source": "imaging",
+          "finding": "No renal imaging performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "FMD is a recognized cause of secondary hypertension in young women, but no imaging evidence is currently available, making the probability modest."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic musculoskeletal pain\u2013induced sympathetic overactivity hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding chronic neck and low\u2011back pain documented in the chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Chronic pain can activate sympathetic tone, contributing to elevated blood pressure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The reviewer highlighted pain\u2011driven sympathetic activation as a missed contributor; chronic pain is a plausible secondary driver of hypertension in this patient."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic kidney disease (undetected renal parenchymal disease)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of renal function labs (creatinine, eGFR, urine ACR)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Renal disease is a common cause of secondary hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal impairment cannot be excluded without labs; therefore it remains a plausible but unconfirmed contributor."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea contributing to hypertension",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented BMI, neck circumference, or sleep\u2011related symptoms",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is a frequent secondary cause of hypertension, but the chart lacks any suggestive anthropometric or symptom data, making this diagnosis unlikely."
+    },
+    {
+      "rank": 7,
+      "name": "Essential (primary) hypertension \u2013 true resistant",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension persisting despite therapy",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Diagnosis of exclusion after secondary causes are ruled out",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Essential hypertension remains a diagnosis of exclusion; given multiple plausible secondary etiologies, its probability is kept low."
+    },
+    {
+      "rank": 8,
+      "name": "Thyroid dysfunction (hyperthyroidism) contributing to hypertension",
+      "icd10": "E05.0",
+      "snomed": "34486009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No clinical or laboratory signs of thyroid disease documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without any thyroid\u2011related findings, hyperthyroidism is an unlikely contributor."
+    }
+  ],
+  "primary_diagnosis": "Medication non-adherence / poor hypertension control",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient is a young adult female with stage\u20112 resistant hypertension and significant social barriers to medication access. The reviewer and the diagnostic agent agree that non\u2011adherence is the most likely driver. Secondary causes such as primary aldosteronism, fibromuscular dysplasia, chronic kidney disease, and pain\u2011induced sympathetic overactivity each have modest supporting evidence, while obstructive sleep apnea, essential resistant hypertension, and hyperthyroidism are less likely given the lack of pertinent data. The differential has been re\u2011ranked and probabilities normalized to reflect the reviewer\u2019s adjustments and the newly identified pain\u2011related hypertension.",
+  "unresolved_findings": [
+    "Missing renal function labs (creatinine, eGFR, urine albumin\u2011creatinine ratio)",
+    "Missing metabolic labs (fasting glucose, HbA1c, BMI, waist circumference)",
+    "No documented smoking, alcohol, or illicit drug use",
+    "Absence of sleep\u2011related symptom documentation",
+    "Normal lipid panel (does not explain hypertension)"
+  ],
+  "recommended_workup": [
+    "Medication adherence assessment (pill count, pharmacy refill history, patient interview)",
+    "Serum electrolytes, creatinine, eGFR, urine ACR",
+    "Plasma aldosterone concentration and plasma renin activity with calculation of aldosterone\u2011renin ratio",
+    "Renal artery imaging (CT angiography or duplex ultrasound) to evaluate for fibromuscular dysplasia or stenosis",
+    "Overnight polysomnography to screen for obstructive sleep apnea",
+    "Thyroid function tests (TSH, free T4)",
+    "Ambulatory blood pressure monitoring to confirm true resistant hypertension",
+    "Comprehensive pain assessment and evaluation of sympathetic activity (e.g., heart rate variability)",
+    "Lifestyle and psychosocial evaluation focusing on transportation, health literacy, and support systems"
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute-on-chronic kidney injury (AKI) secondary to medication toxicity or volume depletion",
+      "icd10": "N17.9",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated serum creatinine and reduced eGFR in a patient with known stage 4 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent addition of nephrotoxic agents (e.g., NSAIDs, ACE\u2011I/ARB duplication)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has advanced CKD and now shows a rapid rise in creatinine consistent with AKI. Medication list reveals potential nephrotoxins and possible volume depletion, making AKI the most urgent diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Polypharmacy\u2011related adverse drug event (including duplicate ACE\u2011I/ARB, duplicate statins, inappropriate alteplase)",
+      "icd10": "T88.7",
+      "snomed": "441935006",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate prescriptions for ACE\u2011I/ARB and statins identified",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Alteplase ordered without documented acute indication",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple overlapping drug classes increase risk of renal toxicity, bleeding, and metabolic disturbances, likely precipitating the AKI and other systemic effects."
+    },
+    {
+      "rank": 3,
+      "name": "Advanced diabetic\u2011hypertensive chronic kidney disease (Stage 4)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes mellitus and hypertension with documented CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <30\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The chronic kidney disease provides the baseline renal impairment on which the acute insult is superimposed."
+    },
+    {
+      "rank": 4,
+      "name": "Severe hypoglycemia risk / overtreatment of diabetes",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intensive insulin regimen documented without recent glucose monitoring data",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Recent low fasting glucose values (if available) or missing recent labs raising concern",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Aggressive glycemic control in the setting of declining renal function raises the likelihood of hypoglycemia, which can further compromise renal perfusion."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF) / volume overload",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, dyspnea, and peripheral edema",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented echocardiogram; diagnosis remains speculative",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical signs suggest possible volume overload, which could exacerbate renal dysfunction, but objective cardiac data are lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Infection (UTI, pneumonia, cellulitis, or pressure\u2011ulcer infection)",
+      "icd10": "B99",
+      "snomed": "442452003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Fever noted on admission and leukocytosis (if labs available)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Infection could contribute to systemic inflammation and renal injury, but no definitive microbiologic or imaging data were provided."
+    },
+    {
+      "rank": 7,
+      "name": "Delirium / acute encephalopathy (metabolic, uremic, medication\u2011induced)",
+      "icd10": "F05",
+      "snomed": "24700007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Altered mental status documented in nursing notes (if any)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN/creatinine ratio suggesting uremia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic derangements from AKI and polypharmacy could precipitate encephalopathy, though documentation of confusion is limited."
+    },
+    {
+      "rank": 8,
+      "name": "Osteoporosis with high fracture risk",
+      "icd10": "M81.0",
+      "snomed": "239872002",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior fragility fracture and chronic steroid use (suspected)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While not directly related to the acute presentation, osteoporosis is a significant comorbidity that warrants attention."
+    }
+  ],
+  "primary_diagnosis": "Acute-on-chronic kidney injury (AKI) secondary to medication toxicity or volume depletion",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient with known stage 4 diabetic\u2011hypertensive CKD presents with a rapid rise in creatinine, indicating acute\u2011on\u2011chronic kidney injury. Review of the medication list uncovers multiple overlapping agents (duplicate ACE\u2011I/ARB, statins, and an inappropriate alteplase order) that likely precipitated the AKI and contribute to a broader polypharmacy adverse drug event. Background CKD, possible volume overload from HFpEF, and the risk of severe hypoglycemia further compound renal perfusion. Infection and delirium remain possible contributors but lack objective evidence. Osteoporosis is a chronic comorbidity of lower immediate relevance.",
+  "unresolved_findings": [
+    "Alteplase prescription without a documented acute indication (stroke, MI, or PE)",
+    "Missing recent laboratory values (A1c, lipid panel, BMI, hemoglobin, CBC)",
+    "Full\u2011time employment claim at age\u202f104 \u2013 likely data entry error",
+    "Potential chronic steroid or NSAID use not captured in medication list",
+    "Exact details of duplicate medication classes (specific agents, doses) are absent"
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation with focus on nephrotoxic and duplicate agents",
+    "Repeat renal panel (serum creatinine, BUN, electrolytes, eGFR) and urine analysis",
+    "Serum drug levels where applicable (e.g., ACE\u2011I, statins)",
+    "Fasting glucose and HbA1c to assess hypoglycemia risk",
+    "Complete blood count with differential to evaluate anemia and infection",
+    "Chest X\u2011ray and urinalysis/culture to rule out occult infection",
+    "Echocardiogram and BNP to assess for HFpEF and volume status",
+    "Bone density scan if not recently performed",
+    "Review of alteplase indication with ordering provider"
+  ]
+}

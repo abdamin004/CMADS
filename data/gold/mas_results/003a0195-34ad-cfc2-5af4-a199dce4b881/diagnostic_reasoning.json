@@ -1,0 +1,345 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Iron-deficiency anemia (chronic oral blood loss \u00b1 occult GI bleed)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "RBC count\u202f=\u202f4.0\u202f\u00d710\u2076/\u00b5L (low\u2011normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count\u202f=\u202f421.9\u202f\u00d710\u00b3/\u00b5L (high\u2011normal, reactive)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic gingivitis and loss of teeth",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI discrepancy (obesity flag vs measured BMI 27.1)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of documented anemia, low\u2011normal RBC, reactive thrombocytosis, and chronic oral disease suggests iron loss from the oral cavity. The BMI drop raises suspicion for additional occult blood loss (e.g., GI). Iron studies and FOBT are required to differentiate iron\u2011deficiency from anemia of chronic disease."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension \u2013 untreated",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Systolic BP\u202f=\u202f146\u202fmmHg (Stage\u202f2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Diastolic BP\u202f=\u202f82\u202fmmHg (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medications listed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI\u202f\u2265\u202f30) and overweight BMI\u202f=\u202f27.1\u202fkg/m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "demographic",
+          "finding": "Age\u202f=\u202f71\u202fy, female",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Stage\u202f2 systolic hypertension in an elderly woman without any antihypertensive therapy indicates untreated essential hypertension, a major driver of cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic\u2011syndrome / insulin\u2011resistance state",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C\u202f=\u202f28.1\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI\u202f\u2265\u202f30)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c\u202f=\u202f5.9\u202f% (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count\u202f=\u202f421.9\u202f\u00d710\u00b3/\u00b5L (high\u2011normal, inflammatory marker)",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic",
+          "finding": "Age\u202f=\u202f71\u202fy, female",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The clustering of low HDL, overweight/obesity, pre\u2011diabetes, and elevated platelets reflects insulin resistance and metabolic syndrome, increasing ASCVD risk."
+    },
+    {
+      "rank": 4,
+      "name": "Early hypertensive nephropathy / chronic kidney disease (stage\u202f\u2265\u202f3)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN\u202f=\u202f17.2\u202fmg/dL (upper\u2011normal, rising)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium\u202f=\u202f3.9\u202fmmol/L (low\u2011normal, falling)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing untreated hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic",
+          "finding": "Age\u202f=\u202f71\u202fy",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing creatinine/eGFR data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension in an elderly patient with a rising BUN and low\u2011normal potassium raises concern for early hypertensive kidney injury; lack of creatinine data limits staging."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "demographic",
+          "finding": "Age\u202f>\u202f70\u202fy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BMI\u202f\u2248\u202f27\u202fkg/m\u00b2 (overweight, near obesity threshold)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Untreated hypertension (SBP\u202f146\u202fmmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Age, borderline obesity, and resistant hypertension are classic risk factors for OSA; screening is warranted."
+    },
+    {
+      "rank": 6,
+      "name": "Depression / chronic\u2011stress disorder",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and limited social contact",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Exposure to community violence",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Transport problems / lack of access to transportation",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No mental\u2011health screening documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Multiple psychosocial stressors in an elderly patient are highly predictive of depressive or anxiety disorders, which can worsen hypertension control and adherence."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease / inflammation",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count\u202f=\u202f421.9\u202f\u00d710\u00b3/\u00b5L (high\u2011normal, reactive)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic gingivitis and oral inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN\u202f=\u202f17.2\u202fmg/dL (upper\u2011normal)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Inflammatory conditions can cause anemia of chronic disease; the reactive thrombocytosis and chronic oral inflammation support this possibility."
+    },
+    {
+      "rank": 8,
+      "name": "Occult gastrointestinal malignancy (colorectal cancer)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count\u202f=\u202f421.9\u202f\u00d710\u00b3/\u00b5L (high\u2011normal, possible paraneoplastic)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI discrepancy (possible recent weight loss)",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic",
+          "finding": "Age\u202f=\u202f71\u202fy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In an elderly patient, unexplained anemia with thrombocytosis and weight loss raises concern for occult colorectal cancer; stool testing and colonoscopy are indicated."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C\u202f=\u202f28.1\u202fmg/dL (can be seen in hypothyroidism)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI discrepancy / possible recent weight gain",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic",
+          "finding": "Female >\u202f65\u202fy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypothyroidism can cause dyslipidaemia, weight changes, and anemia; screening TSH is low\u2011cost and warranted."
+    },
+    {
+      "rank": 10,
+      "name": "Vitamin\u202fD deficiency / osteomalacia",
+      "icd10": "E55.9",
+      "snomed": "237022008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation limiting outdoor activity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity/overweight (BMI\u202f\u2265\u202f30 flag)",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic",
+          "finding": "Age\u202f=\u202f71\u202fy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elderly, indoor\u2011bound individuals are at high risk for vitamin\u202fD deficiency, which can contribute to low\u2011grade inflammation and anemia."
+    }
+  ],
+  "primary_diagnosis": "Iron-deficiency anemia (chronic oral blood loss \u00b1 occult GI bleed)",
+  "primary_probability": 0.18,
+  "clinical_reasoning_summary": "The patient presents with a constellation of hypertension, metabolic derangements, anemia, and significant psychosocial stressors. The most concrete abnormality is anemia, supported by low\u2011normal RBC, high\u2011normal platelets, and chronic oral disease, making iron\u2011deficiency the leading diagnosis. Untreated stage\u202f2 hypertension and metabolic\u2011syndrome features (low HDL, pre\u2011diabetes, overweight) constitute major cardiovascular risk. Early CKD is suspected from a rising BUN and low\u2011normal potassium, but missing creatinine limits certainty. Additional high\u2011yield considerations include obstructive sleep apnea, depression, anemia of chronic disease, occult colorectal cancer, hypothyroidism, and vitamin\u202fD deficiency. Probabilities were calibrated to reflect the strength of available evidence while acknowledging data gaps.",
+  "unresolved_findings": [
+    "BMI\u202f=\u202f27.1\u202fkg/m\u00b2 (overweight) vs. obesity flag (BMI\u202f\u2265\u202f30) \u2013 discrepancy",
+    "Hematocrit high\u2011normal (47.4\u202f%) with low\u2011normal RBC count (4.0\u202f\u00d710\u2076/\u00b5L)",
+    "Rising BUN without accompanying creatinine/eGFR data",
+    "Absence of a complete lipid panel (LDL, total cholesterol, triglycerides)",
+    "Missing smoking and alcohol use documentation",
+    "No vaccination records documented"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio (ACR)",
+    "Iron studies (serum iron, ferritin, TIBC, transferrin saturation) and reticulocyte count",
+    "Fecal immunochemical test (FIT) or guaiac FOBT; if positive, schedule colonoscopy",
+    "C\u2011reactive protein (CRP) and erythrocyte sedimentation rate (ESR) to assess inflammation",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, triglycerides)",
+    "Thyroid panel (TSH, free T4)",
+    "STOP\u2011Bang questionnaire; if positive, arrange home sleep apnea test or polysomnography",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screens",
+    "Comprehensive medication reconciliation interview (pharmacy fill history)",
+    "Vaccination review (influenza, pneumococcal, shingles, COVID\u201119) and update as needed",
+    "Serum 25\u2011OH vitamin\u202fD, vitamin B12, and folate levels",
+    "Review serial weight measurements over the past 12 months to confirm weight trend",
+    "Social\u2011work assessment for transportation assistance, community support, and nutrition resources"
+  ]
+}

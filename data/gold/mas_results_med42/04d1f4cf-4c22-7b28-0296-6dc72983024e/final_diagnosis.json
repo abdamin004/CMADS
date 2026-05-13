@@ -1,0 +1,93 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Renal Impairment",
+      "icd10": "N18.3 (Chronic kidney disease stage 3)",
+      "snomed": "36170005 (Chronic renal failure, stage 3)",
+      "probability": 0.9,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR significantly reduced",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of uncontrolled hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient's lab results show a decreased eGFR, indicating renal impairment. The history of poorly controlled hypertension supports this diagnosis as a likely contributor."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled Essential Hypertension",
+      "icd10": "I10 (Essential hypertension)",
+      "snomed": "155646000 (Hypertension, essential)",
+      "probability": 0.95,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple readings above target BP despite medication",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk due to hypertension and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's medical record shows persistent elevated blood pressure levels, indicating uncontrolled essential hypertension. This is exacerbated by comorbid obesity."
+    },
+    {
+      "rank": 3,
+      "name": "Prediabetic State",
+      "icd10": "R73.0 (Impaired glucose regulation)",
+      "snomed": "237246003 (Prediabetic state)",
+      "probability": 0.72,
+      "confidence": "strong",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting plasma glucose near diabetic threshold",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and family history of diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's lab results show impaired glucose regulation, combined with obesity and a family history of diabetes, indicating a prediabetic state."
+    },
+    {
+      "rank": 4,
+      "name": "Obesity with Metabolic Complications",
+      "icd10": "E66.9 (Obesity, unspecified)",
+      "snomed": "414915002 (Obesity with metabolic complications)",
+      "probability": 0.63,
+      "confidence": "strong",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI >30 kg/m2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Abnormal lipid profile and liver enzymes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's BMI exceeds 30, indicating obesity. Additionally, lab findings suggest metabolic complications such as dyslipidemia and potential fatty liver disease."
+    }
+  ],
+  "primary_diagnosis": "Renal Impairment",
+  "primary_probability": 0.9,
+  "clinical_reasoning_summary": "The patient presents with multiple interconnected chronic conditions driven by lifestyle factors, including renal impairment likely exacerbated by uncontrolled hypertension, prediabetes influenced by obesity and family history, and metabolic complications from obesity itself.",
+  "unresolved_findings": [],
+  "recommended_workup": []
+}

@@ -1,0 +1,155 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication non-adherence / therapeutic inertia",
+      "icd10": "Z91.14",
+      "snomed": "443859009",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 151/105 mmHg despite antihypertensive therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant social determinants (transportation barriers, low education) affecting medication access",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled stage 2 hypertension in a young adult on therapy, combined with documented barriers to care, makes non\u2011adherence or therapeutic inertia the most plausible explanation."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Single elevated BP reading consistent with stage 2 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal lipid panel",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Primary hypertension remains common; absence of abnormal labs or imaging keeps it plausible, though probability reduced due to missing secondary work\u2011up."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hypertension \u2013 chronic kidney disease (renal\u2011parenchymal disease)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Missing serum creatinine, eGFR, electrolytes, and urinalysis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal dysfunction is a frequent secondary cause; lack of renal labs prevents exclusion, warranting a moderate probability."
+    },
+    {
+      "rank": 4,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Resistant hypertension with no electrolyte data to rule out hypokalemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given uncontrolled BP and absent potassium/electrolyte results, primary aldosteronism cannot be excluded and should be considered."
+    },
+    {
+      "rank": 5,
+      "name": "Renovascular hypertension",
+      "icd10": "I15.0",
+      "snomed": "237599001",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Missing renal imaging and labs to assess for renal artery stenosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renovascular disease is a treatable secondary cause; absence of imaging keeps it in the differential with low probability."
+    },
+    {
+      "rank": 6,
+      "name": "Degenerative axial musculoskeletal disease (disc disease / early spondyloarthropathy)",
+      "icd10": "M48.06",
+      "snomed": "239873007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic high\u2011severity axial musculoskeletal pain documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic severe back pain strongly suggests an underlying degenerative spinal process, contributing to overall clinical picture."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Epidemiologic link between resistant hypertension and OSA in young adults",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in resistant hypertension but lacks direct screening data in this patient."
+    }
+  ],
+  "primary_diagnosis": "Medication non-adherence / therapeutic inertia",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage 2 hypertension and chronic axial pain. Social determinants and lack of documented medication adherence raise medication non\u2011adherence as the leading explanation. Essential hypertension remains plausible but probability is tempered by missing secondary work\u2011up. Renal disease, primary aldosteronism, and renovascular hypertension are possible secondary causes given absent renal labs and imaging. Musculoskeletal disease explains the chronic pain, and OSA is a recognized comorbidity in resistant hypertension, though not yet evaluated.",
+  "unresolved_findings": [
+    "Absent serum creatinine, eGFR, BUN, and electrolyte panel",
+    "No urinalysis (protein, micro\u2011albumin)",
+    "Missing fasting glucose/HbA1c and thyroid function tests",
+    "No BMI, weight, waist circumference, smoking/alcohol use documentation",
+    "Single blood\u2011pressure measurement; no trend or ambulatory data",
+    "No imaging of the spine, abdomen, or renal arteries",
+    "No sleep\u2011study or STOP\u2011BANG assessment"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, BUN, electrolytes, and urinalysis",
+    "Plasma aldosterone concentration and plasma renin activity (ARR)",
+    "Renal artery Doppler ultrasound or CT/MR angiography",
+    "Polysomnography or home sleep apnea testing",
+    "Ambulatory blood pressure monitoring",
+    "Fasting glucose and HbA1c",
+    "Thyroid function tests (TSH, free T4)",
+    "BMI, weight, waist circumference measurement",
+    "Spine X\u2011ray or MRI if pain persists",
+    "Lifestyle assessment (smoking, alcohol, diet)"
+  ]
+}

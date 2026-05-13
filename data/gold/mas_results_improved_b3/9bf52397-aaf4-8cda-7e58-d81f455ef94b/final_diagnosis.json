@@ -1,0 +1,197 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 7.7% (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of prediabetes and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated HbA1c above diagnostic threshold confirms diabetes; chronic hyperglycemia aligns with documented obesity and metabolic risk, making type 2 diabetes the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Kidney Disease, Stage G3a (moderate)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 55 mL/min/1.73m\u00b2 (consistent with stage G3a)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding diabetes and hypertension risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced eGFR indicates moderate CKD; diabetes is a primary etiologic factor, supporting a high likelihood of CKD stage G3a."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (Primary) Hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ICD coding for primary hypertension without confirmatory BP readings",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Single BP reading 95/81 mmHg conflicts with hypertension label",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is coded but objective measurements are lacking; given the patient's metabolic profile, hypertension remains plausible but less certain."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, elevated glucose (A1c 7.7%), and probable dyslipidaemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, hyperglycemia, and likely lipid abnormalities fulfills criteria for metabolic syndrome, overlapping with other diagnoses."
+    },
+    {
+      "rank": 5,
+      "name": "Atherogenic Dyslipidaemia / Hyper\u2011LDL\u2011C",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Incomplete lipid panel but clinical impression of elevated LDL",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk based on diabetes and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s diabetes and obesity, atherogenic dyslipidaemia is highly likely and clinically important for management."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related Anemia / Anemia of Chronic Disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (Hb 11.2 g/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage G3a CKD present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia in the setting of CKD suggests anemia of chronic disease; other causes (iron deficiency) cannot be excluded without iron studies."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic Rhinosinusitis",
+      "icd10": "J32.9",
+      "snomed": "36971009",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis and ongoing topical hydrocortisone use for sinus symptoms",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Explicit documentation of chronic rhinosinusitis and treatment supports this diagnosis, though its impact on metabolic profile is limited."
+    },
+    {
+      "rank": 8,
+      "name": "Obesity (E66)",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding obesity noted in history; BMI not currently recorded",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity is a key risk factor driving diabetes, CKD, and metabolic syndrome; despite missing current BMI, its presence is well\u2011established."
+    },
+    {
+      "rank": 9,
+      "name": "Probable NAFLD/NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and diabetes present; liver enzymes not available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given metabolic risk factors, NAFLD is possible but lacks direct evidence; listed to prompt appropriate testing."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient\u2019s elevated HbA1c (7.7%) confirms type 2 diabetes, which is the dominant driver of her metabolic derangements. Moderate CKD (eGFR 55) is consistent with diabetic nephropathy. Hypertension is coded but lacks objective measurements, making it plausible yet uncertain. Obesity, dyslipidaemia, and metabolic syndrome interrelate, amplifying cardiovascular risk. Ancillary conditions such as CKD\u2011related anemia, chronic rhinosinusitis, and possible NAFLD are included to guide comprehensive management.",
+  "unresolved_findings": [
+    "Single recorded blood pressure (95/81 mmHg) conflicts with the \"stage 1 hypertension\" label.",
+    "Missing current BMI value despite documented obesity.",
+    "Absent liver function tests (ALT/AST) to evaluate for NAFLD/NASH.",
+    "No urine albumin\u2011to\u2011creatinine ratio to better stage CKD.",
+    "Cause of mild anemia (iron deficiency vs CKD\u2011related).",
+    "Exact source of intermittent moderate pain treated with oxycodone (musculoskeletal, neuropathic, sinus\u2011related).",
+    "Nature of skin irritation treated with topical hydrocortisone (intertriginous dermatitis, fungal infection, etc.).",
+    "Incomplete lipid panel (HDL, triglycerides, non\u2011HDL cholesterol)."
+  ],
+  "recommended_workup": [
+    "Obtain repeat blood pressure measurements (multiple readings) to confirm or refute hypertension.",
+    "Measure current weight and height to calculate BMI.",
+    "Order a complete lipid panel including LDL, HDL, triglycerides, and non\u2011HDL cholesterol.",
+    "Perform liver function tests (ALT, AST, GGT) and consider hepatic ultrasound or FibroScan for NAFLD assessment.",
+    "Obtain urine albumin\u2011to\u2011creatinine ratio to stage CKD more precisely.",
+    "Conduct iron studies (serum ferritin, transferrin saturation) to differentiate anemia etiology.",
+    "Review medication list for agents contributing to anemia or renal dysfunction.",
+    "Consider sinus CT or nasal endoscopy if rhinosinusitis symptoms persist.",
+    "Evaluate skin lesions with fungal culture or dermatology referral if irritation continues."
+  ]
+}

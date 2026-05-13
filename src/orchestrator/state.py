@@ -11,7 +11,7 @@ This IS the shared memory store from SDD §4. Each key is a namespace:
 
 The four-tier multi-level memory subsystem layers on top of these channels;
 see `src/memory/manager.py` for the unified facade. Tier 3 (semantic, on disk)
-and Tier 4 (procedural, Qdrant) live outside the state.
+and Tier 4 (case-based, Qdrant) live outside the state.
 
 Implements: IF-001–005, MA-005
 """

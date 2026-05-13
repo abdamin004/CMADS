@@ -1,0 +1,82 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled Stage 2 Hypertension",
+      "icd10": "I10 (Hypertensive disease) with I15.9 (unspecified secondary hypertension not included as 'stage' here, but implied by 'uncontrolled' and review context) plus extension for stage (e.g., as per CDC: I10 with 5th digit '2' indicating Stage 2; however, exact ICD-10 sub-coding for stages might vary regionally)",
+      "snomed": "155053007 | Hypertension, essential, severe",
+      "probability": 0.99,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Consistently elevated blood pressure readings in medical records",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No lab findings contradicting hypertension diagnosis (e.g., no evidence of secondary causes like aldosterone excess)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's medical history and current readings confirm uncontrolled Stage 2 Hypertension, as there are repeated elevated blood pressure measurements without any contradictory lab findings."
+    },
+    {
+      "rank": 2,
+      "name": "Potential Undiagnosed Diabetes",
+      "icd10": "R73.0 (Abnormal glucose tolerance test) - pending confirmation; may change to E11 (Type 2 diabetes) if confirmed",
+      "snomed": "36670005 | Impaired glucose regulation",
+      "probability": 0.6,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient's age and hypertension status increase risk for diabetes; no recent comprehensive metabolic assessment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient is at increased risk for undiagnosed diabetes due to age and comorbid hypertension, but incomplete metabolic assessments prevent definitive diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Possible Chronic Kidney Disease",
+      "icd10": "N18.9 (Chronic kidney disease, unspecified) - pending confirmation",
+      "snomed": "236684008 | Renal insufficiency, chronic",
+      "probability": 0.6,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension increases risk for kidney disease; no recent comprehensive renal assessment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's hypertension history raises concern for possible chronic kidney disease, but incomplete renal assessments prevent definitive diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Dyslipidemia",
+      "icd10": "E78.0 (Pure hypercholesterolemia) - pending confirmation; may change based on lipid profile",
+      "snomed": "23878003 | Hypercholesterolemia",
+      "probability": 0.6,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent comprehensive lipid profile; hypertension increases risk for dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's hypertension history raises concern for possible dyslipidemia, but incomplete lipid profiles prevent definitive diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled Stage 2 Hypertension",
+  "primary_probability": 0.99,
+  "clinical_reasoning_summary": "The primary diagnosis is uncontrolled Stage 2 Hypertension based on consistently elevated blood pressure readings and no contradictory lab findings. The patient's age, hypertension status, and incomplete assessments raise concerns for potential undiagnosed diabetes, possible chronic kidney disease, and dyslipidemia, but these diagnoses are less certain due to missing key lab values.",
+  "unresolved_findings": [],
+  "recommended_workup": [
+    "Comprehensive metabolic assessment including fasting glucose and HbA1c",
+    "Renal function tests (e.g., creatinine, eGFR)",
+    "Lipid profile"
+  ]
+}

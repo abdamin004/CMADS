@@ -1,0 +1,278 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin\u2011resistance / Metabolic\u2011Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C\u202f158\u202fmg/dL, TG\u202f189\u202fmg/dL, HDL\u2011C\u202f40.1\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension diagnosed 2021, on ACE\u2011i + thiazide",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type\u202f2 diabetes diagnosed 2020, A1c\u202f6.7\u202f%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011level stress, low socioeconomic status",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, dyslipidaemia, hypertension, and hyperglycaemia co\u2011occur, fulfilling criteria for metabolic syndrome and providing a unifying physiologic driver for downstream organ injury."
+    },
+    {
+      "rank": 2,
+      "name": "Essential Hypertension with early target\u2011organ damage",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.227,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescribed lisinopril 10\u202fmg + hydrochlorothiazide 25\u202fmg",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine\u202f1.4\u202fmg/dL, eGFR\u202f86\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing recent BP measurements",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Two antihypertensive agents indicate clinician concern for uncontrolled BP; renal labs suggest early hypertension\u2011related nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "Type\u202f2 Diabetes Mellitus \u2013 sub\u2011optimally controlled",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.146,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metformin ER 500\u202fmg daily (monotherapy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c\u202f6.7\u202f%",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Random glucose\u202f112\u202fmg/dL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c above target despite metformin alone suggests need for intensification; diabetes contributes to CKD and ASCVD risk."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (sub\u2011clinical CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.097,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C\u202f158\u202fmg/dL, total cholesterol\u202f236\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin or aspirin prescribed despite high risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age\u202f62, hypertension, diabetes",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Combined risk factors place 10\u2011year ASCVD risk >\u202f20\u202f%; absence of primary\u2011prevention therapy raises suspicion for undiagnosed sub\u2011clinical disease."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic Kidney Disease, stage\u202f2 (early)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.057,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine\u202f1.4\u202fmg/dL, eGFR\u202f86\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011i therapy (renoprotective)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing urine albumin/creatinine ratio",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function slightly reduced, consistent with hypertension\u2011 and diabetes\u2011related nephropathy."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.049,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, type\u202f2 diabetes, dyslipidaemia",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No liver function tests available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome triad makes NAFLD highly probable, though lacking confirmatory labs."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of Chronic Disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.032,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2003",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly reduced eGFR",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No recent CBC or iron studies",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing anemia in setting of early CKD suggests anemia of chronic disease; work\u2011up needed to exclude other causes."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in obese diabetics and can worsen hypertension; needs screening."
+    },
+    {
+      "rank": 9,
+      "name": "Peripheral Arterial Disease (PAD)",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High ASCVD risk profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No ABI or claudication documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given systemic atherosclerosis, PAD is plausible but no clinical signs yet."
+    },
+    {
+      "rank": 10,
+      "name": "Secondary Hypertension (renal\u2011artery stenosis, primary aldosteronism, OSA\u2011related)",
+      "icd10": "I15.9",
+      "snomed": "237599009",
+      "probability": 0.012,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Two antihypertensives with unknown BP control",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing BP readings, no secondary work\u2011up performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If BP remains uncontrolled, secondary causes must be evaluated."
+    }
+  ],
+  "primary_diagnosis": "Insulin\u2011resistance / Metabolic\u2011Syndrome",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient presents with classic metabolic\u2011syndrome features\u2014obesity, dyslipidaemia, hypertension, and type\u202f2 diabetes\u2014creating a unifying physiologic driver that explains the majority of downstream abnormalities (early CKD, elevated ASCVD risk, probable NAFLD, and chronic anemia). Hypertension appears inadequately controlled (missing BP data) and is already causing renal injury. Diabetes control is sub\u2011optimal on metformin alone. The lipid profile and lack of cardioprotective therapy raise the likelihood of sub\u2011clinical atherosclerotic disease. Missing investigations (BP, urine ACR, liver enzymes, sleep study, iron studies) limit precise quantification but do not change the hierarchical reasoning. Consequently, metabolic syndrome is ranked first, followed by hypertension, diabetes, ASCVD, and organ\u2011specific complications.",
+  "unresolved_findings": [
+    "Platelet distribution width 346.6\u202ffL (implausibly high \u2013 likely lab error)",
+    "Carbon dioxide 22.9\u202fmmol/L (low\u2011normal, isolated metabolic acidosis)",
+    "Chloride 110.5\u202fmmol/L (mild hyperchloremia)",
+    "Missing current blood pressure measurements",
+    "Missing urine albumin\u2011to\u2011creatinine ratio",
+    "Missing liver function tests",
+    "Missing smoking, alcohol, and physical activity history"
+  ],
+  "recommended_workup": [
+    "Obtain average of at least two recent office blood pressure readings (and consider home BP monitoring).",
+    "Order urine albumin\u2011to\u2011creatinine ratio (UACR) and repeat eGFR.",
+    "Complete fasting lipid panel with ApoB or LDL\u2011particle size.",
+    "Order liver function tests (ALT, AST, GGT, ALP, bilirubin) and abdominal ultrasound to assess for NAFLD.",
+    "Repeat CBC with iron studies, ferritin, vitamin\u202fB12, and folate to characterize chronic anemia.",
+    "Screen for obstructive sleep apnea (STOP\u2011BANG questionnaire followed by home sleep\u2011apnea test if indicated).",
+    "Document smoking status, alcohol intake, and physical activity level; provide counseling as needed.",
+    "If blood pressure remains >\u202f140/90\u202fmmHg on two agents, initiate secondary hypertension work\u2011up (renal\u2011artery Doppler, plasma aldosterone/renin ratio).",
+    "Start a moderate\u2011intensity statin (e.g., atorvastatin 20\u202fmg) and consider low\u2011dose aspirin after bleeding risk assessment.",
+    "Evaluate eligibility for SGLT2\u2011inhibitor or GLP\u20111\u2011RA for cardioprotective and renoprotective benefits."
+  ]
+}

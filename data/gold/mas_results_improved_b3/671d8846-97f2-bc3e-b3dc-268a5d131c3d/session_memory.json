@@ -1,0 +1,202 @@
+{
+  "patient_uuid": "671d8846-97f2-bc3e-b3dc-268a5d131c3d",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T17:43:33+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T17:43:52+00:00",
+      "summary": "Completed ehr_analyst in 19277ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T17:43:33+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T17:43:54+00:00",
+      "summary": "Completed lab_interpreter in 21284ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:43:54+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:43:56+00:00",
+      "summary": "Recall returned 12, 0 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 0,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": []
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:44:22+00:00",
+      "summary": "Round 1 critique: confidence=78, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 78,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:44:22+00:00",
+      "summary": "Round 1 confidence=78/100",
+      "payload": {
+        "round": 1,
+        "confidence": 78
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:44:34+00:00",
+      "summary": "Final differential (10 dx, primary=ACE inhibitor\u2013induced renal hypoperfusion with secondary hyp, rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "ACE inhibitor\u2013induced renal hypoperfusion with secondary hypertension (drug\u2011induced renal injury)",
+        "primary_probability": 0.3,
+        "confidence_trajectory": [
+          78
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T17:44:34+00:00",
+      "summary": "Completed diagnostic_reasoning in 39874ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T17:44:34+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T17:44:58+00:00",
+      "summary": "Completed clinical_reviewer in 24336ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:44:58+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:45:05+00:00",
+      "summary": "Final refined diagnosis: Chronic pre-existing hypertension with super-imposed pre-eclampsia (hypertensive",
+      "payload": {
+        "primary_diagnosis": "Chronic pre-existing hypertension with super-imposed pre-eclampsia (hypertensive disorder of pregnancy)",
+        "primary_probability": 0.38,
+        "differential_size": 6
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T17:45:05+00:00",
+      "summary": "Completed final_diagnosis in 6536ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T17:45:06+00:00",
+      "summary": "Consolidated outcome for 'Chronic pre-existing hypertension with super-imposed pre-eclampsia (hypertensive disorder of pregnancy)' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Chronic pre-existing hypertension with super-imposed pre-eclampsia (hypertensive disorder of pregnancy)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

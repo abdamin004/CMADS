@@ -1,0 +1,113 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic Kidney Disease (CKD)",
+      "icd10": "N18.3",
+      "snomed": "270104004",
+      "probability": 0.43,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine (1.2 mg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension management history with hydrochlorothiazide and lisinopril",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD is highly likely due to elevated creatinine, consistent with renal impairment, and supported by the patient's hypertension management profile."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of Chronic Disease",
+      "icd10": "D63.8",
+      "snomed": "23613005",
+      "probability": 0.27,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hematocrit (37.3%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Confirmed anemia diagnosis since 2022-12-23",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia of chronic disease is probable given the critically low hematocrit and confirmed anemia diagnosis, likely linked to CKD or other systemic conditions."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237246007",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetic state noted since 2019-12-06",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is a possible contributor due to obesity and prediabetes, which could exacerbate CKD or anemia."
+    },
+    {
+      "rank": 4,
+      "name": "Hypokalemic Nephropathy Exclusion vs Pseudohyperkalemia",
+      "icd10": "N25.8 (exclusion) / E87.5 (pseudohyperkalemia)",
+      "snomed": "23635009 (exclusion) / 155104007 (pseudohyperkalemia)",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated potassium level (5.1 mmol/L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypokalemic nephropathy exclusion or pseudohyperkalemia are less likely but need consideration due to the mildly elevated potassium, which could be influenced by hypertension medications."
+    },
+    {
+      "rank": 5,
+      "name": "Myeloproliferative Disorder",
+      "icd10": "D47.1",
+      "snomed": "109363002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet count (449.9 thousand/uL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Myeloproliferative disorder is a less likely possibility due to the elevated platelet count, but requires further investigation."
+    }
+  ],
+  "primary_diagnosis": "Chronic Kidney Disease (CKD)",
+  "primary_probability": 0.43,
+  "clinical_reasoning_summary": "The patient presents with strong evidence for chronic kidney disease based on elevated creatinine and hypertension management history. Anemia of chronic disease is also probable given the low hematocrit and confirmed diagnosis, possibly linked to CKD or systemic inflammation. Metabolic syndrome contributes as a risk factor due to obesity and prediabetes. Hypokalemic nephropathy exclusion and pseudohyperkalemia are less likely but need consideration in light of potassium levels. Myeloproliferative disorder is a low-probability differential based on elevated platelets.",
+  "unresolved_findings": [
+    "Mild hyperkalemia without clear etiology beyond hypertension management",
+    "No recent liver function tests or inflammatory markers provided"
+  ],
+  "recommended_workup": [
+    "Complete renal panel including eGFR",
+    "Liver enzymes (ALT, AST), bilirubin for hepatic evaluation",
+    "Inflammatory markers such as CRP or ESR to assess systemic inflammation",
+    "Additional metabolic markers like insulin resistance indices given prediabetic state and obesity",
+    "Further hematologic workup including bone marrow biopsy if indicated by ongoing abnormal platelet count and distribution width"
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute coronary syndrome \u2013 NSTEMI (type 1 or type 2)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I without documented chest pain or ECG changes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Heart rate 90\u202fbpm while on metoprolol succinate 50\u202fmg ER",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (HTN, CKD, diabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin in a patient with significant atherosclerotic risk warrants ACS as the leading diagnosis; lack of chest pain does not exclude type 2 demand ischemia. Tachycardia despite beta\u2011blockade supports ongoing ischemic stress."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease stage 4 with acute\u2011on\u2011chronic injury",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.1\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 118/85\u202fmmHg (controlled) indicating CKD is not hypertensive\u2011driven",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Documented CKD in problem list (mis\u2011staged)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function is markedly reduced, consistent with stage\u202f4 CKD. The abrupt rise suggests an acute\u2011on\u2011chronic component that must be distinguished from chronic baseline."
+    },
+    {
+      "rank": 3,
+      "name": "Medication non\u2011adherence / suboptimal dosing",
+      "icd10": "Z91.14",
+      "snomed": "422034002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Heart rate 90\u202fbpm while on metoprolol succinate 50\u202fmg ER",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy risk moderate (6 meds) with no documented adherence checks",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent tachycardia despite beta\u2011blocker dose raises concern for missed doses or subtherapeutic exposure; polypharmacy further increases non\u2011adherence risk."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with preserved ejection fraction (HFpEF) or acute decompensation",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and CKD, both risk factors for HFpEF",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Tachycardia could reflect volume overload or ischemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Background risk exists, but no imaging or natriuretic peptide data; kept for completeness pending further work\u2011up."
+    },
+    {
+      "rank": 5,
+      "name": "Essential hypertension (long\u2011standing, microvascular impact)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 118/85\u202fmmHg (controlled on therapy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing hypertension listed in problem list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is well\u2011controlled currently, serving as a chronic background risk rather than an acute driver."
+    },
+    {
+      "rank": 6,
+      "name": "Type 2 diabetes mellitus with macro/microvascular complications",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "A1c 5.2\u202f% (currently controlled)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Diabetes listed in problem list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes contributes to vascular disease but appears biochemically controlled; retained for its contribution to CKD and CAD risk."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study; risk inferred from comorbid hypertension and obesity (BMI missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability given lack of objective data; included as a possible contributor to hypertension and nocturnal hypoxia."
+    },
+    {
+      "rank": 8,
+      "name": "Major depressive disorder / chronic psychosocial stress",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and prior depression screening notes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Stress may affect medication adherence and cardiovascular risk, but no formal diagnosis documented."
+    },
+    {
+      "rank": 9,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "CBC not available; anemia inferred from CKD stage",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Speculative without hemoglobin data; retained for completeness."
+    }
+  ],
+  "primary_diagnosis": "Acute coronary syndrome \u2013 NSTEMI (type 1 or type 2)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with an elevated troponin I in the setting of multiple cardiovascular risk factors (stage 4 CKD, hypertension, diabetes) and a paradoxical tachycardia despite beta\u2011blockade, making acute coronary syndrome the most likely diagnosis. Renal dysfunction is evident from a creatinine of 3.1\u202fmg/dL, indicating stage 4 CKD with a possible acute\u2011on\u2011chronic insult. Medication non\u2011adherence is plausible given the uncontrolled heart rate and polypharmacy. Other considerations (HFpEF, hypertension, diabetes, sleep apnea, depression, anemia) are retained based on background risk but have lower supporting evidence. Further targeted testing is required to clarify the nature of the myocardial injury and renal change.",
+  "unresolved_findings": [
+    "Elevated troponin I without documented chest pain or ECG changes",
+    "Serum creatinine 3.1\u202fmg/dL despite well\u2011controlled blood pressure and no reported uremic symptoms",
+    "Heart rate 90\u202fbpm while on metoprolol succinate 50\u202fmg ER",
+    "Tooth loss and prior gingivitis (potential systemic inflammation not linked to a specific diagnosis)",
+    "Missing BMI, eGFR, lipid panel, urine ACR, CBC, fasting glucose"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG and continuous cardiac monitoring",
+    "Serial troponin measurements",
+    "Transthoracic echocardiogram to assess wall motion and ejection fraction",
+    "Renal ultrasound to evaluate structural causes of AKI",
+    "Urine albumin\u2011to\u2011creatinine ratio (ACR) and repeat BMP for trend analysis",
+    "Complete blood count (CBC) with differential",
+    "Lipid panel and fasting glucose/HbA1c repeat",
+    "Polysomnography or home sleep apnea testing",
+    "Medication adherence assessment (pill counts, pharmacy refill data)",
+    "Social work referral for intimate\u2011partner abuse safety planning"
+  ]
+}

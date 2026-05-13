@@ -1,0 +1,338 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome\u2013driven cardiometabolic disease",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.29,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) \u2013 high\u2011priority active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 235\u202fmg/dL (\u2191) and LDL\u2011C 157\u202fmg/dL (borderline\u2011high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c\u202f6.2\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (high\u2011priority active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index\u202f=\u202f1 (HTN only)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, dyslipidaemia, pre\u2011diabetes and hypertension constitute the classic metabolic\u2011syndrome cluster that drives insulin resistance, atherogenesis, and secondary complications such as OSA and early CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (untreated)",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea \u2013 high\u2011priority active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex, age 48 \u2013 typical demographic for moderate\u2011to\u2011severe OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing OSA therapy documentation (CPAP/BiPAP)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA contributes to sympathetic over\u2011activity, resistant hypertension, worsened insulin resistance and may accelerate atherosclerosis."
+    },
+    {
+      "rank": 3,
+      "name": "Resistant essential hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension \u2013 high\u2011priority active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing recent blood pressure values",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011dose HCTZ + amlodipine only",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea and obesity as contributors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dependent drug abuse (potential stimulant use)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple risk factors (OSA, obesity, possible stimulant use) plus limited antihypertensive regimen and absent recent BP measurements suggest uncontrolled or resistant hypertension."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (stage 2\u20113) \u2013 hypertensive/analgesic nephropathy",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.105,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.3\u202fmg/dL (borderline\u2011high, stable)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 18.3\u202fmg/dL (high\u2011normal, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chloride 110.7\u202fmmol/L (slightly \u2191) \u2013 possible diuretic effect",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia \u2013 could be anemia of chronic kidney disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain with likely NSAID use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Borderline creatinine with rising BUN in the setting of long\u2011standing hypertension, thiazide use, and NSAID exposure points to early CKD."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic\u2011syndrome phenotype",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidaemia (high total cholesterol, LDL\u2011C)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c\u202f6.2\u202f%)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The triad of obesity, insulin resistance and dyslipidaemia makes NAFLD highly probable, even though liver enzymes were not provided."
+    },
+    {
+      "rank": 6,
+      "name": "Iron\u2011deficiency anemia (or anemia of chronic disease)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia \u2013 moderate\u2011priority active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "RDW 45\u202ffL (markedly \u2191) and PDW 274\u202ffL (markedly \u2191)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use and dental disease (potential occult GI bleed)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated RDW/PDW with anemia suggests a nutritional iron deficiency or anemia of chronic disease; further iron studies are needed."
+    },
+    {
+      "rank": 7,
+      "name": "Asymptomatic coronary artery disease (early atherosclerosis)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.045,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011yr ASCVD risk >10\u202f% (age 48, male, HTN, LDL\u2011C 157, total chol 235, obesity)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidaemia (high total cholesterol, LDL\u2011C)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension, metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factor burden places the patient at moderate probability for silent CAD, which may be uncovered by ECG or stress testing."
+    },
+    {
+      "rank": 8,
+      "name": "Medication\u2011overuse headache / chronic migraine",
+      "icd10": "G43.709",
+      "snomed": "124171000119105",
+      "probability": 0.035,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic intractable migraine without aura \u2013 moderate\u2011priority",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain with likely frequent analgesic/opioid use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dependent drug abuse \u2013 possible medication\u2011overuse pattern",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Frequent use of abortive analgesics can transform episodic migraine into chronic migraine/medication\u2011overuse headache."
+    },
+    {
+      "rank": 9,
+      "name": "Substance\u2011use disorder with physiologic sequelae",
+      "icd10": "F19.20",
+      "snomed": "6525002",
+      "probability": 0.035,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dependent drug abuse \u2013 high\u2011priority active problem (since 2003)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Limited outpatient follow\u2011up (only 3 visits), unemployed, low education",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No medication\u2011assisted treatment documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Active substance use drives poor adherence, analgesic overuse, possible stimulant\u2011induced hypertension, and overall health\u2011care disengagement."
+    },
+    {
+      "rank": 10,
+      "name": "Primary aldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension \u2013 high\u2011priority",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Resistant hypertension phenotype (multiple agents, missing BP control data)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In resistant hypertension, primary aldosteronism is a consideration, but no hypokalemia or ARR data are available."
+    },
+    {
+      "rank": 11,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidaemia (high cholesterol) without other clear cause",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia \u2013 could be anemia of chronic disease or hypothyroidism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can mimic several metabolic abnormalities; testing is pending."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome\u2013driven cardiometabolic disease",
+  "primary_probability": 0.29,
+  "clinical_reasoning_summary": "The patient presents with a classic cardiometabolic phenotype: obesity, hypertension, dyslipidaemia, and pre\u2011diabetes, all documented by the EHR and lab data. These inter\u2011related risk factors drive secondary problems\u2014untreated obstructive sleep apnea, early CKD, anemia, and likely NAFLD. Substance\u2011use disorder and poor health\u2011care engagement amplify the severity of each condition. By ranking the upstream metabolic syndrome first, the downstream sequelae follow logically, while still accounting for other plausible diagnoses such as silent coronary disease and primary aldosteronism.",
+  "unresolved_findings": [
+    "Markedly elevated PDW (274\u202ffL) and RDW (45\u202ffL) \u2013 magnitude exceeds typical iron\u2011deficiency patterns",
+    "Slightly high serum chloride (110.7\u202fmmol/L) without accompanying electrolyte abnormalities",
+    "Impacted molars (structural dental issue) not linked to systemic disease",
+    "Low\u2011grade \"sleep disorder\" code separate from OSA \u2013 unclear whether insomnia or restless\u2011leg syndrome",
+    "Missing heart\u2011rate measurement"
+  ],
+  "recommended_workup": [
+    "Obtain current office and home blood pressure readings with heart\u2011rate documentation",
+    "Calculate eGFR and urine albumin\u2011creatinine ratio for CKD staging",
+    "Full fasting lipid panel (HDL, triglycerides) to refine ASCVD risk",
+    "Polysomnography or validated home sleep\u2011test; initiate CPAP if moderate\u2011to\u2011severe OSA confirmed",
+    "Iron studies (Ferritin, TSAT), vitamin B12, folate, and stool occult blood to characterize anemia",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism",
+    "Resting ECG and consider stress test or coronary calcium scoring for silent CAD",
+    "Renin\u2011angiotensin\u2011aldosterone ratio and confirmatory testing if primary aldosteronism suspected",
+    "Liver function tests and abdominal ultrasound to assess for NAFLD/NASH",
+    "Comprehensive substance\u2011use assessment (type, route, frequency) and referral for medication\u2011assisted treatment",
+    "Review analgesic regimen; consider migraine prophylaxis and non\u2011opioid pain strategies"
+  ]
+}

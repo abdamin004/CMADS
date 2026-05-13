@@ -1,0 +1,143 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Diabetic nephropathy (Diabetic kidney disease)",
+      "original_probability": 0.55,
+      "verified_probability": 0.55,
+      "confidence_score": 78,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Problem list explicitly states kidney disorder due to diabetes",
+        "Insulin\u2011requiring type 2 diabetes indicating long\u2011standing disease",
+        "Micro\u2011albuminuria / dip\u2011stick protein ~250\u202fmg/dL",
+        "eGFR \u2248 30\u202fmL/min/1.73\u202fm\u00b2 (CKD stage 3b)",
+        "Chronic anemia consistent with CKD"
+      ],
+      "evidence_gaps": [
+        "Quantitative urine albumin\u2011to\u2011creatinine ratio or 24\u2011h protein",
+        "Trend of serum creatinine/eGFR over time",
+        "Retinal exam or other microvascular complications",
+        "Absence of hematuria/complement studies to fully exclude non\u2011diabetic glomerulopathy"
+      ],
+      "concerns": [
+        "Creatinine discrepancy (7.6 vs 1.9\u202fmg/dL) not fully explained by chronic disease alone",
+        "A1c value of 3.2\u202f% is likely erroneous and could mislead glycemic management"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Hypertensive nephrosclerosis",
+      "original_probability": 0.25,
+      "verified_probability": 0.12,
+      "confidence_score": 45,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Severe resistant hypertension (146/107\u202fmmHg)",
+        "Proteinuria present",
+        "No ACE\u2011I/ARB or other antihypertensives beyond low\u2011dose amlodipine"
+      ],
+      "evidence_gaps": [
+        "Ambulatory or home BP monitoring to confirm resistance",
+        "Renal imaging showing small echogenic kidneys",
+        "Evidence of end\u2011organ damage (LVH, retinopathy) to strengthen chronic hypertensive injury"
+      ],
+      "concerns": [
+        "Diabetes is listed as primary cause of CKD, making hypertension a secondary contributor",
+        "Probability may be overstated relative to the dominant diabetic etiology"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Anemia of chronic kidney disease",
+      "original_probability": 0.15,
+      "verified_probability": 0.18,
+      "confidence_score": 70,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Hemoglobin 12\u202fg/dL (normocytic) with eGFR \u224830\u202fmL/min",
+        "Active problem list includes anemia"
+      ],
+      "evidence_gaps": [
+        "Iron studies (serum iron, ferritin, TSAT)",
+        "B12/folate levels, reticulocyte count",
+        "Symptom assessment (fatigue, dyspnea)"
+      ],
+      "concerns": [
+        "Original probability undervalues the near\u2011certainty of CKD\u2011related anemia at this GFR"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Secondary hyperparathyroidism (CKD\u2011MBD)",
+      "original_probability": 0.05,
+      "verified_probability": 0.05,
+      "confidence_score": 20,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "eGFR <30\u202fmL/min makes secondary hyperparathyroidism physiologically likely"
+      ],
+      "evidence_gaps": [
+        "Serum calcium, phosphate, PTH, 25\u2011OH vitamin D",
+        "Alkaline phosphatase, radiographic evidence of calcifications"
+      ],
+      "concerns": [
+        "Diagnosis is inferred only from renal function; no laboratory confirmation"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Acute on chronic kidney injury (AKI\u2011on\u2011CKD)",
+      "original_probability": 0.0,
+      "verified_probability": 0.1,
+      "confidence_score": 50,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Discordant serum creatinine values (7.6\u202fmg/dL vs 1.9\u202fmg/dL) suggest a recent acute rise",
+        "eGFR 30\u202fmL/min/1.73\u202fm\u00b2 consistent with chronic baseline"
+      ],
+      "evidence_gaps": [
+        "Recent medication changes, NSAID or contrast exposure",
+        "Volume status assessment, urinalysis for granular casts",
+        "Trend of creatinine over the past weeks"
+      ],
+      "concerns": [
+        "Not listed in the original differential despite being a plausible explanation for the creatinine discrepancy"
+      ],
+      "verdict": "plausible"
+    }
+  ],
+  "overall_confidence": 71,
+  "consistency_checks": [
+    {
+      "area": "Probability sum",
+      "status": "consistent",
+      "detail": "Verified probabilities sum to 1.00 after adjustment"
+    },
+    {
+      "area": "EHR vs lab data",
+      "status": "inconsistent",
+      "detail": "Creatinine values (7.6 vs 1.9\u202fmg/dL) and A1c 3.2\u202f% are contradictory; require repeat testing"
+    }
+  ],
+  "critical_findings_addressed": [
+    "Serum creatinine 7.6\u202fmg/dL (addressed by Diabetic nephropathy and AKI\u2011on\u2011CKD)",
+    "Serum creatinine 1.9\u202fmg/dL (addressed by Diabetic nephropathy)",
+    "eGFR 30.4\u202fmL/min/1.73\u202fm\u00b2 (addressed by Diabetic nephropathy, Anemia of CKD, Secondary hyperparathyroidism)",
+    "Urine protein 251.7\u202fmg/dL (addressed by Diabetic nephropathy, Hypertensive nephrosclerosis)",
+    "Blood pressure 146/107\u202fmmHg (addressed by Hypertensive nephrosclerosis)",
+    "Hemoglobin 12\u202fg/dL (addressed by Anemia of CKD)"
+  ],
+  "critical_findings_missed": [
+    "A1c 3.2\u202f% (severity 3) \u2013 not explained by any diagnosis"
+  ],
+  "top_concerns": [
+    "Unresolved creatinine discrepancy threatens accurate staging and management",
+    "Absence of a formal AKI\u2011on\u2011CKD diagnosis in the original differential",
+    "Low probability assigned to anemia despite high likelihood",
+    "Secondary hyperparathyroidism listed without any supporting labs",
+    "Implausibly low A1c suggests data entry error affecting glycemic management"
+  ],
+  "recommended_primary": "Diabetic nephropathy (Diabetic kidney disease)",
+  "recommended_primary_confidence": 78,
+  "review_summary": "The junior differential captured the major chronic issues but omitted a plausible acute on chronic kidney injury component and over\u2011/under\u2011weighted several items. Adjusted probabilities better reflect the evidence, and the overall confidence in the revised differential is moderate (71%). Key actions include resolving the creatinine discrepancy, initiating renoprotective therapy, and obtaining missing labs for anemia and CKD\u2011MBD."
+}

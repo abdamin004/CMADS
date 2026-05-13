@@ -1,0 +1,216 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Ischemic cardiomyopathy / chronic heart failure (HFpEF likely)",
+      "icd10": "I50.33",
+      "snomed": "84114007",
+      "probability": 0.36,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic ischemic heart disease on guideline\u2011directed therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis (CO\u2082 = 21 mmol/L) suggesting possible low\u2011output state",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk due to obesity, prediabetes, and prior CAD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s known ischemic heart disease, obesity, and prediabetes create a high likelihood of heart failure with preserved ejection fraction. Biomarker trends (elevated BNP not provided but implied by clinical picture) and metabolic acidosis support a low\u2011output cardiac state, outweighing the unconfirmed hypertension."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as a comorbidity in the chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Absence of recent BP measurements noted as a limitation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is a known contributor to CAD, CKD, and HF, but the lack of current BP data makes the degree of control uncertain, reducing confidence."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia with iron saturation 53.7% (iron\u2011replete) and elevated hemoglobin 17.2 g/dL (paradoxical)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 2\u20113 noted in problem list",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Anemia in the setting of CKD with normal/high iron stores points toward anemia of chronic disease, despite the unexplained high hemoglobin which may reflect lab error or concurrent polycythemia."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome progressing toward type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and prediabetes documented",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile consistent with metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, prediabetes, and hypertension aligns with metabolic syndrome, increasing the likelihood of progression to overt type 2 diabetes."
+    },
+    {
+      "rank": 5,
+      "name": "NSAID\u2011induced chronic kidney disease (stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use for knee osteoarthritis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 2\u20113 inferred from prior labs (not directly provided)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011term NSAID exposure can contribute to CKD, but causality is not definitively established without serial renal function trends."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea / COPD\u2011related hypoventilation",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and chronic lung disease risk factors noted",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No sleep study or spirometry available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While plausible given obesity, the lack of objective testing makes this diagnosis speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / psychosocial maladaptation",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and unstable housing reported",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No formal depression screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors exist, but without screening tools the likelihood remains low."
+    },
+    {
+      "rank": 8,
+      "name": "Occult gastrointestinal bleeding secondary to chronic NSAID use",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use for osteoarthritis",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High iron saturation (53.7%) and elevated hemoglobin argue against iron\u2011deficiency bleeding",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID use could cause GI bleed, but laboratory profile is inconsistent with iron\u2011deficiency anemia, making this unlikely."
+    },
+    {
+      "rank": 9,
+      "name": "Cognitive impairment / dementia",
+      "icd10": "F03",
+      "snomed": "428351004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No cognitive testing documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absence of screening makes this diagnosis speculative; retained only for completeness."
+    }
+  ],
+  "primary_diagnosis": "Ischemic cardiomyopathy / chronic heart failure (HFpEF likely)",
+  "primary_probability": 0.36,
+  "clinical_reasoning_summary": "The patient\u2019s established ischemic heart disease, obesity, and prediabetes create a high pre\u2011test probability for HFpEF, which the reviewer judged to be the most likely primary problem. Hypertension remains a significant comorbidity but lacks recent measurements, reducing its weight. Anemia is best explained by chronic disease in the context of CKD, though the paradoxically high hemoglobin warrants repeat testing. Metabolic syndrome, NSAID\u2011related CKD, and other comorbidities are retained with lower probabilities. Unsupported entities (myelodysplastic syndrome) were removed, and probabilities were renormalized to total 1.0.",
+  "unresolved_findings": [
+    "High hemoglobin (17.2\u202fg/dL) despite chronic anemia",
+    "Elevated iron saturation (53.7\u202f%) in the setting of anemia",
+    "Mild metabolic acidosis (CO\u2082 = 21\u202fmmol/L) without clear renal or respiratory cause",
+    "Missing recent blood pressure, heart rate, BMI, lipid panel, serum creatinine, urine albumin/creatinine",
+    "No documented sleep study or spirometry to evaluate OSA/COPD",
+    "Absence of cognitive screening results"
+  ],
+  "recommended_workup": [
+    "Obtain current vital signs, especially blood pressure and heart rate",
+    "Repeat comprehensive metabolic panel with serum creatinine, eGFR, and urine albumin/creatinine ratio",
+    "Echocardiogram with diastolic function assessment to confirm HFpEF",
+    "NT\u2011proBNP or BNP level to gauge heart failure severity",
+    "Polysomnography or home sleep apnea testing",
+    "Repeat CBC with reticulocyte count and peripheral smear; verify hemoglobin measurement",
+    "Full iron studies (serum iron, ferritin, TIBC) to clarify iron status",
+    "Fasting glucose/HbA1c to assess progression to type 2 diabetes",
+    "Consider renal ultrasound if CKD progression is suspected",
+    "Screen for depression using PHQ\u20119 and for cognitive impairment using MoCA or Mini\u2011Cog"
+  ]
+}

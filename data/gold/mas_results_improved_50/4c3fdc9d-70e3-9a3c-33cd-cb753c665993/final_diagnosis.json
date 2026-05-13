@@ -1,0 +1,158 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease (Chronic Kidney Disease stage 5)",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN/creatinine consistent with ESRD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dialysis dependence noted",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has documented end\u2011stage renal disease with laboratory evidence of severe azotemia and a history of dialysis, making CKD\u20115 the dominant driver of the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Uremic platelet dysfunction with gastrointestinal occult bleeding",
+      "icd10": "D68.3",
+      "snomed": "302810001",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Positive fecal occult blood test",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Thrombocytopenia secondary to uremia (platelet dysfunction inferred)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20115 known to cause platelet dysfunction",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD impairs platelet aggregation, predisposing to occult GI bleeding; the positive occult blood test together with uremic milieu supports this diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic obstructive pulmonary disease (COPD) with emphysema",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of COPD and emphysema in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic dyspnea and smoking history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s known COPD contributes to overall morbidity but is less central than the renal disease."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic\u2011vascular syndrome (hypertension, obesity, pre\u2011diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and BMI in obese range",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 5.8% (pre\u2011diabetic)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The cluster of hypertension, obesity, and pre\u2011diabetes constitutes metabolic\u2011vascular syndrome, contributing to cardiovascular risk but not the primary acute issue."
+    },
+    {
+      "rank": 5,
+      "name": "Colorectal neoplasm or advanced adenoma (possible source of occult GI bleeding)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Positive fecal occult blood test",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age > 60 (implied by comorbidity profile)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Occult GI bleeding in an older adult raises concern for colorectal neoplasm; while CKD explains bleeding tendency, a neoplastic source remains plausible."
+    },
+    {
+      "rank": 6,
+      "name": "NSAID\u2011related acute\u2011on\u2011chronic kidney injury",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use documented in medication list",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild rise in creatinine without clear alternative cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID exposure could precipitate an acute insult on existing CKD, but temporal data are lacking, making this a low\u2011probability contributor."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease (Chronic Kidney Disease stage 5)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is end\u2011stage renal disease, which explains the majority of laboratory abnormalities, the uremic platelet dysfunction leading to occult gastrointestinal bleeding, and contributes to metabolic derangements. COPD and metabolic\u2011vascular syndrome are important comorbidities but have lower impact on the current presentation. A colorectal neoplasm remains a plausible source of occult blood, while NSAID\u2011related AKI is possible but poorly substantiated. Leukopenia and the dilute urine findings remain unexplained and warrant further evaluation.",
+  "unresolved_findings": [
+    "Urine ketones 19.8\u202fmg/dL \u2013 unclear etiology (fasting, early ketoacidosis, or CKD\u2011related metabolic derangement)",
+    "Urine specific gravity 1.000 \u2013 very dilute, suggests impaired concentrating ability but cause uncertain",
+    "Leukopenia (WBC 3.0\u202f\u00d710\u00b3/\u00b5L) \u2013 not accounted for by current diagnoses",
+    "Mild metabolic acidosis (CO\u2082 20.8\u202fmmol/L) \u2013 contribution of renal vs respiratory causes not fully delineated"
+  ],
+  "recommended_workup": [
+    "Colonoscopy to evaluate for colorectal neoplasm or advanced adenoma",
+    "Repeat complete blood count with differential and peripheral smear to assess leukopenia",
+    "Platelet function testing (e.g., PFA\u2011100) to quantify uremic platelet dysfunction",
+    "Renal ultrasound to assess structural contributors to AKI",
+    "Medication review focusing on NSAID dosing and timing",
+    "Serum ketone measurement and glucose to clarify ketosis",
+    "Urine osmolality and electrolyte panel to further characterize concentrating defect"
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 169 mmHg, DBP 105 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Sustained severe blood pressure readings in a young adult with obesity strongly indicate uncontrolled essential hypertension as the primary driver of his cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome (obesity-driven)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530, exact value missing)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic A1c 5.9%",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides (not explicitly reported but implied by metabolic risk)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, and prediabetes fulfills most criteria for metabolic syndrome, though HDL is relatively high, slightly tempering the probability."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (hypertensive nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (exact value not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding uncontrolled hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent severe hypertension can cause early nephropathy; the creatinine rise suggests reduced renal function, though the exact etiology (vascular vs primary renal disease) remains unconfirmed."
+    },
+    {
+      "rank": 4,
+      "name": "Untreated obstructive sleep apnea (moderate\u2011severe)",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented obstructive sleep apnea, severity not fully quantified",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Potential contribution to resistant hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is a recognized contributor to refractory hypertension; however, the lack of precise severity data limits assessment of its impact."
+    },
+    {
+      "rank": 5,
+      "name": "Prediabetes / risk of progression to type\u202f2 diabetes",
+      "icd10": "R73.03",
+      "snomed": "237599001",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 5.9%",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and hypertension increase progression risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c in the prediabetic range combined with metabolic risk factors indicates a high likelihood of progression to overt diabetes."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary hypertension \u2013 endocrine/vascular (primary aldosteronism, renal\u2011artery stenosis, pheochromocytoma)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_review",
+          "finding": "Red\u2011flag labs (e.g., unexplained electrolyte abnormalities) not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While secondary causes cannot be excluded, the absence of targeted biochemical or imaging data makes this diagnosis less likely at present."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease vs. iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2007, type unspecified",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without iron studies or reticulocyte indices, differentiation between anemia of chronic disease and iron deficiency remains uncertain."
+    },
+    {
+      "rank": 8,
+      "name": "Platelet activation / possible early myeloproliferative disorder",
+      "icd10": "D47.1",
+      "snomed": "414545008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width 390 fL (markedly elevated)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Elevation may be reactive to CKD/OSA; malignancy less likely",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "PDW elevation could reflect reactive changes; true myeloproliferative disease is possible but unlikely without additional hematologic abnormalities."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled essential hypertension",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient presents with severe, uncontrolled hypertension, obesity, and prediabetes, forming a classic high\u2011risk cardiovascular phenotype. Uncontrolled essential hypertension is the dominant driver, amplified by metabolic syndrome and early hypertensive kidney injury. Obstructive sleep apnea likely contributes to resistant hypertension, while prediabetes adds to long\u2011term risk. Secondary endocrine or vascular hypertension, anemia subtypes, and a possible myeloproliferative process remain in the differential but lack supporting data. Probabilities were calibrated to reflect reviewer adjustments and clinical concerns.",
+  "unresolved_findings": [
+    "Platelet Distribution Width 390 fL \u2013 markedly elevated, unclear clinical significance",
+    "Anemia type and current severity not defined",
+    "Missing exact BMI value despite documented obesity",
+    "Absent eGFR and urine albumin data to stage kidney disease",
+    "No documented smoking or alcohol use \u2013 unknown contribution to risk"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with eGFR and urine albumin/creatinine ratio",
+    "Renal ultrasound to evaluate for structural disease",
+    "Plasma aldosterone/renin ratio and adrenal imaging if secondary hypertension suspected",
+    "Full overnight polysomnography to grade OSA severity",
+    "Fasting lipid panel and waist circumference to refine metabolic syndrome criteria",
+    "Iron studies (serum ferritin, transferrin saturation) and reticulocyte count to differentiate anemia type",
+    "Complete blood count with peripheral smear and JAK2 V617F mutation testing if platelet disorder persists",
+    "Echocardiogram to assess left ventricular hypertrophy and hypertensive heart disease"
+  ]
+}

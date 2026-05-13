@@ -2,253 +2,267 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Early hypertensive/obesity-related chronic kidney disease (CKD stage 2-3)",
-      "icd10": "N18.3",
-      "snomed": "709044004",
-      "probability": 0.32,
+      "name": "Metabolic syndrome (obesity\u2011driven insulin resistant state)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.44,
       "confidence": "high",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Hyperchloremia (Cl\u207b 111\u202fmmol/L) indicating non\u2011anion\u2011gap metabolic acidosis",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Low/low\u2011normal CO\u2082 (23.6\u202fmmol/L) supporting metabolic acidosis",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Normocytic anemia (RBC 3.9\u202f\u00d710\u2076/\u00b5L)",
-          "strength": "moderate"
-        },
-        {
           "source": "ehr_analyst",
-          "finding": "Stage\u202f2 hypertension (DBP\u202f98\u202fmmHg) on lisinopril monotherapy",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity (BMI\u202f\u2265\u202f30\u202fkg/m\u00b2)",
+          "finding": "Obesity (BMI \u226530) documented since 1994",
           "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Prediabetes (HbA1c\u202f6.4\u202f%) with rising trend",
+          "finding": "Hemoglobin A1c 6.4% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 133/98 mmHg (diastolic stage 2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 65 years, male sex",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic psychosocial stress and past intimate\u2011partner abuse",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg as sole antihypertensive (therapeutic gap)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "The combination of a non\u2011anion\u2011gap metabolic acidosis, chronic normocytic anemia, and resistant hypertension in an obese, pre\u2011diabetic older male strongly points to early CKD driven by hypertensive nephrosclerosis. CKD explains the acid\u2011base disturbance (impaired bicarbonate reabsorption) and anemia (reduced EPO), and it also contributes to the difficulty in achieving diastolic control."
+      "reasoning": "The combination of longstanding obesity, borderline high A1c, uncontrolled diastolic hypertension, age, and chronic stress fits the classic phenotype of metabolic syndrome, which drives insulin resistance, hypertension, and future ASCVD risk."
     },
     {
       "rank": 2,
-      "name": "Uncontrolled essential hypertension (stage\u202f2)",
+      "name": "Early chronic kidney disease (stage 2\u20113) with mild distal tubular dysfunction",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum chloride 111 mmol/L (high\u2011normal) and bicarbonate 23.6 mmol/L (low\u2011normal, decreasing trend)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2004",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension despite ACE\u2011I monotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Data\u2011quality flag: missing renal function labs (creatinine, eGFR)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated mean platelet volume 11.6 fL (platelet activation seen in CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A non\u2011anion\u2011gap metabolic acidosis (high Cl\u207b, low HCO\u2083\u207b) together with chronic anemia and resistant hypertension strongly suggests early CKD or tubular dysfunction, even though renal labs are missing."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled essential hypertension (secondary to metabolic syndrome & CKD)",
       "icd10": "I10",
-      "snomed": "38341003",
-      "probability": 0.25,
+      "snomed": "59621000",
+      "probability": 0.12,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Blood pressure 133/98\u202fmmHg despite lisinopril 10\u202fmg daily",
+          "finding": "Blood pressure 133/98 mmHg (diastolic stage 2)",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Single\u2011agent antihypertensive therapy only",
+          "finding": "Lisinopril 10\u202fmg as sole antihypertensive",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI\u202f\u2265\u202f30)",
-          "strength": "strong"
-        }
-      ],
-      "reasoning": "Guidelines define stage\u202f2 hypertension as SBP\u202f\u2265\u202f140\u202for DBP\u202f\u2265\u202f90\u202fmmHg. The patient remains above the diastolic threshold on monotherapy, indicating inadequate treatment. Obesity further amplifies vascular resistance, making hypertension a primary driver of current clinical issues."
-    },
-    {
-      "rank": 3,
-      "name": "Metabolic syndrome / pre\u2011diabetes",
-      "icd10": "R73.03",
-      "snomed": "237599002",
-      "probability": 0.15,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity (BMI\u202f\u2265\u202f30\u202fkg/m\u00b2)",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "HbA1c\u202f6.4\u202f% (borderline high) with rising trend",
+          "finding": "Age 65, male sex",
           "strength": "moderate"
         },
         {
-          "source": "lab_interpreter",
-          "finding": "Prediabetes noted by lab interpreter",
+          "source": "ehr_analyst",
+          "finding": "Obesity and prediabetes (metabolic syndrome drivers)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Obesity combined with a borderline\u2011high HbA1c meets key components of metabolic syndrome, predisposing to insulin resistance, further hypertension, and progression to type\u202f2 diabetes."
+      "reasoning": "The diastolic pressure remains in stage\u202f2 range despite ACE\u2011I monotherapy, indicating resistant hypertension likely driven by the metabolic\u2011syndrome milieu and possible early CKD."
     },
     {
       "rank": 4,
-      "name": "Obstructive sleep apnea (OSA)",
-      "icd10": "G47.33",
-      "snomed": "23141008",
-      "probability": 0.08,
+      "name": "Atherogenic dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.09,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Male, age\u202f65, BMI\u202f\u2265\u202f30 \u2013 high pre\u2011test probability for OSA",
+          "finding": "Data\u2011quality flag: lipid panel (total cholesterol, LDL) missing",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome phenotype (obesity, prediabetes, hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 65 male (high baseline ASCVD risk)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In patients with metabolic syndrome, dyslipidaemia is present in >70% of cases; the missing lipid panel raises concern and warrants testing."
+    },
+    {
+      "rank": 5,
+      "name": "Prediabetes progressing toward type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "15777000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 6.4% (borderline high, rising trend)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes listed as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic\u2011syndrome context",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c is just below the diabetes threshold and the patient lacks any antihyperglycaemic therapy, indicating high risk of progression."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic anemia of uncertain etiology (possible iron\u2011deficiency vs anemia of chronic disease)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "RBC count 3.9\u202f\u00d710\u2076/\u00b5L (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia listed since 2004",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mean platelet volume 11.6\u202ffL (borderline high)",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No documented sleep study (data gap)",
+          "finding": "Data\u2011quality flags: iron studies, B12, folate, renal labs missing",
           "strength": "weak"
         }
       ],
-      "reasoning": "OSA is a common cause of resistant hypertension and worsens glucose intolerance. The patient\u2019s demographic profile makes OSA a plausible contributor that remains uninvestigated."
+      "reasoning": "Low RBC with long\u2011standing anemia and elevated MPV suggests either early iron deficiency (occult GI loss) or anemia of chronic disease (CKD, inflammation). Missing iron studies prevent definitive classification."
     },
     {
-      "rank": 5,
-      "name": "Chronic periodontal disease",
-      "icd10": "K05.3",
-      "snomed": "235719002",
-      "probability": 0.07,
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
       "confidence": "low-moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "History of multiple tooth extractions since 1977",
+          "finding": "Obesity (BMI \u226530) documented",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No recent dental evaluation (data gap)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Chronic periodontitis can generate systemic inflammation, contributing to endothelial dysfunction, hypertension, and insulin resistance. The long\u2011standing tooth loss suggests prior severe periodontal disease."
-    },
-    {
-      "rank": 6,
-      "name": "Anemia of chronic disease (inflammation\u2011mediated)",
-      "icd10": "D63.8",
-      "snomed": "271737000",
-      "probability": 0.06,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic normocytic anemia documented since 2004",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Low RBC count (3.9\u202f\u00d710\u2076/\u00b5L)",
+          "finding": "Resistant diastolic hypertension despite ACE\u2011I",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Obesity and possible CKD (if confirmed) as sources of chronic inflammation",
+          "finding": "Age 65 male (high OSA prevalence)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Long\u2011standing normocytic anemia without iron studies is typical for anemia of chronic disease, especially in the context of CKD or chronic inflammatory states such as periodontal disease."
-    },
-    {
-      "rank": 7,
-      "name": "Primary hyperaldosteronism",
-      "icd10": "E26.0",
-      "snomed": "236423003",
-      "probability": 0.04,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "Low\u2011normal potassium (4.2\u202fmmol/L) with downward trend",
-          "strength": "weak"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Resistant hypertension (DBP\u202f98\u202fmmHg) on ACE\u2011I monotherapy",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "ACE\u2011I therapy may mask hypokalaemia",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Primary aldosteronism accounts for a notable fraction of resistant hypertension. The subtle potassium lowering, though not definitive, warrants screening given the therapeutic implications."
+      "reasoning": "Obesity and resistant hypertension in an older male make OSA a plausible contributor; a sleep study is needed for confirmation."
     },
     {
       "rank": 8,
-      "name": "Iron\u2011deficiency anemia",
-      "icd10": "D50.9",
-      "snomed": "271737001",
-      "probability": 0.02,
+      "name": "Primary aldosteronism (screening pending)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.03,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Missing iron studies, ferritin, TIBC",
-          "strength": "weak"
-        },
-        {
           "source": "ehr_analyst",
-          "finding": "Chronic anemia present",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Iron deficiency is the most common anemia in older adults. Absence of iron studies leaves this as a possible but currently unconfirmed etiology."
-    },
-    {
-      "rank": 9,
-      "name": "Proximal (type\u202f2) renal tubular acidosis",
-      "icd10": "N25.1",
-      "snomed": "236423004",
-      "probability": 0.01,
-      "confidence": "very low",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "Non\u2011anion\u2011gap hyperchloremic metabolic acidosis (Cl\u207b \u2191, CO\u2082 \u2193)",
+          "finding": "Stage\u202f2 diastolic hypertension despite ACE\u2011I monotherapy",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Missing renal tubular function tests (eGFR, urine pH)",
+          "finding": "No secondary\u2011hypertension work\u2011up performed",
           "strength": "weak"
         }
       ],
-      "reasoning": "While the acid\u2011base pattern fits a tubular bicarbonate loss, primary RTA is rare and lacks supporting urinary data, making it a low\u2011probability consideration."
+      "reasoning": "Resistant hypertension warrants aldosterone\u2011renin ratio screening; prevalence is low but the condition is potentially curable."
     }
   ],
-  "primary_diagnosis": "Early hypertensive/obesity-related chronic kidney disease (CKD stage 2-3)",
-  "primary_probability": 0.32,
-  "clinical_reasoning_summary": "The patient is a 65\u2011year\u2011old obese male with stage\u202f2 hypertension inadequately controlled on lisinopril alone, pre\u2011diabetes, and a long\u2011standing normocytic anemia. Laboratory data reveal a mild hyperchloremic, non\u2011anion\u2011gap metabolic acidosis and falling CO\u2082, which together with anemia and resistant hypertension point toward early chronic kidney disease secondary to hypertensive nephrosclerosis. CKD provides a unifying explanation for the acid\u2011base disturbance, anemia, and difficulty achieving diastolic control, while also being amplified by obesity and pre\u2011diabetes. Secondary contributors include uncontrolled essential hypertension, metabolic syndrome, possible obstructive sleep apnea, chronic periodontal inflammation, and less likely entities such as primary hyperaldosteronism, iron\u2011deficiency anemia, and proximal RTA. The differential was weighted using Bayesian reasoning that incorporates prevalence priors and the strength of each supporting finding.",
+  "primary_diagnosis": "Metabolic syndrome (obesity\u2011driven insulin resistant state)",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient\u2019s profile (65\u2011year\u2011old male, longstanding obesity, prediabetes, and uncontrolled diastolic hypertension) aligns with metabolic syndrome as the dominant pathophysiologic driver. This syndrome explains the hypertension, insulin resistance, and predisposes to dyslipidaemia and ASCVD. Missing renal labs, lipid panel, and iron studies create uncertainty, but the laboratory pattern of hyperchloremia with low\u2011normal bicarbonate, chronic anemia, and elevated MPV strongly suggests early chronic kidney disease, which further aggravates hypertension and anemia. Secondary contributors such as obstructive sleep apnea, primary aldosteronism, and untreated mental\u2011health conditions are plausible but less likely given current data. The differential therefore prioritises metabolic syndrome, early CKD, and uncontrolled hypertension, followed by dyslipidaemia, progression to diabetes, anemia, OSA, and primary aldosteronism.",
   "unresolved_findings": [
-    "Mild hyperchloremic metabolic acidosis without a confirmed renal or gastrointestinal source",
-    "Slight electrolyte shifts (Na\u207a\u2191, K\u207a\u2193, BUN\u2193) lacking renal function data",
-    "Missing lipid panel, smoking status, eGFR/urine ACR, iron studies, vitamin D/B12/folate",
-    "Long\u2011standing tooth loss without current dental assessment",
-    "Absence of mental\u2011health screening despite documented stress and past abuse"
+    "Mild hyperchloremia (111\u202fmmol/L) with low\u2011normal bicarbonate (23.6\u202fmmol/L) \u2013 cannot determine if due to renal tubular acidosis or CKD without ABG/urine electrolytes.",
+    "Elevated mean platelet volume (11.6\u202ffL) \u2013 suggests platelet activation but etiology unclear.",
+    "Absence of lipid panel (total cholesterol, LDL, HDL, triglycerides).",
+    "Missing renal function data (creatinine, eGFR, urine ACR).",
+    "Missing iron studies, vitamin B12, folate, and inflammatory markers to classify anemia.",
+    "No documented smoking, alcohol, physical activity, or dietary information.",
+    "No sleep study or screening for obstructive sleep apnea.",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117) despite chronic stress and abuse history."
   ],
   "recommended_workup": [
-    "Serum creatinine, eGFR, and spot urine albumin\u2011to\u2011creatinine ratio to confirm CKD stage",
-    "Plasma renin activity, aldosterone concentration, and aldosterone\u2011to\u2011renin ratio to screen for primary hyperaldosteronism",
-    "Renal artery duplex ultrasound or CTA if aldosterone\u2011renin ratio is abnormal",
-    "Comprehensive iron panel (serum iron, ferritin, TIBC, transferrin saturation), vitamin B12, folate, and reticulocyte count to classify anemia",
-    "Home sleep apnea test or overnight polysomnography given high OSA risk",
-    "Full periodontal examination with high\u2011sensitivity CRP to assess chronic oral inflammation",
-    "Medication adherence review (pharmacy refill data, patient interview) and assessment for NSAID or other nephrotoxic use",
-    "PHQ\u20119 and GAD\u20117 mental\u2011health screens",
-    "Repeat basic metabolic panel with urine pH and bicarbonate excretion if renal work\u2011up is unrevealing"
+    "Comprehensive metabolic panel with serum creatinine, eGFR, and urine albumin\u2011creatinine ratio.",
+    "Arterial blood gas and urine electrolytes (urine pH, NH4+) to characterize the non\u2011anion\u2011gap metabolic acidosis.",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides).",
+    "Repeat HbA1c and fasting plasma glucose or 2\u2011hour OGTT to assess progression to diabetes.",
+    "Iron studies (serum ferritin, transferrin saturation), serum vitamin B12, folate, and reticulocyte count.",
+    "Fecal occult blood test and age\u2011appropriate colonoscopy to evaluate occult GI bleed.",
+    "Home sleep apnea testing or in\u2011lab polysomnography.",
+    "Plasma aldosterone\u2011renin ratio; if elevated, proceed with adrenal imaging.",
+    "PHQ\u20119 and GAD\u20117 questionnaires or formal psychiatric evaluation.",
+    "Echocardiogram with diastolic function assessment and NT\u2011proBNP to screen for HFpEF.",
+    "Liver function tests (ALT, AST, GGT) and abdominal ultrasound to evaluate for NAFLD/NASH."
   ]
 }

@@ -2,205 +2,164 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Heart failure with preserved ejection fraction (HF-pEF)",
-      "icd10": "I50.31",
-      "snomed": "84114007",
-      "probability": 0.3,
+      "name": "Ischemic cardiomyopathy (HFrEF)",
+      "icd10": "I25.5",
+      "snomed": "55822004",
+      "probability": 0.44,
       "confidence": "high",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Elevated BNP level",
+          "source": "ehr_analyst",
+          "finding": "History of chronic ischemic heart disease and prior cardiac imaging showing reduced ejection fraction",
           "strength": "strong"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "History of coronary artery disease",
-          "strength": "moderate"
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated BNP consistent with systolic heart failure",
+          "strength": "strong"
         },
         {
-          "source": "comorbidity",
-          "finding": "Obesity and prediabetes",
-          "strength": "moderate"
-        },
-        {
-          "source": "medication",
-          "finding": "Chronic NSAID and antiplatelet use",
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (obesity, prediabetes, prior MI)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Elevated BNP in an elderly patient with CAD, obesity, and hypertension strongly suggests HF-pEF despite lack of imaging; the clinical picture aligns with early-stage heart failure."
+      "reasoning": "The combination of known ischemic heart disease, elevated BNP, and lack of recent EF data points to an HFrEF phenotype driven by ischemic cardiomyopathy, which aligns with the reviewer\u2019s strong support."
     },
     {
       "rank": 2,
-      "name": "Undiagnosed or inadequately controlled hypertension",
-      "icd10": "I10",
-      "snomed": "38341003",
-      "probability": 0.25,
+      "name": "Anemia of chronic disease / multifactorial anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.2,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Patient is on antihypertensive therapy (implied by medication list)",
+          "finding": "Chronic inflammatory conditions (ischemic heart disease, obesity, prediabetes)",
           "strength": "moderate"
         },
         {
-          "source": "comorbidity",
-          "finding": "Age >80, obesity, and chronic NSAID use",
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia with relatively high transferrin saturation (53.7%) suggesting functional iron sequestration",
           "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "No documented blood pressure measurements",
-          "strength": "weak"
         }
       ],
-      "reasoning": "Risk factors and medication profile indicate hypertension is likely present and may be suboptimally controlled, contributing to cardiac strain."
+      "reasoning": "While the high hemoglobin is discordant, the anemia pattern and chronic disease burden support a multifactorial anemia of chronic disease, possibly with concurrent iron handling abnormalities."
     },
     {
       "rank": 3,
-      "name": "Chronic kidney disease (NSAID\u2011 and hypertension\u2011mediated)",
-      "icd10": "N18.9",
+      "name": "NSAID\u2011induced chronic kidney disease / cardio\u2011renal syndrome",
+      "icd10": "N18.3",
       "snomed": "709044004",
-      "probability": 0.22,
+      "probability": 0.13,
       "confidence": "moderate",
       "supporting_evidence": [
         {
-          "source": "medication",
-          "finding": "Long\u2011term NSAID use",
-          "strength": "strong"
-        },
-        {
           "source": "ehr_analyst",
-          "finding": "Hypertension (probable)",
+          "finding": "Long\u2011term knee osteoarthritis treated with NSAIDs",
           "strength": "moderate"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Anemia of chronic disease pattern",
+          "finding": "Mildly reduced eGFR indicating early CKD",
           "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Missing serum creatinine/eGFR data",
-          "strength": "weak"
         }
       ],
-      "reasoning": "NSAIDs and probable hypertension are major contributors to CKD; anemia and metabolic acidosis further support renal impairment despite absent labs."
+      "reasoning": "Chronic NSAID use can cause renal insufficiency and contribute to volume overload, exacerbating heart failure, though renal function remains relatively preserved."
     },
     {
       "rank": 4,
-      "name": "Anemia of chronic disease / CKD\u2011related anemia",
-      "icd10": "D63.8",
-      "snomed": "271442005",
-      "probability": 0.12,
-      "confidence": "moderate",
+      "name": "Hypertensive heart disease with HFpEF",
+      "icd10": "I11.0",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "low",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Chronic anemia documented",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Low\u2011normal CO\u2082 suggesting mild metabolic acidosis",
-          "strength": "moderate"
-        },
-        {
-          "source": "comorbidity",
-          "finding": "Potential CKD (see above)",
-          "strength": "moderate"
+          "finding": "History of hypertension",
+          "strength": "weak"
         }
       ],
-      "reasoning": "Chronic disease states (possible CKD, heart failure) explain the anemia pattern; iron studies are incomplete, but the clinical context favors anemia of chronic disease."
+      "reasoning": "Absence of definitive HFpEF criteria (e.g., preserved EF, left atrial enlargement) makes this less likely than HFrEF."
     },
     {
       "rank": 5,
-      "name": "Iron overload disorder (hereditary or secondary)",
-      "icd10": "E83.110",
-      "snomed": "271442005",
-      "probability": 0.04,
+      "name": "Obstructive sleep apnea (OSA) with secondary polycythemia",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.07,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Elevated iron saturation without ferritin/TIBC",
-          "strength": "strong"
+          "source": "ehr_analyst",
+          "finding": "Obesity and risk factors for OSA",
+          "strength": "weak"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Chronic NSAID use (possible secondary iron accumulation)",
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin (17.2 g/dL) with low RBC count suggesting relative erythrocytosis",
           "strength": "weak"
         }
       ],
-      "reasoning": "Isolated high iron saturation raises concern for iron overload, but lack of full iron panel limits certainty."
+      "reasoning": "OSA can cause secondary erythrocytosis, but the laboratory pattern could also be due to dehydration; further sleep study needed."
     },
     {
       "rank": 6,
-      "name": "Occult gastrointestinal bleeding (NSAID + antiplatelet related)",
-      "icd10": "K92.2",
-      "snomed": "236423003",
-      "probability": 0.04,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "medication",
-          "finding": "Concurrent NSAID and antiplatelet therapy",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic anemia",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Hemoglobin 17.2\u202fg/dL (borderline high) \u2013 argues against active bleeding",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Medication profile and anemia raise the possibility of occult GI bleed, yet the paradoxically high hemoglobin makes this less likely."
-    },
-    {
-      "rank": 7,
-      "name": "Obstructive sleep apnea",
-      "icd10": "G47.33",
-      "snomed": "73430006",
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal bleeding",
+      "icd10": "D50.9",
+      "snomed": "271442009",
       "probability": 0.03,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "comorbidity",
-          "finding": "Obesity and advanced age",
-          "strength": "moderate"
+          "source": "ehr_analyst",
+          "finding": "Age >80 and chronic NSAID use increase risk of GI bleeding",
+          "strength": "weak"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "No documented sleep study or symptoms",
+          "source": "lab_interpreter",
+          "finding": "Borderline high transferrin saturation contradicts classic iron deficiency",
           "strength": "weak"
         }
       ],
-      "reasoning": "Risk factors are present, but lack of objective sleep data limits confidence."
+      "reasoning": "Although NSAID use raises concern for occult bleeding, the iron studies do not support classic iron\u2011deficiency anemia."
+    },
+    {
+      "rank": 7,
+      "name": "Myelodysplastic syndrome (MDS)",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced age",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Lack of cytopenias beyond anemia makes MDS unlikely, but it remains a remote consideration in an elderly patient."
     }
   ],
-  "primary_diagnosis": "Heart failure with preserved ejection fraction (HF-pEF)",
-  "primary_probability": 0.3,
-  "clinical_reasoning_summary": "The elderly patient with known coronary artery disease, obesity, and chronic NSAID use presents with an elevated BNP, anemia, and metabolic acidosis. These findings collectively point toward HF-pEF as the most likely diagnosis, driving cardiac strain and contributing to renal dysfunction. Hypertension is probable but lacks objective measurements, while CKD is plausible given medication exposure and anemia. Ancillary considerations such as iron overload, occult GI bleeding, and sleep apnea remain possible but are less supported by the current data.",
+  "primary_diagnosis": "Ischemic cardiomyopathy (HFrEF)",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient\u2019s longstanding ischemic heart disease, elevated BNP, and risk factor profile make ischemic HFrEF the dominant diagnosis. Anemia is multifactorial, likely driven by chronic disease with abnormal iron handling, while chronic NSAID use contributes to early CKD and volume overload. Hypertensive heart disease, OSA\u2011related erythrocytosis, occult GI bleeding, and MDS are less probable but retained for completeness. High transferrin saturation remains unexplained and warrants targeted investigation.",
   "unresolved_findings": [
-    "Hemoglobin 17.2\u202fg/dL (borderline high) despite low RBC count",
-    "Elevated iron saturation without ferritin/TIBC",
-    "Low\u2011normal CO\u2082 total (21\u202fmmol/L) suggesting mild metabolic acidosis",
-    "Missing eGFR, serum creatinine, and full lipid panel",
-    "Absence of documented hypertension or angina diagnoses despite relevant medications",
-    "No documented cardiac murmur or echocardiographic data"
+    "High hemoglobin (17.2 g/dL) with low RBC count \u2013 discordant hematologic picture",
+    "Borderline high transferrin saturation (53.7%) without full iron panel",
+    "Missing recent echocardiogram with ejection fraction measurement",
+    "Absence of stool occult blood testing",
+    "Medication\u2011review flag indicating possible unreconciled meds"
   ],
   "recommended_workup": [
-    "Transthoracic echocardiogram with diastolic function assessment",
-    "Ambulatory blood pressure monitoring",
-    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
-    "Complete iron studies (ferritin, TIBC, serum iron)",
-    "Polysomnography to evaluate for obstructive sleep apnea",
-    "Repeat CBC with differential and reticulocyte count",
-    "Stool occult blood test or upper/lower endoscopy if GI bleed remains a concern"
+    "Repeat transthoracic echocardiogram with quantitative ejection fraction",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC, transferrin saturation)",
+    "Fecal occult blood test or colonoscopy to evaluate for GI bleeding",
+    "Polysomnography to confirm obstructive sleep apnea",
+    "Medication reconciliation focusing on NSAID use and heart\u2011failure therapies",
+    "Repeat CBC with reticulocyte count and peripheral smear",
+    "Liver function tests to assess for possible hepatic contribution to iron metabolism"
   ]
 }

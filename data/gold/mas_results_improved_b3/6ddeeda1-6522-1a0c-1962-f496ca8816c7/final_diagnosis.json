@@ -1,0 +1,147 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-Stage Renal Disease due to Diabetic Nephropathy",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.65,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diabetes mellitus (A1c measurement performed)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 7.8\u202fmg/dL indicating possible uncontrolled diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension (SBP 112\u202fmmHg, DBP 93\u202fmmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease implied by missing eGFR and clinical context",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has a known history of diabetes (despite an implausibly low A1c, the test likely erroneous) and chronic hypertension, both major risk factors for diabetic nephropathy. Urine ketonuria supports ongoing hyperglycemia. In the setting of advanced CKD, progression to ESRD is most consistent with diabetic nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary Hyperparathyroidism / Renal Osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "End-stage renal disease (implied by ESRD diagnosis)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of calcium, phosphate, PTH, vitamin D labs (ordered but missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD leads to phosphate retention and reduced vitamin D activation, driving secondary hyperparathyroidism and renal osteodystrophy. Although specific labs are missing, the clinical scenario makes this complication highly plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of Chronic Kidney Disease (EPO Deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "End-stage renal disease (implied)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing hemoglobin value (ordered but not reported)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is present in >80\u202f% of patients with ESRD due to reduced erythropoietin production. The lack of a reported hemoglobin value raises suspicion, and the prevalence justifies a higher probability."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension (SBP 112\u202fmmHg, DBP 93\u202fmmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease context",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension contributes to chronic renal parenchymal damage. While diabetes is the dominant etiology, hypertensive nephrosclerosis may act as a secondary contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Acute on Chronic Kidney Injury (AKI on CKD)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.5\u202fmg/dL without serum bilirubin elevation",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Extremely dilute urine (specific gravity 1.00)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent renal function trends",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unexplained urinary abnormalities and the absence of recent renal labs raise the possibility of an acute insult superimposed on chronic kidney disease. The probability remains low pending further data."
+    }
+  ],
+  "primary_diagnosis": "End-Stage Renal Disease due to Diabetic Nephropathy",
+  "primary_probability": 0.65,
+  "clinical_reasoning_summary": "The patient\u2019s clinical picture is dominated by advanced diabetic kidney disease, supported by a history of diabetes, hypertension, and ketonuria. This accounts for the majority of the probability. Secondary complications of ESRD\u2014renal osteodystrophy and anemia\u2014are common and therefore receive moderate probabilities despite missing specific laboratory confirmation. Hypertensive nephrosclerosis likely contributes but is not the primary driver. An acute-on-chronic kidney injury cannot be excluded given the atypical urine findings, warranting further evaluation.",
+  "unresolved_findings": [
+    "Urine ketones 7.8\u202fmg/dL (no definitive renal diagnosis explains ketonuria)",
+    "Urine bilirubin 0.5\u202fmg/dL without corresponding serum bilirubin data",
+    "Hemoglobin A1c 2.9\u202f% (physiologically implausible, likely erroneous)",
+    "Urine specific gravity 1.00 (extremely dilute urine)",
+    "Missing lipid panel, calcium, phosphate, PTH, vitamin D, and hemoglobin values"
+  ],
+  "recommended_workup": [
+    "Repeat hemoglobin A1c with point-of-care glucose verification",
+    "Serum glucose and serum ketones",
+    "Serum bilirubin and liver function tests",
+    "Comprehensive metabolic panel including creatinine, BUN, electrolytes",
+    "Estimated glomerular filtration rate (eGFR) calculation",
+    "Urine protein quantification (spot urine protein/creatinine ratio)",
+    "Urine microscopy for casts and cellular elements",
+    "Renal ultrasound to assess size and obstruction",
+    "Serum calcium, phosphate, parathyroid hormone (PTH), and 25\u2011OH vitamin D levels",
+    "Complete blood count (CBC) with hemoglobin/hematocrit",
+    "Blood pressure monitoring and optimization"
+  ]
+}

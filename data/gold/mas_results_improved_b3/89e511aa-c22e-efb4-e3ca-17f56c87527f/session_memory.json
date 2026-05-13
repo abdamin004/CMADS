@@ -1,0 +1,202 @@
+{
+  "patient_uuid": "89e511aa-c22e-efb4-e3ca-17f56c87527f",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:09:26+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:09:45+00:00",
+      "summary": "Completed ehr_analyst in 18131ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:09:26+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:09:48+00:00",
+      "summary": "Completed lab_interpreter in 21405ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:09:48+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:09:50+00:00",
+      "summary": "Recall returned 12, 0 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 0,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": []
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:10:19+00:00",
+      "summary": "Round 1 critique: confidence=78, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 78,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:10:19+00:00",
+      "summary": "Round 1 confidence=78/100",
+      "payload": {
+        "round": 1,
+        "confidence": 78
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:10:32+00:00",
+      "summary": "Final differential (11 dx, primary=Untreated Metabolic Syndrome (obesity, prediabetes, stage-1 , rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "Untreated Metabolic Syndrome (obesity, prediabetes, stage-1 hypertension)",
+        "primary_probability": 0.25,
+        "confidence_trajectory": [
+          78
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:10:32+00:00",
+      "summary": "Completed diagnostic_reasoning in 43922ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:10:32+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:10:56+00:00",
+      "summary": "Completed clinical_reviewer in 24058ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:10:56+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:11:07+00:00",
+      "summary": "Final refined diagnosis: Untreated Metabolic Syndrome (obesity, prediabetes, stage-1 hypertension)",
+      "payload": {
+        "primary_diagnosis": "Untreated Metabolic Syndrome (obesity, prediabetes, stage-1 hypertension)",
+        "primary_probability": 0.24,
+        "differential_size": 11
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:11:07+00:00",
+      "summary": "Completed final_diagnosis in 10815ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T18:11:08+00:00",
+      "summary": "Consolidated outcome for 'Untreated Metabolic Syndrome (obesity, prediabetes, stage-1 hypertension)' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Untreated Metabolic Syndrome (obesity, prediabetes, stage-1 hypertension)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

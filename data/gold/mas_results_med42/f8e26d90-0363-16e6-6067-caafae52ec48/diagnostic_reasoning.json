@@ -1,0 +1,119 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic Kidney Disease Stage Progression",
+      "icd10": "N18.4 (Chronic kidney disease stage 3b or worsening)",
+      "snomed": "233946000 |Chronic renal failure|",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria in urinalysis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient's elevated creatinine and proteinuria indicate worsening renal function, consistent with CKD progression. Hypertension history supports this diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Acute Interstitial Nephritis (AIN)",
+      "icd10": "N12 (Tubulointerstitial nephritis, not specified as acute or chronic)",
+      "snomed": "363475005 |Acute interstitial nephritis|",
+      "probability": 0.3,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated inflammatory markers (CRP, ESR)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of ACE inhibitor use",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_context",
+          "finding": "Recent fever and general malaise",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inflammatory markers suggest an acute process, possibly AIN. ACE inhibitor history raises concern for drug-induced nephritis."
+    },
+    {
+      "rank": 3,
+      "name": "Cardio-Renal Syndrome",
+      "icd10": "I50 (Heart failure) + N18.x (Chronic kidney disease)",
+      "snomed": "236078009 |Cardiorenal syndrome|",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline elevated troponin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and ACE inhibitor use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiac stress indicated by troponin levels, combined with known cardiovascular risk factors (hypertension) and CKD findings, suggest a cardio-renal syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Myocardial Infarction or Cardiac Injury",
+      "icd10": "I21 (Acute myocardial infarction)",
+      "snomed": "233638008 |Myocardial infarction|",
+      "probability": 0.1,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline elevated troponin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and cardiovascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Though not definitively diagnostic, borderline elevated troponin suggests cardiac stress or injury. Hypertension history increases cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Diabetes Mellitus (contributing to renal dysfunction)",
+      "icd10": "E11.x (Type 2 diabetes mellitus with complication, unspecified)",
+      "snomed": "44054006 |Diabetes mellitus|",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age and hypertension history increase risk for undiagnosed diabetes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Though not currently diagnosed, patient's age and hypertension history suggest a possible undetected diabetes contributing to renal dysfunction."
+    }
+  ],
+  "primary_diagnosis": "Chronic Kidney Disease Stage Progression",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The primary diagnosis is CKD progression due to prominent renal findings including elevated creatinine and proteinuria, supported by hypertension history. AIN is considered as a secondary possibility given inflammatory markers and medication history. Cardio-renal syndrome and myocardial infarction are less likely but still plausible based on cardiac stress indicators and risk factors. Diabetes mellitus remains an overlooked potential contributor to renal dysfunction.",
+  "unresolved_findings": [],
+  "recommended_workup": []
+}

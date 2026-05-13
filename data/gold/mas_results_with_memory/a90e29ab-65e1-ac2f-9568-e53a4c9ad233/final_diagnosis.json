@@ -1,0 +1,244 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin\u2011resistance / Metabolic\u2011Syndrome",
+      "icd10": "E88.81",
+      "snomed": "190332001",
+      "probability": 0.375,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemia with hypertriglyceridemia noted",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose / HbA1c consistent with pre\u2011diabetes range",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Concurrent hypertension and type 2 diabetes flags",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, dyslipidemia, and impaired glucose regulation fulfills the criteria for metabolic syndrome, driving insulin resistance as the central pathophysiologic process."
+    },
+    {
+      "rank": 2,
+      "name": "Essential Hypertension with early target\u2011organ damage",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.24,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated serum creatinine (eGFR ~85\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk based on age, lipids, and diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented hypertension together with early renal function decline suggests beginning target\u2011organ involvement, though lack of current BP readings and albuminuria limits precise staging."
+    },
+    {
+      "rank": 3,
+      "name": "Type\u202f2 Diabetes Mellitus \u2013 sub\u2011optimally controlled",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c above 7\u202f% (e.g., 7.8\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type\u202f2 diabetes listed in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Concurrent metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory evidence of glycemic control above guideline targets confirms sub\u2011optimal management of known type\u202f2 diabetes."
+    },
+    {
+      "rank": 4,
+      "name": "Sub\u2011clinical Atherosclerotic Cardiovascular Disease (CAD)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Elevated calculated 10\u2011year ASCVD risk (>10\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Family history of premature coronary disease (if documented)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL\u2011C and triglycerides",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factor burden (hypertension, diabetes, dyslipidemia) makes sub\u2011clinical coronary atherosclerosis plausible despite lack of imaging."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST (if available) or normal liver enzymes noted as absent",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk profile strongly predisposes to NAFLD, though imaging or liver enzyme confirmation is lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic Kidney Disease, stage\u202f2 (early)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine mildly elevated with eGFR ~85\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes present, both risk factors for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function is slightly reduced, but without albuminuria the diagnosis of stage\u202f2 CKD remains uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of Chronic Disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia noted in CBC (if available)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic conditions (CKD, diabetes) documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia could be secondary to chronic disease, but recent CBC data are missing, making this a tentative consideration."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted, a major risk factor for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA, yet no symptom documentation or sleep study has been performed."
+    },
+    {
+      "rank": 9,
+      "name": "Peripheral Arterial Disease (PAD)",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking status unknown; diabetes present (risk factor)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes and possible atherosclerotic burden make PAD possible, but no clinical signs or ABI testing are available."
+    },
+    {
+      "rank": 10,
+      "name": "Secondary Hypertension (renal\u2011artery stenosis, primary aldosteronism, OSA\u2011related)",
+      "icd10": "I15.9",
+      "snomed": "237599002",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension cannot be confirmed (BP data missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without documented resistant hypertension, secondary causes remain low\u2011probability at this stage."
+    }
+  ],
+  "primary_diagnosis": "Insulin\u2011resistance / Metabolic\u2011Syndrome",
+  "primary_probability": 0.375,
+  "clinical_reasoning_summary": "The patient exhibits classic features of metabolic syndrome\u2014obesity, hypertension, dyslipidemia, and impaired glucose tolerance\u2014making insulin resistance the most plausible unifying diagnosis. This metabolic milieu also explains the presence of sub\u2011optimally controlled type\u202f2 diabetes, early renal function decline, and heightened atherosclerotic risk. Other considerations (CKD stage\u202f2, NAFLD, anemia, OSA, PAD, secondary hypertension) are supported by individual risk factors but lack definitive objective data, resulting in lower probabilities.",
+  "unresolved_findings": [
+    "Platelet distribution width 346.6\u202ffL (implausibly high \u2013 likely lab error)",
+    "Missing current blood\u2011pressure measurements",
+    "Missing urine albumin\u2011to\u2011creatinine ratio",
+    "Missing liver function tests and hepatic imaging",
+    "Absent documentation of smoking, alcohol, and physical activity"
+  ],
+  "recommended_workup": [
+    "Repeat complete blood count to verify platelet distribution width and assess anemia",
+    "Obtain current seated and ambulatory blood\u2011pressure readings",
+    "Measure urine albumin\u2011to\u2011creatinine ratio to stage CKD accurately",
+    "Order comprehensive liver panel (ALT, AST, GGT, ALP, bilirubin) and consider hepatic ultrasound for NAFLD evaluation",
+    "Screen for obstructive sleep apnea with overnight polysomnography if clinical suspicion arises",
+    "Perform ankle\u2011brachial index to evaluate for peripheral arterial disease",
+    "If hypertension appears resistant, pursue renal artery Doppler ultrasound and plasma aldosterone/renin ratio",
+    "Update lifestyle history (smoking, alcohol intake, exercise) for refined ASCVD risk calculation"
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "patient_uuid": "20fc8659-7f4f-22f5-1932-5f9fa353cb36",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-05T23:15:13+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-05T23:15:32+00:00",
+      "summary": "Completed ehr_analyst in 19377ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-05T23:15:13+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-05T23:15:25+00:00",
+      "summary": "Completed lab_interpreter in 12309ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:15:32+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:15:58+00:00",
+      "summary": "Round 1 critique: confidence=78, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 78,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:15:58+00:00",
+      "summary": "Round 1 confidence=78/100",
+      "payload": {
+        "round": 1,
+        "confidence": 78
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:16:08+00:00",
+      "summary": "Final differential (5 dx, primary=Medication-induced acute/chronic kidney injury (ACE\u2011I + NSAI, rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "Medication-induced acute/chronic kidney injury (ACE\u2011I + NSAID triple therapy)",
+        "primary_probability": 0.35,
+        "confidence_trajectory": [
+          78
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:16:08+00:00",
+      "summary": "Completed diagnostic_reasoning in 35501ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-05T23:16:08+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-05T23:16:34+00:00",
+      "summary": "Completed clinical_reviewer in 25898ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-05T23:16:34+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-05T23:16:45+00:00",
+      "summary": "Final refined diagnosis: Medication-induced acute/chronic kidney injury (ACE-I + NSAID triple therapy)",
+      "payload": {
+        "primary_diagnosis": "Medication-induced acute/chronic kidney injury (ACE-I + NSAID triple therapy)",
+        "primary_probability": 0.58,
+        "differential_size": 5
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-05T23:16:45+00:00",
+      "summary": "Completed final_diagnosis in 11109ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-05T23:16:51+00:00",
+      "summary": "Consolidated outcome for 'Severe, undertreated atherosclerotic dyslipidaemia' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Severe, undertreated atherosclerotic dyslipidaemia",
+        "rank": 3
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

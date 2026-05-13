@@ -1,0 +1,203 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute coronary syndrome \u2013 NSTEMI (type 1 myocardial infarction)",
+      "icd10": "I21.4",
+      "snomed": "413839001",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity troponin I 90.9\u202fng/L (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior ST\u2011segment elevation MI, CABG, chronic angina",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: age\u202f78, type\u202f2 diabetes, hypertension, obesity, known CAD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The troponin level far exceeds the modest chronic elevations seen in CKD and, together with extensive coronary disease, points to an acute plaque\u2011rupture event (NSTEMI)."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 myocardial infarction (demand\u2011ischemia)",
+      "icd10": "I21.9",
+      "snomed": "413839001",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I 90.9\u202fng/L (could be modestly raised in CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f4 CKD (creatinine 3.4\u202fmg/dL) and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential stressors (social isolation, chronic stress, possible infection not yet documented)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD, uncontrolled hypertension and possible systemic stress can create a supply\u2011demand mismatch, producing a troponin rise without an acute coronary plaque rupture."
+    },
+    {
+      "rank": 3,
+      "name": "Acute on chronic kidney injury (AKI on CKD\u20114)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.4\u202fmg/dL (consistent with CKD\u20114 but could represent an acute rise)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of diabetes, hypertension and possible nephrotoxic exposures (NSAIDs, contrast) not detailed",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated troponin can be secondary to AKI\u2011related myocardial strain",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Any additional insult on top of stage\u202f4 CKD (e.g., volume depletion, nephrotoxin) can raise creatinine acutely and cause troponin leakage."
+    },
+    {
+      "rank": 4,
+      "name": "Acute decompensated heart failure (cardiorenal syndrome)",
+      "icd10": "I50.23",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing ischemic heart disease with prior CABG",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20114 predisposes to volume overload and reduced sodium excretion",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin can be a marker of myocardial strain in heart failure",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No diuretic or HF\u2011specific medication listed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic ischemic cardiomyopathy plus impaired renal fluid handling can precipitate acute congestion; troponin elevation may reflect myocardial stretch rather than necrosis."
+    },
+    {
+      "rank": 5,
+      "name": "Pulmonary embolism",
+      "icd10": "I26.99",
+      "snomed": "233935009",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced age, limited mobility/social isolation, remote breast cancer (possible hypercoagulable state)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Troponin elevation can occur with right\u2011ventricular strain",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Risk factors exist, but no documented dyspnea, tachycardia, or imaging; therefore considered less likely."
+    },
+    {
+      "rank": 6,
+      "name": "Sepsis (urinary\u2011tract or respiratory source)",
+      "icd10": "A41.9",
+      "snomed": "10001005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD and diabetes increase infection susceptibility",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation may delay presentation of infection",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sepsis can cause troponin leak and AKI",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Infection could explain both troponin rise and possible AKI, but no fever, leukocytosis, or source documented."
+    },
+    {
+      "rank": 7,
+      "name": "Severe anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20114 commonly produces normocytic anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia can precipitate type\u202f2 MI or HF decompensation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "No recent hemoglobin values are available; anemia remains a plausible contributor to demand\u2011ischemia but is not documented."
+    }
+  ],
+  "primary_diagnosis": "Acute coronary syndrome \u2013 NSTEMI (type 1 myocardial infarction)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s extensive atherosclerotic history and a markedly elevated hs\u2011troponin I (90.9\u202fng/L) strongly support an acute plaque\u2011rupture event (NSTEMI). CKD\u2011related demand\u2011ischemia and a possible superimposed AKI are credible secondary considerations. Heart failure, pulmonary embolism, sepsis and anemia were suggested by Bayesian priors but lack concrete supporting data in the record; they are retained only as flagged, low\u2011probability alternatives pending further evaluation.",
+  "unresolved_findings": [
+    "No documented chest pain, dyspnea, orthopnea, or ECG changes at the time of troponin measurement",
+    "Missing recent hemoglobin/hematocrit, BNP, and inflammatory markers",
+    "No medication list (antiplatelet, anticoagulant, diuretic, nephrotoxic agents)",
+    "Absence of imaging (chest X\u2011ray, echocardiogram, CT\u2011angiography) to assess heart failure, PE, or pulmonary infection"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG with serial repeats (look for new ST\u2011segment depressions or T\u2011wave changes)",
+    "Serial hs\u2011troponins (0\u202fh, 3\u202fh, 6\u202fh) to confirm dynamic rise/fall",
+    "Bedside transthoracic echocardiogram \u2013 evaluate ejection fraction, regional wall\u2011motion abnormalities, IVC size, and valvular disease",
+    "Complete blood count with differential (assess anemia, infection)",
+    "Basic metabolic panel with repeat creatinine and urine output monitoring (distinguish AKI from stable CKD)",
+    "B\u2011type natriuretic peptide (BNP) or NT\u2011proBNP (screen for acute heart failure)",
+    "Chest radiograph (evaluate pulmonary edema, pneumonia)",
+    "Review current medication list for antiplatelet/anticoagulant therapy, diuretics, and nephrotoxic agents",
+    "If clinical suspicion persists, lower\u2011extremity Doppler ultrasound and/or CT pulmonary angiography (renal\u2011adjusted contrast) for PE",
+    "Urinalysis and urine culture (rule out occult urinary infection)",
+    "Social work/mental\u2011health assessment to address isolation, adherence, and transplant candidacy"
+  ]
+}

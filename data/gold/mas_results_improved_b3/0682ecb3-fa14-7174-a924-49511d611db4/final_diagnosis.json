@@ -1,0 +1,170 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Resistant hypertension (pseudo\u2011resistant due to suboptimal therapy) driven by obesity\u2011related metabolic syndrome",
+      "icd10": "I10.9",
+      "snomed": "38341003",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension (DBP 107 mmHg) despite ACE\u2011inhibitor therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity inferred (BMI \u226530) and prediabetes (A1c 6.2%)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer notes suboptimal regimen (no thiazide/CCB) suggesting pseudo\u2011resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated BP persists despite ACE\u2011inhibitor; obesity and metabolic syndrome are potent contributors. Lack of a full three\u2011drug regimen makes true resistance uncertain, favoring a pseudo\u2011resistant classification."
+    },
+    {
+      "rank": 2,
+      "name": "Obesity\u2011related metabolic syndrome",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 (obesity) with dysglycemia (A1c 6.2%)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk driven by hypertension, obesity, and prediabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity drives insulin resistance, dyslipidemia, and volume expansion, amplifying hypertension and cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease, hypertensive nephrosclerosis (stage 3a)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine with no eGFR reported (suggesting reduced renal function)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing uncontrolled hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension can cause nephrosclerosis; reduced renal function may also perpetuate hypertension."
+    },
+    {
+      "rank": 4,
+      "name": "Renal artery stenosis",
+      "icd10": "I70.2",
+      "snomed": "237599002",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer flagged missing renal\u2011artery imaging; high pre\u2011test probability in obese, hypertensive patient",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant\u2011type hypertension with possible secondary cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal artery stenosis is a treatable secondary cause of resistant hypertension, especially in patients with atherosclerotic risk factors."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "High prevalence of OSA in obese, hypertensive patients; no sleep study performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA can cause sympathetic overactivity and worsen hypertension; screening is warranted."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hyperaldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer notes lack of aldosterone\u2011renin testing; still plausible in resistant hypertension cohort",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although not yet screened, primary aldosteronism remains a possible contributor to resistant hypertension."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease / iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Discordant hemoglobin (17.4\u202fg/dL) and hematocrit (36\u202f%) values; anemia noted but data unreliable",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Laboratory inconsistencies limit confidence; anemia may be a lab artifact or mild chronic disease."
+    }
+  ],
+  "primary_diagnosis": "Resistant hypertension (pseudo\u2011resistant due to suboptimal therapy) driven by obesity\u2011related metabolic syndrome",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled stage\u20112 hypertension persists despite ACE\u2011inhibitor therapy and is strongly linked to obesity and metabolic syndrome. Suboptimal antihypertensive regimen suggests pseudo\u2011resistance rather than true resistant hypertension. Obesity, CKD, and possible secondary causes (renal artery stenosis, OSA, primary aldosteronism) contribute variably. Anemia and metabolic acidosis remain unexplained and warrant further work\u2011up.",
+  "unresolved_findings": [
+    "Missing numeric BMI value (obesity inferred only)",
+    "No calculated eGFR or urine albumin\u2011creatinine ratio",
+    "Incomplete iron studies (ferritin, transferrin saturation, TIBC)",
+    "No polysomnography to confirm/exclude OSA",
+    "Absent aldosterone\u2011renin ratio and plasma aldosterone measurement",
+    "No renal\u2011artery imaging (CTA/MRA or duplex ultrasound)",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117) despite psychosocial stressors",
+    "Non\u2011anion\u2011gap metabolic acidosis without dedicated diagnosis",
+    "Discordant hemoglobin/hematocrit values",
+    "Erroneous platelet distribution width value",
+    "Absent documentation of smoking, alcohol use, and family history"
+  ],
+  "recommended_workup": [
+    "Repeat CBC with differential and verify hemoglobin/hematocrit values",
+    "Iron studies: ferritin, transferrin saturation, TIBC",
+    "Comprehensive metabolic panel with arterial blood gas to characterize metabolic acidosis",
+    "Calculate eGFR and obtain urine albumin\u2011creatinine ratio",
+    "Polysomnography or home sleep apnea testing",
+    "Aldosterone\u2011renin ratio with confirmatory saline infusion test if indicated",
+    "Renal artery duplex ultrasound; consider CTA/MRA if duplex equivocal",
+    "24\u2011hour ambulatory blood pressure monitoring to confirm true resistance",
+    "Medication adherence assessment and optimization of regimen (add thiazide\u2011type diuretic and/or calcium\u2011channel blocker)",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) and social support evaluation",
+    "Detailed social history: smoking, alcohol, family cardiovascular disease"
+  ]
+}

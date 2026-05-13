@@ -1,0 +1,235 @@
+{
+  "patient_uuid": "3b7a669f-938d-bcef-b8e2-edb4e987af7e",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:20:07+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T18:20:25+00:00",
+      "summary": "Completed ehr_analyst in 17848ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:20:07+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T18:20:17+00:00",
+      "summary": "Completed lab_interpreter in 10254ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:20:25+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:20:27+00:00",
+      "summary": "Recall returned 12, 0 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 0,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": []
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:20:57+00:00",
+      "summary": "Round 1 critique: confidence=78, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 78,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:20:57+00:00",
+      "summary": "Round 1 confidence=78/100",
+      "payload": {
+        "round": 1,
+        "confidence": 78
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:21:12+00:00",
+      "summary": "Final differential (12 dx, primary=Uncontrolled hypertension due to inadequate pharmacologic ma, rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "Uncontrolled hypertension due to inadequate pharmacologic management (therapeutic inertia \u00b1 medication non\u2011adherence)",
+        "primary_probability": 0.55,
+        "confidence_trajectory": [
+          78
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T18:21:12+00:00",
+      "summary": "Completed diagnostic_reasoning in 46631ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:21:12+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T18:21:35+00:00",
+      "summary": "Completed clinical_reviewer in 23366ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:21:35+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:21:46+00:00",
+      "summary": "Final refined diagnosis: Uncontrolled hypertension due to inadequate pharmacologic management (therapeuti",
+      "payload": {
+        "primary_diagnosis": "Uncontrolled hypertension due to inadequate pharmacologic management (therapeutic inertia \u00b1 non-adherence)",
+        "primary_probability": 0.75,
+        "differential_size": 9
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T18:21:46+00:00",
+      "summary": "Completed final_diagnosis in 10729ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:21:47+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:21:59+00:00",
+      "summary": "Treatment plan generated for 'Uncontrolled hypertension due to inadequate pharmacologic management (therapeutic inertia \u00b1 non-adherence)' (2 meds)",
+      "payload": {
+        "disease": "Uncontrolled hypertension due to inadequate pharmacologic management (therapeutic inertia \u00b1 non-adherence)"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T18:21:59+00:00",
+      "summary": "Completed treatment_planning in 12294ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T18:22:00+00:00",
+      "summary": "Consolidated outcome for 'Uncontrolled hypertension due to inadequate pharmacologic management (therapeutic inertia \u00b1 non-adherence)' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Uncontrolled hypertension due to inadequate pharmacologic management (therapeutic inertia \u00b1 non-adherence)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

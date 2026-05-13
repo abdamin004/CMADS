@@ -1,0 +1,200 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+      "icd10": "N18.5",
+      "snomed": "431855005",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 10.9 mL/min/1.73m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.8 mg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine albumin/creatinine ratio 489.8 mg/g (macro\u2011albuminuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list: CKD stage 4 progressing to stage 5, proteinuria, awaiting transplant",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes (diagnosed 1989) and hypertension (>30 yr)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen (NSAID) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Black race associated with 2\u20113\u00d7 faster CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in eGFR together with macro\u2011albuminuria, long\u2011standing diabetes and hypertension, and known CKD trajectory confirm end\u2011stage nephropathy as the dominant pathology."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic coronary artery disease (CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (long\u2011standing)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 155 mg/dL, total cholesterol 231.6 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Past\u2011patient similarity to acute NSTEMI (rank\u20111 flag)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 62, male, Black race, metabolic syndrome",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Multiple high\u2011risk cardiovascular factors (HTN, dyslipidemia, diabetes, obesity, Black male) together with a prior NSTEMI\u2011like flag make occult CAD highly probable."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hyperparathyroidism (renal osteodystrophy)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 (eGFR <15 mL/min/1.73m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD stage 5 predicts >90% prevalence of secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD impairs phosphate excretion and vitamin D activation, leading to secondary hyperparathyroidism; although labs are not yet drawn, the condition is expected."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with reduced ejection fraction",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of chronic kidney disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular risk profile (CAD risk, hypertension, dyslipidemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD stage 5 increases prevalence of heart failure >30%",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of severe CKD, anemia, and high atherosclerotic burden makes occult systolic dysfunction likely, though imaging is pending."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86203005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension refractory to therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "OSA prevalence >50% in obese, hypertensive CKD patients",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension in a CKD patient raise the pre\u2011test probability of OSA, which can further worsen blood pressure and renal progression."
+    },
+    {
+      "rank": 6,
+      "name": "Gout / hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "20142004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (naproxen) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 (reduced uric acid excretion)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome increases gout risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal impairment and frequent NSAID exposure predispose to hyperuricemia and gout, a common comorbidity in this population."
+    }
+  ],
+  "primary_diagnosis": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient is a 62\u2011year\u2011old Black male with a 30\u2011year history of type 2 diabetes, hypertension, obesity, and dyslipidemia. Laboratory data reveal eGFR 10.9 mL/min/1.73m\u00b2, macro\u2011albuminuria, and elevated creatinine, confirming CKD stage 5 secondary to diabetic\u2011hypertensive nephropathy. The same risk factors (age, sex, race, metabolic syndrome) generate a high pre\u2011test probability for atherosclerotic coronary disease, secondary hyperparathyroidism, and heart failure. Chronic naproxen use likely contributes to renal stress. Obesity and resistant hypertension raise suspicion for obstructive sleep apnea, while CKD and NSAID exposure predispose to gout. Unexplained findings (HbA1c 4.0%, urine specific gravity 1.00) require repeat testing. The differential reflects both the primary renal pathology and its systemic complications.",
+  "unresolved_findings": [
+    "HbA1c reported as 4.0% (likely erroneous)",
+    "Urine specific gravity 1.00 (extremely dilute, unclear etiology)",
+    "Lack of trend data for eGFR, proteinuria, and lipids"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c or fructosamine to verify glycemic control",
+    "Iron studies (Ferritin, TSAT) and reticulocyte count; assess current ESA therapy",
+    "Mineral\u2011bone panel: serum calcium, phosphate, PTH, 25\u2011OH vitamin D, alkaline phosphatase",
+    "Transthoracic echocardiogram with assessment of ejection fraction and pericardial effusion",
+    "High\u2011sensitivity troponin and coronary calcium scoring or pharmacologic stress imaging for CAD evaluation",
+    "Ankle\u2011brachial index or lower\u2011extremity duplex ultrasound for peripheral arterial disease",
+    "Overnight polysomnography or home sleep\u2011apnoea test for OSA",
+    "Serum uric acid level and clinical assessment for gout",
+    "Comprehensive medication reconciliation (antihypertensives, ACE\u2011I/ARB, diuretics, NSAIDs)",
+    "Psychosocial screening (PHQ\u20119, adherence barriers, social work referral)"
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential isolated diastolic hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Consistently elevated diastolic blood pressure (~95-100 mmHg) with normal systolic readings",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk driven primarily by diastolic hypertension and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Isolated diastolic hypertension is the most immediate hemodynamic abnormality, aligns with documented BP readings and drives cardiovascular risk, making it the primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.23,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30), elevated triglycerides, low HDL (historical), and prediabetes (HbA1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperchloremia and borderline renal function suggesting metabolic stress",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of obesity, dyslipidemia, prediabetes, and hypertension fulfills criteria for metabolic syndrome, contributing to overall risk."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (stage 3a)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN with borderline creatinine suggesting eGFR ~55\u201160 mL/min/1.73m\u00b2",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes risk factors that commonly precede CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory trends indicate early renal impairment; however, lack of eGFR and urine ACR limits certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes (incipient type 2 diabetes)",
+      "icd10": "R73.03",
+      "snomed": "15777000",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.9% (borderline high) and fasting glucose in prediabetic range",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory values meet criteria for prediabetes, reinforcing metabolic risk."
+    },
+    {
+      "rank": 5,
+      "name": "Mixed fatty liver disease (NAFLD and alcohol\u2011related)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic alcohol use and obesity, both risk factors for hepatic steatosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperchloremia and elevated liver enzymes noted historically (though not recent)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical risk profile supports fatty liver, though objective imaging/labs are lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Iron\u2011deficiency anemia (possible occult gastrointestinal bleed)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb 11.2 g/dL) without documented iron studies",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia present but etiology uncertain; iron studies and occult blood testing are needed."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive / anxiety disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors, intimate partner violence, and alcohol misuse",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial burden suggests possible mood/anxiety disorder, though formal screening is absent."
+    },
+    {
+      "rank": 8,
+      "name": "Renal artery stenosis (secondary cause of hypertension)",
+      "icd10": "I70.2",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant isolated diastolic hypertension in a middle\u2011aged woman with early CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary hypertension should be considered given refractory BP and renal dysfunction, but no imaging data yet."
+    },
+    {
+      "rank": 9,
+      "name": "Thyroid dysfunction (hypothyroidism) contributing to diastolic hypertension",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Weight gain and diastolic hypertension without documented TSH",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can raise diastolic pressure; thyroid labs are missing, warranting evaluation."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension are risk factors, but no symptom documentation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible contributor to hypertension, but lacking clinical symptom data."
+    },
+    {
+      "rank": 11,
+      "name": "Primary aldosteronism (secondary endocrine hypertension)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Isolated diastolic hypertension without documented hypokalemia or ARR",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood given absent biochemical markers; retained for completeness."
+    }
+  ],
+  "primary_diagnosis": "Essential isolated diastolic hypertension",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient\u2019s most pressing issue is isolated diastolic hypertension, which drives cardiovascular risk and aligns with documented BP readings. A constellation of metabolic risk factors (obesity, prediabetes, dyslipidemia) fulfills metabolic syndrome criteria, further compounding risk. Early renal dysfunction is suggested by rising BUN/creatinine, while prediabetes, fatty liver risk, and psychosocial stressors add layers of complexity. Secondary causes of hypertension (renal artery stenosis, thyroid disease) and other comorbidities remain possible but lack supporting data, necessitating targeted work\u2011up.",
+  "unresolved_findings": [
+    "Missing eGFR and urine albumin\u2011creatinine ratio to stage CKD",
+    "Absent iron studies, ferritin, B12, folate, and stool occult blood for anemia evaluation",
+    "No recent lipid panel beyond 2019",
+    "Absent liver function tests (AST, ALT, GGT, bilirubin, albumin)",
+    "No thyroid function tests (TSH, free T4)",
+    "No documented sleep study or symptom screen for OSA",
+    "Incomplete medication list (only lisinopril captured)",
+    "Unclear smoking status"
+  ],
+  "recommended_workup": [
+    "Serum creatinine with eGFR calculation and urine albumin\u2011creatinine ratio",
+    "Comprehensive iron panel, ferritin, B12, folate, and fecal occult blood test",
+    "Fasting lipid panel (LDL, HDL, triglycerides)",
+    "Liver function tests (AST, ALT, GGT, bilirubin, albumin)",
+    "Thyroid panel (TSH, free T4)",
+    "Renal artery duplex ultrasound or CT angiography to assess for stenosis",
+    "Polysomnography or home sleep apnea testing",
+    "Standardized mental\u2011health screening (PHQ\u20119, GAD\u20117, PTSD checklist)",
+    "Update medication reconciliation and smoking status assessment",
+    "Abdominal ultrasound or FibroScan to evaluate hepatic steatosis"
+  ]
+}

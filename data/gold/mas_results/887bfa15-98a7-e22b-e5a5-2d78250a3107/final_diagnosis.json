@@ -1,0 +1,175 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic Cardiovascular Disease (sub\u2011clinical CAD/PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.29,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe LDL\u2011C elevation",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: diabetes, hypertension, obesity (implied)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk estimate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of markedly high LDL\u2011C, established diabetes and hypertension, and the absence of other explanations makes sub\u2011clinical atherosclerosis the most likely driver of the dyslipidaemia and overall cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233935009",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use (risk for respiratory depression)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted in past vitals (BMI >30)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and chronic opioid exposure raise the pre\u2011test probability of OSA, but no sleep study has been performed; therefore OSA remains plausible but not definitive."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic Kidney Disease (diabetic/hypertensive nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Absence of eGFR, serum creatinine, urine albumin\u2011creatinine ratio",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes and hypertension are classic precipitants of CKD, yet no renal function labs are available, making this diagnosis speculative."
+    },
+    {
+      "rank": 4,
+      "name": "Active/Recurring Infections (Otitis Media & Possible Urinary Tract Infection)",
+      "icd10": "B99.9",
+      "snomed": "64572001",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented acute otitis media on exam",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukocyturia on urinalysis",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Objective findings of otitis media and leukocyturia strongly support concurrent infections, which also explain the elevated inflammatory markers."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid Use Disorder / Opioid\u2011Induced Hyperalgesia",
+      "icd10": "F11.20",
+      "snomed": "386661006",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic prescription opioid therapy documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Reports of increased pain sensitivity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term opioid exposure raises the possibility of misuse and hyperalgesia, though specific misuse behaviors are not recorded."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, obesity, dyslipidaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Missing liver panel and imaging",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD likely, but lack of liver enzymes or imaging prevents confirmation."
+    },
+    {
+      "rank": 7,
+      "name": "Major Depressive Disorder (MDD)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of mood symptoms noted in past visits (limited documentation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No current mood symptoms or DSM\u20115 criteria are documented; the diagnosis remains speculative."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic Cardiovascular Disease (sub\u2011clinical CAD/PAD)",
+  "primary_probability": 0.29,
+  "clinical_reasoning_summary": "Severe LDL\u2011C elevation together with diabetes, hypertension, and obesity points to sub\u2011clinical atherosclerosis as the dominant pathology, explaining the dyslipidaemia and overall cardiovascular risk. Obstructive sleep apnea and chronic kidney disease are plausible contributors but lack objective confirmation. Documented otitis media and leukocyturia confirm active infections, while chronic opioid therapy raises concern for opioid use disorder. Metabolic syndrome also supports NAFLD, and a remote history of mood symptoms allows a low\u2011probability consideration of major depressive disorder. Unsupported entities (hypothyroidism, myeloproliferative disorder) have been removed.",
+  "unresolved_findings": [
+    "Absence of renal function data (eGFR, serum creatinine, urine albumin\u2011creatinine ratio)",
+    "No thyroid function tests (TSH, free T4)",
+    "Missing liver panel and imaging for NAFLD/NASH",
+    "No sleep study or validated home sleep\u2011apnea test",
+    "Urine culture not performed despite leukocyturia",
+    "Platelet distribution width elevation without platelet count or peripheral smear",
+    "Persistent severe LDL\u2011C despite metformin and presumed lifestyle measures"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with eGFR and serum creatinine",
+    "Urine albumin\u2011creatinine ratio",
+    "Thyroid panel (TSH, free T4)",
+    "Liver function tests and abdominal ultrasound or FibroScan",
+    "Polysomnography or home sleep apnea testing",
+    "Urine culture and sensitivity",
+    "Complete blood count with differential and peripheral smear",
+    "Repeat fasting lipid panel and calculation of non\u2011HDL cholesterol",
+    "Ankle\u2011brachial index and/or coronary artery calcium scoring to quantify sub\u2011clinical ASCVD",
+    "Screening questionnaire for opioid misuse (e.g., COMM) and referral to pain management"
+  ]
+}

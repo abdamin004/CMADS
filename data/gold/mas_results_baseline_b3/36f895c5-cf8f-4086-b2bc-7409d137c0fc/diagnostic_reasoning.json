@@ -1,0 +1,199 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled hypertension leading to hypertensive heart disease (HFpEF) and renal injury",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension (BP 160/96 mmHg) documented as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension identified as major modifiable risk factor",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.8 mg/dL (elevated, stable) indicating renal impairment",
+          "strength": "moderate"
+        },
+        {
+          "source": "med_list",
+          "finding": "Hydrochlorothiazide/Lisinopril combo prescribed for BP control and renal protection",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy and \u201cnot in labor force\u201d suggesting possible medication non\u2011adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent stage\u20112 hypertension despite a ACE\u2011I/diuretic regimen, together with elevated creatinine and proteinuria, points to hypertensive end\u2011organ damage manifesting as hypertensive heart disease (likely HFpEF) and progression of CKD. This upstream driver also explains demand\u2011ischemia\u2011type troponin elevation."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic coronary artery disease with ongoing myocardial injury",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute NSTEMI (Mar 2021) and history of myocardial infarction",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity troponin I 54 ng/L (elevated) severity 5",
+          "strength": "strong"
+        },
+        {
+          "source": "med_list",
+          "finding": "Dual antiplatelet therapy (prasugrel + aspirin) and beta\u2011blocker (metoprolol)",
+          "strength": "strong"
+        },
+        {
+          "source": "med_list",
+          "finding": "Atorvastatin 10 mg for secondary prevention",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented NSTEMI with persistent troponin elevation and ongoing secondary\u2011prevention therapy indicates active coronary artery disease that may be contributing to myocardial injury, either from plaque instability or chronic supply\u2011demand mismatch."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic kidney disease (early CKD) with proteinuria",
+      "icd10": "N08.3",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetic kidney disease listed as active problem (high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.8 mg/dL (elevated) and urine protein +1 (82.5 mg/dL) severity 4",
+          "strength": "strong"
+        },
+        {
+          "source": "med_list",
+          "finding": "Insulin therapy (Humulin) indicating overt diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "med_list",
+          "finding": "ACE\u2011I component (lisinopril) for renoprotection",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of diabetes treatment, elevated creatinine, and proteinuria fits diabetic nephropathy. Although CKD stage is listed as 1, the labs suggest stage 3a\u20113b disease, reinforcing its role in the patient\u2019s overall risk."
+    },
+    {
+      "rank": 4,
+      "name": "Major depressive disorder affecting adherence and lifestyle",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Major depressive disorder on fluoxetine 20 mg",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "\"Not in labor force\" since Oct 2024, indicating functional limitation",
+          "strength": "moderate"
+        },
+        {
+          "source": "med_list",
+          "finding": "Diphenhydramine 25 mg (possible insomnia aid)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Depression can impair medication adherence, physical activity, and blood\u2011pressure control, thereby amplifying the impact of hypertension and CAD."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive biliary disease (choledocholithiasis or biliary malignancy)",
+      "icd10": "K80.00",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin 13.7 mg/dL (markedly elevated) severity 5",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented liver disease, gallstones, or hepatotoxic medication",
+          "strength": "weak"
+        },
+        {
+          "source": "med_list",
+          "finding": "Diphenhydramine (rarely hepatotoxic) \u2013 unlikely cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe isolated hyperbilirubinemia in a middle\u2011aged male raises high suspicion for biliary obstruction or malignancy; urgent imaging is required."
+    },
+    {
+      "rank": 6,
+      "name": "Hemolytic anemia (possible contributing to bilirubin rise)",
+      "icd10": "D55.9",
+      "snomed": "30217000",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (moderate) active since 2011",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe bilirubin elevation without transaminase data (potential indirect component)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If the bilirubin is predominantly indirect, hemolysis could explain both anemia and hyperbilirubinemia, though no hemolysis labs are available yet."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled hypertension leading to hypertensive heart disease (HFpEF) and renal injury",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient is a 59\u2011year\u2011old male with high\u2011risk atherosclerotic cardiovascular disease, persistent stage\u20112 hypertension, and early diabetic kidney disease. Elevated hs\u2011troponin I suggests ongoing myocardial injury, but the dominant upstream driver appears to be uncontrolled hypertension causing hypertensive heart disease (likely HFpEF) and renal damage. Diabetes, depression, and polypharmacy further compound adherence and metabolic control. A markedly elevated bilirubin is an orphan finding that may represent obstructive biliary disease or hemolysis and requires urgent evaluation. The differential was calibrated to reflect root\u2011cause hierarchy, giving the greatest weight to hypertension\u2011mediated organ injury while still accounting for CAD, diabetic nephropathy, mood disorder, biliary obstruction, and possible hemolysis.",
+  "unresolved_findings": [
+    "Severe isolated hyperbilirubinemia (total bilirubin 13.7 mg/dL) with no documented liver or biliary disease",
+    "Discordant A1c value (3.3%) versus insulin therapy",
+    "Unclear indication for diphenhydramine use",
+    "Missing key laboratory data: BMI, eGFR numeric value, full lipid panel, CBC with indices, liver enzymes (AST, ALT, ALP, GGT), hemolysis panel",
+    "Elevated troponin I without documented acute coronary syndrome symptoms"
+  ],
+  "recommended_workup": [
+    "Home blood pressure monitoring and pharmacy refill review to assess adherence",
+    "12\u2011lead ECG and serial hs\u2011troponin measurements",
+    "Transthoracic echocardiogram (evaluate LV mass, diastolic function, EF) and consider stress testing or coronary CTA",
+    "Serum creatinine with calculated eGFR (CKD\u2011EPI) and urine albumin\u2011to\u2011creatinine ratio",
+    "Complete blood count with differential, MCV, reticulocyte count, iron studies, erythropoietin level",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, direct vs. indirect bilirubin, INR) and hepatitis serologies",
+    "Abdominal right\u2011upper\u2011quadrant ultrasound followed by MRCP if ultrasound abnormal",
+    "Hemolysis work\u2011up: LDH, haptoglobin, peripheral smear, direct Coombs test",
+    "Repeat glycated hemoglobin (A1c) and fasting glucose or fructosamine to verify diabetic status",
+    "Screen for obstructive sleep apnea (STOP\u2011BANG questionnaire, overnight oximetry)",
+    "Alcohol and substance use assessment (history, CDT/PEth if indicated)",
+    "Psychiatric assessment (PHQ\u20119) and medication adherence interview"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (CKD stage 5, end\u2011stage renal disease)",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.68,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15\u202fmL/min/1.73\u202fm\u00b2 consistent with CKD\u20115",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.0 indicating impaired concentrating ability",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low serum albumin and elevated BUN/creatinine ratio",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has long\u2011standing type 2 diabetes and laboratory evidence of eGFR <15, placing him in CKD stage 5. The dilute urine (specific gravity 1.0) reflects the classic concentrating defect of advanced diabetic nephropathy. These findings dominate the clinical picture, making diabetic nephropathy the primary driver of the current presentation."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.2\u202fg/dL with normocytic, normochromic indices",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD\u20115 (eGFR <15) providing the physiologic basis for reduced erythropoietin",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD leads to decreased erythropoietin production, resulting in a normocytic anemia. The laboratory values align with this mechanism, supporting anemia of chronic kidney disease as a significant comorbidity."
+    },
+    {
+      "rank": 3,
+      "name": "Undiagnosed / untreated hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors present: diabetes, CKD, obesity (BMI 31)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented blood pressure measurements in recent visits",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the strong association between diabetes, CKD, and hypertension, untreated hypertension remains plausible despite the absence of recorded BP values. The reviewer flagged the lack of objective data, lowering confidence."
+    },
+    {
+      "rank": 4,
+      "name": "Prostate carcinoma (early adenocarcinoma, possible progression)",
+      "icd10": "C61",
+      "snomed": "126637009",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PSA 6.4\u202fng/mL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prostate carcinoma in situ noted in problem list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "An elevated PSA in a patient with known prostate carcinoma raises concern for disease progression. While early-stage disease is possible, the probability is adjusted upward per reviewer assessment."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.8",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20115 provides the physiologic basis for secondary hyperparathyroidism",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No current PTH, calcium, or phosphate values available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary hyperparathyroidism is nearly universal in ESRD, but without laboratory confirmation the probability is kept low as per reviewer adjustment."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (CKD stage 5, end\u2011stage renal disease)",
+  "primary_probability": 0.68,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing type 2 diabetes and laboratory evidence of eGFR <15\u202fmL/min/1.73\u202fm\u00b2 establish end\u2011stage diabetic nephropathy as the dominant pathology, explaining the dilute urine and metabolic derangements. CKD\u2011related anemia, possible untreated hypertension, a history of early prostate carcinoma with a rising PSA, and the expected CKD\u2011MBD complete the differential. Unaddressed findings such as low\u2011grade ketonuria, minimal glucosuria with a low A1c, and potential opioid accumulation are noted for further evaluation.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.0 (very dilute) \u2013 suggests impaired concentrating ability.",
+    "Urine ketones 14.7\u202fmg/dL with minimal glucosuria \u2013 could reflect fasting, low\u2011carb diet, or early eDKA; requires review of insulin dosing and dietary intake.",
+    "Glucosuria 1.8\u202fmg/dL despite likely controlled serum glucose \u2013 may indicate lowered renal threshold.",
+    "Elevated PSA 6.4\u202fng/mL \u2013 need to differentiate prostate cancer progression from benign prostatic hyperplasia or CKD\u2011related PSA elevation.",
+    "Potential opioid accumulation (oxycodone) due to reduced renal clearance \u2013 risk of toxicity."
+  ],
+  "recommended_workup": [
+    "Obtain current blood pressure measurements (multiple readings) to confirm or exclude hypertension.",
+    "Serum intact PTH, calcium, phosphate, and vitamin D levels to assess CKD\u2011MBD.",
+    "Repeat PSA with free/total ratio and consider prostate MRI or biopsy if indicated.",
+    "Serum ketone panel and arterial blood gas to evaluate for euglycemic DKA.",
+    "Review insulin regimen and dietary intake; consider continuous glucose monitoring.",
+    "Assess serum oxycodone level and adjust dosing based on renal function.",
+    "Complete blood count with reticulocyte count to further characterize anemia."
+  ]
+}

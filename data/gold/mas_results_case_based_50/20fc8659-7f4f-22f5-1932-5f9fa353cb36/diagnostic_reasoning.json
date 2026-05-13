@@ -1,0 +1,188 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-induced acute/chronic kidney injury (ACE\u2011I + NSAID triple therapy)",
+      "icd10": "N14.9",
+      "snomed": "236423003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate ACE\u2011I therapy (lisinopril + enalapril)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium use for osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 73 years (increased susceptibility to AKI)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent renal function labs (creatinine, eGFR, potassium)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of two ACE inhibitors and a chronic NSAID in an elderly patient creates a classic \u2018triple\u2011therapy\u2019 scenario that markedly raises the risk of acute or chronic kidney injury and hyperkalaemia. Absence of renal labs prevents confirmation but heightens suspicion, making this the most immediate safety concern."
+    },
+    {
+      "rank": 2,
+      "name": "Severe, undertreated atherosclerotic dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 177\u202fmg/dL (far above secondary\u2011prevention target <70\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 263\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011intensity atorvastatin (10\u201120\u202fmg) despite prior NSTEMI",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI (2006) \u2013 secondary\u2011prevention indication",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated LDL\u2011C on a low\u2011intensity statin in a patient with prior myocardial infarction indicates markedly sub\u2011optimal lipid control, a major driver of future ASCVD events. Intensification of lipid\u2011lowering therapy is warranted."
+    },
+    {
+      "rank": 3,
+      "name": "High\u2011risk gastrointestinal bleeding",
+      "icd10": "K92.2",
+      "snomed": "371923003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy (prasugrel + aspirin)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented gastro\u2011protective agent (PPI/H2 blocker)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >65 years",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of dual antiplatelet therapy and a chronic NSAID without gastro\u2011protection places the patient at a high short\u2011term risk for peptic ulcer disease and overt GI bleeding, which could manifest as anemia or hemodynamic compromise."
+    },
+    {
+      "rank": 4,
+      "name": "Undiagnosed diabetes mellitus / pre\u2011diabetes",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530\u202fkg/m\u00b2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing fasting glucose and HbA1c values",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011vascular syndrome pattern (obesity + HTN + dyslipidaemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension in an elderly patient strongly suggest insulin resistance. Absence of glycaemic testing leaves diabetes status unknown, which would further increase ASCVD and renal risk if present."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic\u2011vascular syndrome (obesity, hypertension, dyslipidaemia)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530\u202fkg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (BP 130/84\u202fmmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL\u2011C and total cholesterol",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age \u226565 years, female sex (adds to cardiovascular risk)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, hypertension, and dyslipidaemia fulfills criteria for metabolic syndrome, which amplifies residual ASCVD risk and predisposes to diabetes and renal disease."
+    }
+  ],
+  "primary_diagnosis": "Medication-induced acute/chronic kidney injury (ACE\u2011I + NSAID triple therapy)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient is a 73\u2011year\u2011old woman with prior NSTEMI on secondary\u2011prevention therapy. The most pressing issue is the iatrogenic renal injury risk created by duplicate ACE\u2011inhibitors combined with chronic naproxen use, especially given the lack of recent renal labs. Secondary but still critical are the markedly elevated LDL\u2011C on low\u2011intensity statin, placing her at high long\u2011term ASCVD risk, and the high short\u2011term gastrointestinal bleeding risk from dual antiplatelet therapy plus NSAID without gastro\u2011protection. Missing glycaemic and renal data prevent full assessment of diabetes and CKD, while the overall metabolic\u2011vascular syndrome underlies many of these problems. The differential is ranked to prioritize immediate safety (renal injury, GI bleed) before chronic risk (dyslipidaemia, diabetes, metabolic syndrome).",
+  "unresolved_findings": [
+    "Missing renal function labs (serum creatinine, eGFR, BUN, potassium, urine ACR)",
+    "Absent fasting glucose and HbA1c",
+    "No complete blood count (hemoglobin, hematocrit) to assess anemia or occult bleed",
+    "No liver function tests (ALT, AST, CK) for statin safety",
+    "No documented gastro\u2011protective therapy (PPI/H2 blocker)",
+    "Inconsistent BMI reporting (\u226530 vs. numeric value 27.3 mentioned elsewhere)",
+    "Smoking status not recorded",
+    "Aspirin dose not specified",
+    "No recent imaging or cardiac evaluation (e.g., echo, stress test)",
+    "Medication adherence assessment missing"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, BUN, electrolytes (including potassium) and urine albumin\u2011to\u2011creatinine ratio",
+    "Hold one ACE\u2011I (preferably enalapril) pending renal labs",
+    "Complete blood count with differential and fecal occult blood test",
+    "Fasting glucose and HbA1c",
+    "Liver function panel (ALT, AST, bilirubin) and CK to evaluate statin tolerance",
+    "Upper endoscopy if GI bleed is suspected after initial labs",
+    "Repeat lipid panel after initiating high\u2011intensity statin (atorvastatin 40\u201180\u202fmg) or adding ezetimibe/PCSK9 inhibitor",
+    "Medication reconciliation: discontinue duplicate ACE\u2011I, consider NSAID alternative (acetaminophen or topical agents), and start a PPI for gastro\u2011protection",
+    "Echocardiogram and BNP/NT\u2011proBNP to assess for HFpEF",
+    "Document smoking status and quantify alcohol use",
+    "Assess aspirin dose and consider low\u2011dose (81\u202fmg) if appropriate",
+    "Lifestyle assessment: diet, physical activity, weight\u2011loss counseling"
+  ]
+}

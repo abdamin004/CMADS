@@ -1,0 +1,205 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome\u2013driven cardiometabolic disease",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) with hypertension (SBP 117 mmHg, DBP 95 mmHg) and prediabetes (A1c 6.3%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW 481.3 fL) and red cell distribution width (RDW 45.8 fL) suggesting early dyslipidemia/inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile based on combined risk factors",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient exhibits the three core components of metabolic syndrome\u2014central obesity, hypertension, and impaired glucose tolerance\u2014making metabolic syndrome the most plausible unifying diagnosis driving her cardiometabolic risk."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension are strong risk factors for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No objective sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient's obesity and hypertension, OSA remains a plausible contributor to her blood pressure profile, though confirmation requires polysomnography."
+    },
+    {
+      "rank": 3,
+      "name": "Prediabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.08,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 6.3% (prediabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and family history (implied) increase risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c in the prediabetic range together with metabolic risk factors supports early type 2 diabetes as a contributing diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (CKD stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Renal function data missing; anemia predates hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD cannot be excluded without serum creatinine/eGFR or urine albumin data; probability downgraded but retained for completeness."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease / inflammation (ACD)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia with high\u2011normal hematocrit, elevated RDW/PDW",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "RDW/PDW pattern atypical for classic ACD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While anemia is present, the laboratory pattern is not classic for ACD, lowering confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Myeloproliferative neoplasm (early polycythemia vera or essential thrombocythemia)",
+      "icd10": "D45",
+      "snomed": "10828004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated RDW and PDW without overt erythrocytosis or thrombocytosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Laboratory abnormalities raise a remote possibility of an early myeloproliferative process, but lack of definitive hematologic findings makes this unlikely."
+    },
+    {
+      "rank": 7,
+      "name": "Primary aldosteronism (PA)",
+      "icd10": "E26.0",
+      "snomed": "237599001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Obesity makes PA less likely; no electrolyte or hormonal data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary hypertension due to PA is possible but unsupported by current labs."
+    },
+    {
+      "rank": 8,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "124055006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "No thyroid function tests performed; findings nonspecific",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction could contribute to metabolic derangements, but lack of testing precludes stronger support."
+    },
+    {
+      "rank": 9,
+      "name": "Major depressive disorder / chronic psychosocial stress",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant psychosocial stressors documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stress may exacerbate metabolic risk, but without screening the diagnosis remains tentative."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome\u2013driven cardiometabolic disease",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient presents with the triad of obesity, hypertension, and prediabetes, fulfilling criteria for metabolic syndrome and accounting for her elevated cardiovascular risk. Secondary contributors such as obstructive sleep apnea and early type 2 diabetes are plausible given the risk profile. Anemia, mild leukopenia, and abnormal red cell indices remain incompletely explained; they may reflect early inflammatory or hematologic processes but lack definitive laboratory confirmation. Missing key investigations (lipid panel, renal function, iron studies, thyroid panel, aldosterone/renin, and sleep study) limit certainty for several secondary diagnoses, prompting a focused work\u2011up.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 481.3 fL) without platelet count",
+    "Elevated red cell distribution width (RDW 45.8 fL) with high\u2011normal hematocrit",
+    "Mild leukopenia (3.6 \u00d710\u00b3/\u00b5L) lacking differential",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing renal function data (serum creatinine, eGFR, urine ACR)",
+    "Missing iron studies, ferritin, B12, folate, reticulocyte count",
+    "Missing thyroid function tests (TSH, free T4)",
+    "Missing aldosterone/renin measurements and serum potassium",
+    "No documented sleep study or polysomnography",
+    "No formal depression screening (PHQ\u20119) despite psychosocial stressors"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Comprehensive metabolic panel including serum creatinine, eGFR, electrolytes",
+    "Urine albumin\u2011to\u2011creatinine ratio (ACR)",
+    "Iron studies (serum iron, ferritin, TIBC) and vitamin B12/folate levels",
+    "Reticulocyte count and peripheral smear",
+    "Thyroid function tests (TSH, free T4)",
+    "Plasma aldosterone concentration and plasma renin activity with aldosterone\u2011renin ratio; serum potassium",
+    "Overnight polysomnography or home sleep apnea testing",
+    "Standardized depression screening (PHQ\u20119 or PHQ\u20112)",
+    "Repeat complete blood count with differential to characterize leukopenia"
+  ]
+}

@@ -1,4 +1,5 @@
-.PHONY: install test lint run-patient run-batch dashboard setup-qdrant \
+.PHONY: install test lint run-patient run-batch dashboard doctor-console-api \
+        doctor-console-web setup-qdrant \
         thesis thesis-clean thesis-watch
 
 # ── Setup ────────────────────────────────────────────────
@@ -48,6 +49,12 @@ evaluate:
 # ── Dashboard ────────────────────────────────────────────
 dashboard:
 	streamlit run portal/dashboard.py --server.port 8503
+
+doctor-console-api:
+	python3 -m uvicorn doctor_console.backend.app:app --reload --host 127.0.0.1 --port 8010
+
+doctor-console-web:
+	cd doctor_console/frontend && npm run dev
 
 # ── Vector DB (NICE Guidelines) ─────────────────────────
 setup-qdrant:

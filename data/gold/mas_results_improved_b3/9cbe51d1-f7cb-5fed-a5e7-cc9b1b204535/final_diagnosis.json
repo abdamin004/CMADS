@@ -1,0 +1,145 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute ST-segment elevation myocardial infarction (STEMI)",
+      "icd10": "I21.3",
+      "snomed": "413839001",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list flags STEMI",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Troponin I 90.9 ng/L (marked elevation)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The record explicitly documents a STEMI flag and a markedly elevated troponin, which together strongly indicate an acute transmural infarction requiring emergent reperfusion."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 myocardial infarction (demand ischemia)",
+      "icd10": "I21.9",
+      "snomed": "302810001",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin in setting of possible supply\u2011demand mismatch (CKD, anemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 4 and possible anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While the troponin rise is compatible with plaque rupture, the presence of CKD and anemia raises the possibility that part of the injury is demand\u2011related."
+    },
+    {
+      "rank": 3,
+      "name": "Acute on chronic kidney injury (AKI on CKD\u20114)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Baseline CKD\u20114 documented; no recent creatinine trend available",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN/creatinine ratio (if present) suggestive of acute insult",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient has advanced CKD and the clinical context (possible contrast exposure, hypotension) makes an acute worsening plausible, though objective rise is not yet documented."
+    },
+    {
+      "rank": 4,
+      "name": "Acute decompensated heart failure / cardiorenal syndrome",
+      "icd10": "I50.23",
+      "snomed": "42343007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of heart failure in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potential rise in BNP (not yet measured)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given underlying cardiac disease and renal impairment, a decompensated state could coexist, but no overt congestion signs are recorded."
+    },
+    {
+      "rank": 5,
+      "name": "Severe anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20114 known to cause anemia of chronic disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin not recently measured (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia, which may contribute to myocardial oxygen supply\u2011demand mismatch."
+    },
+    {
+      "rank": 6,
+      "name": "Acute coronary syndrome \u2013 NSTEMI (type 1 myocardial infarction)",
+      "icd10": "I21.4",
+      "snomed": "413839001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Initial diagnostic agent labeled NSTEMI",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The record explicitly flags STEMI, making NSTEMI unlikely; retained only for completeness with very low probability."
+    }
+  ],
+  "primary_diagnosis": "Acute ST-segment elevation myocardial infarction (STEMI)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The electronic health record contains an explicit STEMI flag and a markedly elevated troponin, establishing acute ST\u2011segment elevation myocardial infarction as the most likely diagnosis. Co\u2011existing chronic kidney disease, possible anemia, and the clinical context allow for contributory type 2 MI and acute kidney injury, while a background of heart failure raises the possibility of cardiorenal decompensation. NSTEMI is retained only as a low\u2011probability alternative given the contradictory documentation. Unsupported entities such as pulmonary embolism and sepsis have been removed.",
+  "unresolved_findings": [
+    "No documented chest pain, dyspnea, orthopnea, or ECG changes at the time of troponin measurement",
+    "Missing recent hemoglobin/hematocrit, BNP, and inflammatory markers",
+    "No medication list (antiplatelet, anticoagulant, diuretic, nephrotoxic agents)",
+    "Absence of imaging (chest X\u2011ray, echocardiogram, CT\u2011angiography) to assess heart failure, PE, or pulmonary infection"
+  ],
+  "recommended_workup": [
+    "Immediate 12\u2011lead ECG to confirm ST\u2011elevation and guide reperfusion strategy",
+    "Serial cardiac troponins to assess trend",
+    "Urgent coronary angiography (or CT coronary angiography if contraindicated)",
+    "Comprehensive metabolic panel with repeat creatinine to evaluate AKI",
+    "Complete blood count with differential to quantify anemia",
+    "BNP or NT\u2011proBNP to assess for heart failure",
+    "Chest X\u2011ray to evaluate pulmonary congestion or alternative pathology",
+    "Transthoracic echocardiogram to assess ventricular function and wall motion abnormalities",
+    "Medication reconciliation focusing on antiplatelet/anticoagulant therapy and nephrotoxic agents"
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Cardiorenal syndrome type 4 (CKD-driven myocardial injury/HFrEF)",
+      "icd10": "I13.2",
+      "snomed": "442083009",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 chronic kidney disease with eGFR <15 ml/min/1.73m2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated troponin I without acute chest pain, suggesting chronic myocardial injury",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of recent STEMI and reduced left ventricular ejection fraction",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia of chronic disease (low hemoglobin, low reticulocyte count)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to myocardial injury and heart failure (type 4 cardiorenal syndrome). The combination of severe renal dysfunction, persistent troponin elevation, and prior MI with reduced EF supports this integrated diagnosis as the most likely driver of the patient's current clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic coronary artery disease with recent STEMI and ongoing myocardial injury",
+      "icd10": "I21.3",
+      "snomed": "22298006",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented recent ST-elevation myocardial infarction",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I levels",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: hypertension, age, smoking history (if present)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s recent STEMI explains the high troponin and ongoing myocardial injury. Atherosclerotic CAD remains a primary contributor to cardiac dysfunction."
+    },
+    {
+      "rank": 3,
+      "name": "Metastatic prostate adenocarcinoma",
+      "icd10": "C61",
+      "snomed": "12691009",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known diagnosis of prostate adenocarcinoma with metastatic disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated PSA (if reported) and imaging showing metastases",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metastatic prostate cancer is confirmed in the record and accounts for systemic symptoms and may contribute to anemia and possible renal involvement."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive (\u00b1\u2011renovascular) nephropathy leading to stage 5 chronic kidney disease",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 142/102 mmHg (stage 2 hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 CKD documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria noted (magnitude unspecified)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Longstanding hypertension likely contributed to CKD progression; renovascular component remains possible but not definitively proven."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with reduced ejection fraction (HFrEF) secondary to prior MI",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior MI with reduced LVEF on prior imaging (if available)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated BNP/NT-proBNP (if reported)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Post\u2011MI remodeling has led to systolic dysfunction, contributing to the cardiorenal interaction."
+    },
+    {
+      "rank": 6,
+      "name": "Renal artery stenosis (atherosclerotic renovascular hypertension)",
+      "icd10": "I70.1",
+      "snomed": "414360004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite therapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renovascular hypertension is plausible given refractory BP, but no imaging confirmation is available."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with normocytic, normochromic indices consistent with anemia of chronic disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (stage 5) known to cause anemia",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD and chronic inflammation from malignancy explain the anemia."
+    }
+  ],
+  "primary_diagnosis": "Cardiorenal syndrome type 4 (CKD-driven myocardial injury/HFrEF)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease, persistent troponin elevation, and a recent STEMI. Integration of severe CKD with myocardial injury and reduced systolic function best fits a type 4 cardiorenal syndrome, which the reviewer identified as the most likely unifying diagnosis. Atherosclerotic CAD with recent STEMI remains a major contributor, while metastatic prostate cancer explains systemic burden and anemia. Hypertensive nephropathy underlies the CKD, and residual HFrEF adds to cardiac compromise. Low\u2011probability entities such as renal artery stenosis are retained for completeness.",
+  "unresolved_findings": [
+    "Elevated troponin I without documented acute chest pain or recent ECG (could be chronic injury, demand ischemia, or subclinical reinfarction).",
+    "Magnitude of proteinuria relative to CKD\u20115 (possible additional glomerular disease or paraneoplastic glomerulopathy).",
+    "Missing BMI value and eGFR trend data limiting assessment of obesity severity and renal trajectory.",
+    "Leuprolide and docetaxel mentioned in narrative but absent from medication list (potential medication reconciliation gap).",
+    "Future\u2011dated stress entry (2025\u201107\u201113) likely a data entry error."
+  ],
+  "recommended_workup": [
+    "Repeat transthoracic echocardiogram with strain imaging to quantify current LVEF and assess for new wall\u2011motion abnormalities.",
+    "Cardiac MRI if echocardiogram is inconclusive, to differentiate scar from active ischemia.",
+    "Renal artery duplex ultrasound or CT angiography to evaluate for renovascular disease.",
+    "Abdominal and pelvic imaging (CT or MRI) to assess for obstructive uropathy or tumor burden.",
+    "Polysomnography to confirm or exclude obstructive sleep apnea.",
+    "Comprehensive medication reconciliation, including oncology agents (leuprolide, docetaxel).",
+    "Repeat labs: BMP, CBC, BNP/NT\u2011proBNP, urine protein quantification, and serial troponin trends."
+  ]
+}

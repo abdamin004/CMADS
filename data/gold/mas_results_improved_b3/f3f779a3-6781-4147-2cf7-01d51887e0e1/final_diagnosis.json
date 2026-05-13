@@ -1,0 +1,213 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15 mL/min/1.73m\u00b2 consistent with ESRD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding type 2 diabetes mellitus and hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD in the setting of diabetes and hypertension explains the patient's renal failure and related metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary hyperparathyroidism (renal osteodystrophy)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.21,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD Stage 5 creates phosphate retention and vitamin D deficiency",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High risk of mineral\u2011bone disorder in ESRD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "End\u2011stage renal disease leads to dysregulated calcium\u2011phosphate metabolism, driving secondary hyperparathyroidism."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease (CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, diabetes, and dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL cholesterol",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiovascular risk factors are present, making CAD plausible though objective cardiac testing is lacking."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin below normal range consistent with CKD\u2011related anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Reduced erythropoietin production in ESRD commonly causes anemia."
+    },
+    {
+      "rank": 5,
+      "name": "Dyslipidemia (mixed hyperlipidemia)",
+      "icd10": "E78.2",
+      "snomed": "55822004",
+      "probability": 0.05,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides and LDL cholesterol",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: diabetes, hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory lipid profile demonstrates mixed hyperlipidemia, a common comorbidity in diabetic CKD."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure with reduced ejection fraction (HFrEF)",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Reported dyspnea and peripheral edema",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms could reflect volume overload from CKD, but objective cardiac data are absent, making HF less certain."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of loud snoring and daytime fatigue",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical clues suggest OSA, but no sleep study has been performed."
+    },
+    {
+      "rank": 8,
+      "name": "Gout / hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Occasional joint pain reported (unspecified)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No uric acid level or classic gouty arthritis documented; diagnosis remains speculative."
+    },
+    {
+      "rank": 9,
+      "name": "Electrolyte / bone\u2011mineral disorder (hyperphosphatemia, hypocalcemia, vitamin D deficiency)",
+      "icd10": "E83.3",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "CKD\u20115 predisposes to phosphate retention and vitamin D deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Typical metabolic complications of ESRD, though specific labs were not provided."
+    },
+    {
+      "rank": 10,
+      "name": "NSAID\u2011induced acute\u2011on\u2011chronic kidney injury",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID exposure may have contributed to a recent decline in renal function but is unlikely to be the primary driver of established ESRD."
+    }
+  ],
+  "primary_diagnosis": "End-stage diabetic-hypertensive nephropathy (CKD Stage 5)",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease secondary to longstanding diabetes and hypertension, which accounts for the majority of the clinical picture. Consequent complications\u2014secondary hyperparathyroidism, anemia, dyslipidemia, and mineral\u2011bone disorder\u2014are supported by the CKD context. Cardiovascular disease, heart failure, sleep apnea, and gout remain possible but lack objective confirmation. NSAID use may have acutely worsened kidney function but does not explain the chronic ESRD state.",
+  "unresolved_findings": [
+    "HbA1c reported as 4.0% (likely erroneous)",
+    "Urine specific gravity 1.00 (extremely dilute, unclear etiology)",
+    "Lack of trend data for eGFR, proteinuria, and lipid panels"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c with proper assay",
+    "Comprehensive metabolic panel including calcium, phosphate, PTH, vitamin D",
+    "Complete lipid profile if not recent",
+    "Echocardiogram to assess ejection fraction and rule out HFrEF",
+    "Cardiac stress testing or coronary CT angiography for CAD evaluation",
+    "Polysomnography for definitive OSA diagnosis",
+    "Serum uric acid level and joint examination for gout",
+    "Renal ultrasound to assess structural kidney changes",
+    "Medication review focusing on NSAID exposure"
+  ]
+}

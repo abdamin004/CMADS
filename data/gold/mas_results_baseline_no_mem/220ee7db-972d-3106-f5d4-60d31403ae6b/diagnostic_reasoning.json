@@ -1,0 +1,268 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin\u2011requiring Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 Diabetes Mellitus (insulin therapy)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X, obesity (BMI \u226530), hyperlipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low Hemoglobin A1c (3.3%) \u2013 discordant, suggests assay interference or anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing insulin\u2011treated diabetes with metabolic syndrome explains the patient\u2019s hyperglycaemic history, proteinuric kidney disease, and cardiovascular risk profile."
+    },
+    {
+      "rank": 2,
+      "name": "Advanced Diabetic Nephropathy (CKD stage 5)",
+      "icd10": "N18.5",
+      "snomed": "236423003",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) = 15.4\u202fmL/min/1.73\u202fm\u00b2 (stage 5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum Creatinine = 2.6\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine Protein dip\u2011stick = 304.9\u202fmg/dL (heavy proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented progression of CKD stages 1\u20114 (1967\u20111972) and SNOMED label \u201cDisorder of kidney due to diabetes mellitus\u201d",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Severe reduction in GFR together with massive proteinuria and a documented history of diabetic kidney disease confirm advanced diabetic nephropathy as the primary renal pathology."
+    },
+    {
+      "rank": 3,
+      "name": "Essential Hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.14,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential Hypertension (onset 1954)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term tobacco use, obesity, CKD \u2013 all amplify hypertensive end\u2011organ damage",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_clues",
+          "finding": "Inferred ACE inhibitor/ARB use for BP and proteinuria",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A six\u2011decade history of hypertension is a major driver of both the CKD progression and the high cardiovascular risk profile."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking daily since 1948, hyperlipidemia, hypertension, diabetes, CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk implied by cumulative risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing smoking, dyslipidemia, hypertension, diabetes, and advanced CKD places the patient at very high risk for coronary, peripheral, and cerebrovascular atherosclerotic disease."
+    },
+    {
+      "rank": 5,
+      "name": "Hypertensive Heart Disease / Heart Failure (HFpEF likely)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension, obesity, OSA, CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "No cardiac imaging available but high pre\u2011test probability given risk profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the extensive hypertensive and metabolic burden, heart failure with preserved ejection fraction is a common sequela and impacts volume management and transplant candidacy."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of Chronic Kidney Disease (with possible iron deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of chronic disease (moderate)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "CKD stage 5 \u2013 reduced erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low A1c possibly artifact of shortened RBC lifespan",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011related erythropoietin deficiency explains the anemia; iron studies are pending to assess a mixed component."
+    },
+    {
+      "rank": 7,
+      "name": "CKD\u2011Mineral and Bone Disorder / Secondary Hyperparathyroidism",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_pattern",
+          "finding": "Stage 5 CKD \u2013 >90% develop secondary hyperparathyroidism",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal alkaline phosphatase (31.3\u202fU/L) \u2013 may mask bone\u2011isoenzyme rise",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD almost inevitably leads to disturbances in calcium\u2011phosphate metabolism; the low ALP is atypical but does not exclude CKD\u2011MBD."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive Sleep Apnea (moderate)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Obesity (BMI \u226530) and resistant hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA contributes to hypertension, cardiovascular strain, and metabolic dysregulation; its presence is confirmed."
+    },
+    {
+      "rank": 9,
+      "name": "Hemolysis (mechanical or autoimmune)",
+      "icd10": "D55.9",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin (0.3\u202fmg/dL) without liver enzyme elevation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low A1c (3.3%) possibly due to shortened RBC lifespan",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Urine bilirubin and discordant low A1c raise the possibility of hemolysis; confirmatory labs are needed."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_pattern",
+          "finding": "Metabolic syndrome, obesity, diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated urinary bilirubin without overt LFT abnormalities",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in patients with metabolic syndrome; the urinary bilirubin may reflect mild cholestasis."
+    }
+  ],
+  "primary_diagnosis": "Insulin\u2011requiring Type 2 Diabetes Mellitus",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient presents with a long\u2011standing insulin\u2011treated type 2 diabetes mellitus complicated by severe proteinuric CKD (eGFR 15.4, creatinine 2.6, heavy proteinuria) consistent with advanced diabetic nephropathy. A six\u2011decade history of essential hypertension, heavy smoking, dyslipidemia, obesity, and obstructive sleep apnea creates a high\u2011risk atherosclerotic cardiovascular disease milieu. The CKD stage 5 explains anemia of chronic disease and predisposes to CKD\u2011MBD. Unexplained low A1c, urinary bilirubin, dilute urine, and ketonuria suggest possible hemolysis, assay interference, or other metabolic disturbances, prompting further work\u2011up. Probabilities were calibrated using prevalence data and the strength of objective findings, ensuring the top three root\u2011cause diagnoses (diabetes, nephropathy, hypertension) dominate the differential.",
+  "unresolved_findings": [
+    "Very low Hemoglobin A1c (3.3%) despite insulin therapy",
+    "Positive urine bilirubin without serum liver enzyme elevation",
+    "Low\u2011normal alkaline phosphatase (31.3\u202fU/L)",
+    "Ketonuria (10.7\u202fmg/dL) in an insulin\u2011treated patient",
+    "Very dilute urine (specific gravity\u202f=\u202f1.0)"
+  ],
+  "recommended_workup": [
+    "Repeat Hemoglobin A1c on an alternative platform and obtain fructosamine to assess short\u2011term glycaemia",
+    "7\u2011day capillary glucose log or continuous glucose monitoring (CGM) data",
+    "Complete hemolysis panel: LDH, haptoglobin, indirect bilirubin, reticulocyte count, peripheral smear, direct Coombs test",
+    "Full liver panel (AST, ALT, GGT, total and direct bilirubin) and hepatitis B/C serologies",
+    "Abdominal ultrasound to evaluate for fatty liver or biliary obstruction",
+    "Serum calcium, phosphate, intact PTH, 25\u2011OH vitamin D, and bone\u2011specific alkaline phosphatase",
+    "Iron studies (ferritin, transferrin saturation), vitamin B12 and folate levels",
+    "12\u2011lead ECG, transthoracic echocardiogram, and BNP or NT\u2011proBNP to assess for heart failure",
+    "Ankle\u2011brachial index (ABI) and lower\u2011extremity duplex ultrasound for peripheral arterial disease",
+    "Comprehensive medication reconciliation (focus on ACE\u2011I/ARB, diuretics, NSAIDs, SGLT2\u2011inhibitors, nephrotoxins)",
+    "Formal psychosocial evaluation (health\u2011literacy screen, PHQ\u20119, GAD\u20117, transplant eligibility assessment)",
+    "Urine albumin\u2011to\u2011creatinine ratio (UACR) and consider renal biopsy if proteinuria pattern atypical"
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.39,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (on lisinopril + HCTZ) with BP 132/89\u202fmmHg (stage\u202f1)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c\u202f5.9\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides 148.3\u202fmg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f60, male sex, resting heart rate\u202f97\u202fbpm",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets three core components of metabolic syndrome\u2014elevated blood pressure, central obesity, and impaired glucose regulation. Borderline hypertriglyceridemia and demographic risk factors reinforce the diagnosis, which explains the overall cardiometabolic risk profile."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia (likely secondary to chronic NSAID\u2011related gastrointestinal blood loss)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.4\u202fg/dL (borderline low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Red blood cell count 4.3\u202f\u00d710\u2076/\u00b5L (borderline low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count 412\u202f\u00d710\u00b3/\u00b5L (reactive thrombocytosis)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mean platelet volume 11.5\u202ffL (upper normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium use for knee osteoarthritis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male >50\u202fy with chronic mild anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild anemia with a compensatory high\u2011normal platelet count and elevated MPV is classic for iron\u2011deficiency anemia. Chronic NSAID therapy provides a plausible source of occult gastrointestinal bleeding, making iron\u2011deficiency the most likely etiology."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (NSAID\u2011related / hypertensive nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension treated with ACE\u2011inhibitor and thiazide diuretic",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Regular NSAID (naproxen) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising potassium (3.7\u202f\u2192\u202f4.6\u202fmmol/L) and falling sodium (141\u202f\u2192\u202f139\u202fmmol/L) trends, still within normal limits",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal risk flagged (HTN + NSAID use)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR not recorded (missing key renal data)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Hypertension and chronic NSAID exposure are major risk factors for progressive renal impairment. Subtle electrolyte shifts, despite remaining normal, and the absence of recent renal function data raise concern for early CKD, warranting formal assessment."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "233100006",
+      "probability": 0.23,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) in a 60\u2011year\u2011old male",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (BP 132/89\u202fmmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia (HR 97\u202fbpm)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Cardiometabolic syndrome components increase OSA prevalence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Male sex, age >50, obesity, and hypertension are strong epidemiologic risk factors for OSA. The elevated resting heart rate may reflect sympathetic activation from intermittent hypoxia. Although no sleep\u2011specific symptoms are documented, the risk profile justifies evaluation."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.39,
+  "clinical_reasoning_summary": "The patient\u2019s cardiometabolic profile (hypertension, obesity, pre\u2011diabetes, borderline hypertriglyceridemia) best fits metabolic syndrome and drives most downstream risks. Mild anemia with reactive thrombocytosis points toward iron\u2011deficiency, likely from chronic NSAID\u2011related GI blood loss. Hypertension plus NSAID exposure raise concern for early CKD, especially given missing renal labs and subtle electrolyte trends. Obesity, hypertension, and male sex also create a high pre\u2011test probability for obstructive sleep apnea, warranting targeted screening. These four entities together explain the majority of observed findings while leaving several orphan abnormalities for further work\u2011up.",
+  "unresolved_findings": [
+    "Borderline low fasting glucose (66.5\u202fmg/dL) \u2013 unclear if true hypoglycemia or non\u2011fasting sample.",
+    "Missing lipid panel (total cholesterol, LDL, HDL).",
+    "Absent renal function data (serum creatinine, eGFR, urine albumin\u2011creatinine ratio).",
+    "No iron studies (serum iron, ferritin, transferrin saturation) to definitively characterize anemia.",
+    "Unknown indication for diphenhydramine use.",
+    "No documented smoking, alcohol, or physical activity status.",
+    "No liver enzymes or imaging to assess for NAFLD.",
+    "No sleep study or validated questionnaire to confirm OSA.",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117) to assess for depression or anxiety."
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides).",
+    "Comprehensive metabolic panel including serum creatinine, calculate eGFR, BUN, electrolytes.",
+    "Urine albumin\u2011to\u2011creatinine ratio to screen for hypertensive nephropathy.",
+    "Repeat CBC with iron studies (serum iron, ferritin, TIBC, transferrin saturation) and reticulocyte count.",
+    "Fecal occult blood test; if positive, proceed to endoscopic evaluation for GI bleeding source.",
+    "Repeat fasting glucose and consider a 2\u2011hour oral glucose tolerance test.",
+    "Liver function tests (ALT, AST, ALP, GGT, bilirubin) and abdominal ultrasound or FibroScan for NAFLD assessment.",
+    "Screen for obstructive sleep apnea (STOP\u2011BANG questionnaire followed by home sleep test or polysomnography).",
+    "Depression and anxiety screening (PHQ\u20119, GAD\u20117).",
+    "Medication reconciliation: verify diphenhydramine indication, assess NSAID dosing, consider gastro\u2011protective therapy (e.g., PPI) if GI bleed risk is high."
+  ]
+}

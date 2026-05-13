@@ -1,0 +1,203 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Heart failure (HF) secondary to ischemic heart disease and chronic kidney disease",
+      "icd10": "I50.9",
+      "snomed": "841140007",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute ST\u2011segment elevation myocardial infarction (1994\u201110\u201125)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic angina requiring nitroglycerin spray",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Aortic valve stenosis (1990\u201101\u201124) and valve replacement (1991)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 28.4\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f4 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.4\u202fmg/dL (elevated)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Prior MI, chronic angina, and a prosthetic aortic valve create a substrate for systolic/diastolic dysfunction. Advanced CKD reduces renal clearance of fluid and neuro\u2011hormonal activation, making HF the most likely acute driver of dyspnoea, edema and decompensation."
+    },
+    {
+      "rank": 2,
+      "name": "Hyperkalaemia related to advanced CKD and RAAS blockade",
+      "icd10": "E87.5",
+      "snomed": "271442005",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 28.4\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f4 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (onset\u202f1969\u201102\u201123) \u2013 likely treated with ACE\u2011I/ARB (inferred)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD stage\u202f4 markedly impairs potassium excretion. Concurrent ACE\u2011I/ARB therapy (common in hypertension and proteinuric diabetes) further raises serum potassium, making clinically significant hyperkalaemia probable."
+    },
+    {
+      "rank": 3,
+      "name": "Acute\u2011on\u2011chronic kidney injury (AKI on CKD)",
+      "icd10": "N17.9",
+      "snomed": "302810001",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.4\u202fmg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 28.4\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f4 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria due to type\u202f2 diabetes mellitus",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Baseline CKD stage\u202f4 predisposes to superimposed AKI from volume depletion, nephrotoxic drugs, or contrast exposure. The elevated creatinine in the context of CKD suggests an acute worsening."
+    },
+    {
+      "rank": 4,
+      "name": "Medication\u2011induced hypoglycaemia",
+      "icd10": "E16.2",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Over\u2011controlled diabetes (A1c\u202f3.2%) in the setting of reduced insulin clearance",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type\u202f2 diabetes mellitus (long\u2011standing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "An A1c of 3.2% indicates overtreatment, especially in CKD where insulin and sulfonylureas have prolonged half\u2011lives, raising the risk of dangerous hypoglycaemic episodes."
+    },
+    {
+      "rank": 5,
+      "name": "Atrial fibrillation (paroxysmal or persistent)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (risk factor for AF)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction (risk factor for AF)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >70 years (high prevalence of AF)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of age, hypertension, and prior MI makes AF common; its presence would affect rate control, anticoagulation, and could contribute to HF decompensation."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Epoetin therapy documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u202f4 CKD (eGFR 28.4)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD reduces endogenous erythropoietin, necessitating ESA therapy; anemia contributes to fatigue and worsens cardiac workload."
+    },
+    {
+      "rank": 7,
+      "name": "Prosthetic aortic valve complication (high gradient, thrombosis, or endocarditis)",
+      "icd10": "I35.2",
+      "snomed": "429858007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analist",
+          "finding": "Aortic valve stenosis (1990\u201101\u201124) and valve replacement (1991)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic angina and prior MI (increase shear stress on prosthetic valve)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Late prosthetic valve dysfunction can present with dyspnoea, hemolysis, or heart failure; given the patient's symptoms, this remains a plausible contributor."
+    }
+  ],
+  "primary_diagnosis": "Heart failure (HF) secondary to ischemic heart disease and chronic kidney disease",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is an elderly individual with long\u2011standing type\u202f2 diabetes, hypertension, and a prior STEMI. Laboratory data show stage\u202f4 CKD (eGFR 28.4, creatinine 2.4) with heavy proteinuria, confirming diabetic\u2011hypertensive nephropathy. The combination of prior myocardial infarction, chronic angina, a prosthetic aortic valve, and advanced CKD creates a high likelihood of heart failure as the proximate cause of current decompensation. Renal insufficiency predisposes to hyperkalaemia and AKI, while an A1c of 3.2% signals overtreatment of diabetes and risk of hypoglycaemia. Age\u2011related atrial fibrillation, CKD\u2011related anemia, and possible prosthetic\u2011valve dysfunction are additional important contributors that modify management. The differential prioritises the acute, reversible threats (HF, hyperkalaemia, AKI, hypoglycaemia) while acknowledging chronic background conditions.",
+  "unresolved_findings": [
+    "Missing current vital signs (blood pressure, heart rate, weight, edema assessment).",
+    "No recent electrolyte panel to confirm hyperkalaemia or metabolic acidosis.",
+    "Medication list not provided; ACE\u2011I/ARB duplication, insulin/sulfonylurea use, NSAIDs, or other nephrotoxins are inferred.",
+    "Absence of recent echocardiogram or prosthetic\u2011valve Doppler assessment.",
+    "No urine albumin\u2011to\u2011creatinine ratio or repeat protein quantification.",
+    "No ECG or rhythm monitoring to confirm atrial fibrillation."
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation (prescription, OTC, supplements) focusing on ACE\u2011I/ARB duplication, insulin/sulfonylurea, NSAIDs, and sedatives.",
+    "Vital signs with orthostatic measurements and focused physical exam for volume status (edema, lung crackles).",
+    "Basic metabolic panel with electrolytes, bicarbonate, calcium, phosphate, and uric acid.",
+    "Serum potassium level and ECG to assess hyperkalaemia severity.",
+    "Urine albumin\u2011to\u2011creatinine ratio (spot) to quantify proteinuria.",
+    "Renal ultrasound to evaluate kidney size, obstruction, or renovascular disease.",
+    "Transthoracic echocardiogram with prosthetic\u2011valve Doppler to assess LVEF, diastolic function, and valve gradients.",
+    "BNP or NT\u2011proBNP to gauge heart\u2011failure severity.",
+    "12\u2011lead ECG and, if needed, Holter monitoring for atrial fibrillation or ischemia.",
+    "Glucose monitoring (log or CGM) to document hypoglycaemic episodes.",
+    "CBC with iron studies (ferritin, transferrin saturation) to differentiate CKD\u2011anemia from iron\u2011deficiency.",
+    "Urine culture and chest X\u2011ray if infection is suspected as a precipitant.",
+    "Frailty assessment (gait speed, grip strength, unintentional weight loss).",
+    "Social work referral for housing stability, safety planning, and legal assistance."
+  ]
+}

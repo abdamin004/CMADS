@@ -1,0 +1,184 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Decompensated cirrhosis secondary to non-alcoholic steatohepatitis (NASH)",
+      "icd10": "K74.6",
+      "snomed": "235856003",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of metabolic risk factors (obesity, type 2 diabetes, hyperlipidemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated bilirubin with cholestatic pattern suggested by pending ALP/GGT",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "No imaging available \u2013 clinical suspicion based on physical exam (ascites, splenomegaly)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient has classic risk factors for NASH and presents with signs of hepatic decompensation (bilirubin rise, probable ascites). Although full LFTs and imaging are missing, the pre\u2011test probability is high, making decompensated NASH cirrhosis the leading diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "End\u2011stage renal disease (CKD\u20115) secondary to hypertensive/diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and type 2 diabetes documented in chart",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and reduced eGFR consistent with CKD\u20115 (values not shown but implied)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic kidney disease is well\u2011established in this patient based on documented hypertension/diabetes and laboratory evidence of severe renal impairment, supporting CKD\u20115 as a major comorbidity."
+    },
+    {
+      "rank": 3,
+      "name": "Drug\u2011induced liver injury (statin and/or acetaminophen\u2011related cholestasis)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Current use of high\u2011dose statin and intermittent acetaminophen",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Cholestatic bilirubin elevation without clear hepatocellular injury pattern",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Both statins and acetaminophen can cause cholestatic liver injury. The lack of a full LFT panel limits certainty, but drug exposure makes DILI a plausible contributor."
+    },
+    {
+      "rank": 4,
+      "name": "Vitamin K deficiency secondary to cholestasis",
+      "icd10": "D68.3",
+      "snomed": "371923003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated INR (potentially due to warfarin or synthetic failure) with no documented vitamin K level",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Possible undocumented oral anticoagulant use",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Cholestasis impairs fat\u2011soluble vitamin absorption",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cholestasis can lead to malabsorption of vitamin K, causing coagulopathy. The INR elevation and lack of vitamin K replacement data support this diagnosis as a moderate\u2011probability contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Hypersplenism secondary to portal hypertension from cirrhosis",
+      "icd10": "D73.1",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Physical exam notes splenomegaly and thrombocytopenia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia and thrombocytopenia without bone\u2011marrow infiltrative disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Portal hypertension from cirrhosis commonly causes splenic sequestration of blood cells, leading to hypersplenism. Laboratory cytopenias align with this mechanism."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive biliary malignancy (cholangiocarcinoma or pancreatic head cancer)",
+      "icd10": "C22.1",
+      "snomed": "363406005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Cholestatic bilirubin elevation",
+          "strength": "weak"
+        },
+        {
+          "source": "imaging",
+          "finding": "No abdominal imaging performed to exclude mass",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While cholestasis could be caused by a biliary tumor, the absence of imaging and low clinical suspicion keep this diagnosis low probability."
+    },
+    {
+      "rank": 7,
+      "name": "Myelodysplastic syndrome (MDS)",
+      "icd10": "D46.9",
+      "snomed": "414545006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia and unexplained anemia",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior hematologic disorder documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cytopenias could reflect marrow failure, but without peripheral smear or marrow studies, MDS remains a remote consideration."
+    }
+  ],
+  "primary_diagnosis": "Decompensated cirrhosis secondary to non-alcoholic steatohepatitis (NASH)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s metabolic risk profile, signs of hepatic decompensation, and cholestatic laboratory pattern point most strongly toward decompensated NASH cirrhosis. Co\u2011existing end\u2011stage renal disease is well documented and contributes significantly to overall morbidity. Drug\u2011induced cholestasis, vitamin K deficiency from impaired bile flow, and hypersplenism are plausible secondary contributors. Obstructive biliary malignancy and myelodysplastic syndrome are low\u2011probability differentials given the current data. Key gaps include missing full liver function tests, abdominal imaging, and coagulation studies, which limit definitive exclusion of alternative etiologies.",
+  "unresolved_findings": [
+    "Borderline D\u2011dimer 0.7 \u00b5g/mL without current thrombosis",
+    "Elevated ferritin 631.9 \u00b5g/L (cannot distinguish iron overload vs acute\u2011phase)",
+    "Mildly elevated LDH 327.5 U/L (non\u2011specific)",
+    "Absence of AST, ALT, ALP, GGT, albumin values",
+    "Potential undocumented warfarin or other oral anticoagulant (high INR)",
+    "No imaging data for liver morphology, biliary tree, or spleen size"
+  ],
+  "recommended_workup": [
+    "Complete liver panel: AST, ALT, ALP, GGT, total/direct bilirubin, albumin, INR",
+    "Abdominal ultrasound with Doppler to assess liver texture, portal hypertension, and biliary tree",
+    "Contrast\u2011enhanced CT or MRI of the abdomen if ultrasound is inconclusive",
+    "Serum vitamin K level and trial of vitamin K supplementation",
+    "Comprehensive medication review focusing on statins, acetaminophen, and anticoagulants",
+    "Peripheral blood smear and reticulocyte count to evaluate cytopenias",
+    "Bone marrow biopsy if peripheral smear suggests dysplasia",
+    "Infectious work\u2011up: blood cultures, hepatitis B/C serologies, CMV/EBV PCR",
+    "Iron studies (serum iron, TIBC, transferrin saturation) to interpret ferritin elevation",
+    "Repeat D\u2011dimer and consider lower\u2011extremity Doppler ultrasound if clinical suspicion for thrombosis arises"
+  ]
+}

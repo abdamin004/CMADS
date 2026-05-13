@@ -1,0 +1,234 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Subclinical atherosclerotic cardiovascular disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 62, male sex, obesity (BMI \u226530), hypertension, diabetes mellitus, metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 158\u202fmg/dL, total cholesterol 236\u202fmg/dL, HDL\u2011C 40\u202fmg/dL, triglycerides 189\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin prescribed despite high LDL",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index 3 indicating moderate clinical complexity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of age, male sex, obesity, hypertension, type 2 diabetes, and markedly elevated LDL\u2011C defines a high atherosclerotic burden. Absence of lipid\u2011lowering therapy further raises the probability of subclinical ASCVD as the most likely downstream disease process."
+    },
+    {
+      "rank": 2,
+      "name": "Occult gastrointestinal bleeding from colorectal neoplasia",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood test (4.5\u202fng/mL) \u2013 highest severity flag",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 13.6\u202fg/dL (borderline low for male)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \"anemia\" and prior colon polyp removed in 2022",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A positive FOBT combined with borderline anemia in a 62\u2011year\u2011old male strongly suggests an occult GI source, most commonly colorectal adenoma or early carcinoma, especially given a recent polyp history."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic\u2011hypertensive chronic kidney disease (CKD) stage 2\u20113",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.4\u202fmg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 86\u202fmL/min/1.73\u202fm\u00b2 (borderline reduced, discordant with creatinine)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnoses of hypertension and type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list includes lisinopril (renoprotective) and hydrochlorothiazide (can raise creatinine)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine in the setting of long\u2011standing diabetes and hypertension points to early CKD, likely a combination of diabetic nephropathy and hypertensive nephrosclerosis."
+    },
+    {
+      "rank": 4,
+      "name": "Heterozygous familial hypercholesterolaemia (HeFH)",
+      "icd10": "E78.01",
+      "snomed": "414545008",
+      "probability": 0.08,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 158\u202fmg/dL markedly above guideline targets",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No family history documented (data gap)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of statin therapy despite high LDL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The isolated severe LDL elevation could be secondary to HeFH; however, the low population prevalence and missing family history lower the posterior probability."
+    },
+    {
+      "rank": 5,
+      "name": "Iron\u2011deficiency anemia secondary to occult GI bleed",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 13.6\u202fg/dL (borderline low) with positive FOBT",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \"anemia\" without iron studies",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If iron studies later reveal low ferritin, the anemia would be classified as iron\u2011deficiency, most plausibly due to the same occult GI source suggested by the FOBT."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, diabetes, dyslipidaemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No liver enzymes reported (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome confers a high prevalence of NAFLD, but lack of liver function tests or imaging limits certainty."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep\u2011related symptoms (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension raise OSA risk, but absence of symptom documentation lowers the posterior probability."
+    },
+    {
+      "rank": 8,
+      "name": "Medication\u2011induced type\u202f4 renal tubular acidosis (ACE\u2011I\u202f+\u202fthiazide)",
+      "icd10": "N25.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low CO\u2082 (22.9\u202fmmol/L) with high chloride (110.5\u202fmmol/L) suggesting non\u2011anion\u2011gap metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent lisinopril and hydrochlorothiazide therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The electrolyte pattern is compatible with type\u202f4 RTA, a rare but possible effect of combined ACE\u2011I and thiazide use."
+    }
+  ],
+  "primary_diagnosis": "Subclinical atherosclerotic cardiovascular disease (ASCVD)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s age, male sex, obesity, hypertension, type\u202f2 diabetes, and markedly elevated LDL\u2011C constitute a classic high\u2011risk metabolic\u2011cardiovascular profile, making subclinical ASCVD the most probable underlying condition. Concurrently, a positive fecal occult blood test with borderline anemia raises strong suspicion for occult colorectal neoplasia, while mildly elevated creatinine with discordant eGFR points to early CKD from diabetic\u2011hypertensive nephropathy. Secondary considerations include heterozygous familial hypercholesterolaemia (explaining the disproportionate LDL), iron\u2011deficiency anemia secondary to the same GI bleed, NAFLD/NASH from metabolic syndrome, possible OSA, and a rare medication\u2011induced type\u202f4 RTA. Missing data (smoking, alcohol, BP trends, iron studies, liver enzymes, urine albumin, thyroid function, vaccination status) limit precise risk quantification and keep several diagnoses in the differential.",
+  "unresolved_findings": [
+    "Mild hyperchloremia (110.5\u202fmmol/L) not fully explained",
+    "Falling potassium trend (still within normal range)",
+    "Borderline low CO\u2082 (22.9\u202fmmol/L) without arterial blood gas",
+    "Missing smoking and alcohol use history",
+    "Missing recent blood\u2011pressure and BMI measurements",
+    "Absence of liver enzyme panel and imaging",
+    "No documented family history of premature ASCVD or hypercholesterolaemia",
+    "Vaccination status not recorded"
+  ],
+  "recommended_workup": [
+    "Start high\u2011intensity statin therapy (e.g., atorvastatin 40\u201180\u202fmg) immediately.",
+    "Schedule colonoscopy within 4\u202fweeks; if contraindicated, obtain FIT plus CT colonography.",
+    "Order iron studies (serum ferritin, iron, TIBC, transferrin saturation) to differentiate iron\u2011deficiency anemia from anemia of chronic disease.",
+    "Repeat renal function: serum creatinine, cystatin\u2011C based eGFR, and obtain spot urine albumin\u2011to\u2011creatinine ratio.",
+    "Obtain fasting lipid panel after 2\u202fweeks of statin therapy, including apolipoprotein B and Lp(a) to assess residual risk and possible FH.",
+    "Screen for hypothyroidism: TSH and free T4.",
+    "Order liver panel (ALT, AST, GGT, alkaline phosphatase, bilirubin) and abdominal ultrasound or FibroScan to evaluate NAFLD/NASH.",
+    "Document smoking status, alcohol consumption, physical activity, and detailed family history of ASCVD, hypercholesterolaemia, and colorectal cancer.",
+    "Measure recent blood\u2011pressure (average of three readings) and weight/BMI to assess control of hypertension and obesity.",
+    "Complete vaccination review (influenza, pneumococcal, COVID\u201119, shingles, hepatitis B) and administer any indicated vaccines.",
+    "If STOP\u2011Bang score \u22653, arrange overnight polysomnography for obstructive sleep apnea evaluation.",
+    "Review medication adherence, especially metformin dosing, and consider titrating metformin to 1000\u202fmg BID if tolerated."
+  ]
+}

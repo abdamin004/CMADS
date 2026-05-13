@@ -1,0 +1,109 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome (Full Expression)",
+      "icd10": "E66.9 (Obesity, unspecified) + I10 (Hypertension) + E78.1 (Pure hypercholesterolemia) + implied diabetes",
+      "snomed": "194036007 (Metabolic syndrome), 414056005 (Essential hypertension), 237339003 (Hypercholesterolemia), 84232001 (Diabetes mellitus, type 2)",
+      "probability": 0.95,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and hyperlipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL cholesterol, triglycerides",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Diabetic nephropathy history",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient's medical history and current lab results strongly indicate a full expression of metabolic syndrome, including hypertension, hyperlipidemia, and diabetes-related complications."
+    },
+    {
+      "rank": 2,
+      "name": "Non-Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "414915002",
+      "probability": 0.85,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated AST, ALT, alkaline phosphatase; low albumin",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Metabolic syndrome context (obesity, diabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The liver enzyme elevations and decreased albumin levels suggest NAFLD, which is further supported by the patient's metabolic syndrome profile."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic Nephropathy Progression",
+      "icd10": "E11.239 (Diabetic nephropathies)",
+      "snomed": "44054006",
+      "probability": 0.75,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of diabetes mellitus leading to diabetic nephropathy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Increasing urea nitrogen, low creatinine (possibly hydration-related)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's history of diabetes and worsening renal markers suggest progression of diabetic nephropathy."
+    },
+    {
+      "rank": 4,
+      "name": "Hypothyroidism (Undiagnosed)",
+      "icd10": "E03.155",
+      "snomed": "13743005",
+      "probability": 0.4,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No TSH measurement available, but metabolic syndrome and liver dysfunction context suggest possible hypothyroidism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although not directly confirmed by lab data, the patient's complex comorbid profile (metabolic syndrome, NAFLD) increases the likelihood of undiagnosed hypothyroidism."
+    },
+    {
+      "rank": 5,
+      "name": "Drug-Induced Liver Injury (DILI)",
+      "icd10": "K71.1",
+      "snomed": "414917003",
+      "probability": 0.25,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes medications (e.g., pioglitazone) could contribute to liver dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While possible, DILI is less likely given the strong metabolic syndrome context and liver enzyme trends."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome (Full Expression)",
+  "primary_probability": 0.95,
+  "clinical_reasoning_summary": "The patient's complex clinical picture is dominated by metabolic syndrome, which explains most of his current symptoms and lab findings. NAFLD is highly likely due to liver enzyme elevations and albumin decrease, while diabetic nephropathy progression is supported by worsening renal markers. Hypothyroidism remains a possibility but requires TSH measurement for confirmation. DILI is less likely given the strong metabolic syndrome context.",
+  "unresolved_findings": [],
+  "recommended_workup": []
+}

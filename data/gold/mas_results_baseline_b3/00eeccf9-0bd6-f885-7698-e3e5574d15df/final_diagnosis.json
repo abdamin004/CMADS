@@ -1,0 +1,214 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin resistance / Metabolic syndrome (early type 2 diabetes)",
+      "icd10": "E88.81",
+      "snomed": "190332001",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 (obesity)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.1% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Cluster of metabolic risk factors (obesity, prediabetes, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient exhibits classic features of metabolic syndrome\u2014central obesity, elevated HbA1c in the prediabetic range, and early hypertension\u2014supporting insulin resistance as the primary driver of his clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Early chronic kidney disease (stage 3a) \u2013 hypertensive/diabetic nephropathy",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented hypertension (SBP 127 mmHg, DBP 80 mmHg) with trend toward elevation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia suggestive of CKD-related anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Presence of metabolic syndrome increases risk for diabetic nephropathy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the metabolic syndrome and hypertension, early CKD is likely even though eGFR and albuminuria are not yet documented; anemia of chronic disease further supports renal involvement."
+    },
+    {
+      "rank": 3,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High prevalence (>70%) of NAFLD in patients with metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is the strongest risk factor for NAFLD; absence of alcohol use and liver enzyme data makes NAFLD a plausible yet unconfirmed diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Primary (essential) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recorded blood pressure 127/80 mmHg (stage\u20111 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension commonly co\u2011exists with metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated BP readings in the context of metabolic risk factors indicate essential hypertension as a contributing diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) \u2013 major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "No documented sleep symptoms, but prevalence high in this demographic",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA, though lack of symptom data reduces certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia without iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Early CKD can cause anemia of chronic disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia could stem from CKD, but iron deficiency has not been excluded, lowering confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442009",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia in a middle\u2011aged male",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Occult GI blood loss is a common cause of iron\u2011deficiency anemia in this population",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Without iron studies or fecal occult blood testing, iron\u2011deficiency remains a plausible alternative to anemia of chronic disease."
+    },
+    {
+      "rank": 8,
+      "name": "Leukopenia \u2013 viral infection / medication effect / early marrow stress",
+      "icd10": "D72.8",
+      "snomed": "271442006",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia (WBC 3.7\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No medication list available \u2013 possible drug\u2011induced cytopenia",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Viral infections can cause transient leukopenia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Leukopenia is unexplained; differential includes viral etiologies, medication side\u2011effects, or early marrow stress, warranting further evaluation."
+    }
+  ],
+  "primary_diagnosis": "Insulin resistance / Metabolic syndrome (early type 2 diabetes)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, prediabetic HbA1c, and stage\u20111 hypertension constitute a classic metabolic syndrome picture, making insulin resistance the most likely primary diagnosis. This metabolic milieu also predisposes to early CKD, NAFLD, and hypertension, which together explain the anemia and mild leukopenia. OSA is plausible given obesity, while the anemia could be either anemia of chronic disease or iron\u2011deficiency; both remain possibilities pending iron studies. Leukopenia lacks a clear cause and should be investigated for viral infection, medication effects, or marrow pathology.",
+  "unresolved_findings": [
+    "Low\u2011normal fasting glucose (71 mg/dL) with falling trend \u2013 paradoxical in pre\u2011diabetic context",
+    "Elevated platelet distribution width (PDW 280 fL) without accompanying platelet count",
+    "Mild leukopenia (WBC 3.7 \u00d710\u00b3/\u00b5L) not explained by CKD or metabolic syndrome",
+    "Unspecified risk activity \u2013 possible tobacco, alcohol, drug, or occupational exposure",
+    "Missing medication list \u2013 cannot assess drug\u2011induced renal or hematologic effects",
+    "No reported eGFR or urine albumin\u2011to\u2011creatinine ratio \u2013 limits CKD staging",
+    "Absent iron studies, vitamin B12, folate, and occult blood testing \u2013 prevents anemia classification",
+    "No liver enzyme panel or imaging \u2013 limits confirmation of NAFLD/NASH",
+    "No blood\u2011pressure trend data or ambulatory monitoring",
+    "No documented physical\u2011activity, diet, or sleep\u2011study results"
+  ],
+  "recommended_workup": [
+    "Serum creatinine with eGFR calculation and urine albumin\u2011to\u2011creatinine ratio",
+    "Comprehensive iron panel (serum iron, ferritin, TIBC) plus vitamin B12 and folate levels",
+    "Fecal occult blood test or colonoscopy if indicated",
+    "Liver ultrasound or FibroScan to assess steatosis and fibrosis",
+    "Overnight polysomnography or home sleep apnea testing",
+    "Ambulatory blood pressure monitoring",
+    "Complete medication reconciliation and review for nephrotoxic or myelosuppressive agents",
+    "Viral serologies (HIV, hepatitis B/C, EBV, CMV) to evaluate leukopenia",
+    "Repeat CBC with differential in 4\u20136 weeks",
+    "Consider referral to hematology for bone marrow evaluation if leukopenia persists"
+  ]
+}

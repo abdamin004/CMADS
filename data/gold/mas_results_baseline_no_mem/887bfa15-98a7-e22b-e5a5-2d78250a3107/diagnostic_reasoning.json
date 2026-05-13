@@ -1,0 +1,435 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (uncontrolled type 2 diabetes, hypertension, obesity)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (onset 1999)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2 (onset 1999)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30, documented 2016)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 186\u202fmg/dL (\u2191, severity 4)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 242.6\u202fmg/dL (\u2191, severity 3)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 28.7\u202fmg/dL (\u2193, severity 2)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a classic constellation of hypertension, long\u2011standing type 2 diabetes, obesity and markedly dyslipidaemic labs, fulfilling criteria for metabolic syndrome and driving downstream organ damage."
+    },
+    {
+      "rank": 2,
+      "name": "Early diabetic nephropathy / CKD stage 3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.5\u202fmg/dL (\u2191, severity 3)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 5.1\u202fmmol/L (\u2191, rising trend)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "Lisinopril (ACE\u2011I) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2 (duration >20\u202fy)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated serum creatinine in a diabetic patient suggests reduced GFR consistent with early diabetic nephropathy; the concurrent mild hyperkalaemia may reflect ACE\u2011I therapy and declining renal clearance."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease (stable/incipient CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 186\u202fmg/dL (\u2191, severity 4)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 49, male, Hispanic\u2011white",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes >20\u202fy",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Poly\u2011pharmacy and missing recent BP values (data gap)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of markedly elevated LDL, long\u2011standing diabetes, hypertension and male sex places the 10\u2011year ASCVD risk in the 20\u201130\u202f% range, making CAD a likely concurrent complication."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (moderate\u2011to\u2011severe)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension despite three agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Poly\u2011pharmacy and limited recent monitoring",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension are classic risk factors for OSA; untreated OSA would worsen hypertension, metabolic control and daytime fatigue, contributing to the overall picture."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid\u2011use disorder / opioid\u2011related adverse effects",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication list",
+          "finding": "Multiple opioid\u2011containing analgesics (codeine, oxycodone, hydrocodone, tramadol)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic neck and generalized pain since 2014",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented opioid\u2011use\u2011disorder assessment",
+          "strength": "weak"
+        },
+        {
+          "source": "medication list",
+          "finding": "Concurrent NSAID (ibuprofen) use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High\u2011dose, poly\u2011opioid regimen raises the likelihood of dependence, tolerance and opioid\u2011related side effects (e.g., constipation, respiratory depression, endocrine effects)."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / steato\u2011hepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hypertriglyceridemia (onset 2000)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes >20\u202fy",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is the primary driver of NAFLD; the patient\u2019s dyslipidaemia and diabetes make hepatic steatosis highly probable."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive and anxiety disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress since 2017 and refugee status since 2010",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "High opioid burden and chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No documented mental\u2011health diagnosis or treatment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and chronic pain are strong precipitants of mood and anxiety disorders, which may be under\u2011diagnosed in this patient."
+    },
+    {
+      "rank": 8,
+      "name": "Peripheral neuropathy (diabetic or opioid\u2011induced)",
+      "icd10": "G62.9",
+      "snomed": "24700007",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes (>20\u202fy)",
+          "strength": "strong"
+        },
+        {
+          "source": "medication list",
+          "finding": "High\u2011dose opioids (potential neurotoxic effect)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes of this duration commonly leads to peripheral neuropathy; opioids can also cause or worsen sensory deficits."
+    },
+    {
+      "rank": 9,
+      "name": "Occult gastrointestinal bleeding / peptic ulcer disease",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (ibuprofen) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild anemia (Hb 12.3\u202fg/dL) despite iron supplementation",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "Ferrous sulfate 325\u202fmg PO",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "NSAID use plus borderline anemia raises suspicion for occult GI bleed or ulcer disease."
+    },
+    {
+      "rank": 10,
+      "name": "Fibromyalgia / central sensitisation",
+      "icd10": "M79.7",
+      "snomed": "20314005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic neck and generalized musculoskeletal pain since 2014",
+          "strength": "strong"
+        },
+        {
+          "source": "medication list",
+          "finding": "Poly\u2011opioid regimen without clear peripheral pathology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Widespread pain with high opioid use and lack of identifiable structural disease is characteristic of fibromyalgia."
+    },
+    {
+      "rank": 11,
+      "name": "Familial hypercholesterolemia (primary hyperlipidaemia)",
+      "icd10": "E78.0",
+      "snomed": "55822004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 186\u202fmg/dL (\u2191, severity 4)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No current statin therapy despite high LDL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Very high LDL could be secondary to metabolic syndrome, but primary FH remains a remote possibility."
+    },
+    {
+      "rank": 12,
+      "name": "Secondary hypertension (renal\u2011artery stenosis, primary aldosteronism, etc.)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperkalaemia (K\u207a 5.1\u202fmmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension despite multi\u2011drug therapy warrants evaluation for secondary causes."
+    },
+    {
+      "rank": 13,
+      "name": "Peripheral arterial disease",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking status not documented (potential risk)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the vascular risk profile, PAD is plausible but no limb symptoms are recorded."
+    },
+    {
+      "rank": 14,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.3\u202fg/dL (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease (creatinine 1.5\u202fmg/dL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild anemia may be multifactorial; CKD contributes via reduced erythropoietin."
+    },
+    {
+      "rank": 15,
+      "name": "Acute kidney injury risk (triple\u2011whammy: ACE\u2011I + thiazide + NSAID)",
+      "icd10": "N17.9",
+      "snomed": "62106007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "medication list",
+          "finding": "Lisinopril (ACE\u2011I) + hydrochlorothiazide (thiazide) + ibuprofen (NSAID)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.5\u202fmg/dL (\u2191)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Concurrent use of these agents predisposes to AKI, especially in the setting of baseline CKD."
+    },
+    {
+      "rank": 16,
+      "name": "Latent infections (TB, hepatitis B/C)",
+      "icd10": "Z86.19",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Refugee status since 2010",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Otitis media 2020 (recent infection)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Refugee background raises prevalence of latent TB and viral hepatitis; no screening performed yet."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (uncontrolled type 2 diabetes, hypertension, obesity)",
+  "primary_probability": 0.27,
+  "clinical_reasoning_summary": "The patient presents with a classic high\u2011risk metabolic syndrome driven by long\u2011standing hypertension, type 2 diabetes, obesity and severe dyslipidaemia. This core disorder explains the early renal impairment (CKD stage 3), markedly elevated ASCVD risk (incipient CAD), and contributes to secondary conditions such as OSA, NAFLD, and CKD\u2011related anemia. Poly\u2011pharmacy, especially the extensive opioid regimen combined with NSAIDs and ACE\u2011I, adds layers of renal, gastrointestinal and addiction\u2011related risk. Psychosocial stressors and undocumented mental\u2011health issues likely amplify pain perception and hinder disease control. The differential therefore prioritises the metabolic driver, its organ sequelae, and the high\u2011impact comorbidities that require immediate attention.",
+  "unresolved_findings": [
+    "Hyperchloremia (Cl\u207b\u202f109.9\u202fmmol/L, rising) \u2013 unclear clinical correlate",
+    "Mild hyperkalaemia (K\u207a\u202f5.1\u202fmmol/L, rising) \u2013 may be ACE\u2011I effect or early renal dysfunction",
+    "Urine leukocytes without documented urinary symptoms \u2013 possible asymptomatic bacteriuria or contamination",
+    "Missing recent values (BP, BMI, HR, eGFR, total cholesterol) \u2013 limits current risk quantification",
+    "Otitis media resolved in 2020 \u2013 isolated infection, no chronic sequelae",
+    "Stress documented without formal mental\u2011health diagnosis \u2013 potential under\u2011evaluated psychiatric condition"
+  ],
+  "recommended_workup": [
+    "HbA1c and fasting glucose to assess current glycaemic control",
+    "eGFR (CKD\u2011EPI) and urine albumin\u2011to\u2011creatinine ratio for CKD staging",
+    "Office and home blood pressure measurements; consider ambulatory BP monitoring",
+    "STOP\u2011BANG questionnaire followed by home sleep\u2011apnoea test or polysomnography",
+    "Comprehensive liver panel (ALT, AST, GGT) and FibroScan to evaluate NAFLD severity",
+    "PHQ\u20119, GAD\u20117, and PTSD checklist to screen for depression, anxiety, and trauma\u2011related disorders",
+    "Fecal occult blood test and repeat iron studies (Ferritin, TIBC) to investigate occult GI bleeding vs iron\u2011deficiency anemia",
+    "Urine culture to confirm or exclude true urinary tract infection",
+    "Ankle\u2011brachial index and peripheral vascular exam if claudication symptoms arise",
+    "Lipid sub\u2011fraction testing (ApoB, Lp(a)) and consider genetic testing for familial hypercholesterolemia",
+    "Screen for latent TB (Quantiferon) and hepatitis B/C serologies given refugee background",
+    "Medication reconciliation with focus on opioid dosing, NSAID use, and ACE\u2011I monitoring"
+  ]
+}

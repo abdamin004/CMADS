@@ -1,0 +1,192 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-Stage Renal Disease (CKD-5)",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.41,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR \u2248 10\u202fmL/min/1.73\u202fm\u00b2 indicating stage\u202f5 chronic kidney disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.0\u202fmg/dL consistent with severe renal impairment",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The markedly reduced eGFR and elevated creatinine confirm end\u2011stage renal disease, which supersedes other comorbidities in severity and dictates urgent nephrology management."
+    },
+    {
+      "rank": 2,
+      "name": "Opioid Use Disorder / Opioid\u2011Related Adverse Effects",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low back pain managed with long\u2011acting opioid therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011dose opioid prescription noted in medication list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Ongoing opioid therapy in the setting of chronic pain raises the risk of dependence, overdose, constipation, and respiratory depression, warranting close monitoring and possible taper."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011Mineral Bone Disorder (Renal Osteodystrophy)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f5 CKD creates a high likelihood of disordered calcium\u2011phosphate metabolism",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing calcium, phosphate, PTH labs prevent staging but indicate need for evaluation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to mineral\u2011bone disease; absence of relevant labs makes the condition plausible and clinically important."
+    },
+    {
+      "rank": 4,
+      "name": "Hyperkalemia",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "reviewer",
+          "finding": "CKD\u20115 and ACE\u2011I therapy increase potassium retention; however, no potassium measurement available",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal failure and RAAS blockade place the patient at risk for elevated serum potassium, which must be checked promptly."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic Acidosis",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "reviewer",
+          "finding": "Severe CKD commonly leads to reduced bicarbonate generation; no bicarbonate level recorded",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given stage\u202f5 CKD, a non\u2011anion\u2011gap metabolic acidosis is likely; laboratory confirmation is required."
+    },
+    {
+      "rank": 6,
+      "name": "Uncontrolled Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "reviewer",
+          "finding": "Absence of recent blood\u2011pressure measurements prevents confirmation; hypertension is a known comorbidity in CKD and post\u2011NSTEMI patients",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is probable but cannot be quantified without vital signs; it remains a therapeutic target."
+    },
+    {
+      "rank": 7,
+      "name": "Heart Failure with Reduced Ejection Fraction (HFrEF)",
+      "icd10": "I50.2",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI increases risk of systolic dysfunction; no echocardiogram data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Post\u2011infarction ventricular remodeling may have produced HFrEF; imaging is needed to confirm."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive Sleep Apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "reviewer",
+          "finding": "No anthropometric or symptom data; prevalence is high in middle\u2011aged males with cardiovascular disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA remains a consideration given demographic risk, but evidence is insufficient without sleep\u2011related symptoms or BMI."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / Anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain and recent cardiac event predispose to mood disorders; no mental\u2011health screening documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychological distress is plausible but undocumented; screening is recommended."
+    }
+  ],
+  "primary_diagnosis": "End-Stage Renal Disease (CKD-5)",
+  "primary_probability": 0.41,
+  "clinical_reasoning_summary": "The patient exhibits stage\u202f5 chronic kidney disease (eGFR ~10\u202fmL/min/1.73\u202fm\u00b2, creatinine 3.0\u202fmg/dL), making end\u2011stage renal disease the dominant diagnosis. Concurrent opioid therapy for chronic back pain raises high concern for opioid use disorder and related adverse effects. Advanced CKD predisposes to mineral\u2011bone disorder, hyperkalemia, and metabolic acidosis, all of which require laboratory confirmation. Hypertension, heart failure, obstructive sleep apnea, and mood disorders remain possible but lack objective data, resulting in lower confidence. The overall picture mandates urgent nephrology involvement, medication reconciliation, and comprehensive re\u2011evaluation of vital signs and laboratory panels.",
+  "unresolved_findings": [
+    "Chronic sinusitis (low severity) \u2013 no current ENT evaluation",
+    "Missing allergy documentation despite polypharmacy",
+    "Absent lipid panel (total cholesterol, LDL) while on high\u2011intensity statin",
+    "No smoking or alcohol use status",
+    "No BMI/weight or waist circumference",
+    "No procedural details for PCI (stent type, date)",
+    "No documented cardiology or pain\u2011clinic follow\u2011up visits",
+    "Absence of recent vital signs (BP, HR)",
+    "No liver function tests despite acetaminophen\u2011containing opioids"
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel (electrolytes, BUN, creatinine, calcium, phosphate, magnesium, bicarbonate)",
+    "Serum potassium level",
+    "Serum bicarbonate (or arterial blood gas) to assess metabolic acidosis",
+    "Parathyroid hormone, 25\u2011OH vitamin D, calcium, phosphate for CKD\u2011MBD evaluation",
+    "Complete blood count",
+    "Liver function tests",
+    "Fasting lipid panel",
+    "Multiple blood\u2011pressure measurements (clinic and home)",
+    "Echocardiogram to evaluate left\u2011ventricular ejection fraction",
+    "Polysomnography if clinical suspicion for OSA",
+    "Urinalysis with urine protein quantification (albumin\u2011creatinine ratio)",
+    "Urine drug screen and prescription\u2011monitoring program review for opioid use",
+    "Referral to nephrology and cardiology for coordinated management"
+  ]
+}

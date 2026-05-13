@@ -1,0 +1,112 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (diabetic nephropathy)",
+      "icd10": "N08.3",
+      "snomed": "90734009",
+      "probability": 0.8,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Probable diabetes mellitus with metabolic syndrome features (obesity, dyslipidemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease noted (stage 1) consistent with early diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High renal risk due to combined diabetes and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s metabolic syndrome, probable diabetes, and early CKD align with diabetic nephropathy as the most likely cause of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "NSAID\u2011induced chronic interstitial nephritis / acute\u2011on\u2011chronic kidney injury",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Osteoarthritis diagnosis suggests regular NSAID use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No eosinophilia or granular casts reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID exposure could contribute to interstitial injury, but lack of classic laboratory markers makes it a secondary, plausible factor."
+    },
+    {
+      "rank": 3,
+      "name": "Early myelodysplastic syndrome (MDS) or other marrow failure disorder",
+      "icd10": "D46.9",
+      "snomed": "414545006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Thrombocytopenia (124\u202f\u00d710\u00b3/\u00b5L) and leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Relative basophilia (0.4\u202f\u00d710\u00b3/\u00b5L, 3.8%)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cytopenias could reflect marrow dysfunction, yet CKD or drug effects may explain them; without anemia or dysplasia, MDS remains low probability."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis / CKD progression from uncontrolled hypertension",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current blood pressure low (104/64\u202fmmHg)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Past hypertension could have contributed to CKD, but current normotension and low probability reduce its role."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (diabetic nephropathy)",
+  "primary_probability": 0.8,
+  "clinical_reasoning_summary": "The patient\u2019s metabolic syndrome, probable diabetes, and early CKD strongly support diabetic nephropathy as the primary etiology. NSAID use for osteoarthritis may be a contributing factor, while cytopenias raise a low\u2011probability concern for early MDS. Prior hypertension is unlikely to be the dominant driver given current low blood pressure.",
+  "unresolved_findings": [
+    "Thrombocytopenia (124\u202f\u00d710\u00b3/\u00b5L) and leukopenia (3.7\u202f\u00d710\u00b3/\u00b5L) not fully explained by CKD alone",
+    "Relative basophilia (0.4\u202f\u00d710\u00b3/\u00b5L, 3.8%)",
+    "Elevated CRP (9.1\u202fmg/L) without identified source",
+    "Missing key laboratory values: HbA1c, urine albumin/creatinine ratio, serum creatinine trend, eGFR, lipid panel, BMI"
+  ],
+  "recommended_workup": [
+    "HbA1c to confirm diabetic status and control",
+    "Urine albumin-to-creatinine ratio for quantifying proteinuria",
+    "Serial serum creatinine and eGFR measurements to assess CKD trajectory",
+    "Renal ultrasound to evaluate structural abnormalities",
+    "Medication review focusing on NSAID exposure and possible dose reduction",
+    "Comprehensive infection work\u2011up (blood cultures, chest X\u2011ray, urinalysis) given elevated CRP and leukopenia",
+    "Hematology referral with peripheral smear and, if indicated, bone marrow biopsy to rule out MDS",
+    "Lipid panel and BMI assessment to complete cardiovascular risk profile"
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy leading to end-stage renal disease",
+      "icd10": "N18.6",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Chronic kidney disease noted in chart with high Charlson comorbidity index",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Advanced CKD (eGFR <15 mL/min/1.73m\u00b2) implied by ESRD status",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has longstanding diabetes, CKD, and anemia consistent with diabetic nephropathy progressing to ESRD, which aligns with the reviewer\u2019s high confidence and adjusted probability."
+    },
+    {
+      "rank": 2,
+      "name": "Metastatic prostate adenocarcinoma (bone/marrow spread)",
+      "icd10": "C61.9",
+      "snomed": "126910001",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prostate cancer with unknown staging",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Bone pain reported; no recent imaging to confirm metastasis",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Elevated alkaline phosphatase (if present) suggestive of bone turnover",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prostate cancer is a known cause of bone and marrow metastases; the patient\u2019s chronic pain could be skeletal, making this a plausible but not definitive diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (subclinical CAD/PAD/CVA)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: diabetes, dyslipidemia, metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "High Charlson comorbidity index indicating vascular disease burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s extensive vascular risk profile, subclinical atherosclerotic disease is likely, though no imaging or symptom data were provided."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic kidney disease\u2011Mineral bone disorder (renal osteodystrophy)",
+      "icd10": "N25.0",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease present",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Osteoporosis noted, suggesting bone metabolism disturbance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal osteodystrophy is virtually inevitable in ESRD, supporting a strong likelihood despite the lower numeric probability."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.045,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia in the context of CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin/hematocrit consistent with CKD\u2011related anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011related anemia is common in ESRD and aligns with the reviewer\u2019s assessment."
+    },
+    {
+      "rank": 6,
+      "name": "Hypoglycemia risk / overtreated diabetes",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.025,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low A1c (3.9%) despite advanced CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intensive insulin or sulfonylurea regimen (implied)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The unusually low A1c raises concern for overtreatment and potential hypoglycemia, especially in renal impairment."
+    },
+    {
+      "rank": 7,
+      "name": "Increased infection susceptibility due to CKD and diabetes",
+      "icd10": "Z86.16",
+      "snomed": "442452003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes and ESRD both impair immune function",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated infection risk noted in comorbidity profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Reviewer highlighted omission of infection susceptibility; CKD and diabetes predispose to bacterial and fungal infections, warranting inclusion."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy leading to end-stage renal disease",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s longstanding diabetes, advanced CKD, and anemia point to diabetic nephropathy as the dominant process driving end\u2011stage renal disease. Secondary considerations include metastatic prostate cancer (given chronic pain and cancer history), pervasive atherosclerotic disease from multiple vascular risk factors, and inevitable CKD\u2011related mineral bone disorder and anemia. Overtreatment of diabetes is suggested by a low A1c, and the combination of diabetes and ESRD raises infection susceptibility, a concern noted by the reviewer.",
+  "unresolved_findings": [
+    "Low A1c (3.9%) in the context of advanced CKD \u2013 could be overtreatment or lab error",
+    "Missing blood pressure and BMI measurements",
+    "Borderline elevated ALT (41.2 U/L) without clear etiology",
+    "Exact source of chronic pain (musculoskeletal vs metastatic vs CKD\u2011MBD) not defined",
+    "Potential steroid or androgen\u2011deprivation therapy not listed in medication list"
+  ],
+  "recommended_workup": [
+    "Obtain current blood pressure readings and calculate BMI",
+    "Repeat A1c and review glucose logs to assess for hypoglycemia",
+    "Comprehensive metabolic panel including repeat ALT/AST",
+    "Serum calcium, phosphate, PTH, and vitamin D levels to evaluate CKD\u2011MBD",
+    "Iron studies, ferritin, and reticulocyte count to further characterize anemia",
+    "Bone scan or MRI of painful sites to differentiate metastatic versus CKD\u2011related bone disease",
+    "Prostate-specific antigen (PSA) trend and consider PSMA PET/CT for metastatic assessment",
+    "Medication reconciliation focusing on steroids, androgen\u2011deprivation agents, and hypoglycemic drugs",
+    "Screen for infection (CBC with differential, cultures if symptomatic) given immunocompromised state"
+  ]
+}

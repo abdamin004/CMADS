@@ -1,0 +1,348 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Overt Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.43,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin isophane + regular (Humulin) prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome (onset 2019)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2, onset 1996)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Disorder of kidney due to diabetes mellitus (SNOMED 127013003)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes diagnosis (SNOMED 714628002)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "A1C reported as 3.1% (likely erroneous)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent fasting glucose or reliable A1C",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of insulin therapy despite a prediabetes label, documented metabolic syndrome, obesity, and a kidney problem explicitly linked to diabetes strongly indicates that the patient already meets criteria for overt type 2 diabetes. The implausibly low A1C suggests a data entry error, reinforcing the need to re\u2011measure glycaemia."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Kidney Disease (CKD stage 2\u20113)",
+      "icd10": "N08.3",
+      "snomed": "127013003",
+      "probability": 0.23,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine dip\u2011stick protein = 110.9 mg/dL (positive)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 1.5 mg/dL (mildly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood creatinine = 2.7 mg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity = 1.00 (very dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Disorder of kidney due to diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 1 (SNOMED 431855005)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg daily (ACE\u2011I) prescribed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Proteinuria together with elevated creatinine values and a documented diabetic kidney disorder point to diabetic nephropathy. ACE\u2011I therapy further supports the clinician\u2019s intention to protect renal function. Missing eGFR limits precise staging but the evidence is sufficient for a moderate\u2011high confidence diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Acute Kidney Injury (prerenal/diuretic\u2011induced) superimposed on CKD",
+      "icd10": "N17.9",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Discordant creatinine values (1.5 mg/dL vs 2.7 mg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity = 1.00 (extremely dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg daily (ACE\u2011I) prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine suggesting volume depletion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The sudden rise in creatinine (2.7\u202fmg/dL) alongside a very low urine specific gravity and concurrent use of a thiazide diuretic and ACE\u2011I raises suspicion for a prerenal AKI episode, likely from volume depletion. This is considered a reversible, time\u2011sensitive component superimposed on chronic kidney disease."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (onset 2016)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Three\u2011drug antihypertensive regimen (ACE\u2011I, thiazide, CCB)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria (positive dip\u2011stick)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 1 documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension treated with multiple agents can cause chronic ischemic injury to the kidneys, manifesting as modest proteinuria and CKD. While diabetic nephropathy is present, hypertensive nephrosclerosis likely contributes to the overall renal impairment."
+    },
+    {
+      "rank": 5,
+      "name": "Atherosclerotic Cardiovascular Disease (high 10\u2011yr risk)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, hyperlipidemia, obesity, probable diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, 47\u202fyears old",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 10\u202fmg daily (low\u2011dose)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X (onset 2019)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The clustering of major ASCVD risk factors places the patient well above the 20\u202f% 10\u2011year risk threshold, even though blood pressure is currently controlled. The low\u2011intensity statin suggests under\u2011treatment, warranting risk\u2011based intensification."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver labs available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and metabolic syndrome are the principal drivers of NAFLD/NASH. Absence of liver function tests prevents confirmation, but the risk is high enough to include in the differential."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "182721006",
+      "probability": 0.03,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The classic phenotype (male, middle\u2011aged, obese, hypertensive) makes OSA likely, and untreated OSA can worsen hypertension, insulin resistance, and CKD progression."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / Anxiety (mood disorder)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic stress (onset 2020\u201105\u201119)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and housing instability",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Few outpatient encounters despite multiple chronic conditions",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and limited healthcare engagement raise concern for underlying mood disorder, which can further impair self\u2011care and disease control."
+    },
+    {
+      "rank": 9,
+      "name": "Thiazide\u2011induced Over\u2011diuresis / Electrolyte Disturbance",
+      "icd10": "E87.9",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity = 1.00 (extremely dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg daily",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The very dilute urine suggests excessive diuresis, possibly leading to electrolyte abnormalities that have not yet been measured."
+    },
+    {
+      "rank": 10,
+      "name": "Secondary Hypertension (e.g., renovascular)",
+      "icd10": "I15.0",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Three\u2011drug antihypertensive regimen (possible resistant hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension in the setting of CKD warrants evaluation for secondary causes such as renal artery stenosis, especially if blood pressure control worsens."
+    }
+  ],
+  "primary_diagnosis": "Overt Type 2 Diabetes Mellitus",
+  "primary_probability": 0.43,
+  "clinical_reasoning_summary": "The patient\u2019s profile combines obesity, metabolic syndrome, longstanding hypertension, dyslipidaemia, and documented diabetic kidney disease. Insulin therapy despite a prediabetes label, together with a kidney problem explicitly linked to diabetes, makes overt type 2 diabetes the most probable root cause. Diabetic kidney disease follows as a major complication, while the discordant creatinine values and very dilute urine suggest a superimposed prerenal AKI, likely diuretic\u2011induced. Hypertensive nephrosclerosis, high ASCVD risk, NAFLD/NASH, OSA, mood disorder, possible thiazide\u2011related electrolyte loss, and secondary hypertension round out the differential, each supported by specific findings. Data gaps (missing eGFR, ACR, reliable glycaemic labs, lipid panel, liver tests) limit precise staging and risk quantification, prompting targeted repeat testing.",
+  "unresolved_findings": [
+    "A1C reported as 3.1% (implausibly low)",
+    "Discordant creatinine values (1.5 mg/dL vs 2.7 mg/dL)",
+    "Urine specific gravity = 1.00 (extremely dilute)",
+    "Missing eGFR value",
+    "Missing BMI measurement",
+    "Missing full lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing urine albumin\u2011to\u2011creatinine ratio",
+    "No recent fasting glucose or reliable A1C",
+    "No liver function tests or imaging",
+    "No serum uric acid or electrolyte panel"
+  ],
+  "recommended_workup": [
+    "Repeat A1C (NGSP\u2011standardized) and fasting plasma glucose; consider 2\u2011hour OGTT if needed",
+    "Serum creatinine with eGFR calculation (CKD\u2011EPI) using same assay",
+    "Urine albumin\u2011to\u2011creatinine ratio (ACR) to quantify proteinuria",
+    "Renal ultrasound to assess size, obstruction, and renal artery flow",
+    "Serum electrolytes, BUN/creatinine ratio, and bicarbonate to evaluate volume status and diuretic effect",
+    "Comprehensive lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Liver panel (ALT, AST, GGT, alkaline phosphatase, bilirubin) and FibroScan or abdominal ultrasound for NAFLD/NASH assessment",
+    "STOP\u2011BANG questionnaire followed by overnight oximetry or polysomnography if screen positive",
+    "PHQ\u20119 and GAD\u20117 questionnaires; consider referral to behavioral health",
+    "Aldosterone\u2011renin ratio and, if indicated, renal artery Doppler or CT/MR angiography for secondary hypertension",
+    "Serum uric acid level to screen for gout/hyperuricaemia",
+    "C\u2011peptide and anti\u2011GAD antibodies if atypical diabetes phenotype is suspected"
+  ]
+}

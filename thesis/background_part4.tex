@@ -3,109 +3,110 @@
 \label{sec:discussion}
 % ─────────────────────────────────────────────────────────────────────────────
 
-This section synthesises the findings from the 22 reviewed papers into four overarching
-themes, identifies the research gaps that collectively define the open problem space this
-thesis enters, and provides a comparative summary table of the full literature
-corpus.
+The reviewed papers point to a small number of common lessons. This final section
+summarises those lessons, explains the gaps that remain, and gives a comparative
+table of the 22 papers.
 
+\FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Key Findings}
 \label{subsec:findings}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The following four findings emerge consistently across the reviewed literature and
-together establish the theoretical and empirical foundation upon which this thesis is
-built.  Each finding is supported by multiple independent papers and has direct
-implications for the system design decisions described in
-Chapter~3.
+Four findings appear repeatedly in the reviewed papers. These findings explain why
+this thesis uses a multi-agent workflow with review, memory, and explicit
+evaluation.
 
-\subsubsection*{Dominance of Multi-Agent Approaches Over Single Models}
+\subsubsection*{Multi-Agent Systems Usually Perform Better Than Single Models}
 
-The most consistent finding across all 22 reviewed papers is that multi-agent LLM
-frameworks outperform single-model baselines on medical tasks.  This performance
-advantage holds across all evaluated domains --- medical reasoning
-benchmarks~\cite{Tang2024MedAgents}, clinical
-diagnostics~\cite{Kim2024MDAgents,Zhou2024ZODIAC,Yan2024ClinicalLab},
-pharmacovigilance~\cite{Choi2024MALADE}, emergency
-triage~\cite{Lu2024TriageAgent}, rare disease
-diagnosis~\cite{Chen2024RareAgents}, and inpatient pathway
-management~\cite{Chen2025MAP}.  The evidence base is now sufficiently consistent and
-broad for the superiority of multi-agent approaches in clinical AI to be considered an
-established finding~\cite{MAC2025npj}.
+Most reviewed papers report that multi-agent systems outperform single-model
+baselines on their tested tasks. This appears across medical reasoning
+benchmarks~\cite{Tang2024MedAgents}, clinical diagnosis
+\cite{Kim2024MDAgents,Zhou2024ZODIAC,Yan2024ClinicalLab}, pharmacovigilance
+\cite{Choi2024MALADE}, emergency triage~\cite{Lu2024TriageAgent},
+rare-disease diagnosis~\cite{Chen2024RareAgents}, and inpatient pathway
+management~\cite{Chen2025MAP}. This does not mean every multi-agent design is
+good, but it does show that splitting clinical work across roles can be useful.
 
-\subsubsection*{Coordination Architecture as the Primary Design Variable}
+\subsubsection*{Coordination Is as Important as Model Choice}
 
-A second major finding, established most directly by
-Bedi~et~al.~\cite{Bedi2025OptParadox} and corroborated by
-Chen~et~al.~\cite{Chen2025MedSentry} and Wang~et~al.~\cite{Wang2025Catfish}, is that
-the coordination architecture of a multi-agent system is a stronger determinant of
-system performance than the quality of individual component models.  This finding
-redirects the design effort of clinical AI systems away from individual model selection
-and toward workflow architecture as the primary engineering
-challenge~\cite{Bedi2025OptParadox}.
+Bedi et al. show that choosing the best individual component for each stage does
+not guarantee the best final system \cite{Bedi2025OptParadox}. Chen et al. and
+Wang et al. support the same point from safety and debate perspectives
+\cite{Chen2025MedSentry,Wang2025Catfish}. The practical lesson is that model
+choice matters, but agent handoffs, routing, and review structure matter as much
+or more.
 
-\subsubsection*{Conflict Resolution as a Structural Necessity}
+\subsubsection*{Conflict Resolution Must Be Designed}
 
-Fan~et~al.~\cite{Fan2024AIHospital} demonstrated that removing conflict resolution
-from a multi-agent clinical system caused a statistically significant reduction in
-diagnostic accuracy.  Wang~et~al.~\cite{Wang2025Catfish} identified silent agreement as
-a systematic failure mode.  Zhao~et~al.~\cite{Zhao2025LayeredDebate} and
-Chen~et~al.~\cite{Chen2025MDTeamGPT} demonstrated that structured debate with
-adversarial evidence exchange consistently outperforms direct consensus on ambiguous
-clinical presentations~\cite{Zhao2025LayeredDebate}.
+Clinical agents should not automatically agree with each other. Fan et al. found
+that removing dispute resolution reduced diagnostic accuracy
+\cite{Fan2024AIHospital}. Wang et al. describe silent agreement, where agents
+appear to collaborate but do not really challenge the first answer
+\cite{Wang2025Catfish}. Zhao et al. and Chen et al. show that structured debate
+can improve difficult diagnostic tasks
+\cite{Zhao2025LayeredDebate,Chen2025MDTeamGPT}.
 
-\subsubsection*{Safety Is Architecturally Determined}
+\subsubsection*{Safety Depends on the Workflow}
 
-Chen~et~al.~\cite{Chen2025MedSentry} provided the clearest evidence that clinical safety
-in a multi-agent system is architecturally determined: the topology of agent
-communication is a primary safety variable that cannot be compensated by individual
-agent safety properties.  Kim~et~al.~\cite{Kim2025TAO} demonstrated that a tiered
-hierarchical architecture designed around safety objectives achieves measurably better
-safety outcomes than a system designed around accuracy
-alone~\cite{Kim2025TAO}.
+Safety is not only a property of the base model. MedSentry shows that the
+communication topology changes how vulnerable the system is to a compromised
+agent \cite{Chen2025MedSentry}. TAO shows that a workflow designed around risk
+and escalation can improve safety outcomes \cite{Kim2025TAO}. This supports the
+use of clear stage boundaries and review points in the thesis system.
 
+\FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Research Gaps Identified}
 \label{subsec:gaps}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Despite the substantial progress documented above, the reviewed literature reveals a
-consistent set of limitations that define the open research space this thesis
-enters.  The following four gaps are each
-supported by the evidence reviewed in the preceding sections and correspond directly to
-the four challenges articulated in the Problem Statement
-(Section~\ref{sec:problem}).
+The reviewed papers leave four gaps that are relevant to this thesis. First, the
+Optimisation Paradox is clearly identified, but there is still a need to design
+workflows that handle this problem in practice \cite{Bedi2025OptParadox}.
+Second, many systems are still evaluated on structured benchmarks rather than
+full patient workflows, although ClinicalLab and ZODIAC move closer to real
+deployment \cite{Yan2024ClinicalLab,Zhou2024ZODIAC}. Third, conflict resolution
+is often missing, narrow, or tested only on a special task
+\cite{Wang2025Catfish,Zhao2025LayeredDebate}. Fourth, safety and reliability are
+still under-studied; only a few reviewed papers focus on them directly
+\cite{Kim2025TAO,Wu2024EHRFlow,Chen2025MedSentry}. A fifth gap, identified in
+Section~\ref{subsec:memory_state}, is that memory-augmented clinical multi-agent
+systems are not currently evaluated under a protocol that separates the cohort
+used to populate the memory store from the cohort used to test the with-memory
+configuration, so apparent gains can be confounded with same-cohort
+contamination.
 
-First, no reviewed paper proposes a solution to the Optimisation
-Paradox~\cite{Bedi2025OptParadox}: the identification of the coordination quality
-problem is well-established, but the design of a workflow architecture that resolves it
-in a generalisable way remains an open problem.  Second, with the exception of
-ClinicalLab~\cite{Yan2024ClinicalLab} and ZODIAC~\cite{Zhou2024ZODIAC}, the vast
-majority of evaluated frameworks are tested on structured benchmarks rather than
-real-world clinical deployments with live patient data, limiting the external validity
-of performance claims~\cite{Xiang2025CDRAgent}.  Third, conflict resolution mechanisms
-across reviewed papers are either absent, rule-based, or evaluated only on specific
-narrow tasks --- no framework provides a generalisable, adaptive conflict resolution
-mechanism for open-ended clinical decisioning under
-uncertainty~\cite{Wang2025Catfish,Zhao2025LayeredDebate}.  Fourth, the safety dimension
-is addressed by only three of 22 reviewed
-papers~\cite{Kim2025TAO,Wu2024EHRFlow,Chen2025MedSentry}, and systematic evaluation of
-the accuracy--safety trade-off incurred by safety mechanisms is absent from all reviewed
-works~\cite{Chen2025MedSentry}.
+Chapter~\ref{chap:methodology} responds to each of these gaps directly. The
+end-to-end coordination problem is addressed by a six-stage LangGraph
+\texttt{StateGraph} that wires the full pipeline from EHR analysis through
+treatment planning into a single typed graph
+(Section~\ref{sec:mas_framework}). The conflict-resolution gap is addressed
+by the non-destructive Reviewer-Refiner pattern that lets the Clinical
+Reviewer challenge the Diagnostic Reasoning agent while preserving the
+original output for audit (Section~\ref{sec:agent_refiner}). The memory gap
+is addressed by the four-tier shared-memory subsystem of
+Section~\ref{sec:shared_memory}, which instantiates the CoALA taxonomy of
+Section~\ref{subsec:memory_state}. The evaluation gap is addressed by the
+LLM-as-judge framework of Section~\ref{sec:evaluation}, which compares
+free-text differentials against hidden Synthea ground truth on a three-label
+scale. The leakage-control gap is addressed by the cold-start protocol
+reported in Chapter~\ref{chap:results}, in which the cohort used to populate
+the case-based store and the cohort used to test the with-memory
+configuration are kept separate so that the apparent contribution of memory
+can be disentangled from same-cohort contamination. The remaining gap ---
+safety and reliability of clinical MAS under adversarial conditions --- is
+acknowledged but is outside the scope of this thesis and is returned to as
+future work in Chapter~\ref{chap:conclusion}.
 
-This thesis addresses these gaps through the design, implementation, and evaluation of a
-multi-agent clinical decisioning system with an explicit focus on coordination
-architecture quality, adaptive conflict resolution, and built-in error-recovery
-mechanisms~\cite{Bedi2025OptParadox,Wu2024EHRFlow}.
-
+\FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Comparative Summary}
 \label{subsec:summary_table}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Table~\ref{tab:summary} provides a structured comparison of all 22 reviewed papers
-across methodology, key finding, primary thesis contribution, and overall relevance
-rating (1--5).
+Table~\ref{tab:summary} compares the 22 reviewed papers by method, main finding,
+relevance to this thesis, and overall relevance score.
 
 \begin{table}[p]
 \centering
@@ -134,7 +135,7 @@ rating (1--5).
   & 2024
   & Training-free; 5-step gather--discuss--decide; 9 benchmarks
   & 77\% of LLM medical errors are knowledge gaps; outperformed fine-tuned models zero-shot
-  & Foundational MAS framework; error-type finding justifies knowledge-pooling design
+  & Early MAS system; error-type finding justifies knowledge-pooling design
   & 5 \\[3pt]
 \cite{Abbasian2024openCHA}
   & openCHA \newline JAMIA Open 2024
@@ -196,7 +197,7 @@ rating (1--5).
   & MDTeamGPT \newline Nanjing 2025
   & 2025
   & 4-phase MDT; MedQA+MedMCQA; GPT-4; ablation
-  & Debate $>$ consensus; heterogeneous initial views drive quality; self-evolution improves accuracy
+  & Debate $>$ consensus; varied initial views drive quality; self-evolution improves accuracy
   & Role-assign--analyse--debate--synthesise workflow is direct design precedent
   & 4 \\[3pt]
 \cite{Zhao2025LayeredDebate}
@@ -253,7 +254,7 @@ rating (1--5).
   & 2025
   & 4-stage pipeline; 500 UCSF notes; 12 clinical decision rules
   & 94.2\% rule selection; 91\% clinician-acceptable; vs 71.4\% GPT-4
-  & Most rigorous real-world automation workflow; deferral as safety mechanism
+  & Strong real-world automation workflow; deferral as safety mechanism
   & 5 \\[3pt]
 \cite{Lu2024TriageAgent}
   & TriageAgent \newline EMNLP 2024

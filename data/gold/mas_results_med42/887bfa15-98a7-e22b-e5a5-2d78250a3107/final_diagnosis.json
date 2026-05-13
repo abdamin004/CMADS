@@ -1,0 +1,80 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Nephropathy",
+      "icd10": "E11.21 (Diabetes with renal manifestations, nephropathy)",
+      "snomed": "44018005 (Diabetic nephropathies)",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "long-standing diabetes mellitus type 2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "elevated creatinine, reduced eGFR",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Patient's chronic diabetes and current lab results showing renal impairment strongly suggest diabetic nephropathy."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9 (Unspecified hypertensive kidney disease)",
+      "snomed": "38341003 (Hypertensive nephrosclerosis)",
+      "probability": 0.35,
+      "confidence": "strong",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "uncontrolled hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "renal impairment, mild electrolyte imbalances",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled hypertension and renal impairment suggest hypertensive nephrosclerosis as a significant contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Dyslipidemic Syndrome",
+      "icd10": "E78.0 (Pure hypercholesterolemia)",
+      "snomed": "236197005 (Hypercholesterolaemia, familial)",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "historical hypertriglyceridemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Historical dyslipidemia and metabolic syndrome contribute to cardiovascular risk, though less directly linked to current renal symptoms."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Nephropathy",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient's long-standing diabetes mellitus type 2 combined with significant renal impairment and reduced eGFR strongly points to diabetic nephropathy as the primary diagnosis, supported by both EHR analysis and lab findings. Hypertensive nephrosclerosis is also indicated due to uncontrolled hypertension and mild electrolyte imbalances, though less probable than diabetic nephropathy based on current evidence.",
+  "unresolved_findings": [
+    "missing blood pressure readings",
+    "missing lipid profile data (total cholesterol, LDL)",
+    "anemia status unclear"
+  ],
+  "recommended_workup": [
+    "complete lipid panel",
+    "current hemoglobin A1c and serum creatinine levels",
+    "urinalysis for proteinuria"
+  ]
+}

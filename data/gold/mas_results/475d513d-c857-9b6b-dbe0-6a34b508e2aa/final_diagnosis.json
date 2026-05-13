@@ -1,0 +1,218 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "190332001",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and waist circumference meeting ATP\u2011III criteria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension (DBP 94 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidemia on low\u2011intensity statin",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Four of the five ATP\u2011III criteria for metabolic syndrome are present (central obesity, elevated fasting glucose, hypertension, and dyslipidaemia), justifying a high probability."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled Gout (hyperuricaemia)",
+      "icd10": "M10.9",
+      "snomed": "3723001",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent gout diagnosis with no urate\u2011lowering therapy documented",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated serum uric\u2011acid risk due to obesity and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a documented gout flare and is not on therapy; metabolic syndrome predisposes to hyperuricaemia, making uncontrolled gout likely."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic Dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated triglycerides and low HDL\u2011C on lipid panel (details not provided but implied by dyslipidaemia entry)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome increases atherogenic lipid pattern",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome commonly manifests as atherogenic dyslipidaemia; despite missing exact lipid values, the clinical impression supports this diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Resistant Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension (DBP 94) despite low\u2011intensity statin and no documented medication adjustments",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and possible volume overload (borderline high albumin)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Blood pressure remains elevated in the setting of metabolic syndrome; without evidence of adequate multi\u2011drug regimen, resistant hypertension is plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "197321007",
+      "probability": 0.055,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome with obesity and dyslipidaemia \u2013 high prevalence of NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Absence of alcohol use documentation; risk factors point to non\u2011alcoholic etiology",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the strong association between metabolic syndrome and hepatic steatosis, NAFLD is likely even though imaging and liver enzymes are missing."
+    },
+    {
+      "rank": 6,
+      "name": "Early Chronic Kidney Disease (CKD) Stage 2\u20113",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and gout increase CKD risk",
+          "strength": "weak"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Renal function labs (creatinine, eGFR, urine ACR) not available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but lack of renal labs prevents confirmation; probability remains low to moderate."
+    },
+    {
+      "rank": 7,
+      "name": "Progression to Type\u20112 Diabetes Mellitus",
+      "icd10": "Z13.1",
+      "snomed": "44054006",
+      "probability": 0.015,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome confers high conversion risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Current prediabetic state combined with metabolic syndrome suggests a moderate chance of progression within the near term."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive Sleep Apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.003,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity is a risk factor, but no sleep\u2011related symptoms documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While obesity raises OSA risk, the absence of clinical sleep complaints makes this diagnosis unlikely at present."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "124055006",
+      "probability": 0.002,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests or related symptoms recorded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without laboratory or clinical evidence, hypothyroidism remains a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient meets four of the five ATP\u2011III criteria for metabolic syndrome (central obesity, elevated fasting glucose, hypertension, and dyslipidaemia), making it the dominant diagnosis. This syndrome drives secondary risks including uncontrolled gout, atherogenic dyslipidaemia, resistant hypertension, NAFLD, and progression to type\u20112 diabetes. Renal involvement cannot be confirmed due to missing labs, and other considerations such as OSA and hypothyroidism lack supporting data.",
+  "unresolved_findings": [
+    "Albumin 5.1 g/dL (borderline high, possible dehydration)",
+    "Missing smoking and alcohol use information",
+    "Exact BMI numeric value and waist circumference not recorded",
+    "No recent CBC, iron studies, B12/folate, or stool occult blood",
+    "Absent renal function labs (creatinine, eGFR, urine ACR)",
+    "Serum uric\u2011acid level not measured",
+    "Liver function tests and imaging absent",
+    "Thyroid function tests absent",
+    "Family history of cardiovascular disease, diabetes, or gout not documented"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio to assess CKD",
+    "Comprehensive lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism",
+    "Serum uric acid level and consider initiating urate\u2011lowering therapy",
+    "Liver enzymes (ALT, AST, GGT) and abdominal ultrasound to evaluate NAFLD",
+    "Polysomnography if any sleep\u2011related symptoms emerge",
+    "Blood pressure monitoring and medication review for resistant hypertension",
+    "Repeat HbA1c in 3\u20116 months to track progression toward diabetes",
+    "Document smoking and alcohol use, family history, and precise anthropometrics (BMI, waist circumference)"
+  ]
+}

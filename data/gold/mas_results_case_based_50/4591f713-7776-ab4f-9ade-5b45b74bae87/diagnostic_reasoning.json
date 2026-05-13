@@ -1,0 +1,312 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled / over\u2011treated hypertension (essential)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (SNOMED) listed as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Three\u2011drug antihypertensive regimen (lisinopril, hydrochlorothiazide, amlodipine)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure at last visit 107/68\u202fmmHg (low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5\u202fmg/dL (\u2191) with proteinuria 110.9\u202fmg/dL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient is on three antihypertensives yet presents with a low office BP, suggesting either over\u2011treatment or resistant hypertension masked by medication. Hypertension is a primary driver of proteinuria and CKD, and the combination of essential hypertension, polypharmacy, and renal findings makes this the most likely underlying process."
+    },
+    {
+      "rank": 2,
+      "name": "Early diabetic kidney disease (if diabetes confirmed)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin isophane/regular (Humulin) prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "SNOMED code \"Disorder of kidney due to diabetes mellitus\"",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria 110.9\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5\u202fmg/dL (\u2191)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Insulin therapy and a diabetes\u2011related kidney disorder code imply the clinician believes the patient has diabetes, despite the recorded pre\u2011diabetes label and an implausibly low HbA1c. If true diabetes is present, the renal findings are most consistent with early diabetic nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (SNOMED) on chronic therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine (1.5\u202fmg/dL) and modest proteinuria",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril prescribed (renoprotective for hypertensive kidney disease)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension can cause arteriolar nephrosclerosis leading to mild proteinuria and a rise in creatinine. The pattern fits the available renal labs and the antihypertensive regimen."
+    },
+    {
+      "rank": 4,
+      "name": "Obesity\u2011related glomerulopathy",
+      "icd10": "N18.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented (BMI\u202f\u2265\u202f30\u202fkg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria 110.9\u202fmg/dL without overt diabetes confirmation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X (SNOMED)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In the setting of obesity and metabolic syndrome, focal segmental glomerulosclerosis\u2011like changes can produce proteinuria and mild CKD even without established diabetes."
+    },
+    {
+      "rank": 5,
+      "name": "Medication\u2011induced renal dysfunction (hidden NSAID/herbal exposure)",
+      "icd10": "N99.0",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Data\u2011quality flag for possible hidden nephrotoxin use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate Simvastatin entry (prescribing confusion)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine with proteinuria",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Undocumented OTC NSAIDs or herbal supplements can cause acute or chronic interstitial nephritis, contributing to the observed renal impairment. The flag raises suspicion despite lack of explicit documentation."
+    },
+    {
+      "rank": 6,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low office BP possibly masking true resistance",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension warrants screening for primary aldosteronism; the medication burden makes this a plausible but unconfirmed contributor."
+    },
+    {
+      "rank": 7,
+      "name": "Renal\u2011artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension with CKD and proteinuria",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 47, with multiple cardiovascular risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal artery stenosis can cause secondary hypertension and renal dysfunction; however, age and lack of bruits make it less likely."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, dyslipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia (SNOMED) on statin therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome strongly predisposes to NAFLD/NASH, which may contribute to systemic inflammation and cardiovascular risk."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) and hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome increasing pre\u2011test probability",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is common in obese hypertensive patients and can exacerbate hypertension and renal hyperfiltration."
+    },
+    {
+      "rank": 10,
+      "name": "Sub\u2011clinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.10",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia (SNOMED) and statin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex, hypertension, possible diabetes, obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of ASCVD risk factors suggests underlying atherosclerosis even without documented events."
+    },
+    {
+      "rank": 11,
+      "name": "Primary glomerulonephritis",
+      "icd10": "N02.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No hematuria or active urinary sediment reported; therefore primary GN remains low on the list."
+    },
+    {
+      "rank": 12,
+      "name": "Psychosocial / adherence modifier",
+      "icd10": "Z60.0",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress, social isolation, unsatisfactory housing",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Full\u2011time employment (potential time constraints)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Social determinants likely impair medication adherence and follow\u2011up, influencing disease control but not a primary disease entity."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled / over\u2011treated hypertension (essential)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is a 47\u2011year\u2011old male with obesity, metabolic syndrome, and a three\u2011drug antihypertensive regimen. Laboratory data show a modest rise in creatinine and proteinuria, while the most recent BP reading is low, suggesting possible overtreatment or resistant hypertension. Insulin therapy and a diabetes\u2011related kidney disorder code raise the possibility of early diabetic nephropathy, but the implausibly low HbA1c mandates confirmation. Hypertensive nephrosclerosis, obesity\u2011related glomerulopathy, and medication\u2011induced renal injury are also plausible contributors. Secondary causes of hypertension (primary aldosteronism, renal\u2011artery stenosis) and comorbid conditions (NAFLD/NASH, OSA, sub\u2011clinical ASCVD) are incorporated as lower\u2011probability diagnoses. Psychosocial stressors are noted as modifiers that may affect adherence. The differential is weighted after correcting for anchoring bias and calibrating probabilities, with uncontrolled hypertension emerging as the most likely primary driver.",
+  "unresolved_findings": [
+    "HbA1c 3.1\u202f% (implausibly low \u2013 likely lab error)",
+    "Duplicate Simvastatin entry",
+    "Missing eGFR value",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Low office BP (107/68\u202fmmHg) \u2013 unclear if due to overtreatment or true control",
+    "Remote sepsis listed as active but clinically quiescent"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c (or fasting glucose + 2\u2011hr OGTT) to confirm diabetes status",
+    "Serum creatinine with eGFR calculation (CKD\u2011EPI) for accurate CKD staging",
+    "Spot urine albumin\u2011to\u2011creatinine ratio and urine microscopy to quantify proteinuria and assess for glomerular disease",
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides) to evaluate ASCVD risk and statin efficacy",
+    "Comprehensive medication reconciliation including OTC NSAIDs, herbal supplements, and duplicate prescriptions",
+    "24\u2011hour ambulatory blood pressure monitoring or home BP log to differentiate overtreatment from resistant hypertension",
+    "Plasma aldosterone concentration/plasma renin activity ratio to screen for primary aldosteronism",
+    "Renal Doppler ultrasound (or CTA/MRA) to assess for renal\u2011artery stenosis",
+    "Serum uric acid level to evaluate for hyperuricemia\u2011related CKD contribution",
+    "Liver function tests and abdominal ultrasound or FibroScan to assess for NAFLD/NASH",
+    "STOP\u2011BANG questionnaire followed by polysomnography if positive for obstructive sleep apnea",
+    "BNP and transthoracic echocardiogram to rule out occult heart failure (cardiorenal syndrome)",
+    "Social\u2011work or case\u2011management interview to identify barriers to medication adherence and follow\u2011up"
+  ]
+}

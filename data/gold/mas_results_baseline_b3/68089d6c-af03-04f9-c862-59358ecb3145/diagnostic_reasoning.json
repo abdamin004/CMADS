@@ -1,0 +1,219 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Decompensated cirrhosis secondary to non-alcoholic steatohepatitis (NASH)",
+      "icd10": "K74.6",
+      "snomed": "235856003",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, prediabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin 7.6 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "INR 2.5",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count 102 x10^3/\u00b5L and leukocyte count 3.1 x10^3/\u00b5L",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated ferritin 631.9 \u00b5g/L and CRP 11.7 mg/L",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors drive NASH, leading to progressive fibrosis and cirrhosis. Cirrhosis explains severe hyperbilirubinemia, impaired clotting factor synthesis (INR), and portal hypertension\u2011related hypersplenism causing thrombocytopenia and leukopenia."
+    },
+    {
+      "rank": 2,
+      "name": "End\u2011stage renal disease (CKD stage 5) secondary to hypertensive/diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 2.7 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 11.9 mL/min/1.73 m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "medication",
+          "finding": "ACE\u2011inhibitor (lisinopril) and thiazide therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension and pre\u2011diabetes have produced progressive nephron loss, now manifest as CKD\u20115. Renal failure contributes to uremic platelet dysfunction and limits drug clearance, worsening bleeding risk and potentiating hepatic drug toxicity."
+    },
+    {
+      "rank": 3,
+      "name": "Drug\u2011induced liver injury (statin and/or acetaminophen related cholestasis)",
+      "icd10": "K71.2",
+      "snomed": "235719002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication",
+          "finding": "Atorvastatin 40 mg daily",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "Acetaminophen/Codeine 300/15 mg PRN",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe hyperbilirubinemia with no transaminase data (suggestive of cholestatic pattern)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 reducing clearance of statin and acetaminophen metabolites",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High\u2011intensity statin and chronic acetaminophen use in the setting of reduced renal clearance can cause cholestatic injury, contributing to the marked bilirubin rise and coagulopathy, superimposed on pre\u2011existing cirrhosis."
+    },
+    {
+      "rank": 4,
+      "name": "Hypersplenism secondary to portal hypertension from cirrhosis",
+      "icd10": "D73.0",
+      "snomed": "302810001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count 102 x10^3/\u00b5L",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukocyte count 3.1 x10^3/\u00b5L",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Cirrhosis (see diagnosis 1) implying portal hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cirrhosis leads to portal hypertension, causing splenic sequestration of blood cells, which explains the concurrent thrombocytopenia and leukopenia."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive biliary malignancy (cholangiocarcinoma or pancreatic head cancer)",
+      "icd10": "C24.0",
+      "snomed": "363406005",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated severe hyperbilirubinemia (7.6 mg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 75, male (risk factor for biliary malignancy)",
+          "strength": "weak"
+        },
+        {
+          "source": "imaging",
+          "finding": "No imaging data available (gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A mass causing extra\u2011hepatic biliary obstruction could produce the bilirubin elevation and contribute to coagulopathy; however, lack of imaging keeps this lower in the hierarchy."
+    },
+    {
+      "rank": 6,
+      "name": "Vitamin K deficiency secondary to cholestasis",
+      "icd10": "D59.5",
+      "snomed": "271442005",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "INR 2.5 without warfarin",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe cholestasis implied by high bilirubin",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cholestasis impairs bile\u2011acid mediated vitamin K absorption, leading to reduced synthesis of vitamin\u2011K dependent clotting factors and an elevated INR. This is a secondary contributor to coagulopathy."
+    },
+    {
+      "rank": 7,
+      "name": "Myelodysplastic syndrome (MDS)",
+      "icd10": "D46.9",
+      "snomed": "18856009",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent leukopenia (3.1 x10^3/\u00b5L) and thrombocytopenia (102 x10^3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 75 (higher MDS incidence)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clonal marrow failure can cause cytopenias independent of liver disease, but it does not explain the bilirubin or INR abnormalities, placing it lower in the differential."
+    }
+  ],
+  "primary_diagnosis": "Decompensated cirrhosis secondary to non-alcoholic steatohepatitis (NASH)",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The patient\u2019s metabolic syndrome, obesity, and pre\u2011diabetes make NASH the most plausible driver of advanced cirrhosis, which accounts for the marked hyperbilirubinemia, elevated INR, and portal\u2011hypertension\u2011related cytopenias. End\u2011stage renal disease, confirmed by creatinine and eGFR, is a major comorbidity that worsens drug clearance and bleeding risk. Drug\u2011induced cholestasis from high\u2011dose statin and chronic acetaminophen likely aggravates the hepatic dysfunction. Hypersplenism explains the combined thrombocytopenia and leukopenia as downstream effects of portal hypertension. Less likely but still possible are obstructive biliary malignancy, vitamin K deficiency secondary to cholestasis, and an underlying myelodysplastic process. The differential was re\u2011ranked to reflect the liver disease as the primary root cause rather than anchoring on CKD alone.",
+  "unresolved_findings": [
+    "Borderline D\u2011dimer 0.7 \u00b5g/mL without current thrombosis",
+    "Elevated ferritin 631.9 \u00b5g/L (cannot distinguish iron overload vs acute\u2011phase)",
+    "Mildly elevated LDH 327.5 U/L (non\u2011specific)",
+    "Absence of AST, ALT, ALP, GGT, albumin values",
+    "Potential undocumented warfarin or other oral anticoagulant (high INR)",
+    "No imaging data for liver morphology, biliary tree, or spleen size"
+  ],
+  "recommended_workup": [
+    "Complete liver panel: AST, ALT, ALP, GGT, albumin, total protein",
+    "Abdominal ultrasound with Doppler (or MRCP) to assess cirrhosis, splenomegaly, biliary dilation, or mass",
+    "Medication reconciliation focusing on any oral anticoagulant (warfarin/DOAC) and total acetaminophen dose",
+    "Vitamin K challenge (10 mg oral) with repeat INR in 12\u201324 h",
+    "Viral hepatitis serologies (HBsAg, anti\u2011HBc, HCV RNA) and autoimmune hepatitis panel (ANA, ASMA, IgG)",
+    "Iron studies: serum iron, TIBC, transferrin saturation",
+    "If cytopenias persist after liver/renal causes addressed, consider bone\u2011marrow biopsy",
+    "Echocardiogram to evaluate for cardiac hepatopathy",
+    "Nephrology referral for CKD\u20115 management and dialysis planning",
+    "Hepatology referral for Child\u2011Pugh/MELD scoring and transplant evaluation"
+  ]
+}

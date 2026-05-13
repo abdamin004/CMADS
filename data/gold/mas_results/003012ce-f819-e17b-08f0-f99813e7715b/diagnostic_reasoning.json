@@ -1,0 +1,286 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Severe emphysema-predominant COPD",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pulmonary emphysema (COPD) diagnosis recorded 1959-07-15",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic dyspnea chief complaint",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Inhaled corticosteroid/LABA (fluticasone-salmeterol) prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Albuterol rescue inhaler prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use (meperidine) increasing respiratory risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Longstanding emphysema with chronic dyspnea, maintenance inhaler therapy, and rescue bronchodilator use directly explain the primary respiratory symptoms and form the foundation for downstream complications."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea / overlap syndrome",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.17,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) recorded as high-priority problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low CO\u2082 (20.8 mmol/L) with falling trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use without clear indication",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "High pre-test probability of OSA in older obese males with COPD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and COPD together raise the likelihood of overlap syndrome; low CO\u2082 may reflect chronic hyperventilation compounded by nocturnal hypoventilation. Opioid use further predisposes to hypoventilation, supporting OSA as a contributing diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Opioid-use disorder / opioid-induced respiratory depression",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic meperidine 50 mg PO prescribed without documented pain diagnosis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, unemployment, limited social contact",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential safety concern for respiratory depression in COPD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Unexplained chronic opioid use in a COPD patient raises suspicion for dependence or misuse, which can exacerbate hypoventilation and contribute to the low CO\u2082 trend and frequent albuterol use."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome (obesity-driven insulin resistance & dyslipidemia)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) high-priority problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 6.4% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL-C 29.9 mg/dL (severe dyslipidemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 19.3 mg/dL and Creatinine 1.2 mg/dL (early renal stress)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, impaired glucose regulation, and dyslipidemia fulfills criteria for metabolic syndrome, explaining early renal changes and increasing cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia \u2013 mixed etiology (iron deficiency + anemia of chronic disease)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed anemia (onset 1975-11-26)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hematocrit 32.3% (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "Potential contributors: chronic disease (COPD), possible iron deficiency, opioid-related marrow effects",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low hematocrit confirms anemia; without iron studies the etiology remains uncertain, so a mixed cause is most plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Early chronic kidney disease (stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 19.3 mg/dL (high-normal, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.2 mg/dL (upper-limit normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "Metabolic syndrome risk factors for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated BUN and borderline creatinine suggest early renal impairment, likely secondary to hypertension, hyperglycemia, and chronic hypoxia."
+    },
+    {
+      "rank": 7,
+      "name": "Cor pulmonale / right-sided heart failure",
+      "icd10": "I27.81",
+      "snomed": "233678006",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing severe emphysema with chronic dyspnea",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low CO\u2082 trend possibly reflecting chronic respiratory alkalosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "Potential pulmonary hypertension from COPD and possible OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe COPD can lead to pulmonary hypertension and right ventricular strain; lack of echo or BNP data limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Atherosclerotic coronary artery disease (CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Probable historic smoking exposure inferred from long-standing emphysema",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL-C 29.9 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and prediabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple cardiovascular risk factors place the patient at elevated risk for CAD, though no ischemic symptoms or diagnostic testing are documented."
+    },
+    {
+      "rank": 9,
+      "name": "Depressive disorder / opioid dependence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, limited social contact, long-term unemployment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use without documented pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "No mental-health diagnosis or screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and unexplained opioid use raise concern for underlying depression or dependence, but lack of formal assessment keeps probability low."
+    }
+  ],
+  "primary_diagnosis": "Severe emphysema-predominant COPD",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is an older male with a documented history of emphysema dating back decades, chronic dyspnea, and COPD\u2011directed inhaler therapy, establishing COPD as the central disease process. Obesity, low HDL, and pre\u2011diabetes constitute metabolic syndrome, contributing to early renal dysfunction and cardiovascular risk. A low CO\u2082 level, chronic opioid use, and the obesity phenotype suggest a high likelihood of obstructive sleep apnea/overlap syndrome, which can worsen hypoventilation and pulmonary hypertension. The unexplained chronic meperidine prescription raises suspicion for opioid\u2011use disorder and possibly depressive illness, both of which can exacerbate respiratory compromise. Anemia is confirmed by low hematocrit, but without iron studies the etiology remains mixed. Early CKD is inferred from borderline BUN/creatinine, while cor pulmonale and CAD are plausible downstream complications given the severity of COPD, metabolic risk factors, and probable historic smoking. The differential integrates these inter\u2011related pathophysiologic pathways while acknowledging critical data gaps.",
+  "unresolved_findings": [
+    "Low CO\u2082 (20.8 mmol/L) with falling trend \u2013 unclear if respiratory alkalosis compensation or primary metabolic acidosis",
+    "Missing smoking history (pack\u2011years, current status)",
+    "Absent iron studies, ferritin, B12, folate to clarify anemia etiology",
+    "No arterial blood gas or detailed electrolyte panel",
+    "No polysomnography or home sleep\u2011apnea test results",
+    "Vaccination status (influenza, pneumococcal, COVID\u201119) not documented",
+    "No eGFR, urine albumin\u2011creatinine ratio, or urinalysis",
+    "Absence of cardiac evaluation (BNP, echocardiogram, ECG)",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117) or urine drug screen"
+  ],
+  "recommended_workup": [
+    "Spirometry with post\u2011bronchodilator testing to assess current COPD severity",
+    "Arterial blood gas analysis to clarify CO\u2082 and acid\u2011base status",
+    "Polysomnography or home sleep apnea testing for OSA/overlap syndrome",
+    "Iron panel (serum iron, ferritin, transferrin saturation), vitamin B12 and folate levels",
+    "Comprehensive metabolic panel including electrolytes and calculated eGFR",
+    "Urine albumin\u2011creatinine ratio and urinalysis for kidney evaluation",
+    "Transthoracic echocardiogram focusing on right\u2011ventricular size and pulmonary artery pressure",
+    "BNP or NT\u2011proBNP measurement",
+    "PHQ\u20119 and GAD\u20117 questionnaires plus formal mental\u2011health assessment",
+    "Urine toxicology screen for opioids and other substances",
+    "Review and update vaccination records (influenza, pneumococcal, COVID\u201119 boosters)",
+    "Lipid panel including LDL, triglycerides, and total cholesterol"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Combined diabetic\u2011hypertensive chronic kidney disease",
+      "icd10": "N18.4; E11.22",
+      "snomed": "709044004",
+      "probability": 0.82,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus with long\u2011standing poor control",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension documented for many years",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 with proteinuria and microalbuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucosuria on urinalysis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low urine specific gravity (1.00)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has advanced CKD (stage 4) in the setting of long\u2011standing type 2 diabetes and uncontrolled hypertension. Both conditions synergistically drive glomerular hyperfiltration, sclerosis, and progressive proteinuria, fully accounting for the renal dysfunction and urinary findings."
+    },
+    {
+      "rank": 2,
+      "name": "Proximal renal tubular dysfunction (partial Fanconi\u2011type) secondary to CKD",
+      "icd10": "N25.8",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low urine specific gravity (1.00) beyond typical concentrating defect",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild glucosuria not fully explained by hyperglycemia alone",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD can cause tubular dysfunction manifesting as impaired concentration and low\u2011level glucosuria; a distinct Fanconi syndrome is unlikely but a partial tubular defect remains possible."
+    },
+    {
+      "rank": 3,
+      "name": "Obesity\u2011related metabolic syndrome with non\u2011alcoholic fatty liver disease (NAFLD/NASH)",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted in comorbidity flags",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positivity (0.8\u202fmg/dL)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and metabolic syndrome predispose to NAFLD, which could explain the unexplained urine bilirubin; however, liver function tests are missing, making this link speculative."
+    },
+    {
+      "rank": 4,
+      "name": "Medication\u2011related renal injury (possible thiazide\u2011induced hyperuricemia or undocumented NSAID use)",
+      "icd10": "N99.0",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Thiazide diuretic listed in medication history",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented NSAID exposure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thiazides can raise uric acid and modestly affect renal function; NSAID use is speculative. Lack of hyperuricemia data limits confidence."
+    }
+  ],
+  "primary_diagnosis": "Combined diabetic\u2011hypertensive chronic kidney disease",
+  "primary_probability": 0.82,
+  "clinical_reasoning_summary": "The patient\u2019s advanced CKD is best explained by the synergistic impact of long\u2011standing type 2 diabetes and poorly controlled hypertension, both strongly supported by the EHR and laboratory data. Minor tubular abnormalities likely reflect CKD\u2011related dysfunction rather than a separate Fanconi process. Obesity\u2011related NAFLD and possible medication\u2011induced injury remain plausible but are weakly supported and rank lower.",
+  "unresolved_findings": [
+    "Urine bilirubin positivity (0.8\u202fmg/dL) \u2013 not fully explained by renal disease alone",
+    "Very low urine specific gravity (1.00) beyond typical CKD concentrating defect",
+    "Missing recent measurements: blood pressure, HbA1c, lipid panel, liver function tests, uric acid, mineral\u2011bone labs"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c to assess glycemic control",
+    "Ambulatory blood pressure monitoring",
+    "Comprehensive metabolic panel including liver enzymes, bilirubin, uric acid, bicarbonate, calcium/phosphate",
+    "Renal ultrasound to evaluate structural disease",
+    "Serum albumin and lipid profile",
+    "Consider initiating renoprotective therapy (ACE\u2011I/ARB, SGLT2\u2011i) if not already prescribed"
+  ]
+}

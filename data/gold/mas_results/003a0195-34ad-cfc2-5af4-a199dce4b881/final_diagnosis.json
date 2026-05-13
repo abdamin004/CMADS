@@ -1,0 +1,200 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension - untreated",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.36,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 146/82 mmHg (stage 2 hypertension) documented as untreated",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Significant cardiovascular risk factors (obesity, prediabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated systolic and diastolic pressures in a 71\u2011year\u2011old woman with known untreated hypertension make primary hypertension the most likely driver of her current clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / insulin\u2011resistance state",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and prediabetic HbA1c 5.9%",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated blood pressure contributes to metabolic syndrome criteria",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of obesity, impaired glucose tolerance, and hypertension fulfills several ATP III criteria, supporting metabolic syndrome as a contributing condition."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease / inflammation",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia present with high\u2011normal hematocrit (47.4%) and low\u2011normal RBC count",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lack of iron studies prevents differentiation; inflammatory anemia remains plausible",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the atypical hematocrit for iron deficiency and absence of iron studies, anemia of chronic disease is a plausible explanation."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia (chronic oral blood loss \u00b1 occult GI bleed)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports oral gingival bleeding",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia noted without iron panel; high\u2011normal hematocrit argues against classic iron deficiency",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Oral bleeding could contribute to iron loss, but the laboratory pattern makes iron\u2011deficiency less likely than anemia of chronic disease."
+    },
+    {
+      "rank": 5,
+      "name": "Depression / chronic\u2011stress disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and chronic health issues documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "No formal mood assessment recorded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors are present, making depression a plausible comorbidity, though not confirmed."
+    },
+    {
+      "rank": 6,
+      "name": "Early hypertensive nephropathy / chronic kidney disease stage 3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN noted without accompanying creatinine/eGFR data",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing untreated hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension can lead to CKD, but lack of creatinine/eGFR limits certainty; probability remains low."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity present; no sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity is a risk factor, but absence of screening makes this diagnosis speculative."
+    },
+    {
+      "rank": 8,
+      "name": "Occult gastrointestinal malignancy (colorectal cancer)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of unknown etiology in an older adult",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While colorectal cancer can cause anemia, low pre\u2011test probability and lack of iron studies keep this diagnosis low on the list."
+    },
+    {
+      "rank": 9,
+      "name": "Vitamin D deficiency / osteomalacia",
+      "icd10": "E55.9",
+      "snomed": "237022007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No vitamin D level documented; common in older adults with limited sun exposure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential contributor to bone health but not a primary driver of current presentation."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension - untreated",
+  "primary_probability": 0.36,
+  "clinical_reasoning_summary": "The patient\u2019s elevated blood pressure (146/82 mmHg) in the setting of untreated stage 2 hypertension, obesity, and prediabetes makes primary hypertension the most likely diagnosis and the main target for management. Metabolic syndrome is supported by obesity and impaired glucose tolerance, while anemia of chronic disease is favored over iron deficiency due to the atypical hematocrit pattern and lack of iron studies. Depression, early hypertensive nephropathy, obstructive sleep apnea, occult gastrointestinal malignancy, and vitamin D deficiency remain possible but less likely contributors. The differential reflects the reviewer\u2019s probability adjustments and removes unsupported hypotheses.",
+  "unresolved_findings": [
+    "BMI discrepancy (recorded 27.1 kg/m\u00b2 vs obesity flag \u226530 kg/m\u00b2)",
+    "High\u2011normal hematocrit (47.4%) with low\u2011normal RBC count",
+    "Rising BUN without accompanying creatinine/eGFR data",
+    "Missing comprehensive lipid panel (LDL, total cholesterol, triglycerides)",
+    "Missing smoking and alcohol use documentation",
+    "No vaccination records documented"
+  ],
+  "recommended_workup": [
+    "Serum iron, ferritin, total iron\u2011binding capacity (TIBC) to differentiate iron\u2011deficiency anemia from anemia of chronic disease",
+    "Stool occult blood test and, if positive, colonoscopy to evaluate for occult GI bleed or malignancy",
+    "Comprehensive metabolic panel including creatinine, eGFR, and urine albumin/creatinine ratio to assess renal function",
+    "Full lipid profile (LDL, HDL, total cholesterol, triglycerides)",
+    "Polysomnography to screen for obstructive sleep apnea",
+    "Vitamin D level (25\u2011OH) and supplementation if deficient",
+    "Thyroid function tests (TSH, free T4) to rule out subclinical thyroid disease",
+    "Repeat blood pressure measurements and ambulatory BP monitoring",
+    "Assessment of smoking and alcohol use history"
+  ]
+}

@@ -1,80 +1,88 @@
 {
   "findings": [
     {
-      "test_name": "RBC count",
-      "value": "3.9 x10^6/\u00b5L (2017-01-26)",
-      "reference_range": "4.7-6.1 x10^6/\u00b5L (male)",
-      "classification": "low",
+      "test_name": "Erythrocytes (RBC) count",
+      "value": "3.9 10^6/uL",
+      "reference_range": "4.7-6.1 10^6/uL",
+      "classification": "abnormal",
       "trend": "insufficient_data",
       "severity": 3,
-      "clinical_note": "Low RBC count with normal hemoglobin and hematocrit suggests possible early normocytic anemia or a lab artifact; further work\u2011up (iron studies, chronic disease markers) is warranted.",
-      "panel_context": "CBC"
+      "clinical_note": "Low RBC count with normal hemoglobin and hematocrit suggests early normocytic anemia or possible lab artifact; warrants further evaluation (iron studies, B12, reticulocyte count).",
+      "panel_context": "CBC panel"
     },
     {
       "test_name": "Hemoglobin A1c",
-      "value": "6.4 % (2019-02-07)",
-      "reference_range": "<5.7 % normal; 5.7\u20116.4 % borderline; \u22656.5 % diabetic",
-      "classification": "borderline high (prediabetes)",
+      "value": "6.4 %",
+      "reference_range": "<5.7 normal, 5.7-6.4 borderline, \u22656.5 abnormal",
+      "classification": "borderline",
       "trend": "rising",
-      "severity": 3,
-      "clinical_note": "HbA1c in prediabetes range with upward trend, indicating worsening glycemic control and increased cardiovascular risk.",
-      "panel_context": "Glycemic Control"
-    },
-    {
-      "test_name": "Carbon Dioxide (total)",
-      "value": "23.6 mmol/L (2019-02-07)",
-      "reference_range": "22\u201129 mmol/L",
-      "classification": "low\u2011normal",
-      "trend": "falling",
       "severity": 2,
-      "clinical_note": "Decreasing CO2 may herald a developing non\u2011anion\u2011gap metabolic acidosis, especially with concurrent rising chloride.",
-      "panel_context": "Acid\u2011Base"
+      "clinical_note": "Prediabetes; upward trend indicates progression toward diabetes; consider lifestyle modification and repeat testing.",
+      "panel_context": "Glucose control panel"
     },
     {
       "test_name": "Chloride",
-      "value": "111.0 mmol/L (2019-02-07)",
-      "reference_range": "98\u2011107 mmol/L",
-      "classification": "borderline high",
+      "value": "111.0 mmol/L",
+      "reference_range": "98-107 mmol/L",
+      "classification": "borderline",
       "trend": "rising",
       "severity": 2,
-      "clinical_note": "Mild hyperchloremia, often accompanying a non\u2011anion\u2011gap metabolic acidosis; monitor electrolytes and acid\u2011base status.",
-      "panel_context": "Acid\u2011Base"
+      "clinical_note": "Mild hyperchloremia; together with falling CO2 may reflect non\u2011anion gap metabolic acidosis.",
+      "panel_context": "Electrolyte panel"
+    },
+    {
+      "test_name": "Carbon dioxide (bicarbonate)",
+      "value": "23.6 mmol/L",
+      "reference_range": "22-29 mmol/L",
+      "classification": "normal",
+      "trend": "falling",
+      "severity": 1,
+      "clinical_note": "Bicarbonate at lower end of normal and decreasing, may indicate developing metabolic acidosis.",
+      "panel_context": "Electrolyte panel"
+    },
+    {
+      "test_name": "Platelet mean volume (MPV)",
+      "value": "11.6 fL",
+      "reference_range": "7.5-11.5 fL",
+      "classification": "borderline",
+      "trend": "insufficient_data",
+      "severity": 2,
+      "clinical_note": "Slightly elevated MPV suggests increased platelet turnover or activation.",
+      "panel_context": "CBC panel"
+    },
+    {
+      "test_name": "Sodium",
+      "value": "142.3 mmol/L",
+      "reference_range": "136-145 mmol/L",
+      "classification": "normal",
+      "trend": "rising",
+      "severity": 1,
+      "clinical_note": "Within normal range; upward trend still within limits.",
+      "panel_context": "Electrolyte panel"
     }
   ],
   "critical_alerts": [],
   "panel_patterns": [
     {
-      "panel_name": "Acid\u2011Base",
-      "interpretation": "Mild hyperchloremic metabolic acidosis suggested by falling CO2 and rising chloride.",
+      "panel_name": "Electrolyte/Acid\u2011Base Panel",
+      "interpretation": "Mild hyperchloremia with low\u2011normal bicarbonate and a decreasing CO2 trend suggest a developing non\u2011anion gap metabolic acidosis; monitor electrolytes and acid\u2011base status.",
       "contributing_tests": [
-        "Carbon Dioxide (total)",
-        "Chloride"
+        "Chloride",
+        "Carbon dioxide (bicarbonate)",
+        "Sodium",
+        "Potassium"
       ]
     },
     {
-      "panel_name": "Glycemic Control",
-      "interpretation": "Prediabetes indicated by HbA1c 6.4% with upward trend; fasting glucose remains normal.",
+      "panel_name": "Complete Blood Count (CBC) Panel",
+      "interpretation": "Low RBC count with normal hemoglobin/hematocrit and elevated MPV indicates possible early normocytic anemia with increased platelet turnover.",
       "contributing_tests": [
-        "Hemoglobin A1c",
-        "Glucose"
+        "Erythrocytes (RBC) count",
+        "Platelet mean volume (MPV)"
       ]
     }
   ],
-  "trending_concerns": [
-    "Falling CO2 (total) indicating possible metabolic acidosis",
-    "Rising Chloride",
-    "Falling Potassium (4.2 mmol/L, trend down)",
-    "Rising Sodium (142.3 mmol/L, trend up)",
-    "Falling BUN (14.2 mg/dL, trend down)"
-  ],
-  "overall_assessment": "The patient shows borderline prediabetes (HbA1c 6.4% rising), a mild normocytic anemia (RBC 3.9 low), and early signs of a hyperchloremic metabolic disturbance (CO2 falling, chloride rising). Electrolyte trends (potassium down, sodium up) and a decreasing BUN warrant monitoring. Several key panels are outdated or missing, limiting full assessment of renal, hepatic and nutritional status.",
-  "data_gaps": [
-    "Renal function panel: eGFR, urine albumin/creatinine ratio",
-    "Liver panel: AST, ALT, alkaline phosphatase, bilirubin",
-    "Repeat CBC components (RBC, hemoglobin, hematocrit) since 2017",
-    "Lipid panel update since 2017",
-    "Thyroid function tests (TSH, free T4)",
-    "Iron studies (serum iron, ferritin, TIBC)",
-    "Vitamin D level"
-  ]
+  "trending_concerns": [],
+  "overall_assessment": "",
+  "data_gaps": []
 }

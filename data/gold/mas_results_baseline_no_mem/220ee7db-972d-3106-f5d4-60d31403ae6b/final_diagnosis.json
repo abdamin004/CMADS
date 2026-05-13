@@ -1,0 +1,217 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced Diabetic Nephropathy (CKD stage 5)",
+      "icd10": "N18.5",
+      "snomed": "431855005",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease with eGFR <15\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine markedly elevated, BUN high, hyperkalemia",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing insulin\u2011requiring type\u202f2 diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has severe CKD consistent with stage\u202f5 secondary to longstanding insulin\u2011requiring type\u202f2 diabetes, making this the most life\u2011threatening and clinically dominant condition."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011requiring Type 2 Diabetes Mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type\u202f2 diabetes on basal\u2011bolus insulin regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prior elevated fasting glucose values (historical)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hyperglycemia has driven microvascular complications, notably the advanced diabetic nephropathy; low A1c may be artifact from anemia/CKD."
+    },
+    {
+      "rank": 3,
+      "name": "Essential Hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented elevated blood pressures on multiple visits",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a common comorbidity in diabetic patients and contributes to renal decline."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of Chronic Kidney Disease (with possible iron deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia with low reticulocyte count, low transferrin saturation",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 known to cause erythropoietin deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011related anemia explains low A1c and may affect other laboratory values."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, loud snoring, witnessed apneas reported",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "OSA worsens hypertension and glycemic control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical features and risk factors support OSA, which may exacerbate hypertension and metabolic derangements."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011Mineral & Bone Disorder / Secondary Hyperparathyroidism",
+      "icd10": "N25.81",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 predisposes to disordered calcium\u2011phosphate metabolism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to secondary hyperparathyroidism; labs pending."
+    },
+    {
+      "rank": 7,
+      "name": "Atherosclerotic Cardiovascular Disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Long\u2011standing diabetes and hypertension increase ASCVD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While risk is high, no documented clinical events; kept as a plausible but lower\u2011probability diagnosis."
+    },
+    {
+      "rank": 8,
+      "name": "Hypertensive Heart Disease / Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I11.0",
+      "snomed": "84114007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, dyspnea on exertion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No imaging or biomarker data; retained only as a remote possibility."
+    },
+    {
+      "rank": 9,
+      "name": "Hemolysis (mechanical or autoimmune)",
+      "icd10": "D59.9",
+      "snomed": "302810001",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low A1c could be due to shortened RBC lifespan",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No direct hemolysis markers; considered unlikely but not fully excluded."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild liver enzyme abnormalities absent; retained as a low\u2011probability alternative."
+    }
+  ],
+  "primary_diagnosis": "Advanced Diabetic Nephropathy (CKD stage 5)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is end\u2011stage diabetic nephropathy driven by long\u2011standing insulin\u2011requiring type\u202f2 diabetes. This explains the severe renal laboratory derangements and underlies the anemia of CKD, which likely accounts for the discordantly low hemoglobin A1c. Hypertension and obesity contribute to both renal progression and cardiovascular risk. Secondary complications such as CKD\u2011MBD, OSA, and possible ASCVD are plausible given the risk profile, while hemolysis and NAFLD remain low\u2011probability considerations pending further testing.",
+  "unresolved_findings": [
+    "Very low Hemoglobin A1c (3.3%) despite insulin therapy",
+    "Positive urine bilirubin without serum liver enzyme elevation",
+    "Low\u2011normal alkaline phosphatase (31.3\u202fU/L)",
+    "Ketonuria (10.7\u202fmg/dL) in an insulin\u2011treated patient",
+    "Very dilute urine (specific gravity\u202f=\u202f1.0)"
+  ],
+  "recommended_workup": [
+    "Repeat fasting plasma glucose and fructosamine to verify glycemic control",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC) and reticulocyte count",
+    "Hemolysis panel: LDH, haptoglobin, peripheral smear, direct Coombs test",
+    "CKD\u2011MBD laboratory panel: serum calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Liver ultrasound to assess for biliary obstruction or hepatic steatosis",
+    "Quantitative urine bilirubin and repeat microscopy",
+    "Cardiac echocardiogram with assessment of diastolic function",
+    "NT\u2011proBNP level to screen for heart failure",
+    "Full lipid profile and ASCVD risk calculation",
+    "Continuous glucose monitoring (CGM) for detailed glycemic trends",
+    "Polysomnography if not previously performed to confirm OSA severity"
+  ]
+}

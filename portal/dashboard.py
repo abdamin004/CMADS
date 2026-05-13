@@ -12,9 +12,42 @@ import streamlit as st
 import pandas as pd
 
 GOLD_DIR = Path(os.environ.get("GOLD_DIR", "data/gold/patient_cases"))
-MAS_DIR = Path(os.environ.get("MAS_RESULTS_DIR", "data/gold/mas_results"))
+DATA_GOLD = Path(os.environ.get("DATA_GOLD_DIR", "data/gold"))
+DEFAULT_MAS_DIR = Path(os.environ.get("MAS_RESULTS_DIR", "data/gold/mas_results"))
 DB_PATH = Path(os.environ.get("DUCKDB_PATH", "data/clinical.duckdb"))
 BATCH_DIR = Path(os.environ.get("BATCH_DIR", "data/gold/batches"))
+
+# ── Result-set registry ───────────────────────────────────────────────
+# Each entry describes a saved MAS run cohort that the dashboard can show.
+# Categories group runs by memory level + model so the user can filter.
+RESULT_SET_REGISTRY = [
+    {"id": "mas_results",                  "label": "270-patient baseline",         "category": "Single-level memory", "model": "GPT-OSS-120B"},
+    {"id": "mas_results_baseline_no_mem",  "label": "A/B baseline (memory OFF, N=20)", "category": "Single-level memory", "model": "GPT-OSS-120B"},
+    {"id": "mas_results_baseline_b3",      "label": "batch_3 baseline (memory OFF)",  "category": "Single-level memory", "model": "GPT-OSS-120B"},
+    {"id": "mas_results_with_memory",      "label": "A/B memory ON (case-based, N=20)", "category": "Case-based memory only", "model": "GPT-OSS-120B"},
+    {"id": "mas_results_case_based_50",    "label": "Case-based memory (N=50)",       "category": "Case-based memory only", "model": "GPT-OSS-120B"},
+    {"id": "mas_results_improved_10",      "label": "Multi-level memory (N=10 test)", "category": "Multi-level memory",    "model": "GPT-OSS-120B"},
+    {"id": "mas_results_improved_50",      "label": "Multi-level memory · batch_4 (N=50)", "category": "Multi-level memory","model": "GPT-OSS-120B"},
+    {"id": "mas_results_improved_b3",      "label": "Multi-level memory · batch_3 cold-start (N=50)", "category": "Multi-level memory", "model": "GPT-OSS-120B"},
+    {"id": "mas_results_med42",            "label": "Med42-70B A/B (N=20)",           "category": "Model comparison",      "model": "Med42-70B"},
+    {"id": "mas_results_deepseek_v4_pro",  "label": "DeepSeek-V4-Pro spot-check",     "category": "Model comparison",      "model": "DeepSeek-V4-Pro"},
+]
+
+
+def _resolve_result_dir(result_set_id: str) -> Path:
+    return DATA_GOLD / result_set_id
+
+
+def _available_result_sets():
+    """Filter registry to only entries whose directory exists on disk."""
+    out = []
+    for entry in RESULT_SET_REGISTRY:
+        d = _resolve_result_dir(entry["id"])
+        if d.exists() and d.is_dir():
+            n = sum(1 for p in d.iterdir() if p.is_dir())
+            if n:
+                out.append({**entry, "path": d, "count": n})
+    return out
 
 st.set_page_config(
     page_title="CMADS Evaluation Dashboard",
@@ -68,11 +101,12 @@ st.markdown("""
 
 
 @st.cache_data(ttl=30)
-def load_all_results():
-    if not MAS_DIR.exists():
+def load_all_results(mas_dir_str: str):
+    mas_dir = Path(mas_dir_str)
+    if not mas_dir.exists():
         return []
     patients = []
-    for d in sorted(MAS_DIR.iterdir()):
+    for d in sorted(mas_dir.iterdir()):
         if not d.is_dir():
             continue
         uuid = d.name
@@ -134,13 +168,60 @@ def get_batches():
     return batches
 
 
-patients = load_all_results()
-batches = get_batches()
+@st.cache_data(ttl=60)
+def aggregate_result_set(result_set_id: str):
+    """Per-result-set roll-up: cohort size, DIRECT %, INDIRECT %, MISS %, Found %, Rank-1, avg time."""
+    d = _resolve_result_dir(result_set_id)
+    if not d.exists():
+        return None
+    direct = indirect = miss = rank1 = 0
+    total = 0
+    time_total = 0.0
+    for sub in sorted(d.iterdir()):
+        if not sub.is_dir():
+            continue
+        ev = sub / "evaluation.json"
+        if not ev.exists():
+            continue
+        try:
+            e = json.loads(ev.read_text())
+        except (json.JSONDecodeError, OSError):
+            continue
+        total += 1
+        m = e.get("match_type")
+        if m == "DIRECT":
+            direct += 1
+            if e.get("rank") == 1:
+                rank1 += 1
+        elif m == "INDIRECT":
+            indirect += 1
+            if e.get("rank") == 1:
+                rank1 += 1
+        else:
+            miss += 1
+        tr = sub / "execution_trace.json"
+        if tr.exists():
+            try:
+                time_total += float(json.loads(tr.read_text()).get("duration_s") or 0)
+            except (json.JSONDecodeError, OSError, TypeError):
+                pass
+    found = direct + indirect
+    return {
+        "id": result_set_id,
+        "n": total,
+        "direct": direct,
+        "indirect": indirect,
+        "miss": miss,
+        "found": found,
+        "rank1": rank1,
+        "direct_pct": (100 * direct / total) if total else 0,
+        "indirect_pct": (100 * indirect / total) if total else 0,
+        "miss_pct": (100 * miss / total) if total else 0,
+        "found_pct": (100 * found / total) if total else 0,
+        "rank1_pct": (100 * rank1 / found) if found else 0,
+        "avg_time": (time_total / total) if total else 0,
+    }
 
-if not patients:
-    st.title("📊 CMADS Dashboard")
-    st.warning("No results yet. Run the MAS pipeline first.")
-    st.stop()
 
 # ── Sidebar ──
 st.sidebar.markdown("## 📊 CMADS Dashboard")
@@ -149,6 +230,70 @@ st.sidebar.markdown("## 📊 CMADS Dashboard")
 view = st.sidebar.radio("", ["📈 Overview", "🔍 Patient Explorer"], label_visibility="collapsed")
 
 st.sidebar.markdown("---")
+
+# ── Result-set selector — drives both views ──
+available_sets = _available_result_sets()
+if not available_sets:
+    st.title("📊 CMADS Dashboard")
+    st.warning("No saved MAS runs found in `data/gold/mas_results*`. Run the pipeline first.")
+    st.stop()
+
+# Group by category for a structured selector
+sets_by_category: dict[str, list[dict]] = {}
+for s in available_sets:
+    sets_by_category.setdefault(s["category"], []).append(s)
+
+# Build option list with category prefix for clarity
+def _set_label(s):
+    return f"{s['label']}  ·  {s['count']} pts  ·  {s['model']}"
+
+set_options = [s["id"] for s in available_sets]
+set_labels = {s["id"]: _set_label(s) for s in available_sets}
+
+st.sidebar.markdown("**Run cohort**")
+
+# Category filter chips (compact horizontal radio)
+all_categories = list(sets_by_category.keys())
+selected_category = st.sidebar.radio(
+    "Category",
+    options=["All"] + all_categories,
+    horizontal=False,
+    label_visibility="collapsed",
+    key="cat_filter",
+)
+if selected_category != "All":
+    set_options = [s["id"] for s in available_sets if s["category"] == selected_category]
+
+# Default: prefer the most recently produced multi-level run if visible.
+default_id = next(
+    (sid for sid in ["mas_results_improved_b3", "mas_results_improved_50", "mas_results_case_based_50", "mas_results"] if sid in set_options),
+    set_options[0],
+)
+selected_set_id = st.sidebar.selectbox(
+    "Cohort",
+    options=set_options,
+    format_func=lambda sid: set_labels.get(sid, sid),
+    index=set_options.index(default_id) if default_id in set_options else 0,
+    label_visibility="collapsed",
+    key="set_picker",
+)
+
+active = next(s for s in available_sets if s["id"] == selected_set_id)
+MAS_DIR = active["path"]
+
+st.sidebar.caption(
+    f"**Memory:** {active['category']}  ·  **Model:** {active['model']}"
+)
+
+st.sidebar.markdown("---")
+
+patients = load_all_results(str(MAS_DIR))
+batches = get_batches()
+
+if not patients:
+    st.title("📊 CMADS Dashboard")
+    st.warning(f"No results in `{MAS_DIR.name}` — pick another cohort.")
+    st.stop()
 
 if view == "🔍 Patient Explorer":
     # Batch filter
@@ -191,6 +336,49 @@ if view == "🔍 Patient Explorer":
 # ═══════════════════════════════════════════════════════════════
 if view == "📈 Overview":
     st.title("📊 Evaluation Overview")
+    st.caption(
+        f"Active cohort: **{active['label']}**  ·  {active['category']}  ·  {active['model']}  ·  {active['count']} patients"
+    )
+
+    # ── Run Cohort Comparison (all saved cohorts categorised) ──
+    st.markdown("### Run Cohort Comparison")
+    st.caption(
+        "Per-cohort accuracy across every saved MAS run, grouped by memory level "
+        "and model. Click a row to focus the dashboard on that cohort via the sidebar."
+    )
+
+    rs_rows = []
+    for s in available_sets:
+        agg = aggregate_result_set(s["id"])
+        if not agg or agg["n"] == 0:
+            continue
+        rs_rows.append({
+            "Category": s["category"],
+            "Cohort": s["label"],
+            "Model": s["model"],
+            "N": agg["n"],
+            "DIRECT %": f"{agg['direct_pct']:.0f}%",
+            "INDIRECT %": f"{agg['indirect_pct']:.0f}%",
+            "MISS %": f"{agg['miss_pct']:.0f}%",
+            "Found %": f"{agg['found_pct']:.0f}%",
+            "Rank-1 (of found)": f"{agg['rank1_pct']:.0f}%",
+            "Avg time": f"{agg['avg_time']:.0f}s",
+        })
+
+    if rs_rows:
+        rs_df = pd.DataFrame(rs_rows)
+        # Keep category order: Single → Case-based → Multi-level → Model A/B
+        cat_order = {
+            "Single-level memory": 0,
+            "Case-based memory only": 1,
+            "Multi-level memory": 2,
+            "Model comparison": 3,
+        }
+        rs_df["_ord"] = rs_df["Category"].map(lambda c: cat_order.get(c, 99))
+        rs_df = rs_df.sort_values(["_ord", "N"], ascending=[True, False]).drop(columns=["_ord"])
+        st.dataframe(rs_df, use_container_width=True, hide_index=True)
+
+    st.markdown("---")
 
     # Batch selector
     batch_names = ["All Batches"] + sorted(batches.keys())

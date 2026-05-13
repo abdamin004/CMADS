@@ -1,0 +1,176 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Progressive chronic kidney disease (mixed hypertensive and diabetic nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented hypertension (BP 129/100 mmHg) and diabetes mellitus with proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine trend (eGFR not provided) suggestive of CKD progression",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Combination of hypertensive and diabetic risk factors known to accelerate CKD",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has longstanding hypertension and insulin\u2011treated diabetes with evidence of proteinuria and declining renal function, fitting a mixed hypertensive\u2011diabetic nephropathy pattern. Lack of ACE\u2011I/ARB therapy and proteinuria further support active CKD progression."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled essential (or secondary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 129/100 mmHg (stage 2 diastolic hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to cardiovascular and renal risk scores",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent elevated diastolic pressure despite therapy indicates uncontrolled hypertension, which may be essential or secondary; it drives CKD and cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Heterozygous familial hypercholesterolemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "190372006",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated LDL\u2011C noted in prior labs (exact values not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Family history not documented, raising uncertainty",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hyperlipidaemia is present, but without documented family history or physical stigmata, FH remains plausible yet less certain."
+    },
+    {
+      "rank": 4,
+      "name": "Insulin\u2011treated diabetes mellitus with probable HbA1c artefact / overtreatment",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.3% while on insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 19.1 mg/dL despite low HbA1c",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The discordantly low HbA1c suggests either overtreatment with insulin or an analytical artefact; presence of ketonuria raises concern for fluctuating glucose control."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic obstructive pulmonary disease (COPD) secondary to tobacco exposure",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of tobacco use presumed but not explicitly documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Chronic dyspnea and prior COPD diagnosis in problem list",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "COPD is listed and likely related to smoking; confirmation of smoking status would solidify this diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Opioid\u2011use / chronic pain syndrome (unspecified source)",
+      "icd10": "G89.29",
+      "snomed": "276352009",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Opioid prescription present without documented pain source",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioid use is evident, but lack of a documented pain etiology makes this diagnosis speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Hemolytic process (possible contributing to low HbA1c and urine bilirubin)",
+      "icd10": "D59.9",
+      "snomed": "302810001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive without serum LFT abnormalities",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Low HbA1c could be artifact of increased red\u2011cell turnover",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Urine bilirubin may reflect hemolysis, but no hemolysis panel has been performed; thus this remains a low\u2011confidence possibility."
+    }
+  ],
+  "primary_diagnosis": "Progressive chronic kidney disease (mixed hypertensive and diabetic nephropathy)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of uncontrolled hypertension, insulin\u2011treated diabetes, and evidence of proteinuria points to progressive CKD driven by both hypertensive and diabetic nephropathy, which the reviewer identified as the most likely primary problem. Hypertension remains a major contributor and is inadequately controlled. Dyslipidaemia suggests possible FH, though family history is lacking. The discordant low HbA1c raises concern for overtreatment or assay interference, while urine findings (bilirubin, ketones, dilute urine) are unexplained and warrant further work\u2011up. COPD is plausible given presumed smoking, and opioid use is noted without a clear pain source. Hemolysis is a remote consideration pending targeted labs.",
+  "unresolved_findings": [
+    "HbA1c 3.3% while on insulin",
+    "Urine bilirubin positive without serum LFT abnormalities",
+    "Urine ketones 19.1 mg/dL with low HbA1c",
+    "Very dilute urine (specific gravity 1.00)",
+    "Pain source not documented despite opioid prescription",
+    "Missing eGFR, BMI, full lipid panel, serum liver panel",
+    "Risk activity involvement not explicitly defined (presumed smoking)",
+    "Potential secondary hypertension not yet evaluated"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c using an alternative assay or obtain fructosamine level to assess short\u2011term glycaemia",
+    "Comprehensive fasting lipid panel with LDL\u2011C, HDL\u2011C, triglycerides",
+    "Complete metabolic panel including AST, ALT, ALP, GGT, bilirubin",
+    "Quantify urine protein (albumin/creatinine ratio) and repeat urinalysis",
+    "Renal ultrasound to assess structural abnormalities",
+    "Hemolysis work\u2011up: LDH, haptoglobin, indirect bilirubin, peripheral smear",
+    "Confirm smoking status (patient interview, cotinine level)",
+    "Review medication list for diuretics or osmotic agents causing dilute urine",
+    "Screen for secondary hypertension (plasma renin activity, aldosterone, catecholamines)",
+    "Consider chest CT or spirometry to stage COPD severity"
+  ]
+}

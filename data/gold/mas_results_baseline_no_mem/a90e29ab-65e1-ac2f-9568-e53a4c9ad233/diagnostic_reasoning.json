@@ -1,0 +1,273 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled ASCVD risk \u2013 No statin therapy",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnoses: Diabetes mellitus type 2, Hypertriglyceridemia, Metabolic syndrome, Essential hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 236 mg/dL (high), LDL-C 158 mg/dL (borderline\u2011high), Triglycerides 189 mg/dL (high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list: No statin documented despite high\u2011risk profile",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 62, male, diabetes, hypertension, dyslipidemia \u2192 10\u2011yr ASCVD risk >30%",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has multiple major ASCVD risk factors (age, male sex, diabetes, hypertension, markedly elevated LDL\u2011C) and lacks any lipid\u2011lowering therapy. Guidelines mandate high\u2011intensity statin, making untreated ASCVD risk the most urgent, actionable problem."
+    },
+    {
+      "rank": 2,
+      "name": "Uncertain hypertension control (possible resistant hypertension)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnoses: Essential hypertension (high priority)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications: Lisinopril 10\u202fmg daily, Hydrochlorothiazide 25\u202fmg daily",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing systolic/diastolic blood pressure values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is diagnosed and treated with two agents, but the absence of recorded BP readings prevents confirmation of adequate control. In a high\u2011risk diabetic patient, uncontrolled BP is likely and contributes to ASCVD and renal risk."
+    },
+    {
+      "rank": 3,
+      "name": "Early diabetic nephropathy / Stage 2 CKD",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.4\u202fmg/dL (elevated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 86\u202fmL/min/1.73\u202fm\u00b2 (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnoses: Diabetes mellitus type\u202f2, Hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication: Lisinopril (ACE\u2011I) for renal protection",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mildly elevated creatinine with borderline eGFR in a diabetic hypertensive patient suggests early CKD, likely diabetic nephropathy, despite normal albumin/creatinine ratio."
+    },
+    {
+      "rank": 4,
+      "name": "Hypothyroidism (secondary dyslipidaemia)",
+      "icd10": "E03.9",
+      "snomed": "276352009",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 158\u202fmg/dL and triglycerides 189\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age >60 increases prevalence of hypothyroidism",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated LDL\u2011C and TG can be caused by untreated hypothyroidism, which is common in men over 60. Absence of TSH testing makes this a plausible but unconfirmed contributor to dyslipidaemia."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnoses: Obesity, Metabolic syndrome, Diabetes mellitus type\u202f2",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hypertriglyceridemia (189\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Liver function tests not reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome and dyslipidaemia are strong risk factors for NAFLD/NASH. Lack of liver enzyme data limits certainty, but the condition remains plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk\u2011factor flags: Obesity, male sex, age 62, hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stress and part\u2011time employment (possible sedentary lifestyle)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA prevalence is high in older, obese men with hypertension. No screening performed, so it is a possible contributor to resistant hypertension and cardiovascular risk."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive disorder / chronic stress\u2011related mood disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial flags: high stress, low education, part\u2011time employment, criminal record",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication review due (low priority) \u2013 suggests possible adherence issues",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic psychosocial stressors increase risk for depression, which can impair medication adherence and glycaemic control."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary hypertension (primary aldosteronism or renal\u2011artery stenosis)",
+      "icd10": "I15.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension treated with ACE\u2011I + thiazide, but BP values missing",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No potassium level reported (hypokalemia would support aldosteronism)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension in a diabetic patient raises suspicion for secondary causes; lack of electrolyte data limits certainty."
+    },
+    {
+      "rank": 9,
+      "name": "Gout / hyperuricaemia",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication: Hydrochlorothiazide (known to raise uric acid)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk\u2011factor flags: Obesity, metabolic syndrome, male sex",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thiazide diuretics and metabolic syndrome predispose to hyperuricaemia and gout, though no uric acid measurement is available."
+    },
+    {
+      "rank": 10,
+      "name": "Vitamin B12 deficiency (metformin\u2011related)",
+      "icd10": "E53.8",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication: Metformin ER 500\u202fmg daily (long\u2011term use)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No B12 level measured",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic metformin use can cause B12 malabsorption; without labs the diagnosis remains speculative."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled ASCVD risk \u2013 No statin therapy",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is a 62\u2011year\u2011old male with established type\u20112 diabetes, metabolic syndrome, hypertension, and markedly atherogenic dyslipidaemia. The most pressing, treatable issue is the absence of any statin despite a >30% 10\u2011year ASCVD risk, making untreated ASCVD the top diagnosis. Hypertension control cannot be verified due to missing BP data, raising concern for uncontrolled or resistant hypertension. Early renal impairment is suggested by a modest rise in creatinine and borderline eGFR. Secondary contributors such as hypothyroidism, NAFLD/NASH, obstructive sleep apnea, depression, secondary hypertension, gout, and metformin\u2011related B12 deficiency are plausible given the risk\u2011factor profile but lack direct confirmatory data. Unexplained laboratory findings (elevated platelets, mild hyperchloremic metabolic shift) and documentation inconsistencies (historical anemia, prediabetes label) remain unresolved.",
+  "unresolved_findings": [
+    "Elevated platelet count (425\u202f\u00d7\u202f10\u00b3/\u00b5L) without clear inflammatory or hematologic cause",
+    "Mild hyperchloremic metabolic shift (low CO\u2082, high\u2011normal chloride) possibly diuretic\u2011related",
+    "Historical anemia diagnosis vs. current normal hemoglobin/hematocrit",
+    "Prediabetes label despite documented type\u20112 diabetes diagnosis",
+    "Missing blood pressure, BMI, smoking status, alcohol use, family history, and liver enzyme data"
+  ],
+  "recommended_workup": [
+    "Obtain three separate office blood pressure measurements or 24\u2011hour ambulatory BP monitoring",
+    "Repeat fasting lipid panel and add TSH + free T4 to assess for hypothyroidism",
+    "Start high\u2011intensity statin therapy per guidelines (e.g., atorvastatin 40\u201180\u202fmg)",
+    "12\u2011lead ECG and either stress test or coronary calcium scoring to evaluate silent CAD",
+    "Spot urine albumin\u2011to\u2011creatinine ratio (repeat in 3\u202fmonths) and monitor eGFR trend",
+    "Screen for obstructive sleep apnea using STOP\u2011BANG questionnaire and consider home sleep study",
+    "Liver panel (ALT, AST, GGT) and hepatic ultrasound or FibroScan for NAFLD/NASH assessment",
+    "PHQ\u20119 and GAD\u20117 questionnaires to evaluate depression and anxiety",
+    "Serum potassium, aldosterone\u2011renin ratio, and renal duplex ultrasound if secondary hypertension suspected",
+    "Serum uric acid level to assess gout risk",
+    "Serum vitamin B12 (and methylmalonic acid if borderline) to rule out deficiency",
+    "Comprehensive medication reconciliation to confirm statin omission and assess adherence"
+  ]
+}

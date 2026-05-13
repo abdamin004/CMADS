@@ -1,0 +1,182 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease with recent NSTEMI (under\u2011treated)",
+      "icd10": "I21.4",
+      "snomed": "194828000",
+      "probability": 0.46,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI documented in admission notes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Extensive cardiovascular risk factors (diabetes, obesity, hypertriglyceridemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Under\u2011treated secondary\u2011prevention medications noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s recent NSTEMI is the most acute and life\u2011threatening event, supported by documented admission diagnosis and the presence of multiple atherogenic risk factors, making it the primary driver of current clinical status."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic\u2011syndrome\u2011driven atherogenic milieu",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes, obesity, hypertriglyceridemia",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated Charlson comorbidity index (3) reflecting metabolic burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome underlies the patient\u2019s atherosclerotic disease and contributes to ongoing endothelial dysfunction, but it is a background risk factor rather than the immediate cause of presentation."
+    },
+    {
+      "rank": 3,
+      "name": "Cardiac (congestive) hepatopathy",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent recurrent MI raises likelihood of right\u2011sided heart failure and hepatic congestion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated total bilirubin without cholestatic enzyme pattern (pending)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the recent NSTEMI and possible impaired cardiac output, hepatic congestion is plausible and may explain the bilirubin elevation, though objective cardiac function data are missing."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235719002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome are classic risk factors for NAFLD/NASH",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild transaminase elevation noted (details pending)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s metabolic profile makes NAFLD likely, but the degree of bilirubin rise exceeds what is typical for isolated NAFLD, suggesting it is a contributing but not sole factor."
+    },
+    {
+      "rank": 5,
+      "name": "Low\u2011grade hemolytic anemia",
+      "icd10": "D55.9",
+      "snomed": "271442005",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia of unclear etiology",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is present, but without hemolysis labs (LDH, haptoglobin) the hemolytic component remains speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Essential hypertension (untreated/undocumented)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as a comorbidity but no blood pressure measurements available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is a common comorbidity in this population, yet the lack of objective data makes its current impact uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive cholestasis (silent gallstone or biliary stricture)",
+      "icd10": "K80.20",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated total bilirubin without clear hemolysis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No imaging or cholestatic enzyme pattern has been provided; obstruction remains a remote possibility."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "86203009",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted; OSA commonly coexists",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While OSA may contribute to cardiovascular risk, it is peripheral to the acute presentation."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease with recent NSTEMI (under\u2011treated)",
+  "primary_probability": 0.46,
+  "clinical_reasoning_summary": "The patient\u2019s most pressing issue is a recent NSTEMI in the setting of poorly controlled atherosclerotic disease, which the reviewer correctly elevated to primary status. Metabolic syndrome provides the chronic substrate for his cardiovascular pathology, while cardiac hepatopathy likely explains the unexplained bilirubin rise. NAFLD/NASH, low\u2011grade hemolytic anemia, and untreated hypertension are plausible contributors but carry lower certainty. Obstructive cholestasis and sleep apnea remain possible but weakly supported. The differential reflects both the acute life\u2011threatening event and the background metabolic derangements that shape the patient\u2019s overall risk profile.",
+  "unresolved_findings": [
+    "Elevated total bilirubin (etiology not yet determined)",
+    "Chronic sinusitis (no clear link to primary diagnoses)",
+    "Absence of documented blood pressure readings",
+    "Missing lipid panel results",
+    "Missing renal function measurements (creatinine, eGFR)",
+    "Incomplete liver enzyme profile (AST, ALT, ALP, GGT, bilirubin fractions)",
+    "No hemolysis work\u2011up (LDH, haptoglobin, reticulocyte count)",
+    "No cardiac function data (echocardiogram, BNP)",
+    "No abdominal imaging to assess biliary tree"
+  ],
+  "recommended_workup": [
+    "Stateless transthoracic echocardiogram to assess ventricular function and confirm congestive hepatopathy",
+    "BNP or NT\u2011proBNP level for heart failure evaluation",
+    "Comprehensive liver panel including AST, ALT, ALP, GGT, direct and indirect bilirubin",
+    "Abdominal ultrasound (or MRCP) to evaluate for gallstones or biliary obstruction",
+    "Hemolysis panel: LDH, haptoglobin, reticulocyte count, peripheral smear",
+    "Serum creatinine, eGFR, and urine albumin/creatinine ratio to assess renal function",
+    "Blood pressure measurement and 24\u2011hour ambulatory monitoring",
+    "Full lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Polysomnography if clinical suspicion for obstructive sleep apnea persists"
+  ]
+}

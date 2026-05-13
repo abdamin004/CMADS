@@ -1,0 +1,234 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-related iatrogenesis (duplicate ACE\u2011I, chronic NSAID, inappropriate prasugrel, sub\u2011maximal statin)",
+      "icd10": "Y57.9",
+      "snomed": "41672002",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate ACE\u2011inhibitor prescription",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prasugrel prescribed to >75\u2011year\u2011old female",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011dose statin (sub\u2011maximal) despite secondary\u2011prevention status",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Polypharmacy combines agents that synergistically increase renal injury risk (ACE\u2011I + NSAID) and bleeding risk (prasugrel + DAPT). The statin dose is insufficient for a post\u2011NSTEMI patient, leaving atherogenic lipids uncontrolled."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic coronary artery disease (post\u2011NSTEMI) with uncontrolled dyslipidaemia",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.23,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 177\u202fmg/dL and total cholesterol 263\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High residual cardiovascular risk (obesity, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s prior NSTEMI places her in secondary\u2011prevention category, yet lipid profile remains far above guideline targets, indicating uncontrolled atherosclerotic disease."
+    },
+    {
+      "rank": 3,
+      "name": "Bleeding\u2011risk phenotype (DAPT + NSAID + age\u2011related factors)",
+      "icd10": "R58",
+      "snomed": "271442005",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy (prasugrel + aspirin)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >75\u202fyears, female sex",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combination of potent antiplatelet agents, NSAID, and advanced age creates a high\u2011risk bleeding environment, warranting immediate mitigation."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic kidney disease, stage 3\u20114 (presumed)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate ACE\u2011I and chronic NSAID raise suspicion for CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No recent eGFR/creatinine values available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal function cannot be confirmed due to missing labs, but medication profile and hypertension suggest possible stage 3\u20114 CKD."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and prior NSTEMI",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No echocardiogram or BNP reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors align with HFpEF, yet objective cardiac data are lacking, making the diagnosis plausible but unconfirmed."
+    },
+    {
+      "rank": 6,
+      "name": "Type 2 diabetes mellitus (undiagnosed or uncontrolled)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension increase diabetes risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No fasting glucose or HbA1c values available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical risk profile suggests possible diabetes, but absence of glucose testing makes this speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnoea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and older age",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No polysomnography performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, yet diagnostic testing is absent, leaving OSA as a plausible but unverified contributor."
+    },
+    {
+      "rank": 8,
+      "name": "Osteoporosis / high fracture risk",
+      "icd10": "M81.0",
+      "snomed": "239872002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Post\u2011menopausal Asian female, chronic glucocorticoid exposure not documented but possible from NSAID use",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No bone\u2011density testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Demographic risk is high; lack of DEXA leaves diagnosis unconfirmed but warrants evaluation."
+    },
+    {
+      "rank": 9,
+      "name": "Atrial fibrillation (paroxysmal or persistent)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age and hypertension predispose to AF",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No ECG or rhythm monitoring documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential arrhythmia given risk factors, but no rhythm data; kept for completeness."
+    }
+  ],
+  "primary_diagnosis": "Medication-related iatrogenesis (duplicate ACE\u2011I, chronic NSAID, inappropriate prasugrel, sub\u2011maximal statin)",
+  "primary_probability": 0.24,
+  "clinical_reasoning_summary": "The patient\u2019s polypharmacy creates immediate iatrogenic threats\u2014renal injury from ACE\u2011I/NSAID duplication and heightened bleeding risk from prasugrel combined with DAPT. Concurrently, secondary\u2011prevention goals are unmet, evidenced by markedly elevated LDL\u2011C, indicating uncontrolled atherosclerotic disease. The cumulative cardiovascular risk is amplified by hypertension, obesity, and possible CKD, while other comorbidities (HFpEF, diabetes, OSA, osteoporosis, AF) remain plausible but lack objective confirmation. Prioritization reflects the urgent need to rectify medication\u2011related harms and address dyslipidaemia.",
+  "unresolved_findings": [
+    "Missing eGFR/creatinine and electrolyte panel",
+    "Missing fasting glucose/HbA1c",
+    "Missing ECG or ambulatory cardiac rhythm monitoring",
+    "No bone\u2011density (DEXA) assessment",
+    "No imaging or biomarkers for heart failure"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel including serum creatinine, eGFR, electrolytes",
+    "Fasting glucose and HbA1c",
+    "12\u2011lead ECG and, if indicated, 24\u201148\u202fhour Holter monitoring",
+    "Echocardiogram with assessment of diastolic function",
+    "Renal ultrasound if CKD suspected",
+    "Repeat lipid panel after statin optimization",
+    "DEXA scan for osteoporosis screening",
+    "HAS\u2011BLED score calculation to quantify bleeding risk",
+    "Medication reconciliation: discontinue duplicate ACE\u2011I, stop chronic NSAID, replace prasugrel with clopidogrel or discontinue DAPT per guidelines"
+  ]
+}

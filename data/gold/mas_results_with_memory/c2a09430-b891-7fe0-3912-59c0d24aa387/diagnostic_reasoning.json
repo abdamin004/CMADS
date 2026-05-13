@@ -1,0 +1,281 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-induced acute kidney injury (ACE inhibitor and thiazide diuretic)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum Creatinine = 3.1 mg/dL (severity 4)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum Creatinine = 1.9 mg/dL (duplicate entry)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) = 69.3 mL/min/1.73 m\u00b2 (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "Lisinopril (ACE inhibitor)",
+          "strength": "strong"
+        },
+        {
+          "source": "medication list",
+          "finding": "Hydrochlorothiazide (thiazide diuretic)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 2 (historical)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A rapid rise in serum creatinine in a patient with baseline CKD, who is receiving both an ACE inhibitor and a thiazide diuretic, strongly suggests an iatrogenic acute kidney injury. The discordance between creatinine and eGFR further points to an acute-on-chronic process."
+    },
+    {
+      "rank": 2,
+      "name": "Type\u20112 (demand) myocardial injury secondary to AKI\u2011related volume depletion or anemia",
+      "icd10": "I21.A1",
+      "snomed": "302810001",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity Troponin I = 108 ng/L (severity 5)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Heart rate = 90 bpm (on beta\u2011blocker)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Acute rise in creatinine (AKI)",
+          "strength": "strong"
+        },
+        {
+          "source": "medication list",
+          "finding": "Beta\u2011blocker (anti\u2011ischemic)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute NSTEMI listed as historic problem (context for myocardial vulnerability)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated troponin in the setting of acute kidney injury can reflect a supply\u2011demand mismatch (type\u20112 MI) due to reduced renal perfusion, possible volume depletion, or anemia. The absence of documented chest pain or new ECG changes makes a plaque\u2011rupture (type\u20111) less likely."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic kidney disease / CKD progression (stage 3b\u20114)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus (A1c = 5.2%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Microalbuminuria secondary to diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein = 304.5 mg/dL (+3)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum Creatinine = 3.1 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR = 69.3 mL/min/1.73 m\u00b2 (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "Lisinopril (renal protective in diabetic nephropathy)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of diabetes, proteinuria, and markedly elevated creatinine indicates progression of diabetic nephropathy beyond the historically recorded CKD stage 2, likely now stage 3b\u20114."
+    },
+    {
+      "rank": 4,
+      "name": "Statin\u2011associated myopathy / early rhabdomyolysis",
+      "icd10": "G72.0",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication list",
+          "finding": "Simvastatin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine (potential contribution from rhabdomyolysis)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CK or muscle symptom data (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In the setting of reduced renal clearance, simvastatin levels can rise, precipitating myopathy and contributing to renal dysfunction. Lack of CK data limits certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Hypertensive heart disease with chronic troponin leak",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (diagnosed 2003)",
+          "strength": "strong"
+        },
+        {
+          "source": "medication list",
+          "finding": "Beta\u2011blocker and ACE\u2011I (treated hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Heart rate = 90 bpm",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I = 108 ng/L",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension can cause left\u2011ventricular hypertrophy and low\u2011grade myocardial injury, manifesting as a chronic troponin elevation independent of an acute coronary event."
+    },
+    {
+      "rank": 6,
+      "name": "Medication non\u2011adherence / psychosocial barriers to optimal secondary prevention",
+      "icd10": "Z91.14",
+      "snomed": "160603005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate\u2011partner abuse (high priority)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and limited contact (moderate)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Criminal record (low priority)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent medication refill or adherence data (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Significant psychosocial stressors can impair medication adherence, potentially exacerbating hypertension, CKD, and cardiovascular risk."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea contributing to hypertension and cardiovascular strain",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle\u2011aged adult with HTN, CAD, CKD (risk profile)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study data (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is a common comorbidity in patients with hypertension and cardiovascular disease; it may be an unaddressed contributor to the current clinical picture."
+    },
+    {
+      "rank": 8,
+      "name": "Chronic oral infection / periodontitis as a source of systemic inflammation",
+      "icd10": "K05.3",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent loss of teeth (onset 2024\u201103\u201113)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented periodontal disease (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Poor oral health can drive systemic inflammation, potentially accelerating atherosclerosis and CKD progression, but direct evidence is limited."
+    }
+  ],
+  "primary_diagnosis": "Medication-induced acute kidney injury (ACE inhibitor and thiazide diuretic)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with a marked rise in serum creatinine and a high\u2011sensitivity troponin elevation. The most parsimonious explanation is an iatrogenic acute kidney injury precipitated by concurrent ACE\u2011inhibitor and thiazide therapy in the setting of baseline CKD, which also creates a demand\u2011type myocardial injury reflected by the troponin rise. Chronic diabetic kidney disease, suboptimal lipid control, and hypertensive heart disease provide the background substrate for cardiovascular risk. Psychosocial stressors and possible medication non\u2011adherence may further compromise disease control. Less likely contributors include statin\u2011related myopathy, obstructive sleep apnea, and chronic oral infection, each supported by limited or missing data.",
+  "unresolved_findings": [
+    "Recent loss of teeth without documented periodontal disease",
+    "Criminal record (social/legal history)",
+    "Higher education and full\u2011time employment (protective socioeconomic factors)",
+    "Absence of recent BMI, weight, or repeat lipid panel",
+    "No current ECG or chest pain documentation",
+    "Missing CBC, CK, BNP, and sleep study data"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG with serial repeats to assess for new ischemic changes",
+    "Serial high\u2011sensitivity troponin measurements (3\u2011hour trend)",
+    "Repeat serum creatinine, BUN, electrolytes, and urine output monitoring",
+    "Renal ultrasound to evaluate for obstruction or structural change",
+    "Comprehensive medication reconciliation; consider holding ACE\u2011I and thiazide pending renal recovery",
+    "Complete blood count with differential to assess for anemia or leukocytosis",
+    "Serum creatine kinase (CK) level to evaluate for statin\u2011related myopathy",
+    "BNP or NT\u2011proBNP and bedside transthoracic echocardiogram to assess for heart failure and wall\u2011motion abnormalities",
+    "Overnight pulse oximetry or formal polysomnography for obstructive sleep apnea",
+    "Dental examination with periodontal charting",
+    "Social work consult to address intimate\u2011partner abuse, medication access, and adherence barriers"
+  ]
+}

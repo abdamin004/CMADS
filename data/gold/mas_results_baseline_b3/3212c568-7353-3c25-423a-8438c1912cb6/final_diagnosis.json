@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute-on-chronic kidney injury",
+      "icd10": "N17.9",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine rise from baseline 1.5 mg/dL to 2.7 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.00 (extremely dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of diabetic nephropathy (CKD stage 1) with recent labs missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The abrupt increase in creatinine beyond the expected chronic diabetic nephropathy level, together with a very low urine specific gravity, indicates an acute superimposed renal insult on pre\u2011existing CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic nephropathy",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.29,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with prior CKD documentation",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Baseline creatinine previously 1.5 mg/dL consistent with CKD stage 1",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hyperglycemia predisposes to progressive glomerular injury; the patient\u2019s baseline renal function aligns with diabetic kidney disease."
+    },
+    {
+      "rank": 3,
+      "name": "Heart failure with preserved ejection fraction (cardiorenal syndrome)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia (HR 97 bpm) despite beta\u2011blocker therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and prior NSTEMI",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension, prior ischemic heart disease, and persistent tachycardia raise suspicion for HFpEF contributing to renal congestion (cardiorenal syndrome)."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI and ongoing hyperlipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk (Charlson comorbidity index 2)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Established coronary artery disease explains chronic cardiovascular risk but does not account for the acute renal changes."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD background raises risk for erythropoietin deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia; however, CBC data are missing, making this a plausible but unconfirmed diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, hyperlipidemia, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors support NAFLD, yet urine bilirubin positivity suggests a cholestatic process not typical for simple steatosis."
+    },
+    {
+      "rank": 7,
+      "name": "Statin\u2011induced hepatotoxicity / drug\u2011induced cholestasis",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate high\u2011intensity statin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin with borderline serum bilirubin elevation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Poly\u2011statin exposure can cause cholestatic liver injury, consistent with bilirubin findings, though transaminase elevations are mild."
+    },
+    {
+      "rank": 8,
+      "name": "Atrial fibrillation (paroxysmal or new\u2011onset)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia despite beta\u2011blocker",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Tachycardia could reflect AF, but no ECG or rhythm monitoring data are available, making this a low\u2011confidence possibility."
+    }
+  ],
+  "primary_diagnosis": "Acute-on-chronic kidney injury",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s abrupt creatinine rise from 1.5 to 2.7 mg/dL, together with an extremely dilute urine, points to an acute kidney insult superimposed on known diabetic nephropathy. Chronic diabetes remains a major contributor to baseline CKD. Cardiovascular comorbidities (HTN, prior NSTEMI) support HFpEF and CAD, while metabolic syndrome raises the possibility of NAFLD. Medication review highlights duplicate statin therapy as a plausible cause of cholestatic liver findings. Missing CBC and cardiac biomarkers limit confirmation of anemia and heart failure, respectively.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.00 (extremely dilute)",
+    "Positive urine bilirubin with borderline serum bilirubin elevation",
+    "Resting tachycardia (HR 97 bpm) despite beta\u2011blocker",
+    "Absence of CBC, HbA1c, fasting lipid panel, BMI, thyroid function tests"
+  ],
+  "recommended_workup": [
+    "Repeat basic metabolic panel with trend of creatinine and electrolytes",
+    "Urine albumin\u2011to\u2011creatinine ratio (UACR)",
+    "Renal ultrasound to assess for obstruction or structural change",
+    "Complete blood count with differential to evaluate anemia",
+    "B-type natriuretic peptide (BNP) and transthoracic echocardiogram for heart failure assessment",
+    "12\u2011lead ECG and ambulatory rhythm monitoring for atrial fibrillation",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, total and direct bilirubin)",
+    "Medication reconciliation focusing on statin dosing and potential nephrotoxic agents"
+  ]
+}

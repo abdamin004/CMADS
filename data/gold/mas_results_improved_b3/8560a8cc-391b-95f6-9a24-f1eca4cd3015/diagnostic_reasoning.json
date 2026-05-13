@@ -1,0 +1,178 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2) and age 65 male",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled diastolic hypertension despite ACE\u2011inhibitor",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High prevalence of OSA in obese older males with resistant hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Obesity, age, and resistant hypertension are classic risk factors for OSA; untreated OSA can worsen blood pressure and insulin resistance, making it the most likely modifiable contributor."
+    },
+    {
+      "rank": 2,
+      "name": "Medication non\u2011adherence / psychosocial barrier",
+      "icd10": "Z91.14",
+      "snomed": "422034002",
+      "probability": 0.28,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, intimate\u2011partner abuse, and no healthcare contact since 2019\u201111\u201125",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of lipid\u2011lowering, antidiabetic, or iron supplementation medications",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing key labs (lipid panel, renal function, iron studies)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and documented gaps in follow\u2011up strongly suggest poor medication adherence, which can explain uncontrolled hypertension and lack of preventive therapy."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (stage 1\u20112) with non\u2011anion\u2011gap metabolic acidosis",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal CO\u2082 (23.6 mmol/L) trending down",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline high chloride (111 mmol/L) trending up",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, and ACE\u2011inhibitor use (risk factors for CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild normocytic anemia (RBC 3.9\u00d710\u2076/\u00b5L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of a non\u2011anion\u2011gap metabolic acidosis pattern, hypertension, and anemia points toward early CKD; confirmation requires serum creatinine/eGFR and urine albumin."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic normocytic anemia in a male >60 years",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No iron studies or reticulocyte count available (data gap)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "\u224815% prevalence of occult GI bleed causing iron deficiency in this age group",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In older men, unexplained anemia warrants evaluation for iron deficiency, most commonly due to occult GI bleeding; iron studies and FIT/colonoscopy are needed."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hypertension (primary aldosteronism or renovascular disease)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant diastolic hypertension despite ACE\u2011inhibitor therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Secondary hypertension prevalence 5\u201110% in resistant cases",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension raises suspicion for aldosteronism or renal artery stenosis; endocrine and vascular imaging can confirm."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease (CKD\u2011related or inflammatory)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic periodontal disease and metabolic syndrome (systemic inflammation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential early CKD (if confirmed)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If CKD or chronic inflammation is present, anemia may be secondary to reduced erythropoietin or inflammatory cytokines."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea (OSA)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is a 65\u2011year\u2011old obese male with uncontrolled diastolic hypertension, pre\u2011diabetes, and mild normocytic anemia. The pattern of metabolic syndrome, psychosocial stress, and missing preventive labs points to three high\u2011impact entities: obstructive sleep apnea (driven by obesity and resistant hypertension), medication non\u2011adherence (explaining gaps in therapy and labs), and early chronic kidney disease (suggested by a non\u2011anion\u2011gap metabolic acidosis and anemia). Iron\u2011deficiency anemia, secondary hypertension, and anemia of chronic disease are plausible but less likely given current data. The differential was weighted to reflect the probability\u2011shifting power of each diagnosis and the clinical urgency of confirming OSA, adherence, and renal function.",
+  "unresolved_findings": [
+    "Platelet Distribution Width 484.2\u202ffL (physiologically implausible, likely assay error)",
+    "Non\u2011anion\u2011gap metabolic acidosis without renal function or urine electrolyte data",
+    "Missing lipid panel, thyroid studies, inflammatory markers, and renal labs",
+    "Hyperchloremia without clear etiology (dietary vs iatrogenic vs renal)",
+    "Normocytic anemia without iron, B12, folate, or reticulocyte studies"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, BUN, and urine albumin\u2011to\u2011creatinine ratio to assess CKD",
+    "Home sleep apnea test (HSAT) or overnight polysomnography",
+    "Medication adherence assessment (Morisky questionnaire, pharmacy refill review)",
+    "Iron studies (serum iron, ferritin, TIBC, reticulocyte count) and FIT/FOBT; proceed to colonoscopy if positive",
+    "Fasting lipid panel and calculation of 10\u2011year ASCVD risk",
+    "Plasma renin activity and aldosterone concentration (with potassium) to screen for primary aldosteronism",
+    "Renal artery duplex ultrasound or CTA if secondary hypertension suspected",
+    "Urine electrolytes and urine anion gap to clarify the cause of metabolic acidosis",
+    "High\u2011sensitivity CRP or ESR to gauge systemic inflammation from periodontal disease",
+    "Serum vitamin B12 and folate levels if iron studies are normal",
+    "Psychosocial screening (PHQ\u20119, GAD\u20117) and referral to social work for safety planning"
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy, stage 4 chronic kidney disease with nephrotic-range proteinuria",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of long-standing type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 16 mL/min/1.73m\u00b2 and nephrotic-range proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated urinary albumin-to-creatinine ratio",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has advanced CKD (eGFR 16) with massive proteinuria in the setting of longstanding diabetes, which is classic for diabetic nephropathy stage 4. The degree of proteinuria and reduced renal function dominate the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic coronary artery disease (post\u2011CABG) with chronic stable angina",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior coronary artery bypass graft surgery",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Report of exertional chest discomfort consistent with stable angina",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Known CAD with prior revascularization and ongoing chest symptoms suggest persistent stable ischemia, though activity level is not fully documented."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.2 g/dL with normocytic, normochromic indices",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD (eGFR 16) known to cause reduced erythropoietin production",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to anemia due to insufficient erythropoietin. The low Hb fits this pattern; the implausibly low HbA1c is unrelated."
+    },
+    {
+      "rank": 4,
+      "name": "Diabetic proximal tubular dysfunction (Fanconi\u2011type features)",
+      "icd10": "E11.69",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucosuria and ketonuria despite lack of documented hyperglycemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dilute urine (specific gravity 1.00)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The presence of glucosuria/ketonuria without hyperglycemia and very dilute urine could reflect proximal tubular leak, but medication effects (e.g., SGLT2 inhibitors) or pre\u2011analytical artefacts are plausible alternatives, lowering confidence."
+    },
+    {
+      "rank": 5,
+      "name": "Early non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin (1.1\u202fmg/dL) with normal serum bilirubin",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, obesity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While NAFLD is common in diabetics, bilirubinuria is not a typical manifestation; the link is tenuous, making this diagnosis low\u2011probability."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy, stage 4 chronic kidney disease with nephrotic-range proteinuria",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is advanced diabetic kidney disease, evidenced by severe proteinuria and eGFR 16\u202fmL/min/1.73\u202fm\u00b2, accounting for the majority of clinical risk. Co\u2011existing coronary artery disease explains chest symptoms, while CKD\u2011related anemia accounts for the low hemoglobin. Mild tubular abnormalities may reflect early Fanconi\u2011type dysfunction but could be medication\u2011related. NAFLD is possible given metabolic risk factors, yet its connection to the isolated bilirubinuria is weak. Unexplained findings (positive urine bilirubin and an implausibly low HbA1c) remain pending further evaluation.",
+  "unresolved_findings": [
+    "Positive urine bilirubin (1.1\u202fmg/dL) without serum bilirubin elevation \u2013 etiology unclear",
+    "Extremely low hemoglobin A1c (2.9\u202f%) \u2013 likely artefact or rare hemolysis"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c using alternative assay or point\u2011of\u2011care method to rule out laboratory error",
+    "Comprehensive hemolysis panel (LDH, haptoglobin, indirect bilirubin, peripheral smear) to investigate low HbA1c",
+    "Full liver function tests and abdominal ultrasound to assess for hepatic pathology causing bilirubinuria",
+    "Medication reconciliation focusing on SGLT2 inhibitors, diuretics, and nephrotoxic agents",
+    "Urine microscopy and repeat urinalysis to confirm bilirubin dip\u2011stick result",
+    "Consider renal biopsy if proteinuria pattern or tubular findings remain atypical",
+    "Nephrology referral for dialysis access planning given eGFR 16"
+  ]
+}

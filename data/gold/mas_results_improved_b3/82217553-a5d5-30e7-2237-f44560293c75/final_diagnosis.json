@@ -1,0 +1,237 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension with poor control",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 150/98 mmHg on multiple visits",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 30.2)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.1%)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent stage 2 hypertension in the setting of obesity and prediabetes points to essential hypertension as the primary driver of the patient's elevated BP and downstream organ stress."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and poorly controlled hypertension raise suspicion for OSA, a common secondary contributor to resistant hypertension, despite lack of symptom documentation."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic normocytic anemia (Hgb low, MCV normal)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of recurrent UTIs and possible early CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The presence of chronic anemia without iron deficiency signs, together with risk factors for CKD, supports anemia of chronic disease as a plausible diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (stage 1\u20112) \u2013 hypertensive/renovascular nephropathy",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild electrolyte abnormalities (K\u207a 5.0, low\u2011normal calcium)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and metabolic syndrome can cause early CKD; however, definitive renal function data are missing, making this a moderate\u2011confidence diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Medication non\u2011adherence / lifestyle\u2011related poor control",
+      "icd10": "Z91.14",
+      "snomed": "160573003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented pharmacy refill data or adherence assessment",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, alcohol use, housing instability",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Social determinants and lack of adherence verification suggest that medication non\u2011adherence may contribute to poor BP control, though objective evidence is limited."
+    },
+    {
+      "rank": 6,
+      "name": "Metabolic\u2011associated fatty liver disease (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "197321007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome (prediabetes, hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Alcohol use noted but quantity unknown",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The clustering of metabolic risk factors makes NAFLD a likely comorbidity, though imaging and liver enzymes are pending."
+    },
+    {
+      "rank": 7,
+      "name": "Iron\u2011deficiency anemia (occult GI loss or menstrual)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia present; iron studies not performed",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female gender, possible menstrual losses",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given anemia and lack of iron studies, iron deficiency remains plausible, especially in a premenopausal woman."
+    },
+    {
+      "rank": 8,
+      "name": "Renovascular hypertension (renal\u2011artery stenosis / fibromuscular dysplasia)",
+      "icd10": "I15.11",
+      "snomed": "44054006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented renal bruit or asymmetric kidney size",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary hypertension due to renovascular disease is unlikely without classic clues; retained with low probability per reviewer."
+    },
+    {
+      "rank": 9,
+      "name": "Primary hyperaldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum potassium 5.0 mmol/L (hyperkalaemia) argues against aldosterone excess",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hyperkalaemia makes primary aldosteronism unlikely; retained only for completeness with minimal probability."
+    },
+    {
+      "rank": 10,
+      "name": "Folate deficiency (alcohol\u2011related)",
+      "icd10": "E53.2",
+      "snomed": "236271009",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Alcohol use documented; folate level not measured",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Alcohol consumption can lead to folate deficiency, which may contribute to anemia; evidence is limited."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension with poor control",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled stage 2 hypertension, obesity, and prediabetes point to essential hypertension as the dominant pathology. Obesity also raises suspicion for obstructive sleep apnea, a common contributor to resistant hypertension. Chronic anemia is best explained by anemia of chronic disease, possibly secondary to early CKD, which is suggested by mild electrolyte shifts and the hypertensive milieu. Lifestyle factors and possible medication non\u2011adherence further impair BP control. Metabolic syndrome predisposes to NAFLD, while iron\u2011deficiency and folate deficiency remain plausible contributors to anemia given the patient\u2019s gender and alcohol use. Low\u2011yield secondary hypertension causes (renovascular disease, primary aldosteronism) are retained with minimal probability per reviewer guidance.",
+  "unresolved_findings": [
+    "Low\u2011normal calcium (8.7 mg/dL) \u2013 no clear etiology",
+    "Falling CO\u2082 (24.8 mmol/L) \u2013 possible early metabolic acidosis without ABG",
+    "High\u2011normal chloride (106.9 mmol/L) \u2013 part of electrolyte shift, not explained",
+    "Normal lipid panel despite high cardiovascular risk \u2013 management gap rather than pathophysiology",
+    "Missing smoking status",
+    "Missing eGFR and urine albumin\u2011creatinine ratio",
+    "Missing liver function tests and imaging",
+    "Missing iron studies, ferritin, transferrin saturation",
+    "Missing folate level",
+    "Missing thyroid function tests",
+    "Missing cortisol and catecholamine assessments",
+    "No renal\u2011artery imaging",
+    "No sleep study data"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR and urine albumin\u2011creatinine ratio to assess CKD",
+    "Renal artery duplex ultrasound or CTA/MRA to evaluate for renovascular disease",
+    "Plasma aldosterone concentration and plasma renin activity (ARR) to screen for primary hyperaldosteronism",
+    "Overnight polysomnography to diagnose obstructive sleep apnea",
+    "Liver ultrasound with elastography (FibroScan) and liver function tests (ALT, AST, GGT, bilirubin) for NAFLD assessment",
+    "Complete iron panel (serum iron, ferritin, TIBC, transferrin saturation) and reticulocyte count",
+    "Serum folate and vitamin B12 levels",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "24\u2011hour urinary catecholamines/metanephrines if clinical suspicion for pheochromocytoma",
+    "Serum cortisol (AM) and ACTH if adrenal pathology suspected",
+    "Medication refill audit and adherence counseling",
+    "Lifestyle assessment: smoking status, alcohol quantity, diet, physical activity",
+    "Repeat lipid panel with fasting sample and consider statin therapy"
+  ]
+}

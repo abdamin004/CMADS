@@ -1,0 +1,195 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 diabetes mellitus with chronic kidney disease)",
+      "icd10": "E11.21",
+      "snomed": "127013003",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescribed basal\u2011bolus insulin despite prediabetes label, indicating overt type 2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 30.4\u202fmL/min/1.73\u202fm\u00b2 (CKD stage 3b)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.9\u202fmg/dL (elevated, consistent with CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 251.7\u202fmg/dL (significant proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Micro\u2011albuminuria documented as due to type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (Hb 12\u202fg/dL) in setting of eGFR\u202f\u2248\u202f30\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Overt insulin\u2011requiring diabetes together with moderate\u2011to\u2011severe CKD (eGFR ~30) and marked proteinuria is classic for diabetic nephropathy. The problem list explicitly links the kidney disorder to diabetes, and anemia fits the CKD picture, making this the dominant pathology."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive chronic kidney disease (essential hypertension with renal involvement)",
+      "icd10": "I12.9",
+      "snomed": "59621000",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2009, currently uncontrolled (BP 146/107\u202fmmHg) on low\u2011dose amlodipine alone",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 30.4\u202fmL/min/1.73\u202fm\u00b2 and proteinuria, both can result from long\u2011standing hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No ACE\u2011I/ARB therapy documented despite indication for renal\u2011protective hypertension management",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled long\u2011standing hypertension is a well\u2011established cause of CKD and can produce proteinuria. The absence of renin\u2011angiotensin blockade further supports that hypertension is contributing independently to renal injury, either as a primary driver or synergistically with diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Dyslipidemia with high atherosclerotic cardiovascular disease (ASCVD) risk",
+      "icd10": "E78.5",
+      "snomed": "13644009",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL cholesterol 139.3\u202fmg/dL (borderline\u2011high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL cholesterol 29.4\u202fmg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular risk profile: uncontrolled hypertension, diabetes, CKD, anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin therapy documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The lipid abnormalities (high LDL, low HDL) together with multiple major risk factors place the patient at high 10\u2011year ASCVD risk. Absence of lipid\u2011lowering therapy makes this a clinically actionable diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia (normocytic, erythropoietin\u2011deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.0\u202fg/dL (mild anemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR \u2248\u202f30\u202fmL/min/1.73\u202fm\u00b2 (below threshold for erythropoietin deficiency)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia listed as active problem since 2019",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "With an eGFR <30, reduced erythropoietin production is the most common cause of normocytic anemia. The anemia is a downstream consequence of the CKD rather than a separate primary disease."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic syndrome (insulin\u2011resistance driven)",
+      "icd10": "E88.81",
+      "snomed": "237599009",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension (BP 146/107\u202fmmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL cholesterol 139.3\u202fmg/dL (elevated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL cholesterol 29.4\u202fmg/dL (low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin requirement indicates significant hyperglycaemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and recent stress \u2013 known to worsen insulin resistance",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing BMI (likely overweight/obese in this demographic)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 classic components (hyperglycaemia, hypertension, atherogenic dyslipidaemia). Although BMI is unavailable, the typical phenotype for a 40\u2011year\u2011old male with these labs is overweight/obese, supporting metabolic syndrome. Evidence is weaker and overlaps with other diagnoses, so it remains a secondary consideration."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes mellitus with chronic kidney disease)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "Both Bayesian\u2011informed and clean\u2011room analyses converge on diabetic nephropathy as the dominant pathology, supported by overt insulin\u2011requiring diabetes, eGFR ~30\u202fmL/min/1.73\u202fm\u00b2, elevated serum creatinine, and significant proteinuria. Hypertension is uncontrolled and likely contributes independently to renal injury, justifying a separate diagnosis of hypertensive CKD. The lipid profile (high LDL, low HDL) together with the cumulative cardiovascular risk factors defines a dyslipidemia with high ASCVD risk that warrants treatment. Anemia is explained by CKD\u2011related erythropoietin deficiency. Metabolic syndrome is retained only because it emerged from the prior\u2011based list; its evidence is weaker and overlaps with the other diagnoses. The synthesis respects the clean\u2011room preference while preserving any prior\u2011only entities that have explicit supporting data.",
+  "unresolved_findings": [
+    "Hemoglobin A1c reported as 3.2\u202f% \u2013 implausibly low for a patient on insulin; likely laboratory error or outdated value",
+    "Whole\u2011blood creatinine 7.6\u202fmg/dL \u2013 discordant with serum creatinine; possible assay error",
+    "Urine bilirubin 1.3\u202fmg/dL without accompanying serum bilirubin or liver enzymes \u2013 unclear significance",
+    "Urine specific gravity 1.00 (very dilute) \u2013 could reflect tubular dysfunction or recent over\u2011hydration",
+    "Missing BMI, smoking status, alcohol use, total cholesterol, triglycerides, vitamin D, PTH, liver enzymes, and imaging data"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and eGFR (consider cystatin C) to confirm renal function",
+    "Repeat HbA1c (or obtain fructosamine) and perform point\u2011of\u2011care glucose monitoring",
+    "Comprehensive fasting lipid panel (total cholesterol, triglycerides, HDL, LDL) and calculate 10\u2011year ASCVD risk",
+    "Urine protein\u2011to\u2011creatinine ratio (or albumin\u2011to\u2011creatinine ratio) for quantitative proteinuria assessment",
+    "Renal ultrasound to evaluate kidney size, obstruction, and structural abnormalities",
+    "Serum electrolytes, bicarbonate, and arterial blood gas to assess for metabolic acidosis",
+    "Complete blood count with iron studies, ferritin, B12, folate to further characterize anemia",
+    "Liver function tests (AST, ALT, ALP, GGT, total bilirubin) and hepatitis B/C serologies given urine bilirubin",
+    "Parathyroid hormone, phosphate, calcium, and 25\u2011OH vitamin D levels for CKD\u2011MBD evaluation",
+    "Sleep study (polysomnography) to screen for obstructive sleep apnea",
+    "Depression and anxiety screening (PHQ\u20119, GAD\u20117) given recent stress and social isolation",
+    "Medication reconciliation focusing on NSAIDs, herbal supplements, and over\u2011the\u2011counter agents",
+    "Assessment of smoking and alcohol use",
+    "Vaccination review (influenza, COVID\u201119, hepatitis B) and update as needed"
+  ]
+}

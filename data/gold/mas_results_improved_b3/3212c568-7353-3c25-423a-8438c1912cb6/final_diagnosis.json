@@ -1,0 +1,165 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (proteinuric CKD) with hypertensive nephropathy",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with documented microvascular complications",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (2.7\u202fmg/dL) and reduced eGFR inconsistent with prior value, suggest chronic kidney disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Presence of proteinuria on urinalysis (not quantified in record but noted)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension with end\u2011organ damage (LVH on prior ECG)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of longstanding diabetes, proteinuric CKD, and resistant hypertension makes diabetic kidney disease with superimposed hypertensive nephropathy the most plausible explanation for the chronic elevation in creatinine and reduced eGFR."
+    },
+    {
+      "rank": 2,
+      "name": "Acute kidney injury superimposed on chronic kidney disease",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Discrepant serum creatinine values (2.7\u202fmg/dL vs 1.5\u202fmg/dL) within a short interval",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent exposure to potentially nephrotoxic agents (high\u2011dose statin duplication) and possible volume depletion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR of 71\u202fmL/min/1.73\u202fm\u00b2 despite markedly elevated creatinine, suggesting acute change",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The abrupt rise in creatinine together with a relatively preserved eGFR points to an acute kidney injury episode occurring on a background of chronic diabetic nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (stable CAD with prior NSTEMI)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior NSTEMI and coronary artery disease on problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No new cardiac symptoms reported, but CAD contributes to overall vascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Established CAD remains a relevant comorbidity influencing renal perfusion and overall prognosis, though it does not explain the acute creatinine rise."
+    },
+    {
+      "rank": 4,
+      "name": "Essential hypertension with resistant end\u2011organ damage",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented resistant hypertension requiring multiple agents",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Evidence of end\u2011organ damage (LVH, microalbuminuria)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension accelerates CKD progression and may contribute to the AKI episode via impaired autoregulation."
+    },
+    {
+      "rank": 5,
+      "name": "Depressive / anxiety disorder (psychosocial stress\u2011related)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Notes indicating mood symptoms and psychosocial stressors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While mood disturbance is noted, objective psychiatric assessment is lacking; retained for completeness."
+    },
+    {
+      "rank": 6,
+      "name": "Drug\u2011induced liver injury (statin\u2011related cholestasis vs benign conjugated hyperbilirubinemia)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated total bilirubin with positive urine bilirubin",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate simvastatin prescription suggesting possible over\u2011exposure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated bilirubin rise is modest; statin toxicity remains a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (proteinuric CKD) with hypertensive nephropathy",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s longstanding type 2 diabetes, resistant hypertension, and proteinuric CKD make diabetic kidney disease the dominant chronic process. A striking creatinine discrepancy indicates an acute kidney injury superimposed on this chronic background, likely precipitated by medication duplication or volume changes. Established atherosclerotic disease and hypertension further modulate risk, while mood symptoms and mild bilirubin elevation are low\u2011probability contributors.",
+  "unresolved_findings": [
+    "Discrepancy between two serum creatinine values (2.7\u202fmg/dL vs 1.5\u202fmg/dL)",
+    "eGFR of 71\u202fmL/min/1.73\u202fm\u00b2 despite markedly elevated creatinine",
+    "Positive urine bilirubin with only mildly elevated total bilirubin",
+    "Duplicate statin prescription (simvastatin listed twice)",
+    "Missing recent diabetes control data (HbA1c, fasting glucose)",
+    "Missing recent lipid panel, BMI, and blood pressure trend data",
+    "Loss of teeth (possible chronic periodontal disease not evaluated)",
+    "No documented cardiac symptoms or objective cardiac testing"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and eGFR with standardized timing",
+    "Quantify proteinuria (urine albumin\u2011to\u2011creatinine ratio)",
+    "Renal ultrasound to assess size and obstruction",
+    "HbA1c and fasting glucose to evaluate current diabetic control",
+    "Comprehensive lipid panel and BMI measurement",
+    "Medication reconciliation focusing on statin dosing and adherence",
+    "Review volume status and recent exposures to nephrotoxins (NSAIDs, contrast)",
+    "Liver panel (AST, ALT, ALP, GGT, total and direct bilirubin)",
+    "Dental examination for chronic periodontal disease",
+    "Consider cardiac stress testing if symptoms develop"
+  ]
+}

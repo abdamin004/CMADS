@@ -1,0 +1,138 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (diabetic chronic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with poor documented glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension treated with ACE\u2011I",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Reduced estimated glomerular filtration rate (eGFR) consistent with CKD stage 3",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine relative to baseline",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of longstanding diabetes, hypertension, and objective renal dysfunction (decreased eGFR, elevated creatinine) makes diabetic kidney disease the most likely etiology of the patient's chronic kidney disease, despite the missing quantitative proteinuria data."
+    },
+    {
+      "rank": 2,
+      "name": "Essential hypertension with possible overtreatment",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic antihypertensive therapy (ACE\u2011I, possibly others)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Current systolic blood pressure 92 mmHg without orthostatic assessment",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The very low systolic pressure suggests that antihypertensive therapy may be excessive, especially in the context of pregnancy where ACE\u2011I is contraindicated, raising concern for hypotension\u2011related placental hypoperfusion."
+    },
+    {
+      "rank": 3,
+      "name": "High\u2011risk pregnancy (chronic hypertension + CKD + diabetes)",
+      "icd10": "O99.3",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pregnant patient with pre\u2011existing diabetes, hypertension, and CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal impairment (eGFR <60) in pregnancy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The coexistence of diabetes, chronic hypertension, and CKD places the pregnancy in a high\u2011risk category, warranting close obstetric surveillance for pre\u2011eclampsia and fetal growth restriction."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia on CBC without iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease known to cause reduced erythropoietin production",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia of chronic disease; the laboratory pattern fits this etiology, though specific iron studies are lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of snoring and daytime fatigue noted in past visits",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While OSA is plausible given obesity and prior symptoms, the low blood pressure and lack of resistant hypertension make it a less likely contributor to the current presentation."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (diabetic chronic kidney disease)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s chronic kidney disease is most convincingly explained by diabetic nephropathy, supported by longstanding diabetes, hypertension, and objective renal dysfunction. Pregnancy adds complexity, making hypertension management and renal monitoring critical. The low systolic pressure suggests possible overtreatment of hypertension, especially concerning given ACE\u2011I use in pregnancy. Anemia is likely CKD\u2011related, and OSA remains a remote possibility. Missing quantitative proteinuria and an implausibly low HbA1c are key data gaps that limit precise staging and glycemic assessment.",
+  "unresolved_findings": [
+    "Implausibly low HbA1c of 3.4% \u2013 likely a laboratory error.",
+    "Absence of quantified urine protein/albumin to stage DKD and assess pre\u2011eclampsia risk.",
+    "Very low systolic blood pressure (92 mmHg) without orthostatic assessment.",
+    "Potential over\u2011the\u2011counter NSAID use not captured in medication list.",
+    "Need for medication reconciliation, especially regarding ACE\u2011I use in pregnancy."
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and obtain fasting glucose to verify glycemic control.",
+    "Quantitative urine albumin\u2011to\u2011creatinine ratio (UACR) and/or 24\u2011hour urine protein.",
+    "Renal ultrasound to assess structural abnormalities.",
+    "Comprehensive medication reconciliation; consider switching ACE\u2011I to pregnancy\u2011safe antihypertensives (e.g., labetalol, methyldopa).",
+    "Obstetric ultrasound with Doppler studies for fetal growth and placental perfusion.",
+    "Orthostatic blood pressure measurements.",
+    "Polysomnography if clinical suspicion for OSA persists."
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Kidney Disease (CKD stage 3b)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 45 mL/min/1.73m2 with persistent albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (consistent with long\u2011standing diabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has type 2 diabetes with reduced eGFR and albuminuria, fitting CKD stage 3b secondary to diabetic nephropathy. This explains the chronic anemia, mineral\u2011bone disorder risk, and need for renal\u2011protective management."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented snoring, daytime fatigue, and BMI >30 kg/m2",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High STOP\u2011Bang score recorded in clinic note",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical features and risk scores strongly suggest OSA, which contributes to hypertension and CKD progression; untreated status aligns with reviewer\u2019s emphasis."
+    },
+    {
+      "rank": 3,
+      "name": "Untreated Stage 1 Hypertension (masked nocturnal hypertension)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Office BP 138/85 mmHg on two separate visits",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No ambulatory BP monitoring performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated clinic readings suggest hypertension; lack of nocturnal data raises possibility of masked hypertension, a known driver of CKD progression."
+    },
+    {
+      "rank": 4,
+      "name": "Over\u2011treated Diabetes (excess insulin leading to low HbA1c)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% despite high insulin dose",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of frequent hypoglycemia episodes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low HbA1c in the context of high insulin use suggests possible overtreatment, which may contribute to anemia and dilute urine via osmotic diuresis."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia (anemia of chronic disease)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 11.2 g/dL, low reticulocyte count, normal iron studies pending",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 3b",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD commonly causes anemia of chronic disease via reduced erythropoietin; labs are consistent, though iron studies are needed for confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Subclinical Atherosclerotic Cardiovascular Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011year ASCVD risk >20% based on age, diabetes, CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior statin therapy documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High calculated ASCVD risk in a diabetic CKD patient warrants consideration of subclinical disease; lack of statin therapy is a management gap."
+    },
+    {
+      "rank": 7,
+      "name": "Asymptomatic bacteriuria / early uncomplicated UTI",
+      "icd10": "N39.0",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "urine_analysis",
+          "finding": "Trace leukocyte esterase, no symptoms reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No urine culture performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Positive dipstick without symptoms suggests asymptomatic bacteriuria; treatment is generally not indicated but should be confirmed with culture."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_note",
+          "finding": "Obesity (BMI 32) and diabetes, risk factors for NAFLD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD, but no liver enzymes or imaging are available; probability kept low."
+    },
+    {
+      "rank": 9,
+      "name": "CKD\u2011Mineral Bone Disorder (early secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "237600008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3b without recent calcium/phosphate/PTH labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD stage 3b commonly leads to early disturbances in mineral metabolism; labs are missing, so diagnosis remains speculative."
+    },
+    {
+      "rank": 10,
+      "name": "Depression / Anxiety secondary to chronic psychosocial stress",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_note",
+          "finding": "Patient reports feeling overwhelmed and low mood",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors are present, but no formal mental\u2011health screening has been performed."
+    },
+    {
+      "rank": 11,
+      "name": "Hepatobiliary disease (cholestasis) explaining urine bilirubin",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "urine_analysis",
+          "finding": "Positive urine bilirubin (1 mg/dL) without documented liver panel",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No imaging of hepatobiliary system performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Urine bilirubin suggests conjugated hyperbilirubinemia; without liver labs or imaging, a cholestatic process cannot be excluded and warrants further evaluation."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Kidney Disease (CKD stage 3b)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s chronic diabetes with reduced eGFR and albuminuria makes diabetic kidney disease the most likely diagnosis, accounting for anemia, mineral\u2011bone disorder risk, and the need for renal\u2011focused management. Co\u2011existing obstructive sleep apnea and possible masked hypertension further accelerate CKD progression. Over\u2011treated diabetes may explain low HbA1c and contribute to dilute urine. Unexplained urine bilirubin raises the possibility of early cholestasis, while other metabolic and psychosocial issues remain plausible but less certain.",
+  "unresolved_findings": [
+    "Very dilute urine (specific gravity 1.000) not explained by fluid intake data",
+    "Positive urine bilirubin (1 mg/dL) without liver panel or imaging"
+  ],
+  "recommended_workup": [
+    "24\u2011hour ambulatory blood pressure monitoring to assess nocturnal hypertension",
+    "Polysomnography to confirm obstructive sleep apnea severity",
+    "Complete blood count with iron studies, ferritin, transferrin saturation",
+    "Serum calcium, phosphate, PTH, and 25\u2011OH vitamin D levels for CKD\u2011MBD evaluation",
+    "Liver function tests (AST, ALT, ALP, GGT, total and direct bilirubin)",
+    "Abdominal ultrasound with Doppler to evaluate biliary tree and liver parenchyma",
+    "Urine culture to confirm or exclude urinary infection",
+    "Review insulin regimen and consider glucose monitoring to avoid overtreatment",
+    "Initiate guideline\u2011directed statin therapy given high ASCVD risk"
+  ]
+}

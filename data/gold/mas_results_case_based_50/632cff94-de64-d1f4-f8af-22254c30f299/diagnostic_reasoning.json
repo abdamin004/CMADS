@@ -1,0 +1,228 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic-vascular syndrome (obesity, insulin resistance, hypertension, dyslipidemia)",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic hypertension, hyperlipidemia, metabolic syndrome, obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides (166.3 mg/dL), borderline LDL (105.9 mg/dL), HbA1c 6.2%",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 65, male sex, obesity, pre\u2011diabetes increase cardiovascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of hypertension, dyslipidemia, obesity, and pre\u2011diabetes drives atherosclerotic disease, CKD progression, NAFLD, and OSA, making this the upstream driver of most observed problems."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.18,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood test (Hemoglobin 3.2 ng/mL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia listed as an active problem",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior colon polyp removal (2018) indicating prior colonic pathology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Occult GI bleeding explains the anemia and positive FOBT; iron deficiency is the most common cause of anemia in this setting."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive Sleep Apnea (moderate\u2011to\u2011severe)",
+      "icd10": "G47.33",
+      "snomed": "86203009",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and chronic hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Male sex, age >60, and metabolic syndrome increase OSA prevalence",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Potential contributor to resistant hypertension and CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA prevalence is high in obese middle\u2011aged males and can worsen hypertension, CKD, and precipitate HFpEF."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic Kidney Disease stage 3\u20114 (pending confirmation)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.0 mg/dL (severe elevation)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR reported as 81.9 mL/min/1.73\u202fm\u00b2 (discordant with creatinine)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic ACE\u2011I and ARB therapy (renoprotective but can raise creatinine)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal dysfunction likely secondary to long\u2011standing hypertension and metabolic syndrome; confirmation needed due to lab discordance."
+    },
+    {
+      "rank": 5,
+      "name": "Colorectal neoplasia (advanced adenoma or carcinoma)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood test",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of colon polyp removal (2018)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age >50 with positive FOBT raises pre\u2011test probability for colorectal cancer",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Positive FOBT in an older adult with prior polyp history raises concern for a neoplastic source of bleeding."
+    },
+    {
+      "rank": 6,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.08,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of CAD, hypertension, obesity, and possible OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Metabolic syndrome and CKD are known HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Chronic dyspnea not documented but plausible given comorbidities",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The combination of hypertension, obesity, and possible OSA predisposes to diastolic dysfunction leading to HFpEF."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT 42.2 U/L (borderline rise) with normal AST",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Statin therapy (possible mild hepatotoxicity)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is the leading cause of NAFLD; mild transaminitis fits this pattern."
+    },
+    {
+      "rank": 8,
+      "name": "Small\u2011bowel angiodysplasia (CKD\u2011associated occult bleed)",
+      "icd10": "K55.2",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive occult blood in the setting of CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "CKD is a known risk factor for intestinal angiodysplasia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If colonoscopy is negative, small\u2011bowel vascular lesions become a plausible source of occult bleeding."
+    }
+  ],
+  "primary_diagnosis": "Metabolic-vascular syndrome (obesity, insulin resistance, hypertension, dyslipidemia)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s profile of longstanding hypertension, dyslipidemia, obesity, and pre\u2011diabetes creates a metabolic\u2011vascular syndrome that underlies his coronary artery disease, drives CKD progression, predisposes to NAFLD, OSA, and HFpEF. Concurrent anemia with a positive fecal occult blood test points to iron\u2011deficiency from occult GI bleeding, raising concern for colorectal neoplasia or small\u2011bowel angiodysplasia. Laboratory discordance between creatinine and eGFR necessitates repeat renal testing to clarify CKD stage. The differential is therefore anchored on the upstream metabolic driver, with downstream organ\u2011specific complications weighted accordingly.",
+  "unresolved_findings": [
+    "Low random glucose (68.9\u202fmg/dL) \u2013 possible hypoglycemia without clear cause",
+    "Rising ALT (42.2\u202fU/L) \u2013 etiology unclear (statin, NAFLD, other)",
+    "Discordant creatinine/eGFR values \u2013 may require repeat renal function testing",
+    "Positive fecal occult blood without recent colonoscopic evaluation"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and eGFR (include cystatin\u2011C) to confirm CKD stage",
+    "Comprehensive metabolic panel with liver enzymes, ALP, bilirubin, GGT",
+    "Repeat fecal occult blood test and schedule colonoscopy to rule out colorectal source of bleeding",
+    "Complete blood count with iron studies, ferritin, B12, folate to characterize anemia",
+    "Urinalysis with albumin\u2011creatinine ratio to assess proteinuria",
+    "Renal ultrasound if structural abnormality suspected",
+    "Review medication list for nephrotoxic or hepatotoxic agents; consider statin dose adjustment",
+    "Assess for hypoglycemia (repeat fasting glucose, consider medication review)",
+    "Overnight polysomnography after STOP\u2011BANG screening for obstructive sleep apnea",
+    "BNP and transthoracic echocardiogram (including diastolic parameters) to evaluate for HFpEF"
+  ]
+}

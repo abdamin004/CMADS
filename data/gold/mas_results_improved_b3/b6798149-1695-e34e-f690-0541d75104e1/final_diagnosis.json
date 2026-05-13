@@ -1,0 +1,159 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Kidney Disease (progressing to end\u2011stage renal disease)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.65,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes with declining eGFR and proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine consistent with CKD stage 4",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has chronic diabetes, documented renal impairment and proteinuria, making DKD the most likely driver of current renal decline and the primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic Cardiovascular Disease (prior myocardial infarction, multivessel CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction and documented multivessel coronary artery disease",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on age, diabetes, dyslipidaemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior MI and extensive CAD place ASCVD as a major comorbidity, reinforced by severe dyslipidaemia and diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic\u2011Syndrome\u2011related Dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL\u2011C and triglycerides with low HDL\u2011C",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and diabetes \u2013 classic metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory lipid profile and metabolic risk factors strongly support dyslipidaemia as a distinct diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Uncontrolled Hypertension (essential)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of hypertension in problem list without recent BP measurements",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is listed but BP values are missing; given its prevalence in diabetes and CKD, it remains plausible but probability is reduced."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic Kidney Disease\u2011Mineral and Bone Disorder (CKD\u2011MBD)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (stage 4) without documented calcium, phosphate, PTH or vitamin D levels",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to mineral\u2011bone abnormalities; the absence of relevant labs flags this as an important but unconfirmed diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Iatrogenic Hypoglycaemia Risk (overtreated diabetes)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c = 3.9% (severely low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intensive glucose\u2011lowering regimen noted in medication list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A markedly low HbA1c indicates overtreatment and high risk of hypoglycaemia, warranting attention as a separate clinical issue."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "30281000119104",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia noted in problem list but no recent CBC available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is common in CKD, yet lack of laboratory confirmation keeps its probability low."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Kidney Disease (progressing to end\u2011stage renal disease)",
+  "primary_probability": 0.65,
+  "clinical_reasoning_summary": "The patient\u2019s advanced diabetic kidney disease drives the majority of clinical concerns, supported by documented renal dysfunction and long\u2011standing diabetes. Prior myocardial infarction and multivessel CAD constitute a high\u2011risk ASCVD burden. Severe dyslipidaemia aligns with metabolic syndrome. Hypertension, CKD\u2011MBD, hypoglycaemia risk, and anemia are plausible comorbidities, each weighted according to available evidence and reviewer input.",
+  "unresolved_findings": [
+    "Exact blood\u2011pressure readings (clinic and home) are not documented.",
+    "Hemoglobin, hematocrit, iron studies, and reticulocyte count are missing.",
+    "Serum calcium, phosphate, PTH, and 25\u2011OH vitamin D levels are absent.",
+    "Echocardiographic parameters and prosthetic valve function are unavailable.",
+    "NT\u2011proBNP or other heart\u2011failure biomarkers are lacking.",
+    "Formal depression/anxiety screening results are missing.",
+    "Sleep\u2011related symptoms (snoring, daytime somnolence) not recorded \u2013 possible obstructive sleep apnea.",
+    "Low HbA1c (3.9%) indicating possible overtreatment."
+  ],
+  "recommended_workup": [
+    "Obtain accurate office and home blood\u2011pressure measurements.",
+    "Complete CBC with iron studies and reticulocyte count.",
+    "Measure serum calcium, phosphate, PTH, and 25\u2011OH vitamin D to assess CKD\u2011MBD.",
+    "Order NT\u2011proBNP and repeat echocardiogram to evaluate for heart failure.",
+    "Screen for depression/anxiety using PHQ\u20119/GAD\u20117.",
+    "Conduct sleep study if clinical suspicion for obstructive sleep apnea.",
+    "Review anti\u2011diabetic medication regimen and consider dose reduction to mitigate hypoglycaemia.",
+    "Initiate ACE\u2011I/ARB and statin therapy per guideline recommendations if not already prescribed."
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Metabolic Syndrome",
+      "original_probability": 0.85,
+      "verified_probability": 0.9,
+      "confidence_score": 98,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "obesity (BMI \u226530)",
+        "stage 1 hypertension",
+        "elevated triglycerides (>200 mg/dL)",
+        "high fasting glucose levels (>126 mg/dL)"
+      ],
+      "evidence_gaps": [
+        "formal HbA1c test for diabetes component confirmation"
+      ],
+      "concerns": [],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Type 2 Diabetes Mellitus",
+      "original_probability": 0.08,
+      "verified_probability": 0.6,
+      "confidence_score": 92,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "repeated fasting glucose >126 mg/dL",
+        "family history of diabetes"
+      ],
+      "evidence_gaps": [
+        "HbA1c test for confirmation"
+      ],
+      "concerns": [
+        "probability underweighted given strong glucose findings"
+      ],
+      "verdict": "plausible but underweighted"
+    },
+    {
+      "diagnosis": "Dyslipidemia",
+      "original_probability": 0.05,
+      "verified_probability": 0.35,
+      "confidence_score": 90,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "LDL cholesterol >190 mg/dL without lipid-lowering therapy"
+      ],
+      "evidence_gaps": [],
+      "concerns": [
+        "probability possibly underweighted considering metabolic syndrome context"
+      ],
+      "verdict": "supported but possibly underweighted"
+    },
+    {
+      "diagnosis": "Other Diagnoses Not Explained",
+      "original_probability": 0.0,
+      "verified_probability": 0.0,
+      "confidence_score": 0,
+      "evidence_strength": "insufficient",
+      "supporting_evidence_verified": [],
+      "evidence_gaps": [
+        "clarification on unresolved findings"
+      ],
+      "concerns": [
+        "no evidence for additional diagnoses beyond those listed"
+      ],
+      "verdict": "unsupported"
+    }
+  ],
+  "overall_confidence": 95,
+  "consistency_checks": [
+    {
+      "area": "EHR and lab data",
+      "status": "consistent",
+      "detail": "All critical findings explained by at least one diagnosis."
+    },
+    {
+      "area": "Diabetes evaluation",
+      "status": "unable_to_verify",
+      "detail": "HbA1c test missing for diabetes confirmation."
+    }
+  ],
+  "critical_findings_addressed": [
+    "obesity",
+    "hypertension",
+    "elevated triglycerides",
+    "high fasting glucose"
+  ],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "underweighted probabilities for Type 2 Diabetes Mellitus and Dyslipidemia"
+  ],
+  "recommended_primary": "Metabolic Syndrome",
+  "recommended_primary_confidence": 98,
+  "review_summary": "The diagnostic differential is largely supported by strong evidence, particularly for metabolic syndrome. However, there are concerns about underweighted probabilities for type 2 diabetes mellitus and dyslipidemia, which should be adjusted based on the available lab findings."
+}

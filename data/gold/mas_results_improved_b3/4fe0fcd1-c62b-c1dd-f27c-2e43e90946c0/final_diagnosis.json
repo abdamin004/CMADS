@@ -1,0 +1,173 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "23141008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530), resistant hypertension despite three agents, elevated resting heart rate",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Daytime somnolence and loud snoring reported by partner (if documented)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Classic phenotype of OSA (obesity, resistant hypertension, tachycardia) makes it the most likely secondary driver of the patient's uncontrolled blood pressure."
+    },
+    {
+      "rank": 2,
+      "name": "Resistant (essential) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 144/96 mmHg on three antihypertensives including a diuretic",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI and high cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent stage\u20112 hypertension despite optimal pharmacologic regimen qualifies as resistant hypertension; OSA is likely the predominant secondary contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease (early stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and diabetes risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing eGFR and urine ACR \u2013 labs not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension can cause early CKD; absence of renal function labs reduces certainty but the clinical context warrants inclusion."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild normocytic anemia noted on CBC",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory state from cardiovascular disease and possible undiagnosed infection",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The pattern of anemia fits ACD more than iron deficiency given negative stool occult blood and lack of overt iron loss."
+    },
+    {
+      "rank": 5,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "236069009",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension raises suspicion for aldosterone excess",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without electrolyte or aldosterone/renin data the diagnosis remains possible but low probability."
+    },
+    {
+      "rank": 6,
+      "name": "Renal artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension in a smoker/elderly male",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability; imaging not performed."
+    },
+    {
+      "rank": 7,
+      "name": "Undiagnosed type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and cardiovascular disease increase diabetes risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No glycemic labs available; inclusion is precautionary."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / anxiety secondary to psychosocial stressors",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and mood symptoms",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial factors may impair medication adherence and BP control but evidence is limited."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with resistant stage\u20112 hypertension despite three agents, obesity, and a high resting heart rate\u2014an archetypal presentation of obstructive sleep apnea (OSA) as a secondary driver of hypertension. While essential resistant hypertension remains a major component, OSA is prioritized as the primary diagnosis. Early chronic kidney disease and anemia of chronic disease are plausible contributors given the cardiovascular risk profile, whereas endocrine causes (primary aldosteronism, renal artery stenosis) and metabolic disorders (type 2 diabetes) are less certain due to missing laboratory data. Psychosocial stressors may further hinder BP control. The differential reflects the hierarchy of likelihood and clinical impact.",
+  "unresolved_findings": [
+    "Markedly high platelet distribution width (PDW 341.4 fL) and elevated MPV despite dual antiplatelet therapy \u2013 could be artifact or early myeloproliferative process.",
+    "Duplicate hydrochlorothiazide entry \u2013 data\u2011quality issue.",
+    "Missing key labs: eGFR, serum creatinine, urine albumin\u2011creatinine ratio, HbA1c, iron studies, vitamin B12/folate, CRP/ESR.",
+    "Normal lipid panel despite low\u2011dose statin \u2013 raises question of intensity adequacy."
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography to confirm OSA severity.",
+    "Aldosterone\u2011renin ratio with confirmatory suppression testing if elevated.",
+    "Renal duplex ultrasound or CT angiography to evaluate for renal artery stenosis.",
+    "Comprehensive metabolic panel including eGFR and serum creatinine.",
+    "Urine albumin\u2011creatinine ratio to stage CKD.",
+    "HbA1c and fasting glucose to assess for diabetes.",
+    "Iron studies (serum ferritin, iron, TIBC) and vitamin B12/folate to differentiate anemia types.",
+    "CRP/ESR to evaluate inflammatory contribution to anemia of chronic disease.",
+    "Repeat lipid panel and consider intensifying statin therapy per ACC/AHA guidelines.",
+    "If platelet indices remain abnormal, consider peripheral blood smear and referral to hematology for possible myeloproliferative evaluation."
+  ]
+}

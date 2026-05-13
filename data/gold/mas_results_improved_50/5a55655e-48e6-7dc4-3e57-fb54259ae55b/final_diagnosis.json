@@ -1,0 +1,151 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease (subclinical or stable)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, dyslipidemia, metabolic syndrome, documented type 2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High Charlson comorbidity index (3) and multiple cardiovascular risk factors",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient carries multiple established atherosclerotic risk factors (HTN, dyslipidemia, metabolic syndrome, diabetes). Absence of overt symptoms does not exclude subclinical plaque, making CAD the most likely underlying condition."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 diabetes mellitus \u2013 suboptimal control",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Recent A1c 5.6% (normal) but no post\u2011prandial glucose data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes is confirmed, yet lack of post\u2011prandial testing leaves uncertainty about glycemic control; borderline hyperglycemia could contribute to other findings."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease (mixed iron\u2011deficiency possible)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic anemia without definitive iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Multiple chronic conditions (CKD risk, inflammation) that can cause anemia of chronic disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic disease states and possible iron deficiency explain the persistent anemia; further iron studies are needed to delineate the component."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented obesity (BMI not recorded) and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_observation",
+          "finding": "Hypertension and daytime fatigue not explicitly noted but common in OSA",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and metabolic syndrome raise pre\u2011test probability for OSA, which can exacerbate hypertension and cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease with electrolyte disturbance",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyperkalaemia without clear etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, diabetes, and ACE\u2011inhibitor use (implied)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of hypertension, diabetes, and mild hyperkalaemia suggests early renal impairment; further renal function testing is warranted."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Speculative diagnosis without thyroid function tests",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No laboratory evidence exists; the diagnosis remains a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease (subclinical or stable)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with a cluster of cardiovascular risk factors\u2014hypertension, dyslipidemia, metabolic syndrome, and documented type 2 diabetes\u2014making subclinical atherosclerotic coronary artery disease the most likely underlying condition. Diabetes, while currently well\u2011controlled per A1c, may have post\u2011prandial excursions that are unmeasured. Chronic anemia is plausibly secondary to chronic disease with a possible iron\u2011deficiency component. Obesity and metabolic syndrome raise the probability of obstructive sleep apnea, which could further aggravate hypertension. Borderline hyperkalaemia in the context of hypertension, diabetes, and likely ACE\u2011inhibitor therapy points toward early chronic kidney disease. Primary hypothyroidism lacks any supporting labs and remains a low\u2011probability differential.",
+  "unresolved_findings": [
+    "Missing current blood pressure and heart rate measurements",
+    "Obesity documented but BMI not recorded",
+    "No documented statin or fibrate therapy for dyslipidaemia",
+    "Cause of chronic anemia undefined (iron studies, occult GI bleed not performed)",
+    "Borderline hyperkalaemia without clear etiology",
+    "Absence of thyroid function testing (TSH, free T4)",
+    "No echocardiogram or BNP to evaluate for heart failure",
+    "No ankle\u2011brachial index or claudication history to assess peripheral artery disease",
+    "No sleep study to assess obstructive sleep apnea"
+  ],
+  "recommended_workup": [
+    "Obtain current blood pressure and heart rate measurements",
+    "Calculate BMI and assess weight trends",
+    "Complete lipid panel and evaluate need for statin therapy",
+    "Order iron studies (serum ferritin, transferrin saturation) and stool occult blood test",
+    "Repeat comprehensive metabolic panel with focus on potassium and renal function (eGFR, BUN, creatinine)",
+    "Thyroid function tests (TSH, free T4)",
+    "Echocardiogram and BNP to screen for heart failure",
+    "Ankle\u2011brachial index and peripheral vascular exam",
+    "Polysomnography or home sleep apnea testing",
+    "Urine albumin/creatinine ratio to assess renal involvement"
+  ]
+}

@@ -1,0 +1,430 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.19,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 Hypertension (BP 132/84 mmHg) without treatment",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.1%) indicating metabolic stress",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal bicarbonate (28.8 mmol/L) possibly reflecting chronic respiratory compensation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and untreated hypertension are classic risk factors for OSA; metabolic dysregulation (prediabetes) further supports the presence of sleep\u2011disordered breathing. The bicarbonate elevation may represent chronic hypoventilation compensation."
+    },
+    {
+      "rank": 2,
+      "name": "Major Depressive Disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate partner abuse (onset 2020\u201102\u201115)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and chronic stress documented as active problems",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental\u2011health diagnosis despite psychosocial stressors",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal potassium (3.9 mmol/L) can be seen with chronic stress\u2011related catecholamine excess",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Multiple severe psychosocial stressors (abuse, isolation, chronic stress) strongly predispose to depression and PTSD, which are currently undocumented, indicating a likely missed diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Primary Hyper\u2011Aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237600009",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal potassium (3.9 mmol/L) with a falling trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal bicarbonate (28.8 mmol/L) suggesting metabolic alkalosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 16.5 mg/dL with normal creatinine (0.8 mg/dL) \u2192 BUN/Cr \u224820:1",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 Hypertension without antihypertensive therapy",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The triad of hypertension, hypokalaemia, and a high BUN/Cr ratio is classic for early primary aldosteronism, warranting ARR testing."
+    },
+    {
+      "rank": 4,
+      "name": "Subclinical / Clinical Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "124055004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and dyslipidaemia risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.1%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity, dysglycaemia, and borderline lipid abnormalities are common in hypothyroidism; absence of thyroid labs makes this a plausible but unconfirmed diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Vitamin D Deficiency",
+      "icd10": "E55.9",
+      "snomed": "237022001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and limited outdoor activity inferred from psychosocial stressors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No 25\u2011OH vitamin D level recorded (data gap)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal calcium not reported; deficiency cannot be excluded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High prevalence of vitamin D deficiency in obese adults; missing lab makes this a likely but unverified contributor to metabolic risk."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and prediabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal lipid panel but trend toward metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver enzymes reported (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome components strongly predict NAFLD; lack of liver imaging/labs necessitates further evaluation."
+    },
+    {
+      "rank": 7,
+      "name": "Incipient Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 6.1% (borderline pre\u2011diabetes, rising)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Prediabetes (onset 1987\u201104\u201104)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Laboratory trend and documented pre\u2011diabetes indicate progression toward overt diabetes."
+    },
+    {
+      "rank": 8,
+      "name": "Essential Hypertension (secondary to metabolic factors)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 132/84 mmHg (Stage 1) without antihypertensive medication",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and prediabetes as contributing metabolic drivers",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal potassium (3.9 mmol/L) possibly reflecting early volume\u2011contraction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is present and likely driven by the metabolic syndrome; no secondary cause identified yet."
+    },
+    {
+      "rank": 9,
+      "name": "Obesity\u2011Hypoventilation Syndrome (OHS)",
+      "icd10": "E66.2",
+      "snomed": "235719002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal bicarbonate (28.8 mmol/L) suggesting chronic respiratory compensation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperchloremia (108.7 mmol/L) stable",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity with mild metabolic alkalosis raises suspicion for chronic hypoventilation; confirm with sleep study."
+    },
+    {
+      "rank": 10,
+      "name": "Gout / Hyperuricaemia",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and prediabetes increase gout risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No uric acid level measured (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Epidemiologic risk is present; lack of uric acid measurement makes this a low\u2011probability consideration."
+    },
+    {
+      "rank": 11,
+      "name": "Renal Artery Stenosis",
+      "icd10": "I70.1",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 Hypertension without treatment",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal potassium (3.9 mmol/L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible secondary cause of hypertension but low pre\u2011test probability given age and lack of atherosclerotic risk factors."
+    },
+    {
+      "rank": 12,
+      "name": "Cushing\u2019s Syndrome (subclinical)",
+      "icd10": "E24.9",
+      "snomed": "237599009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and prediabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal potassium (3.9 mmol/L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Phenotype compatible but prevalence low; screening (overnight dexamethasone) may be considered if other causes ruled out."
+    },
+    {
+      "rank": 13,
+      "name": "Pheochromocytoma",
+      "icd10": "C74.1",
+      "snomed": "237599001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 Hypertension without medication",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and psychosocial burden (could mimic catecholamine excess)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Very low prevalence; included for completeness given any unexplained hypertension."
+    },
+    {
+      "rank": 14,
+      "name": "Polycystic Ovary Syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Gender not documented; PCOS considered only if female",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential endocrine contributor to metabolic syndrome if patient is female; low probability without gynecologic data."
+    },
+    {
+      "rank": 15,
+      "name": "Chronic Pain / Limited Mobility (post\u2011knee injury)",
+      "icd10": "M25.562",
+      "snomed": "24700007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of patellar tendon rupture (2016\u20112017)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No current activity level documented (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Past knee injury may limit exercise, contributing indirectly to obesity and metabolic risk."
+    },
+    {
+      "rank": 16,
+      "name": "Medication\u2011Induced Metabolic Effects",
+      "icd10": "T88.7",
+      "snomed": "442452003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No active medication list present (data gap)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential OTC or supplement use not captured",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unrecorded drug use (e.g., steroids, decongestants) could explain hypertension or dysglycaemia; needs clarification."
+    }
+  ],
+  "primary_diagnosis": "Obstructive Sleep Apnea (OSA)",
+  "primary_probability": 0.19,
+  "clinical_reasoning_summary": "The patient presents with classic metabolic\u2011syndrome features (obesity, pre\u2011diabetes, stage 1 hypertension) compounded by significant psychosocial stressors. Patterns of low\u2011normal potassium, high\u2011normal bicarbonate, and an elevated BUN/creatinine ratio raise suspicion for early primary hyper\u2011aldosteronism. Sleep\u2011disordered breathing (OSA) is the most likely primary driver, explaining hypertension, metabolic dysregulation, and the mild metabolic alkalosis. Depression/PTSD is highly probable given documented abuse, isolation, and chronic stress. Several secondary or contributory conditions (hypothyroidism, vitamin D deficiency, NAFLD, incipient type 2 diabetes) are plausible given the metabolic milieu but lack definitive laboratory confirmation. Data gaps (BMI, full lipid panel, eGFR, smoking/alcohol use, thyroid/aldosterone labs) limit certainty and must be addressed.",
+  "unresolved_findings": [
+    "Mild hyperchloremia (108.7 mmol/L) \u2013 stable but unexplained",
+    "High\u2011normal bicarbonate (28.8 mmol/L) \u2013 rising trend without clear acid\u2011base disorder",
+    "Falling sodium (139.6 mmol/L) \u2013 within normal range but trending down",
+    "Rising BUN (16.5 mg/dL) \u2013 upper\u2011normal, suggests possible mild dehydration",
+    "Missing quantitative BMI value",
+    "Absent full lipid panel (total cholesterol, LDL)",
+    "No eGFR or calculated renal function",
+    "No documented smoking or alcohol use",
+    "No family\u2011history information",
+    "No physical activity or dietary data"
+  ],
+  "recommended_workup": [
+    "Measure weight, height, waist circumference to obtain exact BMI and assess central obesity",
+    "Administer STOP\u2011Bang questionnaire; if \u22653, order a home sleep apnea test (type III)",
+    "Screen for depression, anxiety, and PTSD using PHQ\u20119, GAD\u20117, and PCL\u20115",
+    "Obtain plasma aldosterone concentration and plasma renin activity (ARR) with confirmatory suppression testing if indicated",
+    "Order thyroid panel (TSH, free T4) to evaluate hypothyroidism",
+    "Check 25\u2011OH vitamin D level",
+    "Repeat fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Calculate eGFR and obtain urine albumin\u2011creatinine ratio",
+    "Obtain liver enzymes (ALT, AST, GGT) and consider hepatic ultrasound or FibroScan for NAFLD",
+    "Measure serum uric acid",
+    "Complete a detailed social history: smoking status (pack\u2011years), alcohol consumption (drinks/week), family history of CVD/diabetes, and medication/supplement review",
+    "If OSA confirmed, consider polysomnography to evaluate for obesity\u2011hypoventilation syndrome",
+    "If primary aldosteronism suspected, arrange adrenal imaging (CT/MRI) after biochemical confirmation"
+  ]
+}

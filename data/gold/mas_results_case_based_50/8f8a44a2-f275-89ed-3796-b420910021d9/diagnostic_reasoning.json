@@ -1,0 +1,316 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.37,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) diagnosed 2023-08-08",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2019-07-16",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 235\u202fmg/dL (borderline high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 157\u202fmg/dL (borderline high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.2\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea diagnosed 2020-07-28 (untreated)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets the classic cluster of obesity, hypertension, dyslipidemia, and impaired glucose regulation, all of which constitute metabolic syndrome and drive downstream organ injury."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "OSA diagnosed 2020-07-28 with no CPAP or other therapy recorded",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) \u2013 major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension \u2013 often secondary to untreated OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA contributes to sympathetic over\u2011drive, worsening hypertension, insulin resistance, and dyslipidemia, making it a primary driver of the metabolic derangements."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease, stage 2\u20113 (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.2",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.3\u202fmg/dL (borderline elevated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (risk for hypertensive nephropathy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (risk for diabetic nephropathy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "eGFR not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Creatinine suggests an eGFR ~60\u201170\u202fmL/min/1.73\u202fm\u00b2. Combined with long\u2011standing hypertension and prediabetes, early CKD is plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Subclinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 157\u202fmg/dL (borderline\u2011high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 235\u202fmg/dL (borderline\u2011high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.2\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple major ASCVD risk factors place the patient at high 10\u2011year risk, suggesting subclinical plaque formation even without documented events."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hypertension (screen for primary aldosteronism, renal\u2011artery stenosis, Cushing, pheochromocytoma)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension treated only with low\u2011dose HCTZ + amlodipine",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing recent systolic/diastolic BP values",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and OSA \u2013 risk factors for resistant hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent or resistant hypertension despite modest therapy warrants evaluation for secondary causes."
+    },
+    {
+      "rank": 6,
+      "name": "Uncontrolled essential hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2019\u201107\u201116",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescribed low\u2011dose hydrochlorothiazide and amlodipine only",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No recent BP measurements available",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, dyslipidemia, OSA \u2013 factors that aggravate BP",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the risk factor burden and limited antihypertensive regimen, blood pressure is likely inadequately controlled."
+    },
+    {
+      "rank": 7,
+      "name": "Substance\u2011use disorder, drug dependence",
+      "icd10": "F19.20",
+      "snomed": "6525002",
+      "probability": 0.06,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dependent drug abuse since 2003\u201110\u201103",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Frequent ED/inpatient encounters, limited outpatient follow\u2011up",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unemployment and low education \u2013 socioeconomic barriers to care",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic substance dependence underlies poor disease self\u2011management and may contribute to anemia, hypoglycemia, and medication non\u2011adherence."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic disease / iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia diagnosed 2011",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies, B12, folate, or reticulocyte count available",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential CKD and chronic inflammation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing anemia without work\u2011up suggests either anemia of chronic disease (e.g., CKD) or iron deficiency from occult blood loss."
+    },
+    {
+      "rank": 9,
+      "name": "Elevated platelet distribution width \u2013 possible myeloproliferative disorder",
+      "icd10": "D47.3",
+      "snomed": "124942006",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet distribution width 274.4\u202ffL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A markedly high PDW may reflect a clonal platelet disorder or a reactive process; further hematologic evaluation is needed."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, dyslipidemia, prediabetes \u2013 classic NAFLD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated OSA \u2013 associated with hepatic steatosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to hepatic steatosis; liver disease could contribute to low fasting glucose and anemia of chronic disease."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.37,
+  "clinical_reasoning_summary": "The patient presents with a classic metabolic syndrome phenotype\u2014obesity, hypertension, dyslipidemia, and pre\u2011diabetes\u2014augmented by untreated obstructive sleep apnea. This constellation drives uncontrolled blood pressure, early renal dysfunction, and subclinical atherosclerosis. Chronic anemia, markedly elevated platelet distribution width, and low fasting glucose remain unexplained and raise concern for a concurrent hematologic or hepatic process. Substance\u2011use disorder and socioeconomic barriers further impede optimal management and contribute to fragmented care. The differential therefore prioritizes the metabolic syndrome as the root cause, with downstream organ effects (OSA, CKD, ASCVD, uncontrolled hypertension) and secondary considerations (secondary hypertension, anemia, possible myeloproliferative disorder, NAFLD).",
+  "unresolved_findings": [
+    "Borderline low fasting glucose (66.6\u202fmg/dL) in a prediabetic individual \u2013 etiology unclear.",
+    "Markedly elevated platelet distribution width (274.4\u202ffL) \u2013 suggests possible myeloproliferative process.",
+    "Chronic anemia without iron studies, B12, folate, or reticulocyte count.",
+    "Missing recent blood pressure readings, calculated eGFR, and full lipid panel."
+  ],
+  "recommended_workup": [
+    "24\u2011hour ambulatory blood pressure monitoring to assess true control.",
+    "Comprehensive metabolic panel with calculated eGFR and urine albumin\u2011to\u2011creatinine ratio.",
+    "Full fasting lipid profile (HDL, triglycerides) to complete ASCVD risk assessment.",
+    "Polysomnography or validated home sleep apnea test; initiate CPAP if moderate\u2011severe OSA confirmed.",
+    "CBC with iron studies, ferritin, TIBC, vitamin B12, folate, reticulocyte count, and peripheral smear.",
+    "Repeat platelet indices; if PDW remains elevated, send JAK2 V617F, CALR, and MPL mutation panel.",
+    "Screen for secondary hypertension: plasma renin activity, aldosterone/renin ratio, renal artery Doppler, overnight dexamethasone suppression test.",
+    "Liver function tests plus abdominal ultrasound or FibroScan to evaluate for NAFLD/NASH.",
+    "Fecal occult blood test; if positive, pursue upper endoscopy and colonoscopy to rule out occult GI bleed.",
+    "Urine toxicology and structured substance\u2011use interview; refer to addiction medicine for medication\u2011assisted treatment.",
+    "Social work consult to address unemployment, insurance coverage, and facilitate regular primary\u2011care follow\u2011up."
+  ]
+}

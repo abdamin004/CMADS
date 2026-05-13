@@ -1,0 +1,249 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "302810001",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (SBP 132 / DBP 89 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30, although exact value missing)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Age 60, male sex, chronic NSAID use, unstable housing",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild thrombocytosis (Platelet 412.7\u202f\u00d710\u00b3/\u00b5L) and elevated MPV/PDW suggesting inflammatory/insulin\u2011resistance milieu",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of hypertension, central obesity and impaired glucose regulation meets the clinical definition of metabolic syndrome. Platelet activation patterns provide additional support for an underlying insulin\u2011resistant, pro\u2011inflammatory state."
+    },
+    {
+      "rank": 2,
+      "name": "NSAID/ACE\u2011I\u2011related early chronic kidney disease",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium 220\u202fmg daily for knee osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent use of ACE\u2011inhibitor (lisinopril) and thiazide diuretic (hydrochlorothiazide)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity \u2013 both increase susceptibility to renal injury",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality_flags",
+          "finding": "eGFR not recorded \u2013 inability to confirm current renal function",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term NSAID exposure combined with an ACE\u2011inhibitor and a thiazide creates a \u2018double\u2011hit\u2019 on renal perfusion, especially in an older hypertensive, obese patient. The missing eGFR is a red flag that raises suspicion for early CKD."
+    },
+    {
+      "rank": 3,
+      "name": "Dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Metabolic syndrome inherently includes atherogenic lipid abnormalities",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance are strong predictors of elevated triglycerides and low HDL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While a lipid panel is missing, the presence of metabolic syndrome makes dyslipidaemia highly probable and clinically relevant for ASCVD risk stratification."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.4\u202fg/dL (low for male)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "RBC count 4.3\u202f\u00d710\u2076/\u00b5L (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Reactive thrombocytosis (Platelet 412.7\u202f\u00d710\u00b3/\u00b5L, MPV 11.5\u202ffL, PDW 402.8\u202ffL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use and osteoarthritis \u2013 possible chronic inflammation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A mild normocytic anemia with accompanying thrombocytosis fits the pattern of anemia of chronic disease secondary to ongoing inflammatory stress from osteoarthritis and possible NSAID\u2011related gastrointestinal irritation."
+    },
+    {
+      "rank": 5,
+      "name": "Iron\u2011deficiency anemia (likely secondary to chronic NSAID\u2011related GI blood loss)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb 12.4\u202fg/dL) with reactive thrombocytosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use \u2013 known risk for microscopic GI bleeding",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity and NSAID use increase risk of occult GI blood loss",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without iron studies the anemia could be iron\u2011deficiency, especially given chronic NSAID exposure that predisposes to occult gastrointestinal bleeding."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Obesity, insulin resistance, metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 60 \u2013 typical demographic for NAFLD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The metabolic milieu strongly predisposes to hepatic steatosis; NAFLD can further impair gluconeogenesis, potentially contributing to low fasting glucose."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.06,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Obesity, male sex, age >60 \u2013 high prevalence of OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is a common comorbidity in obese middle\u2011aged men and can worsen hypertension and insulin resistance; however, no sleep study data are available."
+    },
+    {
+      "rank": 8,
+      "name": "Adrenal insufficiency (primary or secondary)",
+      "icd10": "E27.1",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 66.5\u202fmg/dL (low) with downward trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antidiabetic medications listed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Unexplained fasting hypoglycaemia in a non\u2011diabetic adult raises concern for adrenal insufficiency; confirmation requires cortisol testing."
+    },
+    {
+      "rank": 9,
+      "name": "Essential thrombocythemia (myeloproliferative disorder)",
+      "icd10": "D47.3",
+      "snomed": "108252007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild thrombocytosis (Platelet 412.7\u202f\u00d710\u00b3/\u00b5L) with elevated MPV (11.5\u202ffL) and PDW (402.8\u202ffL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While reactive causes are more likely, a primary hematologic process cannot be excluded without peripheral smear and JAK2 testing."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s profile is dominated by hypertension, central obesity and pre\u2011diabetic glucose control, fulfilling criteria for metabolic syndrome and explaining the pro\u2011inflammatory platelet pattern. Chronic NSAID use together with ACE\u2011inhibitor and thiazide therapy creates a high risk for early CKD, a diagnosis amplified by the missing eGFR data. Mild normocytic anemia with reactive thrombocytosis is most consistent with anemia of chronic disease, though iron\u2011deficiency secondary to occult NSAID\u2011related GI loss remains possible. Low fasting glucose is discordant with insulin resistance and prompts consideration of adrenal insufficiency. Ancillary conditions such as dyslipidaemia, NAFLD/NASH, obstructive sleep apnea and a low\u2011grade myeloproliferative process are supported by risk\u2011factor clustering but have lower probabilities.",
+  "unresolved_findings": [
+    "Low fasting glucose (66.5\u202fmg/dL) without confirmed etiology",
+    "Missing BMI and waist circumference values",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "No recent serum creatinine, eGFR, or urine albumin\u2011to\u2011creatinine ratio",
+    "No iron studies, vitamin B12 or folate levels",
+    "Smoking and alcohol use histories not documented",
+    "Family history of cardiovascular, renal, or metabolic disease not recorded"
+  ],
+  "recommended_workup": [
+    "Comprehensive renal panel: serum creatinine, eGFR, BUN, electrolytes, and urine albumin\u2011to\u2011creatinine ratio",
+    "Repeat fasting glucose (minimum two separate measurements) and oral glucose tolerance test",
+    "Morning serum cortisol with ACTH stimulation test to evaluate adrenal function",
+    "Iron studies (serum ferritin, iron, TIBC, transferrin saturation), vitamin B12, folate, reticulocyte count, and peripheral smear",
+    "Full lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides, non\u2011HDL\u2011C)",
+    "Accurate measurement of height, weight, and waist circumference to calculate BMI and assess central obesity",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase, bilirubin) and abdominal ultrasound or FibroScan for NAFLD/NASH assessment",
+    "STOP\u2011Bang questionnaire followed by polysomnography if indicated for obstructive sleep apnea",
+    "Medication reconciliation including over\u2011the\u2011counter supplements; consider gastro\u2011protective therapy (PPI or H2\u2011blocker) given chronic NSAID use",
+    "Fecal occult blood test or stool guaiac; upper endoscopy if positive to rule out NSAID\u2011induced ulcer or occult GI bleeding",
+    "JAK2 V617F mutation testing and repeat CBC if thrombocytosis persists to exclude essential thrombocythemia",
+    "Social work referral to address housing instability, medication access, and nutrition counseling"
+  ]
+}

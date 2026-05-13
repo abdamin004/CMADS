@@ -1,0 +1,171 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Stage 5 chronic kidney disease (end-stage renal disease)",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 10.4\u202fmL/min/1.73\u202fm\u00b2 (severe reduction)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.6\u202fmg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick 369\u202fmg/dL (nephrotic\u2011range proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension despite HCTZ/losartan",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f>\u202f30) and pre\u2011diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "eGFR <15, markedly elevated creatinine, and nephrotic\u2011range proteinuria meet criteria for stage\u202f5 CKD. Resistant hypertension, obesity, and pre\u2011diabetes are classic contributors, making CKD the dominant explanation for the renal laboratory abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Acute myocardial injury / post\u2011STEMI complication (possible evolving heart failure)",
+      "icd10": "I21.9",
+      "snomed": "57054005",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity Troponin I 102.2\u202fng/L (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented acute STEMI on 2024\u201103\u201109 with ongoing dual antiplatelet therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension (BP\u202f142/102) and obesity, both risk factors for post\u2011MI remodeling",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Daily tobacco smoking since 1997",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The recent STEMI accounts for the troponin surge. Persistent elevation may reflect ongoing myocardial injury or early left\u2011ventricular dysfunction. Absence of recent imaging raises concern for evolving heart failure, common after large infarcts, especially with uncontrolled hypertension and obesity."
+    },
+    {
+      "rank": 3,
+      "name": "Metastatic prostate adenocarcinoma",
+      "icd10": "C61.9",
+      "snomed": "126906006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list includes metastatic malignant neoplasm of prostate (onset 2024\u201110\u201106)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "PSA 6.0\u202fng/mL (elevated for age)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Primary prostate cancer diagnosed July\u202f2024",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The EHR explicitly records metastatic prostate cancer, confirming its presence despite a modest PSA. It contributes to overall morbidity (e.g., bone metastases) but does not directly explain the current renal or cardiac laboratory abnormalities."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease / CKD\u2011related erythropoietin deficiency",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate anemia documented since 2012\u201104\u201129",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u202f5 CKD (eGFR\u202f10.4\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron, B12, or hemolysis studies available",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In end\u2011stage renal disease, anemia is common and most often due to inadequate erythropoietin production. Lack of alternative work\u2011up makes CKD\u2011related anemia the most parsimonious explanation."
+    },
+    {
+      "rank": 5,
+      "name": "Major depressive disorder with secondary medication non\u2011adherence",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "MDD documented since 1976",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, limited transportation, criminal record",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Partial tobacco cessation with nicotine patch (indicates difficulty with behavior change)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic depression combined with significant psychosocial stressors predicts poor adherence to complex medication regimens (antiplatelet, antihypertensive, CKD therapies), potentially worsening ASCVD and CKD control."
+    }
+  ],
+  "primary_diagnosis": "Stage 5 chronic kidney disease (end-stage renal disease)",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "Both cardiovascular and renal data point to end\u2011stage renal disease as the most pressing problem, supported by eGFR <15, high creatinine, and nephrotic\u2011range proteinuria. The recent STEMI explains the troponin elevation; without recent cardiac imaging, ongoing myocardial injury or early heart failure is likely. Metastatic prostate cancer is clearly documented and adds to overall morbidity but does not drive the current lab abnormalities. Anemia and depression are secondary conditions that fit the chronic disease context and psychosocial barriers. The differential reflects direct evidence from the upstream agents while highlighting gaps that need further evaluation.",
+  "unresolved_findings": [
+    "Potential contribution of NSAID use for osteoarthritis to CKD progression (medication list not provided).",
+    "Whether urinary obstruction from prostate cancer is contributing to renal dysfunction (no urinary symptom data, no post\u2011void residual).",
+    "Absence of iron studies, B12, or hemolysis labs to definitively classify anemia.",
+    "Lack of echocardiographic data, BNP/NT\u2011proBNP, or clinical signs (dyspnea, edema) to confirm heart\u2011failure status.",
+    "Missing calcium, phosphate, PTH, vitamin D levels to evaluate for renal osteodystrophy."
+  ],
+  "recommended_workup": [
+    "Transthoracic echocardiogram with ejection fraction measurement and assessment for wall\u2011motion abnormalities.",
+    "BNP or NT\u2011proBNP level to screen for heart\u2011failure.",
+    "Comprehensive CKD panel: serum phosphate, calcium, bicarbonate, PTH, 25\u2011OH vitamin D.",
+    "Iron studies (serum iron, ferritin, transferrin saturation) and reticulocyte count to clarify anemia etiology.",
+    "Renal ultrasound and post\u2011void residual measurement to evaluate for obstruction secondary to prostate cancer.",
+    "Medication reconciliation focusing on NSAID exposure, dosing of antihypertensives, and adherence to antiplatelet therapy.",
+    "24\u2011hour urine protein quantification (protein\u2011to\u2011creatinine ratio) for precise proteinuria assessment.",
+    "Bone scan or PSMA PET/CT to stage metastatic prostate disease if not already performed.",
+    "Sleep study (polysomnography) given obesity and hypertension, to screen for obstructive sleep apnea.",
+    "Social work / case\u2011management referral to address transportation barriers, medication adherence, and psychosocial support."
+  ]
+}

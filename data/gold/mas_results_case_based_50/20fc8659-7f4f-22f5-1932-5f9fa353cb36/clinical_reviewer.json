@@ -1,0 +1,147 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Medication\u2011induced acute/chronic kidney injury (ACE\u2011I\u202f+\u202fNSAID triple therapy)",
+      "original_probability": 0.35,
+      "verified_probability": 0.6,
+      "confidence_score": 85,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Duplicate ACE\u2011I therapy (lisinopril and enalapril) documented",
+        "Chronic naproxen sodium use for osteoarthritis",
+        "Patient age 73 years increasing renal vulnerability",
+        "No recent renal function labs (creatinine, eGFR, potassium) noted"
+      ],
+      "evidence_gaps": [
+        "Current serum creatinine, eGFR, BUN, and potassium values",
+        "Trend of renal function over prior months",
+        "Urine albumin/creatinine ratio"
+      ],
+      "concerns": [
+        "Original probability under\u2011estimated the immediacy of this risk",
+        "Diagnosis does not explicitly flag duplicate ACE\u2011I as a separate safety issue"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Severe, undertreated atherosclerotic dyslipidaemia",
+      "original_probability": 0.3,
+      "verified_probability": 0.22,
+      "confidence_score": 80,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "LDL\u2011C 177\u202fmg/dL and total cholesterol 263\u202fmg/dL",
+        "Low\u2011intensity atorvastatin despite prior NSTEMI (very\u2011high\u2011risk status)"
+      ],
+      "evidence_gaps": [
+        "Baseline CK and liver function tests before statin intensification",
+        "Documentation of statin adherence"
+      ],
+      "concerns": [
+        "Probability should be higher given guideline LDL target <70\u202fmg/dL for this patient"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "High\u2011risk gastrointestinal bleeding",
+      "original_probability": 0.2,
+      "verified_probability": 0.13,
+      "confidence_score": 78,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Dual antiplatelet therapy (prasugrel + aspirin)",
+        "Chronic naproxen use",
+        "Age >65 years",
+        "No documented gastro\u2011protective agent (PPI/H2\u2011blocker)"
+      ],
+      "evidence_gaps": [
+        "Recent CBC to assess for occult anemia",
+        "Aspirin dose (low vs full)",
+        "History of prior peptic ulcer disease or endoscopy"
+      ],
+      "concerns": [
+        "Original probability undervalues the combined bleeding risk"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Undiagnosed diabetes mellitus / pre\u2011diabetes",
+      "original_probability": 0.1,
+      "verified_probability": 0.04,
+      "confidence_score": 45,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Obesity (BMI \u226530 kg/m\u00b2)",
+        "Hypertension",
+        "Dyslipidaemia"
+      ],
+      "evidence_gaps": [
+        "Fasting plasma glucose",
+        "HbA1c",
+        "Random glucose values"
+      ],
+      "concerns": [
+        "Probability overstated given complete absence of glucose data"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Metabolic\u2011vascular syndrome (obesity, hypertension, dyslipidaemia)",
+      "original_probability": 0.05,
+      "verified_probability": 0.01,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "BMI \u226530 kg/m\u00b2",
+        "Blood pressure 130/84 mmHg (stage 1 hypertension)",
+        "Elevated LDL\u2011C and total cholesterol"
+      ],
+      "evidence_gaps": [
+        "Waist circumference, triglycerides, HDL levels (partial data present)"
+      ],
+      "concerns": [
+        "Redundant with other listed diagnoses; should be merged or omitted"
+      ],
+      "verdict": "plausible"
+    }
+  ],
+  "overall_confidence": 68,
+  "consistency_checks": [
+    {
+      "area": "Renal monitoring",
+      "status": "inconsistent",
+      "detail": "Renal function labs are missing despite high AKI risk from triple therapy"
+    },
+    {
+      "area": "Bleeding risk management",
+      "status": "inconsistent",
+      "detail": "No gastro\u2011protective therapy documented while on dual antiplatelet + NSAID"
+    },
+    {
+      "area": "Lipid management",
+      "status": "consistent",
+      "detail": "Severe hyper\u2011LDL\u2011C aligns with diagnosis of undertreated dyslipidaemia"
+    }
+  ],
+  "critical_findings_addressed": [
+    "Duplicate ACE\u2011I + NSAID (renal injury risk)",
+    "Dual antiplatelet + NSAID (GI bleed risk)",
+    "Severe hyper\u2011LDL\u2011C on low\u2011dose statin (dyslipidaemia)",
+    "Missing renal labs (creatinine/eGFR/K+) \u2013 addressed by AKI diagnosis",
+    "Missing glycaemic labs \u2013 addressed by diabetes screening"
+  ],
+  "critical_findings_missed": [
+    "Missing CBC (possible anemia from occult GI bleed)",
+    "Missing LFT/CK (statin safety monitoring)"
+  ],
+  "top_concerns": [
+    "Under\u2011estimation of the primary AKI risk probability",
+    "Failure to list duplicate ACE\u2011I therapy as a distinct safety flag",
+    "Missing laboratory data (CBC, LFT/CK) not linked to any diagnosis",
+    "Over\u2011estimation of diabetes/pre\u2011diabetes probability",
+    "Redundant metabolic\u2011vascular syndrome entry"
+  ],
+  "recommended_primary": "Medication\u2011induced acute/chronic kidney injury (ACE\u2011I\u202f+\u202fNSAID triple therapy)",
+  "recommended_primary_confidence": 90,
+  "review_summary": "The differential captures the major safety issues but under\u2011weights the imminent renal injury risk, omits explicit polypharmacy safety flags, and over\u2011states diabetes likelihood. Probabilities have been re\u2011scaled, redundant items trimmed, and missing critical lab gaps highlighted. Action\u2011oriented diagnoses now reflect the most urgent clinical priorities."
+}

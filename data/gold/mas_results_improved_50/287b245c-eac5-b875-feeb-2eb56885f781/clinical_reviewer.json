@@ -1,0 +1,132 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Diabetic kidney disease (DKD)",
+      "original_probability": 0.55,
+      "verified_probability": 0.8,
+      "confidence_score": 88,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "SNOMED problem code explicitly links kidney disease to diabetes",
+        "Metabolic\u2011syndrome risk factors (obesity, hypertension, hyperlipidemia)",
+        "Serum creatinine 3.3\u202fmg/dL consistent with stage 4\u20115 CKD typical of long\u2011standing DKD"
+      ],
+      "evidence_gaps": [
+        "Recent HbA1c or fasting glucose",
+        "Urine albumin\u2011to\u2011creatinine ratio or 24\u2011h protein",
+        "Trend of serum creatinine/eGFR over the past 6\u201112\u202fmonths"
+      ],
+      "concerns": [
+        "Probability was set too low given explicit coding and risk profile",
+        "Problem list incorrectly labels CKD stage 1, creating documentation confusion"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "NSAID\u2011induced chronic interstitial nephritis / acute\u2011on\u2011chronic kidney injury",
+      "original_probability": 0.25,
+      "verified_probability": 0.15,
+      "confidence_score": 65,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Chronic naproxen 220\u202fmg PRN for osteoarthritis",
+        "Flag \"NSAID_use_in_ckd\" present",
+        "CKD already present, NSAIDs known to accelerate decline"
+      ],
+      "evidence_gaps": [
+        "Urinalysis with microscopy for sterile pyuria or eosinophils",
+        "Recent creatinine trend to demonstrate an acute rise",
+        "Renal imaging or biopsy if uncertainty persists"
+      ],
+      "concerns": [
+        "No direct laboratory evidence of interstitial nephritis (eosinophilia, casts)",
+        "Agent treats this as a primary cause rather than a contributing factor"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Early myelodysplastic syndrome (MDS) / other marrow failure",
+      "original_probability": 0.1,
+      "verified_probability": 0.03,
+      "confidence_score": 40,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Mild thrombocytopenia (124\u202fK) and leukopenia (3.7\u202fK)",
+        "Relative basophilia (3.8\u202f%)",
+        "Patient age >\u202f60\u202fy"
+      ],
+      "evidence_gaps": [
+        "Peripheral blood smear for dysplastic cells",
+        "Reticulocyte count, iron studies, B12/folate levels",
+        "Bone\u2011marrow aspirate/biopsy if cytopenias persist"
+      ],
+      "concerns": [
+        "Cytopenias could be explained by CKD or drug effect; no anemia or dysplasia documented",
+        "Probability may still be slightly inflated without confirmatory hematology work\u2011up"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "Hypertensive nephrosclerosis / CKD progression from uncontrolled hypertension",
+      "original_probability": 0.1,
+      "verified_probability": 0.02,
+      "confidence_score": 55,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "History of essential hypertension on lisinopril and amlodipine",
+        "Metabolic\u2011syndrome background"
+      ],
+      "evidence_gaps": [
+        "Historical blood\u2011pressure trends showing prior uncontrolled hypertension",
+        "Evidence of hypertensive end\u2011organ damage (LVH, retinal changes)",
+        "Renal ultrasound showing typical nephrosclerotic changes"
+      ],
+      "concerns": [
+        "Current BP is low (104/64\u202fmmHg), making uncontrolled hypertension unlikely as the dominant cause",
+        "Agent may overstate its role relative to DKD"
+      ],
+      "verdict": "plausible"
+    }
+  ],
+  "overall_confidence": 68,
+  "consistency_checks": [
+    {
+      "area": "CKD staging vs creatinine",
+      "status": "inconsistent",
+      "detail": "Problem list records CKD stage 1, but serum creatinine 3.3\u202fmg/dL corresponds to stage 4\u20115; documentation lag identified."
+    },
+    {
+      "area": "Cytopenias explanation",
+      "status": "consistent",
+      "detail": "Thrombocytopenia and leukopenia are partially explained by CKD and possibly MDS; agent included both."
+    },
+    {
+      "area": "NSAID exposure",
+      "status": "consistent",
+      "detail": "Chronic naproxen use aligns with potential renal injury; agent correctly noted this."
+    },
+    {
+      "area": "Inflammatory marker",
+      "status": "unable_to_verify",
+      "detail": "Elevated CRP lacks a definitive source; infection work\u2011up not performed."
+    }
+  ],
+  "critical_findings_addressed": [
+    "Serum creatinine\u202f3.3\u202fmg/dL",
+    "Platelet count\u202f124\u202f\u00d710\u00b3/\u00b5L",
+    "Leukocyte count\u202f3.7\u202f\u00d710\u00b3/\u00b5L",
+    "CRP\u202f9.1\u202fmg/L",
+    "Absolute basophils\u202f0.4\u202f\u00d710\u00b3/\u00b5L (3.8\u202f%)"
+  ],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "Underestimation of DKD probability and over\u2011emphasis on it as a secondary diagnosis",
+    "Absence of infection evaluation despite elevated CRP and leukopenia",
+    "Missing key labs (HbA1c, urine protein, creatinine trend) that would solidify primary diagnoses",
+    "Potential over\u2011rating of MDS without hematologic confirmation",
+    "Documentation discrepancy for CKD stage"
+  ],
+  "recommended_primary": "Diabetic kidney disease (DKD)",
+  "recommended_primary_confidence": 90,
+  "review_summary": "The differential captures the major renal etiologies and a reasonable hematologic concern, but it undervalues diabetic kidney disease, omits infection work\u2011up, and overstates MDS likelihood. Adjusted probabilities reflect DKD as the dominant driver, NSAID injury as a modifiable co\u2011factor, and downgrade other contributors. Additional labs and imaging are required to close evidence gaps."
+}

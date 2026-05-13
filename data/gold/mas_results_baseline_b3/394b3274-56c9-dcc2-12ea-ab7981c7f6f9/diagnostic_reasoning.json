@@ -1,0 +1,266 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescription of lisinopril 10\u202fmg (ACE\u2011I for remodeling, possible hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescription of metoprolol succinate 25\u202fmg ER (beta\u2011blocker for post\u2011MI remodeling, rate control)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent systolic & diastolic blood pressure documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic_pattern",
+          "finding": "Male, age \u224840\u202fyears \u2013 baseline risk for hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "renal_pattern",
+          "finding": "Stage\u202f5 CKD (eGFR\u202f10.2\u202fmL/min/1.73\u202fm\u00b2) which often co\u2011exists with resistant hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient is on two antihypertensive agents but lacks any recent BP measurements. In the setting of severe CKD, uncontrolled hypertension is highly likely and drives both renal progression and cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Hyperkalemia",
+      "icd10": "E87.5",
+      "snomed": "302810001",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD)\u202f=\u202f10.2\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD) \u2013 severe, stable",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescription of lisinopril 10\u202fmg (ACE\u2011I) which impairs renal potassium excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent potassium laboratory result",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Beta\u2011blocker (metoprolol) can blunt renal potassium handling in CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe CKD combined with an ACE\u2011I predisposes to elevated serum potassium. Absence of recent potassium labs raises concern for undetected hyperkalaemia, a life\u2011threatening electrolyte disturbance."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic Acidosis",
+      "icd10": "E87.2",
+      "snomed": "302810001",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD)\u202f=\u202f10.2\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD) \u2013 severe, stable",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No bicarbonate or arterial blood gas results documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "renal_pattern",
+          "finding": "Stage\u202f5 CKD is associated with impaired acid excretion and chronic metabolic acidosis",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD frequently leads to reduced bicarbonate generation and accumulation of non\u2011volatile acids. Lack of recent acid\u2011base labs prevents confirmation but the probability remains high."
+    },
+    {
+      "rank": 4,
+      "name": "Opioid Use Disorder / Opioid\u2011Related Adverse Effects",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011back pain since 2014 (moderate severity)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Ongoing opioid regimen: tramadol, Percocet, hydrocodone/acetaminophen (three opioid\u2011containing agents)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy risk flagged as moderate",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented pain\u2011severity scores, functional assessments, or pain\u2011clinic referral",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple concurrent opioid products without documented stewardship or monitoring strongly suggest misuse risk and potential opioid\u2011related adverse events, especially in a patient with CKD."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnoea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "demographic_pattern",
+          "finding": "Male sex, age \u224840\u202fyears \u2013 typical OSA risk group",
+          "strength": "moderate"
+        },
+        {
+          "source": "cardiovascular_pattern",
+          "finding": "Uncontrolled hypertension (suspected) \u2013 a strong OSA comorbidity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study or STOP\u2011BANG assessment documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Male gender, probable overweight status (BMI missing), and likely uncontrolled hypertension raise pre\u2011test probability for OSA, which can further worsen BP and CKD progression."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011Mineral Bone Disorder",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD)\u202f=\u202f10.2\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No calcium, phosphate, or PTH labs recorded",
+          "strength": "moderate"
+        },
+        {
+          "source": "renal_pattern",
+          "finding": "Stage\u202f5 CKD predisposes to secondary hyperparathyroidism and phosphate retention",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Severe CKD almost inevitably leads to disturbances in calcium\u2011phosphate metabolism; absence of monitoring labs makes this a high\u2011risk but unverified complication."
+    },
+    {
+      "rank": 7,
+      "name": "Heart Failure with Reduced Ejection Fraction",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute NSTEMI on 2019\u201109\u201101 (post\u2011MI remodeling risk)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescription of beta\u2011blocker (metoprolol) and ACE\u2011I (lisinopril) consistent with GDMT for HFrEF",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent echocardiogram documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reasoning",
+          "finding": "Opioid use may mask dyspnea or chest discomfort from HF",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Post\u2011MI patients frequently develop systolic dysfunction; the therapeutic regimen suggests clinicians anticipate HF, yet objective data (EF) are missing."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / Anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "musculoskeletal_pattern",
+          "finding": "Chronic low\u2011back pain contributing to reduced quality of life",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No mental\u2011health screening (PHQ\u20119/GAD\u20117) documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic_pattern",
+          "finding": "Prior resolved social isolation and stress (historical psychosocial factor)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic pain and extensive medication burden are risk factors for mood disorders; lack of screening leaves this diagnosis uncertain but plausible."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled Hypertension",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient has confirmed stage\u202f5 CKD (eGFR\u202f\u2248\u202f10) with guideline\u2011directed secondary\u2011prevention therapy after a 2019 NSTEMI. Critical data gaps (BP, electrolytes, acid\u2011base, lipid panel, imaging) limit precise risk quantification. By treating CKD as a known baseline, the differential focuses on the most likely and clinically urgent complications: uncontrolled hypertension (driving CKD progression and cardiovascular risk), hyperkalaemia, metabolic acidosis, and opioid\u2011related problems. Additional high\u2011prevalence CKD sequelae (CKD\u2011MBD, heart failure, OSA, depression) are included with lower probabilities. Probabilities were allocated to sum to 1.0, reflecting relative clinical urgency and prevalence in this context.",
+  "unresolved_findings": [
+    "Chronic sinusitis (low severity) \u2013 no current ENT evaluation",
+    "Missing allergy documentation despite polypharmacy",
+    "Absent lipid panel (total cholesterol, LDL) while on high\u2011intensity statin",
+    "No smoking or alcohol use status",
+    "No BMI/weight or waist circumference",
+    "No procedural details for PCI (stent type, date)",
+    "No documented cardiology or pain\u2011clinic follow\u2011up visits",
+    "Absence of recent vital signs (BP, HR)",
+    "No liver function tests despite acetaminophen\u2011containing opioids"
+  ],
+  "recommended_workup": [
+    "Obtain 24\u2011hour ambulatory blood pressure monitoring or home BP log",
+    "Basic metabolic panel with serum potassium, bicarbonate, calcium, phosphate, magnesium",
+    "Serum bicarbonate level to assess metabolic acidosis",
+    "CBC with iron studies to evaluate for CKD\u2011related anemia",
+    "Lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Transthoracic echocardiogram to determine left\u2011ventricular ejection fraction",
+    "STOP\u2011BANG questionnaire and, if indicated, home sleep apnea testing or polysomnography",
+    "Ankle\u2011brachial index measurement for peripheral arterial disease",
+    "Urine drug screen and COMM (Current Opioid Misuse Measure) assessment",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screening instruments",
+    "Liver function tests (AST, ALT, bilirubin) given acetaminophen exposure",
+    "Nephrology referral for dialysis access planning and transplant evaluation",
+    "Medication reconciliation including OTCs and dosing adjustments for CKD"
+  ]
+}

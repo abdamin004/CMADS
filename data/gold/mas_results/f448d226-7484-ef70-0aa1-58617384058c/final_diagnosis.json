@@ -1,0 +1,216 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled essential hypertension (stage 2)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 160/87 mmHg on multiple visits",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting heart rate 94 bpm",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Consistently elevated systolic BP \u2265160 mmHg with diastolic \u226585 mmHg in a middle\u2011aged obese woman meets criteria for stage\u202f2 essential hypertension, the most immediate driver of cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and elevated resting heart rate",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing fasting glucose/HbA1c (data gap noted)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity combined with hypertension and likely dysglycemia suggests insulin resistance; fulfills most ATP\u2011III criteria pending glucose data."
+    },
+    {
+      "rank": 3,
+      "name": "Medication non\u2011adherence",
+      "icd10": "Z91.14",
+      "snomed": "422034002",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented assessment of medication adherence",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant\u2011appearing hypertension despite multiple agents",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Non\u2011adherence is a common cause of apparent resistant hypertension; lack of adherence data lowers confidence but remains plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and chronic fatigue noted in chart (implicit)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated resting heart rate",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity predisposes to OSA, which can exacerbate hypertension; clinical phenotype supports moderate likelihood."
+    },
+    {
+      "rank": 5,
+      "name": "Undiagnosed type 2 diabetes / pre\u2011diabetes",
+      "icd10": "R73.03",
+      "snomed": "44054006",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension (components of metabolic syndrome)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose/HbA1c not ordered (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given metabolic risk factors, pre\u2011diabetes or early type\u202f2 diabetes is likely; confirmation pending glucose testing."
+    },
+    {
+      "rank": 6,
+      "name": "Early myeloproliferative / platelet\u2011activation disorder (e.g., essential thrombocythemia)",
+      "icd10": "D47.3",
+      "snomed": "414545006",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet distribution width (PDW 442.3 fL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low RBC (4.2\u202f\u00d710\u2076/\u00b5L) with high RDW (41.9\u202ffL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe PDW elevation with discordant red cell indices suggests a primary platelet activation or early myeloproliferative process; warrants hematologic evaluation."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / anxiety (stress\u2011related)",
+      "icd10": "F41.9",
+      "snomed": "48694002",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress documented in clinical notes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated resting heart rate possibly related to anxiety",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychological stress can contribute to poor BP control and metabolic derangements; mental\u2011health assessment not performed yet."
+    },
+    {
+      "rank": 8,
+      "name": "Thyroid disorder (hypo\u2011 or hyper\u2011thyroidism)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Weight change not documented; thyroid signs absent",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can affect blood pressure and metabolic parameters, but no clinical clues are present; kept for completeness."
+    },
+    {
+      "rank": 9,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension without documented hypokalaemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary hypertension due to aldosterone excess remains a consideration, though low pre\u2011test probability without electrolyte abnormalities."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled essential hypertension (stage 2)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with stage\u202f2 essential hypertension that dominates the clinical picture and drives immediate cardiovascular risk. Obesity and stress point toward metabolic syndrome and insulin resistance, while the lack of documented medication adherence raises the possibility of non\u2011adherence contributing to resistant hypertension. Obstructive sleep apnea and undiagnosed pre\u2011diabetes are plausible comorbidities that can worsen BP control. A markedly elevated platelet distribution width, together with abnormal red\u2011cell indices, suggests an early myeloproliferative or platelet\u2011activation disorder, an important hematologic consideration not captured by the initial list. Secondary causes such as primary aldosteronism and thyroid disease remain low\u2011probability differentials pending targeted testing. Mental\u2011health stressors may also play a contributory role.",
+  "unresolved_findings": [
+    "Severely elevated platelet distribution width (PDW 442.3 fL) without inflammatory markers",
+    "Borderline low red blood cell count (4.2\u202f\u00d710\u2076/\u00b5L) with high red cell distribution width (RDW 41.9\u202ffL)",
+    "Missing key laboratory data: fasting glucose/HbA1c, lipid panel, eGFR, urine albumin, aldosterone/renin ratio, thyroid panel, iron studies, antiphospholipid antibodies",
+    "No documented smoking, alcohol, physical activity, or over\u2011the\u2011counter medication use"
+  ],
+  "recommended_workup": [
+    "Fasting glucose and HbA1c",
+    "Comprehensive lipid panel",
+    "Renal function tests (eGFR, serum creatinine) and urine albumin/creatinine ratio",
+    "Aldosterone\u2011renin ratio with confirmatory testing if indicated",
+    "Thyroid panel (TSH, free T4)",
+    "Iron studies (serum iron, ferritin, TIBC) and peripheral blood smear",
+    "JAK2 V617F mutation testing and repeat CBC with differential to evaluate for essential thrombocythemia",
+    "Polysomnography to assess for obstructive sleep apnea",
+    "Structured medication adherence assessment (pill count, pharmacy refill data)",
+    "Home blood pressure monitoring log",
+    "Urine drug screen for stimulants (cocaine, amphetamines)",
+    "Mental\u2011health screening for depression and anxiety"
+  ]
+}

@@ -1,0 +1,261 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Unexplained hypoglycemia (possible medication\u2011induced, adrenal insufficiency, hepatic dysfunction, or lab error)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 66.6\u202fmg/dL (borderline low) in a prediabetic individual",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on multiple antihypertensive agents including possible insulin\u2011sensitizing drugs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The isolated low fasting glucose is not accounted for by metabolic syndrome or other listed conditions and warrants a dedicated work\u2011up for medication effects, adrenal insufficiency, hepatic dysfunction, or laboratory error."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.225,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes, uncontrolled hypertension, and dyslipidemia risk factors",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides and low HDL noted in prior labs (not shown)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of obesity, hypertension, prediabetes, and dyslipidemia fulfills criteria for metabolic syndrome, explaining most cardiovascular risk findings."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1125,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented high blood pressure readings without recent control data",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Lack of current BP measurements limits assessment but suggests poor control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient's obesity and untreated OSA, essential hypertension is likely poorly controlled, contributing to cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient has documented untreated OSA with symptoms of daytime somnolence",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "OSA under\u2011estimated originally; contributes to hypertension and metabolic dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA drives sympathetic activation, worsening hypertension and insulin resistance."
+    },
+    {
+      "rank": 5,
+      "name": "Substance\u2011use disorder, drug dependence",
+      "icd10": "F19.20",
+      "snomed": "365981007",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of illicit drug use and dependence noted in social history",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Probability originally underestimated; substance use impacts adherence and metabolic health",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Active substance dependence contributes to poor disease management and may affect glucose metabolism."
+    },
+    {
+      "rank": 6,
+      "name": "Early chronic kidney disease, stage 2\u20113 (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and prediabetes raise suspicion for CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Stage cannot be confirmed without eGFR and albuminuria",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but objective renal function data are missing, making CKD plausible but unconfirmed."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome increase likelihood of NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Probability could be higher given metabolic milieu",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk profile supports NAFLD, though imaging or liver enzymes are not provided."
+    },
+    {
+      "rank": 8,
+      "name": "Subclinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.0525,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular risk factors (HTN, obesity, OSA, prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Lacks imaging; should be framed as high risk rather than confirmed disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Patient is at high risk for atherosclerosis, but no definitive imaging evidence yet."
+    },
+    {
+      "rank": 9,
+      "name": "Anemia of chronic disease / iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.0375,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented without iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Exact subtype unknown; probability reflects uncertainty",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is present; etiology unclear pending iron, B12, folate, and reticulocyte data."
+    },
+    {
+      "rank": 10,
+      "name": "Elevated platelet distribution width \u2013 possible myeloproliferative disorder",
+      "icd10": "D47.1",
+      "snomed": "41672002",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW (274.4\u202ffL)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Single isolated value could be a laboratory artifact",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated PDW elevation is insufficient to diagnose a myeloproliferative process without further hematologic work\u2011up."
+    },
+    {
+      "rank": 11,
+      "name": "Secondary hypertension (screen for primary aldosteronism, renal\u2011artery stenosis, Cushing, pheochromocytoma)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.0075,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension noted but no red\u2011flag clues",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Probability over\u2011estimated given lack of supporting data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Secondary causes are possible but currently lack clinical or laboratory indicators."
+    }
+  ],
+  "primary_diagnosis": "Unexplained hypoglycemia (possible medication\u2011induced, adrenal insufficiency, hepatic dysfunction, or lab error)",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient presents with a high\u2011risk metabolic profile (obesity, hypertension, prediabetes, untreated OSA) that accounts for most findings and is captured by metabolic syndrome. However, the isolated low fasting glucose is not explained by any of the listed conditions and is therefore elevated to the primary diagnosis, with a probability of 25%. Adjusted probabilities for the remaining differentials reflect the reviewer\u2019s emphasis on OSA and substance\u2011use disorder and the downgrading of secondary hypertension and the myeloproliferative hypothesis. All diagnoses retain supporting evidence from the EHR and laboratory data, and probabilities have been normalized to sum to 1.0.",
+  "unresolved_findings": [
+    "Borderline low fasting glucose (66.6\u202fmg/dL) \u2013 not fully explained",
+    "Missing recent blood pressure readings",
+    "Absent eGFR and urine albumin data",
+    "No iron studies, B12, folate, or reticulocyte count for anemia work\u2011up",
+    "No cortisol or ACTH testing for adrenal insufficiency",
+    "No liver imaging or enzymes to confirm NAFLD/NASH",
+    "No repeat platelet indices to verify PDW elevation"
+  ],
+  "recommended_workup": [
+    "Repeat fasting glucose and consider mixed\u2011meal tolerance test",
+    "Comprehensive medication review for hypoglycemia\u2011inducing agents",
+    "Serum cortisol level and ACTH stimulation test",
+    "Comprehensive metabolic panel including liver enzymes",
+    "Abdominal ultrasound or FibroScan to assess fatty liver",
+    "Renal function panel: serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Iron studies, ferritin, vitamin B12, folate, and reticulocyte count",
+    "Repeat complete blood count with platelet indices",
+    "Polysomnography to quantify OSA severity",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Screen for secondary hypertension if hypertension remains uncontrolled after optimization"
+  ]
+}

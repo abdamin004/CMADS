@@ -1,0 +1,204 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "NSAID-induced renal tubular dysfunction (type 2 RTA)",
+      "icd10": "N25.9",
+      "snomed": "236423003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use for musculoskeletal pain",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis (low CO\u2082 20.3\u202fmmol/L) without diarrhea",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated blood pressure resistant to standard therapy (SBP 143/DBP 105)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and pre\u2011diabetes increasing renal susceptibility",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic NSAID exposure can cause interstitial nephritis with impaired distal tubular acid secretion, producing a type\u202f2 (proximal) RTA pattern and contributing to resistant hypertension. The unexplained low bicarbonate and uncontrolled BP in the setting of NSAID use make this the most likely driver."
+    },
+    {
+      "rank": 2,
+      "name": "Obesity\u2011driven Metabolic\u2011Vascular Syndrome",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 (obesity)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage\u202f2 hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity contributes to insulin resistance, dyslipidemia (missing lipid panel) and hypertension, forming a metabolic\u2011vascular syndrome that underlies much of the patient\u2019s cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, male gender, and hypertension \u2013 classic OSA risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High prevalence of OSA in obese hypertensive patients; untreated OSA can worsen hypertension and metabolic derangements, warranting a high rank."
+    },
+    {
+      "rank": 4,
+      "name": "Subclinical Coronary Artery Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (obesity, hypertension, prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk (implied by missing lipid panel)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk factor burden, silent atherosclerosis is plausible, though no imaging or symptoms are available."
+    },
+    {
+      "rank": 5,
+      "name": "Resistant Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension despite likely multiple agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low bicarbonate suggesting secondary cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Blood pressure remains uncontrolled; secondary causes (NSAID nephropathy, OSA) are being considered, but the pattern fits resistant hypertension."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of Chronic Disease / Iron\u2011deficiency from Occult NSAID GI Bleed",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia (low RBC 4.3\u202f\u00d710\u2076/\u00b5L) with discordant high hematocrit (49.6\u202f%) \u2013 possible lab artifact",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use \u2013 risk for occult GI bleed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia could be multifactorial; NSAID\u2011related GI loss is possible but the lab discrepancy lowers confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Primary Aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal serum potassium",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While resistant hypertension raises suspicion, normal potassium and lack of hormonal testing make this unlikely."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / Anxiety (Mood Disorder)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain and medication use \u2013 risk for mood disorder",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No mental health assessment documented; possible contributor to medication adherence and lifestyle but low probability."
+    }
+  ],
+  "primary_diagnosis": "NSAID-induced renal tubular dysfunction (type 2 RTA)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s chronic NSAID use, unexplained metabolic acidosis (low CO\u2082), and resistant hypertension point to NSAID\u2011induced renal tubular dysfunction as the dominant pathology. Obesity\u2011driven metabolic\u2011vascular syndrome and obstructive sleep apnea are significant comorbidities that amplify cardiovascular risk. Subclinical coronary artery disease and resistant hypertension are plausible secondary concerns. Anemia from a possible occult NSAID GI bleed, primary aldosteronism, and mood disorder remain possible but less likely given limited supporting data.",
+  "unresolved_findings": [
+    "Platelet distribution width 347\u202ffL (likely lab error)",
+    "Discordant hematocrit 49.6\u202f% with low RBC 4.3\u202f\u00d710\u2076/\u00b5L",
+    "Low CO\u2082 (20.3\u202fmmol/L) without clear source",
+    "Missing fasting lipid panel",
+    "Missing eGFR calculation and urine albumin\u2011creatinine ratio",
+    "Smoking status not documented"
+  ],
+  "recommended_workup": [
+    "Repeat complete blood count with platelet indices to verify PDW and RBC/Hct values",
+    "Serum electrolytes with bicarbonate and arterial blood gas to characterize the acidosis",
+    "Calculate eGFR and obtain urine albumin\u2011creatinine ratio",
+    "Renal ultrasound to assess structural changes",
+    "Polysomnography for definitive diagnosis of obstructive sleep apnea",
+    "Aldosterone\u2011renin ratio with confirmatory testing for primary aldosteronism",
+    "Serum iron studies, ferritin, and fecal occult blood test to evaluate anemia source",
+    "Fasting lipid panel and repeat A1c",
+    "Assessment of smoking history and counseling"
+  ]
+}

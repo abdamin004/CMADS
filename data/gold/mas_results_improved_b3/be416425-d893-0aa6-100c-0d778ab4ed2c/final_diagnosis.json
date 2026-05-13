@@ -1,0 +1,202 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Iron-deficiency anemia (occult gastrointestinal blood loss)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia with low hemoglobin and elevated platelet distribution width (PDW)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle-aged Black female with psychosocial stressors and risk factors for GI blood loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The presence of chronic anemia combined with an elevated PDW suggests iron deficiency, and in a middle-aged female the most common source is occult gastrointestinal bleeding, warranting urgent GI evaluation."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / insulin resistance (early type 2 diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes, hypertension, and dyslipidemia risk flags",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising HbA1c despite falling fasting glucose (inconsistent data)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of obesity, hypertension, and impaired glucose regulation points to metabolic syndrome as an upstream driver of the patient's clinical picture."
+    },
+    {
+      "rank": 3,
+      "name": "Essential hypertension (sub\u2011optimally controlled)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension with no recent blood\u2011pressure readings",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension flagged as a chronic condition",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lack of recent BP data raises concern for sub\u2011optimal control, contributing to cardiovascular risk and possibly to early kidney injury."
+    },
+    {
+      "rank": 4,
+      "name": "Thiazide\u2011induced electrolyte disturbance (contraction alkalosis)",
+      "icd10": "E87.6",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on thiazide diuretic therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyperchloremia without bicarbonate data suggesting possible contraction alkalosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thiazides can cause electrolyte shifts; monitoring is needed, though clinical impact appears modest."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (CKD) secondary to hypertension & metabolic syndrome",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and metabolic syndrome present; no eGFR data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk factors, early CKD is plausible but lacks objective renal function data, making it speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Major depressive disorder (stress\u2011related)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant psychosocial stressors including intimate partner violence",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "No mental\u2011health screening completed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic stress and lack of mental\u2011health assessment raise the likelihood of depressive illness, which can exacerbate anemia and metabolic control."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present; liver enzymes not reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in metabolic syndrome, but without liver enzyme or imaging data the diagnosis remains tentative."
+    },
+    {
+      "rank": 8,
+      "name": "Myelodysplastic syndrome (early / low\u2011grade marrow stress)",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia with elevated PDW, but no peripheral smear data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While MDS can cause anemia, the lack of smear findings and the patient's age make this diagnosis unlikely compared with iron deficiency."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted; no sleep\u2011apnea questionnaire completed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity predisposes to OSA, but without screening data the probability remains low."
+    }
+  ],
+  "primary_diagnosis": "Iron-deficiency anemia (occult gastrointestinal blood loss)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s chronic anemia with an elevated PDW strongly points to iron deficiency, most likely from occult gastrointestinal bleeding given her demographic risk profile. Metabolic syndrome and hypertension are significant comorbidities that amplify cardiovascular risk and may contribute to early kidney injury, but lack of renal labs limits certainty. Electrolyte disturbance from thiazide therapy, possible early CKD, depressive illness, NAFLD, and OSA are plausible secondary considerations. Myelodysplastic syndrome is deemed unlikely without marrow data. The differential prioritizes iron-deficiency anemia as the primary target for urgent work\u2011up.",
+  "unresolved_findings": [
+    "Elevated PDW (though used, no confirmatory peripheral smear)",
+    "Borderline hyperchloremia without bicarbonate/CO2 data",
+    "Falling fasting glucose (contradicts rising HbA1c)",
+    "Missing full lipid panel (total cholesterol, HDL, triglycerides)",
+    "Missing recent blood\u2011pressure readings",
+    "Missing eGFR, urine albumin\u2011to\u2011creatinine ratio",
+    "No iron studies (Ferritin, Iron, TIBC)",
+    "No stool occult blood test or colonoscopy",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117)",
+    "No sleep\u2011apnea questionnaire (STOP\u2011BANG)",
+    "Unclear indication for diphenhydramine"
+  ],
+  "recommended_workup": [
+    "Complete iron studies: serum ferritin, iron, total iron\u2011binding capacity, transferrin saturation",
+    "Repeat CBC with peripheral smear to assess morphology and confirm PDW findings",
+    "Fecal occult blood test and, if positive, colonoscopy to evaluate for GI bleeding",
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio to assess kidney function",
+    "Comprehensive metabolic panel including bicarbonate and chloride",
+    "Fasting lipid panel (total cholesterol, HDL, LDL, triglycerides)",
+    "Home blood\u2011pressure monitoring or clinic measurement to gauge hypertension control",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase) to evaluate NAFLD",
+    "Mental\u2011health screening using PHQ\u20119 and GAD\u20117",
+    "Sleep\u2011apnea screening questionnaire (STOP\u2011BANG) and consider polysomnography if indicated",
+    "Medication review focusing on thiazide diuretic dosing and diphenhydramine use"
+  ]
+}

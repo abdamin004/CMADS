@@ -1,0 +1,170 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Undiagnosed/untreated type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors: obesity, hypertension, CKD stage 4, proteinuria",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent urine ketones (9.6\u202fmg/dL) without documented hyperglycemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has multiple metabolic risk factors and ketonuria, suggesting unrecognized hyperglycemia. Absence of documented glucose/HbA1c makes confirmation pending, but the pre\u2011test probability is high enough to rank this as the primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic nephropathy (proteinuric CKD secondary to diabetes)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 with proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dilute urine (specific gravity 1.00) suggesting impaired concentrating ability",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If diabetes is present, diabetic nephropathy is a common cause of advanced CKD with proteinuria. The probability is kept below that of diabetes itself, reflecting the reviewer\u2019s concern."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented hypertension with sub\u2011optimal treatment (no ACE\u2011I/ARB)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 4 with modest proteinuria",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing, inadequately treated hypertension can cause CKD independent of diabetes. The reviewer highlighted undertreatment, supporting this diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related type 4 renal tubular acidosis (hyperchloremic metabolic acidosis)",
+      "icd10": "N25.8",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperchloremic metabolic acidosis pattern in basic metabolic panel (not shown but inferred from CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (stage 4) predisposing to tubular dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The classic lab triad of CKD, hyperchloremia, and impaired ammonium excretion fits type\u202f4 RTA, and the reviewer affirmed strong support."
+    },
+    {
+      "rank": 5,
+      "name": "Psychosocial / behavioral barriers to optimal care",
+      "icd10": "Z60.5",
+      "snomed": "160573003",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Poor medication adherence noted in chart, limited follow\u2011up visits",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Behavioral factors likely contribute to missed diabetes testing and sub\u2011optimal hypertension management."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, diabetes risk, CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk profile makes NAFLD plausible, but urine bilirubin is atypical, lowering confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Other primary glomerulopathies (e.g., IgA nephropathy, FSGS, membranous)",
+      "icd10": "N02.8",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuric CKD without definitive diabetic confirmation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Considered if diabetes is ultimately excluded; currently low probability."
+    },
+    {
+      "rank": 8,
+      "name": "Other hepatic/cholestatic disease or hemolysis (to explain bilirubinuria)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive (0.8\u202fmg/dL) without corresponding liver function data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Bilirubinuria is not typical for NAFLD; alternative hepatic or hemolytic processes must be ruled out."
+    }
+  ],
+  "primary_diagnosis": "Undiagnosed/untreated type 2 diabetes mellitus",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient presents with multiple metabolic risk factors, CKD stage 4, proteinuria, and unexplained ketonuria, pointing toward undiagnosed type 2 diabetes as the most likely condition. Diabetes, if present, would explain diabetic nephropathy and contributes to CKD progression. Hypertension, inadequately treated, adds a secondary renal insult. The CKD milieu predisposes to type 4 RTA, which is well supported by laboratory patterns. Psychosocial barriers likely underlie missed diabetes testing and sub\u2011optimal blood pressure control. NAFLD/NASH is plausible given metabolic syndrome but is weakened by bilirubinuria, prompting consideration of other hepatic or hemolytic disorders. Primary glomerulopathies remain low on the list pending exclusion of diabetes.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (0.8\u202fmg/dL) \u2013 no accompanying liver function data",
+    "Very dilute urine (specific gravity 1.00) \u2013 could reflect over\u2011diuresis or concentrating defect",
+    "Persistent urine ketones (9.6\u202fmg/dL) without documented hyperglycemia"
+  ],
+  "recommended_workup": [
+    "Fasting plasma glucose and HbA1c to confirm or exclude diabetes",
+    "Oral glucose tolerance test if HbA1c borderline",
+    "Comprehensive metabolic panel with serum bicarbonate, chloride, and anion gap to characterize acidosis",
+    "Urine albumin-to-creatinine ratio and renal ultrasound to assess nephropathy pattern",
+    "Liver function tests (AST, ALT, ALP, GGT, total and direct bilirubin) and abdominal ultrasound to evaluate NAFLD vs cholestasis",
+    "Hemolysis panel (LDH, haptoglobin, peripheral smear, reticulocyte count) to investigate bilirubinuria",
+    "Assessment of blood pressure control and initiation of ACE\u2011I or ARB therapy",
+    "Screen for psychosocial barriers: medication adherence questionnaire, social work consult"
+  ]
+}

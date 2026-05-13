@@ -1,0 +1,216 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled essential hypertension (stage 2)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 159/112 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive therapy documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Severe untreated hypertension is the most immediate driver of the patient's cardiovascular risk and explains the rising sodium/BUN and metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI not recorded but implied), pre\u2011diabetes (HbA1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing lipid panel but high clinical suspicion for dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, impaired glucose tolerance, hypertension, and presumed dyslipidemia fulfills ATP\u2011III criteria for metabolic syndrome, amplifying cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented untreated OSA",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, which worsens OSA severity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA contributes to resistant hypertension and metabolic dysregulation; addressing it will aid BP control."
+    },
+    {
+      "rank": 4,
+      "name": "Tenofovir\u2011associated proximal tubular dysfunction",
+      "icd10": "N25.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on tenofovir\u2011based ART",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild non\u2011anion\u2011gap metabolic acidosis (CO\u2082 21.2 mmol/L, Cl 107.1 mmol/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum sodium (141.7 mmol/L) and BUN (8.5 mg/dL) with normal creatinine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Tenofovir can cause proximal tubular injury leading to bicarbonate loss and electrolyte abnormalities; urine studies are needed for confirmation."
+    },
+    {
+      "rank": 5,
+      "name": "Protease\u2011inhibitor\u2013induced hypertension / metabolic derangement",
+      "icd10": "Z79.891",
+      "snomed": "428041000124106",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on a protease\u2011inhibitor HIV regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of hypertension and metabolic abnormalities",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Protease inhibitors are known to worsen insulin resistance and raise blood pressure, contributing to the overall phenotype."
+    },
+    {
+      "rank": 6,
+      "name": "Dyslipidemia / hyperlipidemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and HIV\u2011associated inflammation increase atherogenic risk; lipid panel unavailable",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Even without current labs, the risk profile warrants inclusion; statin therapy may be indicated per ASCVD risk assessment."
+    },
+    {
+      "rank": 7,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hypertension without documented hypokalemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability; screening (aldosterone\u2011renin ratio) has not been performed."
+    },
+    {
+      "rank": 8,
+      "name": "HIV\u2011associated nephropathy / chronic kidney disease",
+      "icd10": "N18.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal serum creatinine, no proteinuria reported",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing HIV infection",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Current labs do not support CKD, but HIV can cause renal disease; kept as a low\u2011probability consideration."
+    },
+    {
+      "rank": 9,
+      "name": "Anemia of chronic disease / multifactorial anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia without clear etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic HIV infection and possible renal tubular loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia may be multifactorial; further labs (iron studies, retic count) are needed."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled essential hypertension (stage 2)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with severe, untreated stage\u20112 hypertension in the context of obesity, pre\u2011diabetes, and probable dyslipidemia, fulfilling criteria for metabolic syndrome. Untreated obstructive sleep apnea and tenofovir\u2011related proximal tubular dysfunction further exacerbate blood pressure and metabolic abnormalities. Protease\u2011inhibitor therapy adds a modest contribution. While primary aldosteronism, HIV\u2011associated nephropathy, and anemia are possible, they lack supporting data. Dyslipidemia, though not yet quantified, is likely given the risk profile and should be addressed for ASCVD prevention.",
+  "unresolved_findings": [
+    "Mild non\u2011anion\u2011gap metabolic acidosis (CO\u2082 21.2 mmol/L, chloride 107.1 mmol/L) without clear etiology",
+    "Rising serum sodium (141.7 mmol/L) and BUN (8.5 mg/dL) despite normal creatinine",
+    "Missing recent BMI/waist circumference measurements",
+    "Absent eGFR, urine albumin\u2011to\u2011creatinine ratio, and urine electrolyte studies to evaluate renal tubular function",
+    "Incomplete lipid panel trends and lack of repeat HbA1c",
+    "No documented antihypertensive therapy despite stage\u20112 hypertension",
+    "No CPAP or other OSA therapy documented",
+    "No potassium level or aldosterone\u2011renin testing performed"
+  ],
+  "recommended_workup": [
+    "Initiate antihypertensive therapy (e.g., ACE inhibitor or ARB) and monitor BP response",
+    "Obtain fasting lipid panel and calculate ASCVD 10\u2011year risk; consider statin initiation",
+    "Repeat HbA1c and fasting glucose to assess progression to diabetes",
+    "Order comprehensive renal panel: eGFR, urine albumin\u2011to\u2011creatinine ratio, urine electrolytes, and urine beta\u20112 microglobulin to evaluate tenofovir toxicity",
+    "Measure serum potassium and obtain plasma aldosterone\u2011renin ratio to screen for primary aldosteronism",
+    "Schedule polysomnography or home sleep apnea testing; initiate CPAP if indicated",
+    "Document BMI, waist circumference, and weight trend",
+    "Consider renal artery duplex ultrasound if hypertension remains refractory after addressing other factors"
+  ]
+}

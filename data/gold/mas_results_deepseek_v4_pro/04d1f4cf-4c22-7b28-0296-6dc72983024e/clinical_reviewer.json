@@ -1,0 +1,124 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Obstructive Sleep Apnea",
+      "original_probability": 0.25,
+      "verified_probability": 0.18,
+      "confidence_score": 55,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Obesity (BMI 30+)",
+        "Treatment-resistant hypertension",
+        "Prediabetes (A1c 6.3)",
+        "Elevated STOP-BANG pre-test probability"
+      ],
+      "evidence_gaps": [
+        "Polysomnography (home sleep apnea test acceptable)",
+        "STOP-BANG score calculation",
+        "Epworth Sleepiness Scale",
+        "Opioid washout period to disentangle opioid-induced sleep disturbance from OSA",
+        "Neck circumference, observed apneas, choking/gasping history"
+      ],
+      "concerns": [
+        "Probability too high for unconfirmed diagnosis confounded by opioid-induced sleep-disordered breathing",
+        "Agent conflates pre-test probability with diagnostic certainty",
+        "Opioids themselves cause sleep-disordered breathing, nocturnal hypoxemia, and daytime fatigue mimicking OSA"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "High-Risk Opioid Therapy Without Adequate Monitoring / Possible Opioid Use Disorder",
+      "original_probability": 0.2,
+      "verified_probability": 0.32,
+      "confidence_score": 95,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Dual-opioid regimen (hydrocodone\u987e\u95ee ER + hydrocodone/acetaminophen)",
+        "Absence of opioid agreement, urine drug screen, naloxone co-prescription",
+        "No multimodal analgesia (no NSAIDs, gabapentinoids, SNRIs, physical therapy)",
+        "Psychosocial risk factors (unemployment, transport poverty, criminal record)"
+      ],
+      "evidence_gaps": [
+        "DSM-5 criteria for Opioid Use Disorder (loss of control, cravings, role failure, hazardous use, tolerance, withdrawal)",
+        "Urine drug screen results",
+        "Opioid agreement documentation",
+        "Naloxone prescription status (explicitly absent)",
+        "Pain psychology or addiction medicine consultation",
+        "PDMP (Prescription Drug Monitoring Program) query",
+        "Functional status assessment (how much do opioids actually improve function?)"
+      ],
+      "concerns": [
+        "Probability too low given this is the most immediately dangerous finding",
+        "Agent acknowledges severity in reasoning but underweights probabilistically",
+        "Should be ranked #1, not #2"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Metabolic Syndrome",
+      "original_probability": 0.15,
+      "verified_probability": 0.18,
+      "confidence_score": 90,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "Elevated blood pressure (139/101)",
+        "Impaired fasting glucose/prediabetes (A1c 6.3)",
+        "Obesity (BMI 30+)"
+      ],
+      "evidence_gaps": [
+        "Lipid profile (required to complete diagnosis and formal ASCVD risk scoring)",
+        "Waist circumference",
+        "hs-CRP for cardiovascular risk refinement"
+      ],
+      "concerns": [
+        "Probability assignment reflects incompleteness of workup rather than likelihood of diagnosis being correct",
+        "Agent should have flagged missing lipid panel more explicitly"
+      ],
+      "verdict": "supported"
+    }
+  ],
+  "overall_confidence": 65,
+  "consistency_checks": [
+    {
+      "area": "EHR problem list vs. active medications",
+      "status": "inconsistent",
+      "detail": "Iron deficiency anemia on problem list with active ferrous sulfate, but no SNOMED code, no documented etiology workup (menstrual? GI? nutritional?). Potential NSAID use (back pain) raises concern for occult GI bleeding."
+    },
+    {
+      "area": "Opioid prescribing vs. monitoring safeguards",
+      "status": "inconsistent",
+      "detail": "Dual-opioid regimen prescribed without documented opioid agreement, urine drug screen, naloxone co-prescription, or specialist oversight. This is a sentinel prescribing pattern."
+    },
+    {
+      "area": "Hypertension severity vs. treatment intensity",
+      "status": "inconsistent",
+      "detail": "Stage 2 hypertension (139/101) on lisinopril 10mg alone. No dose titration, second agent, or workup for secondary causes documented."
+    },
+    {
+      "area": "Psychosocial stressors vs. disease control",
+      "status": "consistent",
+      "detail": "Unemployment onset (2022) coincides with stress diagnosis onset. Transport poverty and criminal record likely contribute to medication non-affordability and appointment non-attendance, worsening hypertension and pain control."
+    }
+  ],
+  "critical_findings_addressed": [
+    "Dual-opioid regimen without safeguards (severity 5/5) \u2014 addressed by High-Risk Opioid Therapy diagnosis",
+    "Uncontrolled stage 2 hypertension on treatment (severity 4/5) \u2014 addressed by Metabolic Syndrome and OSA diagnoses",
+    "Missing naloxone prescription (severity 4/5) \u2014 addressed by High-Risk Opioid Therapy diagnosis",
+    "No sleep study despite high pre-test probability of OSA (severity 3/5) \u2014 addressed by OSA diagnosis",
+    "Psychosocial access barriers (severity 3/5) \u2014 addressed implicitly but not as a formal diagnosis"
+  ],
+  "critical_findings_missed": [
+    "Unknown renal function despite hypertension \u00b1 potential NSAID exposure (severity 3/5) \u2014 no diagnosis explains or flags this gap",
+    "Iron deficiency anemia etiology unknown (severity 2/5, borderline critical) \u2014 no diagnosis addresses the missing workup"
+  ],
+  "top_concerns": [
+    "Ranking error: OSA ranked #1 over High-Risk Opioid Therapy, which is the most immediately dangerous finding",
+    "Probability inflation for OSA (0.25) given confounding by opioid-induced sleep disturbance and lack of polysomnography",
+    "Probability deflation for High-Risk Opioid Therapy (0.2) despite strong evidence and critical severity",
+    "Failure to flag missing renal function assessment in context of hypertension \u00b1 NSAID exposure",
+    "Agent conflates pre-test probability with diagnostic certainty for OSA"
+  ],
+  "recommended_primary": "High-Risk Opioid Therapy Without Adequate Monitoring / Iatrogenic Opioid Dependency",
+  "recommended_primary_confidence": 95,
+  "review_summary": "The diagnostic agent correctly identifies the three core diagnoses but makes a critical prioritization error by ranking OSA above the opioid safety crisis. The evidence for unsafe opioid prescribing is strong and immediate, while OSA remains a clinical suspicion confounded by opioid-induced sleep disturbance. Probabilities are miscalibrated: OSA is overestimated, opioid risk is underestimated. The agent also fails to flag missing renal function assessment and iron deficiency anemia workup as critical gaps. Overall, the differential is clinically sound in content but flawed in ranking and probability calibration. I recommend restructuring priorities to place opioid safety first, followed by OSA workup and metabolic syndrome completion."
+}

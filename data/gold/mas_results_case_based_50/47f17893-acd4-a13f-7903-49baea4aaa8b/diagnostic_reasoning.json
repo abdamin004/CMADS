@@ -1,0 +1,365 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus with Metabolic Syndrome",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2 (diagnosed 2014)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones = 7 mg/dL (stable)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Non\u2011proliferative diabetic retinopathy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a long\u2011standing diagnosis of type 2 diabetes, obesity, and documented metabolic syndrome, all of which drive insulin resistance and hyperglycaemia. Microvascular complications (retinopathy, micro\u2011albuminuria) confirm chronic hyperglycaemic injury, making diabetes the root cause of the downstream renal and cardiovascular pathology."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled Essential Hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (diagnosed 2015, DBP 94 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension risk factors (obesity, CKD, smoking)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine 2.1 mg/dL (rising trend)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistently elevated diastolic pressure despite therapy contributes directly to CKD progression and accelerates atherosclerotic disease. Hypertension is a major driver of both renal and cardiovascular complications observed."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic Nephropathy (CKD secondary to DM \u00b1 HTN)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.14,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 2.1 mg/dL (rising)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein = 300.8 mg/dL (stable)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Micro\u2011albuminuria (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 2 diagnosed 2020 (now likely stage 4)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of progressive creatinine rise, significant proteinuria, and documented micro\u2011albuminuria in a patient with long\u2011standing diabetes and hypertension is classic for diabetic nephropathy, now likely advanced to stage 4 CKD."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (subclinical/established)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C = 190 mg/dL (very high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking (daily, 40\u2011yr history)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 60, female, Asian ethnicity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Multiple high\u2011risk factors (severe dyslipidaemia, long\u2011standing smoking, hypertension, diabetes, CKD, age/sex) place the patient in a very high ASCVD risk category, even if overt clinical events have not yet been documented."
+    },
+    {
+      "rank": 5,
+      "name": "Severe Dyslipidaemia (possible familial component)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C = 190 mg/dL (very high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertriglyceridemia (active problem)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Family history not provided but very high LDL suggests possible genetic predisposition",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The markedly elevated LDL\u2011C, together with hypertriglyceridaemia, may reflect a primary lipid disorder that amplifies cardiovascular and renal risk beyond that attributable to metabolic syndrome alone."
+    },
+    {
+      "rank": 6,
+      "name": "Euglycaemic / SGLT2\u2011inhibitor Ketoacidosis",
+      "icd10": "E13.10",
+      "snomed": "44184000",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones = 7 mg/dL (stable)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "A1c reported as 3.0% (likely erroneous)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage \u22653 (potential indication for SGLT2\u2011i)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Presence of ketonuria despite an implausibly low A1c raises suspicion for euglycaemic ketoacidosis, especially if the patient is on an SGLT2 inhibitor, a known precipitant in CKD patients."
+    },
+    {
+      "rank": 7,
+      "name": "Hemolysis / Conjugated Hyperbilirubinemia (including PBC)",
+      "icd10": "R17",
+      "snomed": "302810001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine total bilirubin = 1.0 mg/dL (stable)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, age >40 (risk for PBC)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Asian ethnicity (higher prevalence of G6PD deficiency)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated urinary bilirubin suggests conjugated hyperbilirubinaemia; without serum LFTs, hemolysis or cholestasis remain possibilities."
+    },
+    {
+      "rank": 8,
+      "name": "Atherosclerotic Renal\u2011Artery Stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing smoking and severe LDL\u2011C",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension (DBP 94 mmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising creatinine despite CKD therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In patients with uncontrolled hypertension, atherosclerotic risk factors, and progressive renal dysfunction, renal\u2011artery stenosis is a plausible contributor."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes (common OSA comorbidities)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and metabolic disease place the patient at high risk for OSA, which can worsen blood pressure and glycaemic control."
+    },
+    {
+      "rank": 10,
+      "name": "Depressive / Anxiety Disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Refugee status, intimate\u2011partner abuse, limited social support",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Nicotine\u2011patch therapy failure (possible behavioral health issue)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High psychosocial stressors increase risk for mood disorders, which can impair medication adherence and metabolic control."
+    },
+    {
+      "rank": 11,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "42343007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, diabetes, CKD (classic HFpEF phenotype)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The risk profile aligns with HFpEF, which may be silent but contributes to renal congestion and worsening creatinine."
+    },
+    {
+      "rank": 12,
+      "name": "Gout / Hyperuricaemia",
+      "icd10": "M10.9",
+      "snomed": "20153000",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD (predisposes to hyperuricaemia)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential diuretic use for hypertension (not listed but common)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD and possible diuretic therapy increase uric acid levels, making gout a plausible comorbidity."
+    },
+    {
+      "rank": 13,
+      "name": "Medication\u2011induced Nephrotoxicity",
+      "icd10": "N99.0",
+      "snomed": "236423003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list not provided (possible nephrotoxic agents)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising creatinine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Without a medication review, drug\u2011induced renal injury cannot be excluded as a contributor to CKD progression."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus with Metabolic Syndrome",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient presents with a classic metabolic\u2011vascular cascade: longstanding type 2 diabetes, severe dyslipidaemia, obesity, hypertension, and smoking. These risk factors explain the microvascular (retinopathy, micro\u2011albuminuria) and macrovascular (high ASCVD risk) complications, as well as the progressive renal dysfunction (elevated creatinine, proteinuria). Secondary but clinically important considerations include euglycaemic ketoacidosis (possible SGLT2\u2011i use), isolated urinary bilirubin (potential hemolysis or cholestasis), and psychosocial stressors that may impair disease management. The differential was calibrated to reflect the dominance of the metabolic syndrome while incorporating less common but actionable diagnoses.",
+  "unresolved_findings": [
+    "Urine total bilirubin = 1.0 mg/dL (no accompanying liver function tests or hemolysis work\u2011up)",
+    "Urine ketones = 7 mg/dL in the context of an implausibly low reported A1c (3.0%)",
+    "Erroneous A1c value (3.0%) \u2013 cannot assess glycaemic control"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c or initiate continuous glucose monitoring; obtain fasting glucose and serum beta\u2011hydroxybutyrate",
+    "Comprehensive medication reconciliation (focus on SGLT2 inhibitors, NSAIDs, ACE\u2011I/ARB, diuretics)",
+    "Renal panel: eGFR, urine albumin\u2011to\u2011creatinine ratio, renal ultrasound",
+    "Full lipid panel including HDL\u2011C, triglycerides, ApoB, Lp(a)",
+    "Liver function tests (AST, ALT, ALP, GGT, total and direct bilirubin) and abdominal ultrasound or FibroScan",
+    "Hemolysis screen: LDH, haptoglobin, reticulocyte count, peripheral smear, G6PD assay",
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Electrocardiogram and transthoracic echocardiogram (evaluate for HFpEF)",
+    "Coronary artery calcium scoring or stress testing for subclinical ASCVD",
+    "Duplex renal\u2011artery ultrasound or CTA to assess for atherosclerotic renal\u2011artery stenosis",
+    "STOP\u2011BANG questionnaire followed by polysomnography if positive (OSA screening)",
+    "PHQ\u20119 and GAD\u20117 questionnaires with referral to behavioral health",
+    "Serum uric acid level and joint examination for gout"
+  ]
+}

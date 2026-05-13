@@ -1,0 +1,154 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.67,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing diabetes mellitus with metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease with reduced concentrating ability (urine specific gravity 1.0)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of chronic disease noted in chart",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has diabetes, CKD, and a low urine specific gravity indicating impaired tubular function, all classic for diabetic nephropathy. The reviewer elevated its probability and confidence, making it the primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive (vascular) nephrosclerosis / mixed diabetic\u2011hypertensive CKD",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.155,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension label in problem list despite recorded BP 114/82",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease without overt proteinuria data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a known contributor to CKD and may coexist with diabetic nephropathy. Lack of objective BP data reduces confidence, but the reviewer deemed it plausible."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID/analgesic\u2011induced tubulointerstitial nephropathy",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.082,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented NSAID use (absence noted by reviewer)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low urine specific gravity suggesting tubular dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Tubular injury pattern could be drug\u2011induced, but the reviewer highlighted missing medication reconciliation, making this diagnosis speculative."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic pyelonephritis / persistent urinary\u2011tract infection",
+      "icd10": "N11.9",
+      "snomed": "236423003",
+      "probability": 0.052,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of recurrent UTIs not documented",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin without infection markers",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic infection could explain some urinary findings, yet no bacteriuria or nitrite positivity was reported, lowering confidence."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive uropathy (e.g., BPH, ureteral stone, stricture)",
+      "icd10": "N13.2",
+      "snomed": "236423003",
+      "probability": 0.031,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging or symptom data supporting obstruction",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low urine specific gravity possibly from back\u2011pressure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obstruction can cause impaired concentrating ability, but the lack of clinical or imaging evidence makes this unlikely."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / mild cholestasis (source of bilirubinuria)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin without documented liver disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Bilirubinuria is uncommon in NAFLD; the reviewer considered this link speculative, retaining it only as a low\u2011probability alternative."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy",
+  "primary_probability": 0.67,
+  "clinical_reasoning_summary": "The patient\u2019s diabetes, CKD with impaired concentrating ability, and anemia strongly point to diabetic nephropathy, which the reviewer elevated to the top of the differential. Hypertensive nephrosclerosis remains a plausible co\u2011factor given the hypertension label, though objective BP data are lacking. NSAID\u2011induced tubulointerstitial injury, chronic pyelonephritis, and obstructive uropathy are retained as low\u2011probability considerations due to limited supporting data. Bilirubinuria without liver disease is unexplained and may reflect early NAFLD, but this is a weak link. Overall, the weighted probabilities reflect the reviewer\u2019s confidence adjustments while ensuring the list sums to ~1.0.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented liver disease",
+    "Very low urine specific gravity (1.0) suggesting impaired concentrating ability",
+    "Discrepancy between recorded blood pressure (114/82) and hypertension label",
+    "Low A1c (3.8%) despite insulin monotherapy \u2013 risk of hypoglycemia",
+    "Missing lipid panel, LDL, BMI, smoking/alcohol history, physical activity data"
+  ],
+  "recommended_workup": [
+    "Quantitative urine albumin-to-creatinine ratio (UACR) to stage diabetic kidney disease",
+    "Renal ultrasound to assess for obstruction or structural abnormalities",
+    "Comprehensive medication reconciliation focusing on NSAID or nephrotoxic drug use",
+    "Urine culture and repeat urinalysis to evaluate for infection and confirm bilirubinuria source",
+    "24\u2011hour ambulatory blood pressure monitoring to verify hypertensive status",
+    "Liver function panel and abdominal imaging (ultrasound) to investigate bilirubinuria",
+    "Repeat A1c and glucose monitoring to assess for hypoglycemia risk"
+  ]
+}

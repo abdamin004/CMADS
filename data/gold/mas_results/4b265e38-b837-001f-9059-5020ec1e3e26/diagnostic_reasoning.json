@@ -2,462 +2,246 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Chronic kidney disease (stage 2-3, hypertensive/diabetic nephropathy)",
-      "icd10": "N18.3",
-      "snomed": "431856006",
-      "probability": 0.17,
+      "name": "Diabetic kidney disease (diabetic nephropathy) \u2013 CKD stage 2",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.43,
       "confidence": "high",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Chronic kidney disease stage 2 (onset 2019-11-04)",
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine\u202f=\u202f1.9\u202fmg/dL (\u2191)",
           "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Serum creatinine 1.9 mg/dL (severe) and eGFR 64.3 mL/min/1.73m\u00b2 (borderline)",
+          "finding": "eGFR\u202f=\u202f64.3\u202fmL/min/1.73\u202fm\u00b2 (\u2193)",
           "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Urine protein 152.8 mg/dL (severe) and micro\u2011albuminuria",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Lisinopril 10\u202fmg daily (renal\u2011protective ACE\u2011I)",
+          "finding": "Microalbumin/Creatinine ratio\u202f=\u202f27.1\u202fmg/g (borderline \u2191)",
           "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick\u202f=\u202f+1 (152.8\u202fmg/dL) (borderline \u2191)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: \u201cMicroalbuminuria due to type\u202f2 diabetes\u201d",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication: Lisinopril 10\u202fmg (ACE\u2011I) for renal protection",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose dip\u2011stick\u202f=\u202fpositive",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones dip\u2011stick\u202f=\u202fpositive (15\u202fmg/dL)",
+          "strength": "weak"
         }
       ],
-      "reasoning": "Documented CKD stage 2 with rising creatinine, proteinuria and micro\u2011albuminuria, together with hypertension and diabetes, points to hypertensive/diabetic nephropathy as the dominant problem."
+      "reasoning": "Reduced eGFR, elevated creatinine, borderline proteinuria/micro\u2011albuminuria, glucosuria and ketonuria in a patient with long\u2011standing insulin\u2011requiring type\u202f2 diabetes and ACE\u2011I therapy point to diabetic nephropathy as the primary driver of CKD stage\u202f2."
     },
     {
       "rank": 2,
-      "name": "Silent coronary artery disease / sub\u2011clinical ASCVD",
-      "icd10": "I25.9",
-      "snomed": "53741008",
+      "name": "Hypertensive nephrosclerosis (chronic pressure\u2011mediated kidney injury)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
       "probability": 0.13,
       "confidence": "moderate",
       "supporting_evidence": [
         {
-          "source": "risk_scores",
-          "finding": "Age 58, female, white, hypertension, diabetes, CKD, obesity",
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (since 2003)",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Essential hypertension and type 2 diabetes mellitus",
+          "finding": "Blood pressure\u202f=\u202f117/80\u202fmmHg (controlled)",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI \u226530) active problem",
+          "finding": "Medication: Lisinopril 10\u202fmg (ACE\u2011I) \u2013 antihypertensive",
           "strength": "moderate"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Missing lipid panel (cannot calculate ASCVD risk precisely)",
+          "source": "lab_interpreter",
+          "finding": "Stable eGFR\u202f\u2248\u202f64\u202fmL/min/1.73\u202fm\u00b2",
           "strength": "weak"
         }
       ],
-      "reasoning": "Multiple high\u2011risk factors (age, HTN, DM, CKD, obesity) give a 10\u2011year ASCVD risk \u224815\u202f% if LDL is elevated, supporting a high probability of silent CAD."
+      "reasoning": "Long\u2011standing hypertension contributes to chronic kidney injury independent of diabetes; controlled BP now but prior exposure explains part of the CKD burden."
     },
     {
       "rank": 3,
-      "name": "Essential hypertension (possible masked hypertension)",
-      "icd10": "I10",
-      "snomed": "59621000",
-      "probability": 0.11,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Essential hypertension documented since 2003",
-          "strength": "strong"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "BP category = stage1_hypertension (117/80 office reading)",
-          "strength": "moderate"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "Hypertension remains a renal stressor despite office control",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Long\u2011standing hypertension with controlled office BP raises concern for masked hypertension, especially given CKD and proteinuria."
-    },
-    {
-      "rank": 4,
-      "name": "Insulin\u2011requiring type 2 diabetes mellitus (sub\u2011optimal control)",
-      "icd10": "E11.9",
-      "snomed": "44054006",
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
       "probability": 0.1,
-      "confidence": "high",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Type 2 diabetes mellitus on insulin isophane + regular (critical medication)",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Hemoglobin A1c 6.9\u202f% (abnormal, sub\u2011optimal control)",
-          "strength": "strong"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Urine ketones 15\u202fmg/dL (severe) and urine glucose 1.6\u202fmg/dL",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Elevated A1c with ketonuria despite insulin indicates incomplete glycemic control."
-    },
-    {
-      "rank": 5,
-      "name": "Obesity\u2011related metabolic syndrome (including dyslipidaemia)",
-      "icd10": "E66.9",
-      "snomed": "162864005",
-      "probability": 0.08,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI \u226530) active problem since 1991",
+          "finding": "Obesity (BMI\u202f\u226530) since 1991",
           "strength": "strong"
         },
         {
-          "source": "risk_scores",
-          "finding": "BMI missing but obesity documented; hypertension, diabetes present",
-          "strength": "moderate"
-        },
-        {
           "source": "ehr_analyst",
-          "finding": "No statin or lipid\u2011lowering therapy; lipid panel missing",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Cluster of obesity, hypertension, diabetes and absent lipid data fits metabolic syndrome, likely with dyslipidaemia."
-    },
-    {
-      "rank": 6,
-      "name": "Heart failure with preserved ejection fraction (early)",
-      "icd10": "I50.9",
-      "snomed": "84114007",
-      "probability": 0.07,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "risk_scores",
-          "finding": "Obesity, hypertension, CKD are strong HFpEF risk factors",
-          "strength": "moderate"
+          "finding": "Type\u202f2 diabetes mellitus (A1c\u202f6.9\u202f%)",
+          "strength": "strong"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Urine specific gravity 1.0 (very dilute) suggesting concentrating defect",
+          "finding": "Urine bilirubin dip\u2011stick\u202f=\u202fpositive (1.0\u202fmg/dL)",
           "strength": "weak"
         }
       ],
-      "reasoning": "Risk profile suggests early HFpEF, but no cardiac imaging or BNP yet."
+      "reasoning": "Obesity and diabetes are the main risk factors for NAFLD; isolated bilirubinuria may represent early conjugated hyperbilirubinemia from fatty liver, though serum LFTs are missing."
     },
     {
-      "rank": 7,
-      "name": "Obstructive sleep apnea",
-      "icd10": "G47.33",
-      "snomed": "233935009",
+      "rank": 4,
+      "name": "Metastatic breast cancer to liver / paraneoplastic cholestasis",
+      "icd10": "C78.7",
+      "snomed": "254837009",
       "probability": 0.07,
-      "confidence": "low",
+      "confidence": "low-moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI \u226530)",
-          "strength": "moderate"
+          "finding": "Active problem: Malignant neoplasm of breast (onset 1990)",
+          "strength": "strong"
         },
         {
-          "source": "risk_scores",
-          "finding": "Hypertension and diabetes present",
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin dip\u2011stick\u202f=\u202fpositive (1.0\u202fmg/dL)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "High pre\u2011test prevalence of OSA in obese, hypertensive, diabetic patients; no screening performed."
+      "reasoning": "A remote but still active breast cancer could metastasize to the liver, producing conjugated bilirubinuria; however, the long disease\u2011free interval makes this less likely than NAFLD."
     },
     {
-      "rank": 8,
-      "name": "Non\u2011alcoholic fatty liver disease / NASH",
-      "icd10": "K76.0",
-      "snomed": "235856003",
+      "rank": 5,
+      "name": "Primary glomerulonephritis (e.g., IgA or membranous) superimposed on diabetic disease",
+      "icd10": "N03.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick\u202f=\u202f+1 (152.8\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity\u202f=\u202f1.0 (very dilute)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Proteinuria out of proportion to diabetic micro\u2011albuminuria could indicate a superimposed GN; lack of hematuria or complement data limits certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Hemolysis (subclinical or intermittent)",
+      "icd10": "D59.9",
+      "snomed": "271442005",
       "probability": 0.06,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Obesity and insulin resistance (type 2 DM)",
-          "strength": "moderate"
-        },
-        {
           "source": "lab_interpreter",
-          "finding": "Urine bilirubin 1.0\u202fmg/dL (unexpected, may reflect hepatic dysfunction)",
-          "strength": "weak"
+          "finding": "Urine bilirubin dip\u2011stick\u202f=\u202fpositive (1.0\u202fmg/dL)",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Metabolic risk factors and unexplained urine bilirubin raise suspicion for NAFLD."
+      "reasoning": "Conjugated bilirubin in urine can arise from increased bilirubin load due to hemolysis; absence of anemia data makes this a tentative consideration."
     },
     {
-      "rank": 9,
-      "name": "Asymptomatic peripheral arterial disease",
-      "icd10": "I73.9",
-      "snomed": "55822004",
+      "rank": 7,
+      "name": "Obstructive biliary disease (e.g., choledocholithiasis)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
       "probability": 0.05,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "risk_scores",
-          "finding": "Age, hypertension, diabetes, CKD, obesity \u2013 high atherosclerotic burden",
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin dip\u2011stick\u202f=\u202fpositive (1.0\u202fmg/dL)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "High atherosclerotic risk but no ABI performed; PAD remains possible."
+      "reasoning": "Isolated bilirubinuria may reflect cholestasis from biliary obstruction; no RUQ pain or LFTs are recorded, so probability remains low."
     },
     {
-      "rank": 10,
-      "name": "Diabetic microvascular complications (retinopathy, peripheral neuropathy, foot ulcer)",
-      "icd10": "E11.40",
-      "snomed": "44054006",
+      "rank": 8,
+      "name": "Monoclonal gammopathy of undetermined significance (MGUS) / early multiple myeloma (light\u2011chain renal disease)",
+      "icd10": "D47.2",
+      "snomed": "236423003",
       "probability": 0.04,
-      "confidence": "moderate",
+      "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Type 2 diabetes on insulin for >5\u202fyears",
-          "strength": "strong"
-        },
-        {
           "source": "lab_interpreter",
-          "finding": "A1c 6.9\u202f% (sub\u2011optimal control)",
-          "strength": "moderate"
+          "finding": "Borderline proteinuria (152.8\u202fmg/dL)",
+          "strength": "weak"
         }
       ],
-      "reasoning": "Duration and control of diabetes give ~15\u201120\u202f% prevalence of microvascular disease."
+      "reasoning": "Low\u2011level proteinuria in a >55\u2011year\u2011old could be early light\u2011chain deposition; absence of CRAB features keeps probability low."
     },
     {
-      "rank": 11,
-      "name": "CKD\u2011related anemia / anemia of chronic disease",
-      "icd10": "D63.8",
-      "snomed": "271442005",
+      "rank": 9,
+      "name": "Euglycemic/low\u2011grade ketoacidosis (insulin\u2011dose mismatch, stress\u2011related)",
+      "icd10": "E13.10",
+      "snomed": "236423003",
       "probability": 0.03,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "CKD stage 2 with eGFR \u224864\u202fmL/min/1.73\u202fm\u00b2",
+          "source": "lab_interpreter",
+          "finding": "Urine ketones dip\u2011stick\u202f=\u202fpositive (15\u202fmg/dL)",
           "strength": "moderate"
         },
         {
           "source": "lab_interpreter",
-          "finding": "No CBC reported (data missing)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "CKD at this stage often leads to mild anemia; lack of CBC prevents confirmation."
-    },
-    {
-      "rank": 12,
-      "name": "Primary hypothyroidism",
-      "icd10": "E03.9",
-      "snomed": "56717001",
-      "probability": 0.03,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity and possible dyslipidaemia (lipid panel missing)",
-          "strength": "weak"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Thyroid function tests not ordered (missing)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Obesity can be contributed by hypothyroidism; absence of thyroid labs makes this a differential."
-    },
-    {
-      "rank": 13,
-      "name": "Secondary hypertension (renal artery stenosis or primary aldosteronism)",
-      "icd10": "I15.9",
-      "snomed": "38341003",
-      "probability": 0.02,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "Persistent proteinuria despite ACE\u2011I therapy",
-          "strength": "moderate"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "BP category stage1 hypertension despite lisinopril",
+          "finding": "Urine glucose dip\u2011stick\u202f=\u202fpositive",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Uncontrolled proteinuria and hypertension raise suspicion for secondary causes."
-    },
-    {
-      "rank": 14,
-      "name": "Medication non\u2011adherence / suboptimal dosing",
-      "icd10": "Z91.14",
-      "snomed": "182836005",
-      "probability": 0.015,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Only two chronic medications documented (lisinopril, insulin)",
-          "strength": "weak"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "Active medication count = 2, polypharmacy risk low",
-          "strength": "weak"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Sub\u2011target BP and A1c despite therapy",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Limited medication list and sub\u2011optimal control may reflect adherence issues."
-    },
-    {
-      "rank": 15,
-      "name": "Dyslipidaemia (elevated LDL/Triglycerides)",
-      "icd10": "E78.5",
-      "snomed": "55822004",
-      "probability": 0.005,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "No statin or lipid\u2011lowering therapy; lipid panel missing",
-          "strength": "moderate"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "Multiple ASCVD risk factors (HTN, DM, obesity, CKD)",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Given risk profile, dyslipidaemia is likely even though labs are absent."
-    },
-    {
-      "rank": 16,
-      "name": "Vaccination gaps (influenza, pneumococcal, COVID\u201119, hepatitis B)",
-      "icd10": "Z23",
-      "snomed": "160573003",
-      "probability": 0.005,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Vaccination history not documented",
-          "strength": "moderate"
-        },
-        {
-          "source": "risk_scores",
-          "finding": "CKD and diabetes increase need for vaccinations",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Missing immunisation records in a high\u2011risk patient suggest gaps."
-    },
-    {
-      "rank": 17,
-      "name": "Cancer surveillance gaps (breast, colorectal, cervical)",
-      "icd10": "Z12.31",
-      "snomed": "160573003",
-      "probability": 0.005,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Prior malignant neoplasm of breast (moderate priority)",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "No documented recent mammogram, colonoscopy, or Pap smear",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Surveillance for recurrence or new cancers is undocumented."
-    },
-    {
-      "rank": 18,
-      "name": "Vitamin D deficiency / secondary hyperparathyroidism",
-      "icd10": "E55.9",
-      "snomed": "160530006",
-      "probability": 0.005,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "CKD stage 2\u20113 (risk for secondary hyperparathyroidism)",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity and limited outdoor activity (unknown)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "CKD commonly leads to low vitamin D and elevated PTH; labs missing."
-    },
-    {
-      "rank": 19,
-      "name": "Other / unknown",
-      "icd10": "R68.89",
-      "snomed": "442083009",
-      "probability": 0.005,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
-          "source": "lab_interpreter",
-          "finding": "Urine bilirubin 1.0\u202fmg/dL without hepatic disease",
-          "strength": "weak"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Urine specific gravity 1.0 (very dilute) and creatinine discrepancy",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "These findings are unexplained by the other diagnoses."
+      "reasoning": "Presence of ketonuria with modest hyperglycemia suggests intermittent ketosis; without serum glucose or acid\u2011base data, full DKA is unlikely."
     }
   ],
-  "primary_diagnosis": "Chronic kidney disease (stage 2-3, hypertensive/diabetic nephropathy)",
-  "primary_probability": 0.17,
-  "clinical_reasoning_summary": "The patient is a 58\u2011year\u2011old woman with longstanding hypertension, obesity, insulin\u2011treated type 2 diabetes, and documented CKD stage 2. Laboratory data show rising serum creatinine, reduced eGFR, proteinuria and micro\u2011albuminuria despite ACE\u2011I therapy, establishing CKD as the dominant problem. The constellation of age, hypertension, diabetes, CKD and obesity confers a high ASCVD risk, supporting silent coronary artery disease as the next most likely diagnosis. Controlled office BP but a history of hypertension raises the possibility of masked hypertension. Sub\u2011optimal glycemic control (A1c 6.9\u202f% with ketonuria) and the metabolic syndrome further drive cardiovascular and renal risk. Several high\u2011impact data gaps (lipid panel, CBC, BNP, ambulatory BP, sleep study, ABI, thyroid, liver enzymes, vaccination record) limit precise quantification of other conditions, prompting a broad differential that includes HFpEF, OSA, NAFLD, PAD, diabetic microvascular disease, anemia, hypothyroidism, secondary hypertension, adherence issues, dyslipidaemia, preventive\u2011care gaps, and unexplained urine findings.",
+  "primary_diagnosis": "Diabetic kidney disease (diabetic nephropathy) \u2013 CKD stage 2",
+  "primary_probability": 0.43,
+  "clinical_reasoning_summary": "The patient\u2019s reduced eGFR, elevated creatinine, borderline proteinuria/micro\u2011albuminuria, glucosuria and intermittent ketonuria occur in the context of long\u2011standing insulin\u2011requiring type\u202f2 diabetes, hypertension, and obesity.  These findings, together with ACE\u2011I therapy, make diabetic nephropathy the most plausible primary cause of CKD stage\u202f2.  Hypertension likely contributes as a secondary factor.  Obesity and diabetes also raise the pre\u2011test probability of NAFLD, which could explain the isolated bilirubinuria, though serum liver tests are missing.  A remote but still active breast cancer raises the possibility of hepatic metastasis or paraneoplastic cholestasis, but the long disease\u2011free interval makes this less likely.  Other possibilities (primary GN, hemolysis, biliary obstruction, MGUS, low\u2011grade ketoacidosis) are considered based on isolated proteinuria, bilirubinuria, and ketonuria, but lack corroborating data.  Missing key labs (LFTs, CBC, repeat eGFR, lipid panel) and imaging prevent definitive exclusion of several secondary diagnoses, hence the probabilities are distributed accordingly.",
   "unresolved_findings": [
-    "Urine bilirubin 1.0\u202fmg/dL without documented hepatic disease",
-    "Urine specific gravity 1.0 (very dilute) \u2013 unclear etiology",
-    "Discrepancy between serum creatinine (1.9\u202fmg/dL) and whole\u2011blood creatinine (1.2\u202fmg/dL)",
-    "Missing fasting lipid panel, CBC, thyroid panel, liver enzymes, BNP, ABI, sleep study, vaccination records, cancer\u2011screening results"
+    "Urine bilirubin positive without documented liver disease or serum LFTs",
+    "Very low urine specific gravity (1.0) \u2013 could reflect osmotic diuresis or over\u2011hydration",
+    "Platelet Distribution Width 251.5\u202ffL \u2013 likely laboratory artifact",
+    "Missing serum lipid panel",
+    "Missing current BMI",
+    "Missing repeat eGFR and urine ACR trend",
+    "No serum electrolyte or acid\u2011base data"
   ],
   "recommended_workup": [
-    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
-    "Complete blood count with iron studies",
-    "NT\u2011proBNP and transthoracic echocardiogram",
-    "24\u2011hour ambulatory blood pressure monitoring or home BP log",
-    "STOP\u2011Bang questionnaire followed by polysomnography if indicated",
-    "Ankle\u2011brachial index measurement",
-    "Thyroid function tests (TSH, free T4)",
-    "Comprehensive liver panel and abdominal ultrasound or FibroScan",
-    "Renin activity and aldosterone levels plus renal\u2011artery Doppler if secondary hypertension suspected",
-    "Medication adherence interview and pharmacy refill review",
-    "Vaccination record review and administration of missing vaccines (influenza, pneumococcal, COVID\u201119, hepatitis B)",
-    "Update cancer surveillance: recent mammogram, colonoscopy, Pap smear",
-    "Diabetic eye exam (dilated retinal exam) and foot exam with monofilament testing",
-    "25\u2011OH vitamin D and intact PTH levels"
+    "Serum liver panel (AST, ALT, ALP, GGT, total and direct bilirubin) to differentiate NAFLD, cholestasis, or metastatic disease",
+    "Complete blood count with reticulocyte count, haptoglobin, LDH to evaluate for hemolysis",
+    "Abdominal ultrasound with Doppler (or MRI) to assess hepatic steatosis, focal lesions, and biliary tree",
+    "Repeat renal function tests (serum creatinine, eGFR) and urine albumin\u2011to\u2011creatinine ratio in 3\u20116 months to assess CKD trajectory",
+    "Urine microscopy for casts, hematuria, and crystals to rule in/out primary glomerulonephritis",
+    "Serum protein electrophoresis and free light\u2011chain assay if proteinuria increases >300\u202fmg/g",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides) for ASCVD risk stratification",
+    "Home or ambulatory blood\u2011pressure monitoring to confirm sustained BP control",
+    "Review of over\u2011the\u2011counter and recent prescription medications (NSAIDs, PPIs, contrast agents) for nephro\u2011 or hepatotoxic potential",
+    "Breast cancer surveillance imaging (e.g., mammogram, breast MRI, or PET\u2011CT) to confirm disease\u2011free status"
   ]
 }

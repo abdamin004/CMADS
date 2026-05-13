@@ -1,0 +1,153 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute Bacterial Urinary Tract Infection",
+      "icd10": "N39.0",
+      "snomed": "68566005",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine leukocytes 48.3 /HPF (marked pyuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 3.2 mg/dL (low\u2011grade proteinuria)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose 3.9 mg/dL (glucosuria)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.0 (very dilute urine)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Marked pyuria (>25\u202f/HPF) is highly specific for an active bacterial infection of the urinary tract. The accompanying glucosuria and low\u2011grade proteinuria are frequently seen in UTIs, especially when hyperglycaemia is present. No culture is available, but the pattern mandates empiric treatment and definitive urine culture."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic Syndrome (central obesity, hypertension, atherogenic dyslipidaemia)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension (124/85 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL cholesterol 160.3 mg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL cholesterol 28.2 mg/dL (very low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 215.8 mg/dL (borderline high)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 ATP\u2011III criteria (obesity, elevated blood pressure, atherogenic dyslipidaemia). Metabolic syndrome captures the chronic risk state that predisposes to diabetes, coronary disease, and renal dysfunction."
+    },
+    {
+      "rank": 3,
+      "name": "Type 2 Diabetes Mellitus, Uncontrolled/Undiagnosed",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose 3.9 mg/dL (glucosuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 3.2 mg/dL (possible early diabetic nephropathy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension \u2013 classic insulin\u2011resistance risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Atherogenic lipid profile (high LDL, very low HDL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Glucosuria indicates plasma glucose above the renal threshold (>180\u202fmg/dL). Coupled with longstanding obesity, hypertension, and a diabetic\u2011type dyslipidaemia, the most parsimonious explanation is undiagnosed type\u202f2 diabetes, which also accounts for the low\u2011grade proteinuria."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Coronary Artery Disease (silent)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 51, obesity, hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low HDL and high LDL cholesterol",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of risk factors yields a high estimated 10\u2011year ASCVD risk, making silent coronary artery disease plausible, though no cardiac symptoms or investigations are documented."
+    }
+  ],
+  "primary_diagnosis": "Acute Bacterial Urinary Tract Infection",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The urine microscopy provides a direct, objective marker of infection, giving the acute bacterial UTI the highest likelihood. Metabolic syndrome is clearly present by ATP\u2011III criteria and explains the dyslipidaemia, hypertension, and obesity. Glucosuria without confirmatory serum glucose points to undiagnosed type 2 diabetes, which also aligns with the low\u2011grade proteinuria. Silent atherosclerotic CAD is a downstream risk but lacks clinical evidence, so it receives the lowest probability. Psychosocial factors (TBI sequelae, isolation, unemployment) likely exacerbate all conditions but are not primary diagnoses here.",
+  "unresolved_findings": [
+    "Missing serum creatinine, eGFR, and full metabolic panel",
+    "No fasting plasma glucose or HbA1c to definitively confirm diabetes",
+    "Absence of urine culture to identify the uropathogen",
+    "No documented smoking or alcohol use status",
+    "Lack of mental\u2011health screening results (PHQ\u20119, GAD\u20117)",
+    "No data on physical activity, diet, or sleep quality",
+    "Very dilute urine (specific gravity 1.0) \u2013 etiology unclear"
+  ],
+  "recommended_workup": [
+    "Urine culture with sensitivity to guide targeted antibiotic therapy",
+    "Serum creatinine, BUN, eGFR, electrolytes (CMP) to assess renal function",
+    "Fasting plasma glucose and HbA1c to confirm or rule out diabetes mellitus",
+    "Complete blood count (CBC) to evaluate for anemia or leukocytosis",
+    "Repeat comprehensive lipid panel after initiating therapy",
+    "Blood pressure monitoring and initiation of antihypertensive therapy if needed",
+    "Electrocardiogram (ECG) and consideration of coronary artery calcium scoring or stress test given high ASCVD risk",
+    "Depression and anxiety screening (PHQ\u20119, GAD\u20117) given psychosocial stressors",
+    "Overnight polysomnography to evaluate for obstructive sleep apnea",
+    "Lifestyle assessment: diet, physical activity, tobacco and alcohol use",
+    "Vaccination status review and update as appropriate"
+  ]
+}

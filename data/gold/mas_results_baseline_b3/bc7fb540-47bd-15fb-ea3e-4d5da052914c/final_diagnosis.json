@@ -1,0 +1,219 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced diabetic nephropathy (CKD stage 4)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.53,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR \u2248 20\u202fmL/min indicating stage\u202f4 chronic kidney disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria with very high urine albumin/creatinine ratio",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type\u202f2 diabetes mellitus as primary comorbidity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s severely reduced eGFR and massive proteinuria are classic for advanced diabetic nephropathy, which dominates the clinical picture and drives the CKD\u20114 status."
+    },
+    {
+      "rank": 2,
+      "name": "Chemotherapy\u2011induced myelosuppression",
+      "icd10": "D61.9",
+      "snomed": "302810001",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent chemotherapy administration documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe leukopenia/neutropenia on recent CBC",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Current chemotherapy explains the marked leukopenia and places the patient at high infection risk, contributing to clinical instability."
+    },
+    {
+      "rank": 3,
+      "name": "Medication\u2011induced cytopenias & iatrogenic hypoglycaemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.1% indicating overtreatment of glucose",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple glucose\u2011lowering agents (insulin, sulfonylureas) on medication list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The discordantly low HbA1c together with intensive insulin therapy suggests iatrogenic hypoglycaemia, while certain drugs may also contribute to cytopenias."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease / cardiorenal syndrome",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery disease and high cardiac burden",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk given CKD stage\u202f4",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD amplifies cardiovascular disease risk; the patient\u2019s known CAD makes cardiorenal syndrome a plausible concurrent process."
+    },
+    {
+      "rank": 5,
+      "name": "Uncontrolled / legacy type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diagnosis of type\u202f2 diabetes mellitus",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.1% contradicts uncontrolled status",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although diabetes is present, the extremely low HbA1c argues against uncontrolled disease; it remains in the differential only as background."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011Mineral & Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4 predisposes to secondary hyperparathyroidism",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing PTH, phosphate, vitamin\u202fD labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is expected at this stage but lacks laboratory confirmation, keeping its probability low."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / chemotherapy\u2011related hepatic injury",
+      "icd10": "K71.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising AST without ALT elevation",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chemotherapy with potential hepatotoxic agents",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated AST rise is insufficient to confirm NAFLD or drug\u2011induced injury; thus retained with minimal weight."
+    },
+    {
+      "rank": 8,
+      "name": "Myelodysplastic syndrome",
+      "icd10": "D46.9",
+      "snomed": "414545006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent cytopenias (platelet trend noted)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cytopenias could stem from chemotherapy or drugs; MDS remains a remote consideration pending marrow evaluation."
+    },
+    {
+      "rank": 9,
+      "name": "NSAID / contrast\u2011induced acute\u2011on\u2011chronic kidney injury",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Exposure to NSAIDs or iodinated contrast reported",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No documented acute rise in creatinine",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic CKD dominates; without an acute creatinine spike, drug\u2011induced AKI is unlikely."
+    }
+  ],
+  "primary_diagnosis": "Advanced diabetic nephropathy (CKD stage 4)",
+  "primary_probability": 0.53,
+  "clinical_reasoning_summary": "The patient\u2019s stage\u202f4 CKD with nephrotic\u2011range proteinuria is most consistent with advanced diabetic nephropathy, which drives the majority of clinical issues. Concurrent chemotherapy explains the profound leukopenia, while aggressive glucose\u2011lowering therapy accounts for the dangerously low HbA1c and risk of hypoglycaemia. Cardiovascular disease, CKD\u2011MBD, and possible drug\u2011related hepatic or renal insults are present but less dominant. The differential reflects the reviewer\u2019s probability adjustments and prioritizes the dominant renal pathology.",
+  "unresolved_findings": [
+    "Very low HbA1c (3.1%) discordant with hyperglycemia code",
+    "Rising AST without ALT or imaging",
+    "Increasing platelet count (trend noted but not quantified)",
+    "Missing iron studies, ferritin, transferrin saturation",
+    "Missing phosphate, PTH, vitamin D levels",
+    "Absence of recent blood pressure trends",
+    "Exact medication list and dosing (especially insulin, immunosuppressants, NSAIDs)",
+    "No imaging data (renal ultrasound, cardiac echo, liver ultrasound/CT)",
+    "Unclear dialysis status"
+  ],
+  "recommended_workup": [
+    "Review and reconcile full medication list; adjust insulin and other hypoglycaemic agents",
+    "Frequent capillary glucose monitoring and repeat HbA1c to assess glycaemic control",
+    "Obtain PTH, serum phosphate, calcium, and 25\u2011OH vitamin D to evaluate CKD\u2011MBD",
+    "Order iron studies (serum iron, ferritin, transferrin saturation) to assess anemia",
+    "Repeat comprehensive liver panel and consider abdominal imaging (ultrasound or CT) for hepatic injury",
+    "Cardiac evaluation: transthoracic echocardiogram and stress testing for transplant eligibility",
+    "Renal imaging (ultrasound) to assess structural disease and plan for dialysis access",
+    "Bone marrow biopsy if cytopenias persist despite medication review",
+    "Assess blood pressure trends and optimize antihypertensive regimen",
+    "Discuss dialysis initiation timing and vascular access creation"
+  ]
+}

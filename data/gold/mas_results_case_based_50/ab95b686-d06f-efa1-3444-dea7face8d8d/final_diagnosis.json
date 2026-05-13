@@ -1,0 +1,166 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic\u2011hypertensive chronic kidney disease (CKD stage 4)",
+      "icd10": "N18.4",
+      "snomed": "431855005",
+      "probability": 0.52,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with poor glycemic control and hypertension documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR ~25\u202fmL/min/1.73\u202fm\u00b2 and proteinuria in nephrotic range",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of advanced diabetic nephropathy and hypertensive nephrosclerosis explains the markedly reduced eGFR, heavy proteinuria, and the patient\u2019s systemic complications, making this the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled hypertension (essential + OSA\u2011mediated)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of resistant hypertension despite multiple antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented obstructive sleep apnea contributing to sympathetic activation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension accelerates CKD progression and contributes to cardiovascular risk; OSA is a known driver of refractory blood pressure."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease with prior myocardial infarction",
+      "icd10": "I25.110",
+      "snomed": "53741008",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior documented STEMI with subsequent revascularization",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent dyslipidaemia and smoking history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Established CAD explains the patient\u2019s cardiovascular risk profile and underlies the development of heart failure."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with reduced ejection fraction (post\u2011MI cardiomyopathy)",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior MI and symptoms of dyspnea on exertion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BNP (if available) or evidence of volume overload in labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Post\u2011infarction remodeling likely led to systolic dysfunction, contributing to renal congestion and anemia."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic, normochromic anemia with low reticulocyte count consistent with reduced erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 4 documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly causes anemia via erythropoietin deficiency; this explains the low hemoglobin noted in labs."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea (moderate\u2011severe)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior polysomnography confirming moderate\u2011severe OSA",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "OSA contributes to resistant hypertension and cardiovascular strain, but its direct impact on current organ failure is less than the top diagnoses."
+    },
+    {
+      "rank": 7,
+      "name": "Iatrogenic insulin over\u2011treatment (recurrent hypoglycaemia with ketonuria)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Trace ketonuria despite low serum glucose and extremely low HbA1c (3.1\u202f%)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list includes high\u2011dose insulin regimen (if documented)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Laboratory anomalies suggest possible overtreatment with insulin, but lack of serial glucose data makes this a less certain contributor."
+    }
+  ],
+  "primary_diagnosis": "Diabetic\u2011hypertensive chronic kidney disease (CKD stage 4)",
+  "primary_probability": 0.52,
+  "clinical_reasoning_summary": "The patient\u2019s advanced diabetic\u2011hypertensive CKD best accounts for the markedly reduced eGFR, nephrotic\u2011range proteinuria, and associated metabolic derangements. Uncontrolled hypertension, driven in part by moderate\u2011severe OSA, accelerates renal decline and underlies the cardiovascular burden. Prior myocardial infarction and resultant coronary artery disease explain the presence of heart failure with reduced ejection fraction, which further compromises renal perfusion and contributes to CKD\u2011related anemia. Secondary dyslipidaemia is interpreted as a complication of the CKD rather than a separate primary entity. Iatrogenic insulin over\u2011treatment remains a possible but weak contributor to the atypically low HbA1c and ketonuria.",
+  "unresolved_findings": [
+    "Trace urine bilirubin (possible hepatic congestion or assay artefact)",
+    "Very dilute urine (specific gravity\u202f1.00) \u2013 unclear if due to over\u2011hydration, diuretic effect, or tubular concentrating defect",
+    "Trace ketonuria despite low serum glucose",
+    "Extremely low HbA1c (3.1\u202f%) \u2013 could reflect laboratory error, assay interference, or overtreatment",
+    "Colon polyp (no pathology reported) \u2013 potential neoplastic risk unrelated to current organ failures"
+  ],
+  "recommended_workup": [
+    "24\u2011hour ambulatory blood pressure monitoring to quantify hypertension control",
+    "Repeat echocardiogram with ejection fraction measurement",
+    "Polysomnography or home sleep apnea testing if prior study outdated",
+    "Renal ultrasound to assess kidney size and rule out obstructive causes",
+    "Comprehensive medication reconciliation focusing on antihypertensives, NSAIDs, and insulin dosing",
+    "Complete blood count with iron studies, reticulocyte count, and erythropoietin level",
+    "Repeat HbA1c and point\u2011of\u2011care glucose monitoring to verify glycaemic control",
+    "Urine protein quantification (24\u2011hour collection or spot protein\u2011to\u2011creatinine ratio) for precise proteinuria assessment"
+  ]
+}

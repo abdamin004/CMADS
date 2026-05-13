@@ -1,0 +1,186 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "High-Risk Opioid Therapy Without Adequate Monitoring / Iatrogenic Opioid Dependency",
+      "icd10": "Z79.891",
+      "snomed": "713404004",
+      "probability": 0.32,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "49-year-old female on dual-opioid therapy (oxycodone ER + oxycodone IR) without documented monitoring plan, urine drug screen, or naloxone co-prescription",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "High-risk chronic pain regimen in absence of multimodal analgesia or specialist oversight",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated risk for opioid-related adverse events including respiratory depression, overdose, and sleep-disordered breathing",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No urine toxicology or serum opioid levels06",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "This patient is on a high-dose, dual-opioid regimen without evidence of appropriate monitoring, risk mitigation, or specialist involvement. Opioids are the most immediately dangerous factor, capable of causing or exacerbating sleep-disordered breathing, nocturnal hypoxemia, daytime fatigue, and cognitive impairment. The reviewer correctly identifies this as the primary  diagnosis requiring urgent intervention, given the potential for overdose, respiratory depression, and iatrogenic dependency.acci"
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30), hypertension,06 daytime fatigue, and possible witnessed apneas per history",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High pre-test probability based on STOP-BANG criteria (BMI, hypertension, fatigue, age)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Opioid therapy confounds clinical picture \u2014 opioids independently cause sleep-disordered breathing and nocturnal hypoxemia",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "OSA remains a plausible diagnosis given obesity, hypertension, and fatigue. However, the probability is adjusted downward because opioid-induced sleep-disordered breathing is a significant confounder. Definitive diagnosis requires polysomnography, and the immediate priority is addressing the opioid regimen before attributing symptoms solely to OSA."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237602007",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Central obesity, hypertension, prediabetes (HbA1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lipid panel missing \u2014 incomplete workup precludes full diagnostic certainty",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile consistent with metabolic syndrome",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Three of five criteria are met (obesity, hypertension, prediabetes), making metabolic syndrome highly likely. The missing lipid panel is a critical gap that should be flagged. This diagnosis explains the cardiovascular risk and provides a framework for managing the patient's chronic disease burden."
+    },
+    {
+      "rank": 4,
+      "name": "Adjustment Disorder with Anxiety / Stress-Related Exacerbation of Chronic Illness",
+      "icd10": "F43.23",
+      "snomed": "17226007",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High clinical complexity, chronic pain,06 psychosocial stressors, and06 possible mood symptoms documented in visit notes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "",
+          "strength": "\u5996\u7cbe"
+        }
+      ],
+      "reasoning": "The patient's chronic pain, polypharmacy, and uncontrolled medical conditions create significant psychosocial stress. Adjustment disorder with anxiety is a reasonable diagnosis that may contribute to symptom amplification and medication non-adherence. Formal screening is warranted."
+    },
+    {
+      "rank": 5,
+      "name": "Medication Non-Adherence / Access Barrier to Care",
+      "icd10": "Z91.19",
+      "snomed": "408364003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension despite prescribed antihypertensives;06 no pharmacy fill data or adherence assessment documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "lier06 High clinical complexity and possible socioeconomic barriers",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Uncontrolled stage 2 hypertension in a patient with prescribed medications raises concern for non-adherence or access barriers. This diagnosis should be explored before escalating therapy, as it directly impacts cardiovascular risk."
+    },
+    {
+      "rank": 6,
+      "name": "Iron Deficiency Anemia, Etiology Unknown",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Microcytic anemia with low ferritin, consistent with iron deficiency",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented workup for source of bleeding (GI, gynecologic)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Iron deficiency anemia is confirmed by labs, but the etiology remains unknown. This is a critical gap, as it may indicate occult gastrointestinal bleeding or menorrhagia. Further investigation is essential."
+    },
+    {
+      "rank": 7,
+      "name": "Uncontrolled Persistent Asthma",
+      "icd10": "J45.909",
+      "snomed": "195967001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "lier06 History of asthma,06 possible wheezing or dyspnea on exam,06 but no spirometry or peak flow data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Asthma is a possible contributor to respiratory symptoms, but the evidence is weak without objective lung function testing. Opioid-induced respiratory depression and OSA are more likely explanations for06 dyspnea and fatigue."
+    }
+  ],
+  "primary_diagnosis": "High-Risk Opioid Therapy Without Adequate Monitoring / Iatrogenic Opioid Dependency",
+  "primary_probability": 0.32,
+  "clinical_reasoning_summary": "This 49-year-old female presents with a complex interplay of iatrogenic risk, chronic disease, and incomplete workup. The most immediately dangerous finding is a high-dose dual-opioid regimen without monitoring, which can cause or mimic sleep-disordered breathing, cognitive impairment, and respiratory depression. The reviewer correctly prioritizes this over OSA, which remains plausible but confounded by opioids. Metabolic syndrome is highly likely and drives cardiovascular risk, but missing lipid and renal data are critical gaps. Iron deficiency anemia of unknown etiology requires urgent investigation. The final differential reflects a synthesis of the Diagnostic Agent's initial reasoning, the Reviewer's expert adjustments, and the raw evidence, with probabilities recalibrated to emphasize immediate safety concerns while maintaining diagnostic breadth.",
+  "unresolved_findings": [
+    "Unknown renal function despite hypertension and possible NSAID exposure \u2014 no diagnosis explains or flags this gap",
+    "Iron deficiency anemia etiology unknown \u2014 no diagnosis addresses the missing workup for GI or gynecologic bleeding",
+    "Missing lipid panel precludes full diagnostic certainty for metabolic syndrome",
+    "No urine drug screen or opioid monitoring data to assess adherence and safety of opioid regimen",
+    "No formal mental health screening (PHQ-9/GAD-7) to evaluate adjustment disorder or other psychiatric comorbidities"
+  ],
+  "recommended_workup": [
+    "Immediate: Urine drug screen, naloxone co-prescription, and opioid risk assessment (ORT, COMM)",
+    "Immediate: Basic metabolic panel, serum creatinine, eGFR, and urine albumin-to-creatinine ratio to assess renal function",
+    "Urgent: Polysomnography to evaluate for OSA, but only after opioid regimen is addressed or stabilized",
+    "Urgent: Colonoscopy and/or EGD, gynecologic evaluation for iron deficiency anemia workup",
+    "Routine: Fasting lipid panel, HbA1c (if not recent), and comprehensive metabolic panel",
+    "Routine: PHQ-9, GAD-7, and possibly psychiatric consultation for mood and anxiety assessment",
+    "Routine: Spirometry with bronchodilator response if respiratory symptoms persist after opioid optimization",
+    "Pharmacy reconciliation and adherence assessment for antihypertensive medications"
+  ]
+}

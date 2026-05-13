@@ -1,0 +1,207 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (advanced CKD/ESRD)",
+      "icd10": "N18.6",
+      "snomed": "237599002",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and eGFR <15 mL/min/1.73m2",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "Kidney ultrasound showing small, echogenic kidneys consistent with chronic diabetic changes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has decades of diabetes, advanced reduction in GFR, and imaging typical for diabetic kidney disease, making this the most likely etiology of ESRD."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism / renal osteodystrophy)",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated phosphate, low calcium, and high PTH levels typical for CKD\u2011MBD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20115 CKD predisposes to mineral metabolism disturbances",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD inevitably leads to secondary hyperparathyroidism and deranged mineral metabolism, which is reflected in the laboratory abnormalities."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease (\u00b1 iron deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia with low hemoglobin and low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 known to cause erythropoietin deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011related anemia is common in ESRD and the lab profile matches a normocytic, EPO\u2011deficient pattern, possibly compounded by iron deficiency."
+    },
+    {
+      "rank": 4,
+      "name": "Cardiovascular disease (ischemic heart disease / heart failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk due to diabetes, CKD, and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of dyspnea on exertion and peripheral edema",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients with ESRD have a high baseline risk for ischemic heart disease and heart failure; clinical symptoms raise suspicion despite lack of formal cardiac testing."
+    },
+    {
+      "rank": 5,
+      "name": "Hypertensive nephrosclerosis (vascular CKD)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension documented in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria modest and non\u2011nephrotic, compatible with vascular CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension contributes to CKD progression, but the dominant diabetic etiology lowers its relative contribution."
+    },
+    {
+      "rank": 6,
+      "name": "Over\u2011treatment\u2011related hypoglycemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent episodes of blood glucose <70 mg/dL documented",
+          "strength": "strong"
+        },
+        {
+          "source": "medication_list",
+          "finding": "High\u2011dose insulin regimen without recent dose adjustment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In ESRD, insulin clearance is reduced, increasing risk of hypoglycemia when doses are not adjusted."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive / anxiety disorder (intimate\u2011partner violence related)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of intimate\u2011partner violence and reported low mood",
+          "strength": "moderate"
+        },
+        {
+          "source": "mental_health_screening",
+          "finding": "No PHQ\u20119/GAD\u20117 completed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors suggest possible mood or anxiety disorder, though objective screening is pending."
+    },
+    {
+      "rank": 8,
+      "name": "NSAID\u2011induced chronic interstitial nephritis",
+      "icd10": "N14.1",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "medication_list",
+          "finding": "Occasional NSAID use reported",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Duration and dose insufficient to explain ESRD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Limited NSAID exposure makes this an unlikely primary driver of stage\u20115 CKD, but a minor contributory factor cannot be entirely excluded."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (advanced CKD/ESRD)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing diabetes with poor glycemic control, advanced reduction in eGFR, and characteristic renal imaging make diabetic nephropathy the dominant cause of ESRD. Consequent CKD\u2011related complications\u2014mineral\u2011bone disorder, anemia, and heightened cardiovascular risk\u2014are reflected in laboratory abnormalities and clinical risk factors. Over\u2011treatment with insulin explains recent hypoglycemia, while psychosocial stressors raise concern for mood disorder. Hypertensive nephrosclerosis and NSAID nephritis play minor roles given the overwhelming diabetic etiology.",
+  "unresolved_findings": [
+    "Recent blood pressure values and antihypertensive regimen",
+    "Complete electrolyte panel, calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Urine albumin\u2011to\u2011creatinine ratio",
+    "Full lipid profile (LDL, HDL, triglycerides)",
+    "Iron studies (ferritin, transferrin saturation), B12, folate",
+    "Medication list with doses and adherence data",
+    "Mental\u2011health screening results (PHQ\u20119, GAD\u20117)",
+    "Sleep study results for obstructive sleep apnea",
+    "Nutritional markers (serum albumin, pre\u2011albumin, weight trend)",
+    "Vaccination status (HBV, influenza, COVID\u201119, pneumococcal)",
+    "Renal imaging (ultrasound) and cardiac imaging (echo, stress test)"
+  ],
+  "recommended_workup": [
+    "Obtain recent blood pressure readings and review antihypertensive regimen (ACE\u2011I/ARB use)",
+    "Comprehensive metabolic panel with calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Urine albumin\u2011to\u2011creatinine ratio to stage proteinuria",
+    "Lipid panel to assess ASCVD risk",
+    "Iron studies, vitamin B12, folate levels",
+    "Detailed medication reconciliation including insulin dosing and NSAID use",
+    "Screen for depression and anxiety using PHQ\u20119 and GAD\u20117",
+    "Polysomnography if symptoms of obstructive sleep apnea",
+    "Nutritional assessment (serum albumin, pre\u2011albumin, weight trend)",
+    "Vaccination review and administration of missing vaccines (HBV, influenza, COVID\u201119, pneumococcal)",
+    "Renal ultrasound to evaluate kidney size and echogenicity",
+    "Cardiac evaluation: echocardiogram and stress testing as indicated for transplant candidacy"
+  ]
+}

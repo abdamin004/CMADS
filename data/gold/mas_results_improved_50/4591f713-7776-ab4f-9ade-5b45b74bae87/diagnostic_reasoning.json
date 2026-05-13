@@ -1,0 +1,121 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus (established, likely under-coded)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin isophane / regular prescribed despite only a prediabetes label",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list includes \"Disorder of kidney due to diabetes mellitus\" and metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5\u202fmg/dL and blood creatinine 2.7\u202fmg/dL (elevated) consistent with diabetic kidney disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) documented since 1996",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "A1c recorded as 3.1\u202f% (clearly erroneous) \u2013 indicates data-quality issue, not true glycaemic control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Insulin therapy is virtually never used for pre-diabetes; its presence together with a documented diabetic kidney disorder, longstanding obesity and metabolic\u2011syndrome features makes established type\u202f2 diabetes the most parsimonious explanation. The implausibly low HbA1c is a documentation error, reinforcing the need for repeat glycaemic testing."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Kidney Disease (early-to-moderate CKD, likely stage 3a-3b)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.32,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem \"Disorder of kidney due to diabetes mellitus\" (onset 2020\u201102\u201125)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5\u202fmg/dL and blood creatinine 2.7\u202fmg/dL (elevated) indicating reduced GFR (~30\u201145\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage listed as 1 despite laboratory evidence of more advanced disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Use of ACE\u2011I (lisinopril) and thiazide diuretic, typical in CKD management",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine values are inconsistent with the documented CKD\u20111 stage and point toward stage\u202f3 CKD. The presence of diabetes (see diagnosis\u202f1) and hypertension are the principal drivers of diabetic nephropathy. The discrepancy between coded stage and labs makes accurate staging urgent."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive Heart Disease (LVH / diastolic dysfunction)",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing essential hypertension (since 2016) treated with three agents",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome, both risk factors for left-ventricular hypertrophy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current blood pressure well-controlled (107/68\u202fmmHg) but chronic exposure likely caused structural cardiac change",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension, especially when requiring multiple agents, commonly leads to left-ventricular hypertrophy and diastolic dysfunction before symptoms appear. The patient\u2019s age, obesity, CKD, and diabetes increase the likelihood of hypertensive heart disease; an ECG and echocardiogram are indicated."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus (established, likely under-coded)",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "Both analytical rounds converged on three core diagnoses: established type\u202f2 diabetes, diabetic kidney disease (stage\u202f3), and hypertensive heart disease. The insulin prescription, diabetic kidney disorder on the problem list, and long-standing obesity provide strong, named evidence for diabetes, outweighing the erroneous HbA1c. Elevated creatinine values contradict the coded CKD\u20111 stage, supporting a more advanced CKD secondary to diabetes. Chronic hypertension treated with three agents, together with obesity and CKD, makes hypertensive heart disease a likely cardiac sequela. Diagnoses such as sub-clinical atherosclerotic cardiovascular disease and non-alcoholic fatty liver disease were considered but lacked direct objective evidence, so they were omitted per the instruction to prioritize evidence-supported entities. The overall confidence in the synthesized differential is high.",
+  "unresolved_findings": [
+    "Missing current BMI and weight data despite documented obesity",
+    "Absent eGFR calculation and CKD staging despite clear creatinine elevation",
+    "No recent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Contradictory HbA1c value (3.1\u202f%) that conflicts with insulin therapy",
+    "No cardiac imaging or ECG to confirm LVH/HFpEF",
+    "No liver function tests or imaging to evaluate for NAFLD"
+  ],
+  "recommended_workup": [
+    "Repeat fasting plasma glucose and HbA1c (or continuous glucose monitoring) to confirm diabetes status and control",
+    "Comprehensive metabolic panel with serum creatinine; calculate eGFR and repeat in 1\u20112 weeks to assess trend",
+    "Urine albumin-to-creatinine ratio (UACR) for staging diabetic nephropathy",
+    "Full lipid panel (total cholesterol, LDL-C, HDL-C, triglycerides) to guide statin intensity",
+    "Electrocardiogram and transthoracic echocardiogram (evaluate LVH, diastolic function, ejection fraction)",
+    "Carotid duplex ultrasound or coronary calcium scoring for sub-clinical atherosclerosis",
+    "Abdominal ultrasound or FibroScan plus liver function tests to assess for NAFLD (if clinically indicated)",
+    "Screen for obstructive sleep apnea (STOP-BANG questionnaire; refer for polysomnography if positive)",
+    "PHQ-9 and GAD-7 questionnaires; social work referral for housing insecurity and medication adherence support",
+    "Ankle-brachial index (ABI) to screen for peripheral arterial disease",
+    "Serum uric acid, calcium, phosphate, and PTH to evaluate CKD-MBD and thiazide-related hyperuricemia"
+  ]
+}

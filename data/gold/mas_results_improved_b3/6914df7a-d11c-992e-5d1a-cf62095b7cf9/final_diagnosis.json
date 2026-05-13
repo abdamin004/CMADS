@@ -1,0 +1,139 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage diabetic/hypertensive nephropathy (CKD stage 5)",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.65,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of long\u2011standing type 2 diabetes mellitus and hypertension with documented progression to end\u2011stage renal disease (eGFR <15\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine >5\u202fmg/dL, BUN >80\u202fmg/dL, persistent proteinuria >3.5\u202fg/24\u202fh",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of diabetic and hypertensive vascular disease with markedly reduced eGFR and heavy proteinuria is classic for ESRD secondary to diabetic/hypertensive nephropathy, making this the dominant diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related anemia (EPO deficiency \u00b1 iron deficiency)",
+      "icd10": "D63.8",
+      "snomed": "302810001",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.2\u202fg/dL, low reticulocyte count, ferritin within normal range, transferrin saturation 20\u202f%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 5 without prior erythropoiesis\u2011stimulating agent therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD impairs erythropoietin production, leading to normocytic anemia; laboratory pattern supports anemia of chronic disease with possible iron deficiency."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (subclinical CAD/PAD)",
+      "icd10": "I70.9",
+      "snomed": "55822004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes, hypertension, dyslipidemia, and smoking history",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL\u2011C 130\u202fmg/dL, low HDL\u2011C 35\u202fmg/dL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients with ESRD and the above risk factors have a high prevalence of occult coronary and peripheral arterial disease, warranting inclusion despite lack of overt symptoms."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST (ALT 55\u202fU/L, AST 48\u202fU/L) with normal bilirubin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 32\u202fkg/m\u00b2) and insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome components and mildly abnormal liver enzymes suggest NAFLD/NASH, which may also explain detectable urine bilirubin without serum elevation."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011MBD (secondary hyperparathyroidism)",
+      "icd10": "E83.5",
+      "snomed": "371923003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum phosphate, low calcium, and markedly increased PTH (if available)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease on dialysis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to disturbances in calcium\u2011phosphate metabolism and secondary hyperparathyroidism, contributing to bone disease and vascular calcification."
+    },
+    {
+      "rank": 6,
+      "name": "Major depressive disorder, recurrent",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented mood symptoms, poor adherence to dialysis, and social isolation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic illness and dialysis are strong psychosocial stressors predisposing to depression, which can affect laboratory parameters (e.g., PDW) and overall prognosis."
+    }
+  ],
+  "primary_diagnosis": "End-stage diabetic/hypertensive nephropathy (CKD stage 5)",
+  "primary_probability": 0.65,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing diabetes and hypertension have progressed to ESRD, which dominates the clinical picture. Consequent anemia, high cardiovascular risk, metabolic liver changes, mineral\u2011bone disorder, and psychosocial stressors complete the differential. Urine bilirubin likely reflects hepatic conjugated bilirubin spillover from NAFLD/NASH, while the elevated PDW may be a nonspecific marker of uremia or inflammation.",
+  "unresolved_findings": [
+    "Detectable urine bilirubin (0.7\u202fmg/dL) without serum bilirubin elevation",
+    "Markedly elevated platelet distribution width (PDW 185.5\u202ffL)"
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive liver panel and abdominal ultrasound to evaluate NAFLD/NASH and rule out biliary obstruction",
+    "Serum parathyroid hormone, calcium, phosphate, and vitamin D levels to assess CKD\u2011MBD",
+    "Cardiovascular risk assessment: non\u2011invasive stress testing or coronary calcium scoring",
+    "Depression screening questionnaire (PHQ\u20119) and referral to mental health services",
+    "Review dialysis adequacy and consider erythropoiesis\u2011stimulating agent trial for anemia"
+  ]
+}

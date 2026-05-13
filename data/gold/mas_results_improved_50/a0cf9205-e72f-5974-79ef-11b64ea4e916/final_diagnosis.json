@@ -1,0 +1,172 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (stage 5, ESRD)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "ICD coding for diabetic chronic kidney disease, stage 5",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine, eGFR <15 mL/min/1.73m\u00b2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has documented coding for diabetic CKD stage 5 and laboratory evidence of end\u2011stage renal disease, making diabetic nephropathy the most plausible primary etiology despite the lack of explicit glucose measurements."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (essential)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of long\u2011standing hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria with bland urinary sediment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a known contributor to CKD and may coexist with diabetes; the absence of confirmed diabetes increases the relative weight of hypertensive nephrosclerosis."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin <10 g/dL with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Anemia is nearly universal in ESRD due to reduced erythropoietin production; laboratory data confirm its presence."
+    },
+    {
+      "rank": 4,
+      "name": "Uremic cardiovascular disease (LVH, CAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin trend without acute ischemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Patients with ESRD have a high prevalence of left\u2011ventricular hypertrophy and coronary artery disease; the reviewer noted the original probability was underestimated."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / CKD\u2011Mineral\u2011Bone Disorder",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u2011MBD management plan noted in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated phosphate and low calcium (pending confirmation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is expected in >70% of patients with stage 5 disease; the reviewer highlighted the need to raise its probability."
+    },
+    {
+      "rank": 6,
+      "name": "Obesity\u2011related glomerulopathy / secondary FSGS",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI >35 kg/m\u00b2 documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria with selective albumin loss pattern",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity can cause focal segmental glomerulosclerosis; the reviewer noted its omission and it warrants inclusion at a modest probability."
+    },
+    {
+      "rank": 7,
+      "name": "Colorectal neoplasia recurrence / new carcinoma",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior history of colorectal cancer resection 3 years ago",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent colonoscopy documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the lack of recent surveillance, a small but non\u2011negligible risk of recurrence exists."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (stage 5, ESRD)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease coded as diabetic CKD, making diabetic nephropathy the dominant diagnosis. Hypertension, anemia, CKD\u2011MBD, and uremic cardiovascular complications are common comorbidities in this setting and have been weighted accordingly. Obesity\u2011related FSGS and possible colorectal cancer recurrence are retained as lower\u2011probability alternatives, addressing the reviewer\u2019s concerns about omitted entities and under\u2011estimation of CKD\u2011related complications.",
+  "unresolved_findings": [
+    "Absence of documented diabetes diagnosis or antidiabetic medication",
+    "No recent HbA1c, fasting glucose, or oral glucose tolerance test results",
+    "Missing calcium, phosphate, PTH, and vitamin D levels",
+    "No cardiac work\u2011up (ECG, echocardiogram, stress testing)",
+    "No recent colonoscopy or imaging of the colon",
+    "No mental\u2011health screening results (PHQ\u20119, GAD\u20117)",
+    "No sleep study despite obesity"
+  ],
+  "recommended_workup": [
+    "HbA1c and fasting glucose to confirm diabetic status",
+    "Comprehensive metabolic panel including calcium, phosphate, PTH, vitamin D",
+    "Complete blood count with reticulocyte count to characterize anemia",
+    "Electrocardiogram and transthoracic echocardiogram; consider stress testing",
+    "Colonoscopy or CT colonography for cancer surveillance",
+    "PHQ\u20119 and GAD\u20117 questionnaires for mental\u2011health assessment",
+    "Overnight polysomnography for obstructive sleep apnea evaluation"
+  ]
+}

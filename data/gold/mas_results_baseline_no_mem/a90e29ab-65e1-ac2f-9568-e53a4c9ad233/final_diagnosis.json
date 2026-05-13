@@ -1,0 +1,153 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Untreated high\u2011risk ASCVD (no statin therapy)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.65,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient has type 2 diabetes, hypertension, obesity, hypertriglyceridemia \u2192 high 10\u2011year ASCVD risk",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin therapy documented in medication list",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of diabetes, hypertension, obesity and dyslipidaemia places the patient in a high\u2011risk ASCVD category, yet the record shows no statin prescribed, indicating untreated ASCVD risk."
+    },
+    {
+      "rank": 2,
+      "name": "Early diabetic nephropathy / Stage 2 CKD",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Type 2 diabetes with borderline renal risk flagged in EHR",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated albumin\u2011creatinine ratio or reduced eGFR noted in recent labs (implicit)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes is the leading cause of CKD; the EHR flags moderate renal risk, suggesting early nephropathy (stage 2)."
+    },
+    {
+      "rank": 3,
+      "name": "Uncertain hypertension control (possible resistant hypertension)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as a comorbidity but current blood pressure values are missing",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on multiple antihypertensive agents (implied)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without recent BP readings, control cannot be confirmed; the possibility of resistant hypertension remains."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Obesity, hypertension, hypertriglyceridemia, and type 2 diabetes documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The clustering of central obesity, hypertension, dyslipidaemia, and insulin resistance fulfills criteria for metabolic syndrome."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and hypertriglyceridemia present; liver enzymes not provided but risk inferred",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to hepatic steatosis; in the absence of alcohol use data, NAFLD is the most plausible liver pathology."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.015,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted; no sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity is a major risk factor for OSA; lack of screening makes this a plausible but unconfirmed diagnosis."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive disorder / chronic stress\u2011related mood disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.015,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and mood concerns mentioned in clinical notes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s chronic stress and possible mood symptoms suggest depressive disorder, though formal assessment is lacking."
+    }
+  ],
+  "primary_diagnosis": "Untreated high\u2011risk ASCVD (no statin therapy)",
+  "primary_probability": 0.65,
+  "clinical_reasoning_summary": "The patient\u2019s profile (type 2 diabetes, hypertension, obesity, hypertriglyceridaemia) creates a high ASCVD risk that is currently untreated, making this the dominant problem. Co\u2011existing diabetes places the kidneys at early risk (stage 2 CKD). Hypertension control cannot be verified due to missing BP data, raising the possibility of resistant hypertension. The constellation of metabolic abnormalities fulfills criteria for metabolic syndrome, which also predisposes to NAFLD, OSA, and mood disturbance. Low\u2011probability entities lacking objective data (hypothyroidism, gout, B12 deficiency) were omitted.",
+  "unresolved_findings": [
+    "Elevated platelet count (425\u202f\u00d7\u202f10\u00b3/\u00b5L) without clear inflammatory or hematologic cause",
+    "Mild hyperchloremic metabolic shift (low CO\u2082, high\u2011normal chloride) possibly diuretic\u2011related",
+    "Historical anemia diagnosis vs. current normal hemoglobin/hematocrit",
+    "Prediabetes label despite documented type\u20112 diabetes diagnosis",
+    "Missing blood pressure, BMI, smoking status, alcohol use, family history, and liver enzyme data"
+  ],
+  "recommended_workup": [
+    "Obtain fasting lipid panel and initiate guideline\u2011directed statin therapy",
+    "Measure current blood pressure and calculate home BP averages",
+    "Repeat eGFR and urine albumin\u2011creatinine ratio to stage CKD",
+    "Order thyroid function tests (TSH, free T4) to rule out hypothyroidism",
+    "Serum uric acid level to evaluate gout risk",
+    "Vitamin B12 level given metformin use",
+    "Liver ultrasound or FibroScan to assess NAFLD/NASH",
+    "Overnight polysomnography for obstructive sleep apnea",
+    "PHQ\u20119 depression screening questionnaire",
+    "Complete metabolic panel to clarify non\u2011anion\u2011gap acidosis"
+  ]
+}

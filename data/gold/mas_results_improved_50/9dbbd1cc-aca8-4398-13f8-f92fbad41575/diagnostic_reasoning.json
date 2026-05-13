@@ -1,0 +1,211 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (insulin\u2011resistant pre\u2011diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 2017",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension (149/91\u202fmmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.3\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C (30.2\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline\u2011high creatinine (1.4\u202fmg/dL) suggesting early renal impact",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic psychosocial stress and exposure to violence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 ATP\u2011III criteria (obesity, elevated blood pressure, low HDL, impaired fasting glucose). This cluster defines metabolic syndrome, which drives insulin resistance, hypertension, dyslipidaemia, and early renal dysfunction. It is the most parsimonious unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Early chronic kidney disease secondary to hypertension and metabolic syndrome",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.4\u202fmg/dL (borderline\u2011high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing essential hypertension since 1995",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and pre\u2011diabetes (risk factors for CKD progression)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Losartan prescribed (renoprotective ARB)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A creatinine of 1.4\u202fmg/dL in a 43\u2011year\u2011old male likely corresponds to an eGFR \u2248\u202f60\u201370\u202fmL/min/1.73\u202fm\u00b2 (CKD stage\u202f3a). Hypertension is the dominant driver, amplified by metabolic\u2011syndrome\u2011related hyperfiltration. Confirmation requires eGFR calculation and urine albumin\u2011creatinine ratio."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia (possible chronic blood loss)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate anemia documented since 2015 (no etiology recorded)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet distribution width (PDW 347.7\u202ffL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis (possible low\u2011grade nasal bleeding)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No iron studies or occult blood testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High PDW is a classic surrogate for iron\u2011deficiency anemia. In a middle\u2011aged male, occult gastrointestinal bleeding is the most common source, but chronic sinusitis could also contribute. Iron studies are required for confirmation."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep\u2011disordered breathing (obstructive sleep apnea)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension resistant to low\u2011dose ARB",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes and low HDL (metabolic consequences of OSA)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in obese middle\u2011aged men and can worsen hypertension, insulin resistance, and dyslipidaemia. Absence of polysomnography makes this a plausible but unconfirmed contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Atherogenic dyslipidaemia (high triglycerides / small\u2011dense LDL)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "low\u2011moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C (30\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome phenotype (obesity, hypertension, pre\u2011diabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Triglycerides and LDL\u2011C not measured",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low HDL is a hallmark of the atherogenic triad (high TG, low HDL, small\u2011dense LDL) seen in insulin resistance. Direct lipid fractions are missing, so the diagnosis remains probable but unconfirmed."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease (inflammation\u2011mediated)",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis since 2018 (persistent low\u2011grade inflammation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity\u2011related inflammatory state",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW (also seen in anemia of chronic disease)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic inflammatory conditions can cause anemia of chronic disease, typically normocytic\u2011to\u2011microcytic with modestly elevated PDW. Distinguishing it from iron\u2011deficiency anemia requires iron studies and inflammatory markers."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (insulin\u2011resistant pre\u2011diabetes)",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of obesity, stage\u202f2 hypertension, low HDL\u2011C, and pre\u2011diabetes fulfills ATP\u2011III criteria for metabolic syndrome, which is therefore the most likely primary diagnosis (overall confidence 85%). Metabolic syndrome explains the resistant hypertension, early renal dysfunction, and predisposes to atherogenic dyslipidaemia and obstructive sleep apnea. Secondary considerations include early CKD from long\u2011standing hypertension, iron\u2011deficiency anemia suggested by a markedly high PDW, and a possible anemia of chronic disease driven by chronic sinusitis and obesity\u2011related inflammation. The differential is limited by missing lipid fractions, eGFR/albuminuria, iron studies, and sleep study data.\nOverall confidence in the synthesized differential: 85\u202f%.",
+  "unresolved_findings": [
+    "Missing fasting lipid panel (total cholesterol, LDL\u2011C, triglycerides)",
+    "No calculated eGFR or urine albumin\u2011to\u2011creatinine ratio to stage CKD",
+    "Absent iron studies (Ferritin, serum iron, TIBC) and fecal occult blood test",
+    "No sleep study or polysomnography to confirm or exclude OSA",
+    "No hepatic panel (ALT, AST, GGT) or imaging to assess NAFLD",
+    "Renin\u2011aldosterone ratio and serum potassium not available (primary hyperaldosteronism screen)",
+    "Inflammatory markers (CRP, ESR) not reported",
+    "Smoking and alcohol use not documented"
+  ],
+  "recommended_workup": [
+    "Comprehensive fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Calculate eGFR and obtain urine albumin\u2011to\u2011creatinine ratio",
+    "Iron studies: serum iron, ferritin, total iron\u2011binding capacity, transferrin saturation",
+    "Fecal occult blood test (guaiac) to screen for gastrointestinal blood loss",
+    "Polysomnography or home sleep apnea testing",
+    "Liver function tests (ALT, AST, GGT) and abdominal ultrasound if enzymes are elevated",
+    "Repeat CBC with peripheral smear to evaluate platelet morphology and anemia type",
+    "High\u2011sensitivity CRP or ESR to assess systemic inflammation",
+    "Serum potassium, plasma renin activity, and aldosterone concentration if hypertension remains uncontrolled",
+    "Detailed tobacco and alcohol use history",
+    "Home or ambulatory blood pressure monitoring to assess true control"
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "NSAID\u2011induced gastrointestinal blood loss leading to iron\u2011deficiency anemia",
+      "icd10": "K92.2",
+      "snomed": "271442005",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use for knee osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Microcytic anemia pattern (Hb low, MCV low) noted without iron studies",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic NSAID exposure predisposes to occult GI bleeding, which commonly produces iron\u2011deficiency anemia; the anemia pattern supports this despite missing iron studies."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic\u2011syndrome cluster (obesity, pre\u2011diabetes, probable dyslipidemia)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented and HbA1c 6.2% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk profile, missing lipid panel",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, impaired glucose tolerance, and likely dyslipidemia fits the metabolic\u2011syndrome definition and contributes to overall morbidity."
+    },
+    {
+      "rank": 3,
+      "name": "Untreated stage\u20111 essential hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 126/81 mmHg on clinic measurement",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No antihypertensive therapy documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinic BP meets criteria for stage\u20111 hypertension and the patient is not on treatment, making this a likely active condition."
+    },
+    {
+      "rank": 4,
+      "name": "Occult gastrointestinal malignancy (right\u2011sided colon cancer)",
+      "icd10": "C18.2",
+      "snomed": "363406005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >60 with iron\u2011deficiency anemia of unknown source",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_concern",
+          "finding": "No stool occult blood test or colonoscopy performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In older adults, iron\u2011deficiency anemia often heralds right\u2011sided colon cancer; lack of GI work\u2011up keeps this plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and daytime fatigue reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity is a major risk factor for OSA; symptoms are compatible, but objective testing is lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia (mixed with iron deficiency)",
+      "icd10": "D63.8",
+      "snomed": "271442009",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic conditions (mitral stenosis, hypertension) present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lack of iron studies prevents differentiation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic inflammation or early CKD could contribute to anemia, but without iron studies the contribution is uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease secondary to NSAID use and hypertension",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term NSAID exposure and hypertension noted",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Renal function labs (creatinine/eGFR) absent",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs and hypertension can cause CKD, yet no renal labs are available, making this speculative."
+    },
+    {
+      "rank": 8,
+      "name": "Primary myeloproliferative neoplasm (essential thrombocythemia / early primary myelofibrosis)",
+      "icd10": "D47.3",
+      "snomed": "41672002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (190.5 fL) markedly high",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_concern",
+          "finding": "Reactive thrombocytosis considered but PDW magnitude atypical",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A disproportionately high PDW raises suspicion for a primary platelet disorder; confirmation would require further hematologic work\u2011up."
+    },
+    {
+      "rank": 9,
+      "name": "Paroxysmal atrial fibrillation secondary to chronic mitral\u2011valve stenosis",
+      "icd10": "I48.0",
+      "snomed": "698252002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known chronic mitral\u2011valve stenosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No rhythm monitoring data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mitral stenosis predisposes to atrial arrhythmias, but lack of ECG or Holter data limits certainty."
+    },
+    {
+      "rank": 10,
+      "name": "Depression / anxiety contributing to fatigue and poor lifestyle adherence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports fatigue and suboptimal adherence to health measures",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychological factors are common contributors to fatigue; formal assessment is lacking."
+    },
+    {
+      "rank": 11,
+      "name": "Reactive thrombocytosis secondary to iron\u2011deficiency anemia",
+      "icd10": "D75.0",
+      "snomed": "271442001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Iron\u2011deficiency anemia present (microcytic anemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet indices abnormal (high PDW) but magnitude atypical for simple reactive process",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Iron deficiency can cause reactive thrombocytosis, yet the PDW elevation suggests a possible alternative or additional process."
+    }
+  ],
+  "primary_diagnosis": "NSAID\u2011induced gastrointestinal blood loss leading to iron\u2011deficiency anemia",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s chronic NSAID use, microcytic anemia pattern, and lack of iron studies point to occult GI blood loss as the most likely cause of iron\u2011deficiency anemia. Metabolic syndrome, untreated hypertension, and the possibility of an occult right\u2011sided colon cancer are important concurrent considerations. Elevated platelet distribution width raises concern for a primary myeloproliferative process, while early CKD, anemia of chronic disease, atrial fibrillation, OSA, depression, and reactive thrombocytosis remain plausible but less likely contributors. The differential reflects the reviewer\u2019s probability adjustments and highlights gaps in the current work\u2011up.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (190.5 fL) \u2013 could indicate early myeloproliferative process",
+    "Rising BUN despite normal value \u2013 suggests possible renal impairment",
+    "Absence of iron studies (serum iron, ferritin, transferrin saturation) \u2013 cannot definitively classify anemia",
+    "Missing serum creatinine/eGFR \u2013 renal function unknown",
+    "No lipid panel \u2013 dyslipidemia status unknown",
+    "No stool occult blood test or colonoscopy \u2013 occult GI bleed source unconfirmed",
+    "No recent echocardiogram \u2013 severity of mitral stenosis unknown",
+    "No ambulatory blood pressure monitoring \u2013 true hypertension status uncertain",
+    "No sleep study \u2013 OSA not ruled out",
+    "No mental\u2011health screening \u2013 depression/anxiety status uncertain"
+  ],
+  "recommended_workup": [
+    "Complete iron studies (serum iron, ferritin, transferrin saturation, total iron\u2011binding capacity)",
+    "Fecal occult blood test and colonoscopy to evaluate for GI bleed or malignancy",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio to assess renal function",
+    "Comprehensive lipid panel (LDL, HDL, triglycerides, total cholesterol)",
+    "Polysomnography or home sleep apnea testing",
+    "Standardized mental\u2011health questionnaires (PHQ\u20119, GAD\u20117)",
+    "Repeat CBC with platelet indices and peripheral smear",
+    "JAK2 V617F mutation testing and bone marrow evaluation if myeloproliferative neoplasm remains suspected",
+    "Transthoracic echocardiogram to re\u2011assess mitral valve stenosis severity",
+    "24\u2011hour ambulatory blood pressure monitoring"
+  ]
+}

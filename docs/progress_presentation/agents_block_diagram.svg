@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" width="1600" height="700" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="1600" height="700" fill="#FFFFFF"/>
+  <defs>
+    <linearGradient id="gParallel" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2980B9"/><stop offset="100%" stop-color="#1B5E7B"/></linearGradient>
+    <linearGradient id="gCore" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D35400"/><stop offset="100%" stop-color="#A04000"/></linearGradient>
+    <linearGradient id="gReview" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8E44AD"/><stop offset="100%" stop-color="#5B2C6F"/></linearGradient>
+    <linearGradient id="gMerge" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2C3E50"/><stop offset="100%" stop-color="#17202A"/></linearGradient>
+    <linearGradient id="gEval" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#27AE60"/><stop offset="100%" stop-color="#196F3D"/></linearGradient>
+    <linearGradient id="gTx" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#16A085"/><stop offset="100%" stop-color="#0E6251"/></linearGradient>
+    <linearGradient id="gMem" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1ABC9C"/><stop offset="100%" stop-color="#148F77"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.18"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2C3E50"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#A04000"/>
+    </marker>
+  </defs>
+
+  <!-- ── Title ── -->
+  <text x="800" y="28" text-anchor="middle" font-size="22" font-weight="bold" fill="#1B3A5C">
+    Multi-Agent Diagnostic Pipeline — 7 Agents · 6 Stages · LangGraph
+  </text>
+  <text x="800" y="50" text-anchor="middle" font-size="12" fill="#666" font-style="italic">
+    All agents read and write a single shared state · parallel Stage-1 fan-out → sequential reasoning → guideline-based treatment
+  </text>
+
+  <!-- ── Shared state bar ── -->
+  <rect x="30" y="70" width="1540" height="50" rx="10" fill="url(#gMem)" filter="url(#shadow)"/>
+  <text x="50" y="92" font-size="12" font-weight="bold" fill="#FFF">SHARED STATE</text>
+  <text x="50" y="110" font-size="10" fill="#E8F8F5">LangGraph StateGraph · TypedDict with merge reducers</text>
+  <text x="1560" y="92" text-anchor="end" font-size="10" font-weight="600" fill="#FFF">patient_context · agent_outputs</text>
+  <text x="1560" y="110" text-anchor="end" font-size="10" font-weight="600" fill="#FFF">conflicts · execution_trace · scratchpad</text>
+
+  <!-- dashed read/write connectors -->
+  <g stroke="#16A085" stroke-dasharray="4 3" stroke-width="1.2" fill="none">
+    <path d="M 200 120 L 200 170"/>
+    <path d="M 520 120 L 520 170"/>
+    <path d="M 870 120 L 870 170"/>
+    <path d="M 1180 120 L 1180 170"/>
+    <path d="M 1450 120 L 1450 170"/>
+  </g>
+  <text x="215" y="155" font-size="9" fill="#148F77" font-style="italic">read/write</text>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- STAGE 1 - PARALLEL (two agents)           -->
+  <!-- ─────────────────────────────────────────── -->
+  <rect x="30" y="170" width="340" height="260" rx="12" fill="#EAF4FB" stroke="#5499C7" stroke-width="1.3"/>
+  <text x="50" y="193" font-size="12" font-weight="bold" fill="#1F4E79">STAGE 1 · PARALLEL</text>
+
+  <rect x="50" y="210" width="300" height="95" rx="10" fill="url(#gParallel)" filter="url(#shadow)"/>
+  <text x="200" y="238" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">EHR Analyst Agent</text>
+  <text x="200" y="260" text-anchor="middle" font-size="10" fill="#D4E6F1">Extract structured clinical summary</text>
+  <text x="200" y="278" text-anchor="middle" font-size="9" fill="#AED6F1">3 LLM calls · analyse → structure → review</text>
+  <text x="200" y="294" text-anchor="middle" font-size="9" fill="#AED6F1">Pydantic schema validated</text>
+
+  <rect x="50" y="315" width="300" height="95" rx="10" fill="url(#gParallel)" filter="url(#shadow)"/>
+  <text x="200" y="343" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Lab Interpreter Agent</text>
+  <text x="200" y="365" text-anchor="middle" font-size="10" fill="#D4E6F1">Classify · trend · rank by severity</text>
+  <text x="200" y="383" text-anchor="middle" font-size="9" fill="#AED6F1">3 LLM calls · analyse → structure → review</text>
+  <text x="200" y="399" text-anchor="middle" font-size="9" fill="#AED6F1">Flags critical abnormalities</text>
+
+  <text x="200" y="423" text-anchor="middle" font-size="10" font-style="italic" fill="#1F4E79">(fan-out from START)</text>
+
+  <!-- Fan-in to Stage 2 -->
+  <path d="M 350 258 Q 385 258 395 290" stroke="#2C3E50" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 350 362 Q 385 362 395 330" stroke="#2C3E50" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- STAGE 2 - ADAPTIVE DIAGNOSTIC REASONING   -->
+  <!-- ─────────────────────────────────────────── -->
+  <rect x="400" y="170" width="320" height="260" rx="12" fill="#FDF2E9" stroke="#D35400" stroke-width="1.3"/>
+  <text x="420" y="193" font-size="12" font-weight="bold" fill="#A04000">STAGE 2 · ADAPTIVE LOOP</text>
+
+  <rect x="420" y="210" width="280" height="200" rx="10" fill="url(#gCore)" filter="url(#shadow)"/>
+  <text x="560" y="242" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Diagnostic Reasoning</text>
+  <text x="560" y="262" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Agent</text>
+  <text x="560" y="284" text-anchor="middle" font-size="10" fill="#FDEBD0">Generate ranked differential (≥3)</text>
+
+  <!-- Internal loop circles -->
+  <g>
+    <circle cx="475" cy="340" r="22" fill="#FFF"/>
+    <text x="475" y="344" text-anchor="middle" font-size="11" font-weight="bold" fill="#A04000">Dx</text>
+
+    <circle cx="560" cy="365" r="24" fill="#FFF"/>
+    <text x="560" y="369" text-anchor="middle" font-size="10" font-weight="bold" fill="#A04000">critique</text>
+
+    <circle cx="645" cy="340" r="22" fill="#FFF"/>
+    <text x="645" y="344" text-anchor="middle" font-size="11" font-weight="bold" fill="#A04000">refine</text>
+
+    <path d="M 497 345 Q 520 365 536 365" stroke="#FFF" stroke-width="1.8" fill="none" marker-end="url(#arrowAmber)"/>
+    <path d="M 584 365 Q 603 365 623 345" stroke="#FFF" stroke-width="1.8" fill="none" marker-end="url(#arrowAmber)"/>
+    <path d="M 640 320 Q 560 280 480 320" stroke="#FFF" stroke-width="1.8" stroke-dasharray="3 2" fill="none" marker-end="url(#arrowAmber)"/>
+  </g>
+
+  <text x="560" y="403" text-anchor="middle" font-size="10" fill="#FDEBD0">max 3 rounds · stop at confidence ≥ 75</text>
+
+  <path d="M 700 310 L 745 310" stroke="#2C3E50" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- STAGE 3 - CLINICAL REVIEWER               -->
+  <!-- ─────────────────────────────────────────── -->
+  <rect x="750" y="170" width="280" height="260" rx="12" fill="#F5EEF8" stroke="#8E44AD" stroke-width="1.3"/>
+  <text x="770" y="193" font-size="12" font-weight="bold" fill="#5B2C6F">STAGE 3 · ADVERSARIAL</text>
+
+  <rect x="770" y="210" width="240" height="200" rx="10" fill="url(#gReview)" filter="url(#shadow)"/>
+  <text x="890" y="242" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Clinical Reviewer</text>
+  <text x="890" y="262" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Agent</text>
+  <text x="890" y="288" text-anchor="middle" font-size="10" fill="#E8DAEF">Independent second opinion</text>
+  <text x="890" y="308" text-anchor="middle" font-size="10" fill="#E8DAEF">Per-diagnosis verdict:</text>
+  <text x="890" y="332" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">· CONFIRM</text>
+  <text x="890" y="352" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">· MODIFY</text>
+  <text x="890" y="372" text-anchor="middle" font-size="11" fill="#FFF" font-weight="600">· REJECT</text>
+  <text x="890" y="398" text-anchor="middle" font-size="9" fill="#E8DAEF" font-style="italic">3 LLM calls</text>
+
+  <path d="M 1010 310 L 1055 310" stroke="#2C3E50" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- STAGE 4 - DIAGNOSTIC REFINER              -->
+  <!-- ─────────────────────────────────────────── -->
+  <rect x="1060" y="170" width="260" height="260" rx="12" fill="#EBEDEF" stroke="#2C3E50" stroke-width="1.3"/>
+  <text x="1080" y="193" font-size="12" font-weight="bold" fill="#17202A">STAGE 4 · MERGE</text>
+
+  <rect x="1080" y="210" width="220" height="200" rx="10" fill="url(#gMerge)" filter="url(#shadow)"/>
+  <text x="1190" y="242" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Diagnostic Refiner</text>
+  <text x="1190" y="262" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Agent</text>
+  <text x="1190" y="293" text-anchor="middle" font-size="10" fill="#D5DBDB">Merge perspectives from</text>
+  <text x="1190" y="309" text-anchor="middle" font-size="10" fill="#D5DBDB">Diagnostic + Reviewer</text>
+  <text x="1190" y="345" text-anchor="middle" font-size="12" fill="#F9E79F" font-weight="bold">→ final differential</text>
+  <text x="1190" y="395" text-anchor="middle" font-size="9" fill="#D5DBDB" font-style="italic">Single LLM call</text>
+
+  <path d="M 1320 310 L 1365 310" stroke="#2C3E50" stroke-width="2.3" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- STAGE 5 - LLM EVALUATOR                   -->
+  <!-- ─────────────────────────────────────────── -->
+  <rect x="1370" y="170" width="200" height="260" rx="12" fill="#E8F8F0" stroke="#27AE60" stroke-width="1.3"/>
+  <text x="1390" y="193" font-size="12" font-weight="bold" fill="#196F3D">STAGE 5 · EVALUATE</text>
+
+  <rect x="1390" y="210" width="160" height="200" rx="10" fill="url(#gEval)" filter="url(#shadow)"/>
+  <text x="1470" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">LLM Evaluator</text>
+  <text x="1470" y="262" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">Agent</text>
+  <text x="1470" y="291" text-anchor="middle" font-size="9" fill="#D5F5E3">LLM-as-Judge</text>
+  <text x="1470" y="307" text-anchor="middle" font-size="9" fill="#D5F5E3">Qwen3 32B vs</text>
+  <text x="1470" y="323" text-anchor="middle" font-size="9" fill="#D5F5E3">Synthea truth</text>
+  <text x="1470" y="353" text-anchor="middle" font-size="11" fill="#FFF" font-weight="bold">DIRECT</text>
+  <text x="1470" y="371" text-anchor="middle" font-size="11" fill="#FFF" font-weight="bold">INDIRECT</text>
+  <text x="1470" y="389" text-anchor="middle" font-size="11" fill="#FFF" font-weight="bold">MISS</text>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- STAGE 6 - TREATMENT PLANNING (row below)  -->
+  <!-- ─────────────────────────────────────────── -->
+  <rect x="400" y="450" width="1170" height="90" rx="12" fill="#E8F6F3" stroke="#16A085" stroke-width="1.3"/>
+
+  <rect x="420" y="465" width="1130" height="60" rx="10" fill="url(#gTx)" filter="url(#shadow)"/>
+  <text x="985" y="492" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">Stage 6 · Treatment Planning Agent</text>
+  <text x="985" y="512" text-anchor="middle" font-size="11" fill="#D1F2EB">NICE guideline retrieval via Qdrant + BioLORD-2023 embeddings · runs only on DIRECT matches</text>
+
+  <!-- arrow from Stage 5 down to Treatment -->
+  <path d="M 1470 430 L 1470 452" stroke="#27AE60" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="1540" y="445" font-size="10" font-weight="bold" fill="#196F3D">if DIRECT</text>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- AGENT BLUEPRINT STRIP                     -->
+  <!-- ─────────────────────────────────────────── -->
+  <rect x="30" y="555" width="1540" height="130" rx="12" fill="#FEF9E7" stroke="#D4AC0D" stroke-width="1.3"/>
+  <text x="50" y="578" font-size="12" font-weight="bold" fill="#7D6608">AGENT BLUEPRINT — every agent follows a 5-component pipeline</text>
+
+  <g font-size="12" font-weight="600" fill="#FFF">
+    <rect x="55" y="595" width="290" height="75" rx="8" fill="#5D6D7E"/>
+    <text x="200" y="625" text-anchor="middle">1 · Input Gate</text>
+    <text x="200" y="647" text-anchor="middle" font-size="10" font-weight="400" fill="#EBEDEF">Validate + build prompt inputs</text>
+
+    <rect x="360" y="595" width="290" height="75" rx="8" fill="#2980B9"/>
+    <text x="505" y="625" text-anchor="middle">2 · Prompt Assembler</text>
+    <text x="505" y="647" text-anchor="middle" font-size="10" font-weight="400" fill="#D4E6F1">YAML prompts + Pydantic schema</text>
+
+    <rect x="665" y="595" width="290" height="75" rx="8" fill="#D35400"/>
+    <text x="810" y="625" text-anchor="middle">3 · LLM Call</text>
+    <text x="810" y="647" text-anchor="middle" font-size="10" font-weight="400" fill="#FDEBD0">Provider-agnostic adapter + retry</text>
+
+    <rect x="970" y="595" width="290" height="75" rx="8" fill="#8E44AD"/>
+    <text x="1115" y="625" text-anchor="middle">4 · Output Parser</text>
+    <text x="1115" y="647" text-anchor="middle" font-size="10" font-weight="400" fill="#E8DAEF">JSON repair + schema validate</text>
+
+    <rect x="1275" y="595" width="290" height="75" rx="8" fill="#16A085"/>
+    <text x="1420" y="625" text-anchor="middle">5 · Output Gate</text>
+    <text x="1420" y="647" text-anchor="middle" font-size="10" font-weight="400" fill="#D1F2EB">Write to state + trace + graceful fail</text>
+  </g>
+
+  <g stroke="#555" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+    <path d="M 345 632 L 360 632"/>
+    <path d="M 650 632 L 665 632"/>
+    <path d="M 955 632 L 970 632"/>
+    <path d="M 1260 632 L 1275 632"/>
+  </g>
+</svg>

@@ -1,0 +1,135 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented since 2010",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2016, current BP 132/86 mmHg (stage\u202f1)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol 27.8\u202fmg/dL (severe abnormality)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea (untreated) \u2013 known driver of insulin resistance and dyslipidaemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low RBC and hemoglobin suggesting early anemia, a frequent feature of chronic inflammation in metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 of the 5 ATP\u2011III criteria (central obesity, elevated blood pressure, and markedly low HDL\u2011C). These core components are sufficient for a diagnosis of metabolic syndrome, which unifies the cardiovascular\u2011risk laboratory pattern, the untreated OSA, and the mild normocytic anemia as downstream manifestations of a shared pro\u2011inflammatory, insulin\u2011resistant state."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.28,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Sleep apnea diagnosed 2014 with no documented CPAP or other therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet mean volume (11.4\u202ffL) and platelet distribution width (432.6\u202ffL) indicating platelet activation, a recognized consequence of intermittent hypoxia in OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol, a lipid pattern frequently associated with OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA drives sympathetic over\u2011activity, insulin resistance, dyslipidaemia and platelet hyper\u2011reactivity, all of which amplify the metabolic\u2011syndrome phenotype and contribute to the patient\u2019s hypertension and pro\u2011atherogenic laboratory profile."
+    },
+    {
+      "rank": 3,
+      "name": "Subclinical atherosclerotic cardiovascular disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol (27.8\u202fmg/dL) \u2013 independent risk factor for atherosclerosis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated MPV and PDW indicating heightened platelet activation, a marker of plaque instability",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension and obesity, both major risk factors for coronary artery disease",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Although the patient is asymptomatic, the convergence of severe HDL deficiency, hypertension, obesity, and platelet activation suggests early atherogenesis that may already be present subclinically. Absence of statin therapy further raises the probability of silent coronary plaque."
+    },
+    {
+      "rank": 4,
+      "name": "Mild anemia of chronic disease / early iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low RBC (4.0\u202f\u00d710\u2076/\u00b5L) and hemoglobin (13.6\u202fg/dL) with normal MCV (87.8\u202ffL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011grade inflammatory conditions (obesity, OSA, possible early CKD) that can produce anemia of chronic disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The mild normocytic anemia is most plausibly secondary to chronic inflammation from the metabolic\u2011OSA milieu or early hypertensive nephropathy. Definitive classification requires iron studies, ferritin, B12, folate, and inflammatory markers."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient\u2019s core triad\u2014obesity, stage\u20111 hypertension, and a markedly low HDL\u2011C\u2014fulfills diagnostic criteria for metabolic syndrome, which we judge as the primary driver of his cardiovascular\u2011metabolic risk. Untreated obstructive sleep apnea acts as a potent upstream modifier, aggravating insulin resistance, dyslipidaemia, and platelet activation. The laboratory pattern (low HDL, elevated MPV/PDW) together with risk factors (obesity, hypertension) points toward subclinical atherosclerotic disease. A mild normocytic anemia likely reflects chronic low\u2011grade inflammation from the same metabolic\u2011OSA axis. No other diagnoses had independent supporting evidence beyond what is captured by the metabolic\u2011syndrome construct.",
+  "unresolved_findings": [
+    "Missing fasting glucose/HbA1c \u2013 cannot confirm pre\u2011diabetes or overt diabetes.",
+    "Absent renal function data (serum creatinine, eGFR, urine albumin/creatinine ratio) \u2013 CKD status unknown.",
+    "No liver function tests or imaging \u2013 NAFLD cannot be assessed.",
+    "Lifestyle variables (smoking, alcohol use, physical activity, diet) not documented.",
+    "No CPAP prescription or polysomnography report \u2013 severity and treatment status of OSA uncertain.",
+    "Iron studies, B12, folate, and inflammatory markers (CRP) missing \u2013 anemia etiology unclear."
+  ],
+  "recommended_workup": [
+    "Fasting plasma glucose and HbA1c to evaluate for diabetes or pre\u2011diabetes.",
+    "Comprehensive metabolic panel including serum creatinine, eGFR, electrolytes, and urine albumin\u2011to\u2011creatinine ratio.",
+    "Repeat fasting lipid panel (HDL, LDL, triglycerides) to confirm chronicity of HDL deficiency.",
+    "Iron studies (serum iron, TIBC, ferritin, transferrin saturation), vitamin B12 and folate levels to clarify anemia type.",
+    "High\u2011sensitivity C\u2011reactive protein (hs\u2011CRP) as an inflammatory marker.",
+    "Review of polysomnography report and initiation of CPAP therapy if not already prescribed.",
+    "Baseline 12\u2011lead electrocardiogram; consider coronary calcium scoring or carotid ultrasound to detect subclinical atherosclerosis.",
+    "Lifestyle questionnaire covering smoking status, alcohol intake, dietary habits, and physical activity.",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase, bilirubin) and abdominal ultrasound or FibroScan to assess for NAFLD."
+  ]
+}

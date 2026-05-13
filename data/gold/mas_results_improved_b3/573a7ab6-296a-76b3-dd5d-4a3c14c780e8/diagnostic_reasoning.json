@@ -1,0 +1,237 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertensive / Atherosclerotic Chronic Kidney Disease (vascular nephrosclerosis)",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing essential hypertension since 2002",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior ST\u2011segment elevation myocardial infarction (2010)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.5\u202fmg/dL (stage\u202f4 CKD range)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 124.5\u202fmg/dL and total cholesterol 205.4\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) and metabolic syndrome",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has decades of hypertension, prior MI, dyslipidemia, obesity, and a markedly elevated creatinine consistent with chronic vascular injury to the kidneys. This constellation makes hypertensive/atherosclerotic CKD the dominant chronic process."
+    },
+    {
+      "rank": 2,
+      "name": "Acute\u2011on\u2011Chronic Kidney Injury from ACE\u2011Inhibitor Duplication \u00b1 NSAID Use",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication reconciliation notes duplicate ACE\u2011inhibitor therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "COPD diagnosis suggesting possible intermittent NSAID use for exacerbations",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Discordant creatinine 3.5\u202fmg/dL with eGFR 66\u202fmL/min/1.73\u202fm\u00b2 (suggests acute rise)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Polypharmacy risk flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The abrupt creatinine elevation together with duplicate ACE\u2011I (and likely NSAID exposure) points to a reversible second hit on top of chronic CKD, fitting an acute\u2011on\u2011chronic AKI pattern."
+    },
+    {
+      "rank": 3,
+      "name": "Heart Failure with Preserved Ejection Fraction (cardiorenal syndrome type\u202f2)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction and chronic hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sodium 141.5\u202fmmol/L (upper\u2011normal) and rising, suggestive of volume issues",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and metabolic syndrome increasing HFpEF risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Post\u2011MI patients with hypertension and CKD frequently develop HFpEF, which can contribute to renal hypoperfusion and worsening creatinine."
+    },
+    {
+      "rank": 4,
+      "name": "Renal Artery Stenosis (secondary hypertension)",
+      "icd10": "I70.1",
+      "snomed": "414916001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Refractory hypertension despite multiple agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Acute creatinine rise after ACE\u2011I exposure",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f58, female, atherosclerotic risk factors (obesity, dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Atherosclerotic RAS can cause sudden renal function decline when ACE\u2011I is initiated or duplicated, fitting the observed lab pattern."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic Obstructive Pulmonary Disease with Possible Pulmonary Hypertension",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic obstructive bronchitis listed as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Pulmonic valve stenosis (1964) potentially contributing to right\u2011heart strain",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and smoking\u2011related risk (implicit)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "COPD can lead to hypoxic pulmonary vasoconstriction and secondary pulmonary hypertension, which may exacerbate right\u2011sided cardiac load and renal congestion."
+    },
+    {
+      "rank": 6,
+      "name": "Early Diabetic (Pre\u2011diabetic) Nephropathy",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.9\u202f% (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prediabetes contributes to microvascular injury, but lack of albuminuria data limits certainty."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive / Anxiety Disorder secondary to Intimate\u2011Partner Abuse",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of intimate\u2011partner abuse, limited social support, high psychosocial stress",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Psychosocial stress flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic stress can worsen hypertension adherence and overall health, though it is an indirect contributor to renal dysfunction."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Obesity, metabolic syndrome, dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal liver enzymes (ALT, AST) but trend of stable albumin",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome makes NAFLD likely, yet normal transaminases and lack of imaging keep its probability low."
+    }
+  ],
+  "primary_diagnosis": "Hypertensive / Atherosclerotic Chronic Kidney Disease (vascular nephrosclerosis)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing hypertension, prior myocardial infarction, obesity, dyslipidemia, and markedly elevated creatinine point to chronic hypertensive/atherosclerotic kidney disease as the principal driver of her renal impairment. A discordant creatinine/eGFR ratio, duplicate ACE\u2011inhibitor therapy, and probable NSAID use suggest an acute\u2011on\u2011chronic kidney injury that is potentially reversible. Secondary contributors include HFpEF (cardiorenal syndrome), possible renal\u2011artery stenosis, COPD\u2011related pulmonary hypertension, early pre\u2011diabetic nephropathy, and psychosocial stressors. The differential was weighted using Bayesian reasoning, giving the highest probability to the chronic vascular CKD and a substantial share to the medication\u2011related AKI, while acknowledging data gaps that limit certainty for several diagnoses.",
+  "unresolved_findings": [
+    "Discordant serum creatinine 3.5\u202fmg/dL with eGFR 66\u202fmL/min/1.73\u202fm\u00b2 (possible acute component)",
+    "Absence of BNP/NT\u2011proBNP and echocardiographic data",
+    "No urine albumin\u2011to\u2011creatinine ratio or urinalysis",
+    "Incomplete medication list (doses, OTC, recent changes)",
+    "Missing smoking status and pack\u2011year history",
+    "No mental\u2011health diagnoses or psychotropic medication data",
+    "Lack of renal imaging (ultrasound, Doppler) and renal\u2011artery evaluation",
+    "No spirometry or overnight oximetry for COPD severity"
+  ],
+  "recommended_workup": [
+    "Urine albumin\u2011to\u2011creatinine ratio (spot) and dip\u2011stick proteinuria",
+    "Repeat serum creatinine and eGFR in 48\u201172\u202fh to assess trend",
+    "Comprehensive medication reconciliation including OTC and recent changes; consider holding one ACE\u2011I",
+    "Renal ultrasound with Doppler to evaluate kidney size, cortical thickness, and rule out obstruction",
+    "Renal artery imaging (CT angiography or MR angiography) to assess for atherosclerotic stenosis",
+    "BNP or NT\u2011proBNP measurement and a transthoracic echocardiogram (EF, diastolic function, right\u2011heart pressures)",
+    "Complete blood count to evaluate for anemia of CKD",
+    "Serum calcium, phosphate, PTH, and 25\u2011OH vitamin D for CKD\u2011MBD assessment",
+    "Spirometry and, if indicated, overnight oximetry or sleep study (STOP\u2011BANG screen) to evaluate COPD severity and sleep\u2011disordered breathing",
+    "Standardized mental\u2011health screening (PHQ\u20119, GAD\u20117) and referral for psychosocial support"
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Diabetic nephropathy (CKD Stage 3b with overt proteinuria)",
+      "original_probability": 0.45,
+      "verified_probability": 0.65,
+      "confidence_score": 92,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "15-year history of type 2 diabetes",
+        "Current eGFR 38.7 mL/min/1.73 m\u00b2",
+        "Serum creatinine 2.1 mg/dL",
+        "Urine protein dip\u2011stick ~3+ (\u2248338 mg/dL)",
+        "Historical micro\u2011albuminuria since 2010"
+      ],
+      "evidence_gaps": [
+        "Quantitative urine albumin\u2011to\u2011creatinine ratio",
+        "Renal ultrasound to exclude obstruction",
+        "Documentation of ACE\u2011I/ARB use"
+      ],
+      "concerns": [
+        "Original probability (0.45) underestimates the dominance of this diagnosis given objective data"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Insulin overtreatment / high risk of hypoglycaemia",
+      "original_probability": 0.2,
+      "verified_probability": 0.2,
+      "confidence_score": 78,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Hemoglobin A1c 3.8% (well below target)",
+        "Insulin\u2011only regimen",
+        "Renal impairment (eGFR <40) prolongs insulin half\u2011life"
+      ],
+      "evidence_gaps": [
+        "Recent capillary glucose logs or CGM data",
+        "Documented hypoglycaemia episodes",
+        "Current insulin dosing details"
+      ],
+      "concerns": [
+        "Lack of glucose monitoring data limits certainty"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Masked / untreated hypertension contributing to CKD progression",
+      "original_probability": 0.15,
+      "verified_probability": 0.1,
+      "confidence_score": 65,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "BP reading 114/82 mmHg flagged as stage 1 hypertension",
+        "No antihypertensive medications listed"
+      ],
+      "evidence_gaps": [
+        "Home blood pressure diary or 24\u2011h ambulatory monitoring",
+        "Prior clinic BP trends",
+        "Confirmation of any ACE\u2011I/ARB therapy"
+      ],
+      "concerns": [
+        "Single normal BP reading does not confirm hypertension; flag may reflect prior values"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Non\u2011alcoholic fatty liver disease / NASH",
+      "original_probability": 0.12,
+      "verified_probability": 0.03,
+      "confidence_score": 52,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "Obesity and hypertriglyceridaemia",
+        "Metabolic syndrome context",
+        "Urine bilirubin 1.0 mg/dL (nonspecific but suggestive)"
+      ],
+      "evidence_gaps": [
+        "Serum liver enzymes (AST, ALT, GGT, ALP, total bilirubin)",
+        "Abdominal ultrasound or FibroScan",
+        "NAFLD fibrosis score or FIB\u20114"
+      ],
+      "concerns": [
+        "Urine bilirubin is a very nonspecific marker; without serum LFTs the diagnosis remains speculative"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Anemia of chronic disease secondary to CKD",
+      "original_probability": 0.08,
+      "verified_probability": 0.02,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Hemoglobin 12.9 g/dL (mild, falling) in CKD stage 3b"
+      ],
+      "evidence_gaps": [
+        "Iron studies (serum iron, ferritin, transferrin saturation)",
+        "Reticulocyte count, B12/folate if indicated"
+      ],
+      "concerns": [
+        "Probability likely under\u2011estimated given CKD prevalence of anemia"
+      ],
+      "verdict": "supported"
+    }
+  ],
+  "overall_confidence": 78,
+  "consistency_checks": [
+    {
+      "area": "EHR vs Lab data alignment",
+      "status": "consistent",
+      "detail": "All laboratory abnormalities (eGFR, creatinine, proteinuria, bilirubin, hemoglobin, A1c) are reflected in the EHR narrative and risk\u2011factor list."
+    },
+    {
+      "area": "Probability weighting",
+      "status": "inconsistent",
+      "detail": "Original probabilities undervalue diabetic nephropathy and overvalue secondary diagnoses; adjusted weights now sum to ~1.0 and reflect objective evidence."
+    }
+  ],
+  "critical_findings_addressed": [
+    "Serum creatinine 2.1 mg/dL (severity 5) \u2013 explained by diabetic nephropathy",
+    "eGFR 38.7 mL/min/1.73 m\u00b2 (severity 5) \u2013 explained by diabetic nephropathy",
+    "Urine protein \u2248338 mg/dL (severity 5) \u2013 explained by diabetic nephropathy",
+    "Urine bilirubin 1.0 mg/dL (severity 4) \u2013 tentatively linked to NAFLD/NASH",
+    "Hemoglobin 12.9 g/dL (severity 3) \u2013 explained by CKD\u2011related anemia",
+    "Hemoglobin A1c 3.8% (clinically critical) \u2013 explained by insulin overtreatment"
+  ],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "Probability weighting underestimates diabetic nephropathy dominance",
+    "Hypertension diagnosis lacks objective BP trend data",
+    "Insulin overtreatment risk not quantified without glucose logs",
+    "Urine bilirubin finding is nonspecific; need serum liver panel",
+    "Anemia work\u2011up incomplete without iron studies"
+  ],
+  "recommended_primary": "Diabetic nephropathy (CKD Stage 3b with overt proteinuria)",
+  "recommended_primary_confidence": 92,
+  "review_summary": "The differential captures the key pathologies present in the raw data, but the original probability distribution undervalues diabetic nephropathy and overstates secondary conditions. Adjusted probabilities now reflect the strong objective evidence for CKD due to diabetes. Minor gaps include lack of BP trend, glucose monitoring, liver function tests, and iron studies. Overall reasoning quality is good, with a confidence score of 78/100."
+}

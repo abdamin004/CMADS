@@ -1,0 +1,110 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "Hypertension",
+      "original_probability": 1.0,
+      "verified_probability": 0.9,
+      "confidence_score": 80,
+      "evidence_strength": "supported (flag present, though current BP values missing)",
+      "supporting_evidence_verified": [
+        "has_hypertension flag"
+      ],
+      "evidence_gaps": [
+        "latest systolic and diastolic blood pressure readings"
+      ],
+      "concerns": [
+        "unclear current management efficacy due to missing BP data"
+      ],
+      "verdict": "supported but incomplete"
+    },
+    {
+      "diagnosis": "Chronic Kidney Disease (CKD)",
+      "original_probability": 1.0,
+      "verified_probability": 1.0,
+      "confidence_score": 95,
+      "evidence_strength": "supported (flag present, though stage unspecified)",
+      "supporting_evidence_verified": [
+        "has_ckd flag"
+      ],
+      "evidence_gaps": [
+        "CKD stage",
+        "eGFR value"
+      ],
+      "concerns": [
+        "stage uncertainty affects management specifics"
+      ],
+      "verdict": "supported but critical detail missing"
+    },
+    {
+      "diagnosis": "Anemia",
+      "original_probability": 1.0,
+      "verified_probability": 1.0,
+      "confidence_score": 90,
+      "evidence_strength": "supported (flag present, though hemoglobin/hematocrit levels missing)",
+      "supporting_evidence_verified": [
+        "has_anemia flag"
+      ],
+      "evidence_gaps": [
+        "hemoglobin or hematocrit values"
+      ],
+      "concerns": [
+        "type and severity unknown due to missing lab data"
+      ],
+      "verdict": "supported but incomplete"
+    },
+    {
+      "diagnosis": "Metabolic Syndrome",
+      "original_probability": 1.0,
+      "verified_probability": 0.95,
+      "confidence_score": 85,
+      "evidence_strength": "supported (flag present, though A1c anomaly noted)",
+      "supporting_evidence_verified": [
+        "has_metabolic_syndrome flag"
+      ],
+      "evidence_gaps": [
+        "lipid profile",
+        "obesity status"
+      ],
+      "concerns": [
+        "A1c value unusually low; other components need investigation"
+      ],
+      "verdict": "supported but requires further evaluation"
+    }
+  ],
+  "overall_confidence": 85,
+  "consistency_checks": [
+    {
+      "area": "hypertension",
+      "status": "inconsistent",
+      "detail": "has_hypertension flag set, but latest BP values missing"
+    },
+    {
+      "area": "CKD",
+      "status": "unable_to_verify",
+      "detail": "stage unspecified; eGFR value not provided"
+    },
+    {
+      "area": "anemia",
+      "status": "inconsistent",
+      "detail": "has_anemia flag set, but hemoglobin/hematocrit levels missing"
+    },
+    {
+      "area": "metabolic syndrome",
+      "status": "inconsistent",
+      "detail": "has_metabolic_syndrome flag set, but A1c value unusually low; lipid profile and obesity status not provided"
+    }
+  ],
+  "critical_findings_addressed": [
+    "CKD",
+    "anemia"
+  ],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "missing key lab values (eGFR, lipids, hemoglobin/hematocrit)",
+    "incomplete assessment of current hypertension management",
+    "unclear CKD stage"
+  ],
+  "recommended_primary": "Chronic Kidney Disease (CKD) with associated anemia and metabolic syndrome",
+  "recommended_primary_confidence": 95,
+  "review_summary": "The diagnostic differential is reasonable given the flags, but incomplete data hinders a complete assessment. Key areas requiring further investigation include CKD staging, hypertension management efficacy, anemia type/severity, and metabolic syndrome components."
+}

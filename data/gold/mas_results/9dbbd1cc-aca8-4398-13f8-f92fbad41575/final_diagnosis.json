@@ -1,0 +1,197 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 (obesity) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic A1c 6.3%",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Uncontrolled stage 2 hypertension (SBP 149, DBP 91)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Elevated triglycerides and low HDL (lipid panel not fully detailed)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient exhibits central obesity, prediabetes, and uncontrolled hypertension, the core components of metabolic syndrome, which collectively explain the majority of his cardiometabolic abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (Primary) Hypertension \u2013 Inadequately Controlled",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Repeated blood pressure readings in the stage 2 range (149/91 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Absence of secondary hypertension work\u2011up",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent elevation despite therapy indicates primary hypertension that is not adequately controlled, contributing to cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic Rhinosinusitis with Intermittent Bacterial Exacerbation",
+      "icd10": "J32.9",
+      "snomed": "444814009",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic sinus symptoms and prior antibiotic courses",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Physical exam showing nasal congestion and purulent discharge",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic sinus disease is explicitly noted and aligns with intermittent bacterial exacerbations, making it a supported diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Early Chronic Kidney Disease (CKD stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly reduced eGFR estimate (not provided but implied by CKD staging comment)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria noted in prior notes (unspecified)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given hypertension, obesity, and prediabetes, early CKD is plausible, though definitive staging is limited by missing eGFR and ACR data."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [],
+      "reasoning": "Metabolic risk factors raise suspicion for NAFLD, but lack of liver enzymes, imaging, or biopsy prevents stronger confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension, both risk factors for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Reported snoring and daytime fatigue (implied)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical risk factors are present, but absence of polysomnography data lowers certainty."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of Chronic Disease / Early CKD\u2011related Anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (hemoglobin ~11 g/dL, not fully detailed)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions (metabolic syndrome, possible CKD)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is present and could be secondary to chronic disease or early CKD; further iron studies are needed."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / Anxiety / PTSD secondary to chronic stress & violence exposure",
+      "icd10": "F33.9",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic psychosocial stress and exposure to violence",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial context suggests possible mood or anxiety disorder, but lack of screening data limits confidence."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven Metabolic Syndrome",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s phenotype of obesity, prediabetes, and uncontrolled hypertension fulfills the criteria for metabolic syndrome, which the reviewer identified as the most likely primary diagnosis. Hypertension remains inadequately controlled, reinforcing its secondary ranking. Chronic rhinosinusitis is well documented, while early CKD is plausible given the cardiometabolic burden but lacks definitive labs. NAFLD, OSA, anemia of chronic disease, and mood disorder are possible contributors but are limited by missing investigations. The differential reflects the reviewer\u2019s probability adjustments and addresses the key unresolved laboratory and imaging gaps.",
+  "unresolved_findings": [
+    "Markedly elevated PDW (347.7 fL) and borderline high MPV (11.6 fL) \u2013 platelet activation not fully explained",
+    "Borderline low leukocyte count (4.3 x10\u00b3/\u00b5L) \u2013 etiology unclear",
+    "Missing eGFR and urine albumin/creatinine ratio \u2013 limits CKD staging",
+    "Absent iron studies, B12, folate, reticulocyte count \u2013 anemia work\u2011up incomplete",
+    "No liver function tests or imaging \u2013 NAFLD not confirmed",
+    "Smoking and alcohol use histories unavailable",
+    "No documented mental\u2011health screening despite chronic stress/violence exposure",
+    "No sleep study or polysomnography data \u2013 OSA status unknown",
+    "Lack of detailed lipid sub\u2011fractionation (ApoB, Lp(a))",
+    "No sinus imaging or cultures to characterize chronic rhinosinusitis"
+  ],
+  "recommended_workup": [
+    "Serum creatinine with eGFR calculation and urine albumin/creatinine ratio to stage CKD",
+    "Comprehensive liver panel (AST, ALT, GGT, ALP, bilirubin) and hepatic ultrasound for NAFLD assessment",
+    "Iron studies (serum iron, ferritin, TIBC), vitamin B12, folate, and reticulocyte count to clarify anemia etiology",
+    "Polysomnography or home sleep apnea testing to confirm or exclude OSA",
+    "Aldosterone\u2011renin ratio and renal duplex ultrasound to evaluate secondary hypertension",
+    "Complete blood count with differential repeat to monitor leukopenia",
+    "Standardized mental\u2011health screening tools (PHQ\u20119, GAD\u20117, PCL\u20115) for depression, anxiety, PTSD",
+    "Lipid sub\u2011fractionation (ApoB, Lp(a)) for refined cardiovascular risk assessment",
+    "Sinus CT scan or nasal endoscopy with cultures if symptoms worsen"
+  ]
+}

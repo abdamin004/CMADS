@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type\u20112 myocardial ischemia (demand) secondary to acute kidney injury (cardiorenal syndrome)",
+      "icd10": "I21.9",
+      "snomed": "413839001",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin consistent with myocardial injury without classic ST\u2011elevation pattern",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent exposure to iodinated contrast for imaging study",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute rise in serum creatinine to 3.1\u202fmg/dL (eGFR 69\u202fmL/min/1.73\u202fm\u00b2) indicating AKI",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Volume depletion signs (orthostatic symptoms, recent NSAID use)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "AKI reduces renal clearance of vasoactive substances and creates a hypervolemic, uremic milieu that increases myocardial oxygen demand while impairing perfusion, leading to type\u20112 demand ischemia. The concurrent troponin rise without clear plaque rupture supports a demand\u2011driven injury."
+    },
+    {
+      "rank": 2,
+      "name": "Acute kidney injury \u2013 prerenal (volume depletion, NSAID use)",
+      "icd10": "N17.9",
+      "snomed": "709044004",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSAID ingestion and possible inadequate oral intake",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.1\u202fmg/dL with relatively preserved eGFR (69\u202fmL/min) suggesting functional (prerenal) component",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN/creatinine ratio (if available) consistent with prerenal azotemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Volume depletion and NSAID\u2011mediated afferent arteriole constriction reduce renal perfusion, producing a rapid rise in creatinine characteristic of prerenal AKI."
+    },
+    {
+      "rank": 3,
+      "name": "Acute decompensated heart failure (cardiorenal syndrome)",
+      "icd10": "I50.23",
+      "snomed": "84114007",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated jugular venous pressure and mild pulmonary crackles noted on exam",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Slightly elevated BNP (if measured) supporting cardiac strain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal dysfunction can precipitate fluid overload and raise cardiac filling pressures, manifesting as acute decompensated heart failure within the cardiorenal spectrum."
+    },
+    {
+      "rank": 4,
+      "name": "Recurrent type\u20111 myocardial infarction (plaque rupture)",
+      "icd10": "I21.3",
+      "snomed": "22298006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin with a rising/falling pattern",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior type\u20111 MI",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given prior MI, a new plaque rupture remains plausible; however, lack of definitive ECG changes makes type\u20112 demand ischemia more likely."
+    },
+    {
+      "rank": 5,
+      "name": "Sepsis / occult infection",
+      "icd10": "A41.9",
+      "snomed": "10001005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011grade fever (if documented) and leukocytosis (if present)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Infection could contribute to AKI and troponin elevation, but objective data are limited."
+    },
+    {
+      "rank": 6,
+      "name": "NSAID\u2011induced acute interstitial nephritis",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSAID exposure",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of eosinophiluria or rash (missing classic features)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible but lacks hallmark clinical and laboratory signs of AIN."
+    },
+    {
+      "rank": 7,
+      "name": "Physiologic/starvation ketosis",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine ketones with mild ketosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent reduced oral intake",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Starvation ketosis explains ketonuria but does not drive the primary renal or cardiac pathology."
+    }
+  ],
+  "primary_diagnosis": "Type\u20112 myocardial ischemia (demand) secondary to acute kidney injury (cardiorenal syndrome)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with an acute rise in creatinine (3.1\u202fmg/dL) after recent contrast exposure and NSAID use, indicating prerenal AKI. The AKI creates a high\u2011output, uremic state that increases myocardial oxygen demand and reduces coronary perfusion, leading to type\u20112 demand ischemia manifested by troponin elevation. While a recurrent plaque\u2011rupture MI remains possible, the lack of definitive ECG changes and the temporal relationship to renal injury favor a demand\u2011driven process. Concurrent volume depletion and possible early fluid overload explain the secondary acute decompensated heart failure component. Low\u2011yield differentials (hypertensive emergency, PE, hemolysis) have been excluded per reviewer guidance.",
+  "unresolved_findings": [
+    "Discrepant creatinine (3.1\u202fmg/dL) vs eGFR 69\u202fmL/min/1.73\u202fm\u00b2",
+    "Duplicate simvastatin entries (10\u202fmg & 40\u202fmg) \u2013 unclear current dose",
+    "Urine glucose 1.9\u202fmg/dL (trace) \u2013 inconsistent with diabetes control",
+    "Slightly elevated chloride (106.6\u202fmmol/L) \u2013 minor electrolyte variation",
+    "Urine bilirubin positive without documented liver disease"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and eGFR with urine output monitoring",
+    "Renal ultrasound to assess for obstruction or parenchymal changes",
+    "Serial high\u2011sensitivity troponin measurements and 12\u2011lead ECG",
+    "Transthoracic echocardiogram to evaluate ventricular function and volume status",
+    "Urine microscopy and urine sodium to differentiate prerenal vs intrinsic AKI",
+    "Comprehensive infectious work\u2011up (blood cultures, urinalysis, chest X\u2011ray) if fever or leukocytosis develop",
+    "Review and reconcile medication list, especially simvastatin dose and NSAID use",
+    "Consider discontinuation of nephrotoxic agents and initiate cautious fluid resuscitation"
+  ]
+}

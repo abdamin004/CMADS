@@ -1,0 +1,253 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetes + Hypertension + Atherosclerotic disease (upstream causal triad)",
+      "icd10": "E11.9; I10; I25.10",
+      "snomed": "44054006; 59621000; 414545008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus (insulin\u2011requiring) \u2013 long\u2011standing",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension since 2010",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease, prior MI (2018) and CABG (2018)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s chronic diabetes, hypertension, and documented coronary artery disease constitute the primary pathogenic driver for his renal failure, cardiac complications, and overall morbidity."
+    },
+    {
+      "rank": 2,
+      "name": "End\u2011Stage Renal Disease (diabetic nephropathy)",
+      "icd10": "N18.6; E11.21",
+      "snomed": "431857002; 127013003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 5.1\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria and micro\u2011albuminuria due to type\u202f2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia treated with epoetin alfa",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in GFR together with diabetic kidney disease codes and anemia of CKD confirm ESRD secondary to diabetic nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "Advanced Coronary Artery Disease (significant stenosis)",
+      "icd10": "I25.110",
+      "snomed": "399211009; 399261000",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction (2018\u201111\u201130)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Coronary artery bypass grafting (2018\u201111\u201118)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Abnormal findings on cardiac imaging (2018\u201111\u201112)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior MI, surgical revascularisation, and ongoing ischemic heart disease indicate extensive coronary atherosclerosis that remains clinically significant."
+    },
+    {
+      "rank": 4,
+      "name": "Heart Failure (reduced or diastolic)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior MI and CABG, chronic hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease (volume overload risk)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiac injury from prior MI combined with hypertension and ESRD makes clinically significant heart failure likely, though no echocardiogram data are available."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary Hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "36225008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f4/5 (eGFR\u202f5.1)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes and long\u2011standing CKD \u2013 typical trigger for CKD\u2011MBD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD almost invariably leads to secondary hyperparathyroidism, which impacts bone health and vascular calcification."
+    },
+    {
+      "rank": 6,
+      "name": "Frailty / Sarcopenia / Malnutrition",
+      "icd10": "R53.81; M62.84",
+      "snomed": "271327008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f72, ESRD, full\u2011time employment (functional stress)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u226530) and chronic disease burden",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced age, severe CKD, and high functional demands predispose to frailty, which influences transplant candidacy and postoperative outcomes."
+    },
+    {
+      "rank": 7,
+      "name": "Sensitisation (high PRA / donor\u2011specific antibodies)",
+      "icd10": "Z94.0",
+      "snomed": "424124008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Awaiting kidney transplantation (started 2023\u201103\u201112)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No HLA data yet \u2013 immunologic work\u2011up pending",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients undergoing transplant evaluation require assessment of sensitisation; without data, a moderate pre\u2011test probability is assigned."
+    },
+    {
+      "rank": 8,
+      "name": "Uncontrolled Hypertension (resistant)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2010",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent blood\u2011pressure measurements available",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Historical hypertension is present, but lack of recent BP data prevents certainty about current control."
+    },
+    {
+      "rank": 9,
+      "name": "Chronic Upper\u2011Airway / Dental Infection",
+      "icd10": "J32.9; K04.7",
+      "snomed": "40055000",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis (onset 1963)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent dental problems noted in narrative",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Active upper\u2011airway or dental infection can preclude transplant listing until cleared."
+    },
+    {
+      "rank": 10,
+      "name": "Depression / Adjustment Disorder",
+      "icd10": "F33.1; F43.20",
+      "snomed": "73595000",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented stress (onset 2024\u201112\u201123)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Criminal record and full\u2011time work may contribute to psychosocial strain",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors raise the risk of mood disorders that could affect medication adherence and transplant outcomes."
+    }
+  ],
+  "primary_diagnosis": "Diabetes + Hypertension + Atherosclerotic disease (upstream causal triad)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s severe CKD (eGFR 5.1) is driven by long\u2011standing insulin\u2011requiring type 2 diabetes and hypertension, which also underlie his extensive coronary artery disease. These upstream factors explain the renal failure, anemia, and cardiovascular complications. Transplant candidacy is complicated by potential sensitisation, frailty, secondary hyperparathyroidism, and possible infection sources (sinusitis, dental disease). Psychosocial stressors and unknown current blood\u2011pressure control add uncertainty. Probabilities were calibrated to reflect the relative contribution of each condition while ensuring the total sums to 1.0.",
+  "unresolved_findings": [
+    "Criminal record \u2013 relevance to medical management unclear",
+    "Full\u2011time employment at age 72 \u2013 unusual functional status, no direct disease link",
+    "Absence of recent vital signs, laboratory panels (lipids, HbA1c, electrolytes, PTH), and imaging data"
+  ],
+  "recommended_workup": [
+    "Transthoracic echocardiogram with assessment of ejection fraction and valvular disease",
+    "Cardiac stress testing or coronary CT angiography to quantify residual CAD",
+    "24\u2011hour ambulatory blood\u2011pressure monitoring",
+    "Comprehensive metabolic panel including calcium, phosphate, PTH, 25\u2011OH vitamin D, potassium, bicarbonate",
+    "HLA antibody panel (PRA, DSA) and cross\u2011match testing",
+    "Polysomnography or home sleep\u2011apnea test",
+    "Dental examination with radiographs and treatment of any active infection",
+    "CT or MRI of sinuses if sinusitis symptoms suggest active disease",
+    "Formal frailty assessment (e.g., Fried criteria, gait speed) and nutrition assessment (serum albumin, SGA)",
+    "Cognitive screening (MoCA or Mini\u2011Cog)",
+    "Ankle\u2011brachial index and lower\u2011extremity duplex ultrasound for PAD",
+    "Pulmonary function tests and chest imaging",
+    "Screening for hepatitis B, hepatitis C, and HIV",
+    "Psychosocial evaluation including PHQ\u20119, GAD\u20117, and medication\u2011adherence interview"
+  ]
+}

@@ -1,8 +1,9 @@
 """Memory event types — typed records that flow through the multi-level memory system.
 
 Inspired by Cognitive Architectures for Language Agents (CoALA, Sumers et al., 2024):
-working / episodic / semantic / procedural memory tiers, each serving a distinct
-role in the agent's reasoning loop.
+working / episodic / semantic / case-based memory tiers, each serving a distinct
+role in the agent's reasoning loop. NICE guideline retrieval remains external
+reference knowledge rather than a learned memory tier.
 
 These Pydantic models give every memory entry a stable schema so downstream
 agents (and the evaluator) can introspect what happened during a run.

@@ -1,0 +1,201 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus (poorly-controlled/undiagnosed)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes label with metabolic syndrome, obesity, and ketonuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria & micro\u2011albuminuria attributed to type 2 DM",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 10.7 mg/dL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk factors (obesity, metabolic syndrome, smoking) together with ketonuria and documented prediabetes indicate undiagnosed or poorly\u2011controlled type 2 diabetes, which is the upstream driver of the patient\u2019s renal and cardiovascular pathology."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Kidney Disease (advanced DKD)",
+      "icd10": "E11.21",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 15.4 mL/min/1.73 m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.4 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 304.9 mg/dL with specific gravity 1.000",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 and disorder of kidney due to diabetes mellitus",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The severe reduction in filtration, heavy proteinuria, and documented CKD stage 4 directly reflect advanced diabetic nephropathy, the renal manifestation of the underlying type 2 diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension treated with hydrochlorothiazide",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Daily tobacco use, age \u224870\u201180 years",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 4 with persistent proteinuria despite thiazide monotherapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension, especially in an elderly smoker, contributes to arteriolar sclerosis and ischemic nephron loss, compounding the diabetic kidney injury."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea syndrome documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and smoking",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite thiazide",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA drives sympathetic over\u2011activity, worsening hypertension and accelerating CKD progression; its presence explains part of the refractory blood pressure."
+    },
+    {
+      "rank": 5,
+      "name": "Renal Artery Stenosis (atherosclerotic)",
+      "icd10": "I70.1",
+      "snomed": "414916001",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking history and refractory hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 4 with limited response to thiazide diuretic",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Atherosclerotic renal artery stenosis can cause abrupt or progressive CKD and resistant hypertension in older smokers; while not confirmed, it remains a plausible contributor."
+    },
+    {
+      "rank": 6,
+      "name": "Monoclonal Gammopathy / Multiple Myeloma (light\u2011chain nephropathy)",
+      "icd10": "C90.0",
+      "snomed": "126910001",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Heavy urine protein without clear albumin fraction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >70 years (peak incidence of plasma\u2011cell dyscrasias)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Ketonuria 10.7 mg/dL suggesting catabolic stress",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Light\u2011chain cast nephropathy can mimic proteinuric CKD; given the patient\u2019s age and unexplained proteinuria, a plasma\u2011cell disorder must be excluded."
+    },
+    {
+      "rank": 7,
+      "name": "CKD\u2011related Anemia (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia listed as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <30 mL/min/1.73 m\u00b2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD reduces erythropoietin production, leading to anemia; this is a downstream effect but clinically relevant for management."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus (poorly-controlled/undiagnosed)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s profile (elderly, obese, smoker) and laboratory data (eGFR 15.4, heavy proteinuria, ketonuria) point to undiagnosed or poorly\u2011controlled type 2 diabetes as the primary upstream driver. Diabetic kidney disease accounts for the stage\u20114 CKD, while longstanding hypertension, OSA, and possible vascular renal disease further accelerate renal decline. Secondary sequelae such as CKD\u2011related anemia and heightened cardiovascular risk are incorporated as consequences. Unexplained urinary bilirubin, low alkaline phosphatase, and disproportionate ketonuria remain unresolved and guide the recommended work\u2011up.",
+  "unresolved_findings": [
+    "Urine bilirubin 0.3 mg/dL without documented serum bilirubin elevation",
+    "Low alkaline phosphatase 31.3 U/L (unusually low for adult)",
+    "Persistent ketonuria (10.7 mg/dL) that exceeds expectations for prediabetes"
+  ],
+  "recommended_workup": [
+    "HbA1c, fasting glucose, or oral glucose tolerance test to confirm overt diabetes",
+    "Urine albumin\u2011to\u2011creatinine ratio and urine protein electrophoresis with serum free\u2011light\u2011chain assay to evaluate for light\u2011chain disease",
+    "Renal duplex ultrasound or CT\u2011angiography to assess for renal artery stenosis",
+    "Add ACE\u2011I/ARB (if not contraindicated) and consider SGLT2 inhibitor for renal protection",
+    "Comprehensive anemia work\u2011up: CBC with indices, iron studies, vitamin B12, folate, erythropoietin level",
+    "Cardiovascular risk assessment: 12\u2011lead ECG, transthoracic echocardiogram, coronary calcium score or stress imaging",
+    "Review OSA management: confirm CPAP prescription, assess adherence, repeat polysomnography if >5 years since last study",
+    "Liver panel (AST, ALT, GGT, total and direct bilirubin), haptoglobin, LDH, peripheral smear to investigate urinary bilirubin",
+    "Repeat alkaline phosphatase and assess calcium, phosphate, PTH, 25\u2011OH vitamin D for CKD\u2011MBD",
+    "Nutritional assessment (serum albumin, pre\u2011albumin) and repeat ketone measurement (beta\u2011hydroxybutyrate) to clarify catabolic state"
+  ]
+}

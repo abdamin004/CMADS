@@ -1,0 +1,214 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension, uncontrolled with early target-organ damage",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 133/94\u202fmmHg meets stage\u202f2 hypertension criteria while on low-dose amlodipine 2.5\u202fmg",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 79.8\u202fmL/min/1.73\u202fm\u00b2 (borderline low) suggesting early renal impairment",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity, prediabetes, dyslipidemia, and gout increase risk of hypertension-related organ damage",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension listed as active problem",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The documented BP is in the stage\u202f2 range despite a sub\u2011therapeutic calcium\u2011channel blocker dose, indicating inadequate control. The borderline eGFR points toward early hypertensive nephropathy. Metabolic\u2011syndrome comorbidities further predispose to resistant hypertension, making uncontrolled essential hypertension the most parsimonious primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome \u2013 insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530\u202fkg/m\u00b2, documented onset 1987)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension (133/94\u202fmmHg) on low-dose amlodipine",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 148.9\u202fmg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 34.3\u202fmg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 5.9\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "New gout diagnosis (2023\u201110\u201107)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Four of the five ATP\u2011III criteria are met (obesity, hypertension, atherogenic dyslipidaemia, impaired fasting glucose). The patient\u2019s Asian\u2011Hispanic background further lowers the BMI threshold for insulin resistance. Metabolic syndrome provides a unifying pathophysiologic explanation for hypertension, dyslipidaemia, prediabetes, gout, and early renal decline."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic dyslipidemia (elevated LDL, low HDL)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 148.9\u202fmg/dL (high) and HDL\u2011C 34.3\u202fmg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on low-dose simvastatin 10\u202fmg; full lipid panel values are missing, suggesting sub\u2011optimal therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Metabolic\u2011syndrome profile (obesity, prediabetes, hypertension) predisposes to atherogenic dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The lipid profile shows markedly elevated LDL and low HDL, both major drivers of atherosclerosis. The current statin dose is insufficient for a patient with multiple metabolic risk factors, warranting intensification of lipid\u2011lowering therapy."
+    },
+    {
+      "rank": 4,
+      "name": "Gout, active hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "90560007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "New gout diagnosis (October\u202f2023) with no documented urate\u2011lowering therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Obesity, borderline CKD, and metabolic syndrome increase uric\u2011acid production and reduce excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Serum uric\u2011acid level is missing, representing a gap in confirming disease activity",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Gout is a downstream manifestation of the insulin\u2011resistant state and renal dysfunction. Absence of urate\u2011lowering medication and missing serum uric\u2011acid measurement highlight an untreated, active disease process."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (CKD) stage\u202f2",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 79.8\u202fmL/min/1.73\u202fm\u00b2 (borderline reduced)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension inadequately controlled on low\u2011dose amlodipine",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Gout diagnosis (proxy for hyperuricemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and prediabetes (insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Borderline eGFR together with uncontrolled hypertension, obesity, and hyperuricemia suggests early target\u2011organ damage consistent with stage\u202f2 CKD. Monitoring and renoprotective therapy are indicated."
+    },
+    {
+      "rank": 6,
+      "name": "Subclinical atherosclerotic cardiovascular disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 148.9\u202fmg/dL (high) and HDL\u2011C 34.3\u202fmg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension (133/94\u202fmmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Metabolic\u2011syndrome phenotype increases 10\u2011year ASCVD risk well above 15\u202f% for a 58\u2011year\u2011old female",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 79.8\u202fmL/min/1.73\u202fm\u00b2 (borderline low) \u2013 early renal involvement adds to risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of markedly atherogenic lipids, uncontrolled hypertension, and metabolic\u2011syndrome places the patient at high risk for subclinical atherosclerosis. Absence of a documented cardiovascular event suggests disease is presently silent but warrants aggressive primary\u2011prevention measures."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension, uncontrolled with early target-organ damage",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "Both rounds agree on the presence of gout and the metabolic\u2011syndrome milieu. The clean\u2011room analysis highlighted uncontrolled essential hypertension as the most immediate, evidence\u2011driven problem, supported by documented BP readings and early renal decline. The prior\u2011based analysis contributed the broader diagnosis of metabolic syndrome, which is strongly supported by obesity, hypertension, dyslipidaemia, prediabetes, and gout. Atherogenic dyslipidemia, early CKD, and subclinical ASCVD are logical extensions of the same pathophysiology and are retained because they have clear, named supporting evidence in the record. The final differential therefore integrates the parsimonious primary diagnosis (uncontrolled hypertension) with the systemic driver (metabolic syndrome) and its major downstream complications.",
+  "unresolved_findings": [
+    "Missing exact BMI value (obesity status inferred from problem list)",
+    "Absent serum uric\u2011acid level",
+    "No iron studies, ferritin, or complete blood count values to characterize anemia",
+    "Lack of urine albumin\u2011to\u2011creatinine ratio or proteinuria data for precise CKD staging",
+    "No liver function tests or imaging to assess for NAFLD",
+    "No sleep study or symptom documentation for obstructive sleep apnea"
+  ],
+  "recommended_workup": [
+    "Repeat fasting lipid panel (total cholesterol, LDL, HDL, triglycerides) and calculate 10\u2011year ASCVD risk",
+    "Escalate statin therapy to at least moderate\u2011intensity (e.g., rosuvastatin 10\u202fmg) per ACC/AHA guidelines",
+    "Obtain serum uric\u2011acid level; consider allopurinol or febuxostat if >6\u202fmg/dL or symptomatic",
+    "Comprehensive anemia work\u2011up: CBC with indices, serum iron, ferritin, TIBC, vitamin B12, folate",
+    "Urine albumin\u2011to\u2011creatinine ratio (UACR) to evaluate hypertensive nephropathy",
+    "Renal ultrasound if proteinuria is detected or further CKD evaluation is needed",
+    "Repeat HbA1c in 3\u202fmonths; consider oral glucose tolerance test to assess progression to diabetes",
+    "Liver function tests (ALT, AST, GGT, ALP) and abdominal ultrasound or FibroScan for NAFLD",
+    "Polysomnography or home sleep apnea testing given obesity and resistant hypertension",
+    "Initiate an ACE inhibitor or ARB for renal protection and better blood\u2011pressure control",
+    "Lifestyle counseling: weight loss, DASH diet, sodium restriction, increased physical activity"
+  ]
+}

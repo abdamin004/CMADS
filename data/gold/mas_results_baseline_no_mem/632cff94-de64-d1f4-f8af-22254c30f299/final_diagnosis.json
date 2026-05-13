@@ -1,0 +1,260 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute ST\u2011segment elevation myocardial infarction (STEMI)",
+      "icd10": "I21.3",
+      "snomed": "22298006",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chest pain with radiation, diaphoresis, and acute onset",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I (initial 0.12 ng/mL, rising)",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "ST\u2011segment elevation in anterior leads on emergent ECG",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Typical ischemic symptoms combined with ST\u2011elevation on ECG and rising cardiac biomarkers confirm an acute STEMI, a life\u2011threatening emergency requiring immediate reperfusion."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease stage 3b\u20114 (possible analgesic\u2011nephropathy)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.0\u202fmg/dL with discordant eGFR \u2248\u202f82\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term high\u2011dose acetaminophen use for chronic pain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine out of proportion to calculated eGFR suggests a laboratory mismatch; however, chronic analgesic exposure and reduced renal reserve support CKD stage 3b\u20114 as the most plausible chronic condition."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease \u2013 post\u2011MI secondary\u2011prevention state",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.14,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior myocardial infarction 2\u202fyears ago",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (hypertension, dyslipidemia, metabolic syndrome)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s prior MI and extensive risk factor burden place him in a high\u2011risk secondary\u2011prevention category for atherosclerotic CAD."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2248\u202f32\u202fkg/m\u00b2), hypertension, dyslipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose borderline (68.9\u202fmg/dL) suggesting impaired regulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of cardiometabolic risk factors fulfills criteria for metabolic syndrome, predisposing to both CKD progression and coronary disease."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease (early steato\u2011hepatitis)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT (42\u202fU/L) with low AST (9.7\u202fU/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Pattern of isolated ALT elevation in an insulin\u2011resistant, obese patient is typical for early NAFLD."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Snoring, witnessed apneas, daytime fatigue reported on review of systems",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "BMI\u202f>\u202f30\u202fkg/m\u00b2, hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical features and risk profile make OSA a plausible comorbidity contributing to hypertension and cardiovascular risk."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion, peripheral edema, preserved blood pressure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms are compatible with HFpEF, but lack of echocardiographic data limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Opioid use disorder / chronic pain syndrome",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term opioid therapy (>\u202f2\u202fyears) for chronic musculoskeletal pain",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Escalating dose documented in medication list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Duration and dosing pattern fulfill criteria for opioid use disorder and contribute to chronic pain burden."
+    },
+    {
+      "rank": 9,
+      "name": "Prediabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Random glucose 68.9\u202fmg/dL (borderline low) with known insulin resistance",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Family history of type 2 diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome and borderline glucose values suggest early dysglycemia, warranting close monitoring."
+    },
+    {
+      "rank": 10,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (Hb\u202f11.2\u202fg/dL) with CKD stage 3b\u20114",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD commonly produces a normocytic, normochromic anemia via reduced erythropoietin production."
+    },
+    {
+      "rank": 11,
+      "name": "Chronic sinusitis",
+      "icd10": "J32.9",
+      "snomed": "444814009",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recurrent nasal congestion and facial pressure for >\u202f12\u202fmonths",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented chronic sinus symptoms are consistent with chronic sinusitis but have limited impact on current acute presentation."
+    },
+    {
+      "rank": 12,
+      "name": "Unexplained laboratory discrepancy (creatinine\u202f3\u202fmg/dL vs eGFR\u202f\u2248\u202f82\u202fmL/min/1.73\u202fm\u00b2)",
+      "icd10": "R79.89",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.0\u202fmg/dL but calculated eGFR 81.9\u202fmL/min/1.73\u202fm\u00b2 (physiologically impossible)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The mismatch likely reflects a laboratory or transcription error; resolution is essential before medication dosing."
+    }
+  ],
+  "primary_diagnosis": "Acute ST\u2011segment elevation myocardial infarction (STEMI)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient presents with classic acute coronary syndrome features\u2014typical chest pain, ST\u2011segment elevation on ECG, and rising troponins\u2014making acute STEMI the foremost priority. Concurrent chronic conditions (CKD stage 3b\u20114, prior MI, metabolic syndrome) explain the background cardiovascular risk and laboratory abnormalities. The creatinine/eGFR discordance must be clarified, as it impacts drug dosing and renal management. Low random glucose is noted but lacks a clear etiology; it will be investigated in the work\u2011up. Other comorbidities (OSA, NAFLD, HFpEF, opioid use disorder, anemia of chronic disease) are retained in the differential with lower probabilities.",
+  "unresolved_findings": [
+    "Random glucose 68.9\u202fmg/dL (borderline low) \u2013 etiology not identified",
+    "Creatinine 3.0\u202fmg/dL vs eGFR 81.9\u202fmL/min/1.73\u202fm\u00b2 (discordant laboratory result)"
+  ],
+  "recommended_workup": [
+    "Immediate 12\u2011lead ECG and serial cardiac enzymes",
+    "Urgent coronary angiography with possible PCI",
+    "Repeat serum creatinine and eGFR using a calibrated assay",
+    "Comprehensive metabolic panel, including repeat glucose and HbA1c",
+    "Echocardiogram to assess left ventricular function and confirm HFpEF",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Liver ultrasound with elastography for NAFLD staging",
+    "Iron studies, ferritin, TIBC to differentiate anemia types",
+    "Medication reconciliation focusing on opioid and acetaminophen dosing",
+    "Consider adrenal panel if hypoglycemia persists"
+  ]
+}

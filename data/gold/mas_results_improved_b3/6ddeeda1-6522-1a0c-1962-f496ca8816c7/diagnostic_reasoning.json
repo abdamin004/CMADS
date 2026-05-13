@@ -1,0 +1,169 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End\u2011Stage Renal Disease due to Diabetic Nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing insulin\u2011requiring type\u202f2 diabetes (since 1978) with documented proteinuria and microalbuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension since 1976 and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 9\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD) and serum creatinine 2.9\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 339\u202fmg/dL (moderate proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Disorder of kidney due to diabetes mellitus (SNOMED\u202f127013003)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "A >40\u2011year history of insulin\u2011requiring type\u202f2 diabetes with progressive proteinuria, hypertension, and metabolic syndrome has produced classic diabetic nephropathy. The severe reduction in eGFR, rising creatinine, moderate proteinuria, and loss of concentrating ability confirm ESRD secondary to diabetic kidney disease."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed in 1976 with current diastolic BP 93\u202fmmHg (stage\u202f2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.00 (inability to concentrate urine, typical in chronic hypertensive kidney disease)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Moderate proteinuria (339\u202fmg/dL) without overt nephritic features",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and obesity as accelerants of renal injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Decades of uncontrolled hypertension cause arteriolar hyalinosis and ischemic glomerular injury, contributing to CKD progression. The dilute urine and modest proteinuria are compatible with hypertensive nephrosclerosis, which likely acts as a co\u2011factor accelerating the diabetic kidney disease."
+    },
+    {
+      "rank": 3,
+      "name": "Drug\u2011Induced Nephropathy (Illicit Substance\u2011Related)",
+      "icd10": "N14.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dependent drug abuse documented since 1990",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 7.8\u202fmg/dL and urine bilirubin 0.5\u202fmg/dL without clear systemic cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum chloride 108.7\u202fmmol/L (possible metabolic compensation for tubular dysfunction)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic exposure to nephrotoxic illicit substances (e.g., opioids, cocaine, NSAIDs) can cause interstitial nephritis, tubular injury, or rhabdomyolysis, hastening CKD progression. The unexplained ketonuria and bilirubinuria raise suspicion for ongoing tubular dysfunction that may be drug\u2011related."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary Hyperparathyroidism / Renal Osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "39972008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "eGFR 9\u202fmL/min/1.73\u202fm\u00b2 (ESRD) \u2013 prerequisite for phosphate retention and \u2193\u202fcalcitriol",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Calcium, phosphate, PTH labs missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to secondary hyperparathyroidism, but no calcium/phosphate/PTH values are available to confirm. Included because it is a typical downstream complication of ESRD."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of Chronic Kidney Disease (EPO Deficiency)",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "ESRD (eGFR 9) predicts reduced erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Tachycardia 98\u202fbpm (possible compensatory response)",
+          "strength": "weak"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Hemoglobin not reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "GFR <15\u202fmL/min typically leads to EPO deficiency and normocytic anemia. Absence of hemoglobin data makes this a plausible but unconfirmed complication."
+    }
+  ],
+  "primary_diagnosis": "End\u2011Stage Renal Disease due to Diabetic Nephropathy",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing insulin\u2011requiring type\u202f2 diabetes, hypertension, obesity, and metabolic\u2011syndrome profile have driven classic diabetic nephropathy, now manifested as ESRD (eGFR 9). Hypertensive nephrosclerosis and illicit\u2011drug\u2011related tubular injury are credible co\u2011factors that further accelerate renal decline. Secondary hyperparathyroidism and anemia of CKD are expected downstream sequelae of ESRD but lack direct laboratory confirmation, so they are retained with low probabilities. Unexplained low HbA1c, ketonuria, bilirubinuria, and dilute urine are flagged for further work\u2011up.",
+  "unresolved_findings": [
+    "Hemoglobin A1c reported as 2.9\u202f% (physiologically implausible)",
+    "Urine bilirubin 0.5\u202fmg/dL without corresponding serum bilirubin data",
+    "Urine ketones 7.8\u202fmg/dL in a non\u2011fasting state",
+    "Urine specific gravity 1.00 (extremely dilute urine)",
+    "Missing lipid panel, calcium, phosphate, PTH, vitamin D, and hemoglobin values"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c (or obtain fructosamine/continuous glucose monitoring) to verify glycaemic control",
+    "Fasting plasma glucose or point\u2011of\u2011care glucose monitoring",
+    "Comprehensive metabolic panel including calcium, phosphate, bicarbonate, and PTH to assess renal osteodystrophy",
+    "Complete blood count with reticulocyte count to evaluate anemia of CKD",
+    "Lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Serum vitamin D (25\u2011OH) and alkaline phosphatase",
+    "Hepatitis B, Hepatitis C, and HIV serologies given substance\u2011use history",
+    "Renal ultrasound (or MRI) to rule out obstructive uropathy or renal masses before transplantation",
+    "Urine culture and sensitivity to exclude occult infection",
+    "Serum bilirubin, AST/ALT, and abdominal ultrasound to investigate bilirubinuria",
+    "Toxicology screen and serum creatine kinase to evaluate for drug\u2011induced tubular injury or rhabdomyolysis",
+    "Medication adherence assessment and substance\u2011use counseling",
+    "Nutritional assessment (vitamin B12, folate, vitamin D) and social\u2011work evaluation for transplant eligibility"
+  ]
+}

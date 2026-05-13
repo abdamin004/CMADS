@@ -1,0 +1,178 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease with acute type-1 NSTEMI (plaque-rupture acute coronary syndrome)",
+      "icd10": "I21.4",
+      "snomed": "413839001",
+      "probability": 0.58,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated troponin I 107 ng/L with rise/fall pattern",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "ECG showing new ST-segment depressions in lateral leads",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple atherosclerotic risk factors: diabetes, hypertension, CKD, smoking history unknown",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin with ischemic ECG changes in a patient with high atherosclerotic burden points to plaque rupture causing a type\u20111 NSTEMI, which dominates the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic\u2011hypertensive chronic kidney disease (stage 4\u20115) with acute\u2011on\u2011chronic injury",
+      "icd10": "N18.5",
+      "snomed": "236423003",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.2 mg/dL, eGFR <30 mL/min/1.73m2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes mellitus and hypertension documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Recent rise in creatinine compared to prior baseline (trend unavailable)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD secondary to diabetes and hypertension is evident; a superimposed acute kidney injury is likely given the recent creatinine rise, influencing medication dosing and prognosis."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia \u2013 work\u2011up pending (CKD\u2011related vs iron\u2011deficiency vs occult GI bleed)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.2 g/dL, MCV 78 fL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease present, which can cause anemia of chronic disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is documented; etiology unclear without iron studies, B12, folate, or occult blood testing, but CKD\u2011related anemia is plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic musculoskeletal pain syndrome with opioid dependence",
+      "icd10": "G89.29",
+      "snomed": "24700007",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term opioid prescriptions noted in medication list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic back pain documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic pain with ongoing opioid therapy suggests opioid dependence, which may affect analgesic choices and risk of respiratory depression."
+    },
+    {
+      "rank": 5,
+      "name": "Type\u20112 myocardial infarction (demand ischemia) secondary to anemia, uncontrolled hypertension, or sepsis",
+      "icd10": "I21.A1",
+      "snomed": "413839001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia and possible uncontrolled hypertension noted",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While a type\u20112 MI is possible given supply\u2011demand mismatch, the presence of ischemic ECG changes and troponin rise favors a primary plaque\u2011rupture event."
+    },
+    {
+      "rank": 6,
+      "name": "Uncontrolled hypertension (non\u2011adherence/NSAID\u2011induced)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension with no recent BP readings documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is a chronic issue; lack of recent BP data limits certainty, but it may contribute to end\u2011organ damage."
+    },
+    {
+      "rank": 7,
+      "name": "Possible acute decompensated heart failure",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors present (CAD, CKD, hypertension) and dyspnea noted in nursing notes",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "No echocardiogram performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given extensive cardiovascular disease, heart failure cannot be excluded and should be evaluated with bedside echo."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease with acute type-1 NSTEMI (plaque-rupture acute coronary syndrome)",
+  "primary_probability": 0.58,
+  "clinical_reasoning_summary": "The patient presents with elevated troponin and ischemic ECG changes in the setting of multiple atherosclerotic risk factors, making a plaque\u2011rupture type\u20111 NSTEMI the dominant diagnosis. Advanced CKD from diabetes and hypertension contributes to medication dosing concerns and may be acutely worsening. Documented anemia requires further work\u2011up to determine etiology. Chronic musculoskeletal pain with opioid use is well supported. Type\u20112 MI and uncontrolled hypertension are less likely given the objective evidence for plaque rupture, but remain possible contributors. Heart failure is a plausible comorbidity that warrants echocardiographic assessment.",
+  "unresolved_findings": [
+    "Exact cause of chronic anemia (no iron studies, B12, folate, reticulocyte count, or occult blood testing)",
+    "Trend and baseline of serum creatinine (single values only)",
+    "Current blood pressure readings and control status",
+    "Fasting lipid panel to assess adequacy of statin therapy",
+    "Smoking status (current, former, never) and pack\u2011year history",
+    "Family history of premature coronary artery disease",
+    "Medication adherence data for \u03b2\u2011blocker, P2Y12 inhibitor, statin, ACE\u2011I",
+    "History of coronary revascularization (PCI/CABG)",
+    "Presence of heart failure (ejection fraction, wall\u2011motion abnormalities)",
+    "Potential recent contrast exposure"
+  ],
+  "recommended_workup": [
+    "Urgent coronary angiography or CT coronary angiogram",
+    "Serial troponin measurements",
+    "12\u2011lead ECG review and repeat if symptoms evolve",
+    "Transthoracic echocardiogram to assess LV function and rule out heart failure",
+    "Iron studies, ferritin, transferrin saturation, vitamin B12, folate levels",
+    "Fecal occult blood test or colonoscopy to evaluate GI bleed",
+    "Comprehensive metabolic panel with repeat creatinine and eGFR trend",
+    "Blood pressure monitoring (home or inpatient) and medication adherence assessment",
+    "Lipid panel to guide statin intensity",
+    "Sleep study if clinical suspicion for OSA persists"
+  ]
+}

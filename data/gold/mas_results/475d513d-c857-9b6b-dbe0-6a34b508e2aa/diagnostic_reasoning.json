@@ -1,0 +1,222 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension (SBP 133 mmHg, DBP 94 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c 5.9%) persistent since 1993",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 148.9 mg/dL (borderline\u2011high) and HDL\u2011C 34.3 mg/dL (low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011intensity Simvastatin 10\u202fmg and low\u2011dose Amlodipine 2.5\u202fmg",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Four core components of metabolic syndrome (central obesity, elevated blood pressure, impaired glucose regulation, atherogenic dyslipidemia) are documented with strong supporting evidence, making this the most probable unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "2331000016109",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension despite low\u2011dose amlodipine (possible resistant HTN)",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographics",
+          "finding": "Female, age 58 (post\u2011menopausal) \u2013 higher prevalence of OSA in this subgroup when obese",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity combined with resistant hypertension in a post\u2011menopausal woman yields a high pre\u2011test probability for OSA, a common contributor to metabolic dysfunction."
+    },
+    {
+      "rank": 3,
+      "name": "Early Chronic Kidney Disease (CKD) Stage 2\u20113",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyperkalaemia (K+ 5.1 mmol/L) with rising trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN 18.5 mg/dL with rising trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "New gout diagnosis (risk factor for CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality flags",
+          "finding": "Missing serum creatinine/eGFR and urine albumin data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild electrolyte and nitrogen abnormalities, together with gout, raise concern for early renal impairment, but the lack of definitive renal function tests limits certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Uncontrolled Gout (hyperuricaemia)",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Gout diagnosis dated 2023\u201110\u201107",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of any urate\u2011lowering medication in medication list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, and metabolic syndrome as gout risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A recent gout flare without urate\u2011lowering therapy, in the context of metabolic risk factors, makes uncontrolled gout highly likely."
+    },
+    {
+      "rank": 5,
+      "name": "Progression to Type\u20112 Diabetes Mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c 5.9%) persistent for decades",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing prediabetes in an obese, metabolically\u2011syndromic patient confers a 10\u201115% annual risk of conversion to overt T2DM."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, dyslipidaemia, and prediabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Atherogenic lipid profile (high LDL, low HDL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The classic triad of obesity, insulin resistance, and dyslipidaemia makes NAFLD a probable hepatic manifestation, though liver-specific labs/imaging are missing."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low HDL and high LDL cholesterol",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unknown etiology",
+          "strength": "weak"
+        },
+        {
+          "source": "data-quality flags",
+          "finding": "Thyroid function tests not ordered",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Dyslipidaemia and anemia can be secondary to hypothyroidism; however, no thyroid labs are available, so this remains a low\u2011confidence possibility."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient exhibits the four cardinal features of metabolic syndrome\u2014obesity, hypertension, impaired glucose regulation, and atherogenic dyslipidaemia\u2014each supported by strong evidence from the EHR and laboratory data. This unifying diagnosis explains most downstream problems (gout, early renal dysfunction, NAFLD risk). Secondary high\u2011probability conditions include obstructive sleep apnoea (driven by obesity and resistant hypertension) and early CKD (suggested by borderline hyperkalaemia, elevated BUN, and gout). Gout remains uncontrolled due to lack of urate\u2011lowering therapy. The risk of progression to type\u20112 diabetes, NAFLD, and possible hypothyroidism are also considered, guided by the metabolic milieu and missing targeted investigations. Data gaps (renal function, uric acid, liver enzymes, thyroid panel, sleep study, anemia work\u2011up) limit certainty for several diagnoses, prompting a focused work\u2011up plan.",
+  "unresolved_findings": [
+    "Albumin 5.1 g/dL (borderline high, possible dehydration)",
+    "Duplicate Simvastatin entry (data\u2011entry inconsistency)",
+    "Missing smoking and alcohol use information",
+    "Exact BMI numeric value and waist circumference not recorded",
+    "No recent CBC, iron studies, B12/folate, or stool occult blood",
+    "Absent renal function labs (creatinine, eGFR, urine ACR)",
+    "Serum uric\u2011acid level not measured",
+    "Liver function tests and imaging absent",
+    "Thyroid function tests absent",
+    "Family history of cardiovascular disease, diabetes, or gout not documented"
+  ],
+  "recommended_workup": [
+    "Measure exact weight, height, calculate BMI, and obtain waist circumference",
+    "Fasting lipid panel (total cholesterol, triglycerides, LDL, HDL)",
+    "Repeat fasting glucose and HbA1c",
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio",
+    "Serum uric\u2011acid level",
+    "Comprehensive liver panel (ALT, AST, GGT, ALP, bilirubin) and abdominal ultrasound or FibroScan",
+    "Thyroid panel (TSH, free T4)",
+    "CBC with differential, ferritin, iron, TIBC, vitamin B12, folate, and stool occult blood test",
+    "BNP or NT\u2011proBNP and transthoracic echocardiogram to assess for HFpEF",
+    "STOP\u2011BANG questionnaire followed by home sleep\u2011apnoea test or polysomnography",
+    "PHQ\u20119 and GAD\u20117 for depression and anxiety screening",
+    "Aldosterone\u2011renin ratio and renal artery Doppler ultrasound to evaluate secondary hypertension",
+    "Overnight dexamethasone suppression test if clinical suspicion for Cushing\u2019s",
+    "Detailed family history interview focusing on premature ASCVD, diabetes, gout, and kidney disease"
+  ]
+}

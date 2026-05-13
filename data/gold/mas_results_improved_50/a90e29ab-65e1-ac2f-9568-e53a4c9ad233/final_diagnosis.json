@@ -1,0 +1,216 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus, suboptimally controlled",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of type 2 diabetes in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Latest HbA1c 6.7% (borderline prediabetic, indicating suboptimal control)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a known history of type 2 diabetes with an HbA1c that remains above target, indicating suboptimal glycemic control despite therapy."
+    },
+    {
+      "rank": 2,
+      "name": "Essential Hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension listed in comorbidity flags",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent blood pressure readings available, but prior records show elevated values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a documented chronic condition; lack of recent measurements prevents assessment of control but the diagnosis remains highly likely."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic Dyslipidaemia (diabetic dyslipidaemia)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertriglyceridemia noted in metabolic profile",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Associated with type 2 diabetes and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s lipid pattern (elevated triglycerides) together with diabetes fits classic atherogenic dyslipidaemia."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic Syndrome / Obesity",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Impression mentions obesity and metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing current BMI/weight trend, but prior data indicate elevated BMI",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity underlies the patient\u2019s diabetes, hypertension, and dyslipidaemia, constituting metabolic syndrome."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic anemia of disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Complete blood count indices missing, but anemia noted clinically",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is recorded; in the context of chronic inflammation from diabetes and possible CKD, anemia of chronic disease is plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome and obesity increase risk for NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Liver function tests not provided, but risk is high",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s metabolic risk factors, NAFLD is a likely but unconfirmed comorbidity."
+    },
+    {
+      "rank": 7,
+      "name": "Subclinical Atherosclerotic Cardiovascular Disease (ASCVD)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011burden cardiometabolic profile (diabetes, hypertension, dyslipidaemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging or prior events documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors suggest possible subclinical atherosclerosis, though no direct evidence (imaging) is available."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted, a major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Sleep study results absent",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA; lack of screening data makes this a probable but unconfirmed diagnosis."
+    },
+    {
+      "rank": 9,
+      "name": "Depressive / Anxiety Disorder",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No depression or anxiety screening performed; chronic disease burden raises risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychiatric comorbidity is common in patients with multiple chronic illnesses; screening is missing, so this remains a possible diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus, suboptimally controlled",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with a classic cardiometabolic cluster: documented type 2 diabetes with HbA1c 6.7%, chronic hypertension, hypertriglyceridemia, obesity, and metabolic syndrome. These interrelated conditions drive the high probabilities assigned to diabetes, hypertension, and atherogenic dyslipidaemia. Secondary considerations include obesity\u2011related sequelae (NAFLD, OSA), chronic anemia likely of disease, and the possibility of subclinical ASCVD given the risk factor load. Mood disorder is added due to the psychosocial impact of multimorbidity. Early CKD was omitted because albuminuria data are lacking.",
+  "unresolved_findings": [
+    "Missing recent blood pressure readings (systolic/diastolic)",
+    "Missing current BMI / weight trend and waist circumference",
+    "Smoking status not documented",
+    "Alcohol consumption not documented",
+    "Physical activity level unknown",
+    "Urine albumin\u2011to\u2011creatinine ratio (ACR) absent",
+    "Liver function tests (ALT, AST, GGT) not provided",
+    "Complete blood count indices (MCV, reticulocyte count) missing for anemia work\u2011up",
+    "Sleep study results or screening questionnaire for OSA absent",
+    "Depression/anxiety screening scores (PHQ\u20119, GAD\u20117) not performed"
+  ],
+  "recommended_workup": [
+    "Obtain up\u2011to\u2011date blood pressure measurements and assess control",
+    "Measure weight, height, BMI, and waist circumference",
+    "Document smoking and alcohol use history",
+    "Assess physical activity level",
+    "Order urine albumin\u2011to\u2011creatinine ratio to evaluate kidney damage",
+    "Repeat comprehensive lipid panel (including LDL, HDL, triglycerides)",
+    "Obtain liver function tests (ALT, AST, GGT) to screen for NAFLD",
+    "Complete CBC with differential, MCV, reticulocyte count to characterize anemia",
+    "Screen for obstructive sleep apnea (STOP\u2011Bang questionnaire, consider polysomnography)",
+    "Administer PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety",
+    "Consider coronary artery calcium scoring or carotid ultrasound to assess subclinical ASCVD"
+  ]
+}

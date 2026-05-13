@@ -1,0 +1,308 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome / insulin resistance (early type 2 diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) - active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes - active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension - active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (borderline high, rising)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 113\u202fmg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race, age 51, female - demographic risk modifiers",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, rising HbA1c, borderline dyslipidaemia, and hypertension meet \u22653 ATP\u2011III criteria for metabolic syndrome, which drives insulin resistance, cardiovascular risk, and contributes to other observed abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Iron\u2011deficiency anemia (likely occult gastrointestinal blood loss)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.24,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia - active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet\u2011distribution width (PDW) 491.6\u202ffL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling RBC count trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling platelet count trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, age >50 (higher risk for occult GI bleed)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of chronic anemia, high PDW, and downward trends in RBC and platelets strongly suggests iron deficiency, most commonly from occult gastrointestinal blood loss in a peri\u2011menopausal woman."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (CKD) secondary to hypertension & metabolic syndrome",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension - active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide prescription (thiazide diuretic)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyperchloremia (108.5\u202fmmol/L, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sodium and potassium trends falling",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race (higher CKD risk)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR/albuminuria data (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension, thiazide use, electrolyte shifts, and demographic risk together raise the likelihood of early CKD, even though eGFR is not yet measured."
+    },
+    {
+      "rank": 4,
+      "name": "Essential hypertension (sub\u2011optimally controlled)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension - active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg and Amlodipine 2.5\u202fmg prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent blood\u2011pressure readings (missing)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race (salt\u2011sensitive hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented hypertension with low\u2011dose antihypertensives and absent recent BP measurements suggests possible sub\u2011optimal control."
+    },
+    {
+      "rank": 5,
+      "name": "Myelodysplastic syndrome (early / low\u2011grade marrow stress)",
+      "icd10": "D46.9",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling platelet count trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling RBC count trend",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Platelet size heterogeneity with concurrent cytopenia trends raises the possibility of a primary marrow disorder, though iron deficiency remains more likely."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline\u2011high LDL\u2011C",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and insulin resistance are the principal drivers of hepatic steatosis; NAFLD is a common comorbidity in metabolic syndrome."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive disorder (stress\u2011related)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate\u2011partner violence (IPV) - active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unemployment - active problem",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress - active problem",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Chronic psychosocial stressors markedly increase the risk for depressive illness, which can further impair metabolic control and medication adherence."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233935008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension - active problem",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are classic risk factors for OSA; no sleep\u2011related data are available, making this a lower\u2011probability but plausible contributor."
+    },
+    {
+      "rank": 9,
+      "name": "Thiazide\u2011induced electrolyte disturbance (contraction alkalosis)",
+      "icd10": "E87.6",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg prescription",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyperchloremia (108.5\u202fmmol/L, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sodium and potassium trends falling",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic thiazide therapy commonly produces mild volume contraction, hyperchloremia, and electrolyte shifts; this explains the observed lab pattern."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome / insulin resistance (early type 2 diabetes)",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient presents with classic metabolic\u2011syndrome features (obesity, prediabetes, hypertension, borderline dyslipidaemia) that constitute the dominant upstream driver of her cardiovascular risk. Concurrently, chronic anemia with a markedly elevated PDW, falling RBC and platelet trends point toward iron\u2011deficiency anemia, most likely from occult gastrointestinal blood loss. Demographic factors (Black race, age 51) and thiazide use raise the probability of early CKD and contribute to electrolyte abnormalities. Psychosocial stressors (IPV, unemployment) increase the likelihood of depression and may impair adherence. Less likely but still plausible contributors include early myelodysplastic syndrome, NAFLD, OSA, and a thiazide\u2011induced electrolyte disturbance. The probabilities have been calibrated to reflect the strength and number of supporting data points while acknowledging missing key investigations.",
+  "unresolved_findings": [
+    "Elevated PDW (though used, no confirmatory peripheral smear)",
+    "Borderline hyperchloremia without bicarbonate/CO2 data",
+    "Falling fasting glucose (contradicts rising HbA1c)",
+    "Missing full lipid panel (total cholesterol, HDL, triglycerides)",
+    "Missing recent blood\u2011pressure readings",
+    "Missing eGFR, urine albumin\u2011to\u2011creatinine ratio",
+    "No iron studies (Ferritin, Iron, TIBC)",
+    "No stool occult blood test or colonoscopy",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117)",
+    "No sleep\u2011apnea questionnaire (STOP\u2011BANG)",
+    "Unclear indication for diphenhydramine"
+  ],
+  "recommended_workup": [
+    "CBC with differential, reticulocyte count, peripheral smear",
+    "Serum iron, ferritin, total iron\u2011binding capacity, transferrin saturation",
+    "Fecal immunochemical test (FIT) and, if positive, colonoscopy",
+    "Serum creatinine, eGFR (CKD\u2011EPI), urine albumin\u2011to\u2011creatinine ratio",
+    "Repeat fasting lipid panel (total cholesterol, HDL, LDL, triglycerides)",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase) and abdominal ultrasound or FibroScan for NAFLD assessment",
+    "Office blood\u2011pressure measurements (average of \u22652 visits) or home BP log",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screens",
+    "STOP\u2011BANG questionnaire and overnight oximetry if indicated",
+    "Medication reconciliation focusing on diphenhydramine use and antihypertensive dosing",
+    "Nutritional counseling and iron supplementation if iron deficiency confirmed"
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-induced renal injury (ACE inhibitor + NSAID use in pregnancy)",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on ACE inhibitor and chronic NSAID therapy despite pregnancy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN without clear eGFR data, suggesting renal dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage 2 hypertension and chronic kidney risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Concurrent exposure to an ACE inhibitor and NSAIDs in pregnancy is nephrotoxic, especially with pre\u2011existing hypertension, explaining the rising BUN and lack of renal function data."
+    },
+    {
+      "rank": 2,
+      "name": "Superimposed preeclampsia on chronic hypertension",
+      "icd10": "O14.1",
+      "snomed": "237599002",
+      "probability": 0.23,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled chronic hypertension (BP 149/98 mmHg) in pregnancy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW 268.5 fL) \u2013 non\u2011specific but may reflect platelet activation",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented proteinuria or liver enzyme abnormalities",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe chronic hypertension raises suspicion for superimposed preeclampsia, though definitive diagnosis is limited by missing proteinuria and liver data."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic primary (essential) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic hypertension prior to pregnancy",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage 2 blood pressure readings",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Baseline essential hypertension persists and contributes to overall cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome (insulin resistance)",
+      "icd10": "E88.81",
+      "snomed": "237599009",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.1%) and obesity (BMI not provided but implied by metabolic risk)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated blood pressure and dyslipidemia risk (lipid panel missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Insulin resistance underlies prediabetes and raises risk for gestational diabetes and cardiovascular complications."
+    },
+    {
+      "rank": 5,
+      "name": "Gestational diabetes mellitus",
+      "icd10": "O24.8",
+      "snomed": "237599001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetic A1c (6.1%) in pregnancy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome components",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prediabetes in pregnancy warrants screening for gestational diabetes; not yet confirmed but plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of pregnancy (iron\u2011deficiency vs anemia of chronic disease)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia flag present in chart",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No iron studies provided; etiology unclear",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is documented; differentiation between iron deficiency and anemia of chronic disease requires further labs."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic low\u2011back pain (degenerative disc disease)",
+      "icd10": "M54.5",
+      "snomed": "279039007",
+      "probability": 0.025,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic low\u2011back pain managed with NSAIDs and opioids",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Established chronic musculoskeletal condition contributing to NSAID use."
+    },
+    {
+      "rank": 8,
+      "name": "Opioid\u2011use disorder / opioid\u2011related maternal complications",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid prescription for low\u2011back pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented criteria for opioid\u2011use disorder (e.g., tolerance, withdrawal)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioid exposure is present; disorder not clearly established but remains a potential complication."
+    }
+  ],
+  "primary_diagnosis": "Medication-induced renal injury (ACE inhibitor + NSAID use in pregnancy)",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The pregnant patient presents with uncontrolled stage 2 hypertension, ongoing ACE\u2011inhibitor and NSAID therapy, and rising BUN, making drug\u2011induced renal injury the most likely etiology. Superimposed preeclampsia remains a close consideration given severe hypertension, but lack of proteinuria and liver enzyme data limits certainty. Chronic essential hypertension, metabolic syndrome, and emerging gestational diabetes contribute to overall risk. Anemia is documented but its type is unclear. Musculoskeletal pain and opioid exposure are chronic issues that influence medication choices and renal risk.",
+  "unresolved_findings": [
+    "Elevated PDW (268.5 fL) \u2013 significance unclear",
+    "Borderline MPV (11.6 fL) \u2013 significance unclear",
+    "Rising BUN without accompanying eGFR or urine protein data",
+    "Missing eGFR value",
+    "Missing total cholesterol and full lipid panel",
+    "No documented prenatal supplementation (iron, folic acid, prenatal vitamin)",
+    "No urine protein/creatinine ratio or dipstick result",
+    "No gestational age/trimester information",
+    "No smoking, alcohol, or substance\u2011use history",
+    "No fetal monitoring data (ultrasound growth, Doppler studies)"
+  ],
+  "recommended_workup": [
+    "Discontinue ACE inhibitor and NSAIDs; substitute with pregnancy\u2011safe antihypertensives (e.g., labetalol, nifedipine)",
+    "Repeat renal function panel (BUN, creatinine, eGFR) after medication change",
+    "Urine protein/creatinine ratio or dipstick to assess for proteinuria",
+    "Liver function tests (AST, ALT, LDH) and platelet count to evaluate for preeclampsia/HELLP",
+    "Comprehensive iron studies (serum ferritin, transferrin saturation) to differentiate anemia type",
+    "Oral glucose tolerance test (OGTT) for gestational diabetes screening",
+    "Fetal growth ultrasound and Doppler studies to assess for growth restriction",
+    "Lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Review and document prenatal vitamin and iron supplementation adherence",
+    "Assess substance use history and consider referral for opioid stewardship"
+  ]
+}

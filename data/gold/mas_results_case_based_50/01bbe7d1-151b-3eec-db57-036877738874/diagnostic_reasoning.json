@@ -1,0 +1,214 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 diabetes mellitus related chronic kidney disease)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin (Humulin) therapy indicating overt type 2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Microalbuminuria (diabetic kidney disease) on problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.9\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) 30.4\u202fmL/min/1.73\u202fm\u00b2 (CKD stage 3b)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 251.7\u202fmg/dL on dipstick",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has insulin\u2011treated type 2 diabetes, documented microalbuminuria, and a reduced eGFR consistent with diabetic nephropathy as the primary driver of his CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Primary hypertension with target\u2011organ damage (essential hypertension and hypertensive nephrosclerosis)",
+      "icd10": "I12.9",
+      "snomed": "38341003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 146/107\u202fmmHg (stage\u202f2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension documented since 2009",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Amlodipine 2.5\u202fmg prescribed (low\u2011dose CCB)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of ACE\u2011I/ARB despite hypertension and CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 30.4\u202fmL/min/1.73\u202fm\u00b2 indicating CKD as target\u2011organ damage",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing, poorly controlled hypertension with evidence of renal impairment (CKD stage\u202f3b) points to hypertensive nephrosclerosis as a major contributor to his kidney disease."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hypertension (e.g., primary aldosteronism, renal\u2011artery stenosis, obstructive sleep apnea)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Refractory blood pressure despite low\u2011dose amlodipine and no ACE\u2011I/ARB",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 40\u202fy with stage\u202f2 hypertension since 2009",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Psychosocial stressors potentially worsening BP control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Young age, resistant hypertension, and missing guideline\u2011directed therapy raise suspicion for an underlying secondary cause that should be investigated."
+    },
+    {
+      "rank": 4,
+      "name": "Acute kidney injury superimposed on chronic kidney disease",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 7.6\u202fmg/dL (single outlier)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Baseline creatinine 1.9\u202fmg/dL with eGFR 30.4\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The isolated high creatinine suggests a possible acute insult on top of chronic CKD; repeat testing is required to confirm."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease / anemia of chronic disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia documented since 2019",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 30.4\u202fmL/min/1.73\u202fm\u00b2 (CKD stage\u202f3b)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD at stage\u202f3b commonly leads to reduced erythropoietin production, explaining the chronic anemia."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic glomerulonephritis (e.g., IgA, membranous, lupus)",
+      "icd10": "N02.9",
+      "snomed": "236423003",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 251.7\u202fmg/dL (proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Lack of hematuria or complement data (absence of supporting findings)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Proteinuria could be due to a primary glomerular disease, but without hematuria, serology, or microscopy the likelihood is low."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin 1.3\u202fmg/dL (weak)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_pattern",
+          "finding": "Metabolic syndrome features (hypertension, diabetes, probable obesity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD; the urine bilirubin finding is nonspecific and requires liver panel confirmation."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes mellitus related chronic kidney disease)",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient presents with insulin\u2011treated type 2 diabetes, microalbuminuria, and a markedly reduced eGFR, establishing diabetic nephropathy as the most probable cause of his CKD. Long\u2011standing, poorly controlled hypertension with target\u2011organ damage (CKD stage\u202f3b) constitutes a second major contributor. His refractory blood pressure, young age, and lack of ACE\u2011I/ARB therapy raise concern for secondary hypertension, which warrants dedicated evaluation. An isolated creatinine of 7.6\u202fmg/dL suggests a possible superimposed AKI, while chronic anemia aligns with CKD\u2011related erythropoietin deficiency. Lesser\u2011probability considerations include primary glomerulonephritis and NAFLD, supported only by proteinuria and metabolic risk factors, respectively. Unresolved findings (outlier creatinine, urine bilirubin, implausible HbA1c, missing BMI/lipids) highlight data gaps that must be addressed to refine probabilities.",
+  "unresolved_findings": [
+    "Serum creatinine 7.6\u202fmg/dL (single outlier, possible lab error)",
+    "Positive urine bilirubin without accompanying liver function tests",
+    "HbA1c reported as 3.2\u202f% (likely erroneous)",
+    "Absence of BMI, lipid panel, and recent fasting glucose/HbA1c values"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR (preferably using CKD\u2011EPI) to confirm renal function",
+    "Quantitative urine albumin\u2011to\u2011creatinine ratio (UACR) to assess proteinuria severity",
+    "Comprehensive metabolic panel including liver enzymes (AST, ALT, ALP, GGT, bilirubin) to evaluate urine bilirubin finding",
+    "Repeat HbA1c or obtain fasting plasma glucose to verify diabetic control",
+    "Lipid profile (total cholesterol, LDL, HDL, triglycerides) for cardiovascular risk stratification",
+    "BMI measurement and waist circumference to assess obesity/metabolic syndrome",
+    "Complete blood count with iron studies, reticulocyte count, and erythropoietin level to characterize anemia",
+    "Renal ultrasound to evaluate structural kidney disease",
+    "Screen for secondary causes of hypertension (aldosterone\u2011renin ratio, renal\u2011artery imaging, sleep study for OSA)",
+    "Medication reconciliation focusing on NSAIDs, herbal supplements, and recent contrast exposure",
+    "Urine microscopy (RBC casts, dysmorphic RBCs, WBCs) to rule in/out glomerulonephritis",
+    "Echocardiogram to assess for cardiorenal syndrome"
+  ]
+}

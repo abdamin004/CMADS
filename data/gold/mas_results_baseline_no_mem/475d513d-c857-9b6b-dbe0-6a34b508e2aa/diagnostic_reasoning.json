@@ -1,0 +1,251 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic\u2011syndrome\u2011driven Atherosclerotic Cardiovascular Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension (BP 133/94 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 148.9 mg/dL (borderline\u2011high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 34.3 mg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 5.9% (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 10 mg (low\u2011dose, likely sub\u2011therapeutic)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets all components of metabolic syndrome (obesity, hypertension, dyslipidemia, pre\u2011diabetes). These synergistically drive atherosclerotic disease, explaining the elevated cardiovascular risk flag and the need for intensified lipid and blood\u2011pressure therapy."
+    },
+    {
+      "rank": 2,
+      "name": "Early Hypertensive Nephropathy (CKD stage 1\u20112)",
+      "icd10": "N18.2",
+      "snomed": "236423003",
+      "probability": 0.18,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 79.8 mL/min/1.73 m\u00b2 (borderline low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 18.5 mg/dL (high\u2011normal, rising trend)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum potassium 5.1 mmol/L (borderline high, increasing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension treated only with amlodipine",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Hypertension is the most likely cause of the mild reduction in eGFR, modest BUN rise, and early electrolyte changes. Absence of ACE\u2011I/ARB therapy further supports missed renoprotective treatment."
+    },
+    {
+      "rank": 3,
+      "name": "Acute Gout Flare Secondary to Hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "13541001",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Gout diagnosis (onset 2023\u201110\u201107) with acute joint pain",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No gout\u2011specific medication documented (allopurinol, colchicine absent)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline renal dysfunction (eGFR 79.8) which reduces urate clearance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The new gout flare occurs in the setting of metabolic syndrome and early CKD, both of which predispose to hyperuricemia. Lack of urate\u2011lowering therapy and missing serum uric acid level are notable gaps."
+    },
+    {
+      "rank": 4,
+      "name": "Progressing Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 5.9% (prediabetes, near diabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, hypertension, dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, the patient is at high risk of progressing to overt type 2 diabetes, which would further accelerate renal and cardiovascular complications."
+    },
+    {
+      "rank": 5,
+      "name": "Primary Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, dyslipidemia (high LDL, low HDL), hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can produce a similar pattern of dyslipidemia, weight gain, and hypertension. Absence of TSH/free\u2011T4 data prevents confirmation, but the possibility remains."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "233678006",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in obese patients and can worsen hypertension and metabolic control, but without objective testing the probability is modest."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (early NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT 36.2 U/L (upper\u2011normal) in setting of metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to hepatic steatosis; liver enzymes are not markedly elevated but early NAFLD cannot be excluded."
+    },
+    {
+      "rank": 8,
+      "name": "Medication\u2011Related Borderline Hyperkalaemia",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum potassium 5.1 mmol/L (borderline high, rising)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list missing OTC NSAIDs or potassium\u2011sparing agents (data\u2011quality flag)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The mild hyperkalaemia may be accentuated by renal impairment and possible NSAID use for gout pain, but CKD alone is the primary driver."
+    },
+    {
+      "rank": 9,
+      "name": "Major Depressive Disorder (undocumented)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Refugee background, chronic disease burden, no mental\u2011health screen documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors can affect adherence and metabolic control; screening is warranted despite low current probability."
+    }
+  ],
+  "primary_diagnosis": "Metabolic\u2011syndrome\u2011driven Atherosclerotic Cardiovascular Disease",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with classic metabolic\u2011syndrome features\u2014obesity, stage\u20112 hypertension, dyslipidemia (high LDL, low HDL), and pre\u2011diabetes\u2014driving a high baseline risk for atherosclerotic cardiovascular disease. Early hypertensive nephropathy explains the borderline eGFR, rising BUN, and mild hyperkalaemia. An acute gout flare likely reflects hyperuricaemia secondary to reduced renal clearance and the metabolic milieu, compounded by the absence of urate\u2011lowering therapy. Additional considerations include possible primary hypothyroidism, obstructive sleep apnea, early NAFLD, medication\u2011related electrolyte shifts, and undiagnosed depression, each supported by specific but limited evidence. Data gaps (thyroid labs, uric acid, urine ACR, BP trends, sleep study) limit confidence, yielding an overall confidence score of 78/100.",
+  "unresolved_findings": [
+    "Serum uric acid level not recorded",
+    "Thyroid function tests (TSH, free T4) missing",
+    "Urine albumin\u2011creatinine ratio and full urinalysis absent",
+    "Serial eGFR/BUN trends over the past year unavailable",
+    "Home or ambulatory blood\u2011pressure readings lacking",
+    "Sleep study results for obstructive sleep apnea not performed",
+    "Detailed medication reconciliation for OTC NSAIDs or potassium\u2011sparing agents missing",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) not documented",
+    "Vaccination status and hepatitis serologies not available"
+  ],
+  "recommended_workup": [
+    "Order thyroid panel (TSH, free T4) to evaluate hypothyroidism",
+    "Obtain serum uric acid level and consider joint aspiration if diagnosis uncertain",
+    "Perform urine albumin\u2011creatinine ratio and repeat urinalysis to stage CKD",
+    "Review prior eGFR, creatinine, and BUN values to assess renal trajectory",
+    "Obtain home blood\u2011pressure monitoring or 24\u2011hour ambulatory BP measurement",
+    "Schedule a home sleep\u2011apnea test or polysomnography",
+    "Comprehensive medication reconciliation including OTC agents and supplements",
+    "Screen for depression and anxiety using PHQ\u20119 and GAD\u20117",
+    "Consider hepatic ultrasound or FibroScan if ALT rises or NAFLD suspected",
+    "Initiate ACE\u2011I or ARB (and possibly SGLT2\u2011i) for renal protection if not contraindicated",
+    "Intensify lipid therapy: switch to high\u2011intensity statin and re\u2011check LDL in 4\u20116 weeks",
+    "Start acute gout management (colchicine or NSAID if renal function permits) and begin urate\u2011lowering therapy (allopurinol dose\u2011adjusted to eGFR) if serum uric acid >6 mg/dL"
+  ]
+}

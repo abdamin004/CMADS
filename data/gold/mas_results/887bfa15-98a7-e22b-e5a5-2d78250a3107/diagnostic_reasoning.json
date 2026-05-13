@@ -1,0 +1,261 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age 49, BMI \u226530 (obesity)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three antihypertensives",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use (four opioid\u2011containing products)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk profile suggesting underlying sleep\u2011disordered breathing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, male sex, and resistant hypertension are classic risk factors for OSA. Opioid use further worsens sleep architecture. Untreated OSA can drive hypertension, insulin resistance, dyslipidaemia, and amplify chronic pain, making it the most plausible upstream driver of the patient\u2019s metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Kidney Disease (diabetic/hypertensive nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.22,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "20\u2011year history of hypertension and type 2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate anemia on iron supplementation (possible anemia of chronic disease)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "Regular ibuprofen use (NSAID exposure)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW) suggesting systemic inflammation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension and diabetes, together with anemia and NSAID exposure, strongly suggest early CKD despite missing eGFR data. CKD contributes to hypertension, dyslipidaemia, and anemia, acting as a key upstream pathology."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic Cardiovascular Disease (sub\u2011clinical CAD/PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 186\u202fmg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 28.7\u202fmg/dL (low) and total cholesterol 242.6\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, hypertension, diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on combined risk factors",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The severe atherogenic lipid profile combined with multiple metabolic risk factors makes sub\u2011clinical atherosclerosis highly probable, though it is positioned downstream of OSA and CKD."
+    },
+    {
+      "rank": 4,
+      "name": "Opioid Use Disorder / Opioid\u2011Induced Hyperalgesia",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication list",
+          "finding": "Four opioid\u2011containing combination products flagged as critical",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic neck pain and widespread musculoskeletal pain since 2014",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic stress and poly\u2011pharmacy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High\u2011dose, multi\u2011opioid therapy in the setting of chronic pain raises the likelihood of opioid dependence and opioid\u2011induced hyperalgesia, which can exacerbate hypertension and sleep disturbance."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, hypertriglyceridaemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides (moderate) and dyslipidaemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Insulin resistance associated with NAFLD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of obesity, diabetes, and dyslipidaemia makes NAFLD a likely hepatic manifestation, relevant for statin safety and cardiovascular risk."
+    },
+    {
+      "rank": 6,
+      "name": "Major Depressive Disorder (MDD)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress since 2017, refugee background, chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "Absence of antidepressant therapy despite psychosocial burden",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and chronic pain increase the risk of depression, which can further impair adherence and metabolic control, though no formal psychiatric diagnosis is documented."
+    },
+    {
+      "rank": 7,
+      "name": "Active/Recurring Infections (Otitis Media and Possible UTI)",
+      "icd10": "H66.90; N39.0",
+      "snomed": "65363002; 68566005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute otitis media diagnosed 2020\u201110\u201119 (still active)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine leukocytes 38.2/HPF (elevated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW suggesting systemic inflammation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Separate sites of inflammation indicate possible concurrent infections, but they are likely secondary to the patient\u2019s immunometabolic compromise."
+    },
+    {
+      "rank": 8,
+      "name": "Hypothyroidism (secondary cause of severe LDL elevation)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistently high LDL\u2011C despite metformin and lifestyle measures",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe LDL elevation can be driven by untreated hypothyroidism; ruling this out is essential before maximal statin therapy."
+    },
+    {
+      "rank": 9,
+      "name": "Myeloproliferative / Myelodysplastic Process (early essential thrombocythemia)",
+      "icd10": "D47.3",
+      "snomed": "108252007",
+      "probability": 0.01,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly increased platelet distribution width (PDW 182.1\u202ffL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No platelet count or peripheral smear provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated PDW elevation without other cytopenias makes a myeloproliferative disorder unlikely, but it remains a remote consideration."
+    }
+  ],
+  "primary_diagnosis": "Obstructive Sleep Apnea (OSA)",
+  "primary_probability": 0.27,
+  "clinical_reasoning_summary": "The patient\u2019s metabolic\u2011cardiovascular cluster (diabetes, hypertension, obesity, severe dyslipidaemia) is best explained by upstream physiologic drivers. Obstructive sleep apnea is the most plausible root cause, given obesity, resistant hypertension, and chronic opioid use, all of which can precipitate insulin resistance, dyslipidaemia, and hypertension. Chronic kidney disease is the next likely driver, supported by long\u2011standing HTN/DM, anemia, and NSAID exposure. Sub\u2011clinical atherosclerosis follows from the metabolic milieu. Opioid use disorder, NAFLD, depression, infections, hypothyroidism, and a remote myeloproliferative process are included as downstream or less likely contributors. Gaps in renal function, thyroid status, liver enzymes, sleep study, urine culture, and a complete CBC prevent higher certainty.",
+  "unresolved_findings": [
+    "Absence of renal function data (eGFR, serum creatinine, urine albumin\u2011creatinine ratio)",
+    "No thyroid function tests (TSH, free T4)",
+    "Missing liver panel and imaging for NAFLD/NASH",
+    "No sleep study or validated home sleep\u2011apnea test",
+    "Urine culture not performed despite leukocytosis",
+    "Elevated platelet distribution width without platelet count or smear",
+    "Persistent severe LDL\u2011C despite metformin and presumed lifestyle measures"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio to assess CKD stage",
+    "Overnight polysomnography or home sleep apnea test",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism",
+    "Comprehensive liver panel (ALT, AST, GGT, ALP) and abdominal ultrasound or FibroScan for NAFLD/NASH",
+    "Complete CBC with platelet count and peripheral smear to interpret PDW",
+    "Urine culture with sensitivity to confirm or exclude urinary tract infection",
+    "Opioid Risk Tool assessment and urine drug screen; consider testosterone level if hypogonadism suspected",
+    "Resting ECG and coronary calcium scoring or stress testing for sub\u2011clinical CAD",
+    "Screening for hepatitis B/C, HIV, and latent TB given refugee background"
+  ]
+}

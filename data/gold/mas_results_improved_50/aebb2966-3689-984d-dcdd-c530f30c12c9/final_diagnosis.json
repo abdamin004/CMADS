@@ -1,0 +1,152 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy with stage 4 chronic kidney disease",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.65,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and eGFR <30\u202fmL/min/1.73\u202fm\u00b2 consistent with CKD stage\u202f4",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria (urine protein/creatinine ratio >3\u202fg/g)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s chronic diabetes, advanced CKD with marked proteinuria, and typical renal imaging findings point to diabetic nephropathy as the dominant cause of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (contributory)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing hypertension with suboptimal control",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Moderate proteinuria that exceeds typical levels for isolated hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension likely contributes to CKD progression alongside diabetes, but the degree of proteinuria suggests diabetes is primary."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hyperparathyroidism / CKD\u2011Mineral\u2011Bone disorder",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum phosphate and low calcium consistent with CKD\u2011MBD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PTH level",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to secondary hyperparathyroidism, explaining disturbances in calcium\u2011phosphate metabolism."
+    },
+    {
+      "rank": 4,
+      "name": "Ischemic cardiomyopathy / heart failure (reduced ejection fraction)",
+      "icd10": "I25.5",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery disease and prior myocardial infarction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Symptoms of dyspnea on exertion and peripheral edema",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiovascular disease is prevalent in diabetic CKD patients; clinical picture suggests heart failure secondary to ischemic injury."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / early steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST (if available)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD plausible, but lack of typical urinary bilirubin limits its explanatory power for the current findings."
+    },
+    {
+      "rank": 6,
+      "name": "Uncontrolled diabetes with intermittent ketosis (early diabetic ketoacidosis)",
+      "icd10": "E11.10",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 5.7\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy with recent dose reduction or poor adherence",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Ketonuria indicates periods of relative insulin deficiency; while not full DKA, it warrants attention as a secondary metabolic disturbance."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy with stage 4 chronic kidney disease",
+  "primary_probability": 0.65,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing type 2 diabetes with poor glycemic control, advanced CKD (eGFR <30) and heavy proteinuria make diabetic nephropathy the dominant diagnosis (65% probability). Hypertension contributes modestly (15%). CKD\u2011related mineral bone disorder and ischemic cardiomyopathy are common comorbidities in this population, each accounting for 8% and 7% respectively. NAFLD is possible given metabolic risk factors but is weakly supported (3%). A small residual probability (2%) is assigned to intermittent ketosis reflected by urinary ketones, indicating occasional insulin deficiency. Medication\u2011induced nephrotoxicity was excluded due to lack of evidence. Urine bilirubin and dilute urine remain unexplained and are listed as unresolved findings.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.2\u202fmg/dL \u2013 could indicate hepatic dysfunction, hemolysis, or biliary obstruction.",
+    "Urine specific gravity 1.00 \u2013 markedly dilute urine, may reflect over\u2011hydration or loss of concentrating ability beyond CKD expectations."
+  ],
+  "recommended_workup": [
+    "Repeat quantitative urine analysis with urine protein electrophoresis.",
+    "Serum bilirubin, alkaline phosphatase, AST/ALT, and GGT to evaluate hepatobiliary source of bilirubinuria.",
+    "Hemolysis panel (LDH, haptoglobin, peripheral smear) if clinically indicated.",
+    "Serum ketone measurement and fasting glucose/HbA1c to assess glycemic control.",
+    "Renal ultrasound to assess kidney size and rule out obstructive causes.",
+    "Echocardiogram to quantify ejection fraction and evaluate ischemic cardiomyopathy.",
+    "Bone\u2011mineral labs (PTH, calcium, phosphate, vitamin D) for CKD\u2011MBD monitoring.",
+    "24\u2011hour blood pressure monitoring to optimize antihypertensive therapy."
+  ]
+}

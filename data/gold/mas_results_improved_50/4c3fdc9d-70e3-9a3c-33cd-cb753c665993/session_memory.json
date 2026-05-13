@@ -1,0 +1,267 @@
+{
+  "patient_uuid": "4c3fdc9d-70e3-9a3c-33cd-cb753c665993",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T16:29:05+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-10T16:29:26+00:00",
+      "summary": "Completed ehr_analyst in 21272ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T16:29:05+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-10T16:29:25+00:00",
+      "summary": "Completed lab_interpreter in 20444ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:29:26+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:29:27+00:00",
+      "summary": "Recall returned 12, 3 passed quality filter (types=['DIRECT'], min_score=0.5, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 3,
+        "min_score": 0.5,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": [
+          {
+            "score": 0.663,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Diabetic Nephropathy (CKD progression)"
+          },
+          {
+            "score": 0.595,
+            "match_type": "DIRECT",
+            "canonical_family": "CKD",
+            "raw_diagnosis": "Diabetic nephropathy (CKD Stage 3b with overt proteinuria)"
+          },
+          {
+            "score": 0.558,
+            "match_type": "DIRECT",
+            "canonical_family": null,
+            "raw_diagnosis": "Atherosclerotic coronary artery disease with recent STEMI and ongoing myocardial injury"
+          }
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:30:11+00:00",
+      "summary": "3-phase round_a",
+      "payload": {
+        "with_prior": true,
+        "priors_used": 3
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_a"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:30:11+00:00",
+      "summary": "3-phase round_b",
+      "payload": {
+        "with_prior": false,
+        "anti_anchoring": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_b"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:30:11+00:00",
+      "summary": "3-phase round_c",
+      "payload": {
+        "synthesis": true
+      },
+      "tags": [
+        "diagnostic",
+        "three_phase",
+        "round_c"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:30:20+00:00",
+      "summary": "Final differential (6 dx, primary=End\u2011stage renal disease (Chronic Kidney Disease stage 5), rounds=3)",
+      "payload": {
+        "rounds": 3,
+        "primary_diagnosis": "End\u2011stage renal disease (Chronic Kidney Disease stage 5)",
+        "primary_probability": 0.45,
+        "confidence_trajectory": []
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-10T16:30:20+00:00",
+      "summary": "Completed diagnostic_reasoning in 53546ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T16:30:20+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-10T16:30:46+00:00",
+      "summary": "Completed clinical_reviewer in 26132ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:30:46+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:30:53+00:00",
+      "summary": "Final refined diagnosis: End-stage renal disease (Chronic Kidney Disease stage 5)",
+      "payload": {
+        "primary_diagnosis": "End-stage renal disease (Chronic Kidney Disease stage 5)",
+        "primary_probability": 0.5,
+        "differential_size": 6
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-10T16:30:53+00:00",
+      "summary": "Completed final_diagnosis in 6780ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T16:30:54+00:00",
+      "summary": "Started treatment_planning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T16:31:13+00:00",
+      "summary": "Treatment plan generated for 'Metabolic-vascular syndrome (hypertension, obesity, pre-diabetes)' (8 meds)",
+      "payload": {
+        "disease": "Metabolic-vascular syndrome (hypertension, obesity, pre-diabetes)"
+      },
+      "tags": [
+        "treatment",
+        "plan"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "treatment_planning",
+      "timestamp": "2026-05-10T16:31:13+00:00",
+      "summary": "Completed treatment_planning in 18712ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-10T16:31:14+00:00",
+      "summary": "Consolidated outcome for 'Metabolic-vascular syndrome (hypertension, obesity, pre-diabetes)' (DIRECT)",
+      "payload": {
+        "match_type": "DIRECT",
+        "matched_diagnosis": "Metabolic-vascular syndrome (hypertension, obesity, pre-diabetes)",
+        "rank": 4
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "patient_uuid": "220ee7db-972d-3106-f5d4-60d31403ae6b",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-05T23:27:14+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-05T23:27:35+00:00",
+      "summary": "Completed ehr_analyst in 20943ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-05T23:27:14+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-05T23:28:06+00:00",
+      "summary": "Completed lab_interpreter in 52584ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:28:06+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:28:31+00:00",
+      "summary": "Round 1 critique: confidence=78, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 78,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:28:31+00:00",
+      "summary": "Round 1 confidence=78/100",
+      "payload": {
+        "round": 1,
+        "confidence": 78
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:28:40+00:00",
+      "summary": "Final differential (7 dx, primary=Multifactorial chronic kidney disease \u2013 diabetic nephropathy, rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "Multifactorial chronic kidney disease \u2013 diabetic nephropathy + hypertensive nephrosclerosis (+ analgesic nephropathy)",
+        "primary_probability": 0.45,
+        "confidence_trajectory": [
+          78
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-05T23:28:40+00:00",
+      "summary": "Completed diagnostic_reasoning in 33485ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-05T23:28:40+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-05T23:29:04+00:00",
+      "summary": "Completed clinical_reviewer in 24369ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-05T23:29:04+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-05T23:29:11+00:00",
+      "summary": "Final refined diagnosis: Multifactorial chronic kidney disease \u2013 diabetic nephropathy + hypertensive neph",
+      "payload": {
+        "primary_diagnosis": "Multifactorial chronic kidney disease \u2013 diabetic nephropathy + hypertensive nephrosclerosis (+ possible analgesic nephropathy)",
+        "primary_probability": 0.5,
+        "differential_size": 6
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-05T23:29:11+00:00",
+      "summary": "Completed final_diagnosis in 6440ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-05T23:29:13+00:00",
+      "summary": "Consolidated outcome for 'Multifactorial chronic kidney disease \u2013 diabetic nephropathy + hypertensive nephrosclerosis (+ possible analgesic nephropathy)' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Multifactorial chronic kidney disease \u2013 diabetic nephropathy + hypertensive nephrosclerosis (+ possible analgesic nephropathy)",
+        "rank": 1
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

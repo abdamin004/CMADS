@@ -1,0 +1,217 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.33,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension (BP 139/101)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.3%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled dyslipidemia suspected (lipid panel unavailable)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of central obesity, elevated blood pressure, impaired glucose tolerance, and presumed dyslipidemia fulfills the criteria for metabolic syndrome, driving the patient's overall dysmetabolic state."
+    },
+    {
+      "rank": 2,
+      "name": "Subclinical atherosclerotic cardiovascular disease (high\u2011risk ASCVD)",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.27,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple major ASCVD risk factors: hypertension, obesity, prediabetes, likely dyslipidemia, chronic opioid use",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Estimated 10\u2011year ASCVD risk >20% (high\u2011risk category)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the clustering of high\u2011risk factors, the patient likely harbors subclinical atherosclerosis even without documented events, warranting aggressive risk reduction."
+    },
+    {
+      "rank": 3,
+      "name": "Stage 2 chronic kidney disease secondary to hypertension/early diabetic nephropathy",
+      "icd10": "N18.2",
+      "snomed": "431855005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (BP 139/101) and prediabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No urine albumin/creatinine ratio available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and early glucose dysregulation place the patient at risk for CKD; without proteinuria data the stage is inferred from eGFR trends."
+    },
+    {
+      "rank": 4,
+      "name": "Opioid\u2011use disorder / opioid\u2011related metabolic adverse effects",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid therapy for low back pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No documented DSM\u20115 criteria for opioid\u2011use disorder",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011term opioid exposure may contribute to metabolic derangements and carries a risk of dependence, though formal criteria are lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension, both strong risk factors for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No STOP\u2011BANG or polysomnography performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical risk profile suggests OSA, but objective testing is absent, limiting certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, dysglycemia) predispose to NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No liver enzymes or imaging available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The metabolic milieu makes NAFLD plausible, yet lack of hepatic labs or imaging renders the diagnosis speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Thyroid function tests (TSH, free T4) missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without laboratory confirmation, hypothyroidism remains a remote consideration despite possible contribution to dyslipidemia."
+    },
+    {
+      "rank": 8,
+      "name": "Familial hypercholesterolemia (heterozygous)",
+      "icd10": "E78.01",
+      "snomed": "414916001",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated LDL suspected (lipid panel unavailable)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Low pre\u2011test probability; family history not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While FH could explain hyperlipidemia, the absence of a documented family history and the explanatory power of metabolic syndrome lower its likelihood."
+    },
+    {
+      "rank": 9,
+      "name": "Secondary hypertension",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension (BP 139/101 despite therapy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No evaluation for secondary causes performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the difficulty achieving BP control, secondary etiologies should be considered, though data are insufficient to prioritize."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome",
+  "primary_probability": 0.33,
+  "clinical_reasoning_summary": "The patient presents with a classic constellation of obesity, hypertension, and prediabetes, fulfilling criteria for metabolic syndrome, which the reviewer and the diagnostic agent agree is the dominant driver of his dysmetabolic state. The high burden of ASCVD risk factors elevates the likelihood of subclinical atherosclerosis, warranting aggressive preventive measures. Renal involvement is plausible given hypertension and glucose intolerance, while chronic opioid therapy introduces the possibility of opioid\u2011use disorder and metabolic side effects. Obstructive sleep apnea and NAFLD are reasonable comorbidities in the context of obesity, though objective testing is lacking. Primary hypothyroidism, familial hypercholesterolemia, and secondary hypertension remain low\u2011probability considerations pending targeted investigations.",
+  "unresolved_findings": [
+    "Transport problems / lack of reliable transportation",
+    "Criminal record (potential insurance/legal impact)",
+    "Missing thyroid function tests (TSH, free T4)",
+    "Absent urine albumin/creatinine ratio",
+    "No sleep study or STOP\u2011BANG assessment",
+    "Absent liver enzymes/imaging",
+    "No CBC or iron studies to confirm iron\u2011deficiency anemia",
+    "Lack of documented family history of premature ASCVD or hypercholesterolemia"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel with LDL, HDL, triglycerides",
+    "Thyroid function tests (TSH, free T4)",
+    "Urine albumin-to-creatinine ratio",
+    "Polysomnography or home sleep apnea testing",
+    "Comprehensive liver panel and hepatic ultrasound",
+    "CBC with iron studies (ferritin, transferrin saturation)",
+    "Genetic testing for familial hypercholesterolemia if LDL remains markedly elevated",
+    "Renin, aldosterone, and renal artery imaging to evaluate secondary hypertension",
+    "Assessment of opioid use disorder using DSM\u20115 criteria questionnaire"
+  ]
+}

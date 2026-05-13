@@ -1,0 +1,173 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 139/101 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension risk score elevated",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Consistently elevated systolic and diastolic pressures in the setting of obesity and prediabetes indicate primary hypertension as the most likely driver of the patient's cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Heterozygous familial hypercholesterolaemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "414916001",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL cholesterol >190 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented family history or physical stigmata",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe LDL elevation in an adult without secondary causes raises suspicion for heterozygous FH, though lack of pedigree limits certainty."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome (insulin\u2011resistance phenotype)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented (BMI not quantified)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.3% (prediabetes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, prediabetes, and hypertension fulfills criteria for metabolic syndrome, contributing to cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and uncontrolled hypertension raise suspicion for OSA; sleep study not performed",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High BMI is a strong risk factor for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is a common secondary cause of hypertension in obese patients and should be evaluated given the uncontrolled BP."
+    },
+    {
+      "rank": 5,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension suspected (BP uncontrolled on \u22652 agents)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Secondary hypertension not excluded",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension despite multiple agents warrants evaluation for primary aldosteronism, especially in the absence of hypokalemia data."
+    },
+    {
+      "rank": 6,
+      "name": "Hypertensive\u2011mediated chronic kidney disease (stage 2\u20113)",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (eGFR not calculated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension can cause CKD; lack of urine albumin data limits definitive staging."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid\u2011use disorder / opioid\u2011induced hyperalgesia",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid prescriptions for low back pain",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Polypharmacy risk moderate",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While opioids are prescribed, there is insufficient evidence of misuse or hyperalgesia; probability remains low."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage 2 hypertension, obesity, and prediabetes, forming a classic picture of primary hypertension compounded by metabolic syndrome. Severe LDL elevation raises concern for heterozygous familial hypercholesterolaemia. Secondary hypertension etiologies such as obstructive sleep apnea and primary aldosteronism are plausible given resistant BP and obesity, and should be investigated. Evidence of renal dysfunction suggests hypertensive CKD, though proteinuria data are lacking. Opioid use is noted but lacks criteria for disorder, keeping its probability low.",
+  "unresolved_findings": [
+    "Missing quantitative BMI measurement",
+    "Missing calculated eGFR (creatinine provided without GFR)",
+    "No documented family history of premature cardiovascular disease or hypercholesterolaemia",
+    "Absence of sleep study or polysomnography data to confirm OSA",
+    "No urine albumin/creatinine ratio to stage CKD",
+    "Low\u2011normal white blood cell count (4.3\u202f\u00d710\u00b3/\u00b5L) \u2013 unclear significance",
+    "Borderline high chloride (108.5\u202fmmol/L) \u2013 not explained",
+    "Use of ferrous sulfate despite normal hemoglobin \u2013 possible occult iron deficiency not confirmed"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography to evaluate for obstructive sleep apnea",
+    "Urine albumin-to-creatinine ratio and repeat eGFR calculation",
+    "Fasting lipid panel with repeat LDL measurement",
+    "Genetic testing for familial hypercholesterolaemia if LDL remains >190 mg/dL",
+    "Plasma aldosterone concentration and plasma renin activity ratio",
+    "Renal ultrasound to assess structural kidney disease",
+    "Comprehensive medication review focusing on opioid dosing and dependence screening"
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (stage 4 chronic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR ~16\u202fmL/min/1.73\u202fm\u00b2 with longstanding type\u202f2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "proteinuria on urine dipstick",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "high diabetes duration and poor glycemic control history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD in a patient with long\u2011standing diabetes, proteinuria and typical renal imaging findings point to diabetic nephropathy as the dominant cause of stage\u202f4 CKD."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related anemia (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.2\u202fg/dL with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f4 CKD (eGFR\u202f<\u202f20) known to cause anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is common in advanced CKD due to reduced erythropoietin production; laboratory data confirm a normocytic, normochromic anemia consistent with this etiology."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic acidosis / type\u20114 renal tubular acidosis (CKD consequence)",
+      "icd10": "E87.2",
+      "snomed": "302810001",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum bicarbonate 18\u202fmmol/L",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR\u202f\u2248\u202f16\u202fmL/min/1.73\u202fm\u00b2 predicts impaired acid excretion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD inevitably leads to reduced acid excretion, resulting in a mild\u2011to\u2011moderate metabolic acidosis; lab values confirm this."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis (contributory)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension with target\u2011organ damage",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated urine albumin/creatinine ratio beyond diabetic proteinuria",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension contributes to CKD progression alongside diabetes, but its isolated impact is less than that of diabetic nephropathy."
+    },
+    {
+      "rank": 5,
+      "name": "Ischemic heart disease / coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, dyslipidemia, and CKD \u2013 high cardiovascular risk profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk estimate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiovascular disease is common in CKD patients and must be evaluated before transplant listing, though it is not the primary driver of renal dysfunction."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f4 CKD with expected disturbances in calcium\u2011phosphate metabolism",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing PTH, calcium, phosphate labs \u2013 high clinical suspicion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD almost invariably leads to secondary hyperparathyroidism; labs are pending but the diagnosis is highly plausible."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and type\u202f2 diabetes \u2013 major risk factors for NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive without serum bilirubin data (suggests possible hepatic leakage)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD; however, definitive hepatic labs/imaging are lacking, making this a lower\u2011probability but plausible diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (stage 4 chronic kidney disease)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with stage\u202f4 CKD (eGFR\u202f\u2248\u202f16) in the setting of long\u2011standing type\u202f2 diabetes, proteinuria, anemia, and metabolic acidosis, making diabetic nephropathy the dominant etiology. CKD\u2011related anemia and metabolic acidosis are expected complications. Hypertension adds a contributory nephrosclerotic component. Cardiovascular disease risk is high and requires mandatory pre\u2011transplant cardiac evaluation. Secondary hyperparathyroidism and NAFLD are probable CKD\u2011related comorbidities, while other previously listed entities lack supporting data and have been removed.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (1.2\u202fmg/dL) without serum bilirubin data",
+    "Glucosuria (2.3\u202fmg/dL) despite no documented hyperglycaemia",
+    "Ketonuria (16.1\u202fmg/dL) with normal glucose",
+    "Very low urine specific gravity (1.0)",
+    "Implausible HbA1c reported as 3.0\u202f%",
+    "Missing electrolyte panel, lipid profile, liver function tests"
+  ],
+  "recommended_workup": [
+    "Comprehensive cardiac evaluation: stress test, coronary CT angiography, and transthoracic echocardiogram",
+    "Repeat and verify urine dip\u2011stick with proper specimen collection to rule out contamination",
+    "Serum liver panel (AST, ALT, ALP, GGT, bilirubin) and abdominal ultrasound to assess NAFLD/NASH",
+    "Mineral\u2011bone disorder labs: serum calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Repeat HbA1c using a validated assay",
+    "Full electrolyte panel and lipid profile",
+    "Renal artery Doppler ultrasound if refractory hypertension develops"
+  ]
+}

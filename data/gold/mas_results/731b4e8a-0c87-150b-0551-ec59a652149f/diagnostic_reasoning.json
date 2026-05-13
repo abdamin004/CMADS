@@ -1,0 +1,215 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea (untreated severe)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.28,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea syndrome documented (onset 2018)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CPAP or other OSA therapy recorded",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension (BP 159/112 mmHg) despite obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is a known driver of resistant hypertension and metabolic dysregulation. The lack of documented CPAP therapy suggests the condition remains untreated, making it a plausible primary contributor to the uncontrolled blood pressure."
+    },
+    {
+      "rank": 2,
+      "name": "Medication non\u2011adherence (antihypertensive & ART)",
+      "icd10": "Z91.14",
+      "snomed": "18286008",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication listed (data\u2011quality flag)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011level detectable HIV\u20111 RNA (21 copies/mL) indicating possible intermittent ART adherence",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, limited resources, poor outpatient follow\u2011up",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Missing antihypertensive prescriptions together with detectable HIV viremia and documented psychosocial barriers point toward suboptimal medication adherence, which can explain both uncontrolled hypertension and low\u2011level HIV replication."
+    },
+    {
+      "rank": 3,
+      "name": "Primary hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum sodium (141.7 mmol/L) without documented hypokalemia",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant stage\u20112 hypertension in a middle\u2011aged male",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated sodium in the setting of refractory hypertension raises suspicion for aldosterone excess. Absence of potassium data limits certainty, so the probability remains modest."
+    },
+    {
+      "rank": 4,
+      "name": "Tenofovir\u2011associated Fanconi syndrome (proximal renal tubular dysfunction)",
+      "icd10": "N25.8",
+      "snomed": "429858007",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Decreasing CO\u2082 total (21.2 mmol/L) indicating metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal chloride (107.1 mmol/L) supporting non\u2011anion\u2011gap acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Tenofovir exposure as part of ART regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Tenofovir can cause proximal tubular dysfunction leading to bicarbonate wasting and a hyperchloremic metabolic acidosis. The laboratory pattern aligns with this mechanism, though urine studies are lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Renal artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >55 years with resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN (8.5 mg/dL) and sodium (141.7 mmol/L) suggesting early volume\u2011related renal changes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Atherosclerotic renal\u2011artery disease is a recognized cause of refractory hypertension in this age group. Lack of imaging data keeps confidence low."
+    },
+    {
+      "rank": 6,
+      "name": "HIV\u2011associated chronic kidney disease (HIVAN or ART\u2011related nephropathy)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing HIV infection (diagnosed 2003) with low\u2011level viremia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal serum creatinine (1.0 mg/dL) but eGFR not reported",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and tenofovir exposure, both risk factors for renal injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Even with controlled HIV, chronic inflammation and tenofovir can lead to proteinuric kidney disease. Missing urine protein data limits definitive attribution."
+    },
+    {
+      "rank": 7,
+      "name": "Iron deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2008 with no work\u2011up",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and possible gastrointestinal blood loss not excluded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In the absence of iron studies, iron deficiency remains a possible etiology for the longstanding anemia, especially given potential occult GI loss in an older male."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia with no iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CD4 count 721 cells/\u00b5L indicating chronic HIV\u2011related inflammation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic inflammatory states such as well\u2011controlled HIV can cause anemia of chronic disease. Lack of laboratory differentiation keeps confidence low."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea (untreated severe)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient presents with resistant stage\u20112 hypertension, obesity, prediabetes, and chronic HIV infection. The dominant pattern is metabolic\u2011vascular syndrome amplified by untreated OSA, which alone can drive refractory hypertension. Gaps in medication documentation and low\u2011level HIV viremia suggest medication non\u2011adherence, a second major contributor. Laboratory trends reveal a non\u2011anion\u2011gap metabolic acidosis compatible with tenofovir\u2011related proximal tubular dysfunction, while rising sodium and BUN raise suspicion for primary hyperaldosteronism, renal artery stenosis, or HIV\u2011associated CKD. Chronic anemia remains unexplained, with iron deficiency and anemia of chronic disease as plausible but lower\u2011probability causes. The differential integrates these intersecting pathways, weighting each diagnosis by the strength and quantity of supporting evidence.",
+  "unresolved_findings": [
+    "Rising serum sodium without documented potassium level",
+    "Decreasing CO\u2082 without anion\u2011gap calculation or urine studies",
+    "Missing eGFR, urine protein, and urine electrolyte data",
+    "Undocumented smoking, alcohol, and NSAID use",
+    "Absence of lipid\u2011lowering therapy despite cardiovascular risk",
+    "No documented CPAP use or adherence data for OSA"
+  ],
+  "recommended_workup": [
+    "Obtain full polysomnography report and CPAP adherence download",
+    "Pharmacy\u2011fill audit and validated medication adherence questionnaire",
+    "Serum potassium, plasma aldosterone, and plasma renin activity (or direct renin) with aldosterone\u2011renin ratio",
+    "Comprehensive renal tubular panel: urine electrolytes, glucose, phosphate, protein, pH, fractional excretion of bicarbonate",
+    "Spot urine protein\u2011to\u2011creatinine ratio and calculate eGFR (CKD\u2011EPI)",
+    "Renal duplex ultrasound (or CTA) to assess for renal\u2011artery stenosis",
+    "CBC with indices, ferritin, transferrin saturation, vitamin B12, folate, reticulocyte count",
+    "Fasting lipid panel and comprehensive liver function tests (AST, ALT, GGT, bilirubin)",
+    "ABG or venous blood gas to confirm acid\u2011base status and evaluate for OHS",
+    "Detailed social history update: smoking, alcohol, illicit drugs, OTC NSAID/analgesic use"
+  ]
+}

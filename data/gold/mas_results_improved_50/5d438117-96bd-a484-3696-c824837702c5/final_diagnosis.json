@@ -1,0 +1,156 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease (ESRD) secondary to diabetic-hypertensive nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.69,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD stage 4 with pending transplantation, diabetic kidney disease noted",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR markedly reduced (value not provided) consistent with ESRD",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "History of type 2 diabetes mellitus on insulin and long-standing hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has documented advanced CKD, diabetes, and hypertension, the classic triad leading to ESRD. The clinical impression explicitly states ESRD secondary to diabetic\u2011hypertensive nephropathy, making this the most certain diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled hypertension (suboptimally treated)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension noted in impression",
+          "strength": "strong"
+        },
+        {
+          "source": "medication",
+          "finding": "Patient on thiazide diuretic only, suggesting suboptimal regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a major driver of CKD progression and is documented as uncontrolled, warranting inclusion as a separate, treatable diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Dyslipidaemia secondary to nephrotic syndrome",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.05,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low HDL\u2011C (27.7\u202fmg/dL) indicating severe dyslipidaemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD with proteinuria (implied nephrotic range)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Nephrotic\u2011range proteinuria in CKD commonly produces dyslipidaemia; the markedly low HDL supports this diagnosis despite incomplete lipid panel."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic urinary\u2011tract infection / colonised bacteriuria",
+      "icd10": "N39.0",
+      "snomed": "36971009",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Pyuria noted on urinalysis without culture",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Pyuria suggests possible infection, but lack of urine culture makes the diagnosis uncertain; retained as a plausible contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid\u2011use disorder (active)",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant opioid abuse documented in patient history",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Active opioid misuse impacts transplant eligibility, infection risk, and pain management; therefore it is a relevant comorbidity."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia noted (hemoglobin not provided) in setting of CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly causes anemia; however the anemia is mild, making this a less dominant diagnosis."
+    },
+    {
+      "rank": 7,
+      "name": "Possible hepatic dysfunction / hemolysis (positive urine bilirubin)",
+      "icd10": "R80.9",
+      "snomed": "271442009",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin (3+) detected",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Positive urine bilirubin could reflect hepatic disease, hemolysis, or assay interference; low confidence due to lack of corroborating labs."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease (ESRD) secondary to diabetic-hypertensive nephropathy",
+  "primary_probability": 0.69,
+  "clinical_reasoning_summary": "The patient presents with advanced CKD consistent with ESRD driven by longstanding diabetes and hypertension, which the reviewer rates as near\u2011certain. Co\u2011existing uncontrolled hypertension, dyslipidaemia from nephrotic\u2011range proteinuria, and active opioid misuse are clinically important and receive higher weighting per the reviewer. A possible chronic UTI, mild CKD\u2011related anemia, and a low\u2011confidence hepatic/hemolytic process complete the differential. Probabilities were normalized to sum to 1.0.",
+  "unresolved_findings": [
+    "Implausibly low HbA1c (3.4%) \u2013 likely a lab error; true glycaemic control unknown.",
+    "Missing recent blood pressure measurements.",
+    "Absence of urine culture to confirm chronic UTI.",
+    "Low HDL\u2011C without a full lipid panel.",
+    "Lack of iron studies to fully characterize anemia."
+  ],
+  "recommended_workup": [
+    "Obtain urine culture to confirm or exclude chronic urinary\u2011tract infection.",
+    "Repeat HbA1c or obtain fructosamine to assess glycaemic control.",
+    "Measure current blood pressure and consider ambulatory monitoring.",
+    "Complete lipid panel (total cholesterol, LDL, triglycerides) and calculate cardiovascular risk.",
+    "Order iron studies (serum iron, ferritin, TIBC) and reticulocyte count to evaluate anemia etiology.",
+    "Repeat eGFR and serum creatinine to track renal function trajectory.",
+    "Liver function tests (AST, ALT, ALP, total bilirubin) and hemolysis panel (LDH, haptoglobin) to investigate positive urine bilirubin.",
+    "Assess opioid use severity (urine drug screen, prescription monitoring) and consider referral to addiction services."
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus (overt, poorly controlled)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prediabetes, metabolic syndrome, obesity, hypertension, hyperlipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose (value not provided but implied by diagnosis) and ketonuria",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low CO\u2082 suggesting metabolic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient exhibits multiple cardiometabolic risk factors and documented prediabetes. Presence of ketonuria and low CO\u2082 raise concern for inadequate glycemic control and possible ketoacidosis, supporting overt, poorly controlled Type 2 diabetes despite an implausible HbA1c entry."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Kidney Disease, mixed diabetic & hypertensive etiology",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.7 mg/dL (discrepant) and 1.5 mg/dL (blood) indicating reduced renal function",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented hypertension and diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list includes CKD stage 1 conflicting with labs, suggesting progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal dysfunction in the setting of longstanding diabetes and hypertension points to a mixed etiology CKD. Discrepant creatinine values necessitate repeat testing and eGFR calculation."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic Cardiovascular Disease (subclinical)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiometabolic risk profile (obesity, hypertension, dyslipidemia, diabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperlipidemia noted in problem list (specific values missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of risk factors makes subclinical atherosclerosis plausible, though no imaging or symptom evidence is currently available."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 historically) and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension increase pre\u2011test probability for OSA, but objective data are lacking, keeping the probability modest."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / Non\u2011Alcoholic Steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, diabetes risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.9 mg/dL (possible false\u2011positive) \u2013 atypical for NAFLD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors support NAFLD/NASH, but lack of liver enzyme data and the atypical urine bilirubin finding lower confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Medication\u2011related renal injury (ACE\u2011I and thiazide in advanced CKD)",
+      "icd10": "N99.0",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on ACE inhibitor and thiazide diuretic despite reduced renal function",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic CKD pattern suggests underlying disease rather than pure drug toxicity",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal\u2011dose medication use may contribute to acute worsening, but chronic CKD etiology is more likely; thus this remains a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus (overt, poorly controlled)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with a high\u2011risk cardiometabolic profile, documented hypertension, obesity, and a history of prediabetes. Laboratory inconsistencies (discrepant creatinine, implausible HbA1c) and ketonuria with low CO\u2082 suggest poorly controlled diabetes with possible ketoacidosis, making overt Type 2 diabetes the most likely primary diagnosis. Chronic kidney disease is the next most probable condition, driven by diabetes and hypertension. Subclinical atherosclerosis, obstructive sleep apnea, and NAFLD/NASH are plausible secondary considerations given the risk factors, while medication\u2011induced renal injury is retained as a low\u2011probability alternative. Data quality issues necessitate repeat testing and further workup.",
+  "unresolved_findings": [
+    "Low alkaline phosphatase (20.7 U/L) without bone or liver context",
+    "Urine bilirubin 0.9 mg/dL (possible false\u2011positive)",
+    "Discrepant serum creatinine values (blood 2.7 mg/dL vs serum 1.5 mg/dL)",
+    "Implausibly low HbA1c 3.1% (data error)",
+    "Missing eGFR, full lipid panel, fasting glucose, liver enzymes, serum electrolytes",
+    "Ketonuria and low CO\u2082 suggesting metabolic acidosis"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine and calculate eGFR",
+    "Obtain a reliable HbA1c or alternative glycemic marker (fructosamine)",
+    "Serum ketone measurement and arterial blood gas to assess for DKA",
+    "Comprehensive fasting lipid panel",
+    "Liver function tests (AST, ALT, GGT, alkaline phosphatase, bilirubin)",
+    "Serum electrolytes and bicarbonate",
+    "BMI measurement and waist circumference",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Renal ultrasound to assess structural kidney disease",
+    "Medication review with dose adjustment of ACE\u2011I and thiazide based on eGFR",
+    "Consider coronary artery calcium scoring or carotid ultrasound for subclinical atherosclerosis"
+  ]
+}

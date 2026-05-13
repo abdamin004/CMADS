@@ -1,0 +1,316 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin-resistant Metabolic Syndrome",
+      "icd10": "E66.9",
+      "snomed": "237602007",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosis (SNOMED 59621000)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus diagnosis (SNOMED 44054006)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) diagnosis (high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 152.7 mg/dL (\u2191, severity 4)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lipid panel: total cholesterol 257.8 mg/dL, LDL\u2011C 162.8 mg/dL, triglycerides 306.9 mg/dL, HDL\u2011C 33.6 mg/dL (all abnormal)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X diagnosis (high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hispanic\u2011Asian ethnicity (moderate risk modifier)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and housing instability (moderate barriers to lifestyle adherence)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of hypertension, type 2 diabetes, obesity, and a markedly atherogenic lipid profile constitutes classic metabolic syndrome driven by insulin resistance. This umbrella explains the fasting hyperglycemia, dyslipidaemia, and elevated cardiovascular risk more parsimoniously than isolated uncontrolled diabetes."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Kidney Disease, probable stage 3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes diagnoses (major CKD risk factors)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 5.1 mmol/L (borderline high, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia diagnosis (moderate) possibly CKD\u2011related",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list includes ACE\u2011I (lisinopril) and thiazide (hydrochlorothiazide) which can unmask reduced renal clearance",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent eGFR and urine albumin data (weak but critical gap)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 72 (physiologic GFR decline)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension, diabetes, borderline hyperkalaemia, and anemia together strongly suggest early CKD. The absence of renal function labs prevents staging, but prevalence of stage\u202f3 CKD in this demographic exceeds 40\u202f%, making it the most likely underlying organ injury."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic Dyslipidaemia (untreated)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 257.8 mg/dL, LDL\u2011C 162.8 mg/dL, triglycerides 306.9 mg/dL, HDL\u2011C 33.6 mg/dL (all markedly abnormal)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin medication documented (therapeutic gap)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome diagnosis (high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex, age 72, Hispanic\u2011Asian ethnicity (moderate CV risk modifiers)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The lipid abnormalities are severe and untreated, representing a major modifiable risk factor for ASCVD. The lack of a statin despite guideline\u2011indicated high risk underscores the diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Resistant / Poorly\u2011controlled Hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Three\u2011drug antihypertensive regimen (amlodipine, hydrochlorothiazide, lisinopril)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent systolic/diastolic BP measurements",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and housing instability (moderate barrier to adherence)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 72, male, metabolic syndrome (moderate risk for resistant hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Use of three agents without documented BP control raises suspicion for resistant hypertension, especially given adherence barriers and comorbidities."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnoea (probable)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) (strong)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes (moderate risk factors for OSA)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social determinants limiting sleep hygiene (weak\u2011moderate)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is highly prevalent in obese, hypertensive, diabetic older adults and can exacerbate both hypertension and insulin resistance. No screening has been performed, so probability is moderate."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of Chronic Disease / CKD\u2011related",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia diagnosis (moderate)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hematocrit 37.2% (borderline low), RBC 4.1\u00d710\u2076/\u00b5L (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk of CKD from hypertension and diabetes (moderate)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing iron studies, B12, folate (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The normocytic, mild anemia fits CKD\u2011related anemia, but without iron studies the exact etiology remains uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding hypertension and diabetes (strong risk factors for HFpEF)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (moderate contributor)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Possible OSA (moderate contributor)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cardiac imaging data (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the high prevalence of HFpEF in older hypertensive, obese, diabetic patients, it is a plausible downstream consequence, though imaging is lacking."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, dyslipidaemia (strong association)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal total calcium 8.8 mg/dL (possible surrogate for vitamin D deficiency)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver imaging performed (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is virtually ubiquitous in patients with metabolic syndrome; while not yet documented, it likely contributes to the overall metabolic burden."
+    },
+    {
+      "rank": 9,
+      "name": "Asymptomatic Coronary Artery Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.01,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 72, male, hypertension, diabetes, severe dyslipidaemia (high pre\u2011test probability)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented chest pain or prior cardiac testing (absence of symptoms)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk profile, silent atherosclerosis is likely present, but without symptoms or testing it remains a downstream risk rather than a current clinical problem."
+    }
+  ],
+  "primary_diagnosis": "Insulin-resistant Metabolic Syndrome",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s profile is dominated by a classic metabolic\u2011syndrome cluster: hypertension, type 2 diabetes, obesity, and a profoundly atherogenic lipid panel. This cluster best explains the fasting hyperglycaemia, dyslipidaemia, and elevated cardiovascular risk. Concurrent risk factors (age, male sex, Hispanic\u2011Asian ethnicity) and the presence of borderline hyperkalaemia, chronic anemia, and a three\u2011drug antihypertensive regimen raise strong suspicion for early chronic kidney disease, which in turn may be contributing to the anemia and potassium elevation. Missing recent BP, eGFR, and urine albumin data limit certainty but do not outweigh the pre\u2011test probabilities derived from epidemiology and the available lab clues. Secondary considerations include resistant hypertension, untreated dyslipidaemia, obstructive sleep apnoea, early heart failure with preserved ejection fraction, NAFLD, and silent coronary artery disease. Therapeutic gaps (absence of statin, SGLT2\u2011i) are highlighted as high\u2011impact interventions.",
+  "unresolved_findings": [
+    "Borderline elevated potassium (5.1 mmol/L) with rising trend \u2013 cannot be fully attributed without eGFR/urine data",
+    "Low\u2011normal total calcium (8.8 mg/dL) \u2013 possible vitamin D deficiency, no PTH or vitamin D levels",
+    "Chronic anemia of unknown etiology \u2013 iron studies, B12, folate, and reticulocyte count missing",
+    "Missing recent blood pressure readings, BMI, and weight trends",
+    "Absence of recent renal function (creatinine, eGFR, albuminuria) and liver imaging"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio (repeat to stage CKD)",
+    "Office blood pressure measurements on at least two separate visits and home BP log",
+    "Repeat fasting glucose and HbA1c in 3 months; consider 2\u2011hour OGTT if discordance persists",
+    "Comprehensive lipid panel (fasting) and documentation of statin intolerance if any",
+    "Iron studies (Ferritin, TSAT), vitamin B12, folate, reticulocyte count to characterize anemia",
+    "25\u2011OH vitamin D level and parathyroid hormone to evaluate low\u2011normal calcium",
+    "STOP\u2011BANG questionnaire followed by overnight polysomnography if score high (OSA screening)",
+    "12\u2011lead ECG and NT\u2011proBNP; transthoracic echocardiogram to assess for HFpEF",
+    "Coronary calcium scoring or stress imaging to evaluate silent CAD",
+    "Liver ultrasound or FibroScan to assess for NAFLD/fibrosis",
+    "Social work assessment for housing stability, food security, and medication adherence support"
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Resistant (obesity-driven) Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (144/96) despite multiple antihypertensives",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) noted in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate hydrochlorothiazide entry suggesting dosing error",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Sub\u2011therapeutic beta\u2011blocker dose documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient has persistent stage 2 hypertension despite being on a diuretic, ACE\u2011I/ARB, and a beta\u2011blocker at a low dose. Obesity is a major driver of resistant hypertension, and the duplicate thiazide entry raises concern for prescribing error. These factors together make obesity\u2011driven resistant hypertension the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.19,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and elevated resting heart rate (94 bpm)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension refractory to therapy, a known OSA sequela",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension raise suspicion for OSA. Although a sleep study is pending, the clinical picture supports OSA as a contributing factor."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of Chronic Disease / Inflammation",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated mean platelet volume (11.7\u202ffL) and platelet distribution width (341.4\u202ffL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising leukocyte count within upper\u2011normal range (9.8\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior NSTEMI and chronic cardiovascular disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The pattern of mild leukocytosis, elevated platelet indices, and a chronic inflammatory milieu in a patient with cardiovascular disease points toward anemia of chronic disease, especially given the incomplete iron studies."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic Kidney Disease (stage 3)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and prior cardiovascular disease increase CKD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing renal function labs flagged as a concern",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient's hypertension, obesity, and cardiovascular history, CKD stage\u202f3 remains plausible, though definitive labs are lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Medication Non\u2011Adherence",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate thiazide entry suggests possible confusion or non\u2011adherence",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Sub\u2011therapeutic beta\u2011blocker dose may reflect patient\u2011driven dose reduction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The prescribing irregularities and lack of documented adherence assessment make non\u2011adherence a plausible contributor to resistant hypertension."
+    },
+    {
+      "rank": 6,
+      "name": "Primary Aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite diuretic therapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While resistant hypertension raises suspicion, the absence of biochemical screening (aldosterone\u2011renin ratio) lowers confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "42343007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated resting heart rate and prior NSTEMI",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No echocardiographic data are available; HFpEF remains a remote possibility given the cardiovascular risk profile."
+    },
+    {
+      "rank": 8,
+      "name": "Renal Artery Stenosis",
+      "icd10": "I70.1",
+      "snomed": "235719002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability without abdominal bruits or imaging; kept for completeness."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / Anxiety contributing to non\u2011adherence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental health assessment; potential barrier to medication adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychiatric comorbidity can impair adherence; screening is warranted."
+    },
+    {
+      "rank": 10,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Absent thyroid function tests",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood without laboratory confirmation; retained as a remote possibility."
+    },
+    {
+      "rank": 11,
+      "name": "Iron\u2011Deficiency Anemia (early)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia not yet characterized",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Early iron deficiency is less likely than anemia of chronic disease given the inflammatory markers."
+    }
+  ],
+  "primary_diagnosis": "Resistant (obesity-driven) Hypertension",
+  "primary_probability": 0.27,
+  "clinical_reasoning_summary": "The patient presents with stage 2 hypertension that remains uncontrolled despite a multi\u2011drug regimen, obesity, and cardiovascular comorbidities. Duplicate thiazide entry and a sub\u2011therapeutic beta\u2011blocker dose suggest prescribing or adherence issues, reinforcing the diagnosis of obesity\u2011driven resistant hypertension as the primary problem. Obstructive sleep apnea is a strong secondary contributor, supported by obesity and refractory hypertension. Anemia of chronic disease best explains the abnormal platelet indices and mild leukocytosis. Chronic kidney disease, medication non\u2011adherence, and primary aldosteronism are plausible but lack definitive laboratory data. Less likely entities (HFpEF, renal artery stenosis, hypothyroidism, early iron\u2011deficiency anemia) are retained for completeness. Mental health factors may further impair adherence and merit evaluation.",
+  "unresolved_findings": [
+    "Elevated mean platelet volume (11.7 fL) and platelet distribution width (341.4 fL) without a clear diagnosis",
+    "Rising leukocyte count (9.8 x10\u00b3/\u00b5L) in the upper\u2011normal range",
+    "Falling platelet count trend (still within normal limits)",
+    "Missing renal function data (eGFR, serum creatinine, urine albumin\u2011creatinine ratio)",
+    "Absent glucose/A1c measurements",
+    "Undocumented smoking, alcohol use, and physical activity status",
+    "Uncertainty whether duplicate hydrochlorothiazide reflects a dosing error or intentional high dose"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography to confirm obstructive sleep apnea",
+    "Comprehensive metabolic panel with serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Aldosterone\u2011renin ratio with confirmatory suppression testing for primary aldosteronism",
+    "Medication adherence assessment (pill counts, pharmacy refill data, or electronic monitoring)",
+    "Echocardiogram to evaluate for HFpEF and left ventricular hypertrophy",
+    "Iron studies (serum iron, ferritin, TIBC) and inflammatory markers (CRP, ESR) to differentiate anemia types",
+    "Thyroid function tests (TSH, free T4)",
+    "Renal artery duplex ultrasound or CT angiography if clinical suspicion for renal artery stenosis persists",
+    "Standardized depression and anxiety screening questionnaires (PHQ\u20119, GAD\u20117)"
+  ]
+}

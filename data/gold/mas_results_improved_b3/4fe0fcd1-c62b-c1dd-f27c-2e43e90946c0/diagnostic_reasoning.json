@@ -1,0 +1,200 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Resistant (essential) hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 144/96 mmHg despite three antihypertensive agents (Losartan, Hydrochlorothiazide, Hydrochlorothiazide duplicate, Metoprolol)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and elevated resting heart rate (94 bpm) contributing to refractory hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled stage\u20112 hypertension on three agents, together with obesity and tachycardia, fits the definition of resistant hypertension and is the most likely driver of the patient's current clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "230572002",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) in a middle\u2011aged male with resistant hypertension and elevated heart rate",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social stressors and possible poor sleep hygiene noted in psychosocial history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in obese middle\u2011aged men and can cause resistant hypertension and sympathetic over\u2011activity, explaining the elevated heart rate."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease (hypertensive/diabetic)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR and creatinine values flagged as data gaps",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (Hb 13.4 g/dL, falling) and rising leukocyte count suggesting chronic inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent hypertension despite three agents, a classic CKD manifestation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD would explain anemia of chronic disease, resistant hypertension, and could be present despite missing labs; prevalence in this risk group is high."
+    },
+    {
+      "rank": 4,
+      "name": "Undiagnosed type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and uncontrolled hypertension; A1c not measured (missing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social determinants (housing instability, stress) increase risk for undiagnosed diabetes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic phenotype, diabetes is plausible and would contribute to both hypertension resistance and anemia."
+    },
+    {
+      "rank": 5,
+      "name": "Atherosclerotic coronary artery disease (post\u2011NSTEMI)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI in 2009 and ongoing dual antiplatelet therapy (Aspirin + Prasugrel)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current low\u2011dose atorvastatin with lipid panel within targets",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented coronary event and secondary\u2011prevention medications confirm established CAD, a major contributor to systemic inflammation and platelet activation."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia with falling hemoglobin/hematocrit and normal RDW",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory milieu from CAD, possible CKD, and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The pattern of normocytic, slowly decreasing hemoglobin without iron\u2011deficiency markers fits anemia of chronic disease."
+    },
+    {
+      "rank": 7,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling hemoglobin with elevated platelet MPV (11.7 fL) and markedly high PDW (341.4 fL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Negative stool occult blood (12.4 ng/mL) \u2013 does not exclude occult iron loss elsewhere",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High MPV/PDW can be seen in iron deficiency; despite normal stool occult blood, other sources (e.g., dietary insufficiency) remain possible."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary hypertension (primary aldosteronism, renal\u2011artery stenosis, pheochromocytoma)",
+      "icd10": "I15.0",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite three agents; no documented secondary work\u2011up",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented electrolyte abnormalities (data missing) prompting need for renin\u2011aldosterone testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While less common, secondary causes must be excluded in resistant hypertension; probability kept low pending targeted testing."
+    }
+  ],
+  "primary_diagnosis": "Resistant (essential) hypertension",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient is a 61\u2011year\u2011old male with prior NSTEMI, obesity, and stage\u20112 hypertension uncontrolled on three antihypertensives. The dominant pattern is a high\u2011risk atherosclerotic cardiovascular phenotype complicated by resistant hypertension, possible obstructive sleep apnea, and metabolic syndrome. Missing renal function and glycemic labs create uncertainty, allowing CKD and undiagnosed diabetes to remain high\u2011probability contributors. Mild normocytic anemia with platelet activation is most consistent with anemia of chronic disease, but iron deficiency remains a plausible alternative. Secondary hypertension is considered but given its lower prevalence, it is placed lower in the hierarchy. All evidence from the EHR analyst and lab interpreter has been mapped to each diagnosis, and probabilities were calibrated to reflect prevalence and the strength of supporting data.",
+  "unresolved_findings": [
+    "Markedly high platelet distribution width (PDW 341.4 fL) and elevated MPV despite dual antiplatelet therapy \u2013 could represent a laboratory artifact or an underlying myeloproliferative process.",
+    "Duplicate hydrochlorothiazide entry \u2013 data\u2011quality issue, not a clinical condition.",
+    "Missing key labs: eGFR, serum creatinine, urine albumin\u2011creatinine ratio, HbA1c, iron studies, vitamin B12/folate, CRP/ESR.",
+    "Normal lipid panel despite low\u2011dose statin \u2013 raises question of whether higher\u2011intensity therapy is warranted per guidelines."
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio to assess CKD stage and proteinuria.",
+    "HbA1c (or fasting glucose) to evaluate for diabetes mellitus.",
+    "Iron studies (serum ferritin, iron, TIBC, transferrin saturation) and reticulocyte count to differentiate anemia of chronic disease vs iron deficiency.",
+    "Serum vitamin B12 and folate levels.",
+    "High\u2011sensitivity CRP or ESR to gauge systemic inflammation.",
+    "Peripheral blood smear with manual platelet count to investigate platelet size heterogeneity and rule out myeloproliferative neoplasm.",
+    "STOP\u2011BANG questionnaire followed by home sleep apnea testing or polysomnography if score \u22653.",
+    "Plasma renin activity and aldosterone concentration with aldosterone\u2011to\u2011renin ratio; consider renal\u2011artery duplex ultrasound or CTA if ratio abnormal.",
+    "NT\u2011proBNP and transthoracic echocardiogram (including diastolic function) to screen for heart failure with preserved ejection fraction.",
+    "Medication adherence assessment (pharmacy refill data, pill count, adherence interview).",
+    "Review cardiology notes to confirm indication for continued prasugrel; consider de\u2011escalation to aspirin alone if >12 months post\u2011PCI without high\u2011risk features.",
+    "Liver function tests before potential statin intensity escalation."
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Non-ST elevation myocardial infarction (NSTEMI) - type 1",
+      "icd10": "I21.4",
+      "snomed": "413839001",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I markedly above reference range",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Known coronary artery disease and recent duplicate high\u2011dose simvastatin prescriptions",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented dual antiplatelet therapy after suspected NSTEMI",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of a significant troponin rise in a patient with known CAD, together with missing antiplatelet therapy, strongly points to a type 1 NSTEMI despite lack of ECG documentation."
+    },
+    {
+      "rank": 2,
+      "name": "Acute kidney injury on chronic kidney disease (multifactorial)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.1\u202fmg/dL inconsistent with CKD stage\u202f2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.0 (very low) indicating dilute urine",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential hemodynamic stress from NSTEMI and possible contrast exposure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory data demonstrate an acute rise in creatinine far exceeding the expected baseline for CKD stage\u202f2, with dilute urine suggesting a prerenal component; the recent myocardial infarction likely contributed to renal hypoperfusion."
+    },
+    {
+      "rank": 3,
+      "name": "Acute decompensated heart failure with cardiorenal syndrome",
+      "icd10": "I50.23",
+      "snomed": "84114007",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "NSTEMI can precipitate acute left\u2011ventricular dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Concurrent AKI suggests renal involvement secondary to cardiac dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The temporal relationship between the myocardial infarction and the abrupt renal decline raises concern for cardiorenal syndrome, even though overt signs of congestion are not documented."
+    },
+    {
+      "rank": 4,
+      "name": "Type 2 (demand) myocardial ischemia",
+      "icd10": "I24.9",
+      "snomed": "413839001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin without clear supply\u2011demand trigger",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While troponin is elevated, there is no documented physiologic stressor (e.g., severe anemia, tachyarrhythmia) to explain a demand\u2011type injury, making this diagnosis less likely."
+    },
+    {
+      "rank": 5,
+      "name": "Statin\u2011related rhabdomyolysis",
+      "icd10": "M62.82",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Duplicate simvastatin prescriptions (10\u202fmg & 40\u202fmg) suggesting possible overdose",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of CK measurement; rhabdomyolysis not confirmed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The dosing discrepancy raises the possibility of statin toxicity, but lack of CK elevation and the pattern of AKI favor a hemodynamic cause."
+    }
+  ],
+  "primary_diagnosis": "Non-ST elevation myocardial infarction (NSTEMI) - type 1",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with a markedly elevated troponin I in the setting of known coronary artery disease and missing dual antiplatelet therapy, making a type 1 NSTEMI the most probable diagnosis. The acute rise in serum creatinine far exceeds the expected baseline for CKD stage\u202f2, indicating an acute kidney injury superimposed on chronic disease, likely precipitated by hemodynamic compromise from the infarction. The concurrence of cardiac ischemia and renal dysfunction raises the possibility of cardiorenal syndrome. Type 2 demand ischemia and statin\u2011related rhabdomyolysis remain remote considerations given the limited supporting data.",
+  "unresolved_findings": [
+    "Missing ECG and imaging to confirm ischemic changes",
+    "Absence of serial troponin trends",
+    "Lack of CK level to evaluate rhabdomyolysis",
+    "Dental tooth loss (potential chronic inflammation)",
+    "Criminal record (social history, no direct pathophysiologic link)",
+    "Missing key labs (eGFR, total cholesterol, BMI, liver function tests)"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG with serial recordings",
+    "Serial troponin measurements (at least 0, 3, 6\u202fh)",
+    "Echocardiogram to assess left\u2011ventricular function and wall motion abnormalities",
+    "Renal ultrasound to rule out obstructive causes",
+    "Serum CK and myoglobin levels to evaluate for rhabdomyolysis",
+    "BNP or NT\u2011proBNP to quantify heart failure severity",
+    "Complete metabolic panel including eGFR, liver enzymes, lipid profile",
+    "Urine microscopy for granular casts",
+    "Review medication list for nephrotoxic agents and confirm antiplatelet therapy"
+  ]
+}

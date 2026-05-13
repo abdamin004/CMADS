@@ -1,0 +1,144 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive biliary obstruction (choledocholithiasis / biliary stricture)",
+      "icd10": "K80.0",
+      "snomed": "235719002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin 13.7\u202fmg/dL (severe conjugated hyperbilirubinemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive (conjugated bilirubin)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, middle\u2011aged with diabetes and hypertension \u2013 metabolic risk factors for gallstones/choledocholithiasis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of marked transaminase elevation (pattern favors cholestasis over hepatocellular injury)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe conjugated hyperbilirubinemia together with urinary bilirubin in a patient without known chronic liver disease points to a mechanical biliary obstruction. The bilirubin level (>10\u202fmg/dL) is typical for choledocholithiasis or a biliary stricture, making this the most likely explanation for the hepatic pattern."
+    },
+    {
+      "rank": 2,
+      "name": "Ongoing myocardial ischemia (unstable angina / demand ischemia)",
+      "icd10": "I20.9",
+      "snomed": "194828000",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity troponin I 54\u202fng/L (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI (2021) and persistent stage\u202f2 hypertension (160/96\u202fmm\u202fHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia and CKD reducing oxygen delivery and coronary reserve",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (post\u2011MI, dyslipidemia, diabetes, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin months after the index NSTEMI, combined with uncontrolled hypertension, anemia, and CKD, suggests ongoing myocardial injury, most plausibly from supply\u2011demand mismatch or recurrent ischemia. Immediate cardiac reassessment is warranted."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic kidney disease with progression to chronic kidney disease",
+      "icd10": "E11.21",
+      "snomed": "127013003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Disorder of kidney due to diabetes mellitus (onset 2022\u201109\u201126)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.8\u202fmg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick 82.5\u202fmg/dL (significant proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension contributing to renal progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The classic triad of diabetes, proteinuria, and rising creatinine confirms diabetic nephropathy and indicates progression of CKD, which also contributes to anemia and heightened cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Insulin\u2011induced hypoglycemia / overtreatment of glucose",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 3.3\u202f% (markedly low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 1.6\u202fmg/dL (suggests fasting or relative hypoglycemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on mixed\u2011dose insulin despite a pre\u2011diabetes label",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "An A1c far below target indicates excessive insulin dosing, placing the patient at risk for symptomatic hypoglycemia, which can precipitate cardiac ischemia and contribute to fatigue and depressive symptoms."
+    }
+  ],
+  "primary_diagnosis": "Obstructive biliary obstruction (choledocholithiasis / biliary stricture)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The dominant abnormality is severe conjugated hyperbilirubinemia with urinary bilirubin, a pattern most consistent with an obstructive cholestatic process such as choledocholithiasis or a biliary stricture, supported by metabolic risk factors (male, diabetes, hypertension). Elevated high\u2011sensitivity troponin, uncontrolled hypertension, anemia, and CKD raise concern for ongoing myocardial ischemia. Diabetic kidney disease is confirmed by proteinuria and elevated creatinine. The very low A1c with insulin therapy suggests overtreatment and hypoglycemia risk. Drug\u2011induced cholestasis remains a remote consideration but is less likely given the magnitude of bilirubin elevation. Overall confidence in the primary diagnosis is high.",
+  "unresolved_findings": [
+    "Missing liver enzymes (ALT, AST, ALP, GGT) and INR \u2013 limits precise classification of cholestasis vs hepatocellular injury.",
+    "No abdominal imaging performed \u2013 cannot confirm or exclude biliary obstruction.",
+    "Absence of cardiac biomarkers beyond troponin (e.g., BNP/NT\u2011proBNP) \u2013 limits assessment for congestive hepatopathy or heart failure.",
+    "Very dilute urine (specific gravity 1.0) \u2013 could reflect diuretic effect, over\u2011hydration, or renal concentrating defect.",
+    "No documented symptoms of hypoglycemia or chest pain despite abnormal labs.",
+    "Lack of eGFR and urine albumin\u2011to\u2011creatinine ratio \u2013 hampers precise CKD staging."
+  ],
+  "recommended_workup": [
+    "Right\u2011upper\u2011quadrant abdominal ultrasound with Doppler; if equivocal, proceed to MRCP to identify stones, strictures, or mass.",
+    "Comprehensive liver panel (ALT, AST, ALP, GGT, INR) and viral hepatitis serologies; consider autoimmune markers if obstruction not found.",
+    "Serial high\u2011sensitivity troponin trend and 12\u2011lead ECG; bedside transthoracic echocardiogram to evaluate left\u2011ventricular function and rule out acute heart failure.",
+    "BNP or NT\u2011proBNP measurement to assess for congestive hepatopathy.",
+    "Urine albumin\u2011to\u2011creatinine ratio and calculation of eGFR for precise CKD staging; consider renal Doppler ultrasound if renal perfusion concerns persist.",
+    "Detailed medication reconciliation focusing on fluoxetine, diphenhydramine, and atorvastatin for potential cholestatic injury; assess need for dose adjustment or discontinuation.",
+    "Review insulin regimen: obtain fasting glucose logs or continuous glucose monitoring, consider dose reduction, and involve endocrinology.",
+    "CBC with reticulocyte count, iron studies, haptoglobin, and LDH to characterize chronic anemia and exclude hemolysis."
+  ]
+}

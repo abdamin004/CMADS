@@ -1,0 +1,203 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute non\u2011ST elevation myocardial infarction (recurrent NSTEMI)",
+      "icd10": "I21.4",
+      "snomed": "413839001",
+      "probability": 0.49,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent high\u2011sensitivity troponin elevation",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery disease and diabetes mellitus",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No repeat ECG or dynamic troponin trend available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated troponin in a patient with known CAD and diabetes strongly suggests ongoing myocardial injury. Absence of serial ECG limits confirmation of new ischemia, but the clinical context makes recurrent NSTEMI the most likely explanation."
+    },
+    {
+      "rank": 2,
+      "name": "Acute kidney injury on chronic kidney disease (AKI on CKD)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Recent rise in serum creatinine above baseline CKD level",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetic kidney disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Missing detailed AKI work\u2011up (urine indices, imaging)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient has established CKD from diabetes and now shows an acute creatinine increase, indicating superimposed AKI. Lack of full work\u2011up prevents precise classification, but the combined picture supports AKI on CKD."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic kidney disease (progressive chronic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes mellitus with microalbuminuria",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated baseline serum creatinine consistent with CKD stage 3\u20114",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Proteinuria not quantified; staging limited",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes is the dominant cause of the patient\u2019s chronic renal impairment. Although proteinuria quantification is lacking, the chronicity and risk factors make diabetic nephropathy the leading chronic renal diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure (unspecified, HFpEF/HFrEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin may reflect myocardial strain",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No documented imaging or natriuretic peptide data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While troponin elevation could be secondary to cardiac strain, the absence of echocardiographic or BNP data makes heart failure a speculative contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Statin\u2011associated myopathy / rhabdomyolysis",
+      "icd10": "G72.0",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on high\u2011intensity statin therapy",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No CK or myoglobin elevation reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Statin use raises the possibility of myopathy, but lack of muscle enzyme data makes this diagnosis unlikely."
+    },
+    {
+      "rank": 6,
+      "name": "Hepatobiliary disease or hemolysis (bilirubinuria)",
+      "icd10": "R80.9",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.3\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No concurrent liver function tests or hemolysis work\u2011up",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Bilirubinuria suggests either hepatic excretion abnormality or hemolysis, but without liver enzymes or hemolysis markers the etiology remains uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Transient ketosis / early ketoacidosis",
+      "icd10": "E87.2",
+      "snomed": "302810001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 15.2\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Patient reports good glycemic control; no serum glucose or pH data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Detected ketonuria could represent a transient metabolic shift or early ketoacidosis; missing serum glucose and acid\u2011base data limit certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Psychiatric / psychosocial disorder (depression, anxiety)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and mood symptoms",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No formal psychiatric assessment performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial factors may influence adherence and symptom reporting but lack objective assessment, making this a low\u2011probability contributor."
+    }
+  ],
+  "primary_diagnosis": "Acute non\u2011ST elevation myocardial infarction (recurrent NSTEMI)",
+  "primary_probability": 0.49,
+  "clinical_reasoning_summary": "The patient\u2019s persistent high\u2011sensitivity troponin elevation in the setting of known coronary artery disease and diabetes makes recurrent NSTEMI the most probable diagnosis. Concurrent renal dysfunction is explained by chronic diabetic kidney disease with a superimposed acute kidney injury, supported by a recent creatinine rise. Lesser\u2011probability considerations include chronic diabetic nephropathy, possible heart failure, statin\u2011related myopathy, bilirubinuria, ketonuria, and psychosocial stress, each limited by missing confirmatory data. The differential reflects the reviewer\u2019s probability adjustments and excludes the unsupported hypertensive nephrosclerosis diagnosis.",
+  "unresolved_findings": [],
+  "recommended_workup": [
+    "Repeat 12\u2011lead ECG with serial changes",
+    "Serial high\u2011sensitivity troponin measurements",
+    "Transthoracic echocardiogram to assess ventricular function",
+    "Quantitative urine protein/albumin assessment",
+    "Renal ultrasound to evaluate for obstruction",
+    "Serum creatine kinase and myoglobin levels",
+    "Comprehensive liver panel (AST, ALT, ALP, bilirubin)",
+    "Serum haptoglobin, LDH, and peripheral smear for hemolysis",
+    "Serum glucose, beta\u2011hydroxybutyrate, and arterial blood gas to rule out ketoacidosis",
+    "Standardized depression/anxiety screening questionnaire"
+  ]
+}

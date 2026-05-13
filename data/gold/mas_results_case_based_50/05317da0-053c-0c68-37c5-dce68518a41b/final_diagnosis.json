@@ -1,0 +1,164 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute NSTEMI (type 1 myocardial infarction)",
+      "icd10": "I21.4",
+      "snomed": "413444003",
+      "probability": 0.49,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chest pain with dynamic ECG changes consistent with ischemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "History of atherosclerotic coronary artery disease and diabetes mellitus",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient presents with acute chest discomfort, ischemic ECG changes, and markedly elevated troponin in the setting of known coronary artery disease, fulfilling criteria for type 1 NSTEMI and representing the most likely acute diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic kidney disease with anemia of chronic kidney disease",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with documented reduced eGFR",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia (Hb 10 g/dL) with normal iron studies",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic diabetic nephropathy explains the baseline renal insufficiency and anemia, serving as a chronic background condition rather than the acute driver of the current presentation."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive/cholestatic biliary disease (choledocholithiasis or biliary stricture)",
+      "icd10": "K80.00",
+      "snomed": "236423003",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Right upper quadrant discomfort and bilirubin >5 mg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated direct bilirubin (exact fraction not available)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Significant hyperbilirubinemia with a cholestatic pattern raises suspicion for biliary obstruction; imaging is pending to confirm choledocholithiasis or stricture."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with preserved ejection fraction (HFpEF) causing right\u2011sided hepatic congestion",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and dyspnea on exertion",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_notes",
+          "finding": "Elevated jugular venous pressure noted on exam",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic HFpEF may contribute to hepatic congestion and mild bilirubin elevation, but lacks definitive volume\u2011overload evidence in this encounter."
+    },
+    {
+      "rank": 5,
+      "name": "Hemolytic anemia (unconfirmed)",
+      "icd10": "D59.9",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained anemia with mild indirect bilirubin elevation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without hemolysis labs (LDH, haptoglobin, reticulocyte count) the diagnosis remains speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Sepsis or occult infection (including cholangitis)",
+      "icd10": "A41.9",
+      "snomed": "10001005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Fever not documented; leukocytosis absent",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood given lack of systemic inflammatory signs, but still a remote consideration."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and diabetes mellitus",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unlikely to account for marked bilirubin elevation without another hepatobiliary process."
+    }
+  ],
+  "primary_diagnosis": "Acute NSTEMI (type 1 myocardial infarction)",
+  "primary_probability": 0.49,
+  "clinical_reasoning_summary": "The acute presentation is dominated by evidence of myocardial ischemia (chest pain, ischemic ECG changes, elevated troponin) in a patient with known coronary artery disease, making an acute NSTEMI the most probable primary diagnosis. Chronic comorbidities such as diabetic kidney disease with anemia and possible biliary obstruction explain baseline laboratory abnormalities but are not the acute drivers. Other considerations (HFpEF\u2011related hepatic congestion, hemolysis, infection, NAFLD) have lower probabilities and limited supporting data.",
+  "unresolved_findings": [
+    "Fractionated bilirubin (direct vs indirect) not available",
+    "Full liver chemistries (AST, ALT, ALP, GGT, INR) missing",
+    "Hemolysis work\u2011up (LDH, haptoglobin, reticulocyte count, peripheral smear) absent",
+    "Transthoracic echocardiogram data absent (right\u2011sided pressures, diastolic function)",
+    "Abdominal imaging of the biliary tree not performed",
+    "Comprehensive medication list (including OTC/herbal) incomplete",
+    "Current blood pressure, glycaemic control, and antihypertensive/antidiabetic therapy not documented",
+    "Infection screen (cultures, chest X\u2011ray, urinalysis) not available"
+  ],
+  "recommended_workup": [
+    "Obtain fractionated bilirubin and full liver panel (AST, ALT, ALP, GGT, INR)",
+    "Abdominal ultrasound or MRCP to evaluate for choledocholithiasis or biliary stricture",
+    "Repeat high\u2011sensitivity troponin trend and 12\u2011lead ECG",
+    "Urgent cardiology consult; consider coronary angiography",
+    "Transthoracic echocardiogram with assessment of diastolic function and right\u2011sided pressures",
+    "Hemolysis labs: LDH, haptoglobin, reticulocyte count, peripheral smear",
+    "Comprehensive medication reconciliation",
+    "Blood cultures, urinalysis, and chest X\u2011ray to rule out occult infection"
+  ]
+}
