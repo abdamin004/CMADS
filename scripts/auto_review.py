@@ -4,7 +4,14 @@ See docs/superpowers/specs/2026-05-15-auto-review-loop-design.md.
 """
 from __future__ import annotations
 
+import argparse
+import difflib
 import re
+import shutil
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
 
 VERDICT_RE = re.compile(r"VERDICT:\s*(APPROVE|REJECT)", re.IGNORECASE)
 
@@ -20,15 +27,9 @@ def parse_verdict(text: str) -> str:
     return matches[-1].upper()
 
 
-from pathlib import Path
-
-
 def render_prompt(template_path: Path, variables: dict[str, str]) -> str:
     """Read template_path and substitute {var} placeholders."""
     return Path(template_path).read_text(encoding="utf-8").format(**variables)
-
-import subprocess
-from datetime import datetime
 
 
 def _log(log_file, message: str) -> None:
@@ -76,9 +77,6 @@ def plan_iter_dir(run_dir: Path, n: int) -> Path:
 def fix_iter_dir(run_dir: Path, n: int) -> Path:
     return run_dir / f"fix_iter_{n:02d}"
 
-
-import shutil
-import difflib
 
 THESIS_IGNORE_PATTERNS = ("*.aux", "*.log", "*.bbl", "*.blg", "*.out",
                           "*.toc", "*.lof", "*.lot", "*.fls", "*.fdb_latexmk",
@@ -312,10 +310,6 @@ def run_pipeline(repo_root: Path, max_plan_iters: int = 3,
         _log(log, f"FAILURE {exc}")
         _write_run_changes(run_dir, iter_summaries, "CLI_FAILURE")
         return 3
-
-
-import argparse
-import sys
 
 
 def _list_runs(repo_root: Path) -> int:
