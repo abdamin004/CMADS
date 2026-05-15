@@ -312,3 +312,68 @@ def run_pipeline(repo_root: Path, max_plan_iters: int = 3,
         _log(log, f"FAILURE {exc}")
         _write_run_changes(run_dir, iter_summaries, "CLI_FAILURE")
         return 3
+
+
+import argparse
+import sys
+
+
+def _list_runs(repo_root: Path) -> int:
+    base = Path(repo_root) / ".review-cycle"
+    if not base.exists():
+        print(f"No runs at {base}")
+        return 0
+    rows = []
+    for d in sorted(base.iterdir()):
+        if not d.is_dir():
+            continue
+        changes = d / "CHANGES.md"
+        verdict = "incomplete"
+        if changes.exists():
+            for line in changes.read_text(encoding="utf-8").splitlines():
+                if line.startswith("**Final verdict:**"):
+                    verdict = line.split("**", 2)[2].strip().lstrip(":").strip()
+                    break
+        rows.append((d.name, verdict))
+    for name, verdict in rows:
+        print(f"{name}  {verdict}")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="CC <-> Codex auto-review loop")
+    parser.add_argument("--repo-root", default=".", help="Project root (default: cwd)")
+    parser.add_argument("--max-plan-iters", type=int, default=3)
+    parser.add_argument("--max-fix-iters", type=int, default=3)
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Print planned steps; no CLI calls")
+    parser.add_argument("--list-runs", action="store_true",
+                        help="List all .review-cycle/ runs and verdicts")
+    args = parser.parse_args(argv)
+
+    repo = Path(args.repo_root).resolve()
+
+    if args.list_runs:
+        return _list_runs(repo)
+
+    if args.dry_run:
+        print("Auto-review plan (dry run):")
+        print("  step 0: snapshot thesis/                     -> thesis_before/")
+        print("  step 1: claude -p   thesis review            -> review_v1.md")
+        print("  step 2: codex exec  second opinion           -> review_final.md")
+        print(f"  step 3: claude -p   plan       (<= {args.max_plan_iters} iters) -> fix_plan.md")
+        print("  step 4: codex exec  plan verdict             -> plan_verdict.md")
+        print(f"  step 5: claude -p   execute    (<= {args.max_fix_iters} iters) -> execution_log.md")
+        print("          + snapshot thesis/ + write diffs")
+        print("  step 6: codex exec  final verdict            -> final_verdict.md")
+        return 0
+
+    return run_pipeline(
+        repo_root=repo,
+        max_plan_iters=args.max_plan_iters,
+        max_fix_iters=args.max_fix_iters,
+    )
+
+
+if __name__ == "__main__":
+    sys.exit(main())

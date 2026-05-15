@@ -306,3 +306,45 @@ class TestPipeline:
         assert "fix_iter_01" in changes
         assert (run / "fix_iter_01" / "diffs" / "main.tex.diff").exists()
         assert (run / "fix_iter_01" / "thesis_changes.md").exists()
+
+
+class TestEntryPoint:
+    def test_dry_run_no_subprocess(self, tmp_path, monkeypatch, capsys):
+        repo = tmp_path / "repo"
+        (repo / "scripts" / "auto_review_prompts").mkdir(parents=True)
+        (repo / "thesis").mkdir()
+
+        def boom(*a, **kw):
+            raise AssertionError("should not invoke subprocess in --dry-run")
+
+        monkeypatch.setattr(auto_review.subprocess, "run", boom)
+        rc = auto_review.main(["--repo-root", str(repo), "--dry-run"])
+        assert rc == 0
+        out = capsys.readouterr().out.lower()
+        assert "step 1" in out and "step 6" in out
+
+    def test_default_iters(self, monkeypatch):
+        seen = {}
+
+        def fake(repo_root, max_plan_iters, max_fix_iters):
+            seen.update(plan=max_plan_iters, fix=max_fix_iters)
+            return 0
+
+        monkeypatch.setattr(auto_review, "run_pipeline", fake)
+        rc = auto_review.main(["--repo-root", "/tmp/x"])
+        assert rc == 0 and seen == {"plan": 3, "fix": 3}
+
+    def test_list_runs(self, tmp_path, capsys):
+        repo = tmp_path / "repo"
+        base = repo / ".review-cycle"
+        run1 = base / "2026-05-15T10-00-00"
+        run1.mkdir(parents=True)
+        (run1 / "CHANGES.md").write_text("**Final verdict:** APPROVE\n")
+        run2 = base / "2026-05-15T11-00-00"
+        run2.mkdir(parents=True)
+        # no CHANGES.md => incomplete
+        rc = auto_review.main(["--repo-root", str(repo), "--list-runs"])
+        assert rc == 0
+        out = capsys.readouterr().out
+        assert "2026-05-15T10-00-00" in out and "APPROVE" in out
+        assert "2026-05-15T11-00-00" in out and "incomplete" in out.lower()
