@@ -249,6 +249,25 @@ update README numbers from that file rather than from memory.
 | [`docs/EVALUATION_METHODOLOGY.md`](docs/EVALUATION_METHODOLOGY.md) | LLM-as-judge methodology |
 | [`docs/MAS_ARCHITECTURE_EVOLUTION.md`](docs/MAS_ARCHITECTURE_EVOLUTION.md) | Architecture iterations (v1→v4) |
 
+## Auto-review loop
+
+Automates the manual Claude Code <-> Codex CLI back-and-forth that produces a vetted thesis review and verified fix execution. Each run snapshots `thesis/` and writes per-file diffs so you can see exactly what changed.
+
+```bash
+# from inside Claude Code
+/auto-review
+
+# direct
+python scripts/auto_review.py
+python scripts/auto_review.py --dry-run               # print planned steps, no LLM calls
+python scripts/auto_review.py --max-plan-iters 5      # raise plan-loop cap
+python scripts/auto_review.py --list-runs             # past runs + their verdicts
+```
+
+Artifacts land in `.review-cycle/<timestamp>/` (gitignored): full `thesis_before/` snapshot, per-iteration `thesis_after/`, per-file `diffs/*.diff`, and a top-level `CHANGES.md` summary.
+
+Exit codes: 0 approve, 1 plan-loop cap, 2 fix-loop cap, 3 sub-CLI failure. Full spec: [`docs/superpowers/specs/2026-05-15-auto-review-loop-design.md`](docs/superpowers/specs/2026-05-15-auto-review-loop-design.md).
+
 ## License
 
 This project is part of a Bachelor thesis. All clinical guidelines are sourced from NICE (National Institute for Health and Care Excellence) and are used for academic purposes.
