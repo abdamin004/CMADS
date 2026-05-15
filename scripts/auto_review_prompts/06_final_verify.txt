@@ -1,0 +1,30 @@
+Verify that the executed fixes actually resolved the review issues.
+
+Plan:           {plan_path}
+Review:         {review_final_path}
+Execution log:  {execution_log_path}
+
+For each non-deferred issue in the review, inspect the current state of the relevant files and decide:
+- RESOLVED   -- fix in place and correct
+- PARTIAL    -- attempted but incomplete
+- UNRESOLVED -- no change or wrong change
+
+Output:
+
+# Final Verdict
+
+## Resolved
+- Issue -> file:line evidence
+
+## Partial / Unresolved
+- Issue -> what is still wrong, what would fix it
+
+## Notes
+Anything else the next iteration should know.
+
+End your output with EXACTLY ONE of these as the LAST line:
+
+VERDICT: APPROVE
+VERDICT: REJECT
+
+APPROVE only if Partial/Unresolved is empty.
