@@ -18,3 +18,11 @@ def parse_verdict(text: str) -> str:
     if not matches:
         return "REJECT"
     return matches[-1].upper()
+
+
+from pathlib import Path
+
+
+def render_prompt(template_path: Path, variables: dict[str, str]) -> str:
+    """Read template_path and substitute {var} placeholders."""
+    return Path(template_path).read_text(encoding="utf-8").format(**variables)

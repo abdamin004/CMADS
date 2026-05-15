@@ -30,3 +30,26 @@ class TestParseVerdict:
     def test_takes_last_match(self):
         text = "VERDICT: APPROVE\nthen\nVERDICT: REJECT\n"
         assert auto_review.parse_verdict(text) == "REJECT"
+
+
+class TestRenderPrompt:
+    def test_substitutes(self, tmp_path):
+        t = tmp_path / "p.txt"
+        t.write_text("Review {target} for {audience}.")
+        assert auto_review.render_prompt(t, {"target": "thesis", "audience": "examiner"}) == "Review thesis for examiner."
+
+    def test_missing_raises(self, tmp_path):
+        t = tmp_path / "p.txt"
+        t.write_text("Hello {name}")
+        with pytest.raises(KeyError):
+            auto_review.render_prompt(t, {})
+
+    def test_no_placeholders(self, tmp_path):
+        t = tmp_path / "p.txt"
+        t.write_text("static")
+        assert auto_review.render_prompt(t, {}) == "static"
+
+    def test_literal_braces(self, tmp_path):
+        t = tmp_path / "p.txt"
+        t.write_text("use {{literal}} and {var}")
+        assert auto_review.render_prompt(t, {"var": "X"}) == "use {literal} and X"
