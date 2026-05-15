@@ -134,3 +134,181 @@ def diff_thesis(before: Path, after: Path, diffs_dir: Path) -> list[dict]:
             "path": rel, "added": added, "removed": removed, "diff_file": flat,
         })
     return summary
+
+
+PROMPTS_REL = "scripts/auto_review_prompts"
+
+
+def _prompts(repo_root: Path) -> Path:
+    return Path(repo_root) / PROMPTS_REL
+
+
+def _log_path(run_dir: Path) -> Path:
+    return run_dir / "transcript.log"
+
+
+class CliFailure(RuntimeError):
+    pass
+
+
+def _write_iter_changes(iter_dir: Path, summary: list[dict]) -> None:
+    """Write per-iteration thesis_changes.md."""
+    lines = ["# Thesis changes (this iteration)", ""]
+    if not summary:
+        lines.append("_No changes to thesis/_")
+    else:
+        lines.append("| File | +added | -removed | Diff |")
+        lines.append("|------|-------:|---------:|------|")
+        for e in summary:
+            lines.append(f"| `{e['path']}` | {e['added']} | {e['removed']} | "
+                         f"[diff](diffs/{e['diff_file']}) |")
+    (iter_dir / "thesis_changes.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _write_run_changes(run_dir: Path, iter_summaries: list[tuple[str, list[dict]]],
+                       final_verdict: str) -> None:
+    """Write run-level CHANGES.md."""
+    lines = [
+        f"# Auto-review run {run_dir.name}",
+        "",
+        f"**Final verdict:** {final_verdict}",
+        "",
+        "## Per-iteration changes",
+    ]
+    for iter_name, summary in iter_summaries:
+        lines.append(f"\n### {iter_name}")
+        if not summary:
+            lines.append("- _no thesis changes_")
+            continue
+        for e in summary:
+            lines.append(f"- `{e['path']}` (+{e['added']} -{e['removed']}) "
+                         f"-> [{iter_name}/diffs/{e['diff_file']}]"
+                         f"({iter_name}/diffs/{e['diff_file']})")
+    (run_dir / "CHANGES.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def run_pipeline(repo_root: Path, max_plan_iters: int = 3,
+                 max_fix_iters: int = 3) -> int:
+    """Drive the full state machine.
+
+    Exit codes: 0 APPROVE, 1 plan-cap, 2 fix-cap, 3 sub-CLI failure.
+    """
+    repo_root = Path(repo_root)
+    base = repo_root / ".review-cycle"
+    base.mkdir(exist_ok=True)
+    run_dir = create_run_dir(base)
+    log = _log_path(run_dir)
+    _log(log, f"START run={run_dir.name}")
+
+    # Snapshot thesis/ before any work
+    snapshot_thesis(repo_root / "thesis", run_dir / "thesis_before")
+
+    def _claude(prompt, cwd, out):
+        rc = run_claude(prompt=prompt, cwd=cwd, output_file=out, log_file=log)
+        if rc != 0:
+            raise CliFailure(f"claude rc={rc} on {out.name}")
+
+    def _codex(prompt, cwd, out):
+        rc = run_codex(prompt=prompt, cwd=cwd, output_file=out, log_file=log)
+        if rc != 0:
+            raise CliFailure(f"codex rc={rc} on {out.name}")
+
+    iter_summaries: list[tuple[str, list[dict]]] = []
+
+    try:
+        # Step 1
+        p = render_prompt(_prompts(repo_root) / "01_thesis_review.txt", {})
+        review_v1 = run_dir / "review_v1.md"
+        _claude(p, repo_root / "thesis", review_v1)
+
+        # Step 2
+        p = render_prompt(_prompts(repo_root) / "02_codex_second_opinion.txt",
+                          {"review_v1_path": str(review_v1)})
+        review_final = run_dir / "review_final.md"
+        _codex(p, repo_root, review_final)
+
+        # Plan loop
+        plan_path: Path | None = None
+        prev_verdict: Path | None = None
+        approved = False
+        for n in range(1, max_plan_iters + 1):
+            iter_dir = plan_iter_dir(run_dir, n)
+            iter_dir.mkdir(parents=True, exist_ok=True)
+            if prev_verdict is None:
+                p = render_prompt(_prompts(repo_root) / "03_plan.txt",
+                                  {"review_final_path": str(review_final)})
+            else:
+                p = render_prompt(_prompts(repo_root) / "03_plan_followup.txt", {
+                    "plan_verdict_path": str(prev_verdict),
+                    "review_final_path": str(review_final),
+                    "prev_plan_path": str(plan_path),
+                })
+            plan_path = iter_dir / "fix_plan.md"
+            _claude(p, repo_root, plan_path)
+
+            p = render_prompt(_prompts(repo_root) / "04_plan_verify.txt", {
+                "plan_path": str(plan_path),
+                "review_final_path": str(review_final),
+            })
+            verdict_path = iter_dir / "plan_verdict.md"
+            _codex(p, repo_root, verdict_path)
+            verdict = parse_verdict(verdict_path.read_text(encoding="utf-8"))
+            _log(log, f"plan iter {n}: {verdict}")
+            if verdict == "APPROVE":
+                approved = True
+                break
+            prev_verdict = verdict_path
+        if not approved:
+            _log(log, "plan loop CAP HIT")
+            _write_run_changes(run_dir, iter_summaries, "PLAN_CAP")
+            return 1
+
+        # Fix loop
+        prev_final: Path | None = None
+        for n in range(1, max_fix_iters + 1):
+            iter_dir = fix_iter_dir(run_dir, n)
+            iter_dir.mkdir(parents=True, exist_ok=True)
+            if prev_final is None:
+                p = render_prompt(_prompts(repo_root) / "05_execute.txt", {
+                    "plan_path": str(plan_path),
+                    "review_final_path": str(review_final),
+                })
+            else:
+                p = render_prompt(_prompts(repo_root) / "05_execute_followup.txt", {
+                    "final_verdict_path": str(prev_final),
+                    "plan_path": str(plan_path),
+                })
+            exec_log = iter_dir / "execution_log.md"
+            _claude(p, repo_root, exec_log)
+
+            # Snapshot + diff after execution
+            after_dir = iter_dir / "thesis_after"
+            snapshot_thesis(repo_root / "thesis", after_dir)
+            summary = diff_thesis(run_dir / "thesis_before", after_dir,
+                                  iter_dir / "diffs")
+            _write_iter_changes(iter_dir, summary)
+            iter_summaries.append((iter_dir.name, summary))
+
+            p = render_prompt(_prompts(repo_root) / "06_final_verify.txt", {
+                "plan_path": str(plan_path),
+                "review_final_path": str(review_final),
+                "execution_log_path": str(exec_log),
+            })
+            final_verdict = iter_dir / "final_verdict.md"
+            _codex(p, repo_root, final_verdict)
+            verdict = parse_verdict(final_verdict.read_text(encoding="utf-8"))
+            _log(log, f"fix iter {n}: {verdict}")
+            if verdict == "APPROVE":
+                _log(log, "DONE APPROVE")
+                _write_run_changes(run_dir, iter_summaries, "APPROVE")
+                return 0
+            prev_final = final_verdict
+
+        _log(log, "fix loop CAP HIT")
+        _write_run_changes(run_dir, iter_summaries, "FIX_CAP")
+        return 2
+
+    except CliFailure as exc:
+        _log(log, f"FAILURE {exc}")
+        _write_run_changes(run_dir, iter_summaries, "CLI_FAILURE")
+        return 3

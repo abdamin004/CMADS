@@ -182,3 +182,127 @@ class TestThesisVersioning:
         diffs = tmp_path / "diffs"
         auto_review.diff_thesis(before, after, diffs)
         assert (diffs / "chapters__m.tex.diff").exists()
+
+
+class TestPipeline:
+    def _setup_repo(self, tmp_path):
+        repo = tmp_path / "repo"
+        (repo / "thesis").mkdir(parents=True)
+        (repo / "thesis" / "main.tex").write_text("v1")
+        prompts = repo / "scripts" / "auto_review_prompts"
+        prompts.mkdir(parents=True)
+        for name in [
+            "01_thesis_review.txt", "02_codex_second_opinion.txt",
+            "03_plan.txt", "03_plan_followup.txt", "04_plan_verify.txt",
+            "05_execute.txt", "05_execute_followup.txt", "06_final_verify.txt",
+        ]:
+            (prompts / name).write_text("static prompt body")
+        return repo
+
+    def test_happy_path_first_try(self, tmp_path, monkeypatch):
+        repo = self._setup_repo(tmp_path)
+        names = []
+
+        def fake_claude(prompt, cwd, output_file, log_file):
+            names.append(output_file.name)
+            output_file.write_text("ok\n")
+            return 0
+
+        def fake_codex(prompt, cwd, output_file, log_file):
+            names.append(output_file.name)
+            output_file.write_text("ok\nVERDICT: APPROVE\n")
+            return 0
+
+        monkeypatch.setattr(auto_review, "run_claude", fake_claude)
+        monkeypatch.setattr(auto_review, "run_codex", fake_codex)
+
+        rc = auto_review.run_pipeline(repo_root=repo, max_plan_iters=3, max_fix_iters=3)
+        assert rc == 0
+        assert names == ["review_v1.md", "review_final.md",
+                         "fix_plan.md", "plan_verdict.md",
+                         "execution_log.md", "final_verdict.md"]
+
+        runs = list((repo / ".review-cycle").iterdir())
+        assert len(runs) == 1
+        run = runs[0]
+        assert (run / "thesis_before" / "main.tex").exists()
+        assert (run / "fix_iter_01" / "thesis_after" / "main.tex").exists()
+        assert (run / "CHANGES.md").exists()
+
+    def test_plan_loop_caps(self, tmp_path, monkeypatch):
+        repo = self._setup_repo(tmp_path)
+
+        def fake_claude(prompt, cwd, output_file, log_file):
+            output_file.write_text("ok\n")
+            return 0
+
+        def fake_codex(prompt, cwd, output_file, log_file):
+            if output_file.name == "plan_verdict.md":
+                output_file.write_text("gaps\nVERDICT: REJECT\n")
+            else:
+                output_file.write_text("VERDICT: APPROVE\n")
+            return 0
+
+        monkeypatch.setattr(auto_review, "run_claude", fake_claude)
+        monkeypatch.setattr(auto_review, "run_codex", fake_codex)
+        rc = auto_review.run_pipeline(repo_root=repo, max_plan_iters=2, max_fix_iters=3)
+        assert rc == 1
+
+    def test_fix_loop_caps(self, tmp_path, monkeypatch):
+        repo = self._setup_repo(tmp_path)
+
+        def fake_claude(prompt, cwd, output_file, log_file):
+            output_file.write_text("ok\n")
+            return 0
+
+        def fake_codex(prompt, cwd, output_file, log_file):
+            if output_file.name == "final_verdict.md":
+                output_file.write_text("VERDICT: REJECT\n")
+            else:
+                output_file.write_text("VERDICT: APPROVE\n")
+            return 0
+
+        monkeypatch.setattr(auto_review, "run_claude", fake_claude)
+        monkeypatch.setattr(auto_review, "run_codex", fake_codex)
+        rc = auto_review.run_pipeline(repo_root=repo, max_plan_iters=3, max_fix_iters=2)
+        assert rc == 2
+
+    def test_cli_failure_returns_3(self, tmp_path, monkeypatch):
+        repo = self._setup_repo(tmp_path)
+
+        def fake_claude(prompt, cwd, output_file, log_file):
+            output_file.write_text("")
+            return 5
+
+        def fake_codex(prompt, cwd, output_file, log_file):
+            output_file.write_text("VERDICT: APPROVE\n")
+            return 0
+
+        monkeypatch.setattr(auto_review, "run_claude", fake_claude)
+        monkeypatch.setattr(auto_review, "run_codex", fake_codex)
+        rc = auto_review.run_pipeline(repo_root=repo, max_plan_iters=3, max_fix_iters=3)
+        assert rc == 3
+
+    def test_changes_md_records_iteration_summary(self, tmp_path, monkeypatch):
+        repo = self._setup_repo(tmp_path)
+
+        def fake_claude(prompt, cwd, output_file, log_file):
+            if output_file.name == "execution_log.md":
+                (repo / "thesis" / "main.tex").write_text("v2 updated")
+            output_file.write_text("ok\n")
+            return 0
+
+        def fake_codex(prompt, cwd, output_file, log_file):
+            output_file.write_text("VERDICT: APPROVE\n")
+            return 0
+
+        monkeypatch.setattr(auto_review, "run_claude", fake_claude)
+        monkeypatch.setattr(auto_review, "run_codex", fake_codex)
+        rc = auto_review.run_pipeline(repo_root=repo, max_plan_iters=3, max_fix_iters=3)
+        assert rc == 0
+        run = next((repo / ".review-cycle").iterdir())
+        changes = (run / "CHANGES.md").read_text()
+        assert "main.tex" in changes
+        assert "fix_iter_01" in changes
+        assert (run / "fix_iter_01" / "diffs" / "main.tex.diff").exists()
+        assert (run / "fix_iter_01" / "thesis_changes.md").exists()
