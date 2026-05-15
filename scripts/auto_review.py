@@ -75,3 +75,62 @@ def plan_iter_dir(run_dir: Path, n: int) -> Path:
 
 def fix_iter_dir(run_dir: Path, n: int) -> Path:
     return run_dir / f"fix_iter_{n:02d}"
+
+
+import shutil
+import difflib
+
+THESIS_IGNORE_PATTERNS = ("*.aux", "*.log", "*.bbl", "*.blg", "*.out",
+                          "*.toc", "*.lof", "*.lot", "*.fls", "*.fdb_latexmk",
+                          "*.synctex.gz", "*.pdf", "__pycache__")
+
+
+def snapshot_thesis(thesis_dir: Path, dest: Path) -> None:
+    """Copy thesis_dir -> dest, skipping LaTeX build artifacts."""
+    shutil.copytree(
+        thesis_dir, dest,
+        ignore=shutil.ignore_patterns(*THESIS_IGNORE_PATTERNS),
+    )
+
+
+def _flat_name(rel: Path) -> str:
+    return "__".join(rel.parts) + ".diff"
+
+
+def _list_files(root: Path) -> dict[str, Path]:
+    out = {}
+    for p in root.rglob("*"):
+        if p.is_file():
+            out[str(p.relative_to(root))] = p
+    return out
+
+
+def diff_thesis(before: Path, after: Path, diffs_dir: Path) -> list[dict]:
+    """Write per-file unified diffs and return summary entries.
+
+    Each entry: {"path": str, "added": int, "removed": int, "diff_file": str}.
+    """
+    diffs_dir.mkdir(parents=True, exist_ok=True)
+    before_files = _list_files(before)
+    after_files = _list_files(after)
+    all_rel = sorted(set(before_files) | set(after_files))
+    summary: list[dict] = []
+    for rel in all_rel:
+        b_lines = before_files[rel].read_text(encoding="utf-8").splitlines(keepends=True) \
+            if rel in before_files else []
+        a_lines = after_files[rel].read_text(encoding="utf-8").splitlines(keepends=True) \
+            if rel in after_files else []
+        if b_lines == a_lines:
+            continue
+        diff = list(difflib.unified_diff(
+            b_lines, a_lines,
+            fromfile=f"before/{rel}", tofile=f"after/{rel}",
+        ))
+        added = sum(1 for line in diff if line.startswith("+") and not line.startswith("+++"))
+        removed = sum(1 for line in diff if line.startswith("-") and not line.startswith("---"))
+        flat = _flat_name(Path(rel))
+        (diffs_dir / flat).write_text("".join(diff), encoding="utf-8")
+        summary.append({
+            "path": rel, "added": added, "removed": removed, "diff_file": flat,
+        })
+    return summary

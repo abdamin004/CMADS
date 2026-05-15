@@ -113,3 +113,72 @@ class TestRunPaths:
         assert auto_review.plan_iter_dir(run, 1).name == "iter_01"
         assert auto_review.plan_iter_dir(run, 12).name == "iter_12"
         assert auto_review.fix_iter_dir(run, 1).name == "fix_iter_01"
+
+
+class TestThesisVersioning:
+    def _make_thesis(self, root, files: dict[str, str]):
+        thesis = root / "thesis"
+        thesis.mkdir(parents=True, exist_ok=True)
+        for rel, body in files.items():
+            p = thesis / rel
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(body)
+        return thesis
+
+    def test_snapshot_copies_tex_skips_build_artifacts(self, tmp_path):
+        thesis = self._make_thesis(tmp_path, {
+            "main.tex": "hello",
+            "chapters/intro.tex": "intro",
+            "main.aux": "build",
+            "main.pdf": "binary",
+            "main.synctex.gz": "build",
+        })
+        dest = tmp_path / "snap"
+        auto_review.snapshot_thesis(thesis, dest)
+        assert (dest / "main.tex").read_text() == "hello"
+        assert (dest / "chapters" / "intro.tex").read_text() == "intro"
+        assert not (dest / "main.aux").exists()
+        assert not (dest / "main.pdf").exists()
+        assert not (dest / "main.synctex.gz").exists()
+
+    def test_diff_detects_changes(self, tmp_path):
+        before = tmp_path / "before"
+        after = tmp_path / "after"
+        before.mkdir()
+        after.mkdir()
+        (before / "a.tex").write_text("line1\nline2\nline3\n")
+        (after / "a.tex").write_text("line1\nlineTWO\nline3\nline4\n")
+        (before / "removed.tex").write_text("gone\n")
+        (after / "added.tex").write_text("new\n")
+
+        diffs_dir = tmp_path / "diffs"
+        summary = auto_review.diff_thesis(before, after, diffs_dir)
+
+        assert (diffs_dir / "a.tex.diff").exists()
+        assert "lineTWO" in (diffs_dir / "a.tex.diff").read_text()
+        paths = {entry["path"] for entry in summary}
+        assert paths == {"a.tex", "removed.tex", "added.tex"}
+        a_entry = next(e for e in summary if e["path"] == "a.tex")
+        assert a_entry["added"] == 2  # lineTWO + line4
+        assert a_entry["removed"] == 1  # line2
+
+    def test_diff_empty_when_unchanged(self, tmp_path):
+        before = tmp_path / "before"
+        after = tmp_path / "after"
+        before.mkdir()
+        after.mkdir()
+        (before / "a.tex").write_text("same\n")
+        (after / "a.tex").write_text("same\n")
+        summary = auto_review.diff_thesis(before, after, tmp_path / "diffs")
+        assert summary == []
+
+    def test_flat_diff_name_for_nested_path(self, tmp_path):
+        before = tmp_path / "before"
+        after = tmp_path / "after"
+        (before / "chapters").mkdir(parents=True)
+        (after / "chapters").mkdir(parents=True)
+        (before / "chapters" / "m.tex").write_text("a\n")
+        (after / "chapters" / "m.tex").write_text("b\n")
+        diffs = tmp_path / "diffs"
+        auto_review.diff_thesis(before, after, diffs)
+        assert (diffs / "chapters__m.tex.diff").exists()
