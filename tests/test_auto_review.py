@@ -100,3 +100,16 @@ class TestCliWrappers:
                                     output_file=tmp_path / "o.md",
                                     log_file=tmp_path / "t.log")
         assert rc == 2
+
+
+class TestRunPaths:
+    def test_create_run_dir(self, tmp_path):
+        run = auto_review.create_run_dir(tmp_path)
+        assert run.exists() and run.parent == tmp_path
+        assert run.name.count("-") >= 4  # ISO-ish
+
+    def test_iter_dirs(self, tmp_path):
+        run = auto_review.create_run_dir(tmp_path)
+        assert auto_review.plan_iter_dir(run, 1).name == "iter_01"
+        assert auto_review.plan_iter_dir(run, 12).name == "iter_12"
+        assert auto_review.fix_iter_dir(run, 1).name == "fix_iter_01"

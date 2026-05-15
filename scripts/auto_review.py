@@ -59,3 +59,19 @@ def run_codex(prompt: str, cwd, output_file, log_file) -> int:
     """Invoke `codex exec` headless. Stdout -> output_file."""
     cmd = ["codex", "exec", prompt]
     return _invoke(cmd, cwd, output_file, log_file)
+
+
+def create_run_dir(base: Path) -> Path:
+    """Create `<base>/<ISO-timestamp>/` and return it."""
+    stamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+    run = Path(base) / stamp
+    run.mkdir(parents=True, exist_ok=False)
+    return run
+
+
+def plan_iter_dir(run_dir: Path, n: int) -> Path:
+    return run_dir / f"iter_{n:02d}"
+
+
+def fix_iter_dir(run_dir: Path, n: int) -> Path:
+    return run_dir / f"fix_iter_{n:02d}"
