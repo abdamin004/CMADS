@@ -198,7 +198,7 @@ def slide_headline(prs, metrics):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
     add_header(slide, "Results — multi-level memory vs single-level baseline",
-               "Memory ON (n=100, batch_3 + batch_4) vs memory OFF (n=160, mas_results/)")
+               "Baseline pipeline (n=160) vs four-tier memory subsystem (n=100, batch_3 + batch_4)")
 
     mem = metrics["cohorts"]["combined_100"]
     base = metrics["cohorts"]["single_level_baseline"]
@@ -206,10 +206,10 @@ def slide_headline(prs, metrics):
     # Two side-by-side metric cards
     cards = [
         ("Single-level baseline",
-         "Memory OFF · 160 patients",
+         "Original pipeline · 160 patients",
          base, BLUE),
         ("Multi-level memory",
-         "Memory ON · 100 patients",
+         "4-tier subsystem · 100 patients",
          mem, AMBER),
     ]
     for i, (title, sub, agg, accent) in enumerate(cards):
