@@ -407,28 +407,28 @@ def slide_literature(prs, metrics):
     headers = ["Paper", "Cohort", "Their reported headline",
                "CMADS comparable", "A/A"]
     rows = [
-        ["MDAgents (Kim 2024)",     "10 MCQ benchmarks",
-         "(qualitative) Best on 7/10",
+        ["AMIE (Tu 2024)",          "149 OSCE scenarios · 20 PCPs",
+         "Beat PCPs on 28/32 specialist axes; 24/26 patient-actor axes",
+         cmads_headline, "◐"],
+        ["MedAgents (Tang 2024)",   "9 medical-reasoning benchmarks",
+         "86.7% avg with GPT-4 (MedQA 83.7%, PubMedQA 94.3%)",
          cmads_headline, "✗"],
+        ["AgentClinic (Schmidgall 2024)", "215 USMLE + 260 specialist + 749 multilingual",
+         "Claude-3.5: 62.1% on AgentClinic-MedQA; PCPs 54% ±28.5",
+         cmads_headline, "◐"],
         ["ZODIAC (Zhou 2024)",      "Cardiology, 8 metrics",
          "(qualitative) Cardiologist-level on 7/8",
          cmads_headline, "◐"],
         ["ClinicalLab (Yan 2024)",  "1,500 real cases, 11 depts",
          "(qualitative) Within ~5% of senior physicians",
          cmads_headline, "◐"],
-        ["MAC Framework (2025)",    "302 rare-disease cases",
-         "(qualitative) Outperforms self-consistency",
-         "Common chronic disease cohort", "✗"],
-        ["RareAgents (Chen 2024)",  "RareBench + MIMIC-Ext-Rare",
-         "(qualitative) Open backbone beats GPT-4o",
-         "DIRECT/INDIRECT/MISS, not Hit@K", "✗"],
     ]
     add_table(slide, 0.4, 1.2, 12.5, 4.6, headers, rows, first_col_bold=True)
     add_textbox(slide, 0.4, 6.0, 12.5, 1.1,
-                "Apples-to-apples is rare in this literature: most evaluate on "
-                "MCQ benchmarks or a single specialty, not end-to-end EHR "
-                "records across 8 families. Numbers marked (qualitative) are "
-                "the strongest claim verifiable from the bib entry / abstract.",
+                "Bold-style numbers are citable from the paper's abstract or experiments section. "
+                "AMIE and AgentClinic share the closest evaluation shape (real-case differential "
+                "diagnosis with a clinician baseline). MedAgents reports MCQ accuracy, included as "
+                "a different-metric reference. (qualitative) marks the strongest non-numeric claim.",
                 size=11, color=GREY_MED)
 
 

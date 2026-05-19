@@ -162,26 +162,31 @@ visible together.*
 
 | Paper | Cohort | Their reported headline | CMADS comparable | A/A |
 |---|---|---|---|:-:|
-| MDAgents (Kim 2024) | 10 MCQ benchmarks | *(qualitative)* Best on 7/10 | 49 % DIRECT on real EHR cases | ✗ |
-| ZODIAC (Zhou 2024)  | Cardiology, 8 metrics | *(qualitative)* Cardiologist-level on 7/8 | 49 % DIRECT, 95 % Found across 8 families | ◐ |
+| AMIE (Tu 2024, arXiv→Nature) | 149 OSCE scenarios · 20 PCPs | Beat PCPs on **28/32** specialist axes; **24/26** patient-actor axes | 49 % DIRECT, 95 % Found (n=100) | ◐ |
+| MedAgents (Tang 2024, ACL) | 9 medical-reasoning benchmarks | **86.7 %** avg with GPT-4 (MedQA 83.7 %, PubMedQA 94.3 %); 72.1 % with GPT-3.5 | 49 % DIRECT on real EHR cases | ✗ |
+| AgentClinic (Schmidgall 2024) | 215 USMLE + 260 specialist + 749 multilingual | **Claude-3.5: 62.1 %** on AgentClinic-MedQA; PCPs **54 % ±28.5** | 49 % DIRECT, 95 % Found across 8 families | ◐ |
+| ZODIAC (Zhou 2024) | Cardiology, 8 metrics | *(qualitative)* Cardiologist-level on 7/8 | 49 % DIRECT, 95 % Found across 8 families | ◐ |
 | ClinicalLab (Yan 2024) | 1,500 real cases, 11 depts | *(qualitative)* Within ~5 % of senior physicians | 100 EHR-shaped cases, 8 families | ◐ |
-| MAC Framework (2025) | 302 rare-disease cases | *(qualitative)* Outperforms self-consistency | Common chronic disease cohort | ✗ |
-| RareAgents (Chen 2024) | RareBench + MIMIC-Ext-Rare | *(qualitative)* Open backbone beats GPT-4o | DIRECT/INDIRECT/MISS, not Hit@K | ✗ |
 
 A/A legend: ✓ same metric/cohort family · ◐ related but different · ✗ different metric.
 
-> Numbers marked *(qualitative)* are the strongest claim verifiable
-> from the bib entry / abstract. If a citable headline number is
-> obtained from the paper PDF before submission, replace the
-> qualitative phrase and keep the row.
+> Numbers in **bold** are citable from the paper's published text
+> (abstract or experiments section). Numbers marked *(qualitative)*
+> are the strongest verifiable claim without a paper-side metric that
+> maps cleanly onto DIRECT / Found.
 
 **Speaker notes:**
-> Apples-to-apples is rare here. Most prior systems evaluate on
-> multiple-choice benchmarks or single specialties, not on end-to-end
-> EHR records across eight disease families. So the table is not
-> "CMADS beats them" — it's "here is what each paper reports, here
-> is what CMADS reports, here is whether they can even be compared."
-> The composition is the contribution, not any one number.
+> Three of these now have direct headline numbers. AMIE is the closest
+> comparator — OSCE-style differential-diagnosis cases with a PCP
+> baseline; their main claim is that the model beat primary care
+> physicians on twenty-eight of thirty-two axes. MedAgents reports a
+> clean MCQ accuracy on nine medical-reasoning benchmarks with GPT-4 —
+> useful as a different-metric baseline. AgentClinic is the one whose
+> design intent most resembles ours — simulated patient encounters,
+> not MCQ — and Claude-3.5 hits sixty-two percent there versus
+> physicians at fifty-four. The point of the table is not "CMADS beats
+> them" — we evaluate on different data — it's that each row tells
+> the reader where this work sits in the landscape.
 
 ---
 
