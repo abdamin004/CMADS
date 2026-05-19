@@ -197,19 +197,27 @@ def slide_what_is_cmads(prs, metrics):
 def slide_headline(prs, metrics):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
+    base_n = metrics["cohorts"]["single_level_baseline"]["n"]
+    mem_cohort = metrics["cohorts"].get("combined_160") or metrics["cohorts"]["combined_100"]
+    mem_n = mem_cohort["n"]
     add_header(slide, "Results — multi-level memory vs single-level baseline",
-               "Baseline pipeline (n=160) vs four-tier memory subsystem (n=100, batch_3 + batch_4)")
+               f"Baseline pipeline (n={base_n}) vs four-tier memory subsystem (n={mem_n})")
 
-    mem = metrics["cohorts"]["combined_100"]
+    # Prefer the 160-patient multi-level cohort if it's been computed;
+    # otherwise fall back to the original 100 (batch_3 + batch_4).
+    mem = metrics["cohorts"].get("combined_160") or metrics["cohorts"]["combined_100"]
     base = metrics["cohorts"]["single_level_baseline"]
 
-    # Two side-by-side metric cards
+    mem_sub = (f"4-tier subsystem · {mem['n']} patients"
+               if mem['n'] != 100
+               else "4-tier subsystem · 100 patients (batch_3 + batch_4)")
+
     cards = [
         ("Single-level baseline",
-         "Original pipeline · 160 patients",
+         f"Original pipeline · {base['n']} patients",
          base, BLUE),
         ("Multi-level memory",
-         "4-tier subsystem · 100 patients",
+         mem_sub,
          mem, AMBER),
     ]
     for i, (title, sub, agg, accent) in enumerate(cards):
@@ -262,9 +270,9 @@ def slide_headline(prs, metrics):
                     size=18, bold=True, color=col, align=PP_ALIGN.RIGHT)
 
     add_textbox(slide, 0.6, 6.5, 12.1, 0.9,
-                "Memory broadens recall (Found +7.5 pp, MISS −6.7 pp) but "
-                "shifts confirmed matches into the related-but-not-exact bucket "
-                "(DIRECT −24.1 pp). Different patient subsets per arm — "
+                f"Memory broadens recall (Found {d_found:+.1f} pp, MISS {d_miss:+.1f} pp) but "
+                f"shifts confirmed matches into the related-but-not-exact bucket "
+                f"(DIRECT {d_dir:+.1f} pp). Different patient subsets per arm — "
                 "comparison is descriptive, not a paired test.",
                 size=11, color=GREY_MED)
 

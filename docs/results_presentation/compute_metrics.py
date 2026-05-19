@@ -104,19 +104,29 @@ def compute(repo: Path | None = None) -> dict:
     cold = _decorate(_aggregate(results / "mas_results_improved_b3", b3))
     warm = _decorate(_aggregate(results / "mas_results_improved_50", b4))
 
-    # "Combined 100" sums the raw counts and re-decorates over N=100,
-    # so DIRECT_pct and found_pct are recomputed honestly across the union.
-    combined_raw = {
-        "n": cold["n"] + warm["n"],
-        "DIRECT": cold["DIRECT"] + warm["DIRECT"],
-        "INDIRECT": cold["INDIRECT"] + warm["INDIRECT"],
-        "MISS": cold["MISS"] + warm["MISS"],
-        "found": cold["found"] + warm["found"],
-        "rank1_in_found": cold["rank1_in_found"] + warm["rank1_in_found"],
-        "duration_total_s": cold["duration_total_s"] + warm["duration_total_s"],
-        "missing": cold["missing"] + warm["missing"],
-    }
-    combined = _decorate(combined_raw)
+    # Optional third multi-level slice: the +60 patients run to reach
+    # N=160 parity with the single-level baseline. Aggregates over the
+    # custom batch file `batch_extra60_for_160_vs_160.json` (50 from
+    # batch_5 + 10 from batch_1). If the run is incomplete or the dir
+    # doesn't exist, `extra60` is just an empty aggregate.
+    extra60_batch = batches / "batch_extra60_for_160_vs_160.json"
+    if extra60_batch.exists():
+        b60 = json.loads(extra60_batch.read_text())
+    else:
+        b60 = []
+    extra60 = _decorate(_aggregate(results / "mas_results_improved_extra60", b60))
+
+    def _sum_decorate(parts: list[dict]) -> dict:
+        keys = ("n", "DIRECT", "INDIRECT", "MISS", "found",
+                "rank1_in_found", "duration_total_s", "missing")
+        raw = {k: sum(p.get(k, 0) for p in parts) for k in keys}
+        return _decorate(raw)
+
+    # "Combined 100" is the original two-cohort union (always available).
+    combined = _sum_decorate([cold, warm])
+
+    # "Combined 160" is only meaningful when the extra60 run has finished.
+    combined_160 = _sum_decorate([cold, warm, extra60]) if extra60["n"] >= 60 else None
 
     baseline = _decorate(_aggregate_dir(results / "mas_results"))
 
@@ -134,7 +144,9 @@ def compute(repo: Path | None = None) -> dict:
         "cohorts": {
             "batch_3_cold_start": cold,
             "batch_4_warmed": warm,
+            "extra60": extra60,
             "combined_100": combined,
+            "combined_160": combined_160,
             "single_level_baseline": baseline,
         },
         "paired_mcnemar": paired,
