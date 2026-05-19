@@ -15,14 +15,15 @@ PPTX = HERE / "CMADS_Results_Presentation.pptx"
 REQUIRED_PHRASES = [
     "CMADS — Multi-Agent Systems for AI Clinical Decisioning",
     "What CMADS is",
-    "100-patient multi-level memory",
-    "Split by regime",
-    "Cohort-leakage estimate",
-    "Paired McNemar",
-    "Exact McNemar",
+    "Results — multi-level memory vs single-level baseline",
+    "Δ (Multi-level − Single-level)",
     "Doctor dashboard — features overview",
-    "Treatment safety + reviewer flow",
-    "Literature comparison — their results vs CMADS",
+    "Where CMADS sits against the literature",
+    "AMIE",
+    "MedAgents",
+    "AgentClinic",
+    "TAO",
+    "MDTeamGPT",
     "Gaps I filled",
     "The composition is the contribution.",
 ]
@@ -47,8 +48,8 @@ def main() -> int:
 
     prs = Presentation(str(PPTX))
     print(f"slides: {len(prs.slides)}")
-    if len(prs.slides) != 9:
-        print(f"FAIL: expected 9 slides, got {len(prs.slides)}")
+    if len(prs.slides) != 6:
+        print(f"FAIL: expected 6 slides, got {len(prs.slides)}")
         return 1
 
     full_text = "\n\n---SLIDE BREAK---\n\n".join(

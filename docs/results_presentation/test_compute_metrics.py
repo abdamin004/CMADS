@@ -41,6 +41,21 @@ def test_combined_100_patient_numbers():
     assert combined["found_pct"] == 95.0
 
 
+def test_single_level_baseline():
+    """The single-level baseline aggregates every evaluated patient in
+    data/gold/mas_results/ (no memory subsystem). Current on-disk count
+    is 160 patients; anchor on that. If the directory grows or shrinks,
+    update this test (and the slide copy) together."""
+    m = compute(REPO)
+    b = m["cohorts"]["single_level_baseline"]
+    assert b["n"] == 160
+    assert b["DIRECT"] == 117
+    assert b["INDIRECT"] == 23
+    assert b["MISS"] == 20
+    assert b["DIRECT_pct"] == 73.1
+    assert b["found_pct"] == 87.5
+
+
 def test_paired_mcnemar_block():
     m = compute(REPO)
     p = m["paired_mcnemar"]

@@ -25,6 +25,36 @@ def _load(path: Path) -> dict | None:
         return None
 
 
+def _aggregate_dir(results_dir: Path) -> dict:
+    """Aggregate every evaluated patient under results_dir (no batch filter)."""
+    out = {
+        "n": 0, "DIRECT": 0, "INDIRECT": 0, "MISS": 0,
+        "found": 0, "rank1_in_found": 0,
+        "duration_total_s": 0.0,
+    }
+    if not results_dir.exists():
+        return out
+    for p in sorted(results_dir.iterdir()):
+        if not p.is_dir():
+            continue
+        ev = _load(p / "evaluation.json")
+        if not ev or "match_type" not in ev:
+            continue
+        mt = ev["match_type"]
+        if mt not in ("DIRECT", "INDIRECT", "MISS"):
+            continue
+        out["n"] += 1
+        out[mt] += 1
+        if mt in ("DIRECT", "INDIRECT"):
+            out["found"] += 1
+            if ev.get("rank") == 1:
+                out["rank1_in_found"] += 1
+        tr = _load(p / "execution_trace.json")
+        if tr and isinstance(tr.get("duration_s"), (int, float)):
+            out["duration_total_s"] += tr["duration_s"]
+    return out
+
+
 def _aggregate(results_dir: Path, uuids: list[str]) -> dict:
     out = {
         "n": 0, "DIRECT": 0, "INDIRECT": 0, "MISS": 0,
@@ -88,6 +118,8 @@ def compute(repo: Path | None = None) -> dict:
     }
     combined = _decorate(combined_raw)
 
+    baseline = _decorate(_aggregate_dir(results / "mas_results"))
+
     mc = _load(results / "paired_memory_mcnemar.json") or {}
 
     paired = {
@@ -103,11 +135,13 @@ def compute(repo: Path | None = None) -> dict:
             "batch_3_cold_start": cold,
             "batch_4_warmed": warm,
             "combined_100": combined,
+            "single_level_baseline": baseline,
         },
         "paired_mcnemar": paired,
         "sources": {
             "cold_start_dir": "data/gold/mas_results_improved_b3",
             "warmed_dir": "data/gold/mas_results_improved_50",
+            "baseline_dir": "data/gold/mas_results",
             "paired_json": "data/gold/paired_memory_mcnemar.json",
             "batches": ["data/gold/batches/batch_3.json", "data/gold/batches/batch_4.json"],
         },
