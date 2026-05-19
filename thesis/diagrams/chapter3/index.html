@@ -7,23 +7,10 @@
   <style>
     :root {
       --ink: #17212b;
-      --muted: #566474;
+      --muted: #5f6d7a;
       --page: #f7fafc;
       --panel: #ffffff;
-      --line: #b9c7d6;
-      --blue: #286f9e;
-      --blue-soft: #e7f2fb;
-      --teal: #168b83;
-      --teal-soft: #e5f4f2;
-      --green: #2f8f5b;
-      --green-soft: #e8f5ec;
-      --amber: #d89418;
-      --amber-soft: #fff2d8;
-      --violet: #675bb5;
-      --violet-soft: #efedfb;
-      --red: #c84f4f;
-      --red-soft: #fbecec;
-      --gray-soft: #eef3f7;
+      --line: #bcc8d4;
     }
 
     html, body {
@@ -42,48 +29,53 @@
 
     svg.diagram {
       display: block;
-      background: var(--page);
       overflow: hidden;
+      background: var(--page);
     }
 
     .title {
-      font-size: 46px;
+      font-size: 44px;
       font-weight: 800;
       letter-spacing: 0;
       fill: var(--ink);
     }
 
     .subtitle {
-      font-size: 25px;
+      font-size: 23px;
       fill: var(--muted);
     }
 
     .section {
-      font-size: 27px;
+      font-size: 26px;
       font-weight: 800;
       fill: var(--ink);
     }
 
     .box-title {
-      font-size: 25px;
+      font-size: 24px;
       font-weight: 800;
       fill: var(--ink);
     }
 
     .box-body {
-      font-size: 21px;
+      font-size: 20px;
       fill: var(--muted);
     }
 
     .small {
-      font-size: 18px;
+      font-size: 17px;
       fill: var(--muted);
     }
 
     .label {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 17px;
+      font-weight: 800;
       fill: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", Menlo, Consolas, monospace;
     }
   </style>
 </head>
@@ -92,14 +84,19 @@
 
   <script>
     const NS = "http://www.w3.org/2000/svg";
+
     const C = {
       ink: "#17212b",
-      muted: "#566474",
+      muted: "#5f6d7a",
       page: "#f7fafc",
       panel: "#ffffff",
-      line: "#b9c7d6",
+      panelAlt: "#fbfdff",
+      line: "#bcc8d4",
+      lineDark: "#8a98a8",
       blue: "#286f9e",
       blueSoft: "#e7f2fb",
+      cyan: "#2aa3b5",
+      cyanSoft: "#e6f7fa",
       teal: "#168b83",
       tealSoft: "#e5f4f2",
       green: "#2f8f5b",
@@ -110,21 +107,25 @@
       violetSoft: "#efedfb",
       red: "#c84f4f",
       redSoft: "#fbecec",
-      graySoft: "#eef3f7"
+      slate: "#324150",
+      slateSoft: "#eef3f7",
+      dark: "#24272b",
+      darkPanel: "#1b1d21",
+      darkTile: "#111317"
     };
 
     const FIGURES = {
-      system_architecture: { width: 1800, height: 920, draw: drawSystemArchitecture },
-      data_pipeline: { width: 1800, height: 830, draw: drawDataPipeline },
-      agent_pipeline: { width: 1800, height: 1490, draw: drawAgentPipeline },
-      multilevel_memory: { width: 1800, height: 940, draw: drawMultilevelMemory },
-      agent_blueprint: { width: 1800, height: 870, draw: drawAgentBlueprint },
-      agent_ehr_flow: { width: 1800, height: 540, draw: drawEhrFlow },
-      agent_lab_flow: { width: 1800, height: 540, draw: drawLabFlow },
-      agent_diag_flow: { width: 1800, height: 1060, draw: drawDiagnosticFlow },
-      agent_reviewer_flow: { width: 1800, height: 540, draw: drawReviewerFlow },
-      agent_refiner_flow: { width: 1800, height: 980, draw: drawRefinerFlow },
-      tech_stack: { width: 1800, height: 1180, draw: drawTechStack }
+      system_architecture: { width: 1800, height: 1040, draw: drawSystemArchitecture },
+      data_pipeline: { width: 1800, height: 900, draw: drawDataPipeline },
+      agent_pipeline: { width: 1800, height: 1180, draw: drawAgentPipeline },
+      multilevel_memory: { width: 1800, height: 1000, draw: drawMultilevelMemory },
+      agent_blueprint: { width: 1800, height: 920, draw: drawAgentBlueprint },
+      agent_ehr_flow: { width: 1800, height: 650, draw: drawEhrFlow },
+      agent_lab_flow: { width: 1800, height: 650, draw: drawLabFlow },
+      agent_diag_flow: { width: 1800, height: 1080, draw: drawDiagnosticFlow },
+      agent_reviewer_flow: { width: 1800, height: 650, draw: drawReviewerFlow },
+      agent_refiner_flow: { width: 1800, height: 850, draw: drawRefinerFlow },
+      tech_stack: { width: 1800, height: 1400, draw: drawTechStack }
     };
 
     function el(name, attrs = {}, children = []) {
@@ -141,14 +142,29 @@
       return node;
     }
 
-    function text(svg, x, y, value, className, attrs = {}) {
-      const node = el("text", { x, y, class: className, ...attrs });
+    function normalizeTextAttrs(attrs = {}) {
+      const styleKeys = ["fill", "font-size", "font-weight", "font-style", "font-family", "letter-spacing", "text-anchor"];
+      const clean = { ...attrs };
+      const style = [];
+      for (const key of styleKeys) {
+        if (clean[key] !== undefined) {
+          style.push(`${key}: ${clean[key]}`);
+          delete clean[key];
+        }
+      }
+      if (clean.style) style.unshift(clean.style);
+      if (style.length) clean.style = style.join("; ");
+      return clean;
+    }
+
+    function text(svg, x, y, value, className = "small", attrs = {}) {
+      const node = el("text", { x, y, class: className, ...normalizeTextAttrs(attrs) });
       node.textContent = value;
       return append(svg, node);
     }
 
-    function lines(svg, x, y, values, className, gap = 28, attrs = {}) {
-      const node = el("text", { x, y, class: className, ...attrs });
+    function lines(svg, x, y, values, className = "box-body", gap = 28, attrs = {}) {
+      const node = el("text", { x, y, class: className, ...normalizeTextAttrs(attrs) });
       values.forEach((value, index) => {
         const t = el("tspan", { x, dy: index === 0 ? 0 : gap });
         t.textContent = value;
@@ -157,21 +173,25 @@
       return append(svg, node);
     }
 
-    function title(svg, heading, subheading) {
-      text(svg, 72, 76, heading, "title");
-      text(svg, 74, 116, subheading, "subtitle");
+    function title(svg, heading, subheading, opts = {}) {
+      const x = opts.x || 72;
+      const y = opts.y || 76;
+      text(svg, x, y, heading, "title", opts.dark ? { fill: "#f7fafc" } : {});
+      text(svg, x + 2, y + 40, subheading, "subtitle", opts.dark ? { fill: "#c9d2dc" } : {});
     }
 
     function defs(svg, prefix) {
       const defsNode = el("defs");
       for (const [name, color] of Object.entries({
-        dark: C.muted,
+        dark: C.slate,
         blue: C.blue,
+        cyan: C.cyan,
         teal: C.teal,
         green: C.green,
         amber: C.amber,
         violet: C.violet,
-        red: C.red
+        red: C.red,
+        white: "#f7fafc"
       })) {
         const marker = el("marker", {
           id: `${prefix}-arrow-${name}`,
@@ -182,801 +202,855 @@
           markerHeight: 8,
           orient: "auto"
         });
-        marker.appendChild(el("path", { d: "M 0 0 L 10 5 L 0 10 z", fill: color }));
+        marker.appendChild(el("path", {
+          d: "M 1 1.2 Q 9.2 5 1 8.8 Q 3.4 5 1 1.2 Z",
+          fill: color,
+          stroke: color,
+          "stroke-linejoin": "round"
+        }));
         defsNode.appendChild(marker);
       }
+
+      const shadow = el("filter", { id: `${prefix}-shadow`, x: "-8%", y: "-12%", width: "116%", height: "128%" });
+      shadow.appendChild(el("feDropShadow", {
+        dx: 0,
+        dy: 4,
+        stdDeviation: 5,
+        "flood-color": "#17212b",
+        "flood-opacity": 0.13
+      }));
+      defsNode.appendChild(shadow);
+
+      const checker = el("pattern", {
+        id: `${prefix}-checker`,
+        width: 32,
+        height: 32,
+        patternUnits: "userSpaceOnUse"
+      });
+      checker.appendChild(el("rect", { width: 32, height: 32, fill: "#15171b" }));
+      checker.appendChild(el("rect", { x: 0, y: 0, width: 16, height: 16, fill: "#1e2126" }));
+      checker.appendChild(el("rect", { x: 16, y: 16, width: 16, height: 16, fill: "#1e2126" }));
+      defsNode.appendChild(checker);
+
       svg.appendChild(defsNode);
     }
 
     function colorOf(key) {
-      return C[key] || key || C.muted;
+      return C[key] || key || C.slate;
     }
 
-    function colorOfSoft(key) {
-      const k = String(key) + "Soft";
-      return C[k] || C.graySoft;
+    function softOf(key) {
+      return C[`${key}Soft`] || C.slateSoft;
     }
 
-    function arrow(svg, x1, y1, x2, y2, key = "dark", attrs = {}) {
+    function arrow(svg, x1, y1, x2, y2, key = "dark", opts = {}) {
       return append(svg, el("line", {
         x1, y1, x2, y2,
         stroke: colorOf(key),
-        "stroke-width": attrs.width || 4,
+        "stroke-width": opts.width || 3,
         "stroke-linecap": "round",
         "marker-end": `url(#${svg.dataset.prefix}-arrow-${key})`,
-        ...(attrs.dash ? { "stroke-dasharray": attrs.dash } : {})
+        ...(opts.dash ? { "stroke-dasharray": opts.dash } : {})
       }));
     }
 
-    function route(svg, d, key = "dark", attrs = {}) {
+    function route(svg, d, key = "dark", opts = {}) {
       return append(svg, el("path", {
         d,
         fill: "none",
         stroke: colorOf(key),
-        "stroke-width": attrs.width || 4,
+        "stroke-width": opts.width || 3,
         "stroke-linecap": "round",
         "stroke-linejoin": "round",
         "marker-end": `url(#${svg.dataset.prefix}-arrow-${key})`,
-        ...(attrs.dash ? { "stroke-dasharray": attrs.dash } : {})
+        ...(opts.dash ? { "stroke-dasharray": opts.dash } : {})
       }));
     }
 
-    function box(svg, x, y, w, h, titleValue, bodyLines, accent = "blue", fill = C.panel, opts = {}) {
+    function box(svg, x, y, w, h, heading, body, key = "blue", opts = {}) {
       append(svg, el("rect", {
-        x, y, width: w, height: h, rx: opts.rx || 8,
-        fill,
+        x, y, width: w, height: h, rx: opts.rx || 12,
+        fill: opts.fill || C.panel,
         stroke: opts.stroke || C.line,
-        "stroke-width": opts.strokeWidth || 2
+        "stroke-width": opts.strokeWidth || 2,
+        ...(opts.shadow ? { filter: `url(#${svg.dataset.prefix}-shadow)` } : {})
       }));
-      append(svg, el("rect", {
-        x, y, width: opts.accentWidth || 9, height: h,
-        rx: opts.rx || 8,
-        fill: colorOf(accent)
-      }));
-      lines(svg, x + 26, y + 42, [titleValue], "box-title", 28);
-      lines(svg, x + 26, y + 78, bodyLines, "box-body", opts.bodyGap || 27);
-    }
-
-    function panel(svg, x, y, w, h, labelValue) {
-      append(svg, el("rect", {
-        x, y, width: w, height: h, rx: 10,
-        fill: C.panel,
-        stroke: C.line,
-        "stroke-width": 2
-      }));
-      if (labelValue) text(svg, x + 24, y + 40, labelValue, "section");
-    }
-
-    function pill(svg, x, y, value, key = "dark", width = 160) {
-      append(svg, el("rect", {
-        x, y, width, height: 36, rx: 18,
-        fill: C.panel,
-        stroke: colorOf(key),
-        "stroke-width": 2
-      }));
-      text(svg, x + width / 2, y + 24, value, "label", {
-        fill: colorOf(key),
-        "text-anchor": "middle"
+      if (!opts.noStripe) {
+        append(svg, el("rect", {
+          x, y, width: opts.stripe || 10, height: h,
+          rx: opts.rx || 12,
+          fill: colorOf(key)
+        }));
+      }
+      if (opts.badge) {
+        pill(svg, x + 24, y + 24, opts.badge, key, opts.badgeWidth || 76, { compact: true });
+        text(svg, x + 114, y + 50, heading, "box-title", { "font-size": opts.titleSize || 23 });
+      } else {
+        text(svg, x + 26, y + 43, heading, "box-title", { "font-size": opts.titleSize || 24 });
+      }
+      lines(svg, x + 26, y + (opts.bodyY || 78), body, "box-body", opts.gap || 27, {
+        "font-size": opts.bodySize || 20,
+        fill: opts.bodyFill || C.muted
       });
     }
 
-    function stageBox(svg, x, y, w, h, stage, titleValue, bodyLines, key = "blue") {
-      box(svg, x, y, w, h, titleValue, bodyLines, key, C.panel);
-      pill(svg, x + 22, y - 18, stage, key, 120);
+    function panel(svg, x, y, w, h, heading, key = "dark", opts = {}) {
+      append(svg, el("rect", {
+        x, y, width: w, height: h, rx: opts.rx || 14,
+        fill: opts.fill || C.panel,
+        stroke: opts.stroke || C.line,
+        "stroke-width": opts.strokeWidth || 2,
+        ...(opts.shadow ? { filter: `url(#${svg.dataset.prefix}-shadow)` } : {})
+      }));
+      if (heading) {
+        text(svg, x + 24, y + 44, heading, "section", { fill: colorOf(key) });
+      }
+    }
+
+    function pill(svg, x, y, value, key = "dark", width = 160, opts = {}) {
+      const h = opts.compact ? 32 : 38;
+      append(svg, el("rect", {
+        x, y, width, height: h, rx: h / 2,
+        fill: opts.fill || softOf(key),
+        stroke: opts.stroke || colorOf(key),
+        "stroke-width": opts.strokeWidth || 1.5
+      }));
+      text(svg, x + width / 2, y + (opts.compact ? 22 : 25), value, "label", {
+        fill: opts.textFill || colorOf(key),
+        "text-anchor": "middle",
+        "font-size": opts.fontSize || (opts.compact ? 15 : 17)
+      });
+    }
+
+    function numberedStep(svg, x, y, n, key) {
+      append(svg, el("circle", { cx: x, cy: y, r: 24, fill: colorOf(key) }));
+      text(svg, x, y + 7, String(n), "label", {
+        fill: "#ffffff",
+        "text-anchor": "middle",
+        "font-size": "20px"
+      });
+    }
+
+    function tinyCard(svg, x, y, w, h, heading, note, key = "blue") {
+      append(svg, el("rect", {
+        x, y, width: w, height: h, rx: 10,
+        fill: softOf(key),
+        stroke: colorOf(key),
+        "stroke-width": 1.6
+      }));
+      text(svg, x + 18, y + 31, heading, "label", { fill: colorOf(key), "font-size": "17px" });
+      if (note) text(svg, x + 18, y + 56, note, "small", { "font-size": "15px" });
     }
 
     function drawSystemArchitecture(svg) {
-      title(svg, "System Architecture Overview",
-            "Top-level CMADS flow; each box is expanded in the following methodology sections.");
+      title(svg, "CMADS Methodology Architecture",
+            "A black-box view of the data plane, agentic reasoning core, memory plane, and doctor-facing outputs.");
 
-      // ── Top row: data sources ──
-      box(svg, 90, 200, 360, 130, "Synthea generator",
-          ["1,000 synthetic patients",
-           "FHIR R4 records"], "teal", C.tealSoft, { bodyGap: 28 });
-      box(svg, 530, 200, 360, 130, "Data pipeline",
-          ["Bronze → Silver → Gold",
-           "(see Section 3.2)"], "teal", C.tealSoft, { bodyGap: 28 });
-      box(svg, 970, 200, 360, 130, "Gold case objects",
-          ["EHR + lab JSON",
-           "hidden ground truth"], "teal", C.tealSoft, { bodyGap: 28 });
-      box(svg, 1410, 200, 320, 130, "NICE corpus",
-          ["external reference",
-           "(Qdrant store)"], "amber", C.amberSoft, { bodyGap: 28 });
-      arrow(svg, 450, 265, 530, 265, "teal");
-      arrow(svg, 890, 265, 970, 265, "teal");
+      const laneX = 70;
+      const laneW = 1660;
+      const lanes = [
+        { y: 150, h: 170, label: ["Data", "preparation", "plane"], color: "teal" },
+        { y: 365, h: 230, label: ["Agentic", "reasoning", "plane"], color: "blue" },
+        { y: 640, h: 150, label: ["Memory and", "knowledge", "plane"], color: "violet" },
+        { y: 835, h: 130, label: ["Clinical", "output", "plane"], color: "green" }
+      ];
 
-      // ── Middle row: the system itself, as a single black box ──
-      box(svg, 410, 410, 990, 160, "CMADS multi-agent reasoning system",
-          ["LangGraph StateGraph · 7 specialised agents",
-           "with multi-level shared memory",
-           "(see Sections 3.3 – 3.6)"], "blue", C.blueSoft, { bodyGap: 28 });
+      lanes.forEach(lane => {
+        append(svg, el("rect", {
+          x: laneX, y: lane.y, width: laneW, height: lane.h, rx: 18,
+          fill: C.panel,
+          stroke: C.line,
+          "stroke-width": 2,
+          filter: `url(#${svg.dataset.prefix}-shadow)`
+        }));
+        append(svg, el("rect", {
+          x: laneX, y: lane.y, width: 250, height: lane.h, rx: 18,
+          fill: softOf(lane.color),
+          stroke: colorOf(lane.color),
+          "stroke-width": 0
+        }));
+        lines(svg, laneX + 34, lane.y + 54, lane.label, "section", 34, {
+          fill: colorOf(lane.color),
+          "font-size": "24px"
+        });
+      });
 
-      // Inputs into the system
-      arrow(svg, 1150, 330, 905, 410, "teal", { width: 5 });
-      arrow(svg, 1550, 330, 1300, 410, "amber", { width: 4 });
+      box(svg, 380, 178, 270, 120, "Synthea", ["1,000 synthetic", "FHIR R4 patients"], "teal", {
+        fill: C.tealSoft,
+        bodyY: 72,
+        gap: 24
+      });
+      box(svg, 720, 178, 300, 120, "Medallion pipeline", ["Bronze, Silver, Gold", "OMOP features"], "teal", {
+        fill: C.tealSoft,
+        bodyY: 72,
+        gap: 24
+      });
+      box(svg, 1090, 178, 300, 120, "Gold case objects", ["EHR + lab JSON", "ground truth hidden"], "teal", {
+        fill: C.tealSoft,
+        bodyY: 72,
+        gap: 24
+      });
+      box(svg, 1460, 178, 210, 120, "NICE corpus", ["guideline chunks", "Qdrant store"], "amber", {
+        fill: C.amberSoft,
+        bodyY: 72,
+        gap: 24
+      });
+      arrow(svg, 650, 238, 720, 238, "teal");
+      arrow(svg, 1020, 238, 1090, 238, "teal");
 
-      // ── Bottom row: outputs ──
-      box(svg, 250, 660, 460, 130, "Persisted results",
-          ["one JSON per agent",
-           "+ execution trace"], "green", C.greenSoft, { bodyGap: 28 });
-      box(svg, 770, 660, 460, 130, "Streamlit dashboard",
-          ["case + memory browser",
-           "for evaluator review"], "violet", C.violetSoft, { bodyGap: 28 });
-      box(svg, 1290, 660, 460, 130, "Doctor console",
-          ["FastAPI + React frontend",
-           "for clinician review"], "blue", C.blueSoft, { bodyGap: 28 });
+      panel(svg, 430, 400, 990, 170, "", "blue", { fill: C.blueSoft, stroke: C.blue });
+      text(svg, 475, 461, "LangGraph multi-agent system", "section", { fill: C.blue, "font-size": "30px" });
+      text(svg, 477, 502, "seven specialised agents coordinate diagnosis, review, treatment, and memory consolidation", "box-body", {
+        fill: C.ink,
+        "font-size": "20px"
+      });
+      pill(svg, 500, 517, "EHR", "teal", 88);
+      pill(svg, 605, 517, "Labs", "teal", 98);
+      pill(svg, 725, 517, "Reason", "blue", 128);
+      pill(svg, 875, 517, "Review", "red", 120);
+      pill(svg, 1015, 517, "Refine", "violet", 120);
+      pill(svg, 1155, 517, "Judge", "amber", 116);
+      pill(svg, 1290, 517, "Treat", "green", 112);
 
-      // Arrows from the system down to each output
-      arrow(svg, 600, 570, 480, 660, "green", { width: 5 });
-      arrow(svg, 905, 570, 1000, 660, "violet", { width: 5 });
-      arrow(svg, 1210, 570, 1500, 660, "blue", { width: 5 });
+      route(svg, "M1240 298 L1240 365 L925 365 L925 405", "teal", { width: 4 });
+      route(svg, "M1565 298 L1565 470 L1420 470", "amber", { width: 4, dash: "10 7" });
+
+      box(svg, 390, 675, 390, 86, "Multi-level memory", ["T1/T2 run state, T3/T4 durable recall"], "violet", {
+        fill: C.violetSoft,
+        bodyY: 61,
+        bodySize: 18
+      });
+      box(svg, 860, 675, 350, 86, "Qdrant collections", ["patient_cases and nice_guidelines"], "amber", {
+        fill: C.amberSoft,
+        bodyY: 61,
+        bodySize: 18
+      });
+      box(svg, 1290, 675, 360, 86, "Execution trace", ["per-agent JSON outputs and timings"], "blue", {
+        fill: C.blueSoft,
+        bodyY: 61,
+        bodySize: 18
+      });
+      route(svg, "M650 570 L650 675", "violet", { width: 3, dash: "8 7" });
+      route(svg, "M1035 570 L1035 675", "amber", { width: 3, dash: "8 7" });
+      route(svg, "M1440 570 L1440 675", "blue", { width: 3, dash: "8 7" });
+
+      box(svg, 390, 857, 330, 92, "Research results", ["metrics, traces, case files"], "green", {
+        fill: C.greenSoft,
+        bodyY: 66,
+        bodySize: 15,
+        titleSize: 21
+      });
+      box(svg, 805, 857, 350, 92, "Streamlit dashboard", ["experiment and memory review"], "violet", {
+        fill: C.violetSoft,
+        bodyY: 66,
+        bodySize: 15,
+        titleSize: 21
+      });
+      box(svg, 1240, 857, 360, 92, "Doctor console", ["interactive patient walkthrough"], "blue", {
+        fill: C.blueSoft,
+        bodyY: 66,
+        bodySize: 15,
+        titleSize: 21
+      });
+      arrow(svg, 585, 761, 555, 857, "green");
+      arrow(svg, 1035, 761, 980, 857, "violet");
+      arrow(svg, 1440, 761, 1420, 857, "blue");
     }
 
     function drawDataPipeline(svg) {
-      title(svg, "Synthetic Data Generation and Filtering", "How raw synthetic patients become Gold cases consumed by the agents.");
-      const y = 245;
-      const xs = [60, 405, 750, 1095, 1440];
-      const w = 295;
-      const h = 145;
-      box(svg, xs[0], y, w, h, "Synthea cohort", ["1,000 synthetic patients", "FHIR R4 resources"], "teal");
-      box(svg, xs[1], y, w, h, "Medallion ingest", ["Bronze raw Parquet", "DuckDB warehouse"], "blue");
-      box(svg, xs[2], y, w, h, "OMOP transform", ["Silver OMOP CDM", "Silver+ derived features"], "blue");
-      box(svg, xs[3], y, w, h, "Eligibility filter", ["8 target diseases", ">=3 encounters", ">=5 labs"], "amber", C.panel, { bodyGap: 24 });
-      box(svg, xs[4], y, w, h, "Gold case objects", ["270 selected cases", "EHR, labs, hidden truth"], "green");
-      for (let i = 0; i < 4; i += 1) arrow(svg, xs[i] + w, y + h / 2, xs[i + 1] - 25, y + h / 2, "dark");
+      title(svg, "Synthetic Data Generation and Gold-Case Construction",
+            "Deterministic ETL and an LLM detectability gate convert raw synthetic records into diagnosable cases.");
 
-      panel(svg, 150, 510, 1500, 190, "Output contract");
-      box(svg, 220, 575, 330, 95, "ehr_case.json", ["demographics, history, conditions"], "teal", C.panel, { bodyGap: 24 });
-      box(svg, 635, 575, 330, 95, "lab_case.json", ["time-series labs and flags"], "blue", C.panel, { bodyGap: 24 });
-      box(svg, 1050, 575, 350, 95, "ground_truth.json", ["target condition; evaluator only"], "red", C.panel, { bodyGap: 24 });
-    }
-
-    // ── pipeline_overview-style helpers ──────────────────────────
-    function techBadge(svg, x, y, value, w) {
-      const bw = w || (value.length * 11 + 36);
-      append(svg, el("rect", {
-        x: x - bw, y, width: bw, height: 36, rx: 18,
-        fill: C.graySoft, stroke: C.line, "stroke-width": 1
-      }));
-      text(svg, x - bw / 2, y + 24, value, "small", {
-        "text-anchor": "middle", fill: C.muted, "font-size": "18px"
-      });
-    }
-
-    function codePill(svg, x, y, code, key) {
-      const w = 76;
-      append(svg, el("rect", {
-        x, y, width: w, height: 38, rx: 19,
-        fill: colorOfSoft(key)
-      }));
-      text(svg, x + w / 2, y + 27, code, "label", {
-        fill: colorOf(key), "text-anchor": "middle",
-        "font-weight": "800", "font-size": "20px"
-      });
-    }
-
-    function agentChip(svg, x, y, name, calls, key) {
-      const labelW = name.length * 13 + 32;
-      append(svg, el("rect", {
-        x, y, width: labelW, height: 32, rx: 6,
-        fill: colorOfSoft(key), stroke: colorOf(key), "stroke-width": 1.5
-      }));
-      text(svg, x + 16, y + 22, name, "label", {
-        fill: colorOf(key), "font-weight": "700", "font-size": "18px"
-      });
-      const callsX = x + labelW + 10;
-      text(svg, callsX, y + 22, "· " + calls, "small", {
-        fill: C.muted, "font-size": "17px"
-      });
-      return callsX + calls.length * 9 + 12;
-    }
-
-    function stageCard(svg, x, y, w, h, stage) {
-      append(svg, el("rect", {
-        x, y, width: w, height: h, rx: 12,
-        fill: C.panel, stroke: C.line, "stroke-width": 2
-      }));
-      append(svg, el("rect", {
-        x, y, width: 10, height: h, rx: 12,
-        fill: colorOf(stage.color)
-      }));
-      codePill(svg, x + 26, y + 22, stage.code, stage.color);
-      text(svg, x + 26 + 76 + 18, y + 50, stage.name, "box-title", {
-        fill: C.ink, "font-size": "28px", "font-weight": "800"
-      });
-      techBadge(svg, x + w - 26, y + 24, stage.tech);
-      text(svg, x + 26, y + 90, stage.desc, "box-body", {
-        fill: C.muted, "font-size": "20px"
-      });
-      let ax = x + 26;
-      const ay = y + h - 44;
-      stage.agents.forEach(a => {
-        ax = agentChip(svg, ax, ay, a.name, a.calls, stage.color) + 22;
-      });
-    }
-
-    function downArrow(svg, x, y, len, label) {
-      append(svg, el("line", {
-        x1: x, y1: y, x2: x, y2: y + len - 10,
-        stroke: C.muted, "stroke-width": 2.5, "stroke-linecap": "round"
-      }));
-      append(svg, el("polygon", {
-        points: `${x - 7},${y + len - 12} ${x + 7},${y + len - 12} ${x},${y + len}`,
-        fill: C.muted
-      }));
-      if (label) {
-        text(svg, x + 18, y + len / 2 + 5, label, "small", {
-          fill: C.muted, "font-size": "17px", "font-style": "italic"
+      const y = 215;
+      const steps = [
+        { key: "teal", title: "Synthea cohort", body: ["1,000 patients", "FHIR R4 bundles"] },
+        { key: "blue", title: "Bronze ingest", body: ["raw Parquet", "audit-preserved"] },
+        { key: "blue", title: "Silver OMOP", body: ["OMOP CDM v5.4", "standard tables"] },
+        { key: "cyan", title: "Silver+ features", body: ["lab trends", "eGFR and flags"] },
+        { key: "amber", title: "Eligibility filter", body: ["8 diseases", "encounters + labs"] },
+        { key: "red", title: "Detectability gate", body: ["Qwen3 verifier", "YES and conf >= 80"] },
+        { key: "green", title: "Gold cases", body: ["270 candidates", "agent-ready JSON"] }
+      ];
+      const startX = 65;
+      const w = 220;
+      const gap = 26;
+      steps.forEach((step, i) => {
+        const x = startX + i * (w + gap);
+        numberedStep(svg, x + 28, y - 28, i + 1, step.key);
+        box(svg, x, y, w, 142, step.title, step.body, step.key, {
+          fill: softOf(step.key),
+          bodySize: 18,
+          gap: 25,
+          titleSize: 21
         });
-      }
+        if (i < steps.length - 1) arrow(svg, x + w, y + 71, x + w + gap - 8, y + 71, "dark", { width: 3 });
+      });
+
+      panel(svg, 110, 455, 1580, 175, "Gold output contract", "green", { fill: C.panelAlt });
+      const out = [
+        { title: "ehr_case.json", note: "demographics, encounters, conditions, medications", key: "teal" },
+        { title: "lab_case.json", note: "time-series values, ranges, trend flags", key: "blue" },
+        { title: "ground_truth.json", note: "target disease, first diagnosis date, evaluator only", key: "red" }
+      ];
+      out.forEach((item, i) => {
+        box(svg, 190 + i * 510, 525, 430, 90, item.title, [item.note], item.key, {
+          fill: softOf(item.key),
+          bodyY: 66,
+          bodySize: 16,
+          titleSize: 21
+        });
+      });
+
+      panel(svg, 200, 700, 1400, 118, "Anti-leakage controls", "red", { fill: C.redSoft, stroke: C.red });
+      pill(svg, 260, 755, "target diagnosis hidden from reasoning agents", "red", 430);
+      pill(svg, 735, 755, "verifier used only before evaluation", "amber", 350);
+      pill(svg, 1130, 755, "judge reads ground truth only at Stage 5", "violet", 410);
     }
 
     function drawAgentPipeline(svg) {
-      title(svg, "Multi-Agent System Execution",
-            "Six LangGraph stages, seven agents. Each stage reads from and writes to the shared memory black box on the right.");
+      title(svg, "LangGraph Multi-Agent Workflow",
+            "A staged agentic pipeline with parallel evidence extraction, adversarial review, gated treatment, and memory consolidation.");
 
-      const cardX = 140;
-      const cardW = 1080;
-      const cardH = 160;
-      const arrowGap = 48;
-      const memX = cardX + cardW + 80;
-      const memW = 440;
-      let y = 180;
-
+      const x = 85;
+      const stageW = 1110;
+      const memX = 1260;
+      const memW = 460;
       const stages = [
         {
-          code: "S1", name: "Context Extraction",
-          tech: "GPT-OSS-120B · parallel",
-          desc: "Two agents read the Gold case concurrently; outputs merged into PipelineState.",
-          agents: [
-            { name: "EHR Analyst", calls: "1 LLM call" },
-            { name: "Lab Interpreter", calls: "1 LLM call" }
-          ],
-          color: "teal",
-          arrow: "ehr_summary + lab_summary"
+          y: 165, h: 125, key: "teal", badge: "S1",
+          title: "Parallel context extraction",
+          body: ["EHR Analyst and Lab Interpreter run concurrently", "reducers merge both outputs safely"],
+          agents: ["EHR Analyst", "Lab Interpreter"]
         },
         {
-          code: "S2", name: "Diagnostic Reasoning",
-          tech: "GPT-OSS-120B · 3-phase, adaptive",
-          desc: "Round A with-prior · Round B clean-room · Round C synthesise. Up to 3 critique rounds.",
-          agents: [
-            { name: "Diagnostic Reasoning", calls: "3 – 9 calls" }
-          ],
-          color: "blue",
-          arrow: "ranked differential + reasoning trace"
+          y: 325, h: 150, key: "blue", badge: "S2",
+          title: "Diagnostic reasoning loop",
+          body: ["adaptive critique loop when no prior is found", "anti-anchoring split when Tier-4 recall is strong"],
+          agents: ["Diagnostic Reasoning"]
         },
         {
-          code: "S3", name: "Adversarial Review",
-          tech: "GPT-OSS-120B",
-          desc: "Independent verification of each candidate diagnosis. Original output preserved for audit.",
-          agents: [
-            { name: "Clinical Reviewer", calls: "1 LLM call" }
-          ],
-          color: "red",
-          arrow: "verification + concerns"
+          y: 520, h: 125, key: "red", badge: "S3",
+          title: "Adversarial clinical review",
+          body: ["independent evidence check challenges anchoring", "unsupported claims and missed severe findings"],
+          agents: ["Clinical Reviewer"]
         },
         {
-          code: "S4", name: "Refinement",
-          tech: "GPT-OSS-120B",
-          desc: "Merges Diagnostic + Reviewer outputs into a single final differential with provenance fields.",
-          agents: [
-            { name: "Diagnostic Refiner", calls: "1 LLM call" }
-          ],
-          color: "violet",
-          arrow: "final_diagnosis.json"
+          y: 685, h: 125, key: "violet", badge: "S4",
+          title: "Diagnostic refinement",
+          body: ["reviewer flags are reconciled into one", "clinician-readable final differential"],
+          agents: ["Diagnostic Refiner"]
         },
         {
-          code: "S5", name: "LLM-as-Judge Evaluation",
-          tech: "Qwen3-32B",
-          desc: "Compares free-text differential against the hidden Synthea ground truth.",
-          agents: [
-            { name: "LLM Evaluator", calls: "1 LLM call" }
-          ],
-          color: "amber",
-          arrow: "DIRECT / INDIRECT / MISS · rank"
-        },
-        {
-          code: "S6", name: "Treatment + Memory Consolidation",
-          tech: "GPT-OSS-120B · Qdrant · DIRECT-gated",
-          desc: "Treatment plan generated only on DIRECT matches. Memory node always writes Tier 2-3; conditionally Tier 4.",
-          agents: [
-            { name: "Treatment Planning", calls: "1 LLM call · DIRECT only" },
-            { name: "Memory Consolidator", calls: "deterministic" }
-          ],
-          color: "green",
-          arrow: null
+          y: 850, h: 125, key: "amber", badge: "S5",
+          title: "LLM-as-Judge evaluation",
+          body: ["Qwen3-32B compares top-five differential", "against hidden Synthea ground truth"],
+          agents: ["LLM Evaluator"]
         }
       ];
 
-      const stageStartY = y;
-      const stageMidYs = [];
       stages.forEach((stage, i) => {
-        stageCard(svg, cardX, y, cardW, cardH, stage);
-        stageMidYs.push(y + cardH / 2);
-        y += cardH;
+        box(svg, x, stage.y, stageW, stage.h, stage.title, stage.body, stage.key, {
+          badge: stage.badge,
+          badgeWidth: 70,
+          fill: C.panel,
+          shadow: true,
+          bodyY: 82,
+          bodySize: 18,
+          gap: 26,
+          titleSize: 24
+        });
+        const widths = stage.agents.map(agent => Math.min(260, Math.max(150, agent.length * 10 + 58)));
+        const totalWidth = widths.reduce((sum, width) => sum + width, 0) + (stage.agents.length - 1) * 18;
+        let ax = x + stageW - totalWidth - 34;
+        stage.agents.forEach((agent, index) => {
+          pill(svg, ax, stage.y + stage.h - 47, agent, stage.key, widths[index], { fontSize: 15 });
+          ax += widths[index] + 18;
+        });
         if (i < stages.length - 1) {
-          downArrow(svg, cardX + cardW / 2, y + 4, arrowGap - 6, stage.arrow);
-          y += arrowGap;
+          arrow(svg, x + stageW / 2, stage.y + stage.h + 4, x + stageW / 2, stages[i + 1].y - 12, "dark", { width: 3 });
         }
       });
 
-      // ── Shared Memory black box (right column) ───────────────
-      const memY = stageStartY - 8;
-      const memH = (y - stageStartY) + 16;
-      // Outer black-box card
-      append(svg, el("rect", {
-        x: memX, y: memY, width: memW, height: memH, rx: 14,
-        fill: C.panel,
-        stroke: C.ink, "stroke-width": 3
-      }));
-      // Code pill at top
-      const memPillW = 230;
-      append(svg, el("rect", {
-        x: memX + 26, y: memY + 22, width: memPillW, height: 38, rx: 19,
-        fill: C.violetSoft
-      }));
-      text(svg, memX + 26 + memPillW / 2, memY + 47, "SHARED MEMORY", "label", {
-        fill: C.violet, "text-anchor": "middle",
-        "font-weight": "800", "font-size": "18px"
-      });
-      // Title and subtitle
-      text(svg, memX + 26, memY + 90, "PipelineState", "box-title", {
-        fill: C.ink, "font-size": "26px", "font-weight": "800"
-      });
-      text(svg, memX + 26, memY + 122, "single TypedDict · per-channel reducers", "small", {
-        fill: C.muted, "font-size": "18px"
-      });
-
-      // Tier rows
-      const tierY0 = memY + 158;
-      const tierGap = 80;
+      panel(svg, memX, 165, memW, 815, "", "violet", { fill: C.panelAlt, stroke: C.ink, strokeWidth: 2.8, shadow: true });
+      text(svg, memX + 30, 220, "Shared memory plane", "section", { fill: C.violet, "font-size": "29px" });
+      text(svg, memX + 30, 258, "PipelineState + MemoryManager", "box-title", { "font-size": "23px" });
+      text(svg, memX + 30, 290, "read/write context available to every stage", "small", { "font-size": "17px" });
       const tiers = [
-        { code: "T1", label: "Working", note: "scratchpad, loop state", color: "blue" },
-        { code: "T2", label: "Episodic", note: "session event timeline", color: "blue" },
-        { code: "T3", label: "Semantic", note: "disease-level aggregates", color: "blue" },
-        { code: "T4", label: "Case-based", note: "Qdrant patient_cases", color: "blue" }
+        ["T1", "Working", "agent scratchpad", "blue"],
+        ["T2", "Episodic", "session event timeline", "violet"],
+        ["T3", "Semantic", "disease-level run statistics", "green"],
+        ["T4", "Case recall", "Qdrant patient_cases", "amber"]
       ];
-      tiers.forEach((tier, idx) => {
-        const ty = tierY0 + idx * tierGap;
-        append(svg, el("rect", {
-          x: memX + 26, y: ty, width: memW - 52, height: 64, rx: 8,
-          fill: C.blueSoft,
-          stroke: C.blue, "stroke-width": 1.5
-        }));
-        // T1/T2/T3/T4 code box
-        append(svg, el("rect", {
-          x: memX + 38, y: ty + 12, width: 56, height: 40, rx: 6,
-          fill: C.blue
-        }));
-        text(svg, memX + 38 + 28, ty + 38, tier.code, "label", {
-          fill: "#ffffff", "text-anchor": "middle",
-          "font-weight": "800", "font-size": "18px"
-        });
-        text(svg, memX + 110, ty + 30, tier.label, "box-title", {
-          fill: C.ink, "font-size": "22px", "font-weight": "700"
-        });
-        text(svg, memX + 110, ty + 52, tier.note, "small", {
-          fill: C.muted, "font-size": "16px"
-        });
+      tiers.forEach((tier, i) => {
+        const yy = 325 + i * 92;
+        tinyCard(svg, memX + 28, yy, memW - 56, 76, `${tier[0]} - ${tier[1]}`, tier[2], tier[3]);
+      });
+      box(svg, memX + 28, 720, memW - 56, 100, "External guideline knowledge", ["NICE passages in Qdrant", "used only by treatment planning"], "amber", {
+        fill: C.amberSoft,
+        titleSize: 21,
+        bodyY: 63,
+        bodySize: 17,
+        gap: 23
+      });
+      box(svg, memX + 28, 848, memW - 56, 86, "Run artifacts", ["agent JSON + execution_trace"], "blue", {
+        fill: C.blueSoft,
+        titleSize: 21,
+        bodyY: 62,
+        bodySize: 17
       });
 
-      // Footnote at the bottom of the black box
-      const footY = tierY0 + tiers.length * tierGap + 8;
-      text(svg, memX + 26, footY + 24, "Every stage reads from and writes to this state.", "small", {
-        fill: C.muted, "font-size": "16px", "font-style": "italic"
-      });
-      text(svg, memX + 26, footY + 46, "Tier 4 backed by Qdrant; Tiers 1-3 in-process.", "small", {
-        fill: C.muted, "font-size": "16px", "font-style": "italic"
-      });
-
-      // Double-headed arrows from each stage to shared memory
-      stageMidYs.forEach(midY => {
-        // Stage edge -> memory edge (read/write arrow)
+      stages.forEach(stage => {
+        const mid = stage.y + stage.h / 2;
         append(svg, el("line", {
-          x1: cardX + cardW, y1: midY,
-          x2: memX, y2: midY,
-          stroke: C.violet, "stroke-width": 2.5, "stroke-linecap": "round",
-          "stroke-dasharray": "6 5"
+          x1: x + stageW,
+          y1: mid,
+          x2: memX,
+          y2: mid,
+          stroke: C.violet,
+          "stroke-width": 2.4,
+          "stroke-linecap": "round",
+          "stroke-dasharray": "7 6"
         }));
-        // Arrowhead pointing right (write)
-        append(svg, el("polygon", {
-          points: `${memX - 12},${midY - 6} ${memX},${midY} ${memX - 12},${midY + 6}`,
-          fill: C.violet
-        }));
-        // Arrowhead pointing left (read)
-        append(svg, el("polygon", {
-          points: `${cardX + cardW + 12},${midY - 6} ${cardX + cardW},${midY} ${cardX + cardW + 12},${midY + 6}`,
-          fill: C.violet
-        }));
+        append(svg, el("polygon", { points: `${memX - 10},${mid - 6} ${memX},${mid} ${memX - 10},${mid + 6}`, fill: C.violet }));
+        append(svg, el("polygon", { points: `${x + stageW + 10},${mid - 6} ${x + stageW},${mid} ${x + stageW + 10},${mid + 6}`, fill: C.violet }));
       });
 
-      // "read / write" label on one of the arrows
-      if (stageMidYs.length > 0) {
-        const labelMidY = (stageMidYs[0] + stageMidYs[stageMidYs.length - 1]) / 2;
-        const labelX = (cardX + cardW + memX) / 2;
-        // Background to make text readable
-        const labelText = "read · write";
-        const labelW = labelText.length * 11 + 24;
-        append(svg, el("rect", {
-          x: labelX - labelW / 2, y: labelMidY - 22, width: labelW, height: 30, rx: 6,
-          fill: C.page, stroke: C.violet, "stroke-width": 1.5
-        }));
-        text(svg, labelX, labelMidY - 3, labelText, "label", {
-          fill: C.violet, "text-anchor": "middle",
-          "font-weight": "700", "font-size": "16px",
-          "font-family": "JetBrains Mono, monospace"
-        });
-      }
-    }
-
-    function techCard(svg, x, y, w, h, tier) {
-      append(svg, el("rect", {
-        x, y, width: w, height: h, rx: 12,
-        fill: C.panel, stroke: C.line, "stroke-width": 2
-      }));
-      append(svg, el("rect", {
-        x, y, width: 10, height: h, rx: 12,
-        fill: colorOf(tier.color)
-      }));
-      // Tier label column (left)
-      append(svg, el("rect", {
-        x: x + 26, y: y + 26, width: 270, height: h - 52, rx: 8,
-        fill: colorOfSoft(tier.color)
-      }));
-      text(svg, x + 46, y + 56, tier.label, "box-title", {
-        fill: colorOf(tier.color), "font-size": "24px", "font-weight": "800"
+      box(svg, 85, 1025, 510, 115, "S6 - Treatment planning", ["DIRECT-gated NICE retrieval", "and clinical plan"], "green", {
+        fill: C.greenSoft,
+        bodyY: 72,
+        bodySize: 18,
+        gap: 23,
+        badge: "S6",
+        badgeWidth: 70
       });
-      text(svg, x + 46, y + 86, tier.sublabel || "", "small", {
-        fill: C.muted, "font-size": "17px"
+      box(svg, 660, 1025, 535, 115, "S7 - Memory consolidation", ["non-LLM update of", "durable memory tiers"], "violet", {
+        fill: C.violetSoft,
+        bodyY: 72,
+        bodySize: 18,
+        gap: 23,
+        badge: "S7",
+        badgeWidth: 70
       });
-      // Tech chips area (right)
-      const chipsX = x + 320;
-      const chipsY = y + 30;
-      let cx = chipsX;
-      let cy = chipsY;
-      const chipH = 44;
-      const lineGap = 14;
-      tier.items.forEach(item => {
-        const nameW = item.name.length * 13 + 28;
-        const roleW = item.role.length * 9 + 24;
-        const totalW = nameW + roleW + 8;
-        if (cx + totalW > x + w - 26) {
-          cx = chipsX;
-          cy += chipH + lineGap;
-        }
-        // Tech name chip
-        append(svg, el("rect", {
-          x: cx, y: cy, width: nameW, height: chipH, rx: 8,
-          fill: colorOfSoft(tier.color),
-          stroke: colorOf(tier.color), "stroke-width": 1.5
-        }));
-        text(svg, cx + 14, cy + 28, item.name, "label", {
-          fill: colorOf(tier.color), "font-weight": "700", "font-size": "19px"
-        });
-        // Role label (right of name, separator)
-        text(svg, cx + nameW + 12, cy + 28, item.role, "small", {
-          fill: C.muted, "font-size": "17px"
-        });
-        cx += totalW + 18;
-      });
-    }
-
-    function drawTechStack(svg) {
-      title(svg, "Technology Stack",
-            "The concrete components used in CMADS, grouped by layer.");
-
-      const cardX = 130;
-      const cardW = 1540;
-      const cardH = 130;
-      const gap = 12;
-      let y = 180;
-
-      const tiers = [
-        {
-          color: "violet",
-          label: "Data Generation",
-          sublabel: "synthetic patient origin",
-          items: [
-            { name: "Synthea (Java)", role: "rule-based patient generator" },
-            { name: "FHIR R4", role: "bundle format" },
-            { name: "CDC pathway models", role: "disease state machines" }
-          ]
-        },
-        {
-          color: "amber",
-          label: "Data Lake",
-          sublabel: "medallion architecture",
-          items: [
-            { name: "PyArrow", role: "Bronze ingestion" },
-            { name: "dbt-core", role: "Silver / OMOP CDM v5.4" },
-            { name: "DuckDB", role: "embedded warehouse" },
-            { name: "Python 3.11+", role: "Gold case assembly" }
-          ]
-        },
-        {
-          color: "blue",
-          label: "Orchestration",
-          sublabel: "agent control flow",
-          items: [
-            { name: "LangGraph", role: "StateGraph + reducers" },
-            { name: "Pydantic v2", role: "agent output schemas" },
-            { name: "structlog", role: "JSON-lines traces" },
-            { name: "PyYAML", role: "prompt templates" }
-          ]
-        },
-        {
-          color: "red",
-          label: "LLM Inference",
-          sublabel: "provider-agnostic adapter",
-          items: [
-            { name: "Groq · GPT-OSS-120B", role: "primary reasoning" },
-            { name: "Groq · Qwen3-32B", role: "LLM-as-judge" },
-            { name: "OpenAI / Anthropic / Gemini / Ollama", role: "alt providers" },
-            { name: "LangSmith", role: "optional call tracing" }
-          ]
-        },
-        {
-          color: "teal",
-          label: "Memory & Retrieval",
-          sublabel: "four-tier shared memory",
-          items: [
-            { name: "Qdrant", role: "patient_cases + NICE guidelines" },
-            { name: "sentence-transformers", role: "embedding runtime" },
-            { name: "BioLORD-2023", role: "biomedical encoder" },
-            { name: "CoALA-inspired tiers", role: "working / episodic / semantic / case-based" }
-          ]
-        },
-        {
-          color: "green",
-          label: "Frontend",
-          sublabel: "doctor-facing review",
-          items: [
-            { name: "Streamlit", role: "dashboard + memory page" },
-            { name: "DuckDB (read-only)", role: "encounter lookup" },
-            { name: "Fraunces / Manrope / JetBrains Mono", role: "editorial typography" }
-          ]
-        },
-        {
-          color: "violet",
-          label: "Quality & Tooling",
-          sublabel: "tests, lint, build",
-          items: [
-            { name: "pytest", role: "37 unit + integration tests" },
-            { name: "ruff", role: "lint + format" },
-            { name: "Makefile", role: "single-command workflows" },
-            { name: "tectonic / pdflatex", role: "thesis build" }
-          ]
-        }
-      ];
-
-      tiers.forEach(tier => {
-        techCard(svg, cardX, y, cardW, cardH, tier);
-        y += cardH + gap;
-      });
-    }
-
-    function drawMultilevelMemory(svg) {
-      title(svg, "Multi-Level Shared Memory", "A facade separates per-run state from durable cross-session stores.");
-      box(svg, 655, 180, 490, 145, "MemoryManager facade",
-          ["single API used by agent code", "builds from PipelineState"],
-          "violet", C.violetSoft);
-      panel(svg, 80, 410, 1640, 290, "Four memory tiers exposed by the facade");
-      box(svg, 130, 500, 350, 145, "Tier 1: Working",
-          ["agent scratchpad", "run-local loop state"], "blue", C.blueSoft);
-      box(svg, 525, 500, 350, 145, "Tier 2: Episodic",
-          ["session events", "append-only trace"], "violet", C.violetSoft);
-      box(svg, 920, 500, 350, 145, "Tier 3: Semantic",
-          ["disease-family aggregates", "JSON on disk"], "green", C.greenSoft);
-      box(svg, 1315, 500, 350, 145, "Tier 4: Case-based",
-          ["Qdrant patient_cases", "write-gated by match type"], "amber", C.amberSoft);
-      pill(svg, 610, 365, "facade reads and writes selected tiers", "violet", 580);
-      box(svg, 590, 720, 620, 110, "Stage 7 consolidation",
-          ["writes Tier 3 + eligible Tier 4",
-           "after the treatment node"], "green", C.panel);
+      route(svg, "M640 975 L640 1002 L340 1002 L340 1025", "green", { width: 3 });
+      arrow(svg, 595, 1082, 660, 1082, "violet");
+      route(svg, `M1195 1082 L1238 1082 L1238 934 L1260 934`, "violet", { dash: "8 6", width: 3 });
     }
 
     function drawAgentBlueprint(svg) {
-      title(svg, "Generic Agent Blueprint", "Every specialised LLM agent follows the same runtime contract.");
-      const y = 260;
-      const xs = [80, 415, 750, 1085, 1420];
-      const w = 260;
-      const h = 145;
-      box(svg, xs[0], y, w, h, "Input Gate", ["validate upstream", "schemas"], "teal");
-      box(svg, xs[1], y, w, h, "Prompt Assembly", ["YAML task prompt", "memory context"], "blue");
-      box(svg, xs[2], y, w, h, "LLM Adapter", ["retry", "timeout", "provider API"], "amber");
-      box(svg, xs[3], y, w, h, "Output Parser", ["JSON repair", "Pydantic schema"], "violet");
-      box(svg, xs[4], y, w, h, "Output Gate", ["clinical checks", "trace write"], "green");
-      for (let i = 0; i < 4; i += 1) arrow(svg, xs[i] + w, y + h / 2, xs[i + 1] - 25, y + h / 2, "dark");
+      title(svg, "Generic Agent Blueprint",
+            "Every specialised agent follows the same controlled LLM contract: validate inputs, assemble prompt, call model, parse output, gate result.");
 
-      panel(svg, 240, 510, 1320, 230, "Shared services used by the blueprint");
-      box(svg, 300, 585, 360, 112, "Prompt YAML", ["versioned prompts", "response schemas"], "blue", C.panel, { bodyGap: 25 });
-      box(svg, 720, 585, 360, 112, "MemoryManager", ["reads priors; writes events"], "violet", C.panel, { bodyGap: 25 });
-      box(svg, 1140, 585, 360, 112, "Structured Trace", ["duration, status, errors"], "green", C.panel, { bodyGap: 25 });
+      panel(svg, 95, 165, 1610, 425, "Agent runtime cell", "blue", { fill: C.panel, shadow: true });
+      const steps = [
+        ["Input Gate", ["required fields", "schema checks"], "teal"],
+        ["Prompt Assembly", ["YAML task prompt", "memory context"], "blue"],
+        ["LLM Adapter", ["provider route", "retry + timeout"], "amber"],
+        ["Output Parser", ["JSON repair", "Pydantic v2"], "violet"],
+        ["Output Gate", ["clinical checks", "trace write"], "green"]
+      ];
+      const startX = 145;
+      const y = 300;
+      const w = 260;
+      const gap = 50;
+      steps.forEach((step, i) => {
+        const sx = startX + i * (w + gap);
+        box(svg, sx, y, w, 145, step[0], step[1], step[2], { fill: softOf(step[2]), shadow: false });
+        if (i < steps.length - 1) arrow(svg, sx + w, y + 72, sx + w + gap - 15, y + 72, "dark");
+      });
+
+      route(svg, "M1205 445 C1205 515, 895 515, 895 445", "red", { width: 3, dash: "10 8" });
+      pill(svg, 845, 493, "repair / retry when parsing fails", "red", 330);
+
+      panel(svg, 180, 655, 1440, 170, "Shared services used by all agents", "violet", { fill: C.panelAlt });
+      tinyCard(svg, 235, 720, 280, 70, "Prompt library", "versioned YAML files", "blue");
+      tinyCard(svg, 570, 720, 280, 70, "MemoryManager", "T1-T4 access boundary", "violet");
+      tinyCard(svg, 905, 720, 280, 70, "Provider adapter", "Groq, Ollama, others", "amber");
+      tinyCard(svg, 1240, 720, 280, 70, "Structured trace", "status, duration, errors", "green");
     }
 
-    function drawLinearAgent(svg, heading, subtitle, inputTitle, inputLines, calls, outputTitle, outputLines) {
+    function drawLinearAgent(svg, heading, subtitle, data) {
       title(svg, heading, subtitle);
-      const y = 250;
-      const h = 165;
-      box(svg, 80, y, 285, h, inputTitle, inputLines, "teal", C.tealSoft);
-      let x = 465;
-      calls.forEach((call, index) => {
-        box(svg, x, y, 265, h, call[0], call[1], call[2], call[3]);
-        arrow(svg, index === 0 ? 365 : x - 55, y + h / 2, x - 25, y + h / 2, index === 0 ? "teal" : "dark");
-        x += 330;
+      panel(svg, 80, 175, 1640, 330, "Three-call agent pattern", data.color, { fill: C.panel, shadow: true });
+      const nodes = [
+        data.input,
+        data.call1,
+        data.call2,
+        data.call3,
+        data.output
+      ];
+      const xs = [140, 455, 770, 1085, 1400];
+      nodes.forEach((node, i) => {
+        box(svg, xs[i], 290, 245, 125, node.title, node.body, node.key, {
+          fill: softOf(node.key),
+          titleSize: 20,
+          bodySize: 17,
+          gap: 23
+        });
+        if (i < nodes.length - 1) arrow(svg, xs[i] + 245, 352, xs[i + 1] - 15, 352, i === 0 ? node.key : "dark");
       });
-      box(svg, 1490, y, 240, h, outputTitle, outputLines, "green", C.greenSoft);
-      arrow(svg, 1390, y + h / 2, 1490, y + h / 2, "green");
+      panel(svg, 210, 525, 1380, 95, "", data.color, { fill: softOf(data.color), stroke: colorOf(data.color) });
+      text(svg, 250, 565, data.noteTitle, "label", {
+        fill: colorOf(data.color),
+        "font-size": "23px"
+      });
+      lines(svg, 250, 594, Array.isArray(data.note) ? data.note : [data.note], "box-body", 23, {
+        fill: C.ink,
+        "font-size": "17px"
+      });
     }
 
     function drawEhrFlow(svg) {
-      drawLinearAgent(
-        svg,
-        "EHR Analyst Flow",
-        "Three separate calls convert Gold EHR evidence into a structured clinical summary.",
-        "ehr_case.json",
-        ["demographics", "conditions, history", "medications"],
-        [
-          ["Analyse record", ["identify active problems", "and clinical context"], "blue", C.blueSoft],
-          ["Structure summary", ["organise into typed", "clinical sections"], "violet", C.violetSoft],
-          ["Review output", ["check omissions and", "unsupported claims"], "amber", C.amberSoft]
-        ],
-        "ehr_analyst",
-        ["structured summary", "with provenance"]
-      );
+      drawLinearAgent(svg, "EHR Analyst Flow",
+        "A structured three-call sequence turns longitudinal EHR evidence into a provenance-aware clinical summary.",
+        {
+          color: "teal",
+          input: { title: "ehr_case.json", body: ["demographics", "conditions, meds"], key: "teal" },
+          call1: { title: "Analyse", body: ["active problems", "clinical context"], key: "blue" },
+          call2: { title: "Structure", body: ["typed sections", "evidence fields"], key: "violet" },
+          call3: { title: "Review", body: ["omissions", "unsupported claims"], key: "amber" },
+          output: { title: "ehr_analyst", body: ["summary", "provenance"], key: "green" },
+          noteTitle: "Why this agent has three calls",
+          note: [
+            "The first call reads broadly; the second call normalises the answer into schema fields.",
+            "The third call checks that the summary remains tied to the record."
+          ]
+        });
     }
 
     function drawLabFlow(svg) {
-      drawLinearAgent(
-        svg,
-        "Lab Interpreter Flow",
-        "Lab values are normalised, interpreted, severity-ranked, and reviewed.",
-        "lab_case.json",
-        ["values, units", "dates", "reference ranges"],
-        [
-          ["Normalise labs", ["standardise units", "flag abnormal values"], "blue", C.blueSoft],
-          ["Interpret pattern", ["group related", "abnormal findings"], "amber", C.amberSoft],
-          ["Review severity", ["rank clinical risk", "propagate CRITICAL"], "red", C.redSoft]
-        ],
-        "lab_interpreter",
-        ["ranked lab findings", "with severity flags"]
-      );
+      drawLinearAgent(svg, "Lab Interpreter Flow",
+        "Laboratory observations are normalised, interpreted by pattern, severity-ranked, and checked before downstream diagnosis.",
+        {
+          color: "blue",
+          input: { title: "lab_case.json", body: ["values + units", "reference ranges"], key: "teal" },
+          call1: { title: "Normalise", body: ["unit alignment", "abnormal flags"], key: "blue" },
+          call2: { title: "Interpret", body: ["related findings", "trend direction"], key: "amber" },
+          call3: { title: "Severity review", body: ["risk ranking", "CRITICAL marker"], key: "red" },
+          output: { title: "lab_interpreter", body: ["ranked findings", "severity flags"], key: "green" },
+          noteTitle: "Deterministic post-processing",
+          note: [
+            "After the structure step, a deterministic severity sort keeps the highest-risk abnormal findings",
+            "visible to the reasoning and review agents."
+          ]
+        });
     }
 
     function drawDiagnosticFlow(svg) {
-      title(svg, "Diagnostic Reasoning Flow",
-            "Three fixed evidence calls, a branch on memory quality, then a final structured-JSON emit.");
+      title(svg, "Diagnostic Reasoning Agent",
+            "The reasoner uses a bounded self-critique loop, with an anti-anchoring split only when high-quality case recall exists.");
 
-      // ── Top row: Inputs → 3 fixed pre-rounds → Branch diamond ──
-      box(svg, 70, 200, 280, 165, "Inputs",
-          ["EHR summary", "Lab summary", "Tier-4 priors (optional)"],
-          "teal", C.tealSoft);
-      box(svg, 420, 200, 230, 165, "Call 1",
-          ["synthesis", "of evidence"], "blue", C.blueSoft);
-      box(svg, 720, 200, 230, 165, "Call 2",
-          ["broad hypotheses", "(differential candidates)"], "blue", C.blueSoft);
-      box(svg, 1020, 200, 230, 165, "Call 3",
-          ["initial rank", "with confidences"], "blue", C.blueSoft);
+      box(svg, 70, 180, 280, 145, "Inputs", ["EHR summary", "lab summary", "optional Tier-4 priors"], "teal", {
+        fill: C.tealSoft,
+        bodyY: 76,
+        gap: 25
+      });
+      box(svg, 455, 180, 285, 145, "Evidence synthesis", ["combine record and labs", "without ground truth"], "blue", {
+        fill: C.blueSoft,
+        bodyY: 82,
+        gap: 25
+      });
+      box(svg, 845, 180, 310, 145, "Initial differential", ["at least 3 candidates", "rank and confidence"], "blue", {
+        fill: C.blueSoft,
+        bodyY: 82,
+        gap: 25
+      });
+      box(svg, 1265, 180, 405, 145, "Memory-quality decision", ["strong prior? similarity >= 0.75", "DIRECT-like previous case"], "amber", {
+        fill: C.amberSoft,
+        bodyY: 82,
+        gap: 25
+      });
+      arrow(svg, 350, 252, 455, 252, "teal");
+      arrow(svg, 740, 252, 845, 252, "blue");
+      arrow(svg, 1155, 252, 1265, 252, "amber");
 
-      arrow(svg, 350, 282, 420, 282, "teal");
-      arrow(svg, 650, 282, 720, 282, "dark");
-      arrow(svg, 950, 282, 1020, 282, "dark");
+      panel(svg, 95, 405, 760, 300, "Path A - quality prior available", "amber", { fill: C.amberSoft, stroke: C.amber });
+      box(svg, 135, 505, 200, 120, "Round A", ["prior visible", "evidence-gated"], "amber", { fill: C.panel });
+      box(svg, 385, 505, 200, 120, "Round B", ["clean-room", "prior hidden"], "blue", { fill: C.panel });
+      box(svg, 635, 505, 180, 120, "Round C", ["compare", "synthesise"], "violet", { fill: C.panel });
+      arrow(svg, 335, 565, 385, 565, "amber");
+      arrow(svg, 585, 565, 635, 565, "violet");
+      route(svg, "M1468 325 L1468 360 L475 360 L475 405", "amber", { width: 3 });
+      pill(svg, 505, 352, "yes: anti-anchoring split", "amber", 295);
 
-      // Decision diamond (drawn as a panel with an amber stripe)
-      box(svg, 1320, 200, 410, 165, "Branch decision",
-          ["Tier-4 quality priors available?",
-           "(DIRECT match, similarity ≥ 0.75)"],
-          "amber", C.amberSoft);
-      arrow(svg, 1250, 282, 1320, 282, "dark");
+      panel(svg, 945, 405, 735, 300, "Path B - no useful prior", "red", { fill: C.redSoft, stroke: C.red });
+      box(svg, 1005, 505, 285, 120, "Critique loop", ["draft -> critique -> rerank", "max 3 rounds"], "red", { fill: C.panel });
+      route(svg, "M1148 625 C1110 690, 1300 700, 1250 625", "red", { width: 3 });
+      box(svg, 1390, 505, 220, 120, "Stop rule", ["confidence >= 75", "or round limit"], "green", { fill: C.panel });
+      arrow(svg, 1290, 565, 1390, 565, "red");
+      route(svg, "M1468 325 L1468 360 L1312 360 L1312 405", "red", { width: 3 });
+      pill(svg, 1180, 352, "no: adaptive critique loop", "red", 305);
 
-      // ── YES branch (Path A: 3-phase split) ──
-      panel(svg, 70, 440, 820, 270, "Path A: quality prior available — 3-phase split");
-      box(svg, 110, 525, 220, 165, "Round A",
-          ["WITH prior visible", "re-rank to anchor"], "amber", C.amberSoft);
-      box(svg, 365, 525, 220, 165, "Round B",
-          ["CLEAN-ROOM", "prior hidden", "(anti-anchoring)"], "blue", C.blueSoft);
-      box(svg, 620, 525, 230, 165, "Round C",
-          ["synthesise A + B", "prefer evidence on tie"],
-          "violet", C.violetSoft);
-      arrow(svg, 330, 607, 365, 607, "amber");
-      arrow(svg, 585, 607, 620, 607, "blue");
-
-      // YES arrow from branch to Path A
-      route(svg, "M1525 365 L1525 410 L480 410 L480 440", "amber");
-      pill(svg, 470, 380, "yes — 3-phase split", "amber", 220);
-
-      // ── NO branch (Path B: adaptive critique loop) ──
-      panel(svg, 920, 440, 760, 270, "Path B: no quality prior — adaptive critique loop");
-      box(svg, 970, 525, 320, 165, "Critique loop",
-          ["draft → self-critique → re-rank",
-           "≤ 3 rounds, stop at conf ≥ 75"],
-          "red", C.redSoft);
-      // Self-loop arrow on the critique-loop box
-      route(svg, "M1290 555 C 1370 535, 1370 680, 1290 660", "red");
-      box(svg, 1380, 525, 270, 165, "Final round",
-          ["best ranked differential",
-           "passed downstream"], "green", C.greenSoft);
-      arrow(svg, 1290, 607, 1380, 607, "red");
-
-      // NO arrow from branch to Path B
-      route(svg, "M1525 365 L1525 410 L1300 410 L1300 440", "red");
-      pill(svg, 1190, 380, "no — critique loop", "red", 220);
-
-      // ── Both paths converge to a final structured-JSON call ──
-      box(svg, 660, 770, 460, 140, "Final call: structured JSON",
-          ["validate against Pydantic schema",
-           "writes diagnostic_reasoning"],
-          "violet", C.violetSoft);
-      route(svg, "M735 690 L735 740 L745 740 L745 770", "violet");
-      route(svg, "M1515 690 L1515 740 L1085 740 L1085 770", "violet");
-
-      // Output node
-      box(svg, 1220, 770, 360, 140, "diagnosis output",
-          ["ranked differential",
-           "+ Tier-2 events"], "green", C.greenSoft);
-      arrow(svg, 1120, 840, 1220, 840, "green");
+      box(svg, 600, 805, 360, 130, "Structured emit", ["Pydantic-validated JSON", "reasoning trace saved"], "violet", { fill: C.violetSoft });
+      box(svg, 1105, 805, 390, 130, "diagnostic_reasoning", ["ranked differential", "Tier-1 and Tier-2 events"], "green", { fill: C.greenSoft });
+      route(svg, "M720 625 L720 760 L780 760 L780 805", "violet", { width: 3 });
+      route(svg, "M1500 625 L1500 760 L900 760 L900 805", "violet", { width: 3 });
+      arrow(svg, 960, 870, 1105, 870, "green");
     }
 
     function drawReviewerFlow(svg) {
-      title(svg, "Clinical Reviewer Flow", "An adversarial pass challenges the diagnosis without overwriting it.");
-      box(svg, 90, 250, 330, 170, "Inputs",
-          ["Stage 1 evidence", "Diagnostic output", "Tier 2 critique trail"],
-          "teal", C.tealSoft);
-      box(svg, 530, 250, 280, 170, "Independent read",
-          ["reconstruct a likely", "differential"], "violet", C.violetSoft);
-      box(svg, 905, 250, 280, 170, "Adversarial check",
-          ["anchoring, weak evidence", "missed severe labs"], "red", C.redSoft);
-      box(svg, 1280, 250, 330, 170, "clinical_reviewer",
-          ["verified, challenged,", "or unsupported claims"], "green", C.greenSoft);
-      arrow(svg, 420, 335, 530, 335, "teal");
-      arrow(svg, 810, 335, 905, 335, "violet");
-      arrow(svg, 1185, 335, 1280, 335, "red");
+      title(svg, "Clinical Reviewer Flow",
+            "The reviewer is intentionally adversarial: it reconstructs the case independently and writes critique without overwriting diagnosis.");
+
+      panel(svg, 95, 175, 1610, 330, "Independent review pass", "red", { fill: C.panel, shadow: true });
+      box(svg, 145, 285, 280, 120, "Inputs", ["Stage-1 evidence", "diagnostic output"], "teal", { fill: C.tealSoft });
+      box(svg, 525, 285, 285, 120, "Independent read", ["rebuild differential", "ignore original rank"], "violet", { fill: C.violetSoft });
+      box(svg, 910, 285, 285, 120, "Adversarial checks", ["bias, weak evidence", "missed severe labs"], "red", { fill: C.redSoft });
+      box(svg, 1295, 285, 310, 120, "clinical_reviewer", ["verified, refuted", "or uncertain claims"], "green", { fill: C.greenSoft });
+      arrow(svg, 425, 345, 525, 345, "teal");
+      arrow(svg, 810, 345, 910, 345, "violet");
+      arrow(svg, 1195, 345, 1295, 345, "red");
+
+      panel(svg, 290, 545, 1220, 90, "", "violet", {
+        fill: C.violetSoft,
+        stroke: C.violet
+      });
+      lines(svg, 330, 585, [
+        "Reviewer reads the Tier-2 critique trail when memory is enabled,",
+        "then writes a new Tier-2 review event."
+      ], "section", 30, {
+        fill: C.violet,
+        "font-size": "23px"
+      });
     }
 
     function drawRefinerFlow(svg) {
       title(svg, "Diagnostic Refiner Flow",
-            "A single merge call reconciles diagnostic and reviewer outputs into the final ranked differential.");
+            "The refiner merges the diagnostic answer and reviewer critique into one final differential with explicit conflict handling.");
 
-      // Two upstream inputs stacked on the left
-      box(svg, 80, 230, 360, 130, "Diagnostic Reasoning",
-          ["ranked differential",
-           "with confidences + evidence"], "blue", C.blueSoft);
-      box(svg, 80, 410, 360, 130, "Clinical Reviewer",
-          ["per-diagnosis verdict:",
-           "verified · refuted · uncertain"], "red", C.redSoft);
+      box(svg, 105, 205, 360, 120, "Diagnostic Reasoning", ["ranked candidates", "confidence + evidence"], "blue", { fill: C.blueSoft });
+      box(svg, 105, 385, 360, 120, "Clinical Reviewer", ["verified / refuted / uncertain", "missed alternatives"], "red", { fill: C.redSoft });
+      panel(svg, 610, 255, 505, 210, "Merge policy", "violet", { fill: C.violetSoft, stroke: C.violet, shadow: true });
+      tinyCard(svg, 650, 325, 200, 70, "Agree", "clean terminology", "green");
+      tinyCard(svg, 875, 325, 200, 70, "Disagree", "verified up, refuted down", "red");
+      box(svg, 1275, 290, 380, 140, "final_diagnosis", ["clinician-readable", "ranked differential"], "green", { fill: C.greenSoft });
+      arrow(svg, 465, 265, 610, 335, "blue");
+      arrow(svg, 465, 445, 610, 385, "red");
+      arrow(svg, 1115, 360, 1275, 360, "violet");
 
-      // Single merge call in the middle
-      box(svg, 600, 295, 480, 180, "Merge call",
-          ["agree → harmonise terminology",
-           "disagree → verified ↑, refuted ↓",
-           "uncertain held in place"],
-          "violet", C.violetSoft);
+      panel(svg, 420, 585, 960, 165, "Optional memory reads", "violet", { fill: C.panelAlt });
+      tinyCard(svg, 480, 650, 380, 76, "Tier-2 episodic", "reasoning and reviewer events", "violet");
+      tinyCard(svg, 925, 650, 380, 76, "Tier-3 semantic", "disease-level performance", "teal");
+      route(svg, "M670 650 L670 520 L760 465", "violet", { dash: "8 7" });
+      route(svg, "M1115 650 L1040 520 L990 465", "teal", { dash: "8 7" });
+    }
 
-      // Output on the right
-      box(svg, 1240, 320, 360, 130, "final_diagnosis",
-          ["clinician-readable",
-           "ranked differential"], "green", C.greenSoft);
+    function drawMultilevelMemory(svg) {
+      title(svg, "Multi-Level Shared Memory",
+            "A controlled memory facade separates run-local state, session trace, cross-session summaries, and case-based recall.");
 
-      arrow(svg, 440, 295, 600, 360, "blue");
-      arrow(svg, 440, 475, 600, 410, "red");
-      arrow(svg, 1080, 385, 1240, 385, "violet");
+      panel(svg, 100, 165, 1600, 120, "Agent access boundary", "blue", { fill: C.blueSoft, stroke: C.blue });
+      text(svg, 145, 237, "All agents call MemoryManager instead of touching storage directly", "section", {
+        fill: C.blue,
+        "font-size": "27px"
+      });
 
-      // Optional memory reads — visible nodes BELOW the merge,
-      // dashed to indicate MEMORY_ENABLED gating
-      panel(svg, 470, 580, 740, 230, "Optional memory reads (MEMORY_ENABLED)");
-      box(svg, 510, 650, 320, 130, "Tier-2 episodic",
-          ["session timeline:",
-           "Diagnostic + Reviewer events"], "violet", C.panel,
-          { strokeWidth: 2 });
-      box(svg, 870, 650, 320, 130, "Tier-3 semantic",
-          ["per-disease aggregate:",
-           "rank-1 + confidence priors"], "teal", C.panel,
-          { strokeWidth: 2 });
+      box(svg, 655, 345, 490, 110, "MemoryManager facade", ["single API, gating rules, serialization boundary"], "violet", {
+        fill: C.violetSoft,
+        bodyY: 72,
+        bodySize: 18
+      });
+      route(svg, "M900 285 L900 345", "blue", { width: 4 });
 
-      route(svg, "M670 650 L670 540 L750 540 L750 475", "violet",
-            { dash: "10,8" });
-      route(svg, "M1030 650 L1030 540 L950 540 L950 475", "teal",
-            { dash: "10,8" });
+      const tierY = 560;
+      const tierW = 365;
+      const tierGap = 35;
+      const tiers = [
+        ["T1 Working", ["per-agent scratchpad", "cleared each invocation"], "blue"],
+        ["T2 Episodic", ["append-only event timeline", "saved per patient run"], "violet"],
+        ["T3 Semantic", ["disease-level statistics", "JSON on disk"], "green"],
+        ["T4 Case-based", ["Qdrant patient_cases", "similarity recall"], "amber"]
+      ];
+      tiers.forEach((tier, i) => {
+        const x = 120 + i * (tierW + tierGap);
+        box(svg, x, tierY, tierW, 155, tier[0], tier[1], tier[2], {
+          fill: softOf(tier[2]),
+          titleSize: 23
+        });
+        route(svg, `M900 455 L900 500 L${x + tierW / 2} 500 L${x + tierW / 2} ${tierY}`, tier[2], {
+          width: 3,
+          ...(i >= 2 ? { dash: "8 7" } : {})
+        });
+      });
+
+      panel(svg, 165, 800, 650, 105, "Write policy", "red", { fill: C.redSoft, stroke: C.red });
+      pill(svg, 210, 850, "T1/T2 are run-local", "blue", 230);
+      pill(svg, 465, 850, "T3/T4 written after outputs", "green", 295);
+
+      panel(svg, 985, 800, 650, 105, "Knowledge separation", "amber", { fill: C.amberSoft, stroke: C.amber });
+      pill(svg, 1030, 850, "NICE guidelines are external RAG", "amber", 325);
+      pill(svg, 1365, 850, "not learned patient memory", "violet", 245);
+    }
+
+    function addTechPattern(svg) {
+      append(svg, el("rect", { x: 0, y: 0, width: 1800, height: 1400, fill: C.page }));
+    }
+
+    function techLayer(svg, x, y, w, h, layer, items, color) {
+      append(svg, el("rect", {
+        x, y, width: 335, height: h, rx: 18,
+        fill: C.panel,
+        stroke: color,
+        "stroke-width": 2.5,
+        filter: `url(#${svg.dataset.prefix}-shadow)`
+      }));
+      append(svg, el("rect", { x, y, width: 12, height: h, rx: 8, fill: color }));
+      lines(svg, x + 40, y + 42, layer, "label", 25, {
+        fill: color,
+        "font-size": "25px"
+      });
+
+      const px = x + 450;
+      const pw = w - 450;
+      append(svg, el("line", {
+        x1: x + 335,
+        y1: y + h / 2,
+        x2: px - 30,
+        y2: y + h / 2,
+        stroke: C.lineDark,
+        "stroke-width": 3,
+        "stroke-dasharray": "6 8"
+      }));
+      append(svg, el("rect", {
+        x: px,
+        y,
+        width: pw,
+        height: h,
+        rx: 20,
+        fill: C.panel,
+        stroke: C.line,
+        "stroke-width": 2.5,
+        filter: `url(#${svg.dataset.prefix}-shadow)`
+      }));
+
+      const gap = 16;
+      const tokenW = (pw - 76 - gap * (items.length - 1)) / items.length;
+      let tx = px + 38;
+      items.forEach(item => {
+        techToken(svg, tx, y + 22, tokenW, h - 44, item, color);
+        tx += tokenW + gap;
+      });
+    }
+
+    function techToken(svg, x, y, w, h, item, color) {
+      append(svg, el("rect", {
+        x, y, width: w, height: h, rx: 14,
+        fill: C.panelAlt,
+        stroke: item.fill || color,
+        "stroke-width": 1.5
+      }));
+      text(svg, x + w / 2, y + h / 2 + 7, item.name, "label", {
+        fill: C.ink,
+        "font-size": item.nameSize || "18px",
+        "text-anchor": "middle"
+      });
+    }
+
+    function drawTechStack(svg) {
+      addTechPattern(svg);
+      title(svg, "CMADS Technology Stack", "Technologies, standards, and frameworks used by the project.");
+      text(svg, 1488, 76, "Clinical MAS thesis", "label", { fill: C.muted, "font-size": "23px" });
+
+      const rows = [
+        {
+          label: ["Clinical Data", "Standards"],
+          color: C.green,
+          items: [
+            { name: "Synthea", fill: C.green },
+            { name: "Java", fill: C.amber },
+            { name: "FHIR R4", fill: C.blue },
+            { name: "JSON", fill: C.slate },
+            { name: "SNOMED CT", fill: C.violet },
+            { name: "LOINC", fill: C.teal }
+          ]
+        },
+        {
+          label: ["Data", "Engineering"],
+          color: C.blue,
+          items: [
+            { name: "Python", fill: C.blue },
+            { name: "pandas", fill: C.green },
+            { name: "PyArrow", fill: C.blue },
+            { name: "Parquet", fill: C.amber },
+            { name: "DuckDB", fill: C.slate },
+            { name: "dbt-core", fill: C.red },
+            { name: "OMOP CDM", fill: C.teal }
+          ]
+        },
+        {
+          label: ["Agent", "Framework"],
+          color: C.violet,
+          items: [
+            { name: "LangGraph", fill: C.blue },
+            { name: "LangChain", fill: C.teal },
+            { name: "Pydantic v2", fill: C.amber },
+            { name: "PyYAML", fill: C.red },
+            { name: "structlog", fill: C.slate },
+            { name: "LangSmith", fill: C.violet }
+          ]
+        },
+        {
+          label: ["LLM Serving", "and Models"],
+          color: C.teal,
+          items: [
+            { name: "Groq", fill: "#ef6c3b" },
+            { name: "GPT-OSS-120B", fill: C.violet, nameSize: "17px" },
+            { name: "Qwen3-32B", fill: C.blue },
+            { name: "Med42-70B", fill: C.green },
+            { name: "Ollama", fill: C.slate }
+          ]
+        },
+        {
+          label: ["Vector Search", "and Embeddings"],
+          color: C.green,
+          items: [
+            { name: "Qdrant", fill: C.amber },
+            { name: "qdrant-client", fill: C.blue, nameSize: "17px" },
+            { name: "sentence-transformers", fill: C.violet, nameSize: "15px" },
+            { name: "BioLORD-2023", fill: C.teal, nameSize: "16px" },
+            { name: "NumPy", fill: C.slate }
+          ]
+        },
+        {
+          label: ["Dashboard", "Analytics"],
+          color: C.amber,
+          items: [
+            { name: "Streamlit", fill: C.red },
+            { name: "Plotly", fill: C.blue },
+            { name: "pandas", fill: C.green },
+            { name: "DuckDB", fill: C.slate }
+          ]
+        },
+        {
+          label: ["Doctor", "Console"],
+          color: C.cyan,
+          items: [
+            { name: "FastAPI", fill: C.teal },
+            { name: "Uvicorn", fill: C.green },
+            { name: "React", fill: C.blue },
+            { name: "Vite", fill: C.violet },
+            { name: "TypeScript", fill: C.slate },
+            { name: "React Flow", fill: C.cyan }
+          ]
+        },
+        {
+          label: ["Quality", "and Build"],
+          color: C.slate,
+          items: [
+            { name: "pytest", fill: C.green },
+            { name: "pytest-asyncio", fill: C.blue, nameSize: "16px" },
+            { name: "ruff", fill: C.amber },
+            { name: "Make", fill: C.slate },
+            { name: "Tectonic", fill: C.red },
+            { name: "LaTeX", fill: C.violet }
+          ]
+        }
+      ];
+
+      let y = 125;
+      rows.forEach(row => {
+        techLayer(svg, 28, y, 1744, 122, row.label, row.items, row.color);
+        y += 142;
+      });
     }
 
     function createFigure(name) {

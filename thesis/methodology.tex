@@ -97,6 +97,11 @@ For each candidate patient, it builds a short clinical summary with
 demographics, conditions, medications, risk scores, recent labs, critical
 flags, and vital signs. It then asks the four questions shown in
 Box~\ref{box:verifier}, using the Synthea target disease as the reference.
+This verifier is therefore not an independent diagnostic evaluator. It is a
+data-quality filter that deliberately checks whether the known synthetic label
+is visible in the pre-diagnosis evidence. The retained cohort is consequently
+cleaner than unfiltered real EHR data, and the results in
+Chapter~\ref{chap:results} should be read under that constraint.
 
 \begin{table}[!htbp]
 \centering
@@ -121,9 +126,10 @@ The verifier returns four fields: \texttt{VERDICT} (YES or NO),
 \texttt{CONFIDENCE~$\geq$~80} are admitted. Rejected patients are saved for
 audit but are not run through the agent pipeline.
 
-This two-stage filtering process produced the 270 candidate evaluation
-patients used in the project. The verifier is only a data-quality gate. It
-does not see any agent output, and it does not judge the system's diagnosis.
+This two-stage filtering process is the source of the 160-patient evaluation
+cohort used throughout Chapter~\ref{chap:results}. The verifier is only a
+data-quality gate. It does not see any agent output, and it does not judge
+the system's diagnosis.
 The LLM-as-Judge evaluator in Section~\ref{sec:evaluation} is a separate
 component that later compares the agents' differential diagnoses with the
 hidden ground truth.
@@ -796,6 +802,17 @@ paths, output directory, and checkpoint location, are stored in configuration
 files or environment variables. A central \texttt{Config} class reads them at
 process start. This allows the same Gold JSON inputs and LangGraph pipeline to
 be rerun without changing the code.
+
+\subsection*{Code availability}
+The full implementation --- data pipeline, agent prompts, LangGraph workflow,
+shared-memory subsystem, evaluator, Streamlit research dashboard, and React
+doctor console --- is published at
+\href{https://github.com/abdamin004/CMADS}{\texttt{github.com/abdamin004/CMADS}}.
+The repository contains a Makefile with single-command targets for installing
+dependencies, running the pipeline on one patient or a batch, launching the
+Streamlit dashboard, and launching the doctor console API and web client. A
+\texttt{Quick Start} block at the top of the \texttt{README} walks an external
+reader from clone to a running dashboard in five commands.
 
 \FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────

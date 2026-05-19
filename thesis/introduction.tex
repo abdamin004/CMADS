@@ -6,55 +6,68 @@
 \label{sec:motivation}
 % -----------------------------------------------------------------------------
 
-Clinical diagnostic error is a persistent source of patient harm. A large
-outpatient-care review estimated that around five per cent of United States
-adults experience a diagnostic error in any given year~\cite{Singh2014DiagnosticErrors},
-and a follow-up 2024 analysis attributed approximately 795{,}000 deaths or
-permanent disabilities annually in the United States alone to diagnostic
-error~\cite{NewmanToker2024Burden}. The clinician's task has also grown heavier:
-a time and motion study found that physicians spend nearly two hours on the
-electronic health record for every hour of direct patient
-contact~\cite{Sinsky2016Allocation}, leaving less room to synthesise the
-conditions, medications, laboratory trends, and visit notes that bear on a
-diagnostic decision. Clinical decision support has been studied for many years
-as one response to this pressure, but the gap between research benchmarks and
-bedside use remains wide.
+Clinical diagnostic error remains a major source of preventable patient harm. A
+large outpatient-care review estimated that around five per cent of United
+States adults experience a diagnostic error in any given
+year~\cite{Singh2014DiagnosticErrors}, and a 2024 analysis attributed
+approximately 795{,}000 deaths or permanent disabilities each year in the United
+States alone to diagnostic error~\cite{NewmanToker2024Burden}. At the same
+time, the clinical workload around the electronic health record has grown: a
+time and motion study found that physicians spend nearly two hours on the EHR
+for every hour of direct patient contact~\cite{Sinsky2016Allocation}. This
+leaves less time for the difficult part of diagnosis: connecting symptoms,
+previous conditions, medications, laboratory trends, risk factors, and clinical
+guidelines into one coherent judgement.
 
-Diagnosis is difficult because a doctor usually has to connect many pieces of
-evidence at the same time. A patient record can include old conditions,
-medications, vital signs, laboratory results, and notes from different visits.
-Some findings point in different directions, and the doctor still has to decide
-which diagnoses are most likely and what should be done next.
+This is why clinical decision support remains an important research area.
+Diagnosis is not a single-step task. It requires the clinician to compare
+competing explanations, notice missing data, avoid premature closure, and decide
+what evidence should be trusted. A patient record may contain clear signals, but
+it may also contain old diagnoses, incomplete medication lists, abnormal values
+that are not clinically meaningful, and findings that point in different
+directions. Any useful clinical AI system therefore needs to support the
+reasoning process, not only produce a final answer.
 
-Large language models (LLMs) are useful for this type of work because they can
-read long text, summarise evidence, and explain their reasoning in natural
-language. Recent studies show that LLM-based systems can perform well on medical
-question-answering tasks and other controlled clinical benchmarks
-\cite{Abbasian2024openCHA,Tang2024MedAgents}. However, good benchmark scores do
-not automatically make a system useful in a clinical workflow. A single LLM call
-can miss important evidence, copy a wrong assumption from the prompt, or produce
-a confident answer without checking it. Prior work also shows that medical LLM
-errors often come from missing domain knowledge and from reasoning biases such as
-anchoring and confirmation bias \cite{Tang2024MedAgents,Ke2024CognitiveBias}.
+Large language models (LLMs) have renewed interest in this problem because they
+can read long clinical text, summarise evidence, and explain a line of reasoning
+in natural language. Recent studies show strong results on medical
+question-answering tasks and controlled clinical benchmarks
+\cite{Abbasian2024openCHA,Tang2024MedAgents}. However, benchmark performance
+does not automatically translate into a safe clinical workflow. A single LLM
+call is still a monolithic process: the same model reads all inputs, forms the
+diagnosis, and presents the result without an independent reviewer inside the
+workflow. Prior work shows that medical LLM errors often come from domain
+knowledge gaps and from cognitive biases such as anchoring and confirmation
+bias~\cite{Tang2024MedAgents,Ke2024CognitiveBias}. These are the same types of
+failure that clinical decision support is meant to reduce.
 
-Multi-agent systems are one way to reduce these problems. Instead of asking one
-model to do every task, the system splits the work between agents with different
-roles. One agent can analyse the EHR, another can interpret labs, another can
-build the differential diagnosis, and another can review the result. This is
-closer to how complex cases are often discussed by clinical teams. Recent
-systems such as MDAgents, ZODIAC, ClinicalLab, the MAC Framework, and
-MDTeamGPT show that multi-agent LLM workflows can improve medical reasoning in
-specific settings \cite{Kim2024MDAgents,Zhou2024ZODIAC,Yan2024ClinicalLab,MAC2025npj,Chen2025MDTeamGPT}.
+Multi-agent systems provide a more suitable architecture for this setting.
+Instead of asking one model to perform the whole clinical task, the work is
+distributed across agents with separate responsibilities. One agent can analyse
+the EHR, another can interpret laboratory trends, another can construct the
+differential diagnosis, and a reviewer can challenge the result before a final
+answer is saved. This resembles the way complex cases are often discussed by
+clinical teams, where the value comes not only from one expert opinion but from
+structured comparison and review. Recent systems such as MDAgents, ZODIAC,
+ClinicalLab, the MAC Framework, RareAgents, and MDTeamGPT show that multi-agent
+LLM workflows can improve medical reasoning in specific settings
+\cite{Kim2024MDAgents,Zhou2024ZODIAC,Yan2024ClinicalLab,MAC2025npj,Chen2024RareAgents,Chen2025MDTeamGPT}.
 
-The main problem is not only the strength of the model. It is also the way the
-agents are connected. If agents pass weak outputs to each other, repeat the same
-mistake, or overwrite earlier reasoning, the final answer can still be unsafe or
-hard to inspect. Bedi et al. describe this as an optimisation problem in which
-the best individual components do not always make the best system when they are
-combined poorly \cite{Bedi2025OptParadox}. This thesis starts from that point. It
-builds and evaluates a multi-agent clinical decision support system that uses
-synthetic patient records, shared memory, guideline retrieval, and a dashboard
-that lets a human reviewer inspect how the agents reached their answer.
+The remaining challenge is not simply choosing a larger or more medical model.
+It is designing the workflow that connects the agents. If agents pass weak
+outputs to one another, silently agree with an early mistake, or overwrite
+useful intermediate reasoning, the final result may look polished while still
+being clinically wrong. Bedi et al. articulate this tension between
+individually strong components and their coordination~\cite{Bedi2025OptParadox};
+their framing motivates the design choices made here --- explicit shared
+state, a non-destructive reviewer step, and a bounded diagnostic critique
+loop --- but this thesis does not empirically reproduce their best-of-breed
+versus coordinated comparison. Starting from that motivation, the thesis
+designs and evaluates the Clinical Multi-Agent Decisioning System (CMADS),
+a seven-agent clinical decision support pipeline built on synthetic patient
+records, multi-level shared memory, NICE guideline retrieval, automated
+evaluation, and a doctor-facing dashboard for inspecting how the result was
+produced.
 
 % -----------------------------------------------------------------------------
 \section{Key Terms and Definitions}
@@ -122,7 +135,8 @@ the meanings used in this project.
 
   \item[\textbf{Cohort leakage.}] A risk in memory-based evaluation where the
     system looks better because it has already seen similar cases from the same
-    test cohort. This thesis measures that risk with a cold-start comparison.
+    test cohort. This thesis reports this risk explicitly when interpreting the
+    aggregate memory comparison.
 
 \end{description}
 
@@ -131,46 +145,52 @@ the meanings used in this project.
 \label{sec:problem}
 % -----------------------------------------------------------------------------
 
-The literature shows that multi-agent clinical systems are promising, but four
-problems are still important for a complete thesis implementation.
+The literature reviewed in Chapter~\ref{chap:background} shows that
+multi-agent clinical systems are promising, but it also leaves a practical gap:
+few systems join data preparation, diagnostic reasoning, memory, review,
+treatment planning, evaluation, and clinician inspection into one reproducible
+pipeline. Four problems are especially important for this thesis.
 
-The first problem is \textbf{end-to-end coordination}. Many papers focus on a
-single benchmark or one part of clinical reasoning. In this project, the system
-must run from patient data preparation to EHR analysis, lab interpretation,
-differential diagnosis, review, refinement, evaluation, and treatment planning.
-This needs a graph that can run agents in the right order, allow parallel work
-where possible, and continue safely if one agent fails.
+The first problem is \textbf{end-to-end coordination}. Many studies evaluate
+one benchmark or one reasoning stage. A clinical decision support workflow has
+to do more than that. It must move from patient data preparation to EHR
+analysis, lab interpretation, differential diagnosis, review, refinement,
+evaluation, and treatment planning. This requires an execution graph that can
+run agents in the right order, allow parallel work where it is useful, and
+continue safely when an agent produces a partial or invalid output.
 
-The second problem is \textbf{useful disagreement between agents}. If all agents
-simply agree with the first answer, the system does not really review itself.
+The second problem is \textbf{meaningful disagreement between agents}. A
+multi-agent system is weak if all agents simply confirm the first diagnosis.
 Prior work shows that structured conflict resolution can improve diagnostic
 accuracy \cite{Fan2024AIHospital,Wang2025Catfish}. In this thesis, the Clinical
-Reviewer challenges the Diagnostic Reasoning agent, and the Diagnostic Refiner
-uses that criticism without deleting the original diagnostic output. This keeps
-the reasoning visible for inspection.
+Reviewer challenges the Diagnostic Reasoning output, and the Diagnostic Refiner
+uses that critique to produce the final diagnosis. The original diagnostic
+reasoning is not deleted, which keeps the decision path available for audit.
 
-The third problem is \textbf{shared memory}. Many systems process every patient
-as if no previous case existed. That makes evaluation simpler, but it does not
-test whether the system can learn useful patterns across runs. At the same time,
-memory can also create leakage if it stores information from the evaluation
-cohort. This thesis implements multi-level memory, but it also tests memory with
-a cold-start protocol so that the improvement is not accepted without checking
-for leakage.
+The third problem is \textbf{shared memory}. Many clinical agent systems treat
+each patient as a completely new case. This makes evaluation easier, but it
+does not test whether the system can reuse useful patterns across runs. Memory
+can also create a false improvement if the system retrieves cases from the same
+cohort that is later used for evaluation. For that reason, this thesis
+implements multi-level memory, compares it against the memory-disabled setting
+across all available runs, and discusses the cohort-leakage risk directly.
 
-The fourth problem is \textbf{evaluation}. Medical question-answering benchmarks
-are useful, but choosing one option from a list is not the same as generating a
-ranked differential diagnosis from a patient record. For this reason, this thesis uses
-an LLM-as-judge evaluator that compares the generated differential diagnosis with
-the hidden Synthea disease label. The output is scored as DIRECT, INDIRECT, or
-MISS, and the ranking is also checked when the target disease is found.
+The fourth problem is \textbf{evaluation}. Medical multiple-choice benchmarks
+are useful, but they are not the same as generating a ranked differential
+diagnosis from a longitudinal patient record. The system must be judged on
+whether it identifies the target disease, whether it finds a clinically related
+condition, and where that condition appears in the ranked differential. This
+thesis therefore uses a separate LLM-as-Judge evaluator that compares the
+generated differential with the hidden Synthea disease label and assigns a
+DIRECT, INDIRECT, or MISS verdict.
 
-In simple terms, this thesis asks:
+The research problem can therefore be stated as follows:
 
 \begin{quote}
-How can a multi-agent LLM system be designed so that it can process synthetic
-longitudinal patient records, share memory between agents, review its own
-diagnostic reasoning, and produce outputs that can be inspected and evaluated
-without hiding the reasoning process?
+How should a team of specialised AI agents be coordinated so that their
+combined clinical reasoning produces a diagnosis a physician could trust
+and audit, rather than a polished but unverifiable answer from a single
+black-box model?
 \end{quote}
 
 Two related topics are outside the main scope: defending the system against a
@@ -184,26 +204,27 @@ They are discussed again as future work in Chapter~\ref{chap:conclusion}.
 % -----------------------------------------------------------------------------
 
 The aim of this thesis is to design, implement, and evaluate a multi-agent
-clinical decision support system for synthetic patient records. The system should
-produce a ranked differential diagnosis, allow agents to review and refine each
-other's outputs, use shared memory in a controlled way, and present the reasoning
-to a doctor through an inspection dashboard.
+clinical decision support system for synthetic patient records. The system is
+intended to produce a ranked differential diagnosis, allow agent outputs to be
+reviewed and refined, use shared memory in a controlled way, ground treatment
+planning in guideline retrieval, and present the reasoning to a doctor through
+an inspection dashboard.
 
 The main research question is:
 
 \begin{quote}
-Can a multi-agent LLM workflow produce clinically plausible differential
-diagnoses from synthetic longitudinal patient records, and does multi-level
-shared memory improve diagnostic accuracy compared with a single-level memory
-setup when cohort leakage is controlled?
+When clinical reasoning is split across a small team of specialised AI agents
+that can review, critique, and remember each other's work, can they reach a
+clinically plausible diagnosis --- and does giving them memory of past
+patients actually help, or just add noise?
 \end{quote}
 
-The corresponding hypothesis is that multi-level shared memory broadens the
-system's candidate differential without improving primary-diagnosis precision
-once cohort leakage is controlled, and that a non-destructive Reviewer--Refiner
-deliberation pattern is the practical mechanism that allows the system to
-rewrite a flawed primary diagnosis while preserving the original reasoning for
-audit. Figure~\ref{fig:intro_system} previews the system at a high level; the
+The corresponding hypothesis is that a coordinated team of specialised
+agents, with an explicit review step that can rewrite a flawed primary
+diagnosis without erasing the earlier reasoning, produces clinically
+plausible diagnoses more reliably than a single model alone; and that
+shared memory of past patients broadens the differential the system
+considers without making the top diagnosis more accurate. Figure~\ref{fig:intro_system} previews the system at a high level; the
 detailed agent graph, shared-memory subsystem, and dashboard are unpacked in
 Chapter~\ref{chap:methodology}.
 
@@ -219,10 +240,10 @@ React-based doctor console for clinician review.}
 \label{fig:intro_system}
 \end{figure}
 
-The generated evaluation set contains 270 candidate patients from the Gold layer.
-The results chapter reports the 160 patients that completed the full agent
-pipeline and uses smaller controlled subsets for the memory A/B tests and
-cold-start leakage checks.
+The evaluation cohort used in Chapter~\ref{chap:results} consists of 160 Gold-layer
+patients that pass the deterministic eligibility and LLM-based detectability
+filters described in Section~\ref{sec:llm_verifier}. The memory comparison
+additionally uses all available unique runs within each memory setting.
 
 % -----------------------------------------------------------------------------
 \section{Objectives}
@@ -233,37 +254,42 @@ The objectives of the thesis are:
 
 \begin{itemize}
 
-  \item Build a Synthea-based data pipeline that converts raw FHIR R4 records
-  into Bronze, Silver, and Gold layers, with Gold EHR and laboratory case files
-  for each selected patient.
+  \item \textbf{Build the clinical data pipeline.} Convert Synthea FHIR R4
+  records into Bronze, Silver, and Gold layers, with Gold EHR and laboratory
+  case files for each selected patient.
 
-  \item Create a target cohort from 1{,}000 generated patients and select a
-  270-patient candidate evaluation set across the implemented disease groups.
+  \item \textbf{Construct the evaluation cohort.} Filter a Synthea-generated
+  patient pool with deterministic eligibility rules and an LLM-based
+  detectability verifier to yield a 160-patient evaluation cohort across the
+  implemented disease groups.
 
-  \item Implement a LangGraph multi-agent pipeline with EHR Analyst, Lab
-  Interpreter, Diagnostic Reasoning, Clinical Reviewer, Diagnostic Refiner, LLM
-  Evaluator, and Treatment Planning agents.
+  \item \textbf{Implement the multi-agent workflow.} Build a LangGraph pipeline
+  with EHR Analyst, Lab Interpreter, Diagnostic Reasoning, Clinical Reviewer,
+  Diagnostic Refiner, LLM Evaluator, and Treatment Planning agents.
 
-  \item Add a Reviewer-Refiner pattern where the reviewer challenges the
-  diagnostic output and the refiner updates the final differential while keeping
-  the earlier output available for audit.
+  \item \textbf{Support structured clinical review.} Add a
+  Reviewer--Refiner pattern where the reviewer challenges the diagnostic output
+  and the refiner updates the final differential while keeping the earlier
+  output available for audit.
 
-  \item Implement multi-level shared memory, including working memory, episodic
-  traces, semantic disease summaries, guideline retrieval, and case-based
-  retrieval over prior patients.
+  \item \textbf{Implement multi-level shared memory.} Store working state,
+  episodic traces, semantic disease summaries, guideline knowledge, and
+  case-based retrieval over prior patients.
 
-  \item Ground treatment planning in NICE guideline documents retrieved from
-  Qdrant, and run treatment planning only when the diagnostic evaluator returns a
-  DIRECT match.
+  \item \textbf{Ground treatment planning in guidelines.} Retrieve NICE
+  guideline material from Qdrant and run treatment planning only when the
+  diagnostic evaluator returns a DIRECT match.
 
-  \item Evaluate free-text differential diagnoses using a separate LLM judge with
+  \item \textbf{Evaluate free-text diagnoses.} Use a separate LLM judge with
   DIRECT, INDIRECT, and MISS labels, plus rank-1-when-found.
 
-  \item Compare multi-level memory with a single-level memory setup and include a
-  cold-start check to estimate cohort leakage.
+  \item \textbf{Measure the effect of memory.} Compare multi-level memory with
+  a single-level setup across all available runs and report the cohort-leakage
+  risk as a limitation of the comparison.
 
-  \item Build a Streamlit dashboard that allows a reviewer to choose a patient,
-  view the agent outputs, inspect memory use, and read the final result in a
+  \item \textbf{Build reviewer-facing interfaces.} Provide a Streamlit
+  dashboard and a doctor console that allow a reviewer to choose a patient,
+  inspect agent outputs and memory use, and read the final result in a
   doctor-facing format.
 
 \end{itemize}
@@ -295,10 +321,10 @@ chronic kidney disease stage 2, chronic kidney disease stage 3, end-stage renal
 disease, and metabolic syndrome X. The results should not be read as evidence
 that the system works for diseases outside this set.
 
-\textbf{Limited evaluation size.} The Gold layer contains 270 candidate
-evaluation patients, but the completed empirical results in Chapter~\ref{chap:results}
-are reported on 160 full pipeline runs. The smaller memory A/B studies are used
-to study memory behaviour, not to claim final clinical performance.
+\textbf{Limited evaluation size.} The empirical results in
+Chapter~\ref{chap:results} are reported on 160 Gold-layer pipeline runs.
+The smaller memory A/B studies are used to study memory behaviour, not to
+claim final clinical performance.
 
 \textbf{English-only reasoning.} The prompts, retrieved guidelines, and
 dashboard text are in English. Non-English clinical text is outside the scope.
@@ -327,8 +353,8 @@ The main contributions of this thesis are:
   Qdrant and uses it to produce guideline-grounded recommendations.
 
   \item An LLM-as-judge evaluation setup for free-text differential diagnoses,
-  using DIRECT, INDIRECT, and MISS labels, rank-1-when-found, and a cold-start
-  check for cohort leakage.
+  using DIRECT, INDIRECT, and MISS labels, rank-1-when-found, and an aggregate
+  memory comparison with explicit cohort-leakage caveats.
 
   \item A Streamlit doctor-facing dashboard that shows the patient case, each
   agent's output, the memory events, retrieved guideline evidence, and the final
@@ -344,20 +370,24 @@ The main contributions of this thesis are:
 This thesis is divided into five chapters.
 
 \textbf{Chapter~\ref{chap:background}: Background} reviews multi-agent LLM work
-in clinical AI. It groups the papers by topic and uses them to explain the main
-research gaps addressed by this project.
+in clinical AI. It groups the literature by topic, including foundation
+frameworks, coordination patterns, debate and review mechanisms, clinical
+deployments, safety, and evaluation. The chapter is used to justify the design
+choices made later in the system.
 
-\textbf{Chapter~3: Methodology} explains how the system was built. It covers the
-Synthea data pipeline, the Bronze/Silver/Gold data layers, the LangGraph agent
-workflow, the agent designs, shared memory, guideline retrieval, model
-configuration, and the evaluation method.
+\textbf{Chapter~3: Methodology} explains how CMADS was built. It covers the
+Synthea data pipeline, Bronze/Silver/Gold data layers, Gold case construction,
+LangGraph workflow, agent blueprint, seven specialised agents, multi-level
+shared memory, NICE guideline retrieval, model configuration, evaluation method,
+and implementation stack.
 
 \textbf{Chapter~4: Results} reports the empirical findings. It presents the
-160-patient completed cohort, per-disease results, per-agent reliability,
-adaptive loop behaviour, memory A/B tests, model comparison, qualitative case
-walk-throughs, and the dashboard.
+160-patient completed cohort, end-to-end diagnostic outcomes, per-disease
+results, per-agent reliability, adaptive reasoning behaviour, memory comparison,
+model comparison, literature comparison, qualitative case walkthroughs, and the
+doctor-facing dashboard.
 
-\textbf{Chapter~5: Conclusion and Future Work} summarises what was achieved,
-discusses the limits of the work, and outlines future steps such as real EHR
-testing, broader disease coverage, stronger clinical review, and larger
-memory-controlled experiments.
+\textbf{Chapter~5: Conclusion and Future Work} summarises the thesis
+contributions, explains the limits of the current prototype, and outlines future
+steps such as real EHR testing, broader disease coverage, prospective clinical
+review, and larger memory-controlled experiments.

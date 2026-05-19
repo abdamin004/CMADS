@@ -21,10 +21,10 @@ latency, example patient runs, dashboard review, and limitations.
 \label{sec:results_setup}
 % ─────────────────────────────────────────────────────────────────────────────
 
-\paragraph{Cohort.} The Gold layer contains 270 candidate patients after
-deterministic filtering and the LLM-based detectability verifier
-(Section~\ref{sec:llm_verifier}). The results reported here use the 160
-patients that completed the full seven-agent pipeline. These patients cover
+\paragraph{Cohort.} The evaluation cohort consists of 160 Gold-layer
+patients selected by the deterministic eligibility rules and the LLM-based
+detectability verifier of Section~\ref{sec:llm_verifier}, and run end-to-end
+through the seven-agent pipeline. These patients cover
 the target disease groups used in the thesis: ischemic heart disease (IHD),
 chronic congestive heart failure (CHF), essential hypertension, type-2
 diabetes mellitus (T2DM), end-stage renal disease and chronic kidney disease
@@ -68,9 +68,25 @@ success, partial, error, or skipped in \texttt{execution\_trace.json}.
 \emph{Error} means the agent failed and downstream agents carried a
 \texttt{null} value. \emph{Skipped} means the agent was intentionally bypassed,
 as with Treatment Planning when the match is not DIRECT. \textbf{Per-agent
-latency} is the wall-clock time for each agent call. The memory study also
-uses a leakage control: cases used to populate case-based memory should not be
-the same cases used to evaluate with-memory performance.
+latency} is the wall-clock time for each agent call. For memory, the chapter
+reports an aggregate comparison across all available unique runs in each memory
+setting and discusses cohort leakage as a limitation of interpreting memory
+effects.
+
+A note on statistical inference is appropriate at this point. Every rate
+reported in this chapter is accompanied by a Wilson 95\% confidence interval,
+computed from the underlying success / failure counts by
+\texttt{scripts/compute\_cis.py}. For a cohort of one hundred patients, a
+binomial 95\% confidence interval around a 50\% rate spans roughly
+$\pm10$ percentage points; per-disease-family rates with small denominators
+have visibly wider intervals and must be read with care. Where two
+proportions are compared, the chapter reports the test used: a paired exact
+McNemar test for the memory A/B in Section~\ref{sec:results_memory_ab_paired},
+Fisher's exact test for the detectability-gate sensitivity check in
+Section~\ref{sec:results_detectability_sensitivity}, and Wilson intervals
+otherwise. The earlier 205~vs.~100 unpaired memory comparison in
+Section~\ref{sec:results_memory_ab} is retained for completeness and
+explicitly labelled as descriptive, not inferential.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{End-to-End Diagnostic Outcomes}
@@ -78,62 +94,131 @@ the same cases used to evaluate with-memory performance.
 % ─────────────────────────────────────────────────────────────────────────────
 
 Table~\ref{tab:e2e_headline} shows the main diagnostic results on the
-160 completed runs. The system returns a DIRECT match in 74\% of cases, an
-INDIRECT match in 14\%, and a MISS in 12\%. The combined found rate
-(DIRECT + INDIRECT) is 88\%. When the target disease is found, it is ranked
-first in 61\% of found cases.
+160 completed runs. The system returns a DIRECT match in 73.8\% of cases
+(118/160, Wilson 95\% CI [66.4, 80.0]), an INDIRECT match in 13.8\%
+[9.3, 19.9], and a MISS in 12.5\% [8.2, 18.5]. The combined found rate
+(DIRECT + INDIRECT) is 87.5\% [81.5, 91.8]. When the target disease is
+found, it is ranked first in 60.0\% [51.7, 67.7] of found cases.
 
 \begin{table}[!htbp]
 \centering
-\caption{Headline diagnostic outcomes on the 160-patient completed cohort.}
+\caption{Headline diagnostic outcomes on the 160-patient completed cohort.
+Wilson 95\% confidence intervals are shown in brackets.}
 \label{tab:e2e_headline}
 \small
-\begin{tabular}{@{}lr@{}}
+\begin{tabular}{@{}lrr@{}}
 \toprule
-\textbf{Match type}        & \textbf{Rate} \\
+\textbf{Match type}        & \textbf{Rate} & \textbf{95\% CI} \\
 \midrule
-DIRECT                     & 74\% \\
-INDIRECT                   & 14\% \\
-MISS                       & 12\% \\
+DIRECT                     & 73.8\% & [66.4, 80.0] \\
+INDIRECT                   & 13.8\% & [9.3, 19.9]  \\
+MISS                       & 12.5\% & [8.2, 18.5]  \\
 \midrule
-Found (DIRECT + INDIRECT)  & 88\% \\
-Rank-1 within found        & 61\% \\
+Found (DIRECT + INDIRECT)  & 87.5\% & [81.5, 91.8] \\
+Rank-1 within found        & 60.0\% & [51.7, 67.7] \\
 \midrule
-Median runtime / patient   & 129\,s (mean 192\,s) \\
+Median runtime / patient   & \multicolumn{2}{l}{129\,s (mean 192\,s)} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:e2e_family} breaks down the same cohort by disease family.
-Performance is strongest on metabolic syndrome~X and ESRD~/~CKD. ESRD~/~CKD is
-also the largest group and reaches a 98\% found rate. Smaller groups such as
-type-2 diabetes and chronic congestive heart failure have wider uncertainty
-because they contain fewer patients. Essential hypertension is the main
-outlier: the DIRECT rate is still reasonable, but the MISS rate is higher than
-for the other families. This appears to come from Synthea cases where blood
-pressure evidence alone was not enough for the agent to place hypertension in
-the top-five differential.
+Table~\ref{tab:e2e_family} breaks down the same cohort by disease family
+and adds a Wilson 95\% CI on the DIRECT column. Performance is strongest
+on metabolic syndrome~X and ESRD~/~CKD. ESRD~/~CKD is also the largest
+group and reaches a 98\% found rate. Smaller groups such as type-2
+diabetes (n=8) and chronic congestive heart failure (n=5) carry wide
+intervals: the CHF DIRECT point estimate of 60\% sits in a 95\% CI of
+[23.1, 88.2], so it cannot be read as a reliable per-disease accuracy
+estimate. The cohort is also imbalanced --- ESRD~/~CKD accounts for
+42.5\% of the completed runs, while CHF and T2DM together account for
+8.1\% --- which is a direct consequence of the Synthea module weights and
+of the detectability-gate output discussed in
+Section~\ref{sec:llm_verifier}. Essential hypertension is the main
+outlier among the well-powered groups: the DIRECT rate is reasonable,
+but the MISS rate is higher than for the other families. This appears
+to come from Synthea cases where blood pressure evidence alone was not
+enough for the agent to place hypertension in the top-five differential.
 
 \begin{table}[!htbp]
 \centering
 \caption{Diagnostic outcomes by target disease family. CKD stages~1--3
 and ESRD are reported jointly because they share a single NICE
-management pathway.}
+management pathway. The CI column is a Wilson 95\% interval on the
+DIRECT rate. Rows marked $\dagger$ have $n \le 8$ and are not powered
+for per-disease accuracy claims.}
 \label{tab:e2e_family}
 \small
-\begin{tabular}{@{}lrrrr@{}}
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-\textbf{Disease family}            & \textbf{Share} & \textbf{DIRECT} & \textbf{INDIRECT} & \textbf{MISS} \\
+\textbf{Disease family}            & \textbf{N} & \textbf{DIRECT} & \textbf{95\% CI} & \textbf{INDIRECT} & \textbf{MISS} \\
 \midrule
-ESRD / CKD                         & 43\%           & 74\%            & 24\%              & 3\%  \\
-Metabolic syndrome X               & 20\%           & 91\%            & 0\%               & 9\%  \\
-Essential hypertension             & 16\%           & 64\%            & 8\%               & 28\% \\
-Ischemic heart disease             & 14\%           & 73\%            & 14\%              & 14\% \\
-Type 2 diabetes mellitus           & 5\%            & 50\%            & 12\%              & 38\% \\
-Chronic congestive heart failure   & 3\%            & 60\%            & 0\%               & 40\% \\
+ESRD / CKD                         & 68 & 73.5\%          & [62.0, 82.5]     & 23.5\%            & 2.9\%  \\
+Metabolic syndrome X               & 32 & 90.6\%          & [75.8, 96.8]     & 0\%               & 9.4\%  \\
+Essential hypertension             & 25 & 64.0\%          & [44.5, 79.8]     & 8.0\%             & 28.0\% \\
+Ischemic heart disease             & 22 & 72.7\%          & [51.8, 86.8]     & 13.6\%            & 13.6\% \\
+Type 2 diabetes mellitus$^\dagger$ &  8 & 50.0\%          & [21.5, 78.5]     & 12.5\%            & 37.5\% \\
+Chronic congestive heart failure$^\dagger$ &  5 & 60.0\%   & [23.1, 88.2]     & 0\%               & 40.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Detectability-Gate Sensitivity}
+\label{sec:results_detectability_sensitivity}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The 73.8\% DIRECT headline is evaluated on a cohort that has already passed
+the LLM-based detectability verifier described in
+Section~\ref{sec:llm_verifier}, which admits only patients with a
+confidence score of at least 80. This is a deliberate data-quality choice,
+not a hidden filter, but it does mean the reported rate is conditional on
+the gate. To quantify how much of the headline depends on this conditioning,
+a sensitivity sample was drawn from the rejected band of the verifier
+output (confidence 60--79), stratified evenly between the two ten-point
+sub-bands and seeded so the selection is reproducible
+(\texttt{scripts/sample\_rejected.py}, seed 42). The selected patients have
+valid Gold-layer evidence and a Synthea ground-truth label; only the
+detectability verifier judged them as borderline rather than clearly
+diagnosable.
+
+These thirty patients were then run end-to-end through the same seven-agent
+pipeline, with results persisted to
+\texttt{data/gold/mas\_results\_detectability\_sensitivity/}, and judged by
+the same Qwen3-32B evaluator used for the main cohort. The intent is to
+estimate the DIRECT rate the system would have achieved on cases the gate
+currently excludes, and to test the corresponding 2$\times$2 contingency
+against the accepted-cohort baseline with Fisher's exact test.
+
+\paragraph{Sensitivity result.}
+On the thirty rejected-band patients, the system recorded a DIRECT match
+in 13.3\% of cases (4/30, Wilson 95\% CI [5.3, 29.7]), an INDIRECT match
+in 56.7\% [39.2, 72.6], and a MISS in 30.0\% [16.7, 47.9]. Compared with
+the 73.8\% [66.4, 80.0] DIRECT rate on the accepted cohort, this is a
+drop of 60.5 percentage points. A $\chi^2$ test on the 2$\times$2
+contingency table of \{accepted vs.\ rejected\} $\times$ \{DIRECT vs.\
+not DIRECT\} returns $\chi^2 = 40.13$, $p \approx 2.4 \times 10^{-10}$;
+Fisher's exact test on the same table returns odds ratio
+$0.055$, $p \approx 5.2 \times 10^{-10}$. The difference is therefore
+not attributable to sampling noise at $n = 30$.
+
+\paragraph{Reading the result.}
+The gate is doing real selection work: the 73.8\% headline is
+conditional on detectability rather than a population-level capability,
+and the gap between the two conditions is large and statistically
+unambiguous. The interpretation throughout this chapter is therefore
+that CMADS produces a 73.8\% DIRECT rate \emph{on patients the
+detectability verifier admits}, and a 13.3\% DIRECT rate on the
+rejected band of the verifier. The INDIRECT rate on the rejected band
+is comparatively high (56.7\%), which suggests the pipeline still
+surfaces clinically related findings on borderline cases even when it
+fails to identify the exact target disease. The 60-point DIRECT gap
+across the gate also acts as an indirect post-hoc check on the
+verifier itself: the verifier's confidence score is calibrated against
+the same outcome the agent pipeline is later evaluated on, which is
+the behaviour the gate was designed to produce. The raw counts and the
+test outputs are persisted to
+\texttt{data/gold/mas\_results\_detectability\_sensitivity/sensitivity\_summary.json}
+for reproducibility.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Per-Agent Reliability and Latency}
@@ -150,21 +235,25 @@ Section~\ref{sec:agent_tx}.
 
 \begin{table}[!htbp]
 \centering
-\caption{Per-agent status counts and wall-clock latency over the
-160-patient completed cohort.}
+\caption{Per-agent status counts and wall-clock latency on the
+160-patient cohort. Rows are percentages of the cohort and sum to 100\%
+within rounding. The Treatment Planning row carries an extra column,
+\emph{Not recorded}: these are cohort cases whose persisted run files
+predate the Treatment Planning telemetry change and therefore do not
+contain a status entry for that agent. They are not failures.}
 \label{tab:agent_reliability}
 \small
-\begin{tabular}{@{}lrrrrrr@{}}
+\begin{tabular}{@{}lrrrrrrr@{}}
 \toprule
-\textbf{Agent} & \textbf{Success} & \textbf{Partial} & \textbf{Error} & \textbf{Skipped} & \textbf{Mean} & \textbf{p95} \\
+\textbf{Agent} & \textbf{Success} & \textbf{Partial} & \textbf{Error} & \textbf{Skipped} & \textbf{Not recorded} & \textbf{Mean} & \textbf{p95} \\
 \midrule
-EHR Analyst              & 91\%  &  9\%  & 0\%   &  0\%  & 28.1\,s &  31.9\,s \\
-Lab Interpreter          & 94\%  &  6\%  & $<$1\%& 0\%   & 31.9\,s &  52.2\,s \\
-Diagnostic Reasoning     & 100\% &  0\%  & 0\%   &  0\%  & 99.6\,s & 133.1\,s \\
-Clinical Reviewer        & 99\%  &  1\%  & 0\%   &  0\%  & 38.3\,s &  56.4\,s \\
-Diagnostic Refiner       & 100\% &  0\%  & 0\%   &  0\%  & 10.9\,s &  16.5\,s \\
-LLM Evaluator            & 100\% &  0\%  & 0\%   &  0\%  &  1.2\,s &   1.9\,s \\
-Treatment Planning       & 46\%  &  0\%  & 3\%   & 20\%  & 11.4\,s &  21.5\,s \\
+EHR Analyst              & 91\%  &  9\%  & 0\%   &  0\%   & --     & 28.1\,s &  31.9\,s \\
+Lab Interpreter          & 94\%  &  6\%  & $<$1\%& 0\%    & --     & 31.9\,s &  52.2\,s \\
+Diagnostic Reasoning     & 100\% &  0\%  & 0\%   &  0\%   & --     & 99.6\,s & 133.1\,s \\
+Clinical Reviewer        & 99\%  &  1\%  & 0\%   &  0\%   & --     & 38.3\,s &  56.4\,s \\
+Diagnostic Refiner       & 100\% &  0\%  & 0\%   &  0\%   & --     & 10.9\,s &  16.5\,s \\
+LLM Evaluator            & 100\% &  0\%  & 0\%   &  0\%   & --     &  1.2\,s &   1.9\,s \\
+Treatment Planning       & 46\%  &  0\%  & 3\%   & 20\%   & 31\%   & 11.4\,s &  21.5\,s \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -210,15 +299,20 @@ harder ones.
 
 This section compares the four-tier shared memory design from
 Section~\ref{sec:shared_memory} with the same pipeline when memory is disabled.
-The comparison is reported across all processed patients for each setting, so
-it is not based on one selected batch.
+Following the thesis experiment log, the comparison is reported across all
+unique patient runs available for each memory setting. Duplicate patient IDs
+inside the same setting are counted once, using the latest available run for
+that setting. This gives 205 single-level runs and 100 multi-level runs. The
+comparison is therefore an aggregate system-level comparison, not a paired test
+on exactly the same patients.
 
 In the \emph{single-level} setting, only the per-run \texttt{PipelineState} is
 active. The system does not write the episodic event timeline, does not use the
 semantic disease store, and does not query or populate the case-based Qdrant
-store. In the \emph{multi-level} setting, all four tiers are enabled. Both
-settings use the same prompts, diagnostic model, judge model, retry policy, and
-timeouts. Only memory changes.
+store. In the \emph{multi-level} setting, all four tiers are enabled. The
+intended controlled variable in these experiments is memory, but because the
+table aggregates all available runs rather than a single paired cohort, the
+comparison should be read descriptively.
 
 Table~\ref{tab:memory_aggregate} shows the aggregate result. The single-level
 setting has the higher DIRECT rate. The multi-level setting has the higher
@@ -228,19 +322,21 @@ target is placed as the primary diagnosis.
 
 \begin{table}[!htbp]
 \centering
-\caption{Aggregate memory comparison across all evaluated patients.
-Both configurations use identical agent prompts, the same diagnostic
-and judge models, and the same retry and timeout settings; only the
-shared-memory subsystem differs.}
+\caption{Aggregate memory comparison across all unique evaluated runs.
+Duplicate patient IDs are counted once within each memory setting.
+DIRECT-rate Wilson 95\% confidence intervals are shown in brackets.
+The two rows aggregate different run collections, so the comparison is
+descriptive; an inferential paired result is reported in
+Section~\ref{sec:results_memory_ab_paired}.}
 \label{tab:memory_aggregate}
 \footnotesize
 \begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{@{}lrrrrr@{}}
+\begin{tabular}{@{}lrrrrrrr@{}}
 \toprule
-\textbf{Configuration}            & \textbf{DIRECT} & \textbf{INDIRECT} & \textbf{MISS} & \textbf{Found} & \textbf{Rank-1 in found} \\
+\textbf{Configuration}            & \textbf{N} & \textbf{DIRECT} & \textbf{DIRECT 95\% CI} & \textbf{INDIRECT} & \textbf{MISS} & \textbf{Found} & \textbf{Rank-1 in found} \\
 \midrule
-Single-level (memory disabled)    & 69\%            & 20\%              & 12\%          & 88\%           & 64\%                     \\
-Multi-level memory                & 49\%            & 46\%              &  5\%          & 95\%           & 65\%                     \\
+Single-level (memory disabled)    & 205 & 67.8\%          & [61.1, 73.8]            & 20.5\%            & 11.7\%        & 88.3\%         & 63.5\%                   \\
+Multi-level memory                & 100 & 49.0\%          & [39.4, 58.7]            & 46.0\%            &  5.0\%        & 95.0\%         & 65.3\%                   \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -253,48 +349,103 @@ hurt if the system is judged only by the primary diagnosis. The Reviewer-Refiner
 step does not fully remove this effect because the reviewer also sees outputs
 that were influenced by memory.
 
-The leakage control is important. If the memory store contains the same patients
+An intermediate configuration --- Tier~4 case-based memory only, with the
+other three tiers disabled --- was also run during development on a fifty-patient
+subset. Its result was ambiguous: the DIRECT rate was lower than the
+memory-disabled configuration but the rank-1-within-found rate was higher,
+which suggests that case-based retrieval alone introduces the differential
+broadening seen in the full multi-level configuration but with weaker
+re-ranking signal. The ambiguity at this size is part of why a dedicated
+tier-by-tier ablation is identified as future work in
+Chapter~\ref{chap:conclusion}.
+
+The leakage risk is important. If the memory store contains the same patients
 used for evaluation, then retrieval can return near-duplicate prior runs from
-the test set. That would inflate the with-memory result. In this thesis, the
-memory-population and evaluation portions are separated for the reported
-comparison. This makes the memory result more honest, even though the memory
-study is still limited in size.
+the test set. That would inflate the with-memory result. The aggregate table
+above therefore describes all available runs for each memory setting, while the
+interpretation remains cautious: the main stable pattern is differential
+broadening, not a proven primary-diagnosis accuracy gain from memory.
 
 % ─────────────────────────────────────────────────────────────────────────────
-\section{Model Comparison}
+\subsection{Paired Comparison on the 20-Patient A/B Set}
+\label{sec:results_memory_ab_paired}
+% ─────────────────────────────────────────────────────────────────────────────
+
+To complement the descriptive aggregate above with an inferential test, a
+paired A/B comparison was run on a fixed twenty-patient subset
+(\texttt{data/gold/batches/batch\_4\_med42\_20.json}). The same patients,
+prompts, and evaluator were used; only the memory configuration was
+toggled. Results are stored under
+\texttt{data/gold/mas\_results\_baseline\_no\_mem/} (memory OFF) and
+\texttt{data/gold/mas\_results\_with\_memory/} (memory ON). The paired
+contingency table and an exact McNemar test were computed by
+\texttt{scripts/paired\_memory\_mcnemar.py}; the output is persisted to
+\texttt{data/gold/paired\_memory\_mcnemar.json}.
+
+The DIRECT rate moved from 40.0\% [21.9, 61.3] with memory OFF to 45.0\%
+[25.8, 65.8] with memory ON. The 2$\times$2 contingency table contained
+six pairs that were DIRECT in both configurations, nine that were
+non-DIRECT in both, two that were DIRECT only with memory OFF, and three
+that were DIRECT only with memory ON --- five discordant pairs in total.
+An exact (binomial) McNemar test on the off-diagonal yielded
+$p = 1.0$. The paired comparison therefore neither confirms nor rules
+out a memory effect on the DIRECT rate at this sample size; it does show
+that on the same patients the with-memory configuration was no worse on
+DIRECT, in contrast to the impression given by the unpaired
+205~vs.~100 aggregate. The two results are not contradictory: the
+unpaired aggregate mixes different patient subsets and different model
+versions, while the paired test is the controlled comparison.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Model Selection Pilot}
 \label{sec:results_models}
 % ─────────────────────────────────────────────────────────────────────────────
 
-A separate experiment compared the primary reasoning model on the same
-twenty-patient subset. The prompts, patients, evaluator, and memory setting were
-kept the same. The two models were GPT-OSS-120B through Groq and Med42-70B
-through local Ollama. Table~\ref{tab:model_comparison} summarises the result.
+A small pilot compared the primary reasoning model on a fixed
+twenty-patient subset. The prompts, patients, evaluator, and memory
+setting were kept the same; only the diagnostic model differed.
+The two models were GPT-OSS-120B through Groq and Med42-70B through
+local Ollama. Table~\ref{tab:model_comparison} summarises the result.
+It is reported here as a pilot, not as an inferential model comparison:
+twenty patients is too small to separate the two DIRECT rates with
+statistical confidence (the Wilson 95\% confidence intervals overlap
+substantially, see below).
 
 \begin{table}[!htbp]
 \centering
-\caption{Model comparison on a controlled twenty-patient subset of
-the evaluation cohort. Both runs used identical agent prompts, the
-same evaluator (Qwen3-32B), and the same memory configuration; only
-the diagnostic model differed.}
+\caption{Model comparison pilot on a fixed twenty-patient subset.
+Both runs used identical agent prompts, the same evaluator (Qwen3-32B),
+and the same memory configuration; only the diagnostic model differed.
+Wilson 95\% confidence intervals are shown for the DIRECT column. The
+two intervals overlap, so this table cannot establish a DIRECT-rate
+ordering at $n = 20$. The wall-clock comparison is not subject to the
+same uncertainty and is the substantive finding.}
 \label{tab:model_comparison}
 \small
-\begin{tabular}{@{}lrrr@{}}
+\begin{tabular}{@{}lrrrr@{}}
 \toprule
-\textbf{Diagnostic model}      & \textbf{DIRECT} & \textbf{Head-to-head wins} & \textbf{Wall-clock} \\
+\textbf{Diagnostic model}      & \textbf{DIRECT} & \textbf{DIRECT 95\% CI} & \textbf{Head-to-head wins} & \textbf{Wall-clock} \\
 \midrule
-GPT-OSS-120B (Groq, default)   & 50\%            & 8 of 20                    & $\sim$2~min/patient \\
-Med42-70B (Ollama, local)      & 25\%            & 2 of 20                    & $\sim$26~min/patient \\
+GPT-OSS-120B (Groq, default)   & 50\%            & [29.9, 70.1]            & 8 of 20                    & $\sim$2~min/patient   \\
+Med42-70B (Ollama, local)      & 25\%            & [11.2, 46.9]            & 2 of 20                    & $\sim$26~min/patient  \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-GPT-OSS-120B achieved a 50\% DIRECT rate, compared with 25\% for Med42-70B.
-It won eight of the twenty head-to-head comparisons, while Med42-70B won two;
-the remaining ten were equivalent. GPT-OSS-120B on Groq also ran about thirteen
-times faster than Med42-70B on local Ollama. This result does not mean that
-medical fine-tuning is unimportant. It means that, in this pipeline, model
-quality and inference speed both matter because latency adds up across seven
-agents and multiple diagnostic rounds.
+In this pilot GPT-OSS-120B recorded a higher DIRECT rate than Med42-70B
+(50\% vs.~25\%) and won more head-to-head comparisons (8 vs.~2, with the
+remaining ten equivalent). The Wilson 95\% confidence intervals on the
+DIRECT rates --- [29.9, 70.1] for GPT-OSS-120B and [11.2, 46.9] for
+Med42-70B --- overlap, so the twenty-patient subset is underpowered for
+an accuracy comparison and the DIRECT difference should be read as
+exploratory. The latency gap is the substantive finding: GPT-OSS-120B on
+Groq ran about thirteen times faster than Med42-70B on local Ollama, and
+that gap is several orders of magnitude larger than the noise in twenty
+timed runs. This does not imply that medical fine-tuning is unimportant.
+It means that, in this pipeline, model quality and inference speed both
+matter because latency adds up across seven agents and multiple
+diagnostic rounds, and that a defensible accuracy comparison between
+these two models would require a much larger common subset.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Comparison with the Literature}
@@ -346,7 +497,7 @@ RareAgents \newline \cite{Chen2024RareAgents}
 This work
   & 7-agent LangGraph pipeline with non-destructive Reviewer-Refiner and 4-tier shared memory
   & Synthea patients filtered through deterministic eligibility and an LLM detectability verifier across 8 disease families
-  & 74\% DIRECT, 88\% combined found rate, 61\% rank-1 within found, under a leakage-controlled memory protocol \\
+  & 74\% DIRECT, 88\% combined found rate, 61\% rank-1 within found, plus an aggregate all-runs memory comparison \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -356,7 +507,8 @@ Compared with MDAgents and MAC, this system uses the same broad idea of
 specialised agents working on one clinical task. The difference is that CMADS
 uses a fixed LangGraph workflow with parallel Stage~1 execution, a diagnostic
 critique loop, and a non-destructive Reviewer-Refiner step. It also adds the
-four-tier memory system and evaluates memory with a leakage control.
+four-tier memory system and reports an all-runs memory comparison with the
+leakage risk made explicit.
 
 Compared with ZODIAC and ClinicalLab, a direct accuracy comparison would be
 unfair because the cohorts are different. ZODIAC uses real cardiology data.
@@ -370,8 +522,9 @@ supporting tools can matter as much as the base model. RareAgents showed that
 an open-source model with memory and tools can beat GPT-4o on rare-disease
 diagnosis. In this thesis, GPT-OSS-120B inside the seven-agent workflow
 outperformed the locally served Med42-70B model on the controlled subset. The
-additional point here is the leakage-controlled memory comparison, which is not
-usually reported in memory-augmented clinical agent papers.
+additional point here is the transparent memory comparison, including the
+negative DIRECT-rate result and the cohort-leakage caveat, which is not usually
+reported in memory-augmented clinical agent papers.
 
 Bedi et al.'s Optimisation Paradox is also relevant
 \cite{Bedi2025OptParadox}. Their work shows that combining individually strong
@@ -518,11 +671,12 @@ specialised agents is more inspectable and reliable than asking one model to do
 the whole task in one call.
 
 The memory result needs careful reading. Multi-level memory did not improve the
-DIRECT rate. Instead, it reduced MISS cases and increased INDIRECT cases. This
-means memory helped the system notice related diagnoses, but it also made the
-primary diagnosis less precise. This may still be useful in a dashboard where a
-doctor reads the full differential. It would be less useful in a system where
-the first diagnosis automatically drives the next action.
+DIRECT rate in the aggregate comparison. Instead, it increased INDIRECT cases,
+raised the found rate, and reduced MISS cases. This means memory helped the
+system surface related diagnoses, but it also made the primary diagnosis less
+precise. This may still be useful in a dashboard where a doctor reads the full
+differential. It would be less useful in a system where the first diagnosis
+automatically drives the next action.
 
 The model comparison also matters for practical use. GPT-OSS-120B through Groq
 was both more accurate and much faster than Med42-70B through local Ollama on

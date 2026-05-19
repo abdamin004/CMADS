@@ -17,17 +17,17 @@ fi
 mkdir -p "${OUT_DIR}"
 
 figures=(
-  "system_architecture:1800:920"
-  "data_pipeline:1800:830"
-  "agent_pipeline:1800:1490"
-  "multilevel_memory:1800:940"
-  "agent_blueprint:1800:870"
-  "agent_ehr_flow:1800:540"
-  "agent_lab_flow:1800:540"
-  "agent_diag_flow:1800:1060"
-  "agent_reviewer_flow:1800:540"
-  "agent_refiner_flow:1800:980"
-  "tech_stack:1800:1180"
+  "system_architecture:1800:1040"
+  "data_pipeline:1800:900"
+  "agent_pipeline:1800:1180"
+  "multilevel_memory:1800:1000"
+  "agent_blueprint:1800:920"
+  "agent_ehr_flow:1800:650"
+  "agent_lab_flow:1800:650"
+  "agent_diag_flow:1800:1080"
+  "agent_reviewer_flow:1800:650"
+  "agent_refiner_flow:1800:850"
+  "tech_stack:1800:1400"
 )
 
 for item in "${figures[@]}"; do

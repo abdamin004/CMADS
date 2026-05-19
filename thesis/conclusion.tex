@@ -1,3 +1,246 @@
 \chapter{Conclusion and Future Work}
 \label{chap:conclusion}
-This chapter summarises the contributions and proposes directions for future work.
+
+% -----------------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+% -----------------------------------------------------------------------------
+
+This thesis asked whether a coordinated workflow of specialised LLM
+agents could produce a clinically plausible differential diagnosis from
+longitudinal patient evidence while exposing its reasoning to a human
+reviewer. The Clinical Multi-Agent Decisioning System (CMADS) was
+designed and evaluated as a direct response to that question. Its
+architecture is described in Chapter~\ref{chap:methodology} and its
+results are reported in Chapter~\ref{chap:results}.
+
+The research question stated in Section~\ref{sec:aim} is answered in two
+parts. On the first half --- whether a small team of specialised agents
+can reach a clinically plausible diagnosis when they review, critique, and
+remember each other's work --- the answer is yes, with the headline rates
+reported in Section~\ref{sec:concl_findings}. On the second half ---
+whether giving the team memory of past patients actually helps --- the
+answer is more nuanced: shared memory broadens the candidate differential
+the system considers, but it does not improve the precision of the top
+diagnosis in the aggregate comparison with a memory-disabled
+configuration. The corresponding hypothesis is therefore confirmed: the
+non-destructive Reviewer-Refiner pattern is the practical mechanism that
+lets the system rewrite a flawed primary diagnosis while preserving the
+earlier reasoning for audit, and memory contributes breadth rather than
+precision.
+
+All nine objectives stated in Section~\ref{sec:objectives} were
+implemented and evaluated within the bounds defined in
+Section~\ref{sec:scope}: the medallion data pipeline, the seven-agent
+LangGraph workflow, the Reviewer-Refiner pattern, the four-tier shared
+memory, the NICE-grounded treatment planner, the LLM-as-judge evaluation
+framework with explicit cohort-leakage caveats, the provider-agnostic LLM
+adapter, the comparative model study, and the doctor-facing inspection
+dashboard.
+The literature gaps identified in Chapter~\ref{chap:background} --- end-to-end
+coordination, non-destructive deliberation, persistent shared memory, and
+leakage-aware evaluation --- are each addressed directly by the
+corresponding methodology section, leaving adversarial robustness of
+multi-agent topologies as the principal gap that this thesis did not
+engage with empirically and that is returned to as future work.
+
+% -----------------------------------------------------------------------------
+\section{Contributions}
+\label{sec:concl_contributions}
+% -----------------------------------------------------------------------------
+
+The substantive contributions of this thesis are:
+
+\begin{enumerate}
+
+  \item \textbf{A LangGraph clinical multi-agent pipeline.} A seven-agent
+  workflow that compiles end-to-end coordination, parallel evidence
+  extraction, adaptive diagnostic reasoning, and non-destructive
+  Reviewer-Refiner deliberation into a single typed graph.
+
+  \item \textbf{A four-tier shared-memory subsystem.} A clinical
+  realisation of the CoALA memory taxonomy, with working, episodic,
+  semantic, and case-based tiers exposed to agents through a single
+  facade.
+
+  \item \textbf{A reproducible Synthea-to-Gold data pipeline.} A medallion
+  architecture (Bronze, Silver via OMOP CDM v5.4, Gold) gated by an
+  LLM-based detectability verifier, producing per-patient case files with
+  hidden ground-truth labels.
+
+  \item \textbf{A NICE-guideline-grounded treatment layer.} Qdrant-backed
+  retrieval that is invoked only on DIRECT-matched diagnoses, keeping
+  guideline-aligned recommendations from being attached to uncertain
+  primaries.
+
+  \item \textbf{A transparent LLM-as-judge evaluation framework.}
+  Three-label adjudication of free-text differentials, rank-1-when-found, and
+  an aggregate memory comparison that reports the cohort-leakage caveat instead
+  of treating memory as an automatic accuracy gain.
+
+  \item \textbf{A doctor-facing inspection dashboard.} A research-facing
+  Streamlit evaluator and a React-based doctor console prototype, both
+  exposing the agent chain, shared-memory operations, retrieved
+  evidence, and the final ranked differential for clinical review.
+
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+\section{Key Empirical Findings}
+\label{sec:concl_findings}
+% -----------------------------------------------------------------------------
+
+Three empirical findings of this thesis are worth highlighting at the
+point of conclusion. First, within this synthetic-evaluation setting,
+the end-to-end pipeline produced encouraging diagnostic results: a
+DIRECT match in 74\% of evaluated cases, a combined
+DIRECT-or-INDIRECT found rate of 88\%, and the ground-truth condition
+ranked first in 61\% of the cases in which it was found, at a median
+per-patient latency around two minutes and with no single patient run
+aborted by an agent failure. The detailed per-disease-family
+breakdown and per-agent reliability profile are reported in
+Sections~\ref{sec:results_e2e} and \ref{sec:results_agents}.
+
+Second, the aggregate comparison of all available single-level and
+multi-level memory runs produced a result that differs from the
+expectation set by the literature. Multi-level memory did not improve
+primary-diagnosis precision; it broadened the system's candidate
+differential, raised the found rate, and reduced the miss rate, but at
+the cost of fewer DIRECT matches. This may be useful in a deployment in
+which a clinician consumes the full differential and decides downstream,
+but it is a harmful trade-off in a deployment in which the primary alone
+drives downstream action.
+
+Third, the memory evaluation itself is a useful warning. Published clinical
+multi-agent systems with memory often present memory as a direct source of
+accuracy improvement. The aggregate all-runs comparison in this thesis does not
+support that simple claim: memory reduces misses and broadens the differential,
+but it lowers the DIRECT rate. Reporting that trade-off, together with the
+cohort-leakage caveat, is important for any later work on memory-augmented
+clinical agents.
+
+% -----------------------------------------------------------------------------
+\section{Limitations}
+\label{sec:concl_limitations}
+% -----------------------------------------------------------------------------
+
+Several limitations qualify these conclusions and are made explicit
+here.
+
+\paragraph{Synthetic data only.}
+All patient records originate from the Synthea generator and have passed
+the LLM-based detectability verifier of
+Section~\ref{sec:llm_verifier}; the system's accuracy on real electronic
+health records, which encode noisier evidence, more frequent missingness,
+and the full distribution of human comorbidities, cannot be inferred
+from the results reported in this thesis.
+
+\paragraph{Small memory-comparison cohorts.}
+The memory-comparison cohorts are limited in size, and the substantive
+finding that multi-level memory broadens differential breadth without
+improving precision would benefit from a larger replication across a
+more diverse disease distribution.
+
+\paragraph{Cardiometabolic-only coverage and cohort imbalance.}
+The eight target disease families covered in this thesis are dominated
+by cardiometabolic conditions, with the ESRD~/~CKD family alone
+accounting for almost half of the evaluated cohort. Acute presentations,
+oncology, infectious disease, and paediatric cases are out of scope.
+Synthea's disease state machines themselves are an upper bound on what
+the evaluation can demonstrate; the system's behaviour on conditions
+outside this distribution is not characterised by the results reported
+here.
+
+\paragraph{Clinical expert review not yet completed.}
+The clinical-expert review in Section~\ref{subsec:results_expert} is
+reported as a protocol, not as a completed validation study. Therefore,
+this thesis does not claim clinician-validated diagnostic accuracy. A
+completed review would still need to be treated as retrospective unless
+it is repeated prospectively with several clinicians.
+
+\paragraph{Single-model pipeline.}
+The agent pipeline runs every stage on a single primary reasoning model
+(GPT-OSS-120B), which is a simplification of what a production system
+could do; the implications of routing different stages to different
+models are returned to in Section~\ref{sec:concl_future}.
+
+\paragraph{Single-judge LLM evaluator.}
+All match-type adjudications are produced by a single LLM-as-judge
+configuration (Qwen3-32B); replacing the judge with a different model or
+ensembling multiple judges might shift the boundary between DIRECT and
+INDIRECT classifications and is not investigated here.
+
+\paragraph{Optimisation Paradox not empirically reproduced.}
+The Optimisation Paradox of Bedi et al.~\cite{Bedi2025OptParadox}
+motivates the architectural emphasis of this thesis on coordination,
+non-destructive review, and shared memory. The thesis does not, however,
+empirically reproduce their best-of-breed-versus-coordinated comparison
+under matched conditions, and the design choices made here should be
+read as informed by that framing rather than as an empirical answer to
+it; the reproduction is identified as future work.
+
+The system remains a research artefact: it is positioned as an
+assistive tool for a human reviewer, not an autonomous clinical
+decision-maker.
+
+% -----------------------------------------------------------------------------
+\section{Future Work}
+\label{sec:concl_future}
+% -----------------------------------------------------------------------------
+
+Five directions are most likely to extend the work reported in this
+thesis.
+
+\paragraph{Real-EHR validation.}
+The most consequential next step is to repeat the evaluation on real
+clinical data such as MIMIC-IV or eICU, and check whether the
+architecture-over-scale and memory-trade-off findings of
+Chapter~\ref{chap:results} replicate outside the synthetic setting.
+
+\paragraph{Prospective clinician-in-the-loop study.}
+A prospective multi-reader study, in which several clinicians review
+CMADS outputs and matched single-LLM outputs on a shared cohort
+blinded to the source, would isolate the contribution of the
+multi-agent architecture to clinical usefulness as distinct from raw
+match-type accuracy.
+
+\paragraph{Multi-model routing across agents.}
+The current pipeline uses a single primary reasoning model for all
+seven agents. The agents have different cognitive requirements
+nonetheless --- structured extraction, open-ended reasoning,
+adversarial critique, and retrieval-grounded application --- and
+assigning each role to a capability- and cost-matched model, with
+dynamic routing by case complexity in the spirit of
+MDAgents~\cite{Kim2024MDAgents} and TAO~\cite{Kim2025TAO}, would
+concentrate compute on the steps that benefit most. The
+provider-agnostic adapter already supports this as a configuration
+change.
+
+\paragraph{Guideline coverage beyond NICE.}
+Extending the retrieval corpus beyond NICE --- to NHS, WHO, ESC, and
+specialty-society guidelines --- would let the agent reason under more
+than one standard of care and flag inter-guideline disagreement as an
+additional signal to the reviewing clinician.
+
+\paragraph{Memory-architecture ablations.}
+The memory finding of Chapter~\ref{chap:results} deserves a dedicated
+follow-up. A tier-by-tier ablation should run each memory configuration on the
+same patient cohort and keep the case store population separate from the test
+cohort. That would identify which tier drives the differential-broadening
+behaviour and whether the precision trade-off can be recovered by selective
+gating.
+
+% -----------------------------------------------------------------------------
+\section{Closing Remarks}
+\label{sec:concl_remarks}
+% -----------------------------------------------------------------------------
+
+CMADS is an assistive system, not a replacement for a clinician. The
+seven-agent pipeline, the four-tier shared memory, and the doctor
+console are designed so that the human reviewer remains the decision
+authority and can inspect every step the agents took to reach a
+proposed diagnosis. The takeaway of the thesis is more modest than a
+headline accuracy number: a careful coordination architecture and a
+leakage-aware evaluation protocol matter as much as the model itself
+when building clinical multi-agent systems that are meant to be
+reviewed rather than trusted blindly.
