@@ -160,19 +160,18 @@ def slide_what_is_cmads(prs, metrics):
                     size=12, color=RED)
 
     bullets = [
-        ("7 agents on LangGraph",
-         "Coordinated by a typed shared state — not custom orchestration."),
-        ("Stage 1 parallel",
-         "EHR Analyst + Lab Interpreter fan out from START."),
-        ("Adaptive diagnostic loop",
-         "Up to 3 rounds with a confidence threshold."),
-        ("Non-destructive review",
-         "Reviewer challenges; Refiner can change the primary diagnosis "
-         "but the original output stays in the trace."),
-        ("Gated treatment planning",
-         "NICE guidelines via Qdrant — runs on DIRECT matches only."),
+        ("Synthetic patient generation",
+         "Synthea → Bronze → Silver → Gold medallion pipeline; one cohort, no PHI."),
+        ("7-agent LangGraph pipeline",
+         "EHR + Labs → diagnosis → review → refine → evaluate → NICE treatment."),
+        ("Vector database (Qdrant)",
+         "BioLORD-2023 embeddings of past cases + NICE guidelines; RAG at recall time."),
         ("4-tier memory subsystem",
-         "Working · Episodic · Semantic · Case-based (BioLORD-2023 embeddings)."),
+         "Working · Episodic · Semantic · Case-based — written every patient."),
+        ("Open-source LLMs",
+         "GPT-OSS-120B reasoning + Qwen3-32B judge via Groq — reproducible under $30/1k."),
+        ("Doctor-facing console",
+         "Agent inspector, similar-case browser, treatment-safety review, persisted verdicts."),
     ]
     left = 8.9
     top0 = 1.25

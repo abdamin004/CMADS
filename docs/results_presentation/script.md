@@ -22,14 +22,15 @@ Abdelrahman Mohamed Amin · Supervisor: Dr. Shereen Moataz Afifi · GUC · May 2
 
 ## Slide 2 — What CMADS is  *[≈ 50 s]*
 
-*System-architecture diagram on the left; six labelled bullets on the right.*
+*System-architecture diagram on the left; six labelled bullets on the right —
+each is a different aspect of the system, not pipeline mechanics.*
 
-- **7 agents on LangGraph** — typed shared state, not custom orchestration.
-- **Stage 1 parallel** — EHR Analyst + Lab Interpreter.
-- **Adaptive diagnostic loop** — up to 3 rounds with a confidence threshold.
-- **Non-destructive review** — Reviewer challenges; Refiner can override but the original output stays in the trace.
-- **Gated treatment planning** — NICE guidelines via Qdrant; DIRECT matches only.
-- **4-tier memory subsystem** — Working / Episodic / Semantic / Case-based (BioLORD-2023 embeddings).
+- **Synthetic patient generation** — Synthea → Bronze → Silver → Gold medallion pipeline; one cohort, no PHI.
+- **7-agent LangGraph pipeline** — EHR + Labs → diagnosis → review → refine → evaluate → NICE treatment.
+- **Vector database (Qdrant)** — BioLORD-2023 embeddings of past cases + NICE guidelines; RAG at recall time.
+- **4-tier memory subsystem** — Working · Episodic · Semantic · Case-based, written every patient.
+- **Open-source LLMs** — GPT-OSS-120B reasoning + Qwen3-32B judge via Groq, reproducible under $30 per 1,000 patients.
+- **Doctor-facing console** — agent inspector, similar-case browser, treatment-safety review, persisted verdicts.
 
 **Speaker notes:**
 > Seven specialised agents coordinated by LangGraph. The pipeline is
