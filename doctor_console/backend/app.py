@@ -26,16 +26,19 @@ from pydantic import BaseModel
 ROOT = Path(__file__).resolve().parents[2]
 DATA_GOLD = ROOT / "data" / "gold"
 PATIENT_CASES = DATA_GOLD / "patient_cases"
+ANNOTATIONS_DIR = DATA_GOLD / "annotations"
 STATIC_DIR = ROOT / "doctor_console" / "frontend" / "dist"
 
 # The "multi_level" virtual result set unions every multi-level-memory run
-# (improved_b3 + improved_50 + improved_10) so the doctor sees every patient
-# the system has run with the full 4-tier memory subsystem, regardless of
-# which batch they came from. Order is precedence: first match wins.
+# (improved_b3 + improved_50 + improved_extra60 + improved_10) so the doctor
+# sees every patient the system has run with the full 4-tier memory
+# subsystem, regardless of which batch they came from. Order is precedence:
+# first match wins.
 MULTI_LEVEL_KEY = "multi_level"
 MULTI_LEVEL_RESULT_DIRS: tuple[str, ...] = (
     "mas_results_improved_b3",
     "mas_results_improved_50",
+    "mas_results_improved_extra60",
     "mas_results_improved_10",
 )
 
@@ -77,6 +80,11 @@ RESULT_SET_LABELS = {
     "mas_results_with_memory": "Memory ON run (20)",
     "mas_results_baseline_no_mem": "Memory OFF baseline (20)",
     "mas_results_improved_10": "Improved memory run (10)",
+    "mas_results_improved_b3": "Multi-level memory · batch_3 (50)",
+    "mas_results_improved_50": "Multi-level memory · batch_4 (50)",
+    "mas_results_improved_extra60": "Multi-level memory · extra60 (60)",
+    "mas_results_paired95_single_level": "Paired baseline · single-level (95)",
+    "mas_results_single_llm_baseline": "Single-LLM baseline (160)",
     "mas_results_med42": "Med42 comparison",
     "mas_results_deepseek_v4_pro": "DeepSeek comparison",
 }
@@ -87,6 +95,19 @@ _tasks_lock = threading.Lock()
 
 class RunRequest(BaseModel):
     patient_uuid: str
+
+
+class AnnotationPayload(BaseModel):
+    """Doctor-supplied review of an agent run.
+
+    Persisted to data/gold/annotations/<uuid>.json. Always overwrites: one
+    annotation per patient at a time (later versions can extend to a list).
+    """
+
+    agreement: str = "uncertain"  # "agree" | "disagree" | "uncertain"
+    reviewed: bool = True
+    notes: str = ""
+    reviewer: str = ""  # free-form, e.g. "AM"
 
 
 def create_app() -> FastAPI:
@@ -155,6 +176,38 @@ def create_app() -> FastAPI:
     @app.get("/api/patients/{patient_uuid}/case")
     def patient_case(patient_uuid: str) -> dict[str, Any]:
         return _load_case_bundle(patient_uuid)
+
+    @app.get("/api/annotations/{patient_uuid}")
+    def get_annotation(patient_uuid: str) -> dict[str, Any]:
+        path = ANNOTATIONS_DIR / f"{patient_uuid}.json"
+        if not path.exists():
+            return {"patientUuid": patient_uuid, "exists": False}
+        data = _load_json(path) or {}
+        data["patientUuid"] = patient_uuid
+        data["exists"] = True
+        return data
+
+    @app.put("/api/annotations/{patient_uuid}")
+    def put_annotation(patient_uuid: str, payload: AnnotationPayload) -> dict[str, Any]:
+        if not (PATIENT_CASES / patient_uuid).exists():
+            raise HTTPException(status_code=404, detail="Unknown patient UUID")
+        ANNOTATIONS_DIR.mkdir(parents=True, exist_ok=True)
+        record = {
+            **payload.model_dump(),
+            "patientUuid": patient_uuid,
+            "updatedAt": _now_iso(),
+        }
+        path = ANNOTATIONS_DIR / f"{patient_uuid}.json"
+        path.write_text(json.dumps(record, indent=2, ensure_ascii=False))
+        record["exists"] = True
+        return record
+
+    @app.delete("/api/annotations/{patient_uuid}")
+    def delete_annotation(patient_uuid: str) -> dict[str, Any]:
+        path = ANNOTATIONS_DIR / f"{patient_uuid}.json"
+        if path.exists():
+            path.unlink()
+        return {"patientUuid": patient_uuid, "exists": False}
 
     @app.get("/api/patients/{patient_uuid}/similar")
     def similar_cases(
@@ -448,6 +501,8 @@ def _patient_list_item(patient_uuid: str, result_dir: Path) -> dict[str, Any]:
     evaluation = _load_json(result_dir / patient_uuid / "evaluation.json") or {}
     final_dx = _load_json(result_dir / patient_uuid / "final_diagnosis.json") or {}
     trace = _load_json(result_dir / patient_uuid / "execution_trace.json") or {}
+    annotation_path = ANNOTATIONS_DIR / f"{patient_uuid}.json"
+    annotation = _load_json(annotation_path) if annotation_path.exists() else None
     return {
         "uuid": patient_uuid,
         "age": case["patient"].get("age"),
@@ -457,7 +512,15 @@ def _patient_list_item(patient_uuid: str, result_dir: Path) -> dict[str, Any]:
         "matchType": evaluation.get("match_type"),
         "primaryDiagnosis": final_dx.get("primary_diagnosis") or evaluation.get("primary_diagnosis"),
         "durationS": trace.get("duration_s"),
+        "reviewed": bool(annotation and annotation.get("reviewed")),
+        "agreement": (annotation or {}).get("agreement"),
     }
+
+
+def _now_iso() -> str:
+    """Local-time ISO timestamp without microseconds — easier to read."""
+    from datetime import datetime
+    return datetime.now().isoformat(timespec="seconds")
 
 
 def _load_case_bundle(patient_uuid: str) -> dict[str, Any]:
