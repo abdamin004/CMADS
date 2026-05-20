@@ -735,8 +735,9 @@ entries as lightweight priors.
 \label{sec:tier4}
 Tier~4 stores prior patient cases in Qdrant. After a completed run, the system
 builds a short clinical text from demographics, active conditions, medications,
-and abnormal labs. This text is embedded with BioLORD-2023
-\cite{Remy2023BioLORD} and written to the \texttt{patient\_cases} collection.
+and abnormal labs. This text is encoded into a vector using
+BioLORD-2023 \cite{Remy2023BioLORD} and stored in the
+\texttt{patient\_cases} Qdrant collection.
 The payload stores the matched diagnosis, match type, rank, confidence, and
 evidence patterns. At the start of a new case, the Diagnostic Reasoning agent
 retrieves the top-$K$ similar cases ($K=5$ by default) and can use them as
@@ -822,8 +823,8 @@ the diagnosis as DIRECT.
 
 The external retrieval corpus contains NICE guideline documents for
 the target disease groups. The documents are split into overlapping
-chunks of about 400 tokens with 50-token overlap, embedded with
-BioLORD-2023, and stored in Qdrant. Qdrant was used because it
+chunks of about 400 tokens with 50-token overlap, encoded into
+vectors using BioLORD-2023, and stored in Qdrant. Qdrant was used because it
 supports filtered retrieval: the Treatment Planning agent can
 restrict retrieval to passages tagged with the final diagnosis code,
 which reduces the risk of pulling in passages from the wrong
