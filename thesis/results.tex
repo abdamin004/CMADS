@@ -118,7 +118,14 @@ found, it is ranked first in 60.0\% [51.7, 67.7] of found cases.
 \begin{table}[!htbp]
 \centering
 \caption{Headline diagnostic outcomes on the 160-patient completed cohort.
-Wilson 95\% confidence intervals are shown in brackets.}
+Wilson 95\% confidence intervals are shown in brackets. The 73.8\,\%
+DIRECT rate here is on the principal multi-level configuration over
+the full \texttt{mas\_results/} cohort; the paired memory A/B in
+Section~\ref{sec:results_memory_ab} measures DIRECT at 53.1\,\% for
+the single-level arm on the same 160 UUIDs drawn from a separate
+re-run dataset, and the two are not directly comparable because they
+measure different configurations on cohorts that overlap by 65
+patients only.}
 \label{tab:e2e_headline}
 \small
 \begin{tabular}{@{}lrr@{}}
@@ -262,10 +269,15 @@ which matches the DIRECT-gated design in Section~\ref{sec:agent_tx}.
 \begin{table}[!htbp]
 \centering
 \caption{Per-agent reliability on the 160-patient cohort. \emph{Output
-file present} = the agent produced its persisted JSON output;
-\emph{Trace status} = the status string written into the run
-trace. The two views diverge for the last two rows; the surrounding
-prose explains why.}
+file present} = the agent produced its persisted JSON output
+(best-case view, evaluated over the full $n = 160$); \emph{Success
+(trace)} = the status string written into the run trace (worst-case
+view: 49 of 160 runs predate a telemetry change and report
+\emph{trace missing} on the LLM Evaluator and Treatment Planning
+rows). Best-case = the output file confirms success on those 49
+runs; worst-case = those 49 runs are counted as failures. The two
+views diverge only for the last two rows and bound the agent's true
+reliability.}
 \label{tab:agent_reliability}
 \footnotesize
 \begin{adjustbox}{max width=\textwidth}
@@ -342,14 +354,14 @@ Two design choices can be checked from the run files: the adaptive diagnostic
 loop and the non-destructive Reviewer-Refiner pattern from
 Section~\ref{sec:agent_refiner}.
 
-The Reviewer-Refiner pattern had a visible effect. In about three out of five
-runs, the Diagnostic Refiner changed the primary diagnosis originally produced
-by the Diagnostic Reasoning agent (descriptive estimate from spot-checking
-the persisted \texttt{diagnostic\_\allowbreak reasoning.json} versus
-\texttt{final\_\allowbreak diagnosis.json} pairs in
-\texttt{data/\allowbreak gold/\allowbreak mas\_results/}; a programmatic
-recomputation across the full cohort is identified as future work and
-falls under the out-of-scope items of the originating review). This happened because the Refiner does not
+The Reviewer-Refiner pattern had a visible effect. A programmatic
+comparison of the rank-1 diagnosis between
+\texttt{diagnostic\_\allowbreak reasoning.json} and
+\texttt{final\_\allowbreak diagnosis.json} across the full cohort
+(\texttt{scripts/refiner\_changed\_primary.py}) finds that the
+Diagnostic Refiner changed the primary diagnosis originally produced
+by the Diagnostic Reasoning agent in \textbf{93 of 160 runs (58.1\,\%)}.
+This happened because the Refiner does not
 delete the original diagnostic output; it can change the final primary while
 keeping the earlier output available for audit. The Reviewer also often flagged
 anchoring on one strong lab value, such as creatinine pushing the agent toward
