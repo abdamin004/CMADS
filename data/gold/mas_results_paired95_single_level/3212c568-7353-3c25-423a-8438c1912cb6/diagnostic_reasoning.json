@@ -1,0 +1,284 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential Hypertension (likely resistant)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.21,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 07/22/1990",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current antihypertensive regimen includes benazepril/amlodipine combo, hydrochlorothiazide, and metoprolol",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stress, limited social contact, part\u2011time employment (psychosocial factors worsening BP control)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5\u202fmg/dL and eGFR 71.1\u202fmL/min/1.73\u202fm\u00b2 indicating early renal impact of hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension with three agents, evidence of target\u2011organ damage (early CKD) and psychosocial stressors make resistant hypertension the most plausible driver of current renal and cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Chronic Kidney Disease (stage 2\u20113)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Disorder of kidney due to diabetes mellitus (onset 12/24/2017)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 149.1\u202fmg/dL (+2) indicating proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 71.1\u202fmL/min/1.73\u202fm\u00b2 (abnormal for age)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Benazepril (ACE\u2011I) included for renoprotection",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Proteinuria with modestly reduced eGFR in a patient labeled with diabetic kidney disease points to early diabetic CKD, despite missing glycaemic data."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic Coronary Artery Disease (post\u2011NSTEMI)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute NSTEMI on 12/17/2015 and prior MI problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy (aspirin + prasugrel)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Statin therapy (simvastatin + atorvastatin)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented MI and ongoing secondary\u2011prevention meds confirm established CAD, though no recent imaging is available."
+    },
+    {
+      "rank": 4,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elderly female with long\u2011standing hypertension, CAD, and CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Beta\u2011blocker and ACE\u2011I therapy suggest management of heart failure symptoms",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing BMI and weight data (obesity likely) \u2013 a typical HFpEF risk factor",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The classic phenotype (elderly female, hypertension, CAD, CKD, probable obesity) makes HFpEF a high\u2011impact yet unconfirmed diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Type 2 Diabetes Mellitus (undocumented control)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Label \"Disorder of kidney due to diabetes mellitus\" implies underlying diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing HbA1c flag indicates lack of recent glycaemic data",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia and duplicate statin therapy typical in diabetics",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes is a core comorbidity but without recent glucose/HbA1c the current disease activity is uncertain."
+    },
+    {
+      "rank": 6,
+      "name": "Medication Non\u2011adherence / OTC NSAID Use",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No outpatient visits recorded since end of 2017",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy risk rated moderate; duplicate statin flag suggests possible confusion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine and proteinuria could be worsened by hidden NSAID use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Loss to follow\u2011up and complex regimen raise suspicion for missed doses or unrecorded OTC NSAIDs, which would aggravate CKD and bleeding risk."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of Chronic Disease / Iron\u2011deficiency",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "No CBC provided; anemia is a common complication of CKD and antiplatelet therapy",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy and possible occult GI bleed flagged as a concern",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given CKD, antiplatelet use, and missing CBC, anemia is plausible and would affect management."
+    },
+    {
+      "rank": 8,
+      "name": "Atrial Fibrillation (undocumented)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >65, hypertension, CAD, and CKD are strong risk factors for AF",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent ECG recorded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High epidemiologic likelihood; detection would impact anticoagulation decisions."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive Sleep Apnoea",
+      "icd10": "G47.33",
+      "snomed": "86203005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, possible obesity (BMI missing), and diabetes are classic OSA risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA could worsen hypertension and metabolic control; screening is warranted."
+    },
+    {
+      "rank": 10,
+      "name": "Depression / Anxiety (high\u2011impact)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, limited social contact, part\u2011time employment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No PHQ\u20119/GAD\u20117 completed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial burden likely contributes to poor adherence and overall health; mental\u2011health screening is indicated."
+    }
+  ],
+  "primary_diagnosis": "Essential Hypertension (likely resistant)",
+  "primary_probability": 0.21,
+  "clinical_reasoning_summary": "The patient is an elderly female with longstanding hypertension, documented NSTEMI, early diabetic kidney disease, and a complex medication regimen. Missing key metabolic and renal trend data shift the differential toward hypertension and CKD as primary drivers, while acknowledging significant contributions from CAD, possible HFpEF, and diabetes. Psychosocial stressors and potential medication non\u2011adherence further modulate risk. Probabilities were calibrated using epidemiologic priors, the strength of documented findings, and penalties for absent data.",
+  "unresolved_findings": [
+    "Missing glycated\u2011hemoglobin (A1c) and fasting glucose",
+    "Absent body\u2011mass index (BMI) and weight",
+    "No recent lipid panel (total cholesterol, LDL\u2011C)",
+    "Inconsistent eGFR documentation between EHR and lab",
+    "Lack of longitudinal trends for creatinine, proteinuria, and eGFR",
+    "No recent outpatient visit notes since 2017",
+    "Absence of CBC, iron studies, B12/folate levels",
+    "No ECG or cardiac imaging performed recently",
+    "No sleep study or screening for OSA",
+    "No mental\u2011health (PHQ\u20119/GAD\u20117) or cognitive (MoCA) assessments"
+  ],
+  "recommended_workup": [
+    "HbA1c and fasting glucose",
+    "Repeat renal panel: serum creatinine, eGFR, urine albumin\u2011to\u2011creatinine ratio",
+    "Complete blood count with iron, ferritin, B12, folate",
+    "Comprehensive lipid panel plus CK and liver function tests",
+    "12\u2011lead ECG and, if abnormal, 24\u2011h Holter monitoring",
+    "Transthoracic echocardiogram (assessment of EF and diastolic function)",
+    "Comprehensive medication reconciliation including OTC NSAID use and actual statin taken",
+    "Home sleep\u2011apnoea test or polysomnography",
+    "PHQ\u20119 and GAD\u20117 questionnaires",
+    "MoCA or Mini\u2011Cog for cognitive screening",
+    "Serum potassium level",
+    "Uric acid measurement",
+    "TSH and free T4"
+  ]
+}

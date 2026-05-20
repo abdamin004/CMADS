@@ -1,0 +1,302 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (obesity\u2011driven insulin\u2011resistant state)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (BP 137/88) on monotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C = 32.6\u202fmg/dL (low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides = 169.6\u202fmg/dL (borderline\u2011high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.3\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol use (moderate severity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient meets \u22653 criteria of metabolic syndrome (obesity, hypertension, low HDL, elevated triglycerides, prediabetes). This cluster drives her elevated ASCVD risk and explains many laboratory abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Non\u2011alcoholic fatty liver disease (early NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT = 46.9\u202fU/L (borderline\u2011high, rising trend)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "AST = 21.5\u202fU/L (normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate alcohol use (potential confounder)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated ALT elevation in the setting of obesity and metabolic syndrome is classic for NAFLD. Alcohol use is moderate, making NAFLD the more likely primary etiology."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnoea",
+      "icd10": "G47.33",
+      "snomed": "73211009",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (central adiposity)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f1 hypertension resistant to monotherapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic fatigue not explicitly noted but implied by low\u2011grade metabolic derangements",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and sub\u2011optimally controlled hypertension raise the pre\u2011test probability of OSA, which can further worsen insulin resistance and blood pressure."
+    },
+    {
+      "rank": 4,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and limited social contact",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic generalized pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol use (possible self\u2011medication)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors, chronic pain, and alcohol misuse are red flags for mood disorder, which can impair adherence to lifestyle and medical therapy."
+    },
+    {
+      "rank": 5,
+      "name": "Current smoking (if present)",
+      "icd10": "F17.210",
+      "snomed": "77176002",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking status not documented (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Missing smoking data creates uncertainty; given age and gender, a 15\u201120% prevalence makes smoking a plausible unmeasured risk factor."
+    },
+    {
+      "rank": 6,
+      "name": "Essential hypertension \u2013 sub\u2011optimally controlled",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.06,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BP 137/88\u202fmmHg (stage\u202f1) on hydrochlorothiazide 25\u202fmg",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 84\u202fmL/min/1.73\u202fm\u00b2 (borderline low)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Blood pressure remains above target despite therapy, indicating need for intensification or addition of another agent."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism (sub\u2011clinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low alkaline phosphatase = 27.8\u202fU/L (unusual, seen in hypothyroidism)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C and elevated triglycerides",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low ALP together with dyslipidaemia can be a manifestation of hypothyroidism; thyroid testing is pending."
+    },
+    {
+      "rank": 8,
+      "name": "Vitamin\u202fD deficiency",
+      "icd10": "E55.9",
+      "snomed": "237022001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic musculoskeletal pain and obesity (risk factors for low vitamin\u202fD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal calcium and albumin (does not exclude deficiency)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Vitamin\u202fD deficiency is common in obese, sedentary adults and can contribute to bone pain and low\u2011grade inflammation."
+    },
+    {
+      "rank": 9,
+      "name": "Micronutrient deficiency (zinc / magnesium)",
+      "icd10": "E61.2",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated low alkaline phosphatase = 27.8\u202fU/L",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol use (can impair zinc absorption)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low ALP is often linked to zinc deficiency; confirming levels will guide supplementation."
+    },
+    {
+      "rank": 10,
+      "name": "Alcohol\u2011related liver injury (early steatosis)",
+      "icd10": "K70.0",
+      "snomed": "236069009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate unhealthy alcohol use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline\u2011high ALT with normal AST",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Alcohol may be contributing to the mild transaminase elevation; distinguishing from NAFLD requires quantification of intake and imaging."
+    },
+    {
+      "rank": 11,
+      "name": "Gout / hyperuricaemia (thiazide\u2011induced)",
+      "icd10": "M10.9",
+      "snomed": "239873007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide 25\u202fmg use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low eGFR and rising BUN (suggests reduced clearance)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thiazides can raise serum uric acid, predisposing to gout; no current joint symptoms are documented, but the risk exists."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (obesity\u2011driven insulin\u2011resistant state)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with classic features of metabolic syndrome\u2014obesity, hypertension, low HDL, elevated triglycerides, and prediabetes\u2014driving a high ASCVD risk. This metabolic milieu also explains the mild hepatocellular injury (NAFLD) and contributes to sub\u2011optimal blood pressure control. Co\u2011existing psychosocial stressors (social isolation, chronic pain, alcohol use) raise the likelihood of depression, possible sleep\u2011disordered breathing, and alcohol\u2011related liver injury. Missing data (BMI, smoking status, thyroid function, vitamin D, zinc) create uncertainty around several secondary diagnoses, prompting a targeted work\u2011up. The differential is weighted to reflect both the prevalence of these conditions and the strength of supporting evidence.",
+  "unresolved_findings": [
+    "Exact BMI and waist circumference not recorded",
+    "Smoking status unknown",
+    "Quantified alcohol consumption not documented",
+    "Thyroid function tests (TSH, free T4) missing",
+    "Serum zinc, magnesium, and vitamin D levels not measured",
+    "Urine albumin\u2011to\u2011creatinine ratio not obtained",
+    "Low alkaline phosphatase without clear etiology"
+  ],
+  "recommended_workup": [
+    "Measure weight, height, calculate BMI, and obtain waist circumference",
+    "Ask direct smoking questions; consider urine cotinine if uncertain",
+    "Administer AUDIT\u2011C questionnaire to quantify alcohol intake",
+    "Order thyroid panel (TSH, free T4)",
+    "Check serum zinc, magnesium, and 25\u2011OH vitamin D levels",
+    "Obtain fasting lipid panel (including non\u2011HDL cholesterol) and repeat HbA1c",
+    "Order serum uric acid",
+    "Perform urine albumin\u2011to\u2011creatinine ratio",
+    "Schedule FibroScan or abdominal ultrasound for liver steatosis/fibrosis assessment",
+    "Arrange home sleep apnoea test (type III) or polysomnography if indicated",
+    "Administer PHQ\u20119 and GAD\u20117 for depression/anxiety screening",
+    "Comprehensive medication reconciliation (including OTCs and supplements)",
+    "Consider low\u2011dose ACE\u2011I/ARB addition for hypertension and renal protection"
+  ]
+}

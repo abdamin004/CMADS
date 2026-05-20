@@ -1,0 +1,341 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven metabolic syndrome",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.35,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 159 mmHg, DBP 97 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black male, age 40",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea diagnosed 2016-10-16 (untreated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing BMI and waist circumference",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal lipid panel (single measurement)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled hypertension in a young Black male combined with untreated OSA and absent BMI data strongly suggests underlying obesity. Obesity is a central driver of metabolic syndrome, which can explain the hypertension and predispose to future dyslipidemia and insulin resistance."
+    },
+    {
+      "rank": 2,
+      "name": "Untreated moderate-to-severe obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed OSA (SNOMED 73430006) on 2016-10-16",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CPAP or other OSA therapy documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis (upper airway inflammation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia (HR 92 bpm)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented OSA without therapy is a well\u2011known cause of resistant hypertension and sympathetic over\u2011activity. The coexistence of chronic sinusitis likely worsens airway obstruction, supporting OSA as a major contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Untreated hypertension \u2013 medication non\u2011adherence / undocumented therapy",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.23,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 159 mmHg, DBP 97 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication recorded",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list empty despite prior medication review (2016\u201112)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race \u2013 higher prevalence of hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The primary driver of the current blood\u2011pressure elevation is the absence of any antihypertensive therapy, whether due to non\u2011adherence, lack of prescription, or documentation gaps."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (CKD) secondary to hypertension",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled stage 2 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing renal labs (creatinine, eGFR, urine albumin)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race \u2013 higher risk of hypertension\u2011related CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension can cause early renal injury. The lack of renal function testing creates uncertainty, but the demographic and hemodynamic profile raise suspicion."
+    },
+    {
+      "rank": 5,
+      "name": "Primary hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension (stage 2, untreated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting tachycardia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No diuretic or ACE\u2011I/ARB therapy (which could mask aldosterone excess)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In a young adult with severe hypertension and limited medication exposure, primary hyperaldosteronism remains a plausible secondary cause, though prevalence is modest."
+    },
+    {
+      "rank": 6,
+      "name": "Type 2 diabetes mellitus / pre\u2011diabetes",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing fasting glucose / HbA1c",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity risk (inferred) and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black male \u2013 higher prevalence of insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and probable obesity place the patient at elevated risk for dysglycemia; absence of glucose testing leaves this as an important but unconfirmed diagnosis."
+    },
+    {
+      "rank": 7,
+      "name": "Excess dietary sodium intake",
+      "icd10": "Z72.3",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension despite no meds",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing dietary history (sodium intake unknown)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race \u2013 heightened salt sensitivity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High sodium intake is a common, modifiable contributor to hypertension, especially in salt\u2011sensitive populations."
+    },
+    {
+      "rank": 8,
+      "name": "Substance\u2011related or NSAID\u2011induced hypertension",
+      "icd10": "I10",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list empty \u2013 possible OTC NSAID or stimulant use not captured",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented substance use screening",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Common over\u2011the\u2011counter NSAIDs and illicit stimulants can raise blood pressure; lack of documentation makes this a plausible but uncertain contributor."
+    },
+    {
+      "rank": 9,
+      "name": "Renal\u2011artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension at a relatively young age",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race \u2013 higher prevalence of atherosclerotic disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal\u2011artery stenosis is a recognized secondary cause of refractory hypertension, though less common in this age group without known atherosclerosis."
+    },
+    {
+      "rank": 10,
+      "name": "Cushing's syndrome",
+      "icd10": "E24.9",
+      "snomed": "237599001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hypertension without treatment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented stigmata (weight gain, striae) \u2013 absent but not excluded",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cushing's can cause resistant hypertension; low prior probability but kept in differential pending endocrine evaluation."
+    },
+    {
+      "rank": 11,
+      "name": "Thyroid dysfunction (hypo\u2011 or hyperthyroidism)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension with missing thyroid panel",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented thyroid disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid disorders can affect blood pressure; absence of testing leaves this as a low\u2011probability consideration."
+    },
+    {
+      "rank": 12,
+      "name": "Other rare causes (obesity hypoventilation syndrome, pheochromocytoma, early sub\u2011clinical CAD, etc.)",
+      "icd10": "Z03.89",
+      "snomed": "123037004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea and probable obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No catecholamine testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A catch\u2011all category for less common etiologies that could contribute to hypertension but lack specific supporting data."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven metabolic syndrome",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient is a 40\u2011year\u2011old Black male with uncontrolled stage\u202f2 hypertension, documented untreated obstructive sleep apnea, chronic sinusitis, and a complete lack of antihypertensive or CPAP therapy. Demographic risk factors (Black race, male sex) and the presence of OSA strongly point toward underlying obesity, which is the most parsimonious upstream driver of the metabolic derangements and hypertension. The treatment\u2011gap (no meds) further amplifies the blood\u2011pressure elevation. Missing key laboratory data (BMI, renal function, glucose, aldosterone\u2011renin, sodium intake) create uncertainty, prompting inclusion of secondary\u2011cause differentials such as early CKD, primary hyperaldosteronism, and substance\u2011related hypertension. Probabilities were calibrated to reflect realistic priors for this population and to sum to 1.0.",
+  "unresolved_findings": [
+    "Single normal lipid panel (does not explain hypertension)",
+    "History of resolved loose dental filling (2017\u201101)",
+    "Prior part\u2011time employment (resolved 2016\u201112)",
+    "Stress resolved (December\u202f2016) despite persistent hypertension",
+    "Medication review completed (December\u202f2016) with no subsequent therapy documented"
+  ],
+  "recommended_workup": [
+    "Measure height, weight, calculate BMI, and obtain waist circumference",
+    "Comprehensive medication reconciliation including OTC, supplements, and pharmacy fill data",
+    "CPAP device download or adherence check; consider repeat polysomnography if adherence unknown",
+    "Basic metabolic panel with serum creatinine, eGFR, electrolytes, and urine albumin\u2011creatinine ratio",
+    "Fasting glucose and HbA1c",
+    "Plasma aldosterone concentration and plasma renin activity (aldosterone\u2011renin ratio)",
+    "24\u2011hour urine sodium or validated dietary sodium questionnaire",
+    "Structured substance\u2011use screen (AUDIT\u2011C, DAST\u201110) and NSAID use questionnaire",
+    "Renal artery duplex ultrasound or CT angiography if secondary hypertension suspected",
+    "Overnight dexamethasone suppression test for Cushing's syndrome",
+    "Thyroid panel (TSH, free T4)",
+    "Arterial blood gas or overnight oximetry to evaluate for obesity hypoventilation syndrome",
+    "Echocardiogram to assess for left\u2011ventricular hypertrophy or early CAD"
+  ]
+}

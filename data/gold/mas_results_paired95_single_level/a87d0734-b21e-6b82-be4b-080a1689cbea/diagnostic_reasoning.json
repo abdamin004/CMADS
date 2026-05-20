@@ -1,0 +1,283 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven Metabolic Syndrome",
+      "icd10": "E66.9; E78.0; I10; R73.03",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (SBP 137/DBP 83)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (Hemoglobin A1c 6.0%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 174.8\u202fmg/dL (severe elevation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total Cholesterol 257\u202fmg/dL (severe elevation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HDL\u2011C 61.3\u202fmg/dL (protective)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides 104.6\u202fmg/dL (normal)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Central obesity, hypertension, and pre\u2011diabetes together constitute metabolic syndrome, which commonly produces modest LDL elevation and the observed lipid pattern. The constellation explains the majority of cardiovascular risk factors."
+    },
+    {
+      "rank": 2,
+      "name": "Heterozygous Familial Hypercholesterolaemia (FH)",
+      "icd10": "E78.5",
+      "snomed": "190332001",
+      "probability": 0.13,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 174.8\u202fmg/dL (severe isolated elevation)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total Cholesterol 257\u202fmg/dL (severe elevation)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides normal",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented family history of premature ASCVD (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe isolated LDL elevation with normal triglycerides is classic for heterozygous FH. Absence of a known family history reduces probability but does not exclude it; genetic testing would confirm."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive Sleep Apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width 152.3\u202ffL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 16.5\u202fg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hematocrit 48.4\u202f% (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity\u2011related intermittent hypoxia can drive secondary erythrocytosis (high Hgb/Hct) and platelet activation (high PDW). OSA also contributes to hypertension and dyslipidaemia, fitting the observed pattern."
+    },
+    {
+      "rank": 4,
+      "name": "Primary (overt) Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe isolated LDL\u2011C elevation with normal triglycerides",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism reduces LDL\u2011receptor activity, leading to marked LDL elevation while triglycerides remain normal. Confirmation requires TSH/free\u2011T4 testing."
+    },
+    {
+      "rank": 5,
+      "name": "Early Myeloproliferative Neoplasm (Essential Thrombocythemia / Polycythaemia Vera)",
+      "icd10": "D47.3; D45",
+      "snomed": "10828004",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width 152.3\u202ffL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 16.5\u202fg/dL and Hematocrit 48.4\u202f% (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia diagnosis since 1999 (conflict)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A markedly abnormal PDW suggests platelet size heterogeneity seen in early MPNs. The borderline erythrocytosis adds support, but lack of confirmatory molecular testing keeps confidence low."
+    },
+    {
+      "rank": 6,
+      "name": "Early Chronic Kidney Disease with Albuminuria",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension treated with lisinopril",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.1\u202fmg/dL (normal) \u2013 but eGFR not calculated",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidaemia (high LDL) could be secondary to early CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and ACE\u2011inhibitor use raise suspicion for early CKD; proteinuria screening is needed to confirm."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated LDL elevation with normal triglycerides",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in obese, pre\u2011diabetic patients and can exacerbate dyslipidaemia. Liver imaging and enzymes are required."
+    },
+    {
+      "rank": 8,
+      "name": "Familial Combined Hyperlipidaemia (FCHL)",
+      "icd10": "E78.5",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe isolated LDL elevation with normal triglycerides",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No family history documented (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "FCHL can present with isolated LDL elevation similar to FH but often lacks a clear family history; lipid sub\u2011fraction testing may help differentiate."
+    },
+    {
+      "rank": 9,
+      "name": "Polycystic Ovary Syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidaemia pattern (high LDL, normal TG)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "PCOS can contribute to insulin resistance and dyslipidaemia; menstrual/androgen data are missing, making this a less likely but possible contributor."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven Metabolic Syndrome",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient is a middle\u2011aged woman with obesity, stage\u202f1 hypertension, and pre\u2011diabetes, all of which constitute metabolic syndrome and explain the majority of her cardiovascular risk profile, including the markedly elevated LDL\u2011C and total cholesterol. While heterozygous FH remains a plausible cause of the isolated LDL elevation, the lack of a documented family history and the presence of multiple metabolic risk factors lower its relative probability. Obstructive sleep apnoea is supported by obesity\u2011related erythrocytosis and a strikingly high platelet distribution width, suggesting intermittent hypoxia\u2011driven platelet activation. Secondary contributors such as hypothyroidism, early myeloproliferative neoplasm, early CKD, NAFLD, familial combined hyperlipidaemia, and PCOS are included as lower\u2011probability entities based on specific laboratory anomalies (elevated PDW, borderline polycythaemia, data gaps). The differential is calibrated to sum to 1.0, with probabilities reflecting current evidence and acknowledged data gaps.",
+  "unresolved_findings": [
+    "Markedly elevated PDW (152.3\u202ffL) \u2013 could be artifact or indicate platelet activation",
+    "Borderline high hemoglobin/hematocrit despite documented chronic anemia",
+    "Missing smoking status",
+    "Missing family history of premature ASCVD or FH",
+    "Absent thyroid function tests (TSH, free T4)",
+    "No sleep study results to confirm OSA",
+    "No iron studies, B12, folate, or occult blood testing",
+    "Urine albumin\u2011creatinine ratio not performed",
+    "Incomplete lipid genetics documentation",
+    "Lack of vaccination and cancer\u2011screening records"
+  ],
+  "recommended_workup": [
+    "Repeat fasting lipid panel with LDL\u2011particle size and non\u2011HDL cholesterol",
+    "Targeted lipid genetics panel (LDLR, APOB, PCSK9) if FH remains likely",
+    "Detailed family history interview for premature ASCVD or known FH",
+    "Smoking history assessment (current/former, pack\u2011years)",
+    "Thyroid function tests: TSH and free T4",
+    "Home sleep apnoea test (AHI) or polysomnography",
+    "Repeat CBC with manual smear to verify PDW; consider JAK2, CALR, MPL mutation testing if PDW remains elevated",
+    "Iron studies (serum iron, ferritin, TIBC), vitamin B12, folate, and stool occult blood",
+    "Urine albumin\u2011creatinine ratio (spot ACR) to screen for early CKD",
+    "Comprehensive liver panel and abdominal ultrasound to assess NAFLD",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) and IPV safety assessment",
+    "Review and update vaccination status (influenza, COVID\u201119, pneumococcal)",
+    "Age\u2011appropriate cancer screening (mammography, Pap smear, colonoscopy) if indicated"
+  ]
+}

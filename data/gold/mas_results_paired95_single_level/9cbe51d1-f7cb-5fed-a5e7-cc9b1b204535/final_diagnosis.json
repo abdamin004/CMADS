@@ -1,0 +1,243 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute ST-segment-elevation myocardial infarction (STEMI) (type 1 MI)",
+      "icd10": "I21.3",
+      "snomed": "22298006",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated cardiac troponin without prior baseline",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin with rising trend (pending serial values)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (diabetes, CKD, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of markedly elevated troponin, high cardiovascular risk profile, and the reviewer\u2019s strong confidence supports a diagnosis of type 1 STEMI as the most likely acute event."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic vascular chronic kidney disease, stage 4",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known history of type 2 diabetes mellitus with longstanding proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Estimated GFR ~25\u202fmL/min/1.73\u202fm\u00b2 (stage 4 CKD)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Diabetes is the predominant cause of CKD in this patient; the renal function data confirm stage\u202f4 disease, making it a near\u2011certain chronic condition."
+    },
+    {
+      "rank": 3,
+      "name": "Acute coronary syndrome \u2013 type 2 myocardial infarction (demand ischemia)",
+      "icd10": "I21.A1",
+      "snomed": "413839001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated troponin in setting of possible supply\u2011demand mismatch (e.g., anemia, hypoxia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis and ketonuria suggesting catabolic stress",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While a type\u202f1 STEMI is favored, the presence of systemic stressors raises the possibility of a type\u202f2 MI contributing to troponin rise."
+    },
+    {
+      "rank": 4,
+      "name": "Acute decompensated heart failure with cardiorenal syndrome",
+      "icd10": "I50.21",
+      "snomed": "42343007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic heart failure and recent dyspnea",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN/creatinine ratio suggestive of renal hypoperfusion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s cardiac history and renal derangements are compatible with an acute decompensation, though objective data (BNP, echo) are lacking."
+    },
+    {
+      "rank": 5,
+      "name": "Medication\u2011induced euglycaemic ketoacidosis (likely SGLT2\u2011inhibitor)",
+      "icd10": "E13.10",
+      "snomed": "44054006",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Ketonuria with minimal glucosuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current prescription of an SGLT2 inhibitor",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The lab pattern of ketonuria without significant hyperglycemia, together with SGLT2\u2011inhibitor use, makes euglycaemic ketoacidosis plausible."
+    },
+    {
+      "rank": 6,
+      "name": "Acute-on\u2011chronic kidney disease (AKI superimposed on CKD)",
+      "icd10": "N17.9",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Sudden rise in serum creatinine from baseline CKD values",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent exposure to nephrotoxic agents (e.g., contrast, NSAIDs)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given established stage\u202f4 CKD, any acute deterioration in renal function constitutes AKI on CKD, which may be driving metabolic abnormalities."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease (CKD\u2011related)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with normocytic, normochromic indices (data pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing CKD known to cause anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia of chronic disease; the probability reflects its prevalence but limited acute impact."
+    },
+    {
+      "rank": 8,
+      "name": "Primary glomerular disease (membranous nephropathy or FSGS)",
+      "icd10": "N04.2",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria with selective albumin loss (details pending)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetic nephropathy is far more likely; primary glomerulopathy remains a remote possibility."
+    },
+    {
+      "rank": 9,
+      "name": "Renovascular CKD / obstructive uropathy",
+      "icd10": "N13.2",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior imaging suggesting renal artery stenosis or obstruction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood in a diabetic patient without imaging evidence; retained only for completeness."
+    },
+    {
+      "rank": 10,
+      "name": "Multiple myeloma / light\u2011chain deposition disease",
+      "icd10": "C90.0",
+      "snomed": "12691009",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "No hypercalcemia, anemia, or monoclonal protein reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Very low pre\u2011test probability; kept only because it was originally listed."
+    },
+    {
+      "rank": 11,
+      "name": "Psychosocial non\u2011adherence / depression",
+      "icd10": "Z91.14",
+      "snomed": "160573003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of medication non\u2011adherence and depressive symptoms",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "May contribute to delayed presentation and poor chronic disease control but is not a primary driver of the acute picture."
+    }
+  ],
+  "primary_diagnosis": "Acute ST-segment-elevation myocardial infarction (STEMI) (type 1 MI)",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The patient presents with markedly elevated troponin in the context of extensive cardiovascular risk factors, making a type\u202f1 STEMI the most probable acute event. Chronic diabetic CKD stage\u202f4 is virtually certain and underlies many of the metabolic derangements. Secondary considerations include type\u202f2 MI from supply\u2011demand mismatch, acute decompensated heart failure with cardiorenal interaction, and SGLT2\u2011inhibitor\u2011related euglycaemic ketoacidosis. An acute AKI superimposed on CKD explains the rapid renal function decline. Less likely entities (primary glomerular disease, renovascular obstruction, multiple myeloma, psychosocial non\u2011adherence) are retained with low probabilities.",
+  "unresolved_findings": [
+    "Urine bilirubin = 1.4\u202fmg/dL without serum bilirubin data",
+    "Urine specific gravity = 1.000 (extremely dilute) \u2013 unclear if due to over\u2011hydration, diuretic use, or concentrating defect",
+    "Ketonuria with only minimal glucosuria \u2013 possible euglycaemic ketoacidosis or catabolic stress",
+    "Elevated troponin without accompanying ECG or serial measurements",
+    "Lack of recent blood pressure, lipid panel, HbA1c, CBC, serum electrolytes, and medication list"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG with serial repeats",
+    "Serial cardiac troponins (at 0, 3, 6\u202fh)",
+    "Echocardiogram to assess wall motion and ejection fraction",
+    "BNP or NT\u2011proBNP for heart\u2011failure assessment",
+    "Comprehensive metabolic panel (including electrolytes, BUN, creatinine, liver enzymes)",
+    "Serum ketone measurement (beta\u2011hydroxybutyrate)",
+    "Complete blood count with differential",
+    "Urine microscopy and quantitative protein assessment",
+    "Renal ultrasound to evaluate for obstruction or renal artery stenosis",
+    "Medication reconciliation focusing on SGLT2\u2011inhibitor use and nephrotoxic agents",
+    "Lipid panel and HbA1c for cardiovascular risk stratification"
+  ]
+}

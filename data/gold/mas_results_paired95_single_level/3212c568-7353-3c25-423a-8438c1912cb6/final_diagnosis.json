@@ -1,0 +1,209 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic Coronary Artery Disease (post\u2011NSTEMI)",
+      "icd10": "I25.110",
+      "snomed": "22298006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI documented in encounter notes",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (hypertension, hyperlipidemia, diabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Coronary artery disease suspected based on prior angiography (not shown but implied)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s recent NSTEMI and multiple atherosclerotic risk factors make post\u2011NSTEMI CAD the most likely active diagnosis driving current management."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Chronic Kidney Disease (stage 2\u20113)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 1\u20113 noted in problem list with diabetic etiology",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR mildly reduced and proteinuria mentioned (inconsistent documentation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Known type 2 diabetes mellitus (inferred from CKD label)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal impairment in the setting of diabetes is consistent with diabetic CKD; the lack of recent labs underscores the need for renal\u2011protective therapy."
+    },
+    {
+      "rank": 3,
+      "name": "Essential Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as chronic condition",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated blood pressure readings noted in recent vitals (unspecified)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension contributes to both cardiovascular and renal risk but lacks evidence for true resistant status."
+    },
+    {
+      "rank": 4,
+      "name": "Type 2 Diabetes Mellitus (undocumented control)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetic CKD implies underlying diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing recent HbA1c and fasting glucose",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes is inferred from CKD labeling; lack of glycemic data limits certainty about current control."
+    },
+    {
+      "rank": 5,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and CAD raises HFpEF risk",
+          "strength": "weak"
+        },
+        {
+          "source": "imaging",
+          "finding": "No recent echocardiogram available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "HFpEF is possible given comorbidities but remains speculative without functional cardiac data."
+    },
+    {
+      "rank": 6,
+      "name": "Medication Non\u2011adherence / OTC NSAID Use",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy noted with limited social support",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented NSAID prescription but possible OTC use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Adherence concerns are plausible given regimen complexity, but direct evidence is lacking."
+    },
+    {
+      "rank": 7,
+      "name": "Hyperlipidemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hyperlipidemia listed as a cardiovascular risk factor",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Recent lipid panel missing, but prior records indicate elevated LDL",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated lipids are a key modifiable risk factor in this patient and were omitted from the original list."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / Anxiety (high\u2011impact)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Limited social support and chronic disease burden noted",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors may affect adherence and outcomes; formal assessment is required."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic Coronary Artery Disease (post\u2011NSTEMI)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is an elderly female with a recent NSTEMI, multiple atherosclerotic risk factors (hypertension, hyperlipidemia, probable diabetes), and early diabetic kidney disease. The recent myocardial infarction makes post\u2011NSTEMI CAD the dominant clinical problem, followed by diabetic CKD which drives renal risk and the need for renoprotective therapy. Hypertension and diabetes remain important but are less immediately actionable. HFpEF, medication adherence issues, hyperlipidemia, and mood disorder are plausible contributors but lack definitive data. Unsupported entities (anemia, atrial fibrillation, obstructive sleep apnea) were removed.",
+  "unresolved_findings": [
+    "Missing glycated\u2011hemoglobin (A1c) and fasting glucose",
+    "Absent body\u2011mass index (BMI) and weight",
+    "No recent lipid panel (total cholesterol, LDL\u2011C)",
+    "Inconsistent eGFR documentation between EHR and lab",
+    "Lack of longitudinal trends for creatinine, proteinuria, and eGFR",
+    "No recent outpatient visit notes since 2017",
+    "Absence of CBC, iron studies, B12/folate levels",
+    "No ECG or cardiac imaging performed recently",
+    "No sleep study or screening for OSA",
+    "No mental\u2011health (PHQ\u20119/GAD\u20117) or cognitive (MoCA) assessments"
+  ],
+  "recommended_workup": [
+    "Obtain fasting glucose and HbA1c to confirm and stage diabetes control",
+    "Order a comprehensive lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Repeat serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio for CKD monitoring",
+    "Perform a transthoracic echocardiogram with diastolic function assessment",
+    "Obtain BNP or NT\u2011proBNP to evaluate for heart failure",
+    "ECG to assess for silent arrhythmias or ischemia",
+    "Medication reconciliation focusing on adherence and OTC NSAID use",
+    "Screen for depression and anxiety using PHQ\u20119 and GAD\u20117",
+    "Consider polysomnography or home sleep apnea testing given cardiovascular risk",
+    "Assess BMI, weight, and blood pressure trends over time"
+  ]
+}

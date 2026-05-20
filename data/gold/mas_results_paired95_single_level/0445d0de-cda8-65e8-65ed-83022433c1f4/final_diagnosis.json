@@ -1,0 +1,212 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (Insulin resistance / Central obesity)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011risk cardiometabolic disease with uncontrolled hypertension and dyslipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose, HbA1c 7.0%, triglycerides >150\u202fmg/dL, low HDL",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Documented hypertension, type\u202f2 diabetes, dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of hypertension, hyperglycemia, dyslipidemia and inferred central obesity fulfills criteria for metabolic syndrome, driving insulin resistance."
+    },
+    {
+      "rank": 2,
+      "name": "Resistant (essential) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension with multiple medication classes noted, but recent BP readings absent",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index 3 indicating high cardiovascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension despite presumed multi\u2011drug regimen suggests resistant phenotype, though objective BP data are missing."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (untreated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [],
+      "reasoning": "Known OSA without treatment contributes to resistant hypertension and metabolic dysregulation."
+    },
+    {
+      "rank": 4,
+      "name": "Sub\u2011optimally controlled type 2 diabetes mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 7.0% (above target for many patients)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antidiabetic medication documented despite diabetes code",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated HbA1c together with absent therapy indicates suboptimal glycemic control."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease / Iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (Hb 11.2\u202fg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions (diabetes, hypertension) present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia likely secondary to chronic disease; iron studies not available to differentiate iron deficiency."
+    },
+    {
+      "rank": 6,
+      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and diabetes present, risk factors for CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without eGFR or albuminuria data the diagnosis remains speculative but plausible given comorbidities."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (MAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated ALT/AST (mild) and dyslipidemia",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to hepatic steatosis; imaging not yet performed."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary hypertension (e.g., primary aldosteronism, renal\u2011artery stenosis)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension raises suspicion for secondary causes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability without targeted testing; kept for completeness."
+    },
+    {
+      "rank": 9,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity are risk factors for HFpEF; no cardiac imaging available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Speculative in absence of symptoms or echocardiographic data."
+    },
+    {
+      "rank": 10,
+      "name": "Major depressive disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain and high disease burden noted; mood assessment not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible but undocumented; retained with low confidence."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (Insulin resistance / Central obesity)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient exhibits classic features of metabolic syndrome\u2014hypertension, hyperglycemia, dyslipidemia, and presumed central obesity\u2014driving insulin resistance and the bulk of his cardiometabolic risk. Resistant hypertension and untreated obstructive sleep apnea further exacerbate the metabolic derangements. Diabetes control is suboptimal, likely due to lack of documented therapy. Ancillary conditions (anemia, early CKD, NAFLD, possible HFpEF, secondary hypertension, and depression) are plausible given the overall risk profile but lack concrete objective data, reflected in lower probabilities and confidence levels.",
+  "unresolved_findings": [
+    "Absence of recent blood\u2011pressure measurements to confirm resistant hypertension",
+    "No documented BMI, waist circumference, or objective obesity measurement",
+    "Missing renal function data (eGFR, urine albumin/creatinine ratio)",
+    "No lipid\u2011lowering or antidiabetic medication listed despite abnormal labs",
+    "Untreated obstructive sleep apnea with no CPAP documentation",
+    "Implausible platelet distribution width value (likely lab error)",
+    "Electrolyte trend without clinical context"
+  ],
+  "recommended_workup": [
+    "Obtain repeat, standardized blood pressure readings and consider 24\u2011hour ambulatory BP monitoring",
+    "Measure height, weight, waist circumference to calculate BMI and assess central obesity",
+    "Order comprehensive metabolic panel including eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "Repeat fasting lipid panel and consider statin therapy per guidelines",
+    "Review and document current antihyperglycemic and lipid\u2011lowering medications; adjust as needed",
+    "Polysomnography follow\u2011up and initiate CPAP therapy for OSA",
+    "Liver ultrasound or FibroScan to evaluate for hepatic steatosis",
+    "Iron studies (ferritin, transferrin saturation) to differentiate anemia type",
+    "Echocardiogram to assess for HFpEF",
+    "Screen for depression using PHQ\u20119 given chronic disease burden"
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (advanced diabetic kidney disease, CKD\u20115)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with poor glycemic control (A1c <6.5%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine markedly elevated, eGFR <15\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent proteinuria on urinalysis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and use of renin\u2011angiotensin system blockers",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing type 2 diabetes, severely reduced eGFR, and proteinuria is classic for diabetic nephropathy progressing to CKD\u20115, making this the most likely diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011related hypoglycaemia / under\u2011nutrition low glucose",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Documented low capillary glucose readings (<70\u202fmg/dL) on multiple occasions",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current insulin regimen with reduced renal clearance in CKD\u20115",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent weight loss and reduced oral intake",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced insulin clearance in advanced CKD combined with possible inadequate nutrition predisposes to recurrent hypoglycaemia, supported by documented low glucose values."
+    },
+    {
+      "rank": 3,
+      "name": "Volume\u2011depletion acute kidney injury secondary to thiazide diuretic over\u2011use",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011dose hydrochlorothiazide prescribed for hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Physical exam notes of dry mucous membranes and orthostatic hypotension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN/creatinine ratio suggestive of prerenal azotemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Excessive thiazide diuresis in the setting of CKD can precipitate volume depletion, contributing to a prerenal component of AKI."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease vs. iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.2\u202fg/dL with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum ferritin within normal\u2011high range, transferrin saturation low\u2011normal",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 5",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD commonly causes anemia of chronic disease; iron studies suggest possible mixed iron\u2011deficiency component."
+    },
+    {
+      "rank": 5,
+      "name": "Congestive heart failure / cardiorenal syndrome",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, left ventricular hypertrophy on prior echo",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Peripheral edema and dyspnea on exertion noted in recent visit",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BNP (if available) or rising creatinine with volume overload",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiac dysfunction can exacerbate renal impairment (cardiorenal syndrome); clinical signs of volume overload support this possibility."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011Mineral & Bone Disorder (renal osteodystrophy)",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated phosphate and low calcium levels consistent with CKD\u2011MBD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Parathyroid hormone markedly elevated",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD (stage 5) almost invariably leads to disturbances in mineral metabolism and secondary hyperparathyroidism."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (advanced diabetic kidney disease, CKD\u20115)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing type 2 diabetes with severely reduced eGFR, proteinuria, and hypertension points to advanced diabetic nephropathy as the dominant process. Concurrently, CKD\u20115 impairs insulin clearance, predisposing to insulin\u2011related hypoglycaemia, especially given the current insulin regimen and reduced oral intake. Volume depletion from high\u2011dose thiazide use adds a prerenal AKI component. CKD\u20115 also explains the anemia of chronic disease and the inevitable mineral\u2011bone disorder. Cardiac findings raise the possibility of congestive heart failure contributing to a cardiorenal syndrome. These diagnoses collectively account for the patient\u2019s laboratory abnormalities and clinical presentation.",
+  "unresolved_findings": [
+    "Urine bilirubin 0.9\u202fmg/dL (no serum bilirubin or liver panel available)",
+    "Urine ketones 12.3\u202fmg/dL (could be from insulin excess or malnutrition)",
+    "Very dilute urine (specific gravity 1.00) \u2013 partially explained by thiazide but may also suggest other concentrating defects",
+    "History of colonic polyps (not directly related to current differential)"
+  ],
+  "recommended_workup": [
+    "Serum bilirubin, AST/ALT, alkaline phosphatase, GGT to evaluate cholestasis",
+    "Serum lactate and arterial blood gas to rule out lactic acidosis",
+    "CK level and repeat statin dose assessment for myopathy",
+    "Comprehensive metabolic panel with bicarbonate to assess for metabolic acidosis",
+    "Repeat fasting glucose and continuous glucose monitoring to characterize hypoglycaemia pattern",
+    "Volume status assessment (orthostatic vitals, bedside ultrasound)",
+    "Echocardiogram to quantify cardiac function and guide heart failure management",
+    "Bone mineral panel (calcium, phosphate, PTH, vitamin D) and X\u2011ray if bone pain",
+    "Discuss renal replacement therapy options and advance care planning"
+  ]
+}

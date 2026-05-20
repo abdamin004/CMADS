@@ -1,0 +1,252 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Spurious low hemoglobin A1c due to anemia or hemoglobin variant",
+      "icd10": "R73.09",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin A1c despite elevated glucose markers",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of anemia (whole\u2011blood creatinine discrepancy, possible iron deficiency)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia or a hemoglobin variant can artifactually lower A1c values, leading to apparent over\u2011control of diabetes and risk of hypoglycaemia."
+    },
+    {
+      "rank": 2,
+      "name": "Iatrogenic hypotension from over\u2011medication",
+      "icd10": "Y57.9",
+      "snomed": "271327008",
+      "probability": 0.14,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 100/57\u202fmmHg while on antihypertensive regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypotension can reduce renal perfusion and worsen kidney function",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Current antihypertensive therapy appears excessive, producing hypotension that may contribute to renal hypoperfusion and AKI."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic kidney disease (stage\u202f\u2248\u202f3)",
+      "icd10": "E11.22",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (4.4\u202fmg/dL whole\u2011blood) and proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type\u202f2 diabetes with insulin therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hyperglycaemia in diabetes commonly leads to CKD stage\u202f3, consistent with creatinine elevation and proteinuria."
+    },
+    {
+      "rank": 4,
+      "name": "Over\u2011treated type\u202f2 diabetes mellitus (excess insulin)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on insulin therapy with low A1c values",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Risk of hypoglycaemia inferred from overtreatment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low A1c in the context of insulin use suggests possible overtreatment, raising hypoglycaemia risk."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea / Obesity\u2011hypoventilation syndrome",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High pre\u2011test probability for OSA based on BMI and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension raise the likelihood of OSA/OHS, which can worsen nocturnal hypoxia and metabolic control."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related anemia / iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia noted on CBC (details pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage\u202f3",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD impairs erythropoietin production, and iron deficiency may coexist, contributing to anemia and affecting A1c reliability."
+    },
+    {
+      "rank": 7,
+      "name": "Acute kidney injury (pre\u2011renal/ischemic)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Whole\u2011blood creatinine 4.4\u202fmg/dL discordant with serum creatinine",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypotension from over\u2011medication potentially reducing renal perfusion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The creatinine discrepancy and hypotension raise concern for an acute, possibly pre\u2011renal, kidney injury superimposed on chronic CKD."
+    },
+    {
+      "rank": 8,
+      "name": "Sub\u2011clinical coronary artery disease",
+      "icd10": "I25.9",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (obesity, diabetes, hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No overt cardiac symptoms but high baseline risk",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk profile, silent atherosclerosis is plausible and warrants risk\u2011reduction strategies."
+    },
+    {
+      "rank": 9,
+      "name": "Non\u2011alcoholic steatohepatitis / NAFLD with fibrosis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine total bilirubin 1.0\u202fmg/dL without full liver panel (suggests possible hepatic involvement)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and diabetes predispose to NAFLD; lack of liver enzymes limits certainty."
+    },
+    {
+      "rank": 10,
+      "name": "Gout / hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hyperuricemia (not detailed)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome increases gout risk; screening is reasonable but not urgent."
+    },
+    {
+      "rank": 11,
+      "name": "Peripheral arterial disease (PAD)",
+      "icd10": "I70.2",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Smoking status unknown; obesity and diabetes are risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "PAD is plausible given risk factors; requires vascular assessment."
+    }
+  ],
+  "primary_diagnosis": "Spurious low hemoglobin A1c due to anemia or hemoglobin variant",
+  "primary_probability": 0.15,
+  "clinical_reasoning_summary": "The patient\u2019s severe obesity, insulin\u2011treated type 2 diabetes, and chronic kidney disease create a complex metabolic picture. A falsely low hemoglobin A1c\u2014likely driven by anemia or a hemoglobin variant\u2014poses the greatest safety risk by masking hyperglycaemia and prompting overtreatment, which aligns with the reviewer\u2019s top recommendation. Concurrent hypotension from aggressive antihypertensive therapy may be compromising renal perfusion, explaining the whole\u2011blood creatinine discrepancy and suggesting an acute kidney injury superimposed on diabetic CKD. Over\u2011insulinisation, OSA/OHS, CKD\u2011related anemia, and sub\u2011clinical coronary disease further contribute to the clinical burden. Less certain entities such as NAFLD, gout, and PAD remain in the differential but are lower priority.",
+  "unresolved_findings": [
+    "Whole\u2011blood creatinine 4.4\u202fmg/dL discordant with serum creatinine",
+    "Urine total bilirubin 1.0\u202fmg/dL without accompanying liver function tests",
+    "Missing lipid panel (LDL, HDL, triglycerides)",
+    "Smoking status not documented",
+    "Exact BMI numeric value not provided",
+    "No repeat eGFR trend to assess CKD progression",
+    "No recent complete CBC to quantify anemia severity",
+    "Absence of liver function tests (AST/ALT, albumin)",
+    "No fasting or random glucose values"
+  ],
+  "recommended_workup": [
+    "Polysomnography to confirm obstructive sleep apnea / obesity\u2011hypoventilation syndrome",
+    "Repeat serum creatinine and eGFR with concurrent whole\u2011blood measurement to resolve discrepancy",
+    "Urine albumin\u2011to\u2011creatinine ratio and renal ultrasound to assess CKD progression and rule out obstruction",
+    "Hemoglobin electrophoresis and iron studies to characterize anemia and its impact on A1c",
+    "Medication review with focus on antihypertensives and insulin dosing; consider dose reduction",
+    "Orthostatic blood pressure measurements to differentiate drug\u2011induced vs neurogenic hypotension",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, albumin, INR) and abdominal ultrasound for NAFLD evaluation",
+    "Fasting lipid profile (LDL, HDL, triglycerides)",
+    "Baseline cardiac stress testing or coronary calcium scoring for sub\u2011clinical CAD",
+    "Serum uric acid level to assess gout risk",
+    "Ankle\u2011brachial index screening for peripheral arterial disease"
+  ]
+}

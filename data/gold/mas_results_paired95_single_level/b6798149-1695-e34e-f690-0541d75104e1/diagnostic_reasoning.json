@@ -1,0 +1,253 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Disorder of kidney due to diabetes (diagnosed 2007)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 20.1 mL/min (CKD stage 4)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.6 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 374.9 mg/dL and micro\u2011albumin/creatinine ratio 468.3 mg/g (nephrotic\u2011range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes since 1995",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing type 2 diabetes, explicit EHR diagnosis of diabetic kidney disease, stage 4 CKD with markedly reduced eGFR, elevated serum creatinine, and nephrotic\u2011range proteinuria strongly points to diabetic nephropathy as the primary driver of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (contributory)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 4 in a 74\u2011year\u2011old patient (high prevalence of hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented blood pressure values (data gap)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb 12.5 g/dL) consistent with CKD\u2011related anemia, often seen with hypertensive kidney injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In elderly patients with advanced CKD, hypertension is a common co\u2011factor. Absence of current BP data raises the pre\u2011test probability that uncontrolled hypertension contributes to nephrosclerosis alongside diabetic injury."
+    },
+    {
+      "rank": 3,
+      "name": "Cardiorenal syndrome type 2 (chronic heart failure worsening CKD)",
+      "icd10": "I13.0",
+      "snomed": "302810001",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of acute STEMI (2010) and prior myocardial infarction",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prosthetic aortic valve and aortic stenosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL\u2011C 156.8 mg/dL and total cholesterol 233.1 mg/dL (risk for ongoing cardiac dysfunction)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior MI and prosthetic valve suggest possible chronic cardiac dysfunction. In the setting of CKD stage 4, reduced cardiac output can further impair renal perfusion, constituting type 2 cardiorenal syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease (very high risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction and chronic coronary disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Aortic valve stenosis and prosthetic valve",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline high LDL\u2011C and total cholesterol",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome and hypertriglyceridemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s prior MI, dyslipidaemia, and additional aortic valve disease place her in a very\u2011high\u2011risk ASCVD category, driving risk of recurrent events."
+    },
+    {
+      "rank": 5,
+      "name": "Primary glomerular disease (e.g., membranous nephropathy, FSGS, amyloidosis)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria (protein 374.9 mg/dL, albumin/creatinine ratio 468.3 mg/g)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior renal biopsy documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While diabetic nephropathy explains most findings, the degree of proteinuria could be disproportionate, prompting consideration of a superimposed primary glomerulopathy."
+    },
+    {
+      "rank": 6,
+      "name": "Medication\u2011induced or contrast\u2011related acute\u2011on\u2011chronic kidney injury",
+      "icd10": "N14.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list not provided (data gap)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential exposure to nephrotoxic agents (NSAIDs, ACE\u2011I/ARB, contrast) in an elderly CKD patient",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without a medication list, drug\u2011induced AKI cannot be excluded and could be contributing to the current renal function decline."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive uropathy / renal artery stenosis",
+      "icd10": "N13.2",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u2011related atherosclerosis raises suspicion for renal artery stenosis (data not yet obtained)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging of kidneys reported (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Older patients with CKD and vascular disease may have renovascular contributions; imaging is needed to evaluate."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of chronic kidney disease (mixed with possible iron deficiency)",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.5 g/dL (mild normocytic anemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 20.1 mL/min (stage 4 CKD)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Mild anemia aligns with CKD\u2011related erythropoietin deficiency, though iron studies are missing to rule out additional iron\u2011deficiency."
+    },
+    {
+      "rank": 9,
+      "name": "Major depressive disorder (psychosocial stressors)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress since 2018 and intimate\u2011partner abuse since 2017",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Low socioeconomic status, unemployment, and criminal record",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Significant psychosocial stressors are risk factors for depression, which can impair medication adherence and disease self\u2011management."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient is a 74\u2011year\u2011old female with long\u2011standing type 2 diabetes, stage 4 CKD (eGFR 20.1), and nephrotic\u2011range proteinuria, all documented by both the EHR analyst and lab interpreter. These findings make diabetic nephropathy the dominant etiology of her renal failure. Hypertension is highly likely given age and CKD, but blood pressure data are missing, so hypertensive nephrosclerosis is considered a significant co\u2011factor. Prior myocardial infarction, prosthetic aortic valve, and dyslipidaemia create a high\u2011risk atherosclerotic cardiovascular disease milieu, and chronic cardiac dysfunction may be driving a type 2 cardiorenal syndrome that further worsens kidney function. The magnitude of proteinuria raises the possibility of an additional primary glomerular disease, while medication\u2011related AKI, obstructive uropathy, and renovascular disease remain plausible but unconfirmed without medication and imaging data. Anemia aligns with CKD, and psychosocial stressors suggest comorbid depression, influencing overall management and transplant candidacy.",
+  "unresolved_findings": [
+    "Borderline fasting glucose (110.9 mg/dL) despite long\u2011standing diabetes",
+    "Missing recent vital signs, blood pressure, BMI, and lipid panel",
+    "Absence of current medication list (including RAAS blockers, SGLT2\u2011i, statins, NSAIDs)",
+    "No recent cardiac imaging or echocardiogram results",
+    "Lack of urine sediment analysis and 24\u2011hour protein quantification",
+    "No renal ultrasound or renal\u2011artery Doppler studies",
+    "No iron studies, ferritin, or occult blood testing for anemia work\u2011up",
+    "No documented smoking status or vaccination history"
+  ],
+  "recommended_workup": [
+    "Comprehensive medication reconciliation (prescription, OTC, supplements)",
+    "Current blood pressure measurement (office and home/ambulatory) and hypertension management plan",
+    "Transthoracic echocardiogram to assess left ventricular function and prosthetic valve status",
+    "24\u2011hour urine protein collection and urine sediment microscopy",
+    "Renal ultrasound with Doppler to evaluate kidney size, obstruction, and renal\u2011artery stenosis",
+    "Serum and urine protein electrophoresis with free light chain assay to screen for monoclonal gammopathy",
+    "Iron studies (serum iron, ferritin, transferrin saturation) and stool occult blood test",
+    "Mental health screening (PHQ\u20119, GAD\u20117) and referral for psychosocial support",
+    "Update vaccination record (influenza, pneumococcal, hepatitis B, COVID\u201119 boosters)",
+    "Repeat fasting lipid panel including triglycerides and HDL"
+  ]
+}

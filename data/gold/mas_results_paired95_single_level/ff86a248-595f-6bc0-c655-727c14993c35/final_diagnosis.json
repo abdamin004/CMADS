@@ -1,0 +1,190 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute NSTEMI",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent troponin elevation with ischemic ECG changes consistent with NSTEMI",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "Coronary angiography showing acute plaque rupture",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated cardiac biomarkers and ischemic ECG in the setting of known coronary artery disease confirm an acute NSTEMI, which is the most urgent diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease stage 3-4 secondary to diabetic nephropathy and NSAID-related nephrotoxicity",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.1 mg/dL, eGFR 35 mL/min/1.73m2",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing poorly controlled type 2 diabetes and chronic NSAID use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function tests indicate stage 3\u20114 CKD; diabetes is the primary driver, with NSAID exposure contributing to progression."
+    },
+    {
+      "rank": 3,
+      "name": "Inadequate secondary\u2011prevention regimen after NSTEMI (missing \u03b2\u2011blocker, P2Y12 inhibitor, high\u2011intensity statin)",
+      "icd10": "Z79.899",
+      "snomed": "160573003",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication list lacks \u03b2\u2011blocker, P2Y12 inhibitor, and high\u2011intensity statin post\u2011NSTEMI",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk due to uncontrolled diabetes and CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Guideline\u2011directed therapy after NSTEMI is incomplete, increasing risk of recurrent events."
+    },
+    {
+      "rank": 4,
+      "name": "Medication non\u2011adherence and psychosocial barriers (unstable housing, unemployment, prior abuse)",
+      "icd10": "Z91.14",
+      "snomed": "160603005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social history documents unstable housing and prior substance abuse; pharmacy refill gaps noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Social determinants likely impede consistent medication intake, contributing to poor disease control."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.8 g/dL, low reticulocyte count, normal iron studies with elevated ferritin",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Stage 3\u20114 CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory pattern fits anemia of chronic disease, commonly seen in CKD."
+    },
+    {
+      "rank": 6,
+      "name": "Drug\u2011induced or immune\u2011mediated thrombocytopenia",
+      "icd10": "D69.6",
+      "snomed": "271442009",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Platelet count dropped from 210\u202f\u00d710\u2079/L to 85\u202f\u00d710\u2079/L over 2 weeks; recent NSAID initiation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Peripheral smear pending; no schistocytes identified yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Temporal relationship between NSAID use and platelet decline raises suspicion for drug\u2011related thrombocytopenia, though confirmation is needed."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure (post\u2011MI remodeling, hypertension & CKD contribution)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion reported; no recent echocardiogram available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical suspicion exists but objective data (e.g., EF) are lacking; kept low pending imaging."
+    },
+    {
+      "rank": 8,
+      "name": "Myelodysplastic syndrome / bone\u2011marrow failure",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent cytopenias without clear etiology; bone\u2011marrow biopsy not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood given age and comorbidities; retained only as a remote possibility."
+    },
+    {
+      "rank": 9,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST with BMI >30 kg/m\u00b2; ultrasound not yet performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Epidemiologically plausible but no imaging or labs definitively confirm; low clinical relevance to current acute issue."
+    }
+  ],
+  "primary_diagnosis": "Acute NSTEMI",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient presents with an acute NSTEMI confirmed by biomarkers and ECG, making it the most urgent diagnosis. Underlying chronic conditions\u2014stage 3\u20114 CKD from diabetic nephropathy (exacerbated by NSAID use), incomplete secondary\u2011prevention therapy, and psychosocial barriers to medication adherence\u2014compound cardiovascular risk. Anemia of chronic disease and possible drug\u2011induced thrombocytopenia explain laboratory abnormalities. Heart failure, myelodysplastic syndrome, and NAFLD remain low\u2011probability considerations pending further testing.",
+  "unresolved_findings": [
+    "Falling platelet count without a documented heparin exposure or clear drug cause",
+    "Chronic anemia of uncertain type (iron\u2011deficiency vs. anemia of chronic disease vs. renal anemia)",
+    "Absence of documented \u03b2\u2011blocker, P2Y12 inhibitor, and high\u2011intensity statin after NSTEMI"
+  ],
+  "recommended_workup": [
+    "Repeat high\u2011sensitivity troponin trend and ECG monitoring",
+    "Transthoracic echocardiogram to assess left ventricular function and rule out heart failure",
+    "Peripheral blood smear and platelet antibody testing to evaluate thrombocytopenia",
+    "Iron studies, ferritin, and reticulocyte count to clarify anemia etiology",
+    "Medication reconciliation with pharmacy refill data and counseling on adherence",
+    "Renal ultrasound if obstructive cause suspected",
+    "Liver ultrasound or FibroScan to assess for NAFLD if clinically indicated"
+  ]
+}

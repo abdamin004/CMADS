@@ -1,0 +1,185 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Cisplatin\u2011induced acute\u2011on\u2011chronic nephrotoxicity",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient receiving cisplatin chemotherapy for early\u2011stage NSCLC",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Acute rise in serum creatinine concurrent with recent cisplatin cycles",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Known dose\u2011dependent nephrotoxicity of cisplatin",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Temporal association between cisplatin administration and worsening renal function, combined with pre\u2011existing CKD, makes drug\u2011induced acute\u2011on\u2011chronic nephrotoxicity the most likely explanation."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (chronic HTN\u2011driven CKD)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.26,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding hypertension, historically uncontrolled",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stable proteinuria and slowly progressive decline in GFR over years",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic pressure injury to renal vasculature explains baseline CKD; however, the recent acute decline is better accounted for by cisplatin."
+    },
+    {
+      "rank": 3,
+      "name": "Chemotherapy\u2011related myelosuppression",
+      "icd10": "D70",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent cycles of cisplatin and accompanying agents",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia and neutropenia on recent CBC",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Bone\u2011marrow suppression is a common adverse effect of platinum\u2011based regimens and aligns with observed cytopenias."
+    },
+    {
+      "rank": 4,
+      "name": "Renal\u2011artery stenosis (renovascular hypertension)",
+      "icd10": "I70.1",
+      "snomed": "414916001",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of resistant hypertension prior to current control",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Potential contribution to CKD progression",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While blood pressure is currently controlled, prior resistance raises suspicion; imaging is needed to confirm."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / early steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [],
+      "reasoning": "Metabolic risk factors predispose to NAFLD, which may explain isolated urine bilirubin without serum bilirubin elevation."
+    },
+    {
+      "rank": 6,
+      "name": "Sub\u2011clinical urinary\u2011tract infection / early pyelonephritis",
+      "icd10": "N39.0",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin without corresponding serum bilirubin",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent acute bronchitis (possible ascending infection)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Urine bilirubin may reflect infection; lack of nitrite/leukocyte esterase limits certainty, but early infection cannot be excluded."
+    },
+    {
+      "rank": 7,
+      "name": "Drug\u2011induced interstitial nephritis",
+      "icd10": "N10",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Exposure to multiple nephrotoxic agents (cisplatin, possible antibiotics)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Eosinophiluria not yet assessed; renal function decline out of proportion to hemodynamics",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Interstitial nephritis is a recognized complication of chemotherapy and other drugs; should be considered given acute renal deterioration."
+    },
+    {
+      "rank": 8,
+      "name": "Acute tubular necrosis (ATN) secondary to nephrotoxic insult",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent high\u2011dose cisplatin exposure",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine with modest urine output (data not shown)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "ATN can coexist with interstitial nephritis and cisplatin toxicity; included as a less likely but plausible contributor."
+    }
+  ],
+  "primary_diagnosis": "Cisplatin\u2011induced acute\u2011on\u2011chronic nephrotoxicity",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The patient\u2019s acute renal function decline aligns temporally with recent cisplatin cycles, making drug\u2011induced acute\u2011on\u2011chronic nephrotoxicity the leading diagnosis. Chronic hypertension accounts for baseline CKD, while chemotherapy\u2011related myelosuppression explains cytopenias. Secondary considerations include renovascular disease, metabolic liver injury, early urinary infection, and drug\u2011induced interstitial nephritis or ATN. Probabilities were adjusted per reviewer input and balanced to total ~1.0.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without corresponding serum bilirubin or liver enzyme abnormalities",
+    "Mild hyperchloremia (Cl = 108.8 mmol/L)",
+    "Borderline high serum albumin (5.2 g/dL)",
+    "Missing quantitative BMI value",
+    "Absent fasting lipid panel",
+    "Smoking history and pack\u2011year exposure not documented"
+  ],
+  "recommended_workup": [
+    "Renal ultrasound with Doppler or CT angiography to evaluate for renal\u2011artery stenosis",
+    "Urine microscopy with eosinophil stain to assess for interstitial nephritis",
+    "Urine culture and sensitivity to rule out occult infection",
+    "Repeat comprehensive liver panel (AST, ALT, ALP, GGT, bilirubin fractions)",
+    "Serum lipid profile and calculation of BMI",
+    "Consider renal biopsy if diagnosis remains uncertain after non\u2011invasive testing"
+  ]
+}

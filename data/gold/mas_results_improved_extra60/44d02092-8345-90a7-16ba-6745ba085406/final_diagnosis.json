@@ -1,0 +1,219 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome-driven Atherosclerotic Cardiovascular Disease (ASCVD) risk",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (SBP 133 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c 6.4%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Likely dyslipidemia (lipid panel missing but risk factors present)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient exhibits three core components of metabolic syndrome\u2014obesity, hypertension, and impaired glucose tolerance\u2014driving a high 10\u2011year ASCVD risk. Even without a lipid panel, the constellation of risk factors warrants prioritizing ASCVD risk management."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "2331005",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Reported loud snoring and daytime fatigue",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) \u2013 major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No prior sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity combined with classic sleep\u2011related symptoms raises suspicion for OSA, which can exacerbate hypertension and metabolic derangements."
+    },
+    {
+      "rank": 3,
+      "name": "Early Chronic Kidney Disease (CKD) \u2013 NSAID\u2011induced / hypertensive",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline elevated serum creatinine and rising potassium",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use for knee osteoarthritis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension contributing to renal stress",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combined NSAID exposure and hypertension explain early renal impairment; lack of eGFR and urine ACR data warrants close monitoring."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia secondary to chronic NSAID\u2011related gastrointestinal loss",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use increasing risk of GI microbleeds",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia on CBC (hemoglobin low, microcytic indices pending)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAID\u2011induced GI blood loss is a plausible cause of iron\u2011deficiency anemia; iron studies are pending to confirm."
+    },
+    {
+      "rank": 5,
+      "name": "Depression / PTSD (chronic\u2011stress mood disorder)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and prior trauma",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mental\u2011health screening performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s chronic pain, medication burden, and stress history, mood disorder is likely contributing to poor self\u2011care and metabolic control."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease (CKD\u2011related)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia with low reticulocyte count (pending)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Early CKD providing chronic inflammatory milieu",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD can cause anemia of chronic disease; differentiation from iron\u2011deficiency will rely on iron studies and ferritin."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, prediabetes, dyslipidemia risk)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Liver function tests not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in metabolic syndrome; absence of LFTs limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Primary hematologic disorder (e.g., thalassemia trait or early myelodysplastic syndrome)",
+      "icd10": "D56.3",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No family history or prior hematologic abnormalities noted",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CBC indices pending; no clear macrocytosis or dysplasia yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rare in this age group without other clues; retained only for completeness."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome-driven Atherosclerotic Cardiovascular Disease (ASCVD) risk",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient\u2019s triad of obesity, hypertension, and prediabetes constitutes metabolic syndrome, driving a high ASCVD risk that supersedes other considerations. Concomitant factors\u2014OSA, early CKD from NSAID use, and anemia (both iron\u2011deficiency and anemia of chronic disease)\u2014compound cardiovascular risk and warrant parallel evaluation. Mood disorder likely worsens adherence and metabolic control. NAFLD and a primary hematologic disorder remain possible but less likely given current data.",
+  "unresolved_findings": [
+    "Missing fasting lipid panel (total, LDL, HDL, triglycerides)",
+    "Missing eGFR calculation and urine albumin\u2011creatinine ratio",
+    "Missing complete iron studies (ferritin, TSAT, reticulocyte count)",
+    "No sleep study or home sleep\u2011apnoea test performed",
+    "No formal mental\u2011health screening (PHQ\u20119, PCL\u20115, GAD\u20117)",
+    "Smoking and alcohol use status unknown",
+    "Liver function tests (ALT, AST, GGT) not available",
+    "Vitamin D, PTH, phosphate, magnesium not measured",
+    "Exact BMI numeric value not recorded",
+    "Blood pressure trend data (home or ambulatory) unavailable"
+  ],
+  "recommended_workup": [
+    "Fasting lipid panel with LDL, HDL, triglycerides",
+    "Serum creatinine, eGFR calculation, and urine albumin\u2011creatinine ratio",
+    "Complete iron studies (serum iron, ferritin, transferrin saturation, reticulocyte count)",
+    "Polysomnography or validated home sleep\u2011apnoea test",
+    "Standardized mental\u2011health questionnaires (PHQ\u20119, PCL\u20115, GAD\u20117)",
+    "Detailed smoking and alcohol use history",
+    "Comprehensive liver panel (ALT, AST, GGT, alkaline phosphatase, bilirubin)",
+    "Vitamin D, calcium, phosphate, magnesium, PTH levels",
+    "Accurate weight and height measurement to calculate exact BMI",
+    "Home or ambulatory blood pressure monitoring"
+  ]
+}

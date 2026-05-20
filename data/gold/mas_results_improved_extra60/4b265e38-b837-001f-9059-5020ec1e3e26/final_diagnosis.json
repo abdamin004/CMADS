@@ -1,0 +1,136 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (diabetic nephropathy) with CKD progression",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus on insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 2 with micro\u2011albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 6.9% (near target but risk of spikes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing insulin\u2011treated diabetes with documented micro\u2011albuminuria and reduced eGFR is classic for diabetic nephropathy; it accounts for the majority of the patient\u2019s renal impairment."
+    },
+    {
+      "rank": 2,
+      "name": "Essential hypertension with target\u2011organ effects (hypertensive nephrosclerosis)",
+      "icd10": "I12.9",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, currently well controlled (117/80 mmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 2 could reflect additive hypertensive injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension contributes a secondary hit to renal parenchyma; although blood pressure is controlled, chronic exposure may have promoted nephrosclerosis alongside diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Sub\u2011optimal control of type\u202f2 diabetes mellitus with intermittent ketosis",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 6.9% (near target) but possibility of glucose spikes not captured",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin\u2011treated diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Even with an A1c near goal, intermittent ketosis suggests periods of hyperglycemia that can accelerate renal injury and complicate CKD progression."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components: type 2 diabetes, hypertension, likely obesity (BMI missing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated urine bilirubin 1.0\u202fmg/dL (non\u2011specific, but may reflect hepatic dysfunction)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient\u2019s metabolic profile predisposes to NAFLD; lack of liver enzymes limits certainty, but the probability is raised given the context."
+    },
+    {
+      "rank": 5,
+      "name": "Renal tubular dysfunction with impaired concentrating ability",
+      "icd10": "N25.9",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity 1.0 (very dilute) without clear over\u2011hydration",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes, a risk factor for tubular injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Dilute urine suggests a defect in tubular water reabsorption, which can occur in diabetic tubular injury and may contribute to the CKD picture."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (diabetic nephropathy) with CKD progression",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient\u2019s chronic insulin\u2011treated type 2 diabetes with documented micro\u2011albuminuria and reduced eGFR makes diabetic kidney disease the dominant explanation for CKD. Hypertension adds a secondary nephrosclerotic component, while intermittent hyperglycemia (ketosis) may further accelerate renal injury. Metabolic syndrome raises the likelihood of NAFLD, and the unexplained very dilute urine points to a concurrent tubular concentrating defect. Breast\u2011cancer\u2011related nephrotoxicity lacks supporting data and was excluded.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.0\u202fmg/dL \u2013 isolated finding without serum bilirubin or liver enzyme data",
+    "Platelet distribution width 251.5\u202ffL \u2013 implausible value suggesting laboratory error",
+    "Missing lipid panel (LDL, triglycerides) and current BMI measurement",
+    "Absent smoking, alcohol, physical activity, and vaccination histories",
+    "No recent anemia work\u2011up (CBC, iron studies, PTH, vitamin D) despite CKD",
+    "Lack of quantitative proteinuria measurement"
+  ],
+  "recommended_workup": [
+    "Urine albumin\u2011to\u2011creatinine ratio (quantitative proteinuria)",
+    "Repeat urinalysis with specific gravity and microscopy",
+    "Comprehensive metabolic panel including liver enzymes",
+    "Fasting lipid panel and calculation of BMI",
+    "Renal ultrasound to assess structural changes",
+    "Medication review for nephrotoxic agents or prior chemotherapy",
+    "Continuous glucose monitoring (CGM) to detect glucose spikes",
+    "Abdominal ultrasound or FibroScan for NAFLD assessment",
+    "Water\u2011deprivation test or serum/urine osmolality to evaluate tubular concentrating ability"
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hypertensive Nephrosclerosis (CKD-5)",
+      "icd10": "N18.5",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing hypertension with progression to end-stage renal disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <10 mL/min/1.73m\u00b2 consistent with CKD stage 5",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has advanced CKD with a history of uncontrolled hypertension and no other dominant renal disease, making hypertensive nephrosclerosis the most plausible primary etiology."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic Coronary Artery Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of coronary artery disease",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk profile with hypertension and CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Known CAD combined with multiple risk factors justifies a high probability of ongoing atherosclerotic disease."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related Anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <10 mL/min/1.73m\u00b2 where anemia prevalence exceeds 90%",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD almost invariably leads to anemia due to reduced erythropoietin production."
+    },
+    {
+      "rank": 4,
+      "name": "Heart Failure (HF\u2011pEF/rEF) secondary to CAD & CKD",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinical signs of volume overload and known CAD",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD is a strong risk factor for heart failure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While objective cardiac data are lacking, the combination of CAD and CKD makes heart failure plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Type 2 Diabetes Mellitus (insulin\u2011requiring)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known insulin\u2011requiring type 2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low HbA1c (3.3%) likely artefactual",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes is present but the implausibly low HbA1c suggests it is not the dominant driver of current renal failure."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary Hyperparathyroidism / Renal Osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "CKD stage 5 predisposes to secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to dysregulated calcium\u2011phosphate metabolism, though specific labs are missing."
+    },
+    {
+      "rank": 7,
+      "name": "Electrolyte/Acid\u2011Base Derangements of ESRD (hyper\u2011K, hyper\u2011P, metabolic acidosis)",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "ESRD patients frequently develop hyperkalemia, hyperphosphatemia, and metabolic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the lack of dialysis, electrolyte and acid\u2011base disturbances are highly likely."
+    },
+    {
+      "rank": 8,
+      "name": "Dyslipidemia / ASCVD Risk\u2011factor Gap",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Absence of documented lipid panel despite CAD history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled lipids likely contribute to CAD progression; data are missing but the gap is clinically relevant."
+    },
+    {
+      "rank": 9,
+      "name": "Hepatic Dysfunction (Conjugated Hyperbilirubinemia) explaining urine bilirubin",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin (0.3\u202fmg/dL) with normal serum bilirubin and liver enzymes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Urine bilirubin suggests conjugated bilirubin excretion; normal serum values make this finding atypical, warranting further hepatic evaluation."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "86203009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors (e.g., obesity, hypertension) present but no diagnostic data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible contributor to hypertension and cardiovascular strain, but no supporting symptoms or studies."
+    },
+    {
+      "rank": 11,
+      "name": "Psychosocial Non\u2011adherence / Depression",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and possible depression",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "May affect medication adherence and follow\u2011up but lacks formal diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Hypertensive Nephrosclerosis (CKD-5)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease driven primarily by long\u2011standing hypertension, as supported by severe CKD (eGFR <10) and the absence of a dominant alternative renal pathology. Co\u2011existing atherosclerotic coronary artery disease, CKD\u2011related anemia, and heart failure are highly probable given the documented history and CKD\u2011related cardiovascular risk. Diabetes mellitus is present but the anomalously low HbA1c suggests it is not the chief renal culprit. Secondary hyperparathyroidism, electrolyte disturbances, dyslipidemia, and possible hepatic dysfunction are plausible adjunct diagnoses, while obstructive sleep apnea and psychosocial non\u2011adherence remain low\u2011probability considerations.",
+  "unresolved_findings": [
+    "Very low HbA1c (3.3%) despite insulin therapy",
+    "Positive urine bilirubin with normal serum bilirubin and liver enzymes",
+    "Persistent urine ketones",
+    "Missing serum potassium, phosphate, calcium, and PTH values",
+    "No recent cardiac imaging or functional testing",
+    "No documented dialysis access plan or modality",
+    "Absent lipid profile and statin therapy information",
+    "Smoking status not recorded"
+  ],
+  "recommended_workup": [
+    "Serum electrolytes (K+, PO4-, Ca2+), bicarbonate, and arterial blood gas",
+    "Parathyroid hormone, vitamin D, and bone turnover markers",
+    "Comprehensive lipid panel and initiation of statin therapy if indicated",
+    "BNP or NT\u2011proBNP and transthoracic echocardiogram to assess cardiac function",
+    "Liver function tests, abdominal ultrasound, and possibly MRCP to evaluate bilirubinuria",
+    "Repeat HbA1c and continuous glucose monitoring to verify glycemic control",
+    "Polysomnography if clinical suspicion for obstructive sleep apnea persists",
+    "Vascular imaging for dialysis access planning and referral to transplant team",
+    "Assessment of medication adherence and mental health screening"
+  ]
+}

@@ -1,0 +1,404 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic-syndrome\u2013driven primary hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood pressure 157/90\u202fmm\u202fHg (stage\u202f2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI\u202f\u2265\u202f30\u202fkg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c\u202f6.2\u202f% (prediabetes, trending upward)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress (onset\u202f2021\u201103\u201128)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (ibuprofen) use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of stage\u20112 hypertension, obesity, prediabetes and chronic stress creates a classic metabolic\u2011vascular phenotype that explains the elevated blood pressure without invoking a secondary endocrine cause."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary hypertension (pending endocrine work\u2011up)",
+      "icd10": "I15",
+      "snomed": "237599002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood pressure 157/90\u202fmm\u202fHg (stage\u202f2 hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of endocrine labs (ARR, cortisol, TSH) flagged as missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While the primary metabolic driver is most likely, secondary causes (primary aldosteronism, renal\u2011artery stenosis, Cushing\u2019s, thyroid disease) cannot be excluded without targeted endocrine testing."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease, stage\u202f3",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5\u202fmg/dL (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID (ibuprofen) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Uncontrolled hypertension (157/90\u202fmm\u202fHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine in the context of hypertension, obesity, and NSAID exposure suggests moderate CKD; lack of eGFR and proteinuria data limits precise staging."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia (NSAID\u2011related GI loss)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (active problem since 2016)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic ibuprofen use (400\u202fmg PRN)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies or ferritin documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011term NSAID use predisposes to occult gastrointestinal bleeding, a common cause of iron\u2011deficiency anemia, especially in a premenopausal woman."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI\u202f\u2265\u202f30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u202f2 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and resistant hypertension in a young adult raise the pre\u2011test probability of OSA; confirmation requires a sleep study."
+    },
+    {
+      "rank": 6,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood pressure 157/90\u202fmm\u202fHg",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Primary hypertension may coexist with the metabolic\u2011syndrome driver; retained as a separate node for coding purposes."
+    },
+    {
+      "rank": 7,
+      "name": "NSAID\u2011induced nephropathy / interstitial injury",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic ibuprofen 400\u202fmg PRN",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine 1.5\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Uncontrolled hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs impair renal prostaglandin\u2011mediated vasodilation, leading to interstitial nephritis and progressive CKD, which aligns with the observed creatinine rise."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / Generalised Anxiety Disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress (moderate severity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, housing instability, refugee status",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental\u2011health diagnosis (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High psychosocial burden strongly predisposes to mood and anxiety disorders, which can worsen BP, glucose control, and medication adherence."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Thyroid function tests not documented (data\u2011quality flag)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Fatigue not explicitly recorded but plausible given anemia and stress",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Undiagnosed hypothyroidism can contribute to hypertension, dyslipidaemia, and weight gain; screening is low\u2011cost and warranted."
+    },
+    {
+      "rank": 10,
+      "name": "Polycystic ovary syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c\u202f6.2\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Menstrual history not documented (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity\u2011related insulin resistance raises suspicion for PCOS, which can further worsen metabolic parameters."
+    },
+    {
+      "rank": 11,
+      "name": "Chronic gastritis / H. pylori\u2011related ulcer (occult GI bleed)",
+      "icd10": "K29.5",
+      "snomed": "235719002",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic ibuprofen use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of unknown etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No GI work\u2011up (stool occult blood, endoscopy) documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID exposure predisposes to mucosal injury; occult bleeding could explain iron\u2011deficiency anemia."
+    },
+    {
+      "rank": 12,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine suggesting CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (active problem)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced erythropoietin production in CKD can cause normocytic anemia; needs iron studies to differentiate from iron deficiency."
+    },
+    {
+      "rank": 13,
+      "name": "Fibromyalgia / chronic\u2011pain syndrome",
+      "icd10": "M79.7",
+      "snomed": "69896004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic neck and low\u2011back pain since 2014",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging studies performed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stressors (social isolation, housing instability)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing widespread musculoskeletal pain without documented structural pathology fits a central sensitisation syndrome."
+    },
+    {
+      "rank": 14,
+      "name": "Autoimmune disease (e.g., SLE, RA, vasculitis)",
+      "icd10": "M35.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of unclear etiology",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No autoimmune serologies ordered (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability but autoimmune processes can cause anemia, renal involvement, and constitutional symptoms; screening is low\u2011yield unless other clues emerge."
+    },
+    {
+      "rank": 15,
+      "name": "Primary hyperparathyroidism",
+      "icd10": "E21.0",
+      "snomed": "237599002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Calcium and PTH levels not measured (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rare in this age group and no clinical clues (e.g., nephrolithiasis, bone pain) are present; included for completeness."
+    }
+  ],
+  "primary_diagnosis": "Metabolic-syndrome\u2013driven primary hypertension",
+  "primary_probability": 0.18,
+  "clinical_reasoning_summary": "The patient presents with a cluster of modifiable cardiovascular risk factors\u2014stage\u20112 hypertension, obesity, prediabetes, chronic stress, and regular NSAID use\u2014that together constitute metabolic\u2011syndrome\u2013driven primary hypertension. This primary driver explains the elevated blood pressure, contributes to the modestly reduced renal function (creatinine 1.5\u202fmg/dL) and sets the stage for CKD progression. Chronic NSAID exposure further aggravates renal perfusion and likely causes occult gastrointestinal bleeding, accounting for the longstanding anemia. Psychosocial stressors, housing instability, and refugee status amplify all of these pathophysiologic pathways and raise the probability of mood/anxiety disorders. Secondary hypertension, OSA, and other comorbidities remain possible but less likely without targeted testing. The differential reflects both the dominant metabolic\u2011vascular axis and plausible secondary contributors, weighted by the strength of the upstream evidence.",
+  "unresolved_findings": [
+    "Platelet Distribution Width (PDW)\u202f=\u202f500.1\u202ffL \u2013 likely lab error, needs repeat CBC",
+    "Exact BMI value missing \u2013 limits precise risk stratification",
+    "eGFR not calculated \u2013 hampers CKD staging and medication dosing",
+    "Lipid panel (total cholesterol, LDL) absent \u2013 prevents ASCVD risk calculation",
+    "Smoking status undocumented \u2013 unknown impact on cardiovascular risk",
+    "Iron studies, ferritin, B12, folate not performed \u2013 cannot classify anemia type",
+    "Urinalysis and urine albumin\u2011to\u2011creatinine ratio missing \u2013 essential for CKD etiology",
+    "Spine imaging (X\u2011ray/MRI) not performed \u2013 structural cause of chronic pain unknown",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) not documented \u2013 depression/anxiety may be under\u2011recognized",
+    "Menstrual history and gynecologic evaluation absent \u2013 possible menorrhagia or PCOS"
+  ],
+  "recommended_workup": [
+    "Aldosterone\u2011renin ratio, plasma renin activity, overnight dexamethasone suppression test, and TSH/free T4 to evaluate secondary hypertension",
+    "Serum creatinine with CKD\u2011EPI eGFR calculation and urine albumin\u2011to\u2011creatinine ratio",
+    "Iron studies (serum iron, ferritin, TIBC, transferrin saturation), stool occult blood, and H. pylori testing",
+    "Fasting lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Home sleep apnea test or full polysomnography",
+    "PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety",
+    "Detailed menstrual history; consider pelvic ultrasound and LH/FSH ratio for PCOS",
+    "Upper endoscopy if occult GI bleed suspected",
+    "Basic autoimmune serology (ANA, dsDNA, RF, anti\u2011CCP) if anemia or renal findings remain unexplained",
+    "Serum calcium, phosphate, and PTH levels to rule out hyperparathyroidism",
+    "Spine X\u2011ray or MRI to assess for disc disease, spinal stenosis, or other structural pathology",
+    "BMI measurement and counseling on weight reduction",
+    "Smoking status assessment and cessation counseling if applicable"
+  ]
+}

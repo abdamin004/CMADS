@@ -1,0 +1,309 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-induced renal injury (ACE inhibitor, thiazide, NSAID \"triple whammy\")",
+      "icd10": "N14.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic lisinopril (ACE inhibitor) use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide (thiazide diuretic) use",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Ibuprofen (NSAID) chronic PRN use",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine 1.5\u202fmg/dL (eGFR \u224855\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling serum potassium (4.8\u202f\u2192\u202f4.1\u202fmmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of ACE\u2011inhibitor, thiazide, and NSAID is a well\u2011described cause of acute\u2011on\u2011chronic kidney injury, explaining the rise in creatinine, potassium loss, and contributing to normocytic anemia via reduced erythropoietin production."
+    },
+    {
+      "rank": 2,
+      "name": "Alpha\u20111 antitrypsin deficiency (A1ATD) causing early pan\u2011acinar emphysema",
+      "icd10": "E88.01",
+      "snomed": "235719002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed pulmonary emphysema at age 35",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Missing smoking history increases pre\u2011test probability of genetic cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (possible chronic disease component)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Severe emphysema in a young adult without documented smoking strongly suggests a hereditary cause; A1AT deficiency fits the age, pattern, and severity."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic obstructive pulmonary disease (COPD) secondary to tobacco exposure (unconfirmed)",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Emphysema diagnosis (SNOMED 87433001)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Frequent rescue albuterol use",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Male, age 35 \u2013 typical demographic for smoking\u2011related COPD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While smoking status is undocumented, the presence of emphysema, inhaler therapy, and exacerbation\u2011related ED visits make tobacco\u2011related COPD a plausible primary driver unless proven otherwise."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome / obesity\u2011driven cardiovascular risk cluster",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI\u202f\u2265\u202f30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (controlled on two agents)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.0\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 100\u202fmg/dL (borderline upper\u2011optimal)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, hypertension, pre\u2011diabetes, and borderline dyslipidaemia constitute metabolic syndrome, raising long\u2011term ASCVD risk and contributing to CKD progression."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) plus hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic daytime dyspnea and mild tachycardia (HR\u202f95\u202fbpm)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Male sex, age 35 \u2013 moderate pre\u2011test probability for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity and hypertension makes OSA likely; it would also explain nocturnal hypoventilation and contribute to cardiovascular strain."
+    },
+    {
+      "rank": 6,
+      "name": "Iron\u2011deficiency anemia due to occult gastrointestinal blood loss (NSAID\u2011related)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin drop from 17.1\u202fg/dL to 11.9\u202fg/dL (rapid decline)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic ibuprofen (NSAID) use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (requires iron studies to confirm iron deficiency)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rapid hemoglobin decline in the setting of chronic NSAID use raises suspicion for occult GI bleeding leading to iron deficiency; missing iron studies prevent definitive classification."
+    },
+    {
+      "rank": 7,
+      "name": "Renal\u2011EPO\u2011deficiency anemia secondary to stage\u202f3 chronic kidney disease",
+      "icd10": "N25.0",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine 1.5\u202fmg/dL (eGFR \u224855\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (Hb 11.9\u202fg/dL, Hct 33.3\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril therapy (may modestly raise creatinine)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD stage\u202f3 commonly leads to reduced erythropoietin production, producing a normocytic anemia that aligns with the observed labs."
+    },
+    {
+      "rank": 8,
+      "name": "Obesity\u2011hypoventilation syndrome (OHS)",
+      "icd10": "E66.2",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "BMI\u202f\u2265\u202f30 with chronic lung disease (COPD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent dyspnea and mild tachycardia",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling bicarbonate (26.2\u202f\u2192\u202f23.3\u202fmmol/L) suggesting mild metabolic acidosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity combined with COPD can lead to hypoventilation and chronic CO\u2082 retention, manifesting as dyspnea, mild tachycardia, and a trend toward metabolic acidosis."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / anxiety (chronic stress syndrome)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior severe anxiety/panic disorder (resolved 2021)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current moderate stress and social isolation",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Limited social support",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors can exacerbate pain perception, reduce adherence to COPD and metabolic interventions, and may represent an independent mood disorder."
+    },
+    {
+      "rank": 10,
+      "name": "Gout / hyperuricaemia (thiazide\u2011associated)",
+      "icd10": "M10.9",
+      "snomed": "20160004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide use (known to raise uric acid)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity (risk factor for gout)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Uric acid not measured (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thiazide diuretics and obesity increase gout risk; while no clinical gout attacks are documented, the medication profile makes it a plausible secondary diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Medication-induced renal injury (ACE inhibitor, thiazide, NSAID \"triple whammy\")",
+  "primary_probability": 0.2,
+  "clinical_reasoning_summary": "The patient is a 35\u2011year\u2011old male with established emphysema, hypertension, obesity, and pre\u2011diabetes. The most concrete, mechanistic abnormality is the concurrent use of lisinopril, hydrochlorothiazide, and ibuprofen, which explains the elevated creatinine, potassium loss, and contributes to a normocytic anemia via reduced erythropoietin. Early\u2011onset emphysema raises two competing etiologies: unverified tobacco\u2011related COPD and a genetic predisposition (alpha\u20111 antitrypsin deficiency). Metabolic syndrome, OSA, and obesity\u2011hypoventilation syndrome further compound cardiopulmonary strain. Iron\u2011deficiency anemia from occult NSAID\u2011related GI loss and CKD\u2011related anemia are both plausible contributors to the falling hemoglobin. Psychosocial stress and possible gout complete the multi\u2011system picture. Missing data (smoking history, \u03b11\u2011AT level, eGFR/albuminuria, iron studies, sleep study, ABG, thyroid panel) limit certainty, but the weighted probabilities reflect the current evidence.",
+  "unresolved_findings": [
+    "Platelet Distribution Width 438.6\u202ffL (likely lab artifact)",
+    "Falling bicarbonate (23.3\u202fmmol/L) without arterial blood gas",
+    "Mild tachycardia (HR\u202f95\u202fbpm) \u2013 could be albuterol, anemia, or deconditioning",
+    "Absence of documented smoking/vaping history",
+    "Missing quantitative BMI value",
+    "Missing eGFR and urine albumin\u2011creatinine ratio",
+    "Missing iron studies, ferritin, B12/folate",
+    "Missing lipid panel (HDL, triglycerides)",
+    "Missing thyroid function tests",
+    "Vaccination status (influenza, pneumococcal, COVID\u201119) not recorded"
+  ],
+  "recommended_workup": [
+    "Obtain detailed smoking/vaping history and urine cotinine level",
+    "Serum alpha\u20111 antitrypsin level and genotype",
+    "Calculate eGFR and order urine albumin\u2011creatinine ratio",
+    "Complete iron studies (serum iron, ferritin, transferrin saturation) and fecal occult blood test",
+    "Home sleep apnea study or full polysomnography",
+    "Arterial blood gas or overnight CO\u2082 measurement to assess for hypoventilation",
+    "Transthoracic echocardiogram (evaluate diastolic function, PASP)",
+    "Thyroid panel (TSH, free T4)",
+    "Serum uric acid level",
+    "Liver ultrasound or FibroScan for NAFLD assessment",
+    "PHQ\u20119 and GAD\u20117 screening questionnaires",
+    "Review and update immunisation records (influenza, pneumococcal, COVID\u201119)",
+    "Repeat CBC with differential and repeat PDW to confirm artifact"
+  ]
+}

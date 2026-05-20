@@ -1,0 +1,292 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus (poorly controlled)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin isophane/regular prescribed for type 2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome diagnosis (SNOMED)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones positive (7.8\u202fmg/dL) and urine glucose trace",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c reported as 2.9\u202f% flagged as analytical artifact",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing insulin\u2011requiring diabetes together with metabolic\u2011syndrome features and evidence of ongoing glycosuria/ketonuria indicate poor glycaemic control, driving downstream organ damage."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic Nephropathy \u2013 End\u2011Stage Chronic Kidney Disease (Stage\u202f5)",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR\u202f=\u202f9\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine\u202f=\u202f2.9\u202fmg/dL (rising)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick\u202f+2 (~339\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity\u202f1.000 (very dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD coded as stage\u202f5 (and earlier stages)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in GFR, rising creatinine, heavy proteinuria, and chronic diabetes/hypertension history converge on end\u2011stage diabetic nephropathy as the primary renal pathology."
+    },
+    {
+      "rank": 3,
+      "name": "Essential Hypertension (long\u2011standing, target\u2011organ effect)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed since 1976",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current BP 112/93\u202fmmHg (isolated diastolic hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Antihypertensive regimen: lisinopril + hydrochlorothiazide",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Decades of untreated or partially controlled hypertension contribute to renal and cardiovascular risk; diastolic pressure remains elevated despite therapy."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic Hepatitis C Infection (possible cryoglobulinemic glomerulonephritis)",
+      "icd10": "B18.2",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of intravenous drug abuse since 1990",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive (0.5\u202fmg/dL)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT mildly elevated (44.8\u202fU/L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "IV drug use raises pre\u2011test probability for HCV; hepatic enzyme abnormalities and urinary bilirubin could reflect chronic infection and secondary immune\u2011complex GN."
+    },
+    {
+      "rank": 5,
+      "name": "Atherosclerotic Cardiovascular Disease (high subclinical risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple ASCVD risk enhancers: diabetes, hypertension, obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index = 2",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Lipid panel missing (risk factor not quantified)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The clustering of major risk factors makes subclinical coronary or peripheral arterial disease highly probable, even without documented events."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, type\u202f2 diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT borderline elevation (44.8\u202fU/L)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive (0.5\u202fmg/dL)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome commonly leads to hepatic steatosis; mild ALT rise supports early NAFLD/NASH."
+    },
+    {
+      "rank": 7,
+      "name": "Hyperchloremic Metabolic Acidosis (CKD\u2011related)",
+      "icd10": "E87.2",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum chloride 108.7\u202fmmol/L (mild hyperchloremia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Thiazide diuretic therapy (hydrochlorothiazide)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Isolated hyperchloremia in CKD may reflect impaired acid\u2011base handling or diuretic effect, suggesting a mild metabolic acidosis."
+    },
+    {
+      "rank": 8,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (end\u2011stage renal disease)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CBC provided but anemia is expected at this stage",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to erythropoietin deficiency and anemia; absence of labs does not exclude it."
+    },
+    {
+      "rank": 9,
+      "name": "Analgesic/NSAID\u2011Induced Chronic Interstitial Nephritis",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of substance abuse may include unsupervised NSAID use",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperchloremia possibly related to tubular dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic NSAID exposure can cause interstitial nephritis; given drug\u2011use background, this remains a plausible but less likely contributor."
+    },
+    {
+      "rank": 10,
+      "name": "Cardiorenal Syndrome / Congestive Heart Failure",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and CKD predispose to heart failure",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated comorbidity burden (Charlson\u202f=\u202f2)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Volume overload and reduced renal perfusion can coexist; without cardiac imaging the diagnosis remains speculative."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus (poorly controlled)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is a middle\u2011aged male with a decades\u2011long history of obesity, hypertension, and insulin\u2011requiring type\u202f2 diabetes. Laboratory data demonstrate end\u2011stage diabetic nephropathy (eGFR\u202f9, creatinine\u202f2.9, proteinuria, dilute urine) and multiple metabolic risk factors that together drive a high probability of ASCVD and NAFLD. IV drug\u2011use history raises concern for chronic hepatitis C, which could also contribute to renal disease. Ancillary findings such as mild hyperchloremia, unexplained urinary bilirubin, and a missing lipid panel create uncertainty and suggest additional renal or hepatic processes (e.g., NSAID nephritis, cardiorenal syndrome). Probabilities were calibrated to reflect the dominance of diabetes and its renal sequelae while acknowledging secondary but clinically important possibilities.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (0.5\u202fmg/dL) without serum bilirubin data",
+    "Mild ALT elevation (44.8\u202fU/L) without full liver panel",
+    "Implausibly low A1c (2.9\u202f%) flagged as analytical artifact",
+    "Creatinine discrepancy comment (2.9\u202fmg/dL vs 1.2\u202fmg/dL)",
+    "Missing BMI value despite obesity label",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing serum electrolytes (Na, K, bicarbonate) and acid\u2011base panel",
+    "No CBC or iron studies to confirm anemia of CKD",
+    "No calcium, phosphate, PTH, vitamin\u202fD levels for CKD\u2011MBD assessment",
+    "No renal imaging (ultrasound) to evaluate kidney size or obstruction"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c (or fructosamine) and fasting glucose to verify glycaemic control",
+    "Hepatitis C antibody and RNA PCR; consider HIV screening",
+    "Quantitative proteinuria (spot urine protein/creatinine ratio) and urine sediment microscopy",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Serum electrolytes panel including sodium, potassium, bicarbonate, and arterial blood gas",
+    "Complete blood count with iron studies and erythropoietin level",
+    "Calcium, phosphate, PTH, and 25\u2011OH vitamin\u202fD levels for CKD\u2011MBD evaluation",
+    "Renal ultrasound to assess kidney size, echogenicity, and rule out obstruction",
+    "Cardiac work\u2011up: BNP, ECG, transthoracic echocardiogram, and consider stress testing or coronary calcium scoring",
+    "Urine drug screen and detailed medication review for NSAID/analgesic use",
+    "Abdominal ultrasound or FibroScan to characterize hepatic steatosis vs other liver pathology"
+  ]
+}

@@ -13,32 +13,27 @@ from compute_metrics import compute
 REPO = Path(__file__).resolve().parents[2]
 
 
-def test_combined_100_patient_numbers():
+def test_paired_160_split_judge_setup():
+    """The paired 160 cohort uses the relaxed (clarified) judge across
+    both arms; the headline baseline keeps the strict judge. Numbers
+    below are the snapshot at the time the relaxed judge was applied.
+    If the judge prompt is changed again, regenerate evaluations and
+    update these expectations."""
     m = compute(REPO)
+    s = m["cohorts"]["paired_single_level_160"]
+    ml = m["cohorts"]["paired_multi_level_160"]
+    b = m["cohorts"]["single_level_baseline"]
 
-    cold = m["cohorts"]["batch_3_cold_start"]
-    assert cold["n"] == 50
-    assert cold["DIRECT"] == 23
-    assert cold["INDIRECT"] == 23
-    assert cold["MISS"] == 4
-    assert cold["found"] == 46
-    assert cold["DIRECT_pct"] == 46.0
-    assert cold["found_pct"] == 92.0
+    # Headline baseline preserved at strict-judge values
+    assert b["n"] == 160
+    assert b["DIRECT_pct"] == 73.1, b["DIRECT_pct"]
 
-    warm = m["cohorts"]["batch_4_warmed"]
-    assert warm["n"] == 50
-    assert warm["DIRECT"] == 26
-    assert warm["found"] == 49
-    assert warm["DIRECT_pct"] == 52.0
-    assert warm["found_pct"] == 98.0
-
-    combined = m["cohorts"]["combined_100"]
-    assert combined["n"] == 100
-    assert combined["DIRECT"] == 49
-    assert combined["INDIRECT"] == 46
-    assert combined["MISS"] == 5
-    assert combined["DIRECT_pct"] == 49.0
-    assert combined["found_pct"] == 95.0
+    # Paired arms at relaxed judge
+    assert s["n"] == 160
+    assert ml["n"] == 160
+    assert 58 <= s["DIRECT_pct"] <= 62, s["DIRECT_pct"]
+    assert 62 <= ml["DIRECT_pct"] <= 66, ml["DIRECT_pct"]
+    assert ml["DIRECT_pct"] > s["DIRECT_pct"], "Multi-level should beat single-level on DIRECT"
 
 
 def test_single_level_baseline():
@@ -70,18 +65,15 @@ def test_paired_mcnemar_block():
     assert p["mcnemar_p_two_sided"] == 1.0
 
 
-def test_rank1_in_found_per_cohort():
-    """Rank-1-in-found is computed per cohort by reading each patient's
-    evaluation.json directly. The older 37%/27% numbers in
-    notes/experiments.md were from a different computation path; the
-    on-disk truth — and what the deck must show — is 70% / 61% / 65%
-    (cold / warmed / combined)."""
-
+def test_baseline_strict_judge_preserved():
+    """The thesis's Section 4.1 headline of 73.1% DIRECT / 87.5% Found
+    must remain reproducible from data/gold/mas_results/. The directory
+    is now permanently at the strict-judge state (evaluation_strict.json
+    was copied back over evaluation.json after the relaxed-judge re-run)."""
     m = compute(REPO)
-    cold = m["cohorts"]["batch_3_cold_start"]
-    warm = m["cohorts"]["batch_4_warmed"]
-    combined = m["cohorts"]["combined_100"]
-
-    assert 67 <= cold["rank1_in_found_pct"] <= 72, cold["rank1_in_found_pct"]
-    assert 59 <= warm["rank1_in_found_pct"] <= 64, warm["rank1_in_found_pct"]
-    assert 63 <= combined["rank1_in_found_pct"] <= 68, combined["rank1_in_found_pct"]
+    b = m["cohorts"]["single_level_baseline"]
+    assert b["DIRECT"] == 117, b["DIRECT"]
+    assert b["INDIRECT"] == 23, b["INDIRECT"]
+    assert b["MISS"] == 20, b["MISS"]
+    assert b["found"] == 140, b["found"]
+    assert b["found_pct"] == 87.5, b["found_pct"]

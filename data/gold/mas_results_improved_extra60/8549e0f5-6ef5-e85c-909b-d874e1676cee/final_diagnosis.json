@@ -1,0 +1,185 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (obesity-driven insulin resistance, hypertension, pre-diabetes)",
+      "icd10": "E66.9",
+      "snomed": "414916001",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag present",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 128/77 mmHg (borderline elevated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.0% (prediabetic)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of obesity, borderline hypertension, and pre\u2011diabetic HbA1c fits classic metabolic syndrome despite a low fasting glucose that remains unexplained."
+    },
+    {
+      "rank": 2,
+      "name": "Subclinical iron deficiency (functional or dietary)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.24,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated RDW (39.2%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW (249.9 fL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No anemia on CBC",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated red cell distribution width and platelet distribution width suggest early iron deficiency before anemia develops."
+    },
+    {
+      "rank": 3,
+      "name": "Early hypertensive/obesity\u2011related chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Borderline elevated blood pressure",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal function tests missing (creatinine/eGFR)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and hypertension are common precursors to early CKD; lack of renal labs makes this speculative but plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA) secondary to obesity",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented snoring, witnessed apnoea, or daytime sleepiness",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises OSA risk, but absence of classic symptoms lowers confidence."
+    },
+    {
+      "rank": 5,
+      "name": "Polycystic ovary syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female sex, reproductive age",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No gynecologic or hormonal data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity in a young woman raises PCOS possibility, but lack of menstrual or hormonal information makes it unlikely."
+    },
+    {
+      "rank": 6,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "1240561009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and borderline low glucose could be compatible",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Thyroid panel not ordered",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can contribute to weight gain and metabolic abnormalities; however, no thyroid labs are available."
+    },
+    {
+      "rank": 7,
+      "name": "Unexplained fasting hypoglycemia",
+      "icd10": "E16.2",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 67.4 mg/dL (borderline low, falling trend)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Low fasting glucose is discordant with metabolic syndrome and warrants separate consideration; rare etiologies (reactive hypoglycemia, early insulinoma) are possible but unlikely."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (obesity-driven insulin resistance, hypertension, pre-diabetes)",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, borderline hypertension, and pre\u2011diabetic HbA1c strongly support metabolic syndrome as the dominant process. Elevated RDW and PDW suggest early iron deficiency, while the combination of obesity and hypertension raises the possibility of incipient CKD. Obstructive sleep apnea remains a consideration given the obesity, though symptom data are lacking. Low fasting glucose is an outlier not explained by metabolic syndrome, prompting inclusion of a low\u2011probability hypoglycemia diagnosis. PCOS and hypothyroidism are kept as remote possibilities pending targeted testing.",
+  "unresolved_findings": [
+    "Markedly elevated PDW (249.9 fL) not fully explained",
+    "Markedly elevated RDW (39.2%) without anemia",
+    "Missing lipid panel, serum creatinine/eGFR, iron studies, thyroid panel, fasting insulin, and sleep study data"
+  ],
+  "recommended_workup": [
+    "Complete iron panel (serum iron, ferritin, TIBC, transferrin saturation)",
+    "Comprehensive metabolic panel with creatinine and eGFR",
+    "Thyroid function tests (TSH, free T4)",
+    "Fasting insulin and C\u2011peptide levels",
+    "Oral glucose tolerance test to clarify glucose metabolism",
+    "Lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Polysomnography or home sleep apnea testing",
+    "Repeat HbA1c and consider continuous glucose monitoring",
+    "Gynecologic evaluation (menstrual history, serum testosterone, ultrasound) if PCOS remains a concern"
+  ]
+}

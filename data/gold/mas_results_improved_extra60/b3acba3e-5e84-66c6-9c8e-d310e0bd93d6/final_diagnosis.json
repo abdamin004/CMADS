@@ -1,0 +1,185 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute ST-segment-elevation myocardial infarction (STEMI)",
+      "icd10": "I21.3",
+      "snomed": "413839001",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list entry indicating possible acute coronary syndrome",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The presence of a documented acute coronary syndrome on the problem list, combined with the patient's cardiovascular risk factors, makes an acute STEMI the most likely explanation for the acute presentation despite lack of objective cardiac data."
+    },
+    {
+      "rank": 2,
+      "name": "Acute decompensated heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.33",
+      "snomed": "84114007",
+      "probability": 0.19,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of ischemic cardiomyopathy and prior HFpEF diagnosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated natriuretic peptide (if available) or volume overload signs noted in chart",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic HFpEF can acutely worsen due to ischemia or other stressors; the clinical context suggests possible decompensation, though imaging or exam data are missing."
+    },
+    {
+      "rank": 3,
+      "name": "Early Myelodysplastic Syndrome / alcohol\u2011related marrow suppression",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet distribution width (PDW 240.4\u202ffL) suggesting platelet size variability",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic alcohol use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Abnormal PDW together with alcohol exposure raises concern for early marrow dysplasia or suppression, warranting further hematologic evaluation."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with normal or low iron saturation (borderline high 53.5\u202f%)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions (e.g., heart failure, possible infection)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The anemia pattern could be due to chronic disease, but incomplete iron studies limit certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic kidney disease (stage 3\u20114)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors for CKD (age, hypertension, diabetes, cardiovascular disease)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal function labs are missing, making CKD speculative despite risk factors."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic obstructive pulmonary disease / asthma\u2011COPD overlap",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of COPD/asthma",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "COPD is present but does not explain the acute laboratory abnormalities."
+    },
+    {
+      "rank": 7,
+      "name": "Infection (urinary tract infection or lower respiratory infection) as decompensation trigger",
+      "icd10": "J06.9",
+      "snomed": "65363002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented fever, cough, dysuria, or positive cultures",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Infection is a possible trigger but lacks objective evidence."
+    },
+    {
+      "rank": 8,
+      "name": "Alcoholic liver disease (steatohepatitis / early cirrhosis)",
+      "icd10": "K70.30",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic alcohol use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Alcohol use suggests possible liver involvement, yet hepatic labs are absent."
+    },
+    {
+      "rank": 9,
+      "name": "Alzheimer\u2019s disease (advanced)",
+      "icd10": "G30.9",
+      "snomed": "372087000",
+      "probability": 0.02,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of advanced Alzheimer\u2019s disease",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "While strongly supported, Alzheimer\u2019s disease is unlikely to explain the acute laboratory abnormalities."
+    }
+  ],
+  "primary_diagnosis": "Acute ST-segment-elevation myocardial infarction (STEMI)",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The problem list flags a possible acute coronary syndrome, and the patient\u2019s cardiovascular risk profile makes an acute STEMI the most probable cause of the current presentation. Secondary considerations include acute decompensated HFpEF, early marrow pathology related to alcohol use, and anemia of chronic disease, each supported by limited but plausible evidence. Renal dysfunction, COPD, infection, alcoholic liver disease, and advanced Alzheimer\u2019s disease are retained in the differential for completeness, though each carries low confidence due to missing objective data. The markedly abnormal platelet distribution width raises concern for early myelodysplastic changes, while the lack of cardiac biomarkers, ECG, and imaging limits definitive confirmation of STEMI.",
+  "unresolved_findings": [
+    "Platelet distribution width 240.4\u202ffL (likely laboratory error, needs repeat)",
+    "Borderline\u2011high iron saturation (53.5\u202f%) without a complete iron panel",
+    "Absence of renal function data (creatinine, eGFR, urine ACR)",
+    "No documented infection work\u2011up (urinalysis, chest imaging, inflammatory markers)",
+    "No ECG, cardiac enzymes, or echocardiogram to confirm or exclude acute myocardial infarction"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG with serial recordings",
+    "Cardiac troponin I/T levels (serial)",
+    "Urgent transthoracic echocardiogram",
+    "Comprehensive metabolic panel including creatinine, eGFR, BUN",
+    "Complete iron studies (serum iron, ferritin, TIBC)",
+    "Repeat platelet indices and peripheral blood smear",
+    "Bone marrow aspirate/biopsy if cytopenias persist",
+    "Chest X\u2011ray and/or CT chest if respiratory symptoms develop",
+    "Urinalysis with culture",
+    "Blood cultures if febrile or systemic signs of infection"
+  ]
+}

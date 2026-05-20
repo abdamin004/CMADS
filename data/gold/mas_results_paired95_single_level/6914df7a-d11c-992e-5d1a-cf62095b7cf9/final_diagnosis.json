@@ -1,0 +1,222 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy leading to end-stage renal disease",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 4.2 mL/min/1.73m\u00b2, persistent proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "Kidney ultrasound showing increased echogenicity consistent with chronic diabetic changes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced diabetic kidney disease is the most plausible cause of the severe CKD given the patient's diabetes history, markedly reduced eGFR, and proteinuria."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic, normochromic anemia with low reticulocyte count (assumed from missing data)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 CKD (eGFR 4.2) known to cause decreased erythropoietin production",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Severe CKD commonly leads to anemia due to inadequate erythropoietin; the clinical picture fits this etiology."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hyperparathyroidism / CKD\u2011MBD",
+      "icd10": "N25.81",
+      "snomed": "371923003",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 CKD with expected disturbances in calcium, phosphate, and PTH",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absent laboratory values for calcium/phosphate/PTH (noted as missing), but CKD\u2011MBD is nearly universal at this GFR",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the advanced CKD, secondary hyperparathyroidism is highly likely even without current labs."
+    },
+    {
+      "rank": 4,
+      "name": "Opioid use disorder",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic opioid prescriptions for pain management",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High risk behavior noted in social history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic opioid therapy in the context of uncontrolled pain raises concern for opioid use disorder."
+    },
+    {
+      "rank": 5,
+      "name": "Undiagnosed coronary artery disease / silent ischemia",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No prior cardiac evaluation despite high atherosclerotic risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High burden of risk factors makes silent CAD plausible and warrants further cardiac workup."
+    },
+    {
+      "rank": 6,
+      "name": "Major depressive disorder with poor treatment adherence",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of depression and missed appointments",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Psychosocial burden affecting medication adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Depression contributes to poor adherence, impacting overall disease management."
+    },
+    {
+      "rank": 7,
+      "name": "Hypertensive nephrosclerosis (co\u2011contributor to renal failure)",
+      "icd10": "I12.9",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension (BP measurements missing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Absence of detailed antihypertensive regimen",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension likely contributes to CKD progression alongside diabetes."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components present",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No liver panel available; diagnosis remains unconfirmed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors make NAFLD plausible, but lack of liver labs limits certainty."
+    },
+    {
+      "rank": 9,
+      "name": "Chronic hepatitis C infection",
+      "icd10": "B18.2",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors for viral hepatitis noted (e.g., past IV drug use)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No hepatitis C serology performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible exposure exists, but without testing the likelihood is low."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy leading to end-stage renal disease",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The patient presents with stage 5 CKD (eGFR 4.2) in the setting of long\u2011standing type 2 diabetes, making diabetic nephropathy the dominant etiology. Advanced CKD explains the anemia and secondary hyperparathyroidism, both of which were under\u2011estimated initially. Cardiovascular risk factors, opioid exposure, depression, and possible hypertensive injury further shape the differential. Unexplained urine bilirubin and ketones remain pending further evaluation.",
+  "unresolved_findings": [
+    "Positive urine bilirubin (0.7 mg/dL) without corresponding serum liver function tests",
+    "Positive urine ketones (15.9 mg/dL) without serum glucose or acid\u2011base data",
+    "Absence of documented dialysis initiation despite eGFR 4.2",
+    "Missing blood pressure measurements and antihypertensive regimen details",
+    "No liver panel (AST, ALT, ALP, GGT, bilirubin, INR) or hepatitis B/C serologies",
+    "No iron studies, B12/folate, reticulocyte count, haptoglobin, or LDH to evaluate anemia etiology",
+    "No cardiac evaluation (ECG, echocardiogram, stress test) despite high atherosclerotic risk"
+  ],
+  "recommended_workup": [
+    "Serum bilirubin, AST, ALT, ALP, GGT, INR to assess hepatic function",
+    "Hepatitis B surface antigen and hepatitis C RNA PCR",
+    "Fasting lipid panel and HbA1c for metabolic assessment",
+    "Serum calcium, phosphate, PTH, vitamin D levels for CKD\u2011MBD confirmation",
+    "Complete blood count with reticulocyte count, iron studies, B12, folate, haptoglobin, LDH",
+    "Cardiac workup: resting ECG, transthoracic echocardiogram, and stress testing",
+    "Renal ultrasound to evaluate structural kidney disease",
+    "Blood pressure measurement and review of antihypertensive regimen",
+    "Assessment of dialysis readiness and vascular access planning",
+    "Repeat urine analysis with serum glucose and arterial blood gas to interpret ketonuria"
+  ]
+}

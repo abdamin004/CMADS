@@ -1,0 +1,150 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Combined Diabetic Nephropathy and Hypertensive Nephrosclerosis (Stage 4 CKD)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.695,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension with elevated blood pressure readings over 5 years",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR ~25\u202fmL/min/1.73\u202fm\u00b2 consistent with CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria >1\u202fg/day on urine dipstick",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s major risk factors (diabetes and hypertension) together with markedly reduced eGFR and significant proteinuria point to a combined diabetic nephropathy and hypertensive nephrosclerosis as the dominant cause of CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Ischemic Heart Disease with Stable Angina",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.145,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of coronary artery disease and exertional chest discomfort",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on age, diabetes, hypertension, and lipid profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s age, diabetes, hypertension, and known coronary disease, stable angina is a likely comorbidity that contributes to overall morbidity but does not explain the renal findings."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011Related Anemia / Anemia of Chronic Disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.8\u202fg/dL with normocytic, normochromic indices",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated ferritin and low transferrin saturation consistent with anemia of chronic disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is an expected complication of stage\u202f4 CKD; it should be framed as a sequela rather than a separate primary diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Drug\u2011Induced / Illicit\u2011Drug\u2011Associated Tubulointerstitial Nephropathy",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports intermittent use of over\u2011the\u2011counter analgesics and occasional recreational substances",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated urinary \u03b22\u2011microglobulin (if available) suggesting tubular injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While the dominant etiology is diabetic/hypertensive, a contributory drug\u2011induced tubulointerstitial component cannot be excluded given reported exposures."
+    },
+    {
+      "rank": 5,
+      "name": "Psychosocial / Behavioral Barriers (Non\u2011adherence, Transplant Ineligibility)",
+      "icd10": "Z91.14",
+      "snomed": "160573003",
+      "probability": 0.025,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Notes of missed appointments and inconsistent medication refills",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Limited social support and housing instability",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "These factors act as modifiers that may accelerate CKD progression and affect eligibility for transplant; they are not primary diseases but influence management."
+    },
+    {
+      "rank": 6,
+      "name": "Potential Hemolysis or Early Hepatobiliary Disorder (Unexplained Urinary Bilirubin)",
+      "icd10": "R17",
+      "snomed": "271442005",
+      "probability": 0.035,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.1\u202fmg/dL without concurrent serum bilirubin data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Urinary bilirubin is atypical in isolated CKD; it raises the possibility of low\u2011grade hemolysis or early hepatobiliary dysfunction, warranting targeted work\u2011up."
+    }
+  ],
+  "primary_diagnosis": "Combined Diabetic Nephropathy and Hypertensive Nephrosclerosis (Stage 4 CKD)",
+  "primary_probability": 0.695,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing diabetes mellitus and hypertension, together with stage\u202f4 CKD (eGFR ~25) and heavy proteinuria, make combined diabetic nephropathy and hypertensive nephrosclerosis the overwhelming cause of renal dysfunction. Anemia is interpreted as a CKD complication. Co\u2011existing coronary artery disease explains stable angina. Minor contributors include possible drug\u2011induced tubulointerstitial injury and psychosocial barriers that may worsen outcomes. Unexplained urinary bilirubin remains an outlier, suggesting a separate low\u2011probability process such as hemolysis or early liver disease.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.1\u202fmg/dL without corresponding serum bilirubin or hemolysis work\u2011up"
+  ],
+  "recommended_workup": [
+    "Serum total and direct bilirubin, AST/ALT, alkaline phosphatase, GGT",
+    "Hemolysis panel: haptoglobin, LDH, peripheral smear, reticulocyte count",
+    "Repeat urine microscopy with quantitative protein/creatinine ratio",
+    "Renal ultrasound to assess size and rule out obstructive causes",
+    "Medication review focusing on nephrotoxic agents; consider drug screen if illicit use suspected",
+    "Blood pressure trend review and initiation/optimization of ACE\u2011I or ARB therapy",
+    "Assessment of adherence barriers and social support resources"
+  ]
+}

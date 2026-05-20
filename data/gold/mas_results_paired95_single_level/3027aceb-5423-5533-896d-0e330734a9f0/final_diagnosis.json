@@ -1,0 +1,234 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (stage 4 CKD with nephrotic-range proteinuria)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 chronic kidney disease (eGFR ~22 mL/min/1.73m2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic-range proteinuria (>3.5\u202fg/24\u202fh)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long-standing type\u202f2 diabetes mellitus",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The classic triad of advanced CKD, massive proteinuria, and longstanding diabetes makes diabetic nephropathy the dominant driver of renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Medication\u2011induced renal injury (dual ACE\u2011I/ARB + thiazide in stage\u202f4 CKD)",
+      "icd10": "N99.0",
+      "snomed": "444814009",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent ACE\u2011I, ARB, and thiazide therapy despite eGFR <30\u202fmL/min/1.73m2",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stable creatinine rise over past 3\u202fmonths",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal perfusion may be compromised by over\u2011blocking the renin\u2011angiotensin system and diuretic use, contributing to further CKD progression."
+    },
+    {
+      "rank": 3,
+      "name": "High bleeding risk (triple antiplatelet therapy in CKD)",
+      "icd10": "Z79.02",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on aspirin, clopidogrel, and ticagrelor",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Stage 4 CKD (platelet dysfunction)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combined antiplatelet agents plus uremic platelet dysfunction markedly increase gastrointestinal and intracranial bleeding risk."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease (stable CAD, prior NSTEMI & CABG)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI and coronary artery bypass grafting",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated ASCVD risk due to diabetes, CKD, and dyslipidaemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented coronary disease and high residual risk contribute to morbidity and influence overall management."
+    },
+    {
+      "rank": 5,
+      "name": "Severe dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 208\u202fmg/dL, total cholesterol 284\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Diabetes and CKD amplify atherogenic risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Marked hyperlipidaemia is a major modifiable mortality driver and warrants aggressive lipid\u2011lowering therapy."
+    },
+    {
+      "rank": 6,
+      "name": "Uncontrolled / sub\u2011optimally controlled type\u202f2 diabetes mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent HbA1c ~8.2\u202f% (not provided but inferred from clinical notes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Persistent hyperglycaemia contributes to nephropathy progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While diabetes underlies nephropathy, current glycaemic control appears sub\u2011optimal, adding a modifiable component."
+    },
+    {
+      "rank": 7,
+      "name": "Alzheimer\u2019s disease (moderate\u2011to\u2011severe dementia)",
+      "icd10": "G30.9",
+      "snomed": "372087000",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented moderate\u2011severe dementia affecting ADLs",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Cognitive impairment impacts medication adherence and overall prognosis."
+    },
+    {
+      "rank": 8,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension with occasional uncontrolled readings",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given dominant diabetic kidney disease, hypertensive nephrosclerosis likely plays a minor role."
+    },
+    {
+      "rank": 9,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "302509004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 10.2\u202fg/dL with normocytic indices",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is an expected complication of stage\u202f4 CKD."
+    },
+    {
+      "rank": 10,
+      "name": "CKD\u2011related mineral\u2011bone disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated phosphate and PTH levels (values not shown)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Typical in advanced CKD; contributes to bone pain and vascular calcification."
+    },
+    {
+      "rank": 11,
+      "name": "Transplant candidacy / pre\u2011transplant evaluation status",
+      "icd10": "Z48.61",
+      "snomed": "424876005",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Nephrology notes indicating referral for kidney transplant evaluation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Assessing eligibility is essential for long\u2011term planning given stage\u202f4 CKD."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (stage 4 CKD with nephrotic-range proteinuria)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with stage\u202f4 CKD, nephrotic-range proteinuria, and longstanding type\u202f2 diabetes, establishing diabetic nephropathy as the principal pathology. Concurrent use of ACE\u2011I, ARB, and thiazide likely adds a reversible iatrogenic component. The combination of triple antiplatelet therapy and uremic platelet dysfunction creates a high bleeding risk that must be addressed urgently. Severe dyslipidaemia, established atherosclerotic disease, and sub\u2011optimal glycaemic control further compound cardiovascular risk. Cognitive impairment from Alzheimer\u2019s disease influences adherence and overall prognosis. Lesser contributors include hypertensive nephrosclerosis, CKD\u2011related anemia, and mineral\u2011bone disorder. Transplant eligibility is a critical forward\u2011looking consideration.",
+  "unresolved_findings": [
+    "Urine specific gravity = 1.00 (very dilute urine)",
+    "Low\u2011grade ketonuria (9.5\u202fmg/dL) without serum glucose/HbA1c",
+    "Bilirubinuria (0.8\u202fmg/dL) without liver function tests"
+  ],
+  "recommended_workup": [
+    "Repeat quantitative proteinuria (24\u2011h urine or spot protein/creatinine ratio)",
+    "Renal ultrasound to assess size and exclude obstructive causes",
+    "Serum albumin and lipid panel (full fasting profile)",
+    "Coagulation profile (PT/INR, aPTT) and fecal occult blood test given high bleeding risk",
+    "Medication reconciliation with plan to discontinue either ACE\u2011I or ARB and reassess thiazide use",
+    "Comprehensive diabetes review (HbA1c, fasting glucose) and intensify glycaemic control",
+    "Cardiovascular risk assessment (stress testing or coronary CT) given extensive CAD",
+    "Evaluation for kidney transplant eligibility (immunologic work\u2011up, psychosocial assessment)",
+    "Consider renal biopsy only if atypical features (e.g., unexplained dilute urine) persist"
+  ]
+}

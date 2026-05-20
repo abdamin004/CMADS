@@ -1,0 +1,247 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Ischemic cardiomyopathy with heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I25.5",
+      "snomed": "84114007",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction (1975) and coronary artery bypass graft (2000)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic antiplatelet therapy (clopidogrel, prasugrel, aspirin) and beta\u2011blocker (metoprolol)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated NT\u2011proBNP 444.5\u202fpg/mL",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f\u2265\u202f80, male sex, hypertension, obesity, long\u2011standing CAD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has extensive ischemic heart disease with prior MI and CABG, is on guideline\u2011directed cardiac medications, and shows an elevated NT\u2011proBNP. In an elderly, hypertensive, obese male, the typical phenotype is HFpEF, which explains dyspnea, possible volume overload, and contributes to anemia and renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease (stage 3\u20114)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension treated with losartan",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low total CO\u2082 (21.1\u202fmmol/L) suggesting mild metabolic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u202f\u2265\u202f80, diabetes\u2011prediabetes, long\u2011standing cardiovascular disease",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD is highly prevalent in this demographic and would explain the metabolic acidosis, contribute to anemia, elevate NT\u2011proBNP (reduced clearance), and worsen heart failure. Renal function data are missing, making this a key uncertainty."
+    },
+    {
+      "rank": 3,
+      "name": "Alcohol\u2011related marrow suppression / early Myelodysplastic Syndrome (MDS)",
+      "icd10": "D46.9",
+      "snomed": "414545006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic heavy alcohol use since 1964",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia (WBC 3.5\u202f\u00d710\u00b3/\u00b5L) with falling trend and decreasing platelet count",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet distribution width 240.4\u202ffL (far outside physiologic range)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Alcohol can cause reversible marrow toxicity, but in an 80\u2011year\u2011old male the concurrent risk of MDS is notable. Both conditions account for the progressive cytopenias and abnormal platelet indices."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild normocytic anemia (Hb 11.6\u202fg/dL, Hct 37.5\u202f%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions: ischemic heart disease, possible COPD, Alzheimer\u2019s disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Presence of CKD and heart failure (both common causes of ACD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In the setting of chronic heart failure, possible CKD, and systemic inflammation, the most common cause of a mild normocytic anemia in the elderly is anemia of chronic disease."
+    },
+    {
+      "rank": 5,
+      "name": "Infection (urinary tract infection or lower respiratory infection) as a decompensation trigger",
+      "icd10": "N39.0",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia could represent consumptive response to infection in the elderly",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Advanced age and functional impairment increase infection risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented recent infection, but social isolation raises concern for missed diagnosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Even a subtle infection can precipitate heart\u2011failure decompensation and worsen anemia in frail elders; however, no objective infection data are currently available."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic obstructive pulmonary disease / asthma\u2011COPD overlap",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescriptions for budesonide inhalation suspension and albuterol inhalation solution",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age\u2011related risk; smoking history not documented but likely",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Airway disease likely contributes to dyspnea and systemic inflammation but does not explain the cytopenias."
+    },
+    {
+      "rank": 7,
+      "name": "Alzheimer\u2019s disease (advanced)",
+      "icd10": "G30.9",
+      "snomed": "428351000124105",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed 2007, on memantine",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation and limited caregiver support",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced neurodegeneration limits the patient\u2019s ability to report symptoms and adhere to therapy, acting as a functional modifier rather than a primary driver of the current lab abnormalities."
+    },
+    {
+      "rank": 8,
+      "name": "Alcoholic liver disease (steatohepatitis / early cirrhosis)",
+      "icd10": "K70.30",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing heavy alcohol use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline\u2011high iron saturation (53.5\u202f%) suggesting possible secondary iron overload",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Liver disease could contribute to coagulopathy and iron dysregulation, but no liver function tests are available to confirm."
+    },
+    {
+      "rank": 9,
+      "name": "Medication\u2011induced cytopenia (clopidogrel / prasugrel)",
+      "icd10": "D68.9",
+      "snomed": "418452003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy with clopidogrel and prasugrel",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukopenia and falling platelet count",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Drug\u2011induced marrow suppression is rare with these agents; considered only after more common etiologies are excluded."
+    }
+  ],
+  "primary_diagnosis": "Ischemic cardiomyopathy with heart failure with preserved ejection fraction (HFpEF)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is an 80\u2011year\u2011old man with extensive ischemic heart disease (prior MI, CABG) and multiple cardiovascular risk factors (HTN, obesity, diabetes\u2011prediabetes). An elevated NT\u2011proBNP, chronic beta\u2011blocker and ARB use, and the typical HFpEF phenotype make ischemic cardiomyopathy with preserved ejection fraction the most likely primary problem. Concurrently, age\u2011related CKD is highly probable given hypertension, metabolic acidosis, and the lack of renal labs, and it contributes to anemia, fluid overload, and NT\u2011proBNP elevation. Progressive leukopenia, falling platelet counts, and an abnormal PDW in the setting of lifelong heavy alcohol use raise concern for alcohol\u2011related marrow toxicity versus early myelodysplastic syndrome. The mild normocytic anemia is best explained as anemia of chronic disease secondary to heart failure, CKD, and chronic inflammation. Infection remains a possible trigger for decompensation, while COPD, Alzheimer\u2019s disease, alcoholic liver disease, and medication\u2011induced cytopenia are less likely but still plausible contributors. The differential was ranked by root\u2011cause impact on the current presentation, with probabilities calibrated to reflect prevalence, supporting evidence, and existing data gaps.",
+  "unresolved_findings": [
+    "Platelet distribution width 240.4\u202ffL (likely laboratory error, needs repeat)",
+    "Borderline\u2011high iron saturation (53.5\u202f%) without a complete iron panel",
+    "Absence of renal function data (creatinine, eGFR, urine ACR)",
+    "No documented infection work\u2011up (urinalysis, chest imaging, inflammatory markers)"
+  ],
+  "recommended_workup": [
+    "Repeat CBC with differential and platelet indices (including PDW) to verify leukopenia, platelet trend, and PDW value",
+    "Comprehensive metabolic panel with serum creatinine, eGFR, BUN, electrolytes, and urinalysis with albumin\u2011creatinine ratio",
+    "Full iron studies (serum iron, ferritin, TIBC) and reticulocyte count",
+    "Vitamin B12, folate, and methylmalonic acid levels",
+    "Transthoracic echocardiogram to assess left\u2011ventricular ejection fraction, diastolic function, and volume status",
+    "Chest radiograph or CT scan to evaluate for COPD/asthma and other pulmonary pathology",
+    "Spirometry to quantify obstructive airway disease",
+    "DEXA scan for osteoporosis assessment and serum 25\u2011OH vitamin D level",
+    "Liver function tests (AST, ALT, GGT, alkaline phosphatase, bilirubin) and abdominal ultrasound if alcohol\u2011related liver disease is suspected",
+    "Peripheral blood smear and, if indicated, bone\u2011marrow aspirate/biopsy with cytogenetics to evaluate for myelodysplastic syndrome",
+    "Urinalysis and urine culture; consider blood cultures if systemic signs develop",
+    "CRP and/or procalcitonin to screen for occult infection",
+    "Social work / case management referral to address isolation, medication adherence, and home\u2011health support"
+  ]
+}

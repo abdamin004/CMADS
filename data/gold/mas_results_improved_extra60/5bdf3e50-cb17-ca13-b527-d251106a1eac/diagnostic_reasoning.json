@@ -1,0 +1,225 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End\u2011stage renal disease (ESRD) due to chronic allograft failure (chronic transplant nephropathy)",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 5.2\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal transplant performed in 1964 with long\u2011standing CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension, proteinuria, anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term calcineurin\u2011inhibitor immunosuppression (nephrotoxic)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The eGFR of 5.2\u202fmL/min/1.73\u202fm\u00b2 places the patient in ESRD, which is discordant with the problem\u2011list label of CKD\u20113. Decades of graft age, hypertension, proteinuria and calcineurin\u2011inhibitor exposure make chronic allograft nephropathy the most parsimonious explanation."
+    },
+    {
+      "rank": 2,
+      "name": "Acute kidney injury (AKI) superimposed on chronic allograft nephropathy",
+      "icd10": "N17.9",
+      "snomed": "709044007",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Occasional NSAID use for knee osteoarthritis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Calcineurin\u2011inhibitor based immunosuppression (nephrotoxic)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential volume depletion (limited resources, possible poor oral intake)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sudden discrepancy between recorded CKD\u20113 and current eGFR\u202f5.2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "In a patient with advanced chronic graft disease, any additional insult (NSAIDs, calcineurin\u2011inhibitor toxicity, dehydration) can precipitate an acute decline. Identifying and reversing AKI may improve residual renal function."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic (type\u202f2) nephropathy",
+      "icd10": "E11.22",
+      "snomed": "157141000119108",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity (BMI\u202f>\u202f30), pre\u2011diabetes, insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria and micro\u2011albuminuria documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of insulin\u2011requiring glucose dysregulation, hypertension and documented proteinuria fits the classic pattern of diabetic kidney disease, which likely contributed to the chronic decline of the transplanted kidney."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis / malignant\u2011hypertension injury",
+      "icd10": "I12.9",
+      "snomed": "59621000",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension documented since 1947",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011I/ARB on medication list (suggests attempts at BP control and proteinuria reduction)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent blood pressure readings available",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic uncontrolled systolic pressure leads to arteriolar hyalinosis and interstitial fibrosis, accelerating graft injury. In the absence of recent BP data, hypertensive nephrosclerosis remains a plausible co\u2011factor."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia (EPO deficiency) \u00b1 anemia of chronic disease",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <10\u202fmL/min/1.73\u202fm\u00b2 (EPO production markedly reduced)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No erythropoiesis\u2011stimulating agent listed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "When GFR falls below ~10\u202fmL/min, renal erythropoietin output collapses, producing a normocytic anemia. Lack of ESA therapy suggests this anemia is untreated."
+    },
+    {
+      "rank": 6,
+      "name": "Opportunistic infection of the graft (BK virus, CMV, urinary\u2011tract infection)",
+      "icd10": "B97.2",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic immunosuppression",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Rapid decline in graft function without clear hemodynamic cause",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sudden eGFR decline",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No infection work\u2011up documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Viral nephropathy (BK, CMV) or bacterial UTI can cause an abrupt graft dysfunction in immunosuppressed patients. The probability is lower than drug\u2011induced AKI but must be excluded because treatment differs."
+    },
+    {
+      "rank": 7,
+      "name": "Atherosclerotic cardiovascular disease (stable/unstable CAD, possible heart failure)",
+      "icd10": "I25.10",
+      "snomed": "401314000",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI (1979) and ongoing antiplatelet + statin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "This diagnosis is part of the patient\u2019s chronic comorbidity burden and may contribute to fatigue or fluid overload, but it does not directly explain the acute renal failure."
+    }
+  ],
+  "primary_diagnosis": "End\u2011stage renal disease (ESRD) due to chronic allograft failure (chronic transplant nephropathy)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The solitary objective abnormality\u2014eGFR 5.2\u202fmL/min/1.73\u202fm\u00b2\u2014places the patient in ESRD, which is discordant with the problem\u2011list labeling CKD\u20113. Decades of graft age, chronic hypertension, proteinuria, anemia, and long\u2011term calcineurin\u2011inhibitor exposure point to chronic allograft nephropathy as the dominant process. A superimposed AKI (NSAID use, possible volume depletion, or calcineurin\u2011inhibitor toxicity) likely accounts for the abrupt decline and is potentially reversible. Diabetic nephropathy and hypertensive nephrosclerosis are co\u2011existing chronic insults that have accelerated graft loss. CKD\u2011related anemia and opportunistic infection are secondary contributors that need evaluation. Atherosclerotic cardiovascular disease remains an important comorbidity but does not explain the current renal findings.",
+  "unresolved_findings": [
+    "Current blood pressure readings are missing \u2013 cannot assess hypertension control.",
+    "Recent tacrolimus/cyclosporine trough levels are unavailable.",
+    "Urine output trends and volume status data are absent.",
+    "HbA1c reported as 3.2\u202f% is likely erroneous; true glycemic control unknown.",
+    "No recent iron studies, vitamin B12/folate, or ESA use documented.",
+    "No calcium, phosphate, PTH, or vitamin D labs to evaluate secondary hyperparathyroidism.",
+    "No viral PCR (BK, CMV) or urine culture results to rule out infection.",
+    "Prostate cancer status (PSA trend, treatment) not provided."
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine/eGFR with 24\u2011hour urine output chart.",
+    "Therapeutic drug monitoring of calcineurin inhibitors (tacrolimus/cyclosporine levels).",
+    "Renal graft ultrasound with Doppler to assess size, cortical thickness, and vascular flow.",
+    "Allograft biopsy if AKI vs chronic rejection cannot be distinguished clinically.",
+    "Quantify proteinuria (24\u2011hour collection or spot urine protein\u2011to\u2011creatinine ratio).",
+    "Comprehensive metabolic panel including electrolytes, bicarbonate, calcium, phosphate, magnesium.",
+    "Iron studies, ferritin, transferrin saturation, vitamin B12, folate; consider ESA initiation if Hb <10\u202fg/dL.",
+    "Parathyroid hormone and 25\u2011OH vitamin D levels (screen for secondary hyperparathyroidism).",
+    "BK virus PCR, CMV PCR, and urine culture to exclude opportunistic infection.",
+    "Blood pressure measurement (clinic and home) and review of antihypertensive regimen.",
+    "Cardiovascular assessment: ECG, BNP, and transthoracic echocardiogram to evaluate for heart failure.",
+    "Review insulin regimen and obtain a reliable HbA1c; diabetes education referral.",
+    "Social work referral for transportation assistance, medication delivery, and psychosocial support.",
+    "Prostate cancer follow\u2011up: PSA trend, urology review, and consider imaging for obstruction."
+  ]
+}

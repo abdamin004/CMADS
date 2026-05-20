@@ -1,0 +1,215 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-induced renal hypoperfusion / acute kidney injury (ACE-I + NSAID \"triple-whammy\")",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent use of ACE inhibitor and NSAID in pregnancy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW and MPV suggesting platelet activation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (BP 149/98 mmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of an ACE inhibitor and NSAID can cause renal hypoperfusion leading to acute kidney injury, especially in the setting of hypertension and pregnancy, representing the most immediate threat."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 149/98 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson index 1, moderate clinical complexity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent elevated blood pressure meets criteria for essential hypertension and contributes to renal risk and potential preeclampsia."
+    },
+    {
+      "rank": 3,
+      "name": "Early/incipient preeclampsia (hypertensive disorder of pregnancy)",
+      "icd10": "O14.0",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension in pregnancy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of proteinuria data (pending)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension in pregnancy raises concern for preeclampsia, but lack of proteinuria/end\u2011organ dysfunction lowers certainty."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic iron-deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated MPV consistent with iron deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Known chronic anemia likely due to iron deficiency; contributes to overall maternal health but not primary driver of renal issue."
+    },
+    {
+      "rank": 5,
+      "name": "Underlying chronic kidney disease (stage 2\u20113) unmasked by drugs",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No baseline eGFR available; renal function unknown",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW/MPV may reflect renal microvascular changes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible pre\u2011existing CKD could be exacerbated by medication exposure, but lack of baseline labs makes this uncertain."
+    },
+    {
+      "rank": 6,
+      "name": "Gestational diabetes mellitus (progression from pre\u2011diabetes)",
+      "icd10": "O24.4",
+      "snomed": "237599001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "A1c 6.1% (prediabetic range)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prediabetes raises risk for GDM, but no glucose tolerance testing performed yet."
+    },
+    {
+      "rank": 7,
+      "name": "Fetal complications secondary to drug exposure (oligohydramnios, growth restriction)",
+      "icd10": "O36.5",
+      "snomed": "237599003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011risk medication exposure (ACE\u2011I + NSAID) in pregnancy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No fetal ultrasound data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Drug exposure could affect fetal growth and amniotic fluid, but no imaging data to confirm."
+    },
+    {
+      "rank": 8,
+      "name": "Metabolic syndrome (prediabetes, dyslipidemia, hypertension)",
+      "icd10": "E88.81",
+      "snomed": "237599004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c 6.1%) and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Incomplete lipid panel (missing total cholesterol, HDL, triglycerides)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Components present but insufficient data to fully support metabolic syndrome."
+    },
+    {
+      "rank": 9,
+      "name": "Opioid use disorder / opioid\u2011induced hyperalgesia",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low back pain managed with opioids",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documentation of opioid misuse criteria",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioid prescription present; disorder not clearly established."
+    }
+  ],
+  "primary_diagnosis": "Medication-induced renal hypoperfusion / acute kidney injury (ACE-I + NSAID \"triple-whammy\")",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The pregnant patient presents with uncontrolled stage 2 hypertension and concurrent ACE inhibitor and NSAID therapy, creating a high\u2011risk \"triple\u2011whammy\" scenario that most plausibly explains the acute renal hypoperfusion and potential AKI. Essential hypertension remains a significant chronic condition, while early preeclampsia is possible but lacks proteinuria or end\u2011organ data. Anemia, possible CKD, gestational diabetes, fetal growth concerns, metabolic syndrome, and opioid use are contributory but less likely primary drivers. Probabilities were adjusted to reflect the reviewer\u2019s emphasis on medication\u2011induced renal injury and to ensure the total sums to 1.0.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW) and mean platelet volume (MPV) without a specific hematologic disorder",
+    "Missing body mass index (BMI) and waist circumference",
+    "Absent eGFR calculation",
+    "No documented prenatal ultrasound or amniotic\u2011fluid assessment",
+    "Lack of allergy information",
+    "Incomplete lipid panel (no total cholesterol, HDL, triglycerides)"
+  ],
+  "recommended_workup": [
+    "Serum creatinine and eGFR to assess renal function baseline and trend",
+    "Urine protein/creatinine ratio or spot urine protein to evaluate for preeclampsia",
+    "Complete liver function panel and platelet count (preeclampsia labs)",
+    "Fetal ultrasound with biophysical profile and amniotic fluid index",
+    "Repeat CBC with iron studies to characterize anemia",
+    "Comprehensive lipid panel (total cholesterol, HDL, LDL, triglycerides)",
+    "BMI measurement and waist circumference",
+    "Review and discontinue ACE inhibitor and NSAID; consider alternative antihypertensive safe in pregnancy",
+    "Screening oral glucose tolerance test for gestational diabetes if >24 weeks gestation"
+  ]
+}

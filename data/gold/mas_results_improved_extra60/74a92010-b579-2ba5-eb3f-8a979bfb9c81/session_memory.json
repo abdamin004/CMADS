@@ -1,0 +1,202 @@
+{
+  "patient_uuid": "74a92010-b579-2ba5-eb3f-8a979bfb9c81",
+  "events": [
+    {
+      "event_type": "agent_start",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-19T20:49:04+00:00",
+      "summary": "Started ehr_analyst",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "ehr_analyst",
+      "timestamp": "2026-05-19T20:49:23+00:00",
+      "summary": "Completed ehr_analyst in 18990ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-19T20:49:04+00:00",
+      "summary": "Started lab_interpreter",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "lab_interpreter",
+      "timestamp": "2026-05-19T20:49:26+00:00",
+      "summary": "Completed lab_interpreter in 21311ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-19T20:49:26+00:00",
+      "summary": "Started diagnostic_reasoning",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "memory_recall",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-19T20:49:27+00:00",
+      "summary": "Recall returned 12, 0 passed quality filter (types=['DIRECT'], min_score=0.75, top_k=3)",
+      "payload": {
+        "candidates": 12,
+        "kept": 0,
+        "min_score": 0.75,
+        "top_k": 3,
+        "allowed_match_types": [
+          "DIRECT"
+        ],
+        "kept_summary": []
+      },
+      "tags": [
+        "diagnostic",
+        "memory_recall"
+      ]
+    },
+    {
+      "event_type": "critique",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-19T20:49:55+00:00",
+      "summary": "Round 1 critique: confidence=86, adequate=False",
+      "payload": {
+        "round": 1,
+        "confidence": 86,
+        "adequate": false
+      },
+      "tags": [
+        "diagnostic",
+        "critique"
+      ]
+    },
+    {
+      "event_type": "confidence_check",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-19T20:49:55+00:00",
+      "summary": "Round 1 confidence=86/100",
+      "payload": {
+        "round": 1,
+        "confidence": 86
+      },
+      "tags": [
+        "diagnostic",
+        "confidence"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-19T20:50:04+00:00",
+      "summary": "Final differential (8 dx, primary=Essential Hypertension with Metabolic\u2011vascular Syndrome, rounds=1)",
+      "payload": {
+        "rounds": 1,
+        "primary_diagnosis": "Essential Hypertension with Metabolic\u2011vascular Syndrome",
+        "primary_probability": 0.28,
+        "confidence_trajectory": [
+          86
+        ]
+      },
+      "tags": [
+        "diagnostic",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "diagnostic_reasoning",
+      "timestamp": "2026-05-19T20:50:04+00:00",
+      "summary": "Completed diagnostic_reasoning in 38479ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-19T20:50:04+00:00",
+      "summary": "Started clinical_reviewer",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "clinical_reviewer",
+      "timestamp": "2026-05-19T20:50:27+00:00",
+      "summary": "Completed clinical_reviewer in 23098ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_start",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-19T20:50:27+00:00",
+      "summary": "Started final_diagnosis",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "decision",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-19T20:50:35+00:00",
+      "summary": "Final refined diagnosis: Chronic Obstructive Pulmonary Disease \u2013 Emphysema dominant",
+      "payload": {
+        "primary_diagnosis": "Chronic Obstructive Pulmonary Disease \u2013 Emphysema dominant",
+        "primary_probability": 0.3,
+        "differential_size": 8
+      },
+      "tags": [
+        "refiner",
+        "final"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "final_diagnosis",
+      "timestamp": "2026-05-19T20:50:35+00:00",
+      "summary": "Completed final_diagnosis in 7573ms",
+      "payload": {},
+      "tags": [
+        "lifecycle"
+      ]
+    },
+    {
+      "event_type": "agent_complete",
+      "agent_id": "memory_consolidation",
+      "timestamp": "2026-05-19T20:50:37+00:00",
+      "summary": "Consolidated outcome for 'Early-stage Chronic Kidney Disease \u2013 Stage 3' (INDIRECT)",
+      "payload": {
+        "match_type": "INDIRECT",
+        "matched_diagnosis": "Early-stage Chronic Kidney Disease \u2013 Stage 3",
+        "rank": 3
+      },
+      "tags": [
+        "memory",
+        "consolidation"
+      ]
+    }
+  ]
+}

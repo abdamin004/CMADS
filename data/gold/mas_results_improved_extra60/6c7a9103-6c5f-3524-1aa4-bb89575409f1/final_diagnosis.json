@@ -1,0 +1,132 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (obesity-driven insulin-resistant state)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented in history",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic A1c 6.0%",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (HTN, obesity, prediabetes)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of obesity, prediabetes, and hypertension creates an insulin\u2011resistant milieu that fulfills criteria for metabolic syndrome and explains the patient\u2019s high\u2011risk cardiovascular profile."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of OSA without CPAP adherence data",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Symptoms of daytime somnolence and loud snoring reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is confirmed in the chart; lack of documented CPAP use suggests it remains untreated, contributing to hypertension and metabolic dysregulation."
+    },
+    {
+      "rank": 3,
+      "name": "Essential hypertension with resistant component",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 128/75 mmHg on clinic visit despite multiple antihypertensives",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Absence of thiazide diuretic and lack of ambulatory BP monitoring",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent elevated BP despite therapy raises suspicion for resistant hypertension, though confirmation requires out\u2011of\u2011clinic measurements and optimization of regimen."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No eGFR or urine albumin data available",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Long\u2011standing hypertension and prediabetes as risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors are present, but without renal function tests the diagnosis remains speculative; retained with low probability."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic normocytic anemia of mixed etiology (anemia of chronic disease \u00b1 iron deficiency)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia noted on CBC",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Iron studies, B12, folate pending",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is documented; without iron studies the exact cause cannot be delineated, but chronic disease and possible iron deficiency are plausible contributors."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (obesity-driven insulin-resistant state)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s profile of obesity, prediabetes, and hypertension aligns most closely with metabolic syndrome, which unifies the observed cardiovascular risk factors. Untreated obstructive sleep apnea further aggravates hypertension and metabolic dysfunction. While resistant hypertension is plausible, confirmation requires ambulatory monitoring. Early CKD and anemia are possible comorbidities but lack definitive laboratory confirmation at this time.",
+  "unresolved_findings": [
+    "Missing eGFR and urine albumin\u2011to\u2011creatinine ratio \u2013 cannot stage CKD",
+    "Single\u2011time\u2011point lipid panel (no trend data)",
+    "Low bicarbonate (22.5\u202fmmol/L) without arterial blood gas \u2013 etiology unclear",
+    "Exact cause of chronic anemia not defined (iron studies, B12, folate pending)",
+    "No documented CPAP use or adherence data for OSA"
+  ],
+  "recommended_workup": [
+    "Obtain serum creatinine, calculate eGFR, and urine albumin\u2011to\u2011creatinine ratio",
+    "Repeat fasting lipid panel to assess trends",
+    "Arterial blood gas to evaluate metabolic acidosis",
+    "Comprehensive anemia work\u2011up: ferritin, transferrin saturation, serum iron, B12, folate",
+    "Polysomnography or CPAP adherence download to verify treatment status",
+    "24\u2011hour ambulatory blood pressure monitoring to assess resistant or masked hypertension"
+  ]
+}

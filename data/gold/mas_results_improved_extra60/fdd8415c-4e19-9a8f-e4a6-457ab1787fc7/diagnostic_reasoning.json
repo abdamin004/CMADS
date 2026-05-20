@@ -1,0 +1,471 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven Metabolic Syndrome (essential hypertension, insulin resistance, early CKD)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.36,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (BP 157/90 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.2%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5 mg/dL (eGFR ~45-60)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social determinants (housing instability, transport problems, refugee status)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of uncontrolled hypertension, obesity, and impaired glucose tolerance in a young adult female points to metabolic syndrome as the primary driver of her cardiovascular risk and early renal dysfunction."
+    },
+    {
+      "rank": 2,
+      "name": "NSAID-exacerbated Chronic Kidney Disease",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 1.5 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic ibuprofen 400 mg PRN use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 4.7 mmol/L (rising trend)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs can cause afferent arteriole vasoconstriction and interstitial nephritis, explaining the modest rise in creatinine and contributing to hypertension."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of Chronic Disease (CKD-related)",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate anemia (problem list)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Erythrocyte count 4.1 \u00d710\u2076/\u00b5L (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine indicating CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD reduces erythropoietin production, leading to a normocytic, normochromic anemia consistent with the observed labs."
+    },
+    {
+      "rank": 4,
+      "name": "Iron-deficiency Anemia from Occult GI Blood Loss (NSAID-related)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic ibuprofen use",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Moderate anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies performed",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Levonorgestrel IUS reduces menstrual loss (makes GI loss more likely)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID-induced gastritis or ulceration can cause chronic blood loss, leading to iron deficiency; lack of iron studies prevents confirmation."
+    },
+    {
+      "rank": 5,
+      "name": "Primary Hyperaldosteronism (Conn syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237578009",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension without antihypertensive therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal potassium but rising trend",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome (potential confounder)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant hypertension in a young adult warrants screening for primary hyperaldosteronism despite normal potassium."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social stress and possible sleep disruption",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA can exacerbate hypertension and insulin resistance; screening is indicated given her risk profile."
+    },
+    {
+      "rank": 7,
+      "name": "Systemic Autoimmune Renal Disease (e.g., Lupus Nephritis)",
+      "icd10": "M32.9",
+      "snomed": "64572001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, Hispanic ethnicity",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD with anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No ANA or complement data (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Autoimmune nephritis can present with CKD and anemia; prevalence is higher in Hispanic women, so it remains a consideration."
+    },
+    {
+      "rank": 8,
+      "name": "Hypertensive Nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine consistent with CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of antihypertensive therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Longstanding uncontrolled hypertension can cause arteriolar sclerosis leading to CKD independent of NSAID exposure."
+    },
+    {
+      "rank": 9,
+      "name": "Thyroid Dysfunction (Hypo- or Hyperthyroidism)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and weight gain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid labs ordered (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid disorders can contribute to hypertension, dyslipidemia, and anemia; testing is inexpensive and warranted."
+    },
+    {
+      "rank": 10,
+      "name": "Early Diabetic Nephropathy",
+      "icd10": "E11.21",
+      "snomed": "44054006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.2%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Even pre\u2011diabetes can begin to affect renal microvasculature; early diabetic nephropathy is plausible."
+    },
+    {
+      "rank": 11,
+      "name": "Polycystic Ovary Syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female of reproductive age",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "PCOS can drive insulin resistance, hypertension, and dyslipidemia; hormonal evaluation is indicated."
+    },
+    {
+      "rank": 12,
+      "name": "Fibromuscular Dysplasia (renal\u2011artery stenosis)",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension without medication",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No secondary cause identified yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal artery stenosis can cause refractory hypertension in young adults; imaging would clarify."
+    },
+    {
+      "rank": 13,
+      "name": "Non\u2011alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver enzymes or imaging performed (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in metabolic syndrome and may affect drug metabolism."
+    },
+    {
+      "rank": 14,
+      "name": "Vitamin B12 / Folate Deficiency",
+      "icd10": "D51.9",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No B12/folate labs (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Macrocytic anemia can be masked; testing is inexpensive."
+    },
+    {
+      "rank": 15,
+      "name": "Psychiatric Disorder (Depression / Anxiety / PTSD)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, stress, housing instability",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No mental\u2011health screening performed (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychiatric conditions can impair adherence to lifestyle and medication regimens."
+    },
+    {
+      "rank": 16,
+      "name": "Cushing\u2019s Syndrome",
+      "icd10": "E24.9",
+      "snomed": "237578009",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, impaired glucose tolerance",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No cortisol testing performed (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rare but treatable cause of the metabolic cluster; screening indicated if other causes excluded."
+    },
+    {
+      "rank": 17,
+      "name": "Pheochromocytoma / Paraganglioma",
+      "icd10": "D35.0",
+      "snomed": "237578009",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension in a young adult",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No episodic symptoms documented (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although rare, pheochromocytoma can cause sustained hypertension; biochemical screening is low\u2011cost."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven Metabolic Syndrome (essential hypertension, insulin resistance, early CKD)",
+  "primary_probability": 0.36,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage\u20112 hypertension, obesity, and pre\u2011diabetes, all in the context of chronic NSAID use and social determinants that limit care access. These findings converge on metabolic syndrome as the dominant process, driving early CKD and anemia. Secondary contributors include NSAID\u2011related renal injury, CKD\u2011related anemia, and possible iron loss. Less common but clinically important alternatives (primary hyperaldosteronism, sleep apnea, autoimmune nephritis, endocrine disorders) are retained in the differential pending targeted testing.",
+  "unresolved_findings": [
+    "Markedly increased platelet distribution width (PDW 500.1 fL)",
+    "Rising serum potassium (still within normal range)",
+    "Single blood pressure measurement only",
+    "Missing lipid panel",
+    "Missing iron studies (ferritin, serum iron, TIBC)",
+    "No urinalysis or proteinuria data",
+    "Absent family history of cardiovascular or renal disease",
+    "Unknown smoking and alcohol use"
+  ],
+  "recommended_workup": [
+    "Urinalysis with albumin\u2011to\u2011creatinine ratio (UACR)",
+    "Serum iron studies: ferritin, serum iron, TIBC, transferrin saturation",
+    "Fecal occult blood test (FOBT) or FIT; if positive, consider upper endoscopy",
+    "Plasma aldosterone concentration and plasma renin activity (ARR) for primary hyperaldosteronism",
+    "Thyroid panel (TSH, free T4)",
+    "24\u2011hour urinary free cortisol or overnight dexamethasone suppression test for Cushing's syndrome",
+    "Plasma free metanephrines or urinary fractionated metanephrines for pheochromocytoma",
+    "ANA, anti\u2011dsDNA, complement C3/C4 for systemic autoimmune disease",
+    "Home sleep apnea test (HSAT) or polysomnography",
+    "Abdominal ultrasound or FibroScan for NAFLD/NASH assessment",
+    "Serum vitamin B12 and folate levels",
+    "PHQ\u20119, GAD\u20117, and PTSD screening questionnaires",
+    "Three separate office blood pressure readings or 24\u2011hour ambulatory blood pressure monitoring",
+    "Comprehensive medication reconciliation focusing on OTC NSAID frequency",
+    "Pelvic ultrasound and hormonal panel (total testosterone, LH/FSH) if PCOS suspected"
+  ]
+}

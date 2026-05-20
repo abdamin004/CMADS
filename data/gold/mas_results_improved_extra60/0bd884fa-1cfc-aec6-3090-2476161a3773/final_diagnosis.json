@@ -1,0 +1,162 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease secondary to diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 chronic kidney disease with eGFR <15\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and BUN consistent with ESRD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type\u202f2 diabetes mellitus",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced diabetic nephropathy has progressed to ESRD, explaining the markedly reduced renal function and the need for dialysis."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin\u2011related overtreatment causing recurrent hypoglycemia (pseudo\u2011low A1c)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.3,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High insulin dose regimen in a patient with ESRD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low HbA1c despite documented episodes of hypoglycemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent ketonuria with low glucose readings",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced renal clearance of insulin in ESRD predisposes to insulin accumulation, leading to recurrent hypoglycemia and an artifactual low HbA1c."
+    },
+    {
+      "rank": 3,
+      "name": "Congestive hepatopathy (hepatic congestion) secondary to right\u2011sided heart failure",
+      "icd10": "I50.9",
+      "snomed": "42343007",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.9\u202fmg/dL (severity\u202f3) without known liver disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of ischemic cardiomyopathy and chronic heart failure",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Physical exam notes suggestive of volume overload (elevated JVP, peripheral edema)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Right\u2011sided heart failure can cause hepatic venous congestion, leading to conjugated bilirubin spilling into urine; this explains the isolated urine bilirubin finding."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "429858007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f5 CKD with markedly reduced renal phosphate excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absent calcium/phosphate/PTH values (pending), but biochemical disturbance is expected at this GFR",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD inevitably leads to disturbances in calcium\u2011phosphate metabolism and secondary hyperparathyroidism."
+    },
+    {
+      "rank": 5,
+      "name": "Metformin\u2011associated lactic acidosis (MALA) risk",
+      "icd10": "E87.2",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Continued metformin therapy despite ESRD",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No serum lactate measured; risk remains elevated",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metformin accumulation in the setting of renal failure predisposes to lactic acidosis; lack of lactate data keeps this as a risk rather than a confirmed diagnosis."
+    },
+    {
+      "rank": 6,
+      "name": "Ischemic cardiomyopathy with chronic heart failure",
+      "icd10": "I25.5",
+      "snomed": "413839001",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented coronary artery disease and prior myocardial infarction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Symptoms of dyspnea and reduced exercise tolerance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Ischemic injury contributes to chronic systolic dysfunction, which may exacerbate renal congestion and hepatic congestion."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease secondary to diabetic nephropathy",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s advanced diabetic nephropathy has progressed to ESRD, which dominates the clinical picture. Renal failure impairs insulin clearance, explaining the pseudo\u2011low HbA1c and recurrent hypoglycemia. Ongoing metformin use raises concern for lactic acidosis, while the low GFR predisposes to CKD\u2011MBD. Positive urine bilirubin without liver disease is best accounted for by hepatic congestion secondary to right\u2011sided heart failure, a complication of the known ischemic cardiomyopathy. Probabilities were calibrated to reflect the reviewer\u2019s adjustments and the addition of the hepatic congestion diagnosis.",
+  "unresolved_findings": [
+    "Very low urine specific gravity (1.0) \u2013 could reflect diabetes insipidus or infection",
+    "Borderline high potassium (4.9\u202fmmol/L) \u2013 risk of impending hyperkalaemia",
+    "Absence of serum lactate, arterial blood gas, calcium/phosphate/PTH values"
+  ],
+  "recommended_workup": [
+    "Serum lactate and arterial blood gas to assess for lactic acidosis",
+    "Comprehensive metabolic panel including calcium, phosphate, and PTH",
+    "Repeat serum potassium and ECG monitoring",
+    "Echocardiogram with assessment of right\u2011ventricular function",
+    "Liver function tests (AST, ALT, ALP, total and direct bilirubin)",
+    "Urine osmolality and repeat urinalysis to evaluate low specific gravity",
+    "Continuous glucose monitoring to quantify hypoglycemia episodes"
+  ]
+}

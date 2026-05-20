@@ -1,0 +1,195 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension \u2013 under-treated",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 140 mmHg, DBP 88 mmHg) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Only one antihypertensive (amlodipine) prescribed, likely sub\u2011therapeutic dose",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Young adult female with moderate clinical complexity, no secondary causes identified",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has persistent stage 2 hypertension with minimal pharmacologic therapy, consistent with under\u2011treated essential hypertension. Absence of clear secondary causes and the prevalence of essential hypertension support this as the primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Medication non\u2011adherence / sub\u2011optimal dosing",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports transportation barriers affecting follow\u2011up visits",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented refill history or pharmacy verification for amlodipine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Social determinants (transportation) may lead to missed doses or delayed medication adjustments, contributing to uncontrolled blood pressure."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated heart rate (93 bpm) and borderline obesity noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Risk factors for OSA (female, possible overweight, hypertension) present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA can cause resistant hypertension; although symptoms are undocumented, risk factors justify inclusion."
+    },
+    {
+      "rank": 4,
+      "name": "Primary aldosteronism (Conn's syndrome)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent hypertension despite monotherapy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While less likely without hypokalemia or ARR data, primary aldosteronism remains a possible secondary cause."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic syndrome (early)",
+      "icd10": "E88.81",
+      "snomed": "237599009",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Overweight description and normal lipid panel; glucose data missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Two of five criteria (elevated BP, overweight) are present; missing glucose/HbA1c limits certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Renovascular hypertension / early chronic kidney disease",
+      "icd10": "I15.0",
+      "snomed": "237599001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented abdominal bruit or sudden BP escalation, but renal function not assessed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absence of renal labs makes this less likely, yet cannot be excluded without further testing."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic rhinosinusitis \u2013 contributor to systemic inflammation",
+      "icd10": "J32.9",
+      "snomed": "444814009",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis noted in problem list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inflammatory burden may modestly elevate BP, but impact is likely minor."
+    },
+    {
+      "rank": 8,
+      "name": "Drug\u2011induced hypertension (NSAIDs, OTC decongestants)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented OTC or NSAID use, but possibility cannot be ruled out",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential contributor if patient uses over\u2011the\u2011counter agents not captured in the record."
+    },
+    {
+      "rank": 9,
+      "name": "Thyroid dysfunction (hypothyroidism)",
+      "icd10": "E03.9",
+      "snomed": "1240561009",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Thyroid function tests (TSH, free T4) are missing",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypothyroidism can cause diastolic hypertension and elevated heart rate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reviewer highlighted omission of thyroid dysfunction; given missing labs, it warrants inclusion."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension \u2013 under-treated",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "The patient\u2019s persistent stage 2 hypertension, limited antihypertensive regimen, and barriers to care point to under\u2011treated essential hypertension as the most likely diagnosis. Contributing factors include possible medication non\u2011adherence, undiagnosed obstructive sleep apnea, early metabolic syndrome, and unassessed secondary causes such as primary aldosteronism, renovascular disease, thyroid dysfunction, and drug\u2011induced hypertension. Chronic rhinosinusitis may add a modest inflammatory component. Missing laboratory data (renal function, electrolytes, aldosterone/renin, glucose, thyroid panel) limit definitive exclusion of secondary etiologies.",
+  "unresolved_findings": [
+    "Missing basic metabolic panel (creatinine, eGFR, potassium).",
+    "Absent plasma aldosterone concentration and renin activity.",
+    "No fasting glucose/HbA1c or waist circumference for metabolic syndrome assessment.",
+    "Thyroid function tests (TSH, free T4) not performed.",
+    "No documented OTC medication or supplement use.",
+    "No sleep study or polysomnography data to evaluate OSA.",
+    "Unclear adherence to prescribed amlodipine due to transportation barriers."
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with electrolytes and renal function.",
+    "Plasma aldosterone concentration and plasma renin activity (ARR).",
+    "Fasting glucose and HbA1c; measure waist circumference.",
+    "Thyroid panel: TSH and free T4.",
+    "Review pharmacy refill records for amlodipine adherence.",
+    "Sleep study (polysomnography) to assess for OSA.",
+    "24\u2011hour ambulatory blood pressure monitoring.",
+    "Renal artery Doppler ultrasound if ARR suggests secondary hypertension."
+  ]
+}

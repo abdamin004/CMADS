@@ -1,0 +1,111 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease (ESRD) secondary to diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes mellitus with >15 years duration",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 9.2 mg/dL, eGFR <15 mL/min/1.73m\u00b2, on chronic dialysis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented dialysis schedule three times weekly",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long-standing diabetes with progressive decline in renal function culminating in eGFR <15 and requirement for dialysis fulfills criteria for ESRD secondary to diabetic nephropathy, which dominates the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Opioid Use Disorder with chronic low-back pain",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic prescription of high-dose opioid analgesics for low-back pain",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinician notes describing \u201copioid seeking behavior\u201d and \u201cabuse language\u201d",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long-term high-dose opioid therapy for back pain and documented language indicating misuse supports a diagnosis of opioid use disorder, which impacts management and transplant candidacy."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.0 g/dL, hematocrit 28%, low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 5 on dialysis",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD impairs erythropoietin production, making anemia virtually inevitable; laboratory values confirm a moderate anemia consistent with CKD\u2011related anemia."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease (high risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, hyperlipidemia, and 30\u2011pack\u2011year smoking history",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011year ASCVD risk >20%",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s risk factor profile (HTN, dyslipidemia, smoking, diabetes) places them in a high\u2011risk ASCVD category, warranting cardiac evaluation prior to transplant despite no documented CAD."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease (ESRD) secondary to diabetic nephropathy",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is ESRD from long\u2011standing diabetic nephropathy, supported by renal labs and dialysis dependence. Co\u2011existing opioid use disorder significantly affects pain management and transplant eligibility. Anemia is a direct consequence of the ESRD. The cumulative cardiovascular risk profile mandates a high\u2011risk ASCVD designation, influencing pre\u2011transplant cardiac work\u2011up. Unresolved comorbidities such as possible OSA, COPD, chronic sinusitis, and psychosocial stressors remain to be evaluated.",
+  "unresolved_findings": [
+    "Chronic sinusitis (onset 1987) \u2013 no recent ENT evaluation or imaging",
+    "Psychosocial stressors (intimate\u2011partner abuse, recent stress, criminal record) \u2013 no formal psychiatric diagnosis documented",
+    "Potential obstructive sleep apnea \u2013 risk factors present (obesity, opioid use) but no sleep study performed",
+    "Possible chronic obstructive pulmonary disease \u2013 smoking history but no pulmonary function testing"
+  ],
+  "recommended_workup": [
+    "Polysomnography to assess for obstructive sleep apnea",
+    "Pulmonary function testing to evaluate for COPD",
+    "Cardiac stress testing or coronary CT angiography for ASCVD risk stratification",
+    "Comprehensive addiction assessment (e.g., DSM\u20115 criteria, urine drug screen)",
+    "Psychosocial evaluation and safety planning for intimate\u2011partner violence",
+    "ENT referral for chronic sinusitis imaging",
+    "Dialysis adequacy assessment (Kt/V, urea reduction ratio)"
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (CKD\u20115 secondary to long\u2011standing type 2 diabetes)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (values 3.4\u202fmg/dL and 2.2\u202fmg/dL) consistent with advanced CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High risk for diabetic kidney disease based on duration of diabetes and age",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing type 2 diabetes and markedly reduced renal function points to diabetic nephropathy as the primary driver of ESRD."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (contributory)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension noted in past medical history",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria without overt diabetic retinopathy reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension can accelerate renal injury in diabetics; although not sufficient alone to explain macro\u2011albuminuria, it likely contributes to CKD progression."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease\u2011mineral and bone disorder (CKD\u2011MBD)",
+      "icd10": "N25.0",
+      "snomed": "236423005",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease (stage 5) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing calcium, phosphate, PTH, vitamin D labs noted",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is expected in ESRD; lack of laboratory data hampers precise characterization but the diagnosis remains highly plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20115 status documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No hemoglobin value recorded; anemia expected in this stage",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to anemia due to reduced erythropoietin production; supported by disease stage despite missing labs."
+    },
+    {
+      "rank": 5,
+      "name": "Atherosclerotic cardiovascular disease (silent CAD / PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular risk profile (diabetes, CKD, age)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated ASCVD risk score calculated by algorithm",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the risk factors, silent coronary or peripheral disease is plausible, though no imaging has been performed."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure with preserved ejection fraction (cardiorenal syndrome)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion and peripheral edema noted in clinical notes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BNP not recorded; however, volume overload common in CKD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Volume overload in CKD can precipitate HFpEF; important for transplant candidacy."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / anxiety secondary to psychosocial stressors",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documentation of significant psychosocial stressors (loss of employment, caregiver burden)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial burden in ESRD patients often leads to mood disorders; screening is pending."
+    },
+    {
+      "rank": 8,
+      "name": "Suboptimal renin\u2011angiotensin system blockade / missed SGLT2\u2011i therapy",
+      "icd10": "Z92.21",
+      "snomed": "160573003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No ACE\u2011I/ARB or SGLT2\u2011i listed in medication list",
+          "strength": "strong"
+        },
+        {
+          "source": "guideline",
+          "finding": "Guidelines recommend ACE\u2011I/ARB and SGLT2\u2011i for diabetic CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Omission of guideline\u2011directed therapy represents a modifiable contributor to disease progression."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension documented, both risk factors for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High prevalence in this population; screening warranted but diagnosis not yet established."
+    },
+    {
+      "rank": 10,
+      "name": "NSAID\u2011related chronic tubulointerstitial injury",
+      "icd10": "N14.2",
+      "snomed": "236423004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Occasional NSAID use noted in medication reconciliation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID exposure may aggravate CKD but is unlikely to be the primary driver of ESRD."
+    },
+    {
+      "rank": 11,
+      "name": "Obstructive uropathy or renal artery stenosis (potential reversible cause)",
+      "icd10": "I70.2",
+      "snomed": "236423006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging of kidneys/renal arteries performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unlikely given diabetic pattern, but imaging is needed to exclude a treatable component."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (CKD\u20115 secondary to long\u2011standing type 2 diabetes)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s advanced CKD is most consistently explained by long\u2011standing type 2 diabetes, supported by documented diabetes history and markedly elevated creatinine values. Hypertension, suboptimal use of renin\u2011angiotensin blockade and SGLT2\u2011i therapy, and a high cardiovascular risk profile act as important contributors. Expected complications of ESRD\u2014anemia, CKD\u2011MBD, and possible HFpEF\u2014are incorporated. Psychosocial stressors raise the likelihood of mood disorder, while other entities (NSAID injury, obstructive uropathy, OSA) remain low\u2011probability differentials pending further evaluation.",
+  "unresolved_findings": [
+    "Discordant serum creatinine values (3.4\u202fmg/dL vs 2.2\u202fmg/dL)",
+    "Missing current blood\u2011pressure measurements",
+    "Implausible HbA1c value of 3.1% (likely data entry error)",
+    "Absent CKD\u2011MBD laboratory panel (calcium, phosphate, PTH, vitamin D)",
+    "No documented dialysis modality or schedule despite ESRD status",
+    "Lack of cardiac imaging or stress testing",
+    "No formal mental\u2011health screening despite psychosocial stressors",
+    "No sleep study or OSA screening"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c measurement to verify glycemic control",
+    "Obtain a repeat serum creatinine and calculate eGFR to resolve discrepancy",
+    "24\u2011hour ambulatory blood\u2011pressure monitoring or office BP measurements",
+    "Renal ultrasound with Doppler to assess for obstruction or renal artery stenosis",
+    "Comprehensive CKD\u2011MBD labs: calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Complete blood count with iron studies to quantify anemia",
+    "Echocardiogram and, if indicated, stress testing to evaluate for silent CAD and HFpEF",
+    "Screen for obstructive sleep apnea (home sleep apnea test or polysomnography)",
+    "Formal depression and anxiety screening tools (PHQ\u20119, GAD\u20117)",
+    "Initiate guideline\u2011directed therapy: ACE\u2011I or ARB and SGLT2\u2011i if not contraindicated",
+    "Document dialysis modality (hemodialysis vs peritoneal) and adequacy parameters"
+  ]
+}

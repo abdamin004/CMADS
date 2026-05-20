@@ -1,0 +1,158 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute non\u2011ST elevation myocardial infarction (NSTEMI)",
+      "icd10": "I21.4",
+      "snomed": "401314000",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list records acute NSTEMI onset 2025\u201104\u201104",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity troponin I 21.1\u202fng/L (elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk\u2011factor profile: age 71, male, hypertension, hyperlipidemia, obesity, prior MI",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The EHR explicitly documents an acute NSTEMI and the troponin is markedly elevated. The patient\u2019s classic ASCVD risk profile makes an acute coronary syndrome the most parsimonious explanation for his presentation."
+    },
+    {
+      "rank": 2,
+      "name": "Stage 5 chronic kidney disease (CKD\u20115) \u2013 non\u2011dialysis dependent",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.9\u202fmg/dL with eGFR 7.3\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension treated with labetalol and lisinopril; obesity; prior anemia (2021) consistent with CKD\u2011related anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory values unequivocally demonstrate severe renal impairment consistent with CKD\u20115, which also influences cardiovascular risk and medication dosing."
+    },
+    {
+      "rank": 3,
+      "name": "Statin\u2011associated cholestatic liver injury",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin markedly elevated at 7.5\u202fmg/dL (cholestatic pattern suspected)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent high\u2011intensity atorvastatin 80\u202fmg and duplicate simvastatin 10\u202fmg entries suggest possible over\u2011exposure",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented chronic liver disease or biliary pathology",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High\u2011dose statins, especially when duplicated, can cause cholestatic hepatitis. The isolated hyperbilirubinemia without other liver disease makes a drug\u2011induced injury plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Biliary obstruction (choledocholithiasis or malignant obstruction)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe hyperbilirubinemia (7.5\u202fmg/dL) without accompanying transaminase data",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >70, obesity, metabolic syndrome \u2013 risk factors for gallstone disease and cholangiocarcinoma",
+          "strength": "weak"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Absence of ALP, GGT, or imaging data to characterize cholestasis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obstructive biliary disease is a common cause of marked bilirubin elevation and must be excluded with imaging and a full liver panel."
+    },
+    {
+      "rank": 5,
+      "name": "Cardiac hepatopathy (congestive hepatic injury)",
+      "icd10": "K76.0",
+      "snomed": "302810001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI with potential left\u2011ventricular dysfunction (no echo performed yet)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated bilirubin could be secondary to hepatic congestion",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f5 CKD limits fluid excretion, predisposing to volume overload",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No cardiac imaging to assess LV function or right\u2011sided pressures",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Acute myocardial injury may impair cardiac output, leading to passive hepatic congestion and bilirubin rise, especially in the setting of severe CKD and possible volume overload."
+    }
+  ],
+  "primary_diagnosis": "Acute non\u2011ST elevation myocardial infarction (NSTEMI)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The acute NSTEMI is the dominant diagnosis supported by explicit problem list entries and a high troponin. Advanced CKD is a confirmed chronic comorbidity that shapes management and contributes to cardiovascular risk. The unexplained hyperbilirubinemia is most plausibly a statin\u2011related cholestatic injury, but biliary obstruction and cardiac hepatopathy remain viable alternatives pending further testing. Probabilities were allocated to reflect the relative strength of evidence while ensuring the total sums to 1.0.",
+  "unresolved_findings": [
+    "Etiology of severe hyperbilirubinemia (drug\u2011induced vs obstructive vs congestive)",
+    "Current blood\u2011pressure values and control status",
+    "Full liver enzyme panel (AST, ALT, ALP, GGT, INR, albumin) and bilirubin fractionation",
+    "Cardiac imaging (echocardiogram) to assess LV function and rule in/out cardiac hepatopathy",
+    "Abdominal imaging to evaluate for biliary obstruction",
+    "Potential acute\u2011on\u2011chronic contributors to CKD (e.g., recent contrast, NSAIDs)",
+    "Smoking status, family history of cardiovascular disease, and hepatitis serologies"
+  ],
+  "recommended_workup": [
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, direct vs indirect bilirubin, INR, albumin)",
+    "Abdominal ultrasound with Doppler; if inconclusive, proceed to MRCP or CT abdomen for biliary evaluation",
+    "Transthoracic echocardiogram to assess left\u2011ventricular systolic function, wall\u2011motion abnormalities, and signs of hepatic congestion",
+    "In\u2011clinic blood\u2011pressure measurement or ambulatory monitoring to determine hypertension control",
+    "Renal ultrasound to exclude obstructive uropathy and guide CKD\u20115 management",
+    "Nephrology consultation for CKD\u20115 medication dosing, hyper\u2011kalemia monitoring, and renal replacement planning",
+    "Medication reconciliation focusing on statin dosing, potential drug\u2011drug interactions, and initiation of a P2Y12 inhibitor unless contraindicated",
+    "Viral hepatitis screening (HBsAg, anti\u2011HBc, HCV antibody) given unexplained cholestasis",
+    "Social work referral to address housing instability and medication adherence barriers",
+    "Repeat troponin trend and 12\u2011lead ECG; consider telemetry for arrhythmia detection"
+  ]
+}

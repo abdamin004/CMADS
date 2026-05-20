@@ -1,0 +1,341 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Resistant / uncontrolled hypertension (including secondary causes)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.32,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (long\u2011standing) \u2013 major driver of CKD progression",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide monotherapy \u2013 no ACE\u2011I/ARB or ARNI",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) \u2013 contributes to resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea syndrome \u2013 worsens hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality flag",
+          "finding": "Missing current blood pressure values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing essential hypertension, obesity, OSA, and thiazide\u2011only regimen suggest poor control. Absence of BP measurements prevents confirmation of true resistance, but the constellation of risk factors yields a moderate\u2011high likelihood."
+    },
+    {
+      "rank": 2,
+      "name": "Advanced diabetic nephropathy (diabetic/hypertensive CKD stage 4\u20115)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.32,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD)\u202f=\u202f16.2\u202fmL/min/1.73\u202fm\u00b2 \u2013 severe reduction (stage\u202f4\u20115 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum Creatinine\u202f=\u202f2.3\u202fmg/dL \u2013 markedly elevated, rising trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein (dip\u2011stick)\u202f=\u202f411\u202fmg/dL \u2013 significant proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Micro\u2011albuminuria \u2013 diabetic kidney disease marker",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type\u202f2 diabetes mellitus (inferred from problem list)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease \u2013 stage\u202f4 (SNOMED\u202f431857002) \u2013 primary active problem",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Objective renal labs (eGFR\u202f16, high creatinine, heavy proteinuria) together with documented diabetes and micro\u2011albuminuria provide a high\u2011likelihood diagnosis of advanced diabetic nephropathy."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related anemia (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.126,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (SNOMED\u202f271737000) \u2013 active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical inference",
+          "finding": "CKD\u2011related anemia \u2013 implied by eGFR\u202f<\u202f20\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW \u2013 platelet size variability seen in CKD\u2011associated dysfunction",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe CKD (eGFR\u202f16) commonly leads to reduced erythropoietin production, explaining the documented anemia."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic renal\u2011artery stenosis (secondary hypertension)",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension, obesity, and atherosclerotic risk profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension suspicion (no ACE\u2011I/ARB, thiazide only)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In an older, obese, hypertensive patient with uncontrolled BP on limited therapy, atherosclerotic RAS is a plausible secondary cause."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF) \u2013 cardiorenal syndrome",
+      "icd10": "I50.3",
+      "snomed": "423990008",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea \u2013 contributes to HFpEF",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine (specific gravity\u202f1.000) \u2013 may reflect volume overload",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin\u202f=\u202f1.2\u202fmg/dL \u2013 could indicate hepatic congestion from right\u2011sided HF",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA, hypertension, obesity, and dilute urine suggest possible HFpEF contributing to cardiorenal interaction."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hyper\u2011aldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "235719002",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension + obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Possible but no biochemical or imaging data; kept low\u2011moderate probability."
+    },
+    {
+      "rank": 7,
+      "name": "Analgesic\u2011related interstitial nephropathy",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain treated with acetaminophen/oxycodone",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low ALP\u202f=\u202f25.4\u202fU/L \u2013 nonspecific, could reflect renal tubular injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic acetaminophen use can cause tubulointerstitial injury; no urine eosinophils yet."
+    },
+    {
+      "rank": 8,
+      "name": "Iron\u2011deficiency anemia (possible occult GI bleed)",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia documented without iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical inference",
+          "finding": "Potential occult GI blood loss in CKD patient",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia could be multifactorial; iron deficiency remains possible."
+    },
+    {
+      "rank": 9,
+      "name": "Primary glomerulonephritis (unspecified)",
+      "icd10": "N00",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Heavy proteinuria (411\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality flag",
+          "finding": "No urine microscopy provided",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Proteinuria could stem from glomerulonephritis, but lack of sediment data keeps probability low."
+    },
+    {
+      "rank": 10,
+      "name": "Monoclonal gammopathy / light\u2011chain deposition disease",
+      "icd10": "D47.2",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical inference",
+          "finding": "CKD with proteinuria in older adult \u2013 rare cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible but no serum/urine protein electrophoresis performed."
+    },
+    {
+      "rank": 11,
+      "name": "Non\u2011alcoholic fatty liver disease (early steatohepatitis)",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive \u2013 unexplained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity predisposes to NAFLD; urinary bilirubin is atypical but may hint at hepatic congestion."
+    },
+    {
+      "rank": 12,
+      "name": "CKD\u2011related mineral\u2011bone disorder (adynamic/low\u2011turnover bone disease)",
+      "icd10": "N25.0",
+      "snomed": "236423003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low alkaline phosphatase\u202f=\u202f25.4\u202fU/L",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low ALP could reflect low\u2011turnover bone disease in advanced CKD."
+    },
+    {
+      "rank": 13,
+      "name": "Mild hemolysis (drug\u2011induced or mechanical)",
+      "icd10": "D55.9",
+      "snomed": "271737000",
+      "probability": 0.003,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin\u202f=\u202f1.2\u202fmg/dL \u2013 could indicate hemolysis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated urinary bilirubin without other hemolysis markers makes this unlikely."
+    },
+    {
+      "rank": 14,
+      "name": "Pheochromocytoma / Cushing\u2019s syndrome (unlikely)",
+      "icd10": "C74.1",
+      "snomed": "236423003",
+      "probability": 0.001,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical inference",
+          "finding": "No episodic symptoms, cortisol excess signs, or catecholamine data",
+          "strength": "very weak"
+        }
+      ],
+      "reasoning": "No supporting clinical clues; retained only to acknowledge completeness."
+    }
+  ],
+  "primary_diagnosis": "Resistant / uncontrolled hypertension (including secondary causes)",
+  "primary_probability": 0.32,
+  "clinical_reasoning_summary": "The patient is an older adult with severe CKD (eGFR\u202f16, proteinuria, micro\u2011albuminuria) in the setting of long\u2011standing type\u202f2 diabetes, hypertension, obesity, and OSA. Objective renal data strongly support advanced diabetic nephropathy, while the medication regimen (thiazide\u2011only) and lack of BP measurements raise concern for resistant hypertension, which may be primary or secondary (e.g., renal\u2011artery stenosis). CKD\u2011related anemia explains the documented anemia. Secondary contributors such as HFpEF, primary hyper\u2011aldosteronism, analgesic nephropathy, and iron\u2011deficiency anemia are plausible but less supported. Several laboratory findings (urine bilirubin, low ALP, dilute urine, ketonuria, elevated PDW) remain unexplained and warrant targeted evaluation.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (1.2\u202fmg/dL) \u2013 not typical for isolated CKD",
+    "Low alkaline phosphatase (25.4\u202fU/L) \u2013 opposite of high ALP seen in CKD\u2011MBD",
+    "Elevated platelet distribution width (462\u202ffL) \u2013 nonspecific",
+    "Urine ketones (3.4\u202fmg/dL) \u2013 significance unclear without glucose data",
+    "Very dilute urine (specific gravity\u202f1.000) \u2013 could be over\u2011hydration, diuretic effect, or loss of concentrating ability"
+  ],
+  "recommended_workup": [
+    "Obtain current clinic and home blood pressure readings (including orthostatic measurements)",
+    "Measure HbA1c (or fasting glucose) and repeat urine ketones",
+    "Plasma renin activity, aldosterone level, and aldosterone\u2011to\u2011renin ratio",
+    "Renal\u2011artery imaging (Doppler ultrasound, CTA, or MRA) if renin/aldosterone suggest secondary hypertension",
+    "Transthoracic echocardiogram to assess for HFpEF and diastolic dysfunction",
+    "Serum iron studies (Ferritin, TIBC, transferrin saturation) plus B12/folate levels",
+    "Comprehensive urine microscopy (RBC/WBC casts, eosinophils, dysmorphic RBCs)",
+    "Serum free light\u2011chains, SPEP/UPEP to evaluate for monoclonal gammopathy",
+    "Full liver panel (AST, ALT, GGT, total and direct bilirubin, albumin) to investigate urinary bilirubin",
+    "Detailed medication reconciliation focusing on acetaminophen/NSAID dose and OTC agents",
+    "Fecal occult blood test or colonoscopy if iron\u2011deficiency anemia is suspected"
+  ]
+}

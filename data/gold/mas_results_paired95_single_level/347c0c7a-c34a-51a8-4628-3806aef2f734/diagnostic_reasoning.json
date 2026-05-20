@@ -1,0 +1,221 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Undiagnosed secondary hypertension (renal-parenchymal disease, obstructive sleep apnea, primary aldosteronism, pheochromocytoma, or substance\u2011induced)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.32,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 blood pressure reading 134/90 mmHg (untreated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 34 (young for primary hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No renal function labs (creatinine, eGFR, urine albumin) available",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "\"Risk activity involvement\" SNOMED code suggesting possible substance use",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing BMI, sleep symptom data (snoring, daytime sleepiness)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A young adult with untreated stage\u20112 hypertension, absent renal labs, missing obesity/OSA data, and a vague risk\u2011activity flag raises the pre\u2011test probability of a secondary cause. The combination of these gaps outweighs the baseline prevalence of essential hypertension, making secondary hypertension the most likely root cause."
+    },
+    {
+      "rank": 2,
+      "name": "Acute otitis media",
+      "icd10": "H66.90",
+      "snomed": "65363002",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented acute otitis media with onset 2021\u201101\u201114 and high\u2011priority problem flag",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chief complaint of ear pain",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No current antibiotics prescribed yet",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The EHR explicitly records acute otitis media as the presenting problem, matching the patient's ear pain. This diagnosis is certain for the current encounter but does not explain chronic findings."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic psychosocial stress / anxiety\u2011related disorder",
+      "icd10": "F41.9",
+      "snomed": "197480006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress documented since 2018\u201102\u201108",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term unemployment (since 2005) and limited education",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal anxiety or mood disorder diagnosis currently",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent psychosocial stress is a known contributor to elevated blood pressure and impaired immune response. The documented stress, combined with socioeconomic hardship, raises the likelihood of an underlying anxiety\u2011related disorder."
+    },
+    {
+      "rank": 4,
+      "name": "Substance\u2011use disorder (tobacco, alcohol, stimulants, cannabis)",
+      "icd10": "F19.20",
+      "snomed": "365981007",
+      "probability": 0.12,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "\"Risk activity involvement\" SNOMED code (onset 2000\u201112\u201128) indicating possible hazardous behavior",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No explicit documentation of tobacco, alcohol, or illicit\u2011drug use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The vague risk\u2011activity flag suggests possible substance use, which is common in this demographic and can exacerbate hypertension and infection risk. Lack of concrete documentation tempers confidence."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "233678006",
+      "probability": 0.09,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Male gender with untreated hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing BMI, neck circumference, and sleep symptom data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA prevalence in men aged 30\u201140 is ~10\u202f%. Without symptom data the posterior remains near baseline, but the presence of hypertension keeps it on the differential."
+    },
+    {
+      "rank": 6,
+      "name": "Early chronic kidney disease (undocumented)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No serum creatinine/eGFR or urine albumin measurements available",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Presence of hypertension, a common early manifestation of CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Absent renal labs prevent exclusion of CKD. Hypertension alone modestly raises suspicion, giving a low but non\u2011negligible probability."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress, unemployment, low socioeconomic status",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal depression or PTSD screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial adversity raises baseline risk for mood disorders, but lack of screening limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "HIV infection / other immunodeficiency (screening)",
+      "icd10": "B20",
+      "snomed": "86406008",
+      "probability": 0.01,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "\"Risk activity involvement\" could include unsafe sexual practices or injection drug use",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No HIV testing documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the vague risk flag, HIV prevalence in this age group is low; the probability remains minimal but warrants screening."
+    }
+  ],
+  "primary_diagnosis": "Undiagnosed secondary hypertension (renal-parenchymal disease, obstructive sleep apnea, primary aldosteronism, pheochromocytoma, or substance\u2011induced)",
+  "primary_probability": 0.32,
+  "clinical_reasoning_summary": "The patient presents with acute otitis media, but the dominant chronic issue is untreated stage\u20112 hypertension in a 34\u2011year\u2011old male with significant psychosocial stressors and missing key investigations. The combination of young age, lack of renal and metabolic labs, absent BMI/OSA data, and a vague risk\u2011activity flag shifts the differential toward secondary hypertension as the most plausible root cause. Acute otitis media is confirmed as the current presenting problem. Additional contributors such as chronic stress, possible substance use, obstructive sleep apnea, early CKD, mood disorder, and HIV infection are included with lower probabilities based on the available evidence and typical prevalence.",
+  "unresolved_findings": [
+    "Exact nature of \"risk activity involvement\" not specified",
+    "Absence of BMI, weight, height, and waist circumference",
+    "Missing renal function labs (creatinine, eGFR, urine albumin)",
+    "Missing fasting glucose/HbA1c",
+    "No documented smoking, alcohol, or illicit\u2011drug use",
+    "No family\u2011history information for cardiovascular, renal, or metabolic disease",
+    "No vaccination record or preventive\u2011care documentation"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio to evaluate renal disease",
+    "BMI measurement, waist circumference, and weight/height assessment",
+    "Fasting glucose and HbA1c to screen for diabetes",
+    "STOP\u2011Bang questionnaire; if score \u22653, arrange overnight polysomnography for obstructive sleep apnea",
+    "Structured substance\u2011use screening (AUDIT\u2011C, ASSIST, tobacco use questionnaire)",
+    "Plasma aldosterone/renin ratio and plasma metanephrines if secondary hypertension is suspected after initial labs",
+    "PHQ\u20119, GAD\u20117, and PTSD checklist to assess mood and anxiety disorders",
+    "HIV antigen/antibody test and hepatitis C antibody if risk\u2011activity suggests unsafe practices",
+    "Comprehensive family\u2011history interview focusing on hypertension, CKD, and cardiovascular disease",
+    "Vaccination review (influenza, COVID\u201119, pneumococcal, Tdap, HPV) and update as needed"
+  ]
+}

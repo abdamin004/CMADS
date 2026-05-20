@@ -1,0 +1,244 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome\u2013driven cardiovascular risk",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and stage 2 hypertension (diastolic 95 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.3%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High Charlson comorbidity index and multiple cardiovascular risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, and prediabetes fulfills criteria for metabolic syndrome, which is the most parsimonious explanation for the patient's overall cardiovascular risk profile."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and daytime fatigue reported in chart notes",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No prior sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity is a strong risk factor for OSA; symptoms suggestive of sleep disturbance raise suspicion, but objective testing is lacking."
+    },
+    {
+      "rank": 3,
+      "name": "Essential isolated diastolic hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Consistently elevated diastolic BP (95 mmHg) with normal systolic",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Isolated diastolic hypertension is present and likely a component of the broader metabolic syndrome rather than an independent primary disorder."
+    },
+    {
+      "rank": 4,
+      "name": "Relative polycythemia secondary to thiazide\u2011induced volume depletion",
+      "icd10": "D75.1",
+      "snomed": "271442005",
+      "probability": 0.045,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated hemoglobin/hematocrit discordant with historic chronic anemia label",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on thiazide diuretic therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thiazide diuretics can cause mild volume depletion leading to relative polycythemia, explaining the unexpected rise in H/H."
+    },
+    {
+      "rank": 5,
+      "name": "Early myeloproliferative neoplasm (e.g., polycythemia vera)",
+      "icd10": "D45.1",
+      "snomed": "10828004",
+      "probability": 0.027,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated red cell distribution width\u2011SD (RDW\u2011SD) and marked PDW",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Persistent high hemoglobin/hematocrit despite anemia history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While the magnitude of hemoglobin rise is modest, the discordant labs raise the possibility of an early myeloproliferative process that warrants exclusion."
+    },
+    {
+      "rank": 6,
+      "name": "Early progression to overt type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.036,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.3%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and metabolic syndrome increase risk of progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Current glycemic parameters are in the prediabetic range, indicating a high likelihood of future overt diabetes."
+    },
+    {
+      "rank": 7,
+      "name": "Thiazide\u2011induced leukopenia",
+      "icd10": "D70.9",
+      "snomed": "271327008",
+      "probability": 0.018,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild leukopenia (WBC 3.6\u202f\u00d710\u00b3/\u00b5L)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic thiazide diuretic use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thiazides can cause mild leukopenia; the finding is subtle but aligns with medication exposure."
+    },
+    {
+      "rank": 8,
+      "name": "Early\u2011stage hypertensive/obesity\u2011related chronic kidney disease",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.027,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension and obesity",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine within normal limits but no eGFR reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, yet objective renal dysfunction has not yet manifested; early CKD remains a possibility."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / anxiety (psychosocial stress)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.018,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No formal mental\u2011health screening performed",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Patient reports stress related to chronic illness burden",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stress may contribute to hypertension and metabolic derangements, but objective data are lacking."
+    },
+    {
+      "rank": 10,
+      "name": "Iron\u2011deficiency anemia (partially corrected / masked)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.009,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Historic chronic anemia label",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Current hemoglobin elevated, contradicting active anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prior anemia history exists, but current labs do not support active iron\u2011deficiency; retained only as a remote consideration."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome\u2013driven cardiovascular risk",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, stage 2 hypertension, and prediabetes collectively satisfy criteria for metabolic syndrome, making it the dominant unifying diagnosis and primary driver of cardiovascular risk. Secondary considerations include OSA and isolated diastolic hypertension, both common in this phenotype. Laboratory anomalies (elevated H/H, mild leukopenia, abnormal red cell indices) raise the possibility of relative polycythemia from thiazide\u2011induced volume depletion, early myeloproliferative disease, or drug\u2011related leukopenia, warranting targeted evaluation. Additional low\u2011probability entities such as early CKD, evolving type 2 diabetes, psychosocial stress, and remote iron\u2011deficiency anemia complete the differential.",
+  "unresolved_findings": [
+    "High hemoglobin/hematocrit discordant with historic chronic anemia label",
+    "Mild leukopenia (WBC 3.6\u202f\u00d710\u00b3/\u00b5L)",
+    "Markedly elevated platelet distribution width (PDW)",
+    "Elevated red cell distribution width\u2011SD (RDW\u2011SD)",
+    "Absence of lipid panel, eGFR, urine albumin/creatinine ratio",
+    "No documented smoking or alcohol use",
+    "No mental\u2011health screening results",
+    "No sleep\u2011study data"
+  ],
+  "recommended_workup": [
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Repeat fasting glucose and HbA1c",
+    "Polysomnography or home sleep apnea testing",
+    "JAK2 V617F mutation testing to evaluate for polycythemia vera",
+    "Repeat CBC with differential and reticulocyte count",
+    "Serum iron studies (ferritin, transferrin saturation) to reassess iron status",
+    "Urine albumin/creatinine ratio and eGFR calculation",
+    "Renal ultrasound if proteinuria or eGFR decline suspected",
+    "PHQ\u20119 and GAD\u20117 mental\u2011health screening questionnaires",
+    "Medication review focusing on thiazide dosage and potential hematologic effects"
+  ]
+}

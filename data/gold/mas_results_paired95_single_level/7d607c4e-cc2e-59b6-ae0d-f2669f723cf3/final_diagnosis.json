@@ -1,0 +1,210 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension with hypertensive nephrosclerosis (early CKD)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 136/93 mmHg (stage\u202f2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine 1.4\u202fmg/dL indicating early renal impairment",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and metabolic syndrome components increasing hypertension risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Sustained elevated blood pressure together with early rise in serum creatinine suggests hypertensive nephrosclerosis as the primary driver of CKD in this patient."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome\u2013driven cardiometabolic disease",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented, BMI not quantified",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.1%) and dyslipidemia risk (lipid panel missing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Cluster of hypertension, prediabetes, obesity",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of obesity, impaired glucose tolerance, and hypertension fulfills criteria for metabolic syndrome, driving the overall cardiometabolic risk profile."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233678006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed OSA, currently on CPAP (adherence unknown)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "OSA contributes to resistant hypertension and metabolic dysregulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is a recognized contributor to hypertension and metabolic derangements; however, lack of adherence data limits certainty of its current impact."
+    },
+    {
+      "rank": 4,
+      "name": "Type\u202f4 renal tubular acidosis (hyper\u2011kalaemic RTA) secondary to CKD & ACE\u2011inhibitor",
+      "icd10": "N25.8",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild non\u2011anion gap metabolic acidosis with high\u2011normal potassium",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on ACE\u2011inhibitor therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The lab pattern of hyperkalaemia with a normal anion gap metabolic acidosis in the setting of CKD and ACE\u2011inhibitor use is classic for type\u202f4 RTA."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid use disorder with chronic analgesic (NSAID/acetaminophen) nephropathy",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic migraine and pain management with opioids documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN and creatinine suggest nephrotoxic exposure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term opioid therapy often co\u2011exists with OTC NSAID/acetaminophen use, which can cause analgesic nephropathy; however, direct documentation of NSAID overuse is lacking, making this diagnosis plausible but not definitive."
+    },
+    {
+      "rank": 6,
+      "name": "Major depressive disorder / generalized anxiety disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented mood symptoms and anxiety related to chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Psychosocial stressors increase cardiovascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient's chronic pain and functional limitations are associated with depressive and anxiety symptoms, contributing to overall disease burden."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome increase NAFLD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "No liver imaging performed (absence of confirmatory data)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the high prevalence of NAFLD in metabolic syndrome, it remains a plausible diagnosis despite lack of imaging or liver enzyme data."
+    },
+    {
+      "rank": 8,
+      "name": "Chronic viral hepatitis (HCV)",
+      "icd10": "B18.2",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior IV\u2011drug use raises pre\u2011test probability",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No serologic testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While past IV\u2011drug use suggests possible exposure, the absence of any hepatitis testing makes this diagnosis unlikely at present."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension with hypertensive nephrosclerosis (early CKD)",
+  "primary_probability": 0.2,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage\u202f2 hypertension, early renal dysfunction, and a constellation of metabolic syndrome features (obesity, prediabetes). The most compelling explanation for the renal findings is hypertensive nephrosclerosis, which the reviewer elevated to primary status. Metabolic syndrome remains a dominant background driver of cardiovascular risk. Co\u2011existing conditions such as OSA, type\u202f4 RTA, opioid\u2011related analgesic nephropathy, and mood disorders modulate the clinical picture but are less central. NAFLD and chronic HCV are possible but lack confirmatory data. The differential reflects both the reviewer\u2019s probability adjustments and the need to address missing data.",
+  "unresolved_findings": [
+    "Exact BMI value and waist circumference (obesity documented but not quantified)",
+    "eGFR and urine albumin\u2011to\u2011creatinine ratio (CKD staging missing)",
+    "Comprehensive lipid panel (LDL\u2011C, HDL\u2011C, total cholesterol)",
+    "Smoking status and alcohol consumption (important CV risk modifiers)",
+    "Low\u2011normal leukocyte count etiology",
+    "High\u2011normal platelet count etiology",
+    "Medication review for OTC NSAIDs/acetaminophen use",
+    "CPAP adherence data",
+    "Dental infection status of impacted molars",
+    "Vaccination status (influenza, COVID\u201119, pneumococcal, hepatitis B)"
+  ],
+  "recommended_workup": [
+    "Obtain serum eGFR and urine albumin\u2011to\u2011creatinine ratio to stage CKD",
+    "Complete fasting lipid panel",
+    "Measure weight, height, waist circumference to calculate BMI and central obesity",
+    "Document smoking and alcohol use history",
+    "Repeat complete blood count with differential to evaluate leukopenia and thrombocytosis",
+    "Medication reconciliation focusing on OTC NSAID and acetaminophen consumption",
+    "Review CPAP device data for adherence and efficacy",
+    "Dental examination and imaging of impacted molars",
+    "Serologic testing for hepatitis C and B, and liver function panel",
+    "Abdominal ultrasound or FibroScan to assess for NAFLD",
+    "Consider renal ultrasound to evaluate structural kidney disease"
+  ]
+}

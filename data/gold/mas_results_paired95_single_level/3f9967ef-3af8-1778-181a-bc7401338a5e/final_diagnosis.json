@@ -1,0 +1,144 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease with ongoing myocardial injury (type 1/2 MI)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011sensitivity troponin 70.1 ng/L without chest pain",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, type 2 diabetes, dyslipidemia, prior MI",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Charlson comorbidity index 2, high clinical complexity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated troponin in a patient with multiple atherosclerotic risk factors suggests myocardial injury. Absence of chest pain does not exclude type 2 MI secondary to supply\u2011demand mismatch. Prior MI raises likelihood of recurrent ischemia."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive biliary disease (choledocholithiasis or distal cholangiocarcinoma)",
+      "icd10": "K80.1",
+      "snomed": "236423003",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe isolated total bilirubin 8.4 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented cholestatic enzyme elevations yet, but bilirubin magnitude points to obstructive process",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Imaging of hepatobiliary tree pending \u2013 high priority",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Marked hyperbilirubinemia out of proportion to liver enzyme abnormalities is classic for extra\u2011hepatic biliary obstruction. Choledocholithiasis is common; distal cholangiocarcinoma must be considered given age and risk factors."
+    },
+    {
+      "rank": 3,
+      "name": "Acute kidney injury superimposed on chronic diabetic\u2011hypertensive CKD",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.8 mg/dL with discordant eGFR 85 mL/min/1.73m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, type 2 diabetes, metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD risk factors present; acute rise suggests AKI on CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The creatinine elevation is inconsistent with the reported eGFR, indicating a likely reporting error and an acute decline in renal function. Underlying diabetic\u2011hypertensive CKD provides chronic substrate, while volume depletion, ACE\u2011I effect, or hemodynamic stress from myocardial injury could precipitate AKI."
+    },
+    {
+      "rank": 4,
+      "name": "Heart failure with reduced ejection fraction (HFrEF) secondary to prior MI",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.09,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin may reflect ongoing myocardial strain",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prior MI predisposes to systolic dysfunction, but no direct cardiac imaging or symptom data are available. The diagnosis remains possible but speculative pending echocardiography."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated hemoglobin 17.3 g/dL suggesting secondary polycythemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome, obesity likely present (BMI not provided)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA can cause nocturnal hypoxia leading to secondary erythrocytosis and may contribute to hypertension and renal hypoperfusion. It does not explain the acute laboratory derangements but is a relevant comorbidity."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease with ongoing myocardial injury (type 1/2 MI)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient presents with markedly elevated bilirubin, a discordant creatinine/eGFR pair, and an elevated high\u2011sensitivity troponin in the setting of extensive atherosclerotic risk factors. The most compelling explanation for the troponin rise is myocardial injury from CAD (type 1 or type 2 MI). The isolated hyperbilirubinemia points strongly toward an obstructive biliary process, which must be ruled out urgently. Renal dysfunction appears acute on chronic diabetic\u2011hypertensive CKD, likely exacerbated by hemodynamic stress and possible ACE\u2011I effect. Prior MI raises the possibility of HFrEF, but lack of imaging limits confidence. OSA is a plausible contributor to polycythemia and hypertension. The differential balances these considerations while respecting the reviewer\u2019s probability adjustments and concerns.",
+  "unresolved_findings": [
+    "Lack of fractionated bilirubin (direct vs indirect) and cholestatic enzyme values (ALP, GGT, ALT, AST)",
+    "Absence of cardiac work\u2011up data (ECG, serial troponins, echocardiogram)",
+    "eGFR value appears erroneous and not reconciled with creatinine",
+    "No urine protein/albumin measurements to stage CKD",
+    "No imaging of the hepatobiliary tree (ultrasound, MRCP) performed"
+  ],
+  "recommended_workup": [
+    "Abdominal ultrasound followed by MRCP if obstruction suspected",
+    "Comprehensive liver panel including ALP, GGT, ALT, AST, direct/indirect bilirubin",
+    "12\u2011lead ECG and serial high\u2011sensitivity troponins to differentiate type 1 vs type 2 MI",
+    "Transthoracic echocardiogram to assess ejection fraction and wall motion abnormalities",
+    "Repeat serum creatinine with cystatin C\u2011based eGFR to verify renal function",
+    "Urinalysis with protein/albumin quantification (UACR)",
+    "Polysomnography to confirm obstructive sleep apnea",
+    "Review medication list for nephrotoxic agents and consider ACE\u2011I dose adjustment"
+  ]
+}

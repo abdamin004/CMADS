@@ -1,0 +1,163 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic Nephropathy \u2013 End\u2011Stage Chronic Kidney Disease (Stage 5) secondary to long\u2011standing Type 2 Diabetes",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.7,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 documented (eGFR <15\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Known diagnosis of Type 2 Diabetes Mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine (2.9\u202fmg/dL) consistent with advanced renal dysfunction",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD in a patient with established Type 2 Diabetes is most consistent with diabetic nephropathy progressing to end\u2011stage disease. The renal laboratory profile and chronicity of diabetes outweigh other potential etiologies."
+    },
+    {
+      "rank": 2,
+      "name": "Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of Type 2 Diabetes in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c reported as 2.9\u202f% (identified as analytical artifact, confirming that a valid A1c is missing but diabetes is still present)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes is confirmed in the chart; the implausibly low A1c reflects a lab error rather than true glycemic control, so the disease remains a key chronic condition."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (diastolic) Hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 112/93\u202fmmHg (isolated diastolic hypertension, stage 2)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Consistently elevated diastolic pressure meets criteria for essential hypertension and contributes to renal disease progression."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic Hepatitis C Infection (possible cryoglobulinemic glomerulonephritis)",
+      "icd10": "B18.2",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic Hepatitis C infection noted",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hepatitis C can cause cryoglobulinemic GN, but no serologic or renal biopsy data are available; therefore it remains a low\u2011probability alternative."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild ALT elevation (44.8\u202fU/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity label in chart (BMI missing but implied)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and mild transaminase rise suggest NAFLD/NASH, though imaging and full liver panel are lacking."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 5 present, a common cause of anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD frequently leads to anemia; lack of CBC prevents confirmation, but the pathophysiology makes it plausible."
+    },
+    {
+      "rank": 7,
+      "name": "Atherosclerotic Cardiovascular Disease (high subclinical risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, probable dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factor burden is high, but no documented ASCVD events; therefore retained as a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Diabetic Nephropathy \u2013 End\u2011Stage Chronic Kidney Disease (Stage 5) secondary to long\u2011standing Type 2 Diabetes",
+  "primary_probability": 0.7,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal dysfunction in the setting of a known history of Type 2 Diabetes, making diabetic nephropathy the overwhelmingly most likely cause of the CKD. Co\u2011existing diastolic hypertension further accelerates renal injury. Other comorbidities (Hepatitis C, NAFLD, anemia of CKD, and subclinical ASCVD) are plausible but have limited supporting data. Missing laboratory and imaging studies preclude definitive assessment of several secondary possibilities, but the weight of evidence favors diabetic nephropathy as the primary diagnosis.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (0.5\u202fmg/dL) without serum bilirubin data",
+    "Mild ALT elevation (44.8\u202fU/L) without full liver panel",
+    "Implausibly low A1c (2.9\u202f%) flagged as analytical artifact",
+    "Creatinine discrepancy comment (2.9\u202fmg/dL vs 1.2\u202fmg/dL)",
+    "Missing BMI value despite obesity label",
+    "Absent lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing serum electrolytes (Na, K, bicarbonate) and acid\u2011base panel",
+    "No CBC or iron studies to confirm anemia of CKD",
+    "No calcium, phosphate, PTH, vitamin\u202fD levels for CKD\u2011MBD assessment",
+    "No renal imaging (ultrasound) to evaluate kidney size or obstruction"
+  ],
+  "recommended_workup": [
+    "Repeat hemoglobin A1c with proper sample handling",
+    "Complete blood count with differential and iron studies",
+    "Serum calcium, phosphate, PTH, and 25\u2011OH vitamin D levels",
+    "Serum electrolytes and bicarbonate; arterial blood gas if indicated",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Hepatitis C RNA quantification and hepatitis B serology",
+    "Abdominal ultrasound to assess liver steatosis and rule out focal lesions",
+    "Renal ultrasound to evaluate kidney size, echogenicity, and rule out obstruction",
+    "Medication reconciliation focusing on NSAID and thiazide diuretic use given eGFR <15\u202fmL/min/1.73\u202fm\u00b2",
+    "Consider renal biopsy only if atypical features emerge after initial workup"
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication-induced renal injury (triple whammy)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent use of ACE inhibitor, thiazide diuretic, and NSAID",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum creatinine with normocytic anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of ACE inhibitor, thiazide, and NSAID predisposes to acute kidney injury, explaining the recent decline in renal function and anemia."
+    },
+    {
+      "rank": 2,
+      "name": "Renal EPO-deficiency anemia secondary to stage 3 chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.156,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (Hb 11.9 g/dL) with no iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic kidney disease (stage 3) risk factors",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD at eGFR <60 commonly causes anemia via reduced erythropoietin production; the normocytic picture fits this etiology."
+    },
+    {
+      "rank": 3,
+      "name": "Alpha-1 antitrypsin deficiency (A1ATD)",
+      "icd10": "E88.01",
+      "snomed": "235719002",
+      "probability": 0.156,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Early pan\u2011acinar emphysema in a young adult without clear smoking history",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Family history of liver disease (if present) or unexplained COPD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A1ATD can cause early\u2011onset emphysema independent of tobacco exposure; the lack of smoking data raises suspicion."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome / obesity\u2011driven cardiovascular risk cluster",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.146,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI \u226530), pre\u2011diabetes (A1c 6.0%), hypertension (120/84 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk based on comorbidities",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Combined obesity, impaired glucose tolerance, and hypertension constitute metabolic syndrome, increasing cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic obstructive pulmonary disease (COPD) secondary to tobacco exposure (unconfirmed)",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.094,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pulmonary emphysema noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented smoking/vaping history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Emphysema suggests COPD, but absence of tobacco exposure data makes this less certain."
+    },
+    {
+      "rank": 6,
+      "name": "Iron\u2011deficiency anemia due to occult gastrointestinal blood loss (NSAID\u2011related)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.094,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia with potential for iron loss",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use increasing risk of GI bleeding",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs can cause occult GI bleeding leading to iron deficiency; iron studies are needed to differentiate from CKD anemia."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.083,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, daytime tachycardia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but objective confirmation is lacking."
+    },
+    {
+      "rank": 8,
+      "name": "Obesity\u2011hypoventilation syndrome (OHS)",
+      "icd10": "E66.2",
+      "snomed": "235719001",
+      "probability": 0.042,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe obesity with mild tachycardia",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No arterial blood gas or polysomnography data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical picture could fit OHS, but lack of ABG or sleep data makes this speculative."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / anxiety (chronic stress syndrome)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.031,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and mild tachycardia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No acute impact on renal or hematologic labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial factors are present but do not explain the primary laboratory abnormalities."
+    }
+  ],
+  "primary_diagnosis": "Medication-induced renal injury (triple whammy)",
+  "primary_probability": 0.2,
+  "clinical_reasoning_summary": "The patient\u2019s concurrent ACE inhibitor, thiazide, and NSAID use creates a classic \"triple whammy\" precipitating acute kidney injury, which accounts for the rising creatinine and normocytic anemia. CKD\u2011related anemia (EPO deficiency) is also likely given stage 3 disease. Alpha\u20111 antitrypsin deficiency remains plausible due to early emphysema without smoking history. Metabolic syndrome drives cardiovascular risk. Other considerations (COPD, iron\u2011deficiency anemia, OSA, OHS, mood disorder) are supported by risk factors but have weaker evidence. Gout was removed as unsupported.",
+  "unresolved_findings": [
+    "Platelet Distribution Width 438.6\u202ffL (likely artifact)",
+    "Falling bicarbonate (23.3\u202fmmol/L) without arterial blood gas",
+    "Mild tachycardia (HR\u202f95\u202fbpm) \u2013 could be albuterol, anemia, or deconditioning",
+    "Absence of documented smoking/vaping history",
+    "Missing quantitative BMI value",
+    "Missing eGFR and urine albumin\u2011creatinine ratio",
+    "Missing iron studies, ferritin, B12/folate",
+    "Missing lipid panel (HDL, triglycerides)",
+    "Missing thyroid function tests",
+    "Vaccination status (influenza, pneumococcal, COVID\u201119) not recorded"
+  ],
+  "recommended_workup": [
+    "Immediately hold NSAID and consider temporary discontinuation of ACE inhibitor; reassess renal function in 48\u201172\u202fh",
+    "Obtain serum creatinine trend, calculate eGFR, and order urine albumin\u2011creatinine ratio",
+    "Complete iron studies (serum iron, ferritin, TIBC) and vitamin B12/folate levels",
+    "Measure serum alpha\u20111 antitrypsin level and genotype if indicated",
+    "Pulmonary function tests with diffusion capacity; consider chest CT to characterize emphysema",
+    "Polysomnography to evaluate for OSA/OHS; obtain arterial blood gas if hypoventilation suspected",
+    "Lipid panel (total cholesterol, HDL, LDL, triglycerides)",
+    "Thyroid panel (TSH, free T4)",
+    "Repeat CBC with differential to monitor anemia trajectory",
+    "Fecal occult blood test and consider upper/lower endoscopy if iron studies suggest deficiency",
+    "Review and update vaccination status (influenza, pneumococcal, COVID\u201119)",
+    "Counsel on medication safety and provide patient education on risks of NSAID/ACE inhibitor combination"
+  ]
+}

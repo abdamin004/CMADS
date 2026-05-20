@@ -1,0 +1,239 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive Sleep Apnea (moderate-to-severe)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.23,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented, hypertension, insomnia, daytime fatigue",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use and risk of respiratory depression",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High pre\u2011test probability for OSA in obese females with HTN",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of obesity, stage\u20111 hypertension, insomnia, and daytime fatigue creates a >30% pre\u2011test probability for moderate\u2011to\u2011severe OSA, which can drive hypertension, metabolic dysregulation, and exacerbate pain and opioid misuse."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Pain Syndrome with Central Sensitisation (opioid\u2011dependent)",
+      "icd10": "G89.4",
+      "snomed": "24700007",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011back pain since 2014 and knee osteoarthritis since 2012",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term hydrocodone/acetaminophen and naproxen therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate\u2011partner violence and drug misuse increasing pain perception",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent musculoskeletal pathology treated with opioids and NSAIDs leads to central sensitisation, opioid dependence, and contributes to renal injury and sleep disturbance."
+    },
+    {
+      "rank": 3,
+      "name": "Major Depressive Disorder / PTSD secondary to intimate\u2011partner violence",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented intimate\u2011partner abuse since 2020 and drug misuse",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No psychotropic medications despite high psychosocial stressors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High prevalence of depression/PTSD in IPV survivors with chronic pain",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Psychological trauma and chronic pain synergistically increase risk for major depression and PTSD, which further impair adherence to medical therapy and exacerbate opioid use."
+    },
+    {
+      "rank": 4,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal bleed / NSAID gastritis",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia since 1992 without documented etiology",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term naproxen use (NSAID) increasing risk of GI blood loss",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin not provided but anemia flagged as chronic",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The persistent anemia, combined with chronic NSAID exposure, raises suspicion for iron\u2011deficiency due to occult GI bleeding; iron studies are needed to confirm."
+    },
+    {
+      "rank": 5,
+      "name": "NSAID\u2011induced chronic interstitial nephropathy (or hypertensive nephrosclerosis)",
+      "icd10": "N14.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 78\u202fmL/min/1.73\u202fm\u00b2 (mildly reduced) with stable trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum potassium 5.0\u202fmmol/L (upper\u2011normal) and CO\u2082 22.3\u202fmmol/L (low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen sodium use",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "NSAID exposure can cause tubular dysfunction leading to hyperkalaemia, metabolic acidosis, and gradual decline in eGFR; hypertension may also contribute."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, dyslipidaemia, anemia, fatigue (implicit)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Higher prevalence of hypothyroidism in women with metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can explain weight gain, dyslipidaemia, and anemia; however, no thyroid labs are available, making this a lower\u2011confidence hypothesis."
+    },
+    {
+      "rank": 7,
+      "name": "Metabolic\u2011vascular syndrome (insulin\u2011resistance cluster)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 6.9\u202f% (prediabetes), LDL\u2011C 105\u202fmg/dL, HDL\u2011C 47.9\u202fmg/dL, hypertension 131/85\u202fmmHg",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The constellation of prediabetes, hypertension, dyslipidaemia, and obesity meets criteria for metabolic syndrome, increasing ASCVD risk."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NAFLD is highly prevalent in metabolic syndrome; liver enzymes and imaging are not yet obtained."
+    },
+    {
+      "rank": 9,
+      "name": "Other less likely contributors (e.g., PCOS, B12 deficiency, occult malignancy, chronic rhinosinusitis)",
+      "icd10": "R69",
+      "snomed": "64572001",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dental disease, chronic sinusitis, missing menstrual history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "These entities could contribute to anemia or systemic inflammation but lack direct supporting data."
+    }
+  ],
+  "primary_diagnosis": "Obstructive Sleep Apnea (moderate-to-severe)",
+  "primary_probability": 0.23,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, hypertension, insomnia, and daytime fatigue point to obstructive sleep apnea as the upstream driver of many downstream abnormalities (elevated blood pressure, metabolic dysregulation, opioid misuse, and renal stress). Chronic musculoskeletal pain necessitates long\u2011term opioid and NSAID therapy, which together explain the borderline hyperkalaemia, low bicarbonate, and early CKD. Psychosocial trauma from intimate\u2011partner violence predisposes to major depressive disorder/PTSD, further worsening pain perception and medication adherence. Persistent anemia without work\u2011up raises concern for iron\u2011deficiency secondary to NSAID\u2011related GI loss. Additional contributors such as hypothyroidism, metabolic syndrome, and NAFLD are plausible but less certain without targeted labs. The differential is therefore organized around root\u2011cause pathophysiology rather than isolated laboratory clusters.",
+  "unresolved_findings": [
+    "Borderline hyper\u2011kalaemia (K\u207a\u202f5.0\u202fmmol/L) without repeat measurement",
+    "Low\u2011normal bicarbonate (22.3\u202fmmol/L) with falling trend",
+    "Chronic anemia etiology unknown (no iron studies, B12, folate, retic count)",
+    "Platelet distribution width artifact (415.2\u202ffL)",
+    "Missing exact BMI and waist circumference",
+    "Incomplete lipid panel (total cholesterol, triglycerides absent)",
+    "Smoking status not documented",
+    "Allergy information absent",
+    "No mental\u2011health medication despite documented trauma and drug misuse",
+    "Lack of urine albumin\u2011creatinine ratio and serial eGFR values"
+  ],
+  "recommended_workup": [
+    "STOP\u2011BANG questionnaire followed by overnight polysomnography",
+    "Thyroid panel: TSH, free T4, anti\u2011TPO antibodies",
+    "Iron studies: ferritin, transferrin saturation, serum iron, total iron\u2011binding capacity",
+    "Stool occult blood test; if positive, refer for colonoscopy",
+    "Upper endoscopy if GI symptoms or anemia persists despite negative stool test",
+    "Urine albumin\u2011creatinine ratio and repeat eGFR in 3 months",
+    "Renal ultrasound to assess structural changes",
+    "PHQ\u20119, GAD\u20117, and PCL\u20115 screening for depression, anxiety, and PTSD",
+    "Comprehensive liver panel (ALT, AST, GGT, alkaline phosphatase, bilirubin) and abdominal ultrasound or FibroScan",
+    "Full medication reconciliation including OTCs and supplements",
+    "Smoking status assessment and counseling",
+    "Dental examination and periodontal assessment",
+    "Measurement of exact BMI, waist and neck circumference",
+    "Repeat basic metabolic panel to confirm potassium and bicarbonate trends"
+  ]
+}

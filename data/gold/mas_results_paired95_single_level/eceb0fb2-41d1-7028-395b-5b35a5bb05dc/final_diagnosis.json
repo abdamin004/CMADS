@@ -1,0 +1,175 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic-syndrome-driven primary hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.51,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (DBP 103 mmHg) with obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk factors: obesity, prediabetes, dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of uncontrolled hypertension, obesity, and prediabetes fits classic metabolic syndrome, making primary hypertension the most likely driver of the patient's blood pressure elevation."
+    },
+    {
+      "rank": 2,
+      "name": "Prediabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "15777000",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting glucose (110 mg/dL) and HbA1c 6.1%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 and family history of diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory values meet prediabetes criteria and align with the patient's metabolic risk profile, supporting early type\u20112 diabetes as a significant comorbidity."
+    },
+    {
+      "rank": 3,
+      "name": "Early hypertensive nephropathy (CKD stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic hypertension >5 years, no documented renal imaging",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated serum creatinine (1.3 mg/dL) with no urinalysis data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing uncontrolled hypertension predisposes to early CKD; absent eGFR and albuminuria data create uncertainty but the diagnosis remains plausible."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and elevated resting heart rate (98 bpm)",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Reported snoring and daytime fatigue (subjective)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises OSA risk, but lack of sleep study data lowers confidence; retained as a possible contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (Hb 10.2 g/dL, MCV 88 fL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions (chronic sinusitis, valve regurgitation)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic inflammatory burden can cause anemia of chronic disease; iron studies are missing, but the pattern fits."
+    },
+    {
+      "rank": 6,
+      "name": "Psychosocial stress\u2011mediated sympathetic over\u2011drive (adjustment disorder with anxiety)",
+      "icd10": "F43.22",
+      "snomed": "372087000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent intimate partner abuse and high reported stress",
+          "strength": "weak"
+        },
+        {
+          "source": "vital_signs",
+          "finding": "Tachycardia (98 bpm) without other cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stress may augment sympathetic tone, modestly contributing to hypertension but not the primary driver."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome components (obesity, dyslipidemia, prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Elevated ALT/AST (values not provided but noted as mildly raised)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome commonly coexists with NAFLD; inclusion addresses reviewer\u2019s comment about missing modifiers."
+    }
+  ],
+  "primary_diagnosis": "Metabolic-syndrome-driven primary hypertension",
+  "primary_probability": 0.51,
+  "clinical_reasoning_summary": "The patient\u2019s uncontrolled stage 2 hypertension, obesity, and laboratory evidence of prediabetes constitute classic metabolic syndrome, making primary hypertension the most likely etiology. Prediabetes further amplifies cardiovascular risk. Early hypertensive nephropathy is plausible given chronic pressure overload, though renal function data are incomplete. Obstructive sleep apnea, anemia of chronic disease, psychosocial stress, and NAFLD are retained as secondary contributors, each supported by limited or indirect evidence. Rare entities such as primary aldosteronism and familial HDL deficiency were excluded due to low pre\u2011test probability and lack of supporting data.",
+  "unresolved_findings": [
+    "Severely low HDL (24.6 mg/dL) \u2013 magnitude atypical for simple metabolic syndrome",
+    "Abnormal platelet distribution width (329.8 fL) \u2013 possible artifact or myeloproliferative signal",
+    "Missing numeric BMI value \u2013 prevents precise obesity classification",
+    "Missing eGFR, albuminuria, and urinalysis data \u2013 limits CKD staging",
+    "Missing total cholesterol and LDL values in the EHR \u2013 incomplete lipid risk profile",
+    "No iron studies, ferritin, or inflammatory markers \u2013 hampers anemia etiology determination",
+    "No sleep study results \u2013 OSA status unknown",
+    "No aldosterone/renin ratio or catecholamine measurements \u2013 secondary endocrine hypertension not ruled out",
+    "No documented mental\u2011health diagnosis or medication despite high stress"
+  ],
+  "recommended_workup": [
+    "Obtain fasting lipid panel with repeat HDL measurement",
+    "Order complete iron studies (serum iron, ferritin, TIBC) and CRP",
+    "Perform renal function panel including eGFR and urine albumin-to-creatinine ratio",
+    "Schedule polysomnography to evaluate for obstructive sleep apnea",
+    "Measure plasma aldosterone concentration and plasma renin activity; consider catecholamine testing if indicated",
+    "Liver ultrasound or FibroScan to assess for NAFLD",
+    "Comprehensive mental health evaluation and consider treatment for adjustment disorder",
+    "Repeat complete blood count with peripheral smear to clarify platelet distribution width abnormality"
+  ]
+}

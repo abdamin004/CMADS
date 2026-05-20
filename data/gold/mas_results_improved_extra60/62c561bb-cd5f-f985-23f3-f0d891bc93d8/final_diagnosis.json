@@ -1,0 +1,162 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive biliary disease (choledocholithiasis / distal common bile duct obstruction) \u00b1 acute cholangitis",
+      "icd10": "K80.1",
+      "snomed": "236423003",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe isolated total bilirubin 12.4\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic opioid use and prior abdominal pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors for gallstone disease (obesity, female gender if applicable)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Marked hyperbilirubinemia without transaminase surge suggests cholestasis. In a patient with obesity and opioid use, choledocholithiasis or distal CBD stricture is most plausible. Acute cholangitis is possible given bilirubin level, but clinical signs (fever, RUQ pain) are pending imaging."
+    },
+    {
+      "rank": 2,
+      "name": "Acute coronary syndrome (type\u20111 plaque rupture or type\u20112 demand ischemia)",
+      "icd10": "I21.9",
+      "snomed": "22298006",
+      "probability": 0.32,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated high\u2011sensitivity troponin I >100\u202fng/L",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior myocardial infarction, uncontrolled hypertension, CKD stage\u202f3",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current severe hypertension (152/110\u202fmmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Significant troponin elevation in a patient with known coronary disease and hypertension raises concern for ACS. Lack of ECG and serial troponins limits differentiation between type\u20111 MI and type\u20112 demand ischemia, but the probability remains high enough to prioritize cardiac evaluation."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic diabetic\u2011hypertensive chronic kidney disease stage\u202f3 with proteinuria (background)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented CKD stage\u202f3, proteinuria, hypertension, and diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperkalaemia (K\u207a 5.1\u202fmmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD explains the mild hyperkalaemia and contributes to baseline cardiovascular risk, but does not account for the acute bilirubin or troponin spikes. It remains a significant chronic comorbidity."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive urgency (without acute end\u2011organ damage)",
+      "icd10": "I16.0",
+      "snomed": "38341003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 152/110\u202fmmHg on presentation",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented acute target\u2011organ injury (e.g., papilledema, encephalopathy)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe hypertension may precipitate type\u20112 myocardial ischemia and contributes to overall risk, but lacks evidence of end\u2011organ damage at this time."
+    },
+    {
+      "rank": 5,
+      "name": "Opioid\u2011induced sphincter of Oddi spasm / drug\u2011induced cholestasis",
+      "icd10": "K83.9",
+      "snomed": "235719002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011dose chronic opioid therapy for chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated hyperbilirubinemia without marked transaminase rise",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Opioids can cause sphincter of Oddi spasm leading to cholestasis, but this diagnosis is one of exclusion and less likely than mechanical obstruction."
+    },
+    {
+      "rank": 6,
+      "name": "Cardiac (congestive) hepatopathy / ischemic hepatitis",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of prior myocardial infarction and uncontrolled hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated bilirubin elevation without marked AST/ALT surge",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While cardiac dysfunction can cause hepatic congestion, the typical pattern includes transaminase elevation, which is absent, making this a less likely explanation."
+    }
+  ],
+  "primary_diagnosis": "Obstructive biliary disease (choledocholithiasis / distal common bile duct obstruction) \u00b1 acute cholangitis",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "The dominant finding is a severe isolated hyperbilirubinemia, most consistent with an obstructive biliary process such as choledocholithiasis or distal CBD stricture, potentially complicated by acute cholangitis. Concurrently, a markedly elevated hs\u2011troponin in a patient with prior MI, uncontrolled hypertension, and CKD raises high suspicion for acute coronary syndrome, either plaque rupture or demand ischemia. Chronic CKD and hypertension provide a background of cardiovascular and renal risk, while hypertensive urgency may be contributing to myocardial demand. Opioid\u2011related sphincter of Oddi spasm and congestive hepatopathy remain possible but low\u2011probability alternatives. The differential reflects the reviewer\u2019s probability adjustments and removal of unsupported entities.",
+  "unresolved_findings": [
+    "Severe isolated total bilirubin 12.4\u202fmg/dL without bilirubin fractions or cholestatic enzyme data",
+    "Elevated high\u2011sensitivity troponin I >100\u202fng/L without chest pain or ECG",
+    "Borderline low serum albumin (3.7\u202fg/dL)",
+    "Mild hyperkalaemia (K\u207a 5.1\u202fmmol/L)",
+    "Missing exact BMI value (obesity documented)",
+    "No imaging of the hepatobiliary system performed"
+  ],
+  "recommended_workup": [
+    "Urgent right upper quadrant abdominal ultrasound with Doppler to assess for biliary dilation, stones, or stricture",
+    "If ultrasound inconclusive, magnetic resonance cholangiopancreatography (MRCP) or endoscopic ultrasound (EUS)",
+    "Serial high\u2011sensitivity troponin measurements (3\u2011hour trend)",
+    "12\u2011lead ECG on presentation and repeat if symptoms evolve",
+    "Transthoracic echocardiogram to evaluate wall motion abnormalities and cardiac function",
+    "Comprehensive liver panel: AST, ALT, ALP, GGT, INR, and bilirubin fractions",
+    "Complete blood count with reticulocyte count, haptoglobin, LDH to rule out hemolysis",
+    "Repeat basic metabolic panel to monitor electrolytes and renal function",
+    "Consider ERCP for therapeutic decompression if imaging confirms obstruction"
+  ]
+}

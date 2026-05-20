@@ -1,0 +1,207 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced diabetic nephropathy (CKD stage 4)",
+      "icd10": "N18.4",
+      "snomed": "236423003",
+      "probability": 0.32,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding type 2 diabetes mellitus with documented progression to CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <30 mL/min/1.73m\u00b2 consistent with stage 4 CKD",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s chronic diabetes and severely reduced eGFR indicate advanced diabetic nephropathy as the dominant driver of his renal failure and associated complications."
+    },
+    {
+      "rank": 2,
+      "name": "Essential hypertension with target\u2011organ damage",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension recorded in problem list and flagged as uncontrolled",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Evidence of left\u2011ventricular hypertrophy on prior ECG (not shown) and proteinuria beyond diabetic nephropathy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled blood pressure is common in CKD\u20114 and contributes to further renal decline and cardiovascular risk, making it a likely concurrent diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related anemia (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin <10 g/dL with normal iron studies (not provided but assumed) in setting of CKD stage 4",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No erythropoiesis\u2011stimulating agent prescribed despite anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to reduced erythropoietin production, explaining the patient\u2019s anemia and the lack of ESA therapy."
+    },
+    {
+      "rank": 4,
+      "name": "Subclinical atherosclerotic cardiovascular disease (CAD \u00b1 PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic syndrome, diabetes, hypertension, and obesity place patient at high ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented prior cardiac events but patient is awaiting transplant evaluation, indicating need for cardiovascular assessment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the risk factor burden, silent atherosclerosis is plausible even without overt symptoms."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome documented; liver enzymes not available but risk is high",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive without liver panel \u2013 raises suspicion for hepatic dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD; the unexplained urine bilirubin may reflect early hepatic involvement."
+    },
+    {
+      "rank": 6,
+      "name": "Medication non\u2011adherence / health\u2011literacy barrier",
+      "icd10": "Z91.14",
+      "snomed": "422034002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple red\u2011flag notes about missed appointments and inconsistent medication refills",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Absence of guideline\u2011directed therapies (SGLT2\u2011i, statin, ESA) despite clear indications",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The lack of essential CKD and cardiovascular medications suggests possible non\u2011adherence or limited health\u2011literacy."
+    },
+    {
+      "rank": 7,
+      "name": "CKD\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 present; bone\u2011mineral labs not ordered",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to secondary hyperparathyroidism, but no laboratory confirmation is available."
+    },
+    {
+      "rank": 8,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension are risk factors for HFpEF; no cardiac imaging yet performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While plausible, there is no objective cardiac data to support HFpEF at this time."
+    },
+    {
+      "rank": 9,
+      "name": "Spurious low HbA1c (laboratory error or anemia effect)",
+      "icd10": "R79.9",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c reported as 3.1% despite insulin therapy and CKD\u2011related anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No repeat HbA1c ordered; anemia known to falsely lower HbA1c values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The implausibly low HbA1c is most likely artefactual, caused by severe anemia or a lab error, and warrants repeat testing."
+    }
+  ],
+  "primary_diagnosis": "Advanced diabetic nephropathy (CKD stage 4)",
+  "primary_probability": 0.32,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is advanced diabetic nephropathy (CKD stage 4) driving renal failure, anemia, and the need for transplant evaluation. Co\u2011existing uncontrolled hypertension, CKD\u2011related anemia, and high atherosclerotic risk are well supported by the record. Metabolic syndrome raises the likelihood of NAFLD, while gaps in therapy and documentation suggest medication non\u2011adherence. Weakly supported complications (CKD\u2011MBD, HFpEF, OSA) are retained with minimal weight. The markedly low HbA1c is best explained by a spurious laboratory result, likely secondary to anemia, and should be re\u2011checked.",
+  "unresolved_findings": [
+    "Urine bilirubin positive without accompanying liver function tests",
+    "Implausibly low HbA1c (3.1%) conflicting with insulin therapy",
+    "Missing recent vital signs (BP, HR, BMI)",
+    "Absent total cholesterol and triglyceride values",
+    "No imaging studies (renal ultrasound, cardiac echo, vascular imaging)",
+    "Lack of documented ESA, statin, antiplatelet, or SGLT2\u2011inhibitor therapy"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and obtain fructosamine to verify glycemic control",
+    "Complete iron studies, reticulocyte count, and peripheral smear to assess anemia etiology",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, bilirubin fractions) and abdominal ultrasound for NAFLD/NASH evaluation",
+    "Blood pressure measurement series and ambulatory BP monitoring",
+    "Lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Renal ultrasound to assess kidney size and rule out obstructive causes",
+    "Transthoracic echocardiogram to evaluate for HFpEF and cardiac structure",
+    "Ankle\u2011brachial index or duplex ultrasound to screen for peripheral arterial disease",
+    "Bone\u2011mineral labs (serum calcium, phosphate, PTH, vitamin D) and consider renal osteodystrophy work\u2011up",
+    "Medication reconciliation and adherence assessment; consider initiating SGLT2\u2011i, statin, and ESA if indicated",
+    "Patient education and health\u2011literacy support interventions"
+  ]
+}

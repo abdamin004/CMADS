@@ -2,222 +2,212 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Metabolic syndrome with pre-type-2 diabetes",
-      "icd10": "E88.81",
-      "snomed": "237599002",
-      "probability": 0.27,
+      "name": "Metabolic\u2011syndrome\u2011driven Atherosclerotic Cardiovascular Disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.43,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity (BMI \u226530), stage 2 hypertension (BP 139/101), prediabetes (A1c 6.3%)",
+          "finding": "Obesity documented, hypertension 139/101 mmHg, prediabetes (A1c 6.3%)",
           "strength": "strong"
         },
         {
-          "source": "risk_scores",
-          "finding": "Elevated ASCVD risk factors consistent with metabolic syndrome",
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL/total cholesterol (data missing but implied by risk profile)",
           "strength": "moderate"
         }
       ],
-      "reasoning": "The combination of central obesity, elevated blood pressure, impaired fasting glucose, and dyslipidaemia meets criteria for metabolic syndrome and explains the pre-diabetic state."
+      "reasoning": "Patient exhibits classic metabolic syndrome components (obesity, hypertension, dysglycemia) that synergistically increase risk for atherosclerotic disease; reviewer elevated this to primary diagnosis."
     },
     {
       "rank": 2,
-      "name": "Early chronic kidney disease (stage 3a)",
-      "icd10": "N18.3",
-      "snomed": "709044004",
-      "probability": 0.12,
+      "name": "Obstructive Sleep Apnoea (OSA) with secondary resistant hypertension",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.3,
       "confidence": "moderate",
       "supporting_evidence": [
         {
-          "source": "lab_interpreter",
-          "finding": "Elevated serum creatinine (value not provided) suggesting eGFR ~45-59 mL/min/1.73m\u00b2",
-          "strength": "moderate"
-        },
-        {
           "source": "ehr_analyst",
-          "finding": "Stage 2 hypertension and metabolic syndrome increase risk for CKD",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Renal function is reduced consistent with stage 3a CKD, likely secondary to hypertensive nephropathy in the context of metabolic syndrome."
-    },
-    {
-      "rank": 3,
-      "name": "Chronic low-back pain (mechanical/degenerative)",
-      "icd10": "M54.5",
-      "snomed": "279039007",
-      "probability": 0.1,
-      "confidence": "high",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Documented chronic low-back pain managed with opioids",
+          "finding": "Resistant hypertension (BP 139/101 despite therapy) and documented obesity",
           "strength": "strong"
         },
         {
-          "source": "imaging",
-          "finding": "Degenerative changes on lumbar spine X-ray (if available)",
+          "source": "clinical_reviewer",
+          "finding": "High likelihood of OSA given phenotype, but sleep study not yet performed",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Long-standing back pain with opioid therapy indicates a mechanical/degenerative etiology."
+      "reasoning": "Obesity and resistant hypertension strongly suggest OSA; confirmation pending polysomnography."
+    },
+    {
+      "rank": 3,
+      "name": "Familial Hypercholesterolaemia (or severe polygenic hypercholesterolaemia)",
+      "icd10": "E78.0",
+      "snomed": "55822004",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated cholesterol noted (specific values unavailable)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No documented family history, reducing certainty",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hyperlipidaemia contributes to ASCVD risk; inability to differentiate FH from polygenic hypercholesterolaemia without genetic testing."
     },
     {
       "rank": 4,
-      "name": "Familial hypercholesterolaemia (heterozygous)",
-      "icd10": "E78.01",
-      "snomed": "55822004",
-      "probability": 0.16,
+      "name": "Chronic opioid\u2011treated low\u2011back pain with opioid\u2011use disorder risk",
+      "icd10": "G89.29",
+      "snomed": "24700007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on chronic high\u2011dose opioids for low\u2011back pain",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Regimen meets CDC high\u2011dose criteria; OUD screening indicated",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term opioid therapy places patient at risk for opioid use disorder; requires monitoring and possible taper."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hypertension (e.g., primary aldosteronism, renal\u2011artery stenosis)",
+      "icd10": "I15.2",
+      "snomed": "38341003",
+      "probability": 0.022,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite multiple agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Secondary causes under\u2011investigated; work\u2011up recommended",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Resistant BP warrants evaluation for secondary etiologies such as primary aldosteronism or renal artery stenosis."
+    },
+    {
+      "rank": 6,
+      "name": "Prediabetes progressing toward type\u202f2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.022,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "lab_interpreter",
-          "finding": "Elevated LDL cholesterol (specific value not provided) without clear secondary cause",
-          "strength": "moderate"
+          "finding": "HbA1c 6.3% (prediabetic range)",
+          "strength": "strong"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "Family history of premature cardiovascular disease (not documented, but reviewer notes need for assessment)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "High LDL in a patient with metabolic risk factors raises suspicion for heterozygous FH; further family history and genetic testing are warranted."
-    },
-    {
-      "rank": 5,
-      "name": "Obstructive sleep apnea (OSA)",
-      "icd10": "G47.33",
-      "snomed": "233100006",
-      "probability": 0.08,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Obesity and hypertension, common risk factors for OSA",
-          "strength": "moderate"
-        },
-        {
-          "source": "clinical_notes",
-          "finding": "Snoring reported by partner (if documented)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Risk profile suggests OSA, though no sleep study performed yet."
-    },
-    {
-      "rank": 6,
-      "name": "Opioid-use disorder (OUD)",
-      "icd10": "F11.20",
-      "snomed": "365981007",
-      "probability": 0.07,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic opioid therapy for low-back pain with high-risk prescribing patterns",
+          "source": "clinical_reviewer",
+          "finding": "Metabolic syndrome context increases conversion risk",
           "strength": "moderate"
         }
       ],
-      "reasoning": "Long-term opioid use in the setting of chronic pain meets criteria for possible OUD."
+      "reasoning": "Elevated HbA1c in setting of obesity and hypertension signals high risk for progression to diabetes."
     },
     {
       "rank": 7,
-      "name": "Major depressive disorder / generalized anxiety disorder",
+      "name": "Depression / Anxiety (undocumented)",
       "icd10": "F33.1",
-      "snomed": "370143000",
-      "probability": 0.07,
+      "snomed": "35489007",
+      "probability": 0.012,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "No formal mental health screening documented despite chronic pain and metabolic disease",
-          "strength": "weak"
-        },
-        {
-          "source": "clinical_notes",
-          "finding": "Patient reports low mood / worry (if noted)",
+          "finding": "No mental\u2011health screening performed; high prevalence in similar cohorts",
           "strength": "weak"
         }
       ],
-      "reasoning": "Psychological distress is common in patients with chronic pain and metabolic syndrome; screening is needed."
+      "reasoning": "Psychiatric comorbidity common in chronic pain and metabolic disease; screening warranted."
     },
     {
       "rank": 8,
-      "name": "Non-alcoholic fatty liver disease (NAFLD)",
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
       "icd10": "K76.0",
       "snomed": "235856003",
-      "probability": 0.04,
+      "probability": 0.007,
       "confidence": "moderate",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Metabolic syndrome components (obesity, dyslipidaemia, prediabetes) predispose to NAFLD",
-          "strength": "moderate"
-        },
-        {
-          "source": "imaging",
-          "finding": "Ultrasound showing hepatic steatosis (if performed)",
+          "source": "clinical_reviewer",
+          "finding": "Metabolic syndrome predisposes to NAFLD; no liver labs yet obtained",
           "strength": "weak"
         }
       ],
-      "reasoning": "Metabolic risk factors make NAFLD plausible, though imaging/labs are lacking."
+      "reasoning": "Given obesity and dysglycemia, NAFLD is plausible but unconfirmed."
     },
     {
       "rank": 9,
-      "name": "Secondary dyslipidaemia (e.g., hypothyroidism, nephrotic syndrome)",
-      "icd10": "E78.5",
-      "snomed": "271327008",
-      "probability": 0.03,
-      "confidence": "low",
+      "name": "Essential hypertension with early hypertensive nephropathy (CKD stage 3a)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.038,
+      "confidence": "weak",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Elevated LDL without clear primary cause",
+          "finding": "Blood pressure 139/101 mmHg; creatinine mildly elevated (exact value not provided)",
           "strength": "weak"
-        }
-      ],
-      "reasoning": "Reviewer considers this unlikely; retained with low probability pending thyroid function and urine protein testing."
-    },
-    {
-      "rank": 10,
-      "name": "Secondary hypertension (e.g., primary aldosteronism, renal artery stenosis)",
-      "icd10": "I15.0",
-      "snomed": "38341003",
-      "probability": 0.02,
-      "confidence": "low",
-      "supporting_evidence": [
+        },
         {
-          "source": "ehr_analyst",
-          "finding": "Resistant hypertension (BP 139/101 despite therapy)",
+          "source": "clinical_reviewer",
+          "finding": "Lack of eGFR and albuminuria data makes CKD uncertain",
           "strength": "weak"
         }
       ],
-      "reasoning": "Secondary causes not yet investigated; low probability but kept for completeness."
+      "reasoning": "Hypertension may be causing early renal injury, but insufficient data to confirm CKD stage."
     }
   ],
-  "primary_diagnosis": "Metabolic syndrome with pre-type-2 diabetes",
-  "primary_probability": 0.27,
-  "clinical_reasoning_summary": "The patient exhibits classic features of metabolic syndrome\u2014obesity, hypertension, and prediabetes\u2014making it the most likely overarching diagnosis. Early CKD likely reflects hypertensive nephropathy in this context. Chronic low-back pain is a well-documented problem driving opioid use. Dyslipidaemia raises concern for heterozygous familial hypercholesterolaemia, while obesity and metabolic risk also predispose to OSA, NAFLD, and mood disorders. Secondary dyslipidaemia and secondary hypertension remain possible but are less supported by current data.",
+  "primary_diagnosis": "Metabolic\u2011syndrome\u2011driven Atherosclerotic Cardiovascular Disease (ASCVD)",
+  "primary_probability": 0.43,
+  "clinical_reasoning_summary": "The patient presents with obesity, resistant hypertension, and prediabetes\u2014core components of metabolic syndrome that markedly elevate atherosclerotic cardiovascular risk. Reviewer's recalibration places ASCVD as the foremost concern. Obstructive sleep apnoea is a strong secondary driver of the resistant hypertension and should be confirmed with polysomnography. Additional contributors include possible familial hypercholesterolaemia, chronic opioid therapy with OUD risk, and uninvestigated secondary hypertension. Moderate\u2011risk conditions such as prediabetes progression, depression/anxiety, and NAFLD are noted but carry lower probabilities. Early hypertensive nephropathy remains possible but lacks definitive renal function data.",
   "unresolved_findings": [
-    "Extremely high platelet distribution width (PDW 297.6 fL) \u2013 possible lab artifact",
-    "Missing eGFR and urine albumin\u2011creatinine ratio",
-    "Single\u2011point lipid panel without trend data",
-    "No documented vaccination record (influenza, COVID\u201119, pneumococcal, etc.)",
-    "No mental\u2011health screening (PHQ\u20119, GAD\u20117) documented",
-    "No structured pain functional assessments (e.g., ODI, NRS) documented"
+    "Elevated platelet distribution width (PDW 297.6 fL)",
+    "Low\u2011normal white blood cell count (4.3 x10^3/\u00b5L)",
+    "Ferrous sulfate prescription without documented anemia",
+    "Missing eGFR and urine albumin/creatinine ratio",
+    "Absent smoking and alcohol use documentation",
+    "No mental\u2011health screening (PHQ\u20119/GAD\u20117)",
+    "No pain severity or functional assessment scores",
+    "No recent spirometry or asthma control test",
+    "Exact BMI numeric value not captured",
+    "No thyroid function tests (TSH, free T4)",
+    "No liver enzyme panel or imaging for NAFLD",
+    "No assessment for secondary hypertension (aldosterone\u2011renin ratio, renal imaging)"
   ],
   "recommended_workup": [
-    "Repeat platelet indices (PDW, MPV) to confirm abnormality",
-    "Comprehensive metabolic panel with eGFR calculation",
-    "Urine albumin\u2011creatinine ratio to assess renal involvement",
-    "Fasting lipid panel with repeat measurement",
-    "Thyroid function tests (TSH, free T4) to rule out secondary dyslipidaemia",
-    "Sleep study (polysomnography) for suspected OSA",
-    "Hepatic ultrasound or FibroScan to evaluate NAFLD",
-    "Genetic testing/cascade screening for familial hypercholesterolaemia if LDL remains markedly elevated",
-    "Standardized mental health screening (PHQ\u20119, GAD\u20117)",
-    "Pain functional assessment tools (Oswestry Disability Index, Numeric Rating Scale)",
-    "Vaccination status review and update as needed"
+    "Overnight polysomnography to confirm OSA",
+    "Comprehensive lipid panel with LDL subfraction analysis",
+    "eGFR calculation and urine albumin/creatinine ratio to assess renal involvement",
+    "Aldosterone\u2011renin ratio and renal artery Doppler ultrasound for secondary hypertension",
+    "Repeat HbA1c and fasting glucose; consider oral glucose tolerance test",
+    "Mental\u2011health screening using PHQ\u20119 and GAD\u20117",
+    "Liver function tests (ALT, AST, GGT) and abdominal ultrasound for NAFLD/NASH",
+    "Thyroid panel (TSH, free T4) to rule out hypothyroidism",
+    "Spirometry and asthma control questionnaire if respiratory symptoms persist",
+    "Assessment of opioid use disorder with DSM\u20115 criteria and urine drug screen",
+    "Detailed medication reconciliation and review of opioid dosing"
   ]
 }

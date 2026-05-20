@@ -1,0 +1,180 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension \u2013 diastolic-predominant",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.36,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Isolated diastolic blood pressure 96 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Cardiovascular risk driven by elevated diastolic pressure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a documented isolated diastolic hypertension reading consistent with primary hypertension; no secondary causes are evident, making this the most likely diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Reactive thrombocytosis / platelet activation",
+      "icd10": "D75.0",
+      "snomed": "302810001",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW 228 fL) suggesting platelet activation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild thrombocytosis noted on CBC",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Increased PDW and platelet count indicate a reactive process, likely secondary to low\u2011grade inflammation or stress."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal bleed",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild dilutional anemia with low RBC and hematocrit but normal hemoglobin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use noted, a risk factor for GI bleeding",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The pattern of early anemia together with NSAID exposure raises suspicion for occult GI blood loss leading to iron deficiency."
+    },
+    {
+      "rank": 4,
+      "name": "NSAID\u2011induced early chronic kidney disease contributing to hypertension",
+      "icd10": "N18.9",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Regular NSAID use for hand osteoarthritis",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension may be exacerbated by renal impairment",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic NSAID exposure can cause subtle renal dysfunction that may elevate blood pressure, though renal labs are missing."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension present, common risk factors for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the patient's obesity and hypertension, OSA is plausible even without documented sleep symptoms."
+    },
+    {
+      "rank": 6,
+      "name": "Obesity\u2011related metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.11,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u226530 kg/m\u00b2",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "One component of metabolic syndrome documented (elevated blood pressure)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity is present, but only one metabolic\u2011syndrome criterion is documented; therefore the probability is lower."
+    },
+    {
+      "rank": 7,
+      "name": "Pre\u2011diabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Cardiometabolic risk profile (obesity, hypertension)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but no glucose or HbA1c data are available, making this a tentative consideration."
+    },
+    {
+      "rank": 8,
+      "name": "Depressive disorder / chronic\u2011stress related dysautonomia",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic stress and psychosocial stressors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stress may contribute to autonomic dysregulation and mild hypertension."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension \u2013 diastolic-predominant",
+  "primary_probability": 0.36,
+  "clinical_reasoning_summary": "The patient\u2019s isolated diastolic hypertension, obesity, and chronic NSAID use drive a multifactorial risk profile. The senior reviewer emphasized primary hypertension as the dominant diagnosis, relegating metabolic syndrome to a secondary role. Reactive thrombocytosis is supported by platelet indices, while early iron\u2011deficiency anemia is plausible given NSAID exposure. Potential contributors such as NSAID\u2011related renal injury, obstructive sleep apnea, and psychosocial stress are retained with lower probabilities. Diagnoses lacking objective data (primary aldosteronism, essential thrombocythemia, subclinical hypothyroidism) were removed.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 228\u202ffL) \u2013 driver unclear",
+    "Low RBC and hematocrit with normal hemoglobin \u2013 dilutional vs early anemia not fully explained",
+    "Missing fasting glucose / HbA1c",
+    "Missing serum creatinine, eGFR, and urine albumin",
+    "Missing iron studies and fecal occult blood test",
+    "Missing thyroid function tests (TSH, free T4)",
+    "Absence of documented smoking status",
+    "Single isolated blood pressure reading without trend data"
+  ],
+  "recommended_workup": [
+    "Repeat ambulatory blood pressure monitoring to confirm hypertension pattern",
+    "Comprehensive metabolic panel including serum creatinine, eGFR, and urine albumin/creatinine ratio",
+    "Fasting glucose and HbA1c",
+    "Iron studies (serum ferritin, iron, TIBC) and stool occult blood test",
+    "Thyroid function tests (TSH, free T4) to rule out hypothyroidism",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Repeat CBC with differential and platelet indices",
+    "Assessment of smoking status and counseling"
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin resistance / Central obesity (Metabolic syndrome)",
+      "icd10": "E88.81",
+      "snomed": "237602007",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X (SNOMED 237602007) \u2013 high priority",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 7.0% (diabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL 139 mg/dL, Total cholesterol 234.9 mg/dL, Triglycerides 184.8 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension on three\u2011drug regimen",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea (moderate)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol use (moderate)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of type 2 diabetes, dyslipidemia, hypertension, and OSA in a 60\u2011year\u2011old male fits the classic insulin\u2011resistance driven metabolic syndrome, which explains most downstream abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Resistant (essential) hypertension",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2001",
+          "strength": "strong"
+        },
+        {
+          "source": "medication",
+          "finding": "Three\u2011drug antihypertensive regimen (HCTZ, Lisinopril, Amlodipine)",
+          "strength": "strong"
+        },
+        {
+          "source": "data-quality",
+          "finding": "Current systolic/diastolic BP values missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension requiring three agents suggests resistant hypertension, especially given missing recent BP measurements."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (untreated)",
+      "icd10": "G47.33",
+      "snomed": "78275009",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea syndrome \u2013 moderate, onset 2011",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CPAP or therapy documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol use \u2013 moderate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented OSA without treatment contributes to resistant hypertension and metabolic dysregulation."
+    },
+    {
+      "rank": 4,
+      "name": "Sub\u2011optimally controlled type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus \u2013 high priority, diagnosed 2001",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 7.0% (diabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 106 mg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "No antidiabetic agents listed",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated A1c with no documented glucose\u2011lowering therapy indicates sub\u2011optimal control."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril prescribed for renal protection in diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension and type 2 diabetes \u2013 major CKD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "eGFR and CKD stage missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given long\u2011standing HTN and DM, early CKD is plausible despite normal renal panel; missing eGFR data creates uncertainty."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease (Metabolic\u2011associated steatotic liver disease)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X \u2013 high priority",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hypertriglyceridemia (184.8 mg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol use \u2013 moderate (but likely below threshold for alcoholic liver disease)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome with elevated TGs confers high pre\u2011test probability for NAFLD, though no liver labs or imaging are available."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic disease / Iron\u2011deficiency anemia",
+      "icd10": "D63.8",
+      "snomed": "271737000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia \u2013 moderate, onset 2001",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "RBC 4.0\u00d710\u2076/\u00b5L (low), Hemoglobin 12.5 g/dL (borderline low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic disease burden (HTN, DM, OSA)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild normocytic anemia in the setting of chronic inflammation suggests anemia of chronic disease; iron\u2011deficiency cannot be excluded."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary hypertension (e.g., primary aldosteronism, renal\u2011artery stenosis)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on three agents",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "Missing BP trends and renal imaging",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension warrants evaluation for secondary causes despite the dominant metabolic driver."
+    },
+    {
+      "rank": 9,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension, OSA, presumed obesity, anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "No cardiac imaging or BNP available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The phenotype (older male, HTN, OSA, metabolic syndrome) is typical for HFpEF, but objective cardiac data are lacking."
+    },
+    {
+      "rank": 10,
+      "name": "Major depressive disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain (low\u2011back, neck), alcohol use, limited resources",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental\u2011health diagnosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and chronic pain raise the possibility of depression, which can affect adherence and metabolic control."
+    }
+  ],
+  "primary_diagnosis": "Insulin resistance / Central obesity (Metabolic syndrome)",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient presents with a classic metabolic\u2011syndrome phenotype: long\u2011standing hypertension, type 2 diabetes with A1c 7.0%, dyslipidemia, central obesity (inferred), and untreated obstructive sleep apnea. These inter\u2011related abnormalities are best explained by insulin resistance driving hypertension, dyslipidemia, and glucose intolerance. Resistant hypertension, untreated OSA, and lack of glucose\u2011 and lipid\u2011lowering therapy further amplify cardiovascular risk. Missing data (current BP, BMI, eGFR, smoking status) limit precise risk quantification and raise the possibility of secondary hypertension, early CKD, HFpEF, and depression, which are included lower in the differential.",
+  "unresolved_findings": [
+    "Implausible platelet distribution width (PDW) 465.5 fL \u2013 likely lab error",
+    "Electrolyte trend (K\u2193, CO\u2082\u2191, Cl\u2193, Na\u2191) without clear clinical context",
+    "Prediabetes SNOMED code despite established diabetes",
+    "Missing current blood pressure readings",
+    "Missing BMI, weight, waist circumference",
+    "Missing eGFR and CKD stage",
+    "Missing smoking status",
+    "No documented CPAP or OSA therapy",
+    "Absence of antidiabetic and lipid\u2011lowering medications"
+  ],
+  "recommended_workup": [
+    "Obtain current office blood pressure and 24\u2011hour ambulatory BP monitoring",
+    "Measure weight, height, calculate BMI, and waist circumference",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio",
+    "Plasma aldosterone/renin ratio; consider renal\u2011artery duplex, urinary metanephrines, midnight cortisol if ratio abnormal",
+    "Polysomnography or home sleep apnea test; assess CPAP adherence if already prescribed",
+    "Comprehensive medication reconciliation to confirm absence of antidiabetic and statin therapy",
+    "Repeat fasting lipid panel after lifestyle/medication interventions",
+    "Liver function tests (ALT, AST, GGT) and hepatic ultrasound or FibroScan",
+    "Iron studies (Ferritin, serum iron, TIBC, reticulocyte count) to clarify anemia etiology",
+    "BNP or NT\u2011proBNP and transthoracic echocardiogram with diastolic function assessment",
+    "PHQ\u20119 and GAD\u20117 screening for depression and anxiety",
+    "Serum uric acid level to evaluate for gout"
+  ]
+}

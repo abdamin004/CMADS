@@ -1,0 +1,274 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (obesity-driven insulin resistance, hypertension, pre-diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag (BMI \u2265 30) present since 2011",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 6.0% (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 04/2022, BP 128/77 mmHg on amlodipine 2.5 mg",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW (249.9 fL) and RDW (39.2 fL) indicating low-grade inflammation",
+          "strength": "strong"
+        },
+        {
+          "source": "data-quality",
+          "finding": "Missing lipid panel (high likelihood of dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity drives chronic low-grade inflammation, insulin resistance, and hypertension. The combination of obesity, prediabetes, suboptimally controlled BP, and inflammatory hematologic markers fits the metabolic syndrome construct and explains most observed abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Subclinical iron deficiency (functional or dietary)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.2,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated RDW (39.2 fL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW (249.9 fL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count high-normal (340.7 x10\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, reproductive age (menstrual iron loss likely)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin normal (16.2 g/dL) indicating early stage",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High RDW and PDW are classic for iron deficiency even before anemia develops. In a menstruating woman with obesity, functional iron deficiency due to inflammation is plausible and directly accounts for the most striking hematologic abnormalities."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive sleep apnea (OSA) secondary to obesity",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension refractory to monotherapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, age 33 (OSA prevalence rising in this subgroup)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "No sleep study performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity predisposes to upper airway collapse during sleep, causing intermittent hypoxia and sympathetic surges that worsen hypertension and insulin resistance, reinforcing the metabolic syndrome loop."
+    },
+    {
+      "rank": 4,
+      "name": "Early hypertensive/obesity-related chronic kidney disease (CKD) stage 1\u20112",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 5.1 mmol/L (high\u2011normal, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 9.4 mg/dL (normal, rising)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension not at target despite therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "Missing serum creatinine/eGFR and urine ACR",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Sustained hypertension and obesity can cause early glomerular hyperfiltration and subtle tubular dysfunction, manifesting as borderline hyperkalemia. Confirmation requires renal function labs."
+    },
+    {
+      "rank": 5,
+      "name": "Post\u2011sepsis low\u2011grade inflammation",
+      "icd10": "Z86.16",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active sepsis flag from 08/2016 (likely documentation artifact)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW and RDW suggesting chronic inflammation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Leukocyte count normal, trend falling (no acute infection)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Prior severe infection can leave a persistent inflammatory phenotype that contributes to hematologic abnormalities and may modestly worsen insulin resistance and BP."
+    },
+    {
+      "rank": 6,
+      "name": "Polycystic ovary syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "236069009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and insulin resistance present",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "No menstrual or androgen data available",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If present, PCOS would amplify insulin resistance and dyslipidemia, but lack of gynecologic data keeps its probability low."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "124055006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Weight gain and borderline hypertension (potentially related)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "Thyroid function tests not performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypothyroidism can mimic metabolic syndrome features; inexpensive TSH testing is warranted to exclude it."
+    },
+    {
+      "rank": 8,
+      "name": "Early myelodysplastic syndrome (MDS) / clonal hematopoiesis",
+      "icd10": "D46.9",
+      "snomed": "126910001",
+      "probability": 0.005,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very high PDW (249.9 fL) and RDW (39.2 fL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal hemoglobin and RBC count (early stage)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 33 (atypical for MDS)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The magnitude of anisocytosis raises a remote concern for marrow stress; however, age and lack of cytopenias make this unlikely. Referral to hematology only if iron studies and inflammatory work\u2011up are negative."
+    },
+    {
+      "rank": 9,
+      "name": "Cushing's syndrome / primary hyperaldosteronism",
+      "icd10": "E24.9",
+      "snomed": "237599002",
+      "probability": 0.005,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, borderline low fasting glucose",
+          "strength": "moderate"
+        },
+        {
+          "source": "data-quality",
+          "finding": "No cortisol, aldosterone, or dexamethasone suppression testing performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Rare endocrine causes could produce the observed metabolic picture, but without specific hormonal data the probability remains minimal."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (obesity-driven insulin resistance, hypertension, pre-diabetes)",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient is a 33\u2011year\u2011old obese female with pre\u2011diabetes, sub\u2011optimally controlled hypertension on low\u2011dose amlodipine, and a striking inflammatory hematologic profile (high PDW and RDW). These findings converge on an obesity\u2011driven metabolic syndrome as the most parsimonious explanation, accounting for the majority of cardiovascular and glycemic abnormalities. The pronounced anisocytosis suggests a concurrent early iron\u2011deficiency state, which is common in menstruating women and can independently raise PDW/RDW. Secondary considerations include OSA (obesity\u2011related), early CKD (hypertension\u2011related), residual post\u2011sepsis inflammation, and less likely endocrine or hematologic disorders. Missing key labs (lipid panel, renal function, iron studies, thyroid panel, vitamin B12/folate) limit definitive exclusion of alternative diagnoses, prompting a targeted work\u2011up.",
+  "unresolved_findings": [
+    "Markedly elevated PDW (249.9 fL) not fully explained by current diagnoses",
+    "Markedly elevated RDW (39.2 fL) without anemia",
+    "Borderline low fasting glucose (67.4 mg/dL) with rising trend",
+    "Active sepsis flag likely erroneous but raises concern for chronic inflammation",
+    "Missing lipid panel, serum creatinine/eGFR, iron studies, thyroid panel, vitamin B12/folate, and sleep study data"
+  ],
+  "recommended_workup": [
+    "Serum iron, ferritin, total iron\u2011binding capacity (TIBC), transferrin saturation",
+    "Fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "Serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
+    "Thyroid function tests (TSH, free T4)",
+    "Vitamin B12 and folate levels",
+    "Home sleep apnea test or overnight polysomnography",
+    "Gynecologic assessment: menstrual history, androgen levels, ultrasound if indicated for PCOS",
+    "High\u2011sensitivity C\u2011reactive protein (hs\u2011CRP) or ESR to quantify systemic inflammation",
+    "Repeat complete blood count with peripheral smear to verify PDW/RDW and assess platelet morphology"
+  ]
+}

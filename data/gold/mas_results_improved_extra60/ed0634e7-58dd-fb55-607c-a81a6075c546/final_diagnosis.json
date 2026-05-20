@@ -1,0 +1,126 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive Biliary Disease (Choledocholithiasis or Biliary Stricture)",
+      "icd10": "K80.20",
+      "snomed": "235719002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hyperbilirubinemia (total bilirubin >8\u202fmg/dL) without clear hemolysis work\u2011up",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk factors for biliary disease: metabolic syndrome, obesity, prior abdominal imaging pending",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The magnitude of bilirubin elevation is most consistent with cholestasis from biliary obstruction. Absence of fractionated bilirubin and imaging makes the diagnosis presumptive, but the reviewer highlighted under\u2011weighting of this entity and recommended urgent biliary imaging."
+    },
+    {
+      "rank": 2,
+      "name": "Hemolytic Anemia (autoimmune, drug\u2011induced, or hereditary)",
+      "icd10": "D55.9",
+      "snomed": "302810001",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated total bilirubin with unknown direct/indirect fraction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of statin and NSAID use (potential drug\u2011induced hemolysis)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While hemolysis can raise indirect bilirubin, the lack of hemolysis labs (retic count, haptoglobin, LDH) makes this diagnosis plausible but not definitive. The reviewer kept it in the differential with moderate probability."
+    },
+    {
+      "rank": 3,
+      "name": "Drug\u2011Induced Liver Injury (Statin\u2011 or NSAID\u2011related Cholestasis)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Concurrent low\u2011intensity statin and NSAID therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented ALP elevation (data missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cholestatic DILI from these agents is uncommon and usually presents with ALP rise, which is unavailable. The reviewer downgraded its likelihood but retained it as a possible contributor."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / Non\u2011Alcoholic Steatohepatitis (NAFLD\u2011NASH)",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, type 2 diabetes, hypertriglyceridemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No imaging or liver enzyme data to confirm steatosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD/NASH is common in this risk profile but rarely causes isolated bilirubin >8\u202fmg/dL. The reviewer marked it as weakly supported, reflected in the lower probability."
+    },
+    {
+      "rank": 5,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF) \u2013 Congestive Hepatopathy",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension, diabetes, prior myocardial infarction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented signs of volume overload or elevated right\u2011sided pressures",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Congestive hepatopathy can raise bilirubin modestly, but the degree observed is atypical. The reviewer kept it as a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Obstructive Biliary Disease (Choledocholithiasis or Biliary Stricture)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "Severe hyperbilirubinemia in a patient with multiple metabolic risk factors most strongly suggests an obstructive biliary process, despite missing fractionated bilirubin and imaging. Hemolysis and drug\u2011induced cholestasis remain plausible secondary considerations, while NAFLD/NASH and HFpEF are less likely contributors given the bilirubin magnitude and lack of supporting laboratory or clinical data. The reviewer\u2019s adjustments shift the weight toward biliary obstruction and away from CKD, which was removed as unsupported.",
+  "unresolved_findings": [
+    "Fractionated bilirubin (direct vs. indirect) not available \u2013 cannot differentiate cholestasis from hemolysis.",
+    "Complete liver panel (AST, ALT, ALP, GGT) missing \u2013 limits assessment of hepatocellular vs. cholestatic pattern.",
+    "Coagulation profile and renal function data absent.",
+    "No abdominal imaging performed to confirm or exclude biliary obstruction or hepatic steatosis."
+  ],
+  "recommended_workup": [
+    "Urgent right upper quadrant ultrasound or MRCP to evaluate for choledocholithiasis or biliary stricture.",
+    "Serum fractionated bilirubin (direct and indirect).",
+    "Comprehensive liver function tests including AST, ALT, ALP, GGT, and INR.",
+    "Complete blood count with reticulocyte count, haptoglobin, LDH to assess for hemolysis.",
+    "Renal function panel (eGFR, urine albumin\u2011creatinine ratio).",
+    "Echocardiogram if clinical suspicion for HFpEF persists."
+  ]
+}

@@ -1,0 +1,389 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Frailty / Multimorbidity",
+      "icd10": "R54",
+      "snomed": "271442005",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Age = 104 years, female",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy (14 agents, duplicate ACE\u2011I and \u03b2\u2011blocker)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate\u2011partner abuse documented 2025\u201106\u201111",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Alzheimer\u2019s disease (diagnosed 1996)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Osteoporosis and dental disease (impacted molars, tooth loss)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced age, extensive comorbidities, polypharmacy, cognitive impairment, and social abuse create a frailty syndrome that drives functional decline, medication errors, and susceptibility to organ decompensation, making it the most upstream driver of the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic\u2011Hypertensive Chronic Kidney Disease (Stage 4)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.17,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) = 24.7\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 2.5\u202fmg/dL (rising trend)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine albumin/creatinine ratio = 541.7\u202fmg/g (nephrotic\u2011range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type\u202f2 diabetes (\u224850\u202fyears) and hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "medication_review",
+          "finding": "Duplicate ACE\u2011I prescriptions (proteinuria and BP control)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of markedly reduced eGFR, rising creatinine, and nephrotic\u2011range proteinuria in a patient with decades of diabetes and hypertension points to advanced diabetic\u2011hypertensive CKD as a central disease process."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011Related Anemia",
+      "icd10": "D63.1",
+      "snomed": "302226006",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis (CO\u2082 total = 20.3\u202fmmol/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (eGFR 24.7) \u2013 known cause of anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing hemoglobin/hematocrit data (gap flagged)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Stage\u202f4 CKD commonly leads to decreased erythropoietin production and anemia; the metabolic acidosis supports advanced renal disease, and the lack of recent CBC data highlights the need to confirm anemia."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011Mineral and Bone Disorder (Renal Osteodystrophy)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Osteoporosis (diagnosed 2001)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (eGFR 24.7)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome (risk modifiers)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD predisposes to disturbances in calcium, phosphate, PTH, and vitamin D, leading to bone loss; the documented osteoporosis and CKD stage support this complication."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.33",
+      "snomed": "84114007",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease (MI 1990, CABG 1994)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "medication_review",
+          "finding": "\u03b2\u2011blocker and ACE\u2011I therapy (standard HF management)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low urine specific gravity (1.0) suggesting dilute urine/possible volume overload",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s coronary artery disease, hypertension, and age place her at high risk for HFpEF; medication pattern and dilute urine support chronic volume handling issues."
+    },
+    {
+      "rank": 6,
+      "name": "Dependence on Renal Dialysis (possible tPA\u2011lock protocol)",
+      "icd10": "Z99.2",
+      "snomed": "709044004",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication_review",
+          "finding": "Chronic alteplase (tPA) listed on medication list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f4 CKD with rapidly rising creatinine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic alteplase is atypical but is sometimes used as a catheter\u2011lock solution for hemodialysis access; if the patient is already on dialysis, eGFR is historical and many downstream findings become expected."
+    },
+    {
+      "rank": 7,
+      "name": "Alzheimer\u2019s Disease (advanced)",
+      "icd10": "G30.9",
+      "snomed": "372729009",
+      "probability": 0.06,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Alzheimer\u2019s disease diagnosed 1996",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe cognitive impairment limiting self\u2011care",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Documented long\u2011standing AD explains the patient\u2019s functional decline and contributes to medication non\u2011adherence and vulnerability to abuse."
+    },
+    {
+      "rank": 8,
+      "name": "Hemoglobin Variant / Assay Interference",
+      "icd10": "D55.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c = 2.9\u202f% (implausibly low)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes with glucosuria and ketonuria (discordant with low HbA1c)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A markedly low HbA1c in a diabetic patient suggests a hemoglobinopathy or analytical interference, which could also affect other lab values."
+    },
+    {
+      "rank": 9,
+      "name": "Low\u2011Grade Hemolysis",
+      "icd10": "D59.9",
+      "snomed": "302226006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin = 1.3\u202fmg/dL (positive)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HbA1c possibly reflecting shortened red\u2011cell lifespan",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Positive urine bilirubin without serum data and a low HbA1c raise the possibility of mild hemolysis, perhaps related to dialysis access or a mechanical valve."
+    },
+    {
+      "rank": 10,
+      "name": "Liver Disease / Cholestasis (early)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin positive",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Isolated urine bilirubin could indicate hepatic dysfunction or cholestasis; lack of serum liver tests makes this provisional."
+    },
+    {
+      "rank": 11,
+      "name": "Plasma\u2011Cell Dyscrasia / AL Amyloidosis (rule\u2011out)",
+      "icd10": "E85.4",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria (albumin/creatinine ratio 541.7\u202fmg/g)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age\u202f>\u202f100\u202fy, long\u2011standing CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Nephrotic\u2011range proteinuria in an elderly patient warrants exclusion of AL amyloidosis, especially when diabetes is present but does not fully explain the proteinuria magnitude."
+    },
+    {
+      "rank": 12,
+      "name": "Uremic Encephalopathy (contributory)",
+      "icd10": "G92",
+      "snomed": "404640003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced Alzheimer\u2019s disease and CKD stage\u202f4",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis (CO\u2082 20.3\u202fmmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe renal dysfunction can exacerbate cognitive impairment, contributing to a uremic encephalopathic component on top of Alzheimer\u2019s disease."
+    },
+    {
+      "rank": 13,
+      "name": "Acute\u2011on\u2011Chronic Kidney Injury",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum creatinine trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low urine specific gravity (1.0) suggesting impaired concentrating ability",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A superimposed AKI on chronic CKD could be driven by volume depletion, nephrotoxic exposures, or sepsis and would accelerate renal decline."
+    },
+    {
+      "rank": 14,
+      "name": "Malnutrition / Sarcopenia",
+      "icd10": "R64",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dental disease (impacted molars, tooth loss) affecting nutrition",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) but frailty signs (low urine SG, polypharmacy)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Nutritional deficits and muscle wasting are common in centenarians with CKD and cognitive impairment, contributing to frailty and poor outcomes."
+    },
+    {
+      "rank": 15,
+      "name": "Depression / Psychosocial Stress (abuse\u2011related)",
+      "icd10": "F32.9",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate\u2011partner abuse documented 2025\u201106\u201111",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Alzheimer\u2019s disease limiting coping capacity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stress and possible depression can worsen adherence, appetite, and overall health, amplifying the impact of other medical conditions."
+    }
+  ],
+  "primary_diagnosis": "Frailty / Multimorbidity",
+  "primary_probability": 0.22,
+  "clinical_reasoning_summary": "The patient\u2019s extreme age, extensive comorbidities, polypharmacy, cognitive impairment, and documented abuse create a frailty syndrome that underlies functional decline and predisposes to organ decompensation.  Stage\u202f4 diabetic\u2011hypertensive CKD is the dominant renal pathology, driving anemia, mineral\u2011bone disorder, and contributing to volume overload and possible acute kidney injury.  Cardiovascular disease (ischemic heart disease, hypertension) manifests as HFpEF, while chronic dialysis (suggested by a tPA\u2011lock) may already be in place.  Additional atypical findings (very low HbA1c, urine bilirubin, chronic alteplase) raise the possibility of hemoglobin variants, low\u2011grade hemolysis, early liver disease, or data errors.  The differential therefore prioritises frailty, CKD, its complications, and the high\u2011risk cardiovascular and neurocognitive context, while flagging several rule\u2011out conditions that require targeted testing.",
+  "unresolved_findings": [
+    "HbA1c = 2.9\u202f% (implausibly low)",
+    "Urine bilirubin positive without serum liver tests",
+    "Low urine specific gravity (1.0) \u2013 could be artifact",
+    "Chronic alteplase prescription (unusual chronic thrombolytic use)",
+    "Missing key labs: complete blood count, serum albumin, PTH, vitamin D, serum bilirubin, coagulation panel"
+  ],
+  "recommended_workup": [
+    "Review dialysis records and confirm presence of a tPA\u2011lock protocol (dialysis dependence).",
+    "CBC with reticulocyte count, ferritin, transferrin saturation, and ESA use assessment (CKD\u2011related anemia).",
+    "Mineral\u2011bone panel: iPTH, serum calcium, phosphate, 25\u2011OH vitamin D, alkaline phosphatase (CKD\u2011MBD).",
+    "Echocardiogram and BNP/NT\u2011proBNP; bedside lung ultrasound to evaluate HFpEF and volume status.",
+    "Hemoglobin electrophoresis or HPLC and repeat HbA1c on an alternative platform; consider fructosamine or glycated albumin (hemoglobin variant).",
+    "LDH, haptoglobin, indirect bilirubin, peripheral smear, direct Coombs test (low\u2011grade hemolysis).",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, total and direct bilirubin) (liver disease).",
+    "Serum protein electrophoresis, urine protein electrophoresis, free light\u2011chain assay; consider renal biopsy if monoclonal protein detected (plasma\u2011cell dyscrasia).",
+    "Urine culture, blood cultures, chest X\u2011ray, CRP/ESR, procalcitonin (sepsis/AKI trigger).",
+    "Nutritional assessment: serum albumin, pre\u2011albumin, total lymphocyte count, weight trend; dietitian consult (malnutrition).",
+    "Comprehensive medication reconciliation including OTC and PRN agents; assess for nephrotoxins and duplicate therapies.",
+    "Frailty assessment (Clinical Frailty Scale, gait speed, grip strength).",
+    "Adult Protective Services evaluation and depression screening (Geriatric Depression Scale) (psychosocial stress)."
+  ]
+}

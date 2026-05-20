@@ -1,0 +1,176 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End\u2011stage renal disease (ESRD) due to chronic allograft failure (chronic transplant nephropathy)",
+      "icd10": "N18.6; T86.10",
+      "snomed": "702530001",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of renal transplant with documented chronic allograft dysfunction",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine >5\u202fmg/dL consistent with ESRD",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s transplant history, persistent elevation of creatinine, and lack of recent improvement indicate irreversible graft failure, making chronic transplant nephropathy the most likely cause of current renal failure."
+    },
+    {
+      "rank": 2,
+      "name": "Acute kidney injury (AKI) superimposed on chronic allograft nephropathy",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent rise in serum creatinine over days (trend not fully documented)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BUN/creatinine ratio suggestive of an acute component",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Although chronic graft failure dominates, a superimposed AKI cannot be excluded given the unexplained recent creatinine increase and lack of urine output data."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic (type\u202f2) nephropathy",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior diagnosis of type\u202f2 diabetes in problem list",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Erroneous HbA1c of 3.2\u202f% (likely a data entry error)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes is listed, but the implausible HbA1c and absence of microalbuminuria data make diabetic nephropathy unlikely to be the primary driver."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis / uncontrolled hypertension",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current blood pressure readings unavailable",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is a known CKD risk factor, but without recent BP data the extent of its contribution cannot be quantified."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia (EPO deficiency) \u00b1 anemia of chronic disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin <10\u202fg/dL with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented ESA therapy or iron supplementation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is typical in ESRD; laboratory data confirm its presence, and the lack of treatment documentation raises concern for under\u2011treated CKD\u2011related anemia."
+    },
+    {
+      "rank": 6,
+      "name": "Opportunistic infection of the graft (BK virus, CMV, urinary\u2011tract infection)",
+      "icd10": "B99",
+      "snomed": "410607006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Immunosuppressed state post\u2011transplant",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No viral PCR or urine culture results available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While infection is possible in a transplant recipient, the absence of any microbiologic data makes this diagnosis unlikely at present."
+    },
+    {
+      "rank": 7,
+      "name": "Atherosclerotic cardiovascular disease (stable/unstable CAD, possible heart failure)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery disease in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent cardiac work\u2011up documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cardiovascular disease is a common comorbidity in ESRD patients and may impact overall management, though it does not directly explain renal decline."
+    }
+  ],
+  "primary_diagnosis": "End\u2011stage renal disease (ESRD) due to chronic allograft failure (chronic transplant nephropathy)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient\u2019s transplant history, persistently elevated creatinine, and lack of improvement despite therapy point to irreversible chronic allograft failure as the dominant process (ESRD). A superimposed AKI is plausible given a recent creatinine rise, but data are limited. Diabetes and hypertension are present risk factors; however, the erroneous HbA1c and missing BP measurements diminish their explanatory power. Anemia is clearly evident and aligns with CKD\u2011related erythropoietin deficiency. Opportunistic infection and atherosclerotic disease remain possible but are not supported by current investigations. The overall picture is dominated by chronic graft failure with secondary complications.",
+  "unresolved_findings": [
+    "Current blood pressure readings are missing \u2013 cannot assess hypertension control.",
+    "Recent tacrolimus/cyclosporine trough levels are unavailable.",
+    "Urine output trends and volume status data are absent.",
+    "HbA1c reported as 3.2\u202f% is likely erroneous; true glycemic control unknown.",
+    "No recent iron studies, vitamin B12/folate, or ESA use documented.",
+    "No calcium, phosphate, PTH, or vitamin D labs to evaluate secondary hyperparathyroidism.",
+    "No viral PCR (BK, CMV) or urine culture results to rule out infection.",
+    "Prostate cancer status (PSA trend, treatment) not provided."
+  ],
+  "recommended_workup": [
+    "Obtain serial serum creatinine and BUN measurements to define AKI trajectory.",
+    "Measure urine output and perform a spot urine protein/creatinine ratio.",
+    "Check current blood pressure and implement ambulatory monitoring.",
+    "Order tacrolimus or cyclosporine trough levels to assess immunosuppression adequacy.",
+    "Perform BK virus PCR, CMV PCR, and urine culture to exclude opportunistic infection.",
+    "Repeat HbA1c or obtain fasting glucose to clarify diabetic status.",
+    "Order iron studies, vitamin B12, folate, and assess ESA usage.",
+    "Obtain calcium, phosphate, PTH, and 25\u2011OH vitamin D levels for CKD\u2011MBD evaluation.",
+    "Review prostate cancer surveillance (PSA, imaging) if relevant.",
+    "Consider referral to transplant nephrology for dialysis planning and graft failure counseling."
+  ]
+}

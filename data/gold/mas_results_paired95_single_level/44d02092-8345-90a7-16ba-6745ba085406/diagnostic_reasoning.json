@@ -1,0 +1,292 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (central obesity, hypertension, pre-diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.29,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension (SBP 133 mmHg, DBP 79 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30 kg/m\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.4%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosis",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient meets three core components of metabolic syndrome (obesity, hypertension, impaired glucose tolerance). This cluster drives risk for ASCVD, NAFLD, CKD, and OSA, making it the dominant background diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic NSAID toxicity (renal impairment and occult GI mucosal injury)",
+      "icd10": "N18.9",
+      "snomed": "236423003",
+      "probability": 0.21,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen\u2011sodium 220\u202fmg PRN for knee OA",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline elevated creatinine 1.3\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal potassium 5.0\u202fmmol/L",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal sodium 136.3\u202fmmol/L",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs reduce renal perfusion and can cause a rise in serum creatinine and potassium. They also predispose to gastroduodenal mucosal injury, which may explain the chronic anemia of unknown cause."
+    },
+    {
+      "rank": 3,
+      "name": "Major depressive disorder / adjustment disorder with depressed mood",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.14,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic psychosocial stressors: unemployment, social isolation, intimate\u2011partner abuse",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental\u2011health diagnosis despite severe stressors",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antidepressant or anxiolytic prescriptions",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The magnitude of psychosocial burden strongly suggests an under\u2011diagnosed depressive disorder, which can worsen hypertension, metabolic control, and medication adherence."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis (CKD independent of NSAIDs)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.3\u202fmg/dL (borderline high) without eGFR calculation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use (confounding but not exclusive)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension can cause early CKD even in the absence of overt NSAID injury; distinguishing the contribution requires eGFR and albuminuria."
+    },
+    {
+      "rank": 5,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal blood loss (NSAID\u2011related or neoplastic)",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unknown cause since 1997",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use (risk for peptic ulcer disease)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No iron studies or stool guaiac performed (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID\u2011induced mucosal injury is a plausible source, but occult malignancy must be excluded given chronicity."
+    },
+    {
+      "rank": 6,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome phenotype (obesity, HTN, pre\u2011diabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Liver panel not ordered (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is the principal risk factor for NAFLD; lack of liver labs leaves the diagnosis unconfirmed."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, male sex, hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Classic risk profile, but without screening data the likelihood remains modest."
+    },
+    {
+      "rank": 8,
+      "name": "Vitamin D deficiency / secondary hyperparathyroidism",
+      "icd10": "E55.9",
+      "snomed": "237022003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal calcium 8.5\u202fmg/dL",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline potassium 5.0\u202fmmol/L and early CKD (possible reduced 1\u2011\u03b1\u2011hydroxylase activity)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low calcium in the setting of early CKD raises suspicion for vitamin D deficiency; easy to test and treat."
+    },
+    {
+      "rank": 9,
+      "name": "Right\u2011sided colorectal carcinoma (occult GI bleed)",
+      "icd10": "C18.2",
+      "snomed": "363406005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia of unknown cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No colonoscopy performed (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Age <45 makes cancer less common, but chronic iron\u2011deficiency anemia warrants rule\u2011out."
+    },
+    {
+      "rank": 10,
+      "name": "Gout / hyperuricemia",
+      "icd10": "M10.9",
+      "snomed": "239872002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, early CKD (risk factors for gout)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No clinical gout attacks documented, but risk profile justifies consideration."
+    },
+    {
+      "rank": 11,
+      "name": "Sub\u2011clinical atherosclerotic coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome cluster (elevated ASCVD risk once lipids known)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No lipid panel available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential underlying plaque given risk factors, but low pre\u2011test probability at age 43 without symptoms."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (central obesity, hypertension, pre-diabetes)",
+  "primary_probability": 0.29,
+  "clinical_reasoning_summary": "The patient presents with a classic metabolic\u2011syndrome constellation (obesity, stage\u20111 hypertension, pre\u2011diabetes) that underlies many downstream problems. Chronic naproxen use introduces a second high\u2011impact exposure causing renal hemodynamic changes and possible gastroduodenal mucosal injury, which together explain the borderline creatinine, high\u2011normal potassium, and longstanding anemia of unknown cause. Severe psychosocial stressors strongly suggest an under\u2011diagnosed depressive disorder, further impairing disease self\u2011management. Additional considerations include hypertensive nephrosclerosis, iron\u2011deficiency anemia from occult GI bleed (NSAID\u2011related or neoplastic), NAFLD, OSA, vitamin\u2011D deficiency, and low\u2011probability entities such as colorectal cancer, gout, and sub\u2011clinical coronary atherosclerosis. Missing data (lipid panel, eGFR, iron studies, stool guaiac, sleep study) limit precise risk quantification, prompting a targeted work\u2011up.",
+  "unresolved_findings": [
+    "Low\u2011normal calcium (8.5\u202fmg/dL) without vitamin D or PTH levels",
+    "Low\u2011normal sodium (136.3\u202fmmol/L) of uncertain significance",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR and urine albumin\u2011creatinine ratio",
+    "No iron studies, ferritin, TIBC, reticulocyte count, or stool guaiac",
+    "No documented smoking or alcohol use history",
+    "No sleep study or STOP\u2011BANG screening results",
+    "Absence of any documented mental\u2011health diagnosis despite severe psychosocial stressors"
+  ],
+  "recommended_workup": [
+    "Serum creatinine\u2011based eGFR and urine albumin\u2011creatinine ratio (repeat in 1\u20112 weeks)",
+    "Complete anemia work\u2011up: CBC with indices, ferritin, serum iron, TIBC, reticulocyte count; stool guaiac; if iron\u2011deficiency confirmed, schedule colonoscopy (and upper endoscopy if indicated)",
+    "Fasting lipid panel (total, LDL, HDL, triglycerides) and calculate 10\u2011year ASCVD risk",
+    "PHQ\u20119 and GAD\u20117 questionnaires; refer to mental\u2011health services if scores \u22655",
+    "Liver function tests (ALT, AST, GGT, ALP, bilirubin) and hepatic ultrasound if transaminases >2\u00d7 ULN",
+    "STOP\u2011BANG questionnaire; if \u22653, arrange home sleep apnea testing",
+    "25\u2011OH vitamin D level; supplement with cholecalciferol if <30\u202fng/mL",
+    "Medication review: discontinue chronic naproxen if possible, switch to acetaminophen or topical NSAID; if NSAID must continue, add a proton\u2011pump inhibitor for GI protection",
+    "Home blood pressure monitoring (average of \u22653 readings) to reassess control after NSAID cessation and consider ACE\u2011I/ARB initiation",
+    "Serum uric acid level and focused joint exam for gout symptoms",
+    "Structured interview to document tobacco and alcohol use",
+    "Physical activity and dietary assessment; refer to dietitian and physical therapy for weight\u2011loss and OA management"
+  ]
+}

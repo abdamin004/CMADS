@@ -2,209 +2,214 @@
   "differential": [
     {
       "rank": 1,
-      "name": "Acute bacterial prostatitis / male urinary-tract infection",
-      "icd10": "N41.1",
-      "snomed": "236423003",
-      "probability": 0.25,
+      "name": "Metabolic syndrome / insulin\u2011resistance (pre\u2011diabetes)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.45,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Marked pyuria with dilute urine (specific gravity 1.0) indicating infection",
+          "finding": "Obesity flag present; BMI not recorded but patient described as obese",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Atherogenic dyslipidemia (high LDL, low HDL, borderline total cholesterol)",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No empiric antibiotics initiated despite high severity infection marker",
-          "strength": "strong"
+          "finding": "Blood pressure 124/85\u202fmmHg (stage\u202f1 hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011level glucosuria in urine without documented serum glucose",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "The presence of significant pyuria and very dilute urine in a middle\u2011aged male strongly suggests an acute bacterial prostatitis or urinary\u2011tract infection. The lack of treatment further raises the likelihood."
+      "reasoning": "Obesity, dyslipidemia, and borderline hypertension together fulfill criteria for metabolic syndrome and suggest underlying insulin resistance, explaining glucosuria despite absent serum glucose data."
     },
     {
       "rank": 2,
-      "name": "Essential hypertension with atherogenic dyslipidaemia (ASCVD risk state)",
-      "icd10": "I10",
-      "snomed": "38341003",
-      "probability": 0.23,
-      "confidence": "high",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Stage\u20111 hypertension (124/85 mmHg) documented",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "No antihypertensive or lipid\u2011lowering therapy prescribed",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Consistent blood pressure readings above normal combined with untreated status indicate essential hypertension. The metabolic profile suggests atherogenic dyslipidaemia contributing to ASCVD risk."
-    },
-    {
-      "rank": 3,
-      "name": "Undiagnosed type 2 diabetes mellitus / pre\u2011diabetes",
-      "icd10": "R73.03",
-      "snomed": "237599002",
-      "probability": 0.15,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.11,
       "confidence": "moderate",
       "supporting_evidence": [
         {
-          "source": "risk_scores",
-          "finding": "Obesity and hypertension place patient at high risk for insulin resistance",
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present, major risk factors for NAFLD",
           "strength": "moderate"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "No glucose/HbA1c data available, raising uncertainty",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Metabolic risk factors are present, but lack of laboratory confirmation makes the diagnosis plausible yet not definitive."
-    },
-    {
-      "rank": 4,
-      "name": "Hypothyroidism (secondary dyslipidaemia)",
-      "icd10": "E03.9",
-      "snomed": "40930008",
-      "probability": 0.05,
-      "confidence": "low",
-      "supporting_evidence": [
-        {
           "source": "lab_interpreter",
-          "finding": "Lipid pattern could be explained by metabolic syndrome rather than primary thyroid disease",
-          "strength": "weak"
+          "finding": "Atherogenic dyslipidemia (high LDL, low HDL)",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "The lipid abnormalities are more typical of metabolic syndrome; without TSH data the hypothesis remains weak."
+      "reasoning": "Metabolic syndrome is the strongest driver of hepatic steatosis; in the absence of alcohol use data, NAFLD is the most plausible hepatic diagnosis."
     },
     {
-      "rank": 5,
-      "name": "Obstructive sleep apnoea (OSA)",
-      "icd10": "G47.33",
-      "snomed": "2331006",
+      "rank": 3,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
       "probability": 0.09,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Obesity present, a major risk factor for OSA",
+          "finding": "Blood pressure reading 124/85\u202fmmHg (stage\u202f1 hypertension)",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No reported sleep\u2011related symptoms documented",
-          "strength": "weak"
+          "finding": "Obesity and metabolic syndrome increase vascular risk",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Obesity raises suspicion for OSA, but absence of clinical sleep symptoms lowers certainty."
+      "reasoning": "Single elevated reading in the context of metabolic risk factors supports early primary hypertension, pending repeat measurements."
     },
     {
-      "rank": 6,
-      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
-      "icd10": "N18.3",
-      "snomed": "709044004",
+      "rank": 4,
+      "name": "Type\u20112 diabetes mellitus (new\u2011onset)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
       "probability": 0.07,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "risk_scores",
-          "finding": "Long\u2011standing hypertension and possible pre\u2011diabetes increase CKD risk",
-          "strength": "moderate"
+          "source": "lab_interpreter",
+          "finding": "Low\u2011level glucosuria in urine",
+          "strength": "weak"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No renal function labs (creatinine/eGFR) available",
+          "finding": "Metabolic syndrome present, a strong pre\u2011diabetic state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Glucosuria may reflect hyperglycemia; however, without serum glucose/HbA1c data the diagnosis remains tentative."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity flag; known risk factor for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA, but no symptom data (snoring, daytime sleepiness) are available."
+    },
+    {
+      "rank": 6,
+      "name": "Acute uncomplicated urinary\u2011tract infection",
+      "icd10": "N39.0",
+      "snomed": "68566005",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine (specific gravity 1.0) and low\u2011level glucosuria",
           "strength": "weak"
         }
       ],
-      "reasoning": "Risk factors are present, yet without renal labs the diagnosis remains speculative."
+      "reasoning": "Urine findings could be secondary to infection, but lack of dysuria, frequency, or leukocyte esterase makes this less likely."
     },
     {
       "rank": 7,
-      "name": "Major depressive disorder / adjustment disorder",
-      "icd10": "F32.9",
-      "snomed": "370143000",
-      "probability": 0.07,
-      "confidence": "moderate",
+      "name": "Early chronic kidney disease (stage\u202f1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "ehr_analyst",
-          "finding": "Recent social isolation, unemployment, and psychosocial stressors noted",
-          "strength": "moderate"
+          "source": "lab_interpreter",
+          "finding": "Trace proteinuria (implied by urine analysis) without eGFR data",
+          "strength": "weak"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No formal psychiatric assessment performed",
-          "strength": "weak"
+          "finding": "Metabolic syndrome, a risk factor for CKD",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Contextual stressors suggest mood disturbance, but formal evaluation is lacking."
+      "reasoning": "Potential early renal involvement inferred from proteinuria, but absence of creatinine/eGFR limits certainty."
     },
     {
       "rank": 8,
-      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
-      "icd10": "K76.0",
-      "snomed": "235856003",
-      "probability": 0.04,
-      "confidence": "moderate",
+      "name": "Medication\u2011induced dyslipidaemia",
+      "icd10": "E78.5",
+      "snomed": "271327008",
+      "probability": 0.05,
+      "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "risk_scores",
-          "finding": "Obesity and metabolic syndrome components present",
-          "strength": "moderate"
+          "source": "ehr_analyst",
+          "finding": "No medication list available; possibility of drug\u2011induced lipid abnormalities cannot be excluded",
+          "strength": "weak"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "No hepatic labs or imaging to confirm fatty infiltration",
-          "strength": "weak"
+          "source": "lab_interpreter",
+          "finding": "Atherogenic dyslipidemia",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Metabolic risk profile supports NAFLD, but objective liver data are missing."
+      "reasoning": "Without medication data, drug\u2011induced dyslipidaemia remains a speculative contributor to the lipid profile."
     },
     {
       "rank": 9,
-      "name": "Asymptomatic coronary artery disease (stable atherosclerotic heart disease)",
-      "icd10": "I25.10",
-      "snomed": "53741008",
+      "name": "Medication\u2011induced glucosuria / SGLT\u20112\u2011inhibitor effect",
+      "icd10": "R81",
+      "snomed": "271442005",
       "probability": 0.03,
       "confidence": "low",
       "supporting_evidence": [
         {
-          "source": "risk_scores",
-          "finding": "Hypertension, obesity, and dyslipidaemia increase ASCVD risk",
-          "strength": "moderate"
+          "source": "ehr_analyst",
+          "finding": "Medication list not provided; cannot confirm SGLT\u20112 inhibitor exposure",
+          "strength": "weak"
         },
         {
-          "source": "ehr_analyst",
-          "finding": "No cardiac testing performed to assess disease presence",
-          "strength": "weak"
+          "source": "lab_interpreter",
+          "finding": "Low\u2011level glucosuria in urine",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Risk factors suggest possible silent CAD, yet lack of cardiac evaluation limits certainty."
+      "reasoning": "Glucosuria could be medication\u2011related, but absence of drug data makes this unlikely."
     }
   ],
-  "primary_diagnosis": "Acute bacterial prostatitis / male urinary-tract infection",
-  "primary_probability": 0.25,
-  "clinical_reasoning_summary": "The patient presents with marked pyuria and a very dilute urine, indicating an acute bacterial prostatitis or urinary\u2011tract infection that has not yet been treated. This infection is the most urgent and likely diagnosis, superseding other chronic conditions. Concurrently, untreated stage\u20111 hypertension with probable atherogenic dyslipidaemia, obesity\u2011related metabolic risk (prediabetes/diabetes, NAFLD, possible early CKD), and psychosocial stressors create a complex risk profile. Evidence for hypothyroidism, OSA, depression, and silent CAD is present but weaker, largely inferred from risk factors rather than direct testing. The reviewer\u2019s probability adjustments have been applied, unsupported primary aldosteronism removed, and the ranking reflects both the strength of immediate evidence and the reviewer\u2019s confidence.",
+  "primary_diagnosis": "Metabolic syndrome / insulin\u2011resistance (pre\u2011diabetes)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, atherogenic dyslipidemia, and borderline hypertension fulfill criteria for metabolic syndrome, making insulin resistance the most probable underlying process and explaining the observed glucosuria. Secondary considerations include NAFLD and early hypertension, both common sequelae of metabolic dysfunction. Diabetes mellitus, OSA, CKD, and medication\u2011related effects remain possible but lack confirmatory data. Acute UTI is least likely given absent symptomatology.",
   "unresolved_findings": [
-    "Urine specific gravity 1.0 (very dilute) without clear cause",
-    "Absence of documented urinary symptoms despite pyuria",
-    "No recorded smoking, alcohol, or physical activity status",
-    "Education level (high\u2011school) listed as a problem but not linked to a disease",
-    "No active prescriptions despite multiple chronic problems"
+    "Very dilute urine (specific gravity 1.0) \u2013 could reflect over\u2011hydration, osmotic diuresis, SGLT\u20112\u2011i effect, or a primary concentrating defect.",
+    "Low\u2011level glucosuria without documented serum glucose \u2013 raises possibility of undiagnosed hyperglycaemia, renal threshold alteration, or medication effect.",
+    "Missing key labs: fasting glucose/HbA1c, serum creatinine/eGFR, electrolytes, liver panel, CBC, thyroid function, inflammatory markers.",
+    "Exact BMI value not recorded despite obesity flag \u2013 limits precise cardiovascular risk calculation.",
+    "No medication list \u2013 unknown exposure to agents that could cause dyslipidaemia, glucosuria, or hypertension.",
+    "No documented smoking, alcohol, or substance\u2011use history \u2013 important modifiers of cardiovascular and hepatic risk."
   ],
   "recommended_workup": [
-    "Obtain urine culture and start empiric broad\u2011spectrum antibiotics pending results",
-    "Repeat blood pressure measurement and initiate antihypertensive therapy per guidelines",
-    "Order fasting lipid panel and consider statin therapy",
-    "Measure fasting glucose and HbA1c to assess for diabetes/prediabetes",
-    "Check serum creatinine, eGFR, and urine albumin/creatinine ratio for renal function",
-    "Order TSH to evaluate for hypothyroidism",
-    "Consider overnight polysomnography to rule out obstructive sleep apnea",
-    "Perform liver ultrasound or FibroScan to evaluate for NAFLD",
-    "Obtain baseline ECG and consider stress testing given ASCVD risk",
-    "Screen for depression with PHQ\u20119 questionnaire"
+    "Fasting plasma glucose and HbA1c (or oral glucose tolerance test) to confirm pre\u2011diabetes/diabetes.",
+    "Comprehensive lipid panel (total cholesterol, LDL, HDL, triglycerides).",
+    "Liver function tests and abdominal ultrasound to evaluate NAFLD.",
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio for renal assessment.",
+    "Repeat blood pressure measurements on separate occasions.",
+    "Polysomnography or home sleep apnea testing for OSA evaluation.",
+    "Detailed medication reconciliation to identify agents causing glucosuria or dyslipidaemia.",
+    "Complete metabolic panel (electrolytes, thyroid function, inflammatory markers).",
+    "BMI calculation and waist circumference measurement."
   ]
 }

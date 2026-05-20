@@ -12,9 +12,13 @@ ACTUAL DISEASE: {target_disease}
 SYSTEM'S TOP 5:
 {differential}
 
-Step 1: Check each diagnosis. Is it DIRECT, INDIRECT, or UNRELATED?
+Step 1: Check each diagnosis. Is it DIRECT, INDIRECT, or MISS?
 
-DIRECT = same disease, different name:
+DIRECT = the system names the target disease (with or without an
+etiology / cause qualifier). If the system's diagnosis explicitly
+includes the target disease, it is DIRECT even when the diagnosis
+also names the underlying cause. Synonyms and commitments to the
+target stage also count as DIRECT.
   "Coronary artery disease" = "Ischemic heart disease"
   "ESRD on dialysis" = "End-stage renal disease"
   "Essential hypertension uncontrolled" = "Essential hypertension"
@@ -23,20 +27,25 @@ DIRECT = same disease, different name:
   "Diabetic nephropathy stage 5 CKD" = "End-stage renal disease"
   "Atherosclerotic CVD" = "Ischemic heart disease"
   "CKD stage 3 from diabetes" = "Chronic kidney disease stage 3"
+  "Diabetic nephropathy leading to ESRD" = "End-stage renal disease" (DIRECT — names target)
+  "Hypertensive nephrosclerosis culminating in ESRD" = "End-stage renal disease" (DIRECT — names target)
+  "Combined diabetic-hypertensive nephropathy leading to end-stage renal disease" = "End-stage renal disease" (DIRECT — names target)
+  "Atherosclerotic CAD with prior MI" = "Ischemic heart disease" (DIRECT — CAD = IHD)
 
-INDIRECT = cause, consequence, precursor, or subtype:
-  "CKD stage 4" for ESRD = INDIRECT (precursor, one stage away)
-  "CKD stage 3" for ESRD = INDIRECT (precursor)
-  "Diabetic nephropathy" for ESRD = INDIRECT (cause of ESRD)
-  "Focal segmental glomerulosclerosis" for ESRD = INDIRECT (cause)
-  "Hypertensive nephrosclerosis" for ESRD = INDIRECT (cause)
-  "Myocardial infarction" for IHD = INDIRECT (acute event of IHD)
+INDIRECT = the target disease is NOT explicitly named by the system,
+but the system named a cause, consequence, precursor, or subtype:
+  "CKD stage 4" for ESRD = INDIRECT (target stage 5 not committed to)
+  "CKD stage 3" for ESRD = INDIRECT (precursor only)
+  "Diabetic nephropathy" alone for ESRD = INDIRECT (cause only, target not named)
+  "Focal segmental glomerulosclerosis" alone for ESRD = INDIRECT (cause only)
+  "Hypertensive nephrosclerosis" alone for ESRD = INDIRECT (cause only)
+  "Myocardial infarction" for IHD = INDIRECT (acute event, IHD not named)
   "Cardiorenal syndrome" for heart failure = INDIRECT (consequence)
   "Prediabetes" for diabetes T2 = INDIRECT (precursor)
-  "Dyslipidemia" for metabolic syndrome = INDIRECT (component)
+  "Dyslipidemia" for metabolic syndrome = INDIRECT (component, target not named)
   "Hypertensive CKD" for hypertension = INDIRECT (consequence)
 
-UNRELATED = no clinical connection.
+MISS = no clinical connection.
 
 Step 2: Pick the BEST match (DIRECT > INDIRECT). Report its rank.
 

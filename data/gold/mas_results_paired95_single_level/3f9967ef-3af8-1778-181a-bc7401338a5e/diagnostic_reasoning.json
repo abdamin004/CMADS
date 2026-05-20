@@ -1,0 +1,250 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease with ongoing myocardial injury (type 1/2 MI)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Acute NSTEMI on 2021-02-01",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High-sensitivity troponin I 70.1 ng/L (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy (aspirin + prasugrel)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol succinate, lisinopril, pravastatin (secondary prevention)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, type 2 diabetes, obesity, dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Recent NSTEMI, persistent high-sensitivity troponin elevation, and full guideline\u2011directed secondary prevention indicate ongoing myocardial injury, most likely due to residual atherosclerotic CAD (type 1) or demand ischemia (type 2) in the setting of uncontrolled risk factors."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic\u2011hypertensive chronic kidney disease (CKD)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 2.8 mg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes (A1c 7.5%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011I (lisinopril) therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine in a patient with diabetes and hypertension strongly suggests CKD, likely diabetic nephropathy compounded by hypertensive nephrosclerosis. The discordant eGFR estimate signals missing data rather than absence of disease."
+    },
+    {
+      "rank": 3,
+      "name": "Heart failure with reduced ejection fraction (HFrEF) secondary to prior MI",
+      "icd10": "I50.22",
+      "snomed": "84114007",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Post\u2011NSTEMI status with \u03b2\u2011blocker and ACE\u2011I therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent troponin elevation suggesting ongoing myocardial stress",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity (risk factors for HF remodeling)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given prior MI and current pharmacologic regimen aimed at remodeling, HFrEF is a common sequela. Confirmation requires echocardiography."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive biliary disease (choledocholithiasis or distal cholangiocarcinoma)",
+      "icd10": "K80.5",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin 8.4 mg/dL (severe isolated hyperbilirubinemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented liver disease history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Marked bilirubin elevation raises concern for biliary obstruction, but lack of cholestatic enzyme data, RUQ pain, or imaging keeps probability modest."
+    },
+    {
+      "rank": 5,
+      "name": "Primary biliary cholangitis (early stage)",
+      "icd10": "K74.3",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated bilirubin rise without transaminase data",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, middle\u2011aged",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "PBC commonly presents in women with isolated cholestasis early in disease; definitive diagnosis requires AMA testing and cholestatic enzyme profile."
+    },
+    {
+      "rank": 6,
+      "name": "Hemolytic process (autoimmune or microangiopathic)",
+      "icd10": "D59.9",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated total bilirubin could be indirect",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 17.3 g/dL (high) contradictory to anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hemolysis could explain bilirubin elevation, but the high hemoglobin and lack of anemia make this less likely; further hemolysis labs are needed."
+    },
+    {
+      "rank": 7,
+      "name": "Medication\u2011related prerenal AKI / ACE\u2011I\u2011induced creatinine rise",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent lisinopril dose increase (10\u219220 mg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hydrochlorothiazide use (possible volume depletion)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 2.8 mg/dL",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "ACE\u2011I and thiazide can cause an acute rise in creatinine, especially if volume\u2011depleted; however the magnitude suggests underlying chronic disease."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, dyslipidemia, diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No liver enzyme data (gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD, but lack of AST/ALT data limits certainty."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233100006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, polycythemia (Hb 17.3 g/dL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA can exacerbate hypertension, CAD, and CKD; it is a modifiable contributor but not the primary driver of current lab abnormalities."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease with ongoing myocardial injury (type 1/2 MI)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient is a middle\u2011aged female with a history of NSTEMI, persistent high\u2011sensitivity troponin elevation, and multiple uncontrolled cardiovascular risk factors (HTN, DM, obesity, dyslipidemia). These findings, together with a full secondary\u2011prevention medication regimen, make ongoing coronary artery disease the most probable cause of current myocardial injury. Concurrently, a markedly elevated creatinine points to chronic kidney disease driven by diabetes and hypertension. The presence of severe isolated hyperbilirubinemia, high hemoglobin despite iron therapy, and discordant renal estimates constitute orphan findings that raise the possibility of biliary obstruction, early primary biliary cholangitis, or a hemolytic process. The differential has been re\u2011ranked to reflect Bayesian updating that gives greater weight to the troponin\u2011CAD axis while appropriately downgrading biliary possibilities due to missing supporting data. Confidence in the top three diagnoses is high to moderate, but overall certainty remains limited by several data gaps.",
+  "unresolved_findings": [
+    "Severe isolated hyperbilirubinemia (total bilirubin 8.4 mg/dL) without accompanying liver enzyme panel",
+    "Elevated hemoglobin (17.3 g/dL) despite iron supplementation and no evidence of anemia",
+    "Discordance between serum creatinine 2.8 mg/dL and eGFR 85 mL/min/1.73m\u00b2",
+    "High\u2011sensitivity troponin 70.1 ng/L without documented chest pain or recent ECG changes",
+    "Missing vital\u2011sign trends (blood pressure, heart rate) and BMI trajectory",
+    "Absence of urine protein/albumin measurements",
+    "Lack of fractionated bilirubin (direct vs indirect) and cholestatic enzyme values (ALP, GGT)",
+    "No imaging of the hepatobiliary tree (ultrasound, MRCP) or cardiac structure (echocardiogram)"
+  ],
+  "recommended_workup": [
+    "Fractionated bilirubin (direct and indirect) and full liver panel (AST, ALT, ALP, GGT, INR)",
+    "Abdominal right\u2011upper\u2011quadrant ultrasound with possible MRCP to evaluate for biliary obstruction or mass",
+    "Antimitochondrial antibody (AMA) testing for primary biliary cholangitis",
+    "Hemolysis work\u2011up: LDH, haptoglobin, reticulocyte count, direct Coombs test",
+    "Iron studies (serum ferritin, transferrin saturation, serum iron) to reassess need for ferrous sulfate",
+    "Repeat serum creatinine with BUN and urine albumin/creatinine ratio to stage CKD and differentiate acute vs chronic injury",
+    "Transthoracic echocardiogram to assess left ventricular ejection fraction and wall\u2011motion abnormalities",
+    "Stress testing or coronary CTA to evaluate for residual ischemia",
+    "Serial high\u2011sensitivity troponin measurements (3\u20116 hour interval) to determine trend",
+    "12\u2011lead ECG to look for new ischemic changes",
+    "Blood pressure and heart rate monitoring (clinic or home) to gauge hypertension control",
+    "Sleep study or validated OSA screening questionnaire (STOP\u2011BANG) given obesity and polycythemia"
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulinoma",
+      "icd10": "E16.1",
+      "snomed": "23700007",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting hypoglycemia (glucose <55 mg/dL) with inappropriately elevated insulin level",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated C-peptide concurrent with high insulin",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of exogenous insulin use documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inappropriately high endogenous insulin during documented fasting hypoglycemia strongly points to an insulin\u2011secreting pancreatic neuroendocrine tumor."
+    },
+    {
+      "rank": 2,
+      "name": "Factitious hypoglycemia (exogenous insulin use)",
+      "icd10": "E16.2",
+      "snomed": "4421005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting hypoglycemia with high insulin but low C\u2011peptide",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Access to insulin therapy in household (patient\u2019s spouse has diabetes)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High insulin with suppressed C\u2011peptide suggests exogenous insulin administration; clinical context raises possibility of factitious disorder."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome (obesity\u2011driven insulin resistance)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30), stage\u202f1 hypertension, elevated resting heart rate",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic fasting glucose (100\u2011125\u202fmg/dL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of obesity, hypertension, and impaired glucose tolerance fulfills criteria for metabolic syndrome, explaining long\u2011term cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Early hypertensive/obesity\u2011related chronic kidney disease (stage\u202f2)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline elevated serum creatinine with low BUN/Cr ratio",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild reduction in renal clearance in the setting of hypertension and obesity suggests early CKD."
+    },
+    {
+      "rank": 5,
+      "name": "Pre\u2011diabetes progressing toward type\u202f2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599009",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Impaired fasting glucose (100\u2011125\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and family history of diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Current glycemic values place the patient in the pre\u2011diabetic range, indicating high risk of progression to overt T2DM."
+    },
+    {
+      "rank": 6,
+      "name": "Distal (type\u202f1) renal tubular acidosis",
+      "icd10": "N25.1",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperchloremic metabolic acidosis with normal anion gap",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine pH >5.5 despite systemic acidosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal serum potassium",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The pattern of a normal\u2011anion\u2011gap acidosis with inappropriate urine alkalinization fits distal RTA, which can coexist with early CKD."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD) / early NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic milieu, NAFLD is likely, though no hepatic labs or imaging were provided."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233604007",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, elevated resting heart rate",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "These risk factors raise suspicion for OSA, but no sleep study data are available."
+    },
+    {
+      "rank": 9,
+      "name": "Type\u202f4 (hyperkalemic) renal tubular acidosis secondary to early CKD",
+      "icd10": "N25.8",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis without overt hyperkalemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Acidosis could be due to impaired distal acidification in CKD, but normal potassium makes classic type\u202f4 RTA unlikely."
+    },
+    {
+      "rank": 10,
+      "name": "Undocumented stimulant or sympathomimetic use",
+      "icd10": "F15.9",
+      "snomed": "386661006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No reported use; possibility remains",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absent history, but stimulant use could contribute to tachycardia and blood pressure elevation."
+    },
+    {
+      "rank": 11,
+      "name": "Adrenal insufficiency (primary)",
+      "icd10": "E27.1",
+      "snomed": "237073009",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "No electrolyte abnormalities typical of adrenal crisis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low likelihood given normal potassium and lack of hypotension, but retained for completeness."
+    }
+  ],
+  "primary_diagnosis": "Insulinoma",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with fasting hypoglycemia accompanied by inappropriately high endogenous insulin and C\u2011peptide, strongly suggesting an insulin\u2011secreting tumor (insulinoma). Factitious hypoglycemia remains a close differential given the possibility of exogenous insulin use. The background of obesity, hypertension, and pre\u2011diabetes supports metabolic syndrome and early CKD, which explain the hyperchloremic metabolic acidosis; distal (type\u202f1) RTA best fits the acid\u2011base profile. Other entities such as NAFLD, OSA, and rare endocrine disorders are less likely but retained with low probabilities.",
+  "unresolved_findings": [
+    "Exact mechanism of the hyperchloremic metabolic acidosis (distal RTA vs CKD\u2011related) requires further testing"
+  ],
+  "recommended_workup": [
+    "72\u2011hour supervised fast with simultaneous glucose, insulin, C\u2011peptide, and proinsulin measurements",
+    "Serum sulfonylurea screen to exclude factitious hypoglycemia",
+    "Abdominal MRI or endoscopic ultrasound to localize pancreatic lesion",
+    "Urine electrolytes and urine pH to confirm distal RTA",
+    "Serum aldosterone/renin ratio (if hypertension becomes resistant)",
+    "Liver ultrasound or FibroScan to assess NAFLD/NASH",
+    "Polysomnography if clinical suspicion for OSA persists"
+  ]
+}

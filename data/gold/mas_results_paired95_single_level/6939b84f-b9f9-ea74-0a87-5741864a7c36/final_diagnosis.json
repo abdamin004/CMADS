@@ -1,0 +1,166 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Insulin overtreatment / hypoglycemia risk",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on insulin therapy with possible transcription error in HbA1c suggesting over\u2011intensification",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low recorded glucose values or episodes of hypoglycemia (if available)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The reviewer identified a critical safety issue: excessive insulin dosing in a demented patient, raising immediate risk of hypoglycemia. Adjusted probability reflects its primacy."
+    },
+    {
+      "rank": 2,
+      "name": "Systemic atherosclerotic / hypertensive vascular disease",
+      "icd10": "I70.9",
+      "snomed": "55822004",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "History of myocardial infarction, hypertension, and prosthetic aortic valve",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk score",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Broad vascular disease underlies many downstream problems (heart failure, valve complications). Reviewer supports this diagnosis strongly and suggests a slightly higher weight."
+    },
+    {
+      "rank": 3,
+      "name": "Mixed\u2011phenotype heart failure (ischemic HFrEF + HFpEF) with volume overload",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "imaging",
+          "finding": "Prior echocardiogram showing reduced ejection fraction and diastolic dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Symptoms of dyspnea, peripheral edema, and diuretic use",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient\u2019s cardiac history and current volume status point to a combined systolic/diastolic failure pattern, though objective data are limited."
+    },
+    {
+      "rank": 4,
+      "name": "Prosthetic\u2011valve\u2011related chronic hemolysis / anemia",
+      "icd10": "D55.9",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mechanical aortic valve without documented anticoagulation",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia of unclear etiology; urine bilirubin noted (non\u2011specific)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Lack of anticoagulation raises concern for shear\u2011related hemolysis, but laboratory confirmation (LDH, haptoglobin) is missing."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic kidney disease\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD documented; no recent calcium, phosphate, PTH, or vitamin D labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD stage likely predisposes to secondary hyperparathyroidism; missing labs limit certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Alzheimer\u2019s disease progression with possible medication\u2011related cognitive worsening",
+      "icd10": "G30.9",
+      "snomed": "372087000",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of Alzheimer\u2019s disease; no current AD medications recorded",
+          "strength": "strong"
+        },
+        {
+          "source": "medication_review",
+          "finding": "Potentially sedating agents (e.g., high\u2011dose insulin, diuretics) that may exacerbate cognition",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Neurodegenerative disease is established; contribution of polypharmacy to worsening cognition is plausible."
+    },
+    {
+      "rank": 7,
+      "name": "Undiagnosed infection / sepsis (e.g., urinary tract infection)",
+      "icd10": "A41.9",
+      "snomed": "18629004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Positive urine bilirubin without clear source; no culture data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Lack of microbiologic or symptomatic evidence makes infection unlikely, but retained for completeness."
+    }
+  ],
+  "primary_diagnosis": "Insulin overtreatment / hypoglycemia risk",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s most urgent problem is likely insulin overtreatment, posing immediate hypoglycemia risk, especially given dementia and possible transcription errors in glycemic indices. Underlying systemic atherosclerotic and hypertensive disease drives cardiac dysfunction, manifested as mixed\u2011phenotype heart failure. The mechanical aortic valve without anticoagulation raises concern for hemolysis and thrombotic complications. Advanced CKD predisposes to mineral\u2011bone disorder, though labs are missing. Alzheimer\u2019s disease is established, with polypharmacy potentially worsening cognition. Infection remains low probability due to absent objective data.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented liver disease",
+    "Very dilute urine (specific gravity 1.0)",
+    "Missing CKD\u2011MBD laboratory values (calcium, phosphate, PTH, vitamin D)",
+    "Absence of documented anticoagulation for prosthetic aortic valve",
+    "No recorded antiplatelet therapy despite prior MI and valve replacement",
+    "No documented Alzheimer\u2019s disease medications",
+    "Lack of recent blood pressure measurements",
+    "No recent fasting glucose or C\u2011peptide to confirm diabetes status"
+  ],
+  "recommended_workup": [
+    "Repeat fasting glucose, HbA1c, and C\u2011peptide to verify diabetes control and insulin need",
+    "Point\u2011of\u2011care or laboratory glucose monitoring to detect hypoglycemia episodes",
+    "Comprehensive hemolysis panel (LDH, haptoglobin, indirect bilirubin, reticulocyte count)",
+    "Coagulation profile and review of anticoagulation plan for mechanical valve",
+    "Echocardiogram with Doppler to delineate HFrEF vs HFpEF components and assess volume status",
+    "BNP or NT\u2011proBNP measurement",
+    "Full CKD\u2011MBD labs: serum calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Urine culture and repeat urinalysis to evaluate for infection",
+    "Blood pressure measurement series and medication reconciliation",
+    "Review and optimize Alzheimer\u2019s disease therapy (cholinesterase inhibitors, memantine) and assess drug interactions"
+  ]
+}

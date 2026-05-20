@@ -1,0 +1,143 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (type 2 diabetes-related chronic kidney disease)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.6,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus on insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine consistent with CKD (value not shown)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin A1c (3.9%) despite insulin, suggestive of anemia affecting measurement",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension documented in past medical history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has long\u2011standing type 2 diabetes with insulin dependence, a major risk factor for diabetic nephropathy. CKD laboratory markers and the presence of hypertension further support a diabetic kidney disease pattern. Low A1c likely reflects anemia rather than good glycemic control."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "236423004",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild proteinuria (quantitative measurement not provided)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic hypertension can cause arteriolar sclerosis leading to CKD. Evidence is limited; proteinuria is not quantified, making this a possible contributing factor rather than the sole cause."
+    },
+    {
+      "rank": 3,
+      "name": "Hemolytic anemia / cholestatic process (bilirubinuria)",
+      "icd10": "D55.9",
+      "snomed": "302810001",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine total bilirubin 1.2\u202fmg/dL (bilirubinuria) with normal serum bilirubin",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin A1c (3.9%) despite insulin therapy, possibly due to shortened RBC lifespan",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet MPV 11.6\u202ffL (non\u2011specific but can accompany hemolysis)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Bilirubinuria without serum hyperbilirubinemia raises suspicion for intravascular hemolysis or a cholestatic process with renal excretion of conjugated bilirubin. Hemolysis could also explain the spuriously low A1c and anemia."
+    },
+    {
+      "rank": 4,
+      "name": "NSAID\u2011induced chronic tubulointerstitial nephropathy",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use reported (dose low)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of overt proteinuria; renal dysfunction disproportionate to NSAID dose",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs can cause interstitial nephritis, but the reported low dose makes a major contribution unlikely. It may act as a secondary insult in the setting of diabetic and hypertensive kidney disease."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Reduced hemoglobin consistent with CKD\u2011related anemia (exact value not shown)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low A1c possibly affected by anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia via reduced erythropoietin production. This finding is a complication of the primary renal disease rather than an independent driver."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (type 2 diabetes-related chronic kidney disease)",
+  "primary_probability": 0.6,
+  "clinical_reasoning_summary": "The patient\u2019s longstanding type 2 diabetes with insulin dependence, CKD laboratory profile, and hypertension point to diabetic nephropathy as the dominant etiology of renal impairment (60% probability). Hypertensive nephrosclerosis remains a plausible co\u2011factor, while the unexpected finding of bilirubinuria introduces the possibility of hemolytic anemia or a cholestatic process, which also explains the anomalously low HbA1c. NSAID exposure likely contributes minimally, and anemia of CKD is recognized as a secondary manifestation. Probabilities were adjusted per the senior reviewer\u2019s expert assessment, ensuring the total sums to 1.0.",
+  "unresolved_findings": [
+    "Urine ketones 4.7\u202fmg/dL (ketonuria) without hyperglycaemia",
+    "Borderline\u2011low HDL (47.7\u202fmg/dL) and borderline\u2011high LDL (113.8\u202fmg/dL) \u2013 cardiovascular risk but not diagnostic",
+    "Elevated platelet MPV 11.6\u202ffL \u2013 non\u2011specific",
+    "Quantitative proteinuria measurement not available",
+    "Renal imaging findings not provided"
+  ],
+  "recommended_workup": [
+    "Serum haptoglobin, LDH, indirect bilirubin, and peripheral blood smear to evaluate hemolysis",
+    "Comprehensive liver function panel (AST, ALT, ALP, GGT, total and direct bilirubin) to assess cholestasis",
+    "Quantitative urine protein assessment (albumin\u2011creatinine ratio or 24\u2011hour protein)",
+    "Renal ultrasound to evaluate kidney size, echogenicity, and rule out obstructive causes",
+    "Consider renal biopsy if proteinuria is significant and etiology remains unclear after non\u2011invasive work\u2011up",
+    "Repeat HbA1c using a method less affected by anemia (e.g., fructosamine) or correlate with continuous glucose monitoring",
+    "Review NSAID dosing and consider discontinuation or substitution"
+  ]
+}

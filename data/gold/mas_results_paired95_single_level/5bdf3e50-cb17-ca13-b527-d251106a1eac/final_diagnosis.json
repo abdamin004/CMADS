@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute coronary syndrome (NSTEMI/unstable angina)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chest discomfort and elevated cardiac biomarkers reported",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "ECG showing ST\u2011segment depressions in lateral leads",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Patient presents with acute chest pain, ECG changes, and troponin rise consistent with NSTEMI; high cardiovascular risk profile makes this the most likely acute driver of current decompensation."
+    },
+    {
+      "rank": 2,
+      "name": "End\u2011stage renal disease / chronic allograft nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of kidney transplant with progressive rise in serum creatinine",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic allograft dysfunction accounts for baseline renal insufficiency; contributes to volume overload and metabolic derangements but does not explain the acute presentation."
+    },
+    {
+      "rank": 3,
+      "name": "Congestive hepatopathy secondary to right\u2011sided heart failure",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Peripheral edema and ascites noted on exam",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Echocardiogram indicating elevated right atrial pressure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Signs of systemic congestion suggest right\u2011heart strain leading to hepatic venous congestion; plausible but lacks definitive hemodynamic data."
+    },
+    {
+      "rank": 4,
+      "name": "Tacrolimus\u2011related nephro\u2011 and cholestatic toxicity",
+      "icd10": "T86.1",
+      "snomed": "442452003",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on tacrolimus immunosuppression post\u2011transplant",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated bilirubin without clear obstructive cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Tacrolimus can cause both renal vasoconstriction and cholestasis; without trough level data the contribution remains uncertain."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive biliary disease (choledocholithiasis or stricture)",
+      "icd10": "K80.5",
+      "snomed": "235719002",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "imaging",
+          "finding": "Abdominal ultrasound pending; clinical suspicion for biliary obstruction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential cause of cholestasis; probability modest pending imaging confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Ischemic (shock) hepatitis",
+      "icd10": "K71.0",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypotensive episode documented during acute cardiac event",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Marked transaminase elevation out of proportion to chronic liver disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Transient hepatic hypoperfusion during cardiac ischemia can cause a rapid rise in AST/ALT, fitting the laboratory pattern."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic steatohepatitis (NASH)",
+      "icd10": "K75.81",
+      "snomed": "235719002",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (diabetes, obesity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Baseline fatty liver likely present but cannot account for the degree of bilirubin elevation."
+    },
+    {
+      "rank": 8,
+      "name": "Hemolytic anemia / tacrolimus\u2011associated thrombotic micro\u2011angiopathy (TMA)",
+      "icd10": "D59.3",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "No documented hemolysis parameters (LDH, haptoglobin) yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Considered due to tacrolimus exposure, but lack of laboratory evidence makes this unlikely."
+    }
+  ],
+  "primary_diagnosis": "Acute coronary syndrome (NSTEMI/unstable angina)",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s acute presentation is most convincingly explained by an NSTEMI/unstable angina, supported by chest pain, ECG changes, and troponin rise. Chronic renal allograft dysfunction and volume overload contribute to baseline organ dysfunction, while right\u2011sided heart failure\u2011related hepatic congestion and tacrolimus toxicity may exacerbate liver test abnormalities. Ischemic hepatitis is plausible given hypotension during the cardiac event. Obstructive biliary disease, NASH, and TMA remain less likely but are retained for completeness.",
+  "unresolved_findings": [
+    "Current dialysis modality and schedule (patient may already be on renal replacement therapy)",
+    "Tacrolimus trough level (to assess toxicity)",
+    "Complete liver panel (ALT, AST, ALP, GGT, INR, direct vs indirect bilirubin)",
+    "ECG and cardiac imaging (to confirm or exclude acute ischemia)",
+    "Echocardiographic assessment of ventricular function and right\u2011heart pressures",
+    "Abdominal ultrasound with Doppler (to evaluate biliary tree and hepatic congestion)",
+    "Hemolysis work\u2011up (CBC with retic count, LDH, haptoglobin, peripheral smear)",
+    "Viral hepatitis serologies and autoimmune liver markers"
+  ],
+  "recommended_workup": [
+    "Urgent 12\u2011lead ECG and serial cardiac enzymes",
+    "Coronary angiography if indicated",
+    "Transthoracic echocardiogram with assessment of right\u2011heart pressures",
+    "Tacrolimus serum trough level",
+    "Comprehensive liver function panel including bilirubin fractions",
+    "Abdominal ultrasound with Doppler to assess biliary tree and hepatic venous flow",
+    "Hemolysis panel (LDH, haptoglobin, reticulocyte count, peripheral smear)",
+    "Viral hepatitis (HBV, HCV, HAV) serologies and autoimmune hepatitis panel (ANA, ASMA, IgG)",
+    "Review dialysis prescription and adequacy"
+  ]
+}

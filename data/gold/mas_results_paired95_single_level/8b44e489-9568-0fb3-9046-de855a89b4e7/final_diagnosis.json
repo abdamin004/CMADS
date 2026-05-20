@@ -1,0 +1,225 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (stage 5 ESRD)",
+      "icd10": "N18.6",
+      "snomed": "702530001",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine consistent with end\u2011stage renal disease",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Charlson comorbidity index 3, driven by diabetes and CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has advanced diabetic kidney disease evidenced by ESRD\u2011level creatinine and a history of diabetes, making diabetic nephropathy the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (superimposed)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented chronic hypertension with suboptimal control",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria beyond what is typical for isolated diabetic nephropathy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic hypertension likely contributes additional renal injury on top of diabetic nephropathy, justifying a superimposed hypertensive nephrosclerosis component."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related anemia (iron\u2011deficiency component)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with low ferritin suggesting iron\u2011deficiency anemia in CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 5 documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Anemia is a common complication of ESRD; laboratory data indicate an iron\u2011deficiency component, supporting this diagnosis."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic cardiovascular disease (sub\u2011clinical)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on age, diabetes, hypertension, and CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented prior cardiovascular events but risk factors present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s risk profile places them at high risk for sub\u2011clinical atherosclerosis, which may contribute to morbidity despite lack of overt events."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease predisposes to mineral\u2011bone disorder",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absent mineral\u2011bone labs flagged as missing, prompting suspicion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In ESRD, secondary hyperparathyroidism is virtually inevitable; the lack of recent PTH, calcium, phosphate labs raises concern."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and volume overload",
+          "strength": "weak"
+        },
+        {
+          "source": "unavailable",
+          "finding": "No cardiac imaging or BNP available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "HFpEF is plausible given hypertension and CKD\u2011related fluid shifts, but lack of objective cardiac data limits confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Insulin\u2011related hypoglycemia / overtight glycaemic control",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Implausibly low HbA1c of 3.2% (possible lab error)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Urine glucose positive without concurrent serum glucose data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Discrepancy between HbA1c and urine glucose suggests possible overtight insulin therapy or lab error; needs verification."
+    },
+    {
+      "rank": 8,
+      "name": "Psychosocial / adherence disorder (depression, PTSD, substance misuse)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Polypharmacy risk moderate; no formal psychosocial screening documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Known impact of mental health on transplant eligibility and medication adherence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the complexity of care and lack of screening, psychosocial factors likely affect adherence and transplant candidacy."
+    },
+    {
+      "rank": 9,
+      "name": "Renal\u2011artery stenosis / fibromuscular dysplasia",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension noted, but no imaging performed",
+          "strength": "weak"
+        },
+        {
+          "source": "imaging",
+          "finding": "Renal Doppler ultrasound not obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While possible, the pre\u2011test probability is low without imaging; kept as a remote consideration."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (stage 5 ESRD)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease in the context of long\u2011standing type 2 diabetes, making diabetic nephropathy the dominant diagnosis. Hypertension contributes additional renal injury, and common CKD complications\u2014anemia, secondary hyperparathyroidism, and sub\u2011clinical atherosclerosis\u2014are prominent. Data gaps (lipids, cardiac work\u2011up, mineral\u2011bone labs, psychosocial screening) limit certainty for HFpEF, hypoglycemia, and psychosocial adherence issues, which remain plausible but less likely. Renal\u2011artery stenosis is retained only as a low\u2011probability alternative pending imaging.",
+  "unresolved_findings": [
+    "Implausibly low HbA1c of 3.2% (possible lab error)",
+    "Urine glucose positive without serum glucose data",
+    "Missing recent blood pressure measurements",
+    "Absence of lipid panel and statin therapy documentation",
+    "No erythropoiesis\u2011stimulating agent documented",
+    "Missing BMI/weight data",
+    "No cardiac evaluation (ECG, echocardiogram, BNP)",
+    "No renal imaging (ultrasound, CT, Doppler)",
+    "No mineral\u2011bone labs (PTH, calcium, phosphate, vitamin D)",
+    "No formal psychosocial screening (depression/PTSD/substance use)"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and obtain concurrent fasting serum glucose",
+    "Comprehensive metabolic panel with eGFR trend",
+    "Lipid panel and assessment for statin therapy",
+    "Cardiac evaluation: ECG, transthoracic echocardiogram, BNP",
+    "Renal imaging: Doppler ultrasound to assess for renal\u2011artery stenosis",
+    "Mineral\u2011bone disorder labs: PTH, calcium, phosphate, 25\u2011OH vitamin D",
+    "Iron studies (ferritin, transferrin saturation) to characterize anemia",
+    "Formal psychosocial screening: PHQ\u20119, PTSD checklist, substance use questionnaire",
+    "Blood pressure measurement with ambulatory monitoring",
+    "Assessment for erythropoiesis\u2011stimulating agent eligibility"
+  ]
+}

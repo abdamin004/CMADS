@@ -1,0 +1,244 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute ST\u2011segment elevation myocardial infarction (STEMI)",
+      "icd10": "I21.3",
+      "snomed": "413839001",
+      "probability": 0.395,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chest pain onset within 1 hour, diaphoresis, radiation to left arm",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin I > 10\u00d7 upper limit of normal",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "ECG showing ST\u2011elevation in anterior leads (V1\u2011V4)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Classic acute coronary syndrome presentation with ST\u2011elevation on ECG and markedly elevated troponins mandates diagnosis of STEMI and emergent reperfusion."
+    },
+    {
+      "rank": 2,
+      "name": "Acute\u2011on\u2011chronic kidney injury (AKI on CKD)",
+      "icd10": "N17.9",
+      "snomed": "236423003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.5\u202fmg/dL with discordant eGFR 66\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic kidney disease stage 3, recent NSAID use and hypotension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Baseline CKD with a sudden rise in creatinine suggests superimposed AKI; the discordant eGFR reflects calculation error but the absolute creatinine is concerning."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic syndrome with insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 33\u202fkg/m\u00b2), hypertension, dyslipidemia, fasting glucose 112\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated HOMA\u2011IR indicating insulin resistance",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of cardiovascular risk factors fulfills criteria for metabolic syndrome, predisposing to both CAD and CKD progression."
+    },
+    {
+      "rank": 4,
+      "name": "Unstable atherosclerotic coronary disease (non\u2011STEMI acute coronary syndrome)",
+      "icd10": "I20.0",
+      "snomed": "194828000",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Troponin rise less than 5\u00d7 ULN, dynamic but not meeting STEMI criteria",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Known coronary artery disease, recent exertional angina",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated but sub\u2011STEMI troponin levels with ongoing chest discomfort suggest unstable plaque rupture without full transmural infarction."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion, peripheral edema, normal EF on prior echo",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BNP mildly elevated (180\u202fpg/mL)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical signs of congestion with preserved systolic function fit HFpEF, though lacking recent imaging."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic obstructive pulmonary disease (COPD) \u2013 undertreated",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.04,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "30\u2011pack\u2011year smoking history, chronic cough, documented COPD diagnosis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of prescribed bronchodilator therapy in medication list",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Known COPD without appropriate inhaler therapy likely contributes to dyspnea and may exacerbate cardiac strain."
+    },
+    {
+      "rank": 7,
+      "name": "Medication non\u2011adherence / care\u2011continuity gap",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pharmacy refill records show missed refills for antihypertensives and statin",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Gaps in medication adherence can worsen hypertension, dyslipidemia, and renal function, influencing other diagnoses."
+    },
+    {
+      "rank": 8,
+      "name": "Seizure disorder with undocumented antiepileptic therapy",
+      "icd10": "G40.909",
+      "snomed": "84757009",
+      "probability": 0.02,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of generalized tonic\u2011clonic seizures documented in past visits",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current medication list lacks antiepileptic drug",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Known seizure disorder without therapy raises risk of recurrent events, though not currently the primary concern."
+    },
+    {
+      "rank": 9,
+      "name": "Major depressive disorder secondary to intimate\u2011partner violence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports persistent low mood, sleep disturbance, recent disclosure of partner violence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors contribute to depressive symptoms; may affect adherence and overall health."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive sleep apnea (probable, untreated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.003,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI >30\u202fkg/m\u00b2, snoring reported by partner, daytime fatigue",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Limited symptom data; possible contributor to hypertension and cardiovascular risk but low certainty."
+    },
+    {
+      "rank": 11,
+      "name": "Possible occult malignancy (lung or renal) \u2013 rule out",
+      "icd10": "C34.9",
+      "snomed": "254637007",
+      "probability": 0.002,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unexplained weight loss and anemia, smoking history",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability; included for completeness pending imaging."
+    }
+  ],
+  "primary_diagnosis": "Acute ST\u2011segment elevation myocardial infarction (STEMI)",
+  "primary_probability": 0.395,
+  "clinical_reasoning_summary": "The patient presents with classic acute coronary syndrome features\u2014typical chest pain, ST\u2011elevation on ECG, and markedly elevated troponins\u2014making STEMI the most likely and life\u2011threatening diagnosis, requiring immediate reperfusion. Concurrently, a sharp rise in serum creatinine on a background of known CKD indicates acute\u2011on\u2011chronic kidney injury. Metabolic syndrome underlies much of the cardiovascular risk, while unstable non\u2011STEMI CAD, HFpEF, and COPD contribute to the overall clinical picture. Medication non\u2011adherence, seizure disorder, depression, possible sleep apnea, and a remote concern for occult malignancy are retained as lower\u2011probability comorbidities that may affect management.",
+  "unresolved_findings": [
+    "Creatinine 3.5\u202fmg/dL vs eGFR 66\u202fmL/min/1.73\u202fm\u00b2 (discordant values)",
+    "Low calculated globulin (3.3\u202fg/L) \u2013 possible lab artifact",
+    "Absence of any bronchodilator therapy despite documented COPD",
+    "Absence of antiepileptic medication despite long\u2011standing seizure disorder",
+    "\"Elevated\" systolic BP recorded as 122\u202fmmHg (possible documentation error)"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG (if not already obtained) and continuous cardiac monitoring",
+    "Serial cardiac troponins and CK\u2011MB",
+    "Urgent coronary angiography with possible PCI",
+    "Repeat basic metabolic panel and urine studies to clarify AKI etiology",
+    "Renal ultrasound to assess for obstruction",
+    "BNP and transthoracic echocardiogram to evaluate cardiac function and HFpEF",
+    "Pulmonary function testing and initiation of inhaled bronchodilator therapy",
+    "Medication reconciliation and adherence counseling",
+    "EEG or neurology consult for seizure control",
+    "PHQ\u20119 and social work evaluation for depression and intimate\u2011partner violence",
+    "Overnight polysomnography if sleep apnea remains suspected",
+    "CT chest/abdomen/pelvis for occult malignancy screening if indicated"
+  ]
+}

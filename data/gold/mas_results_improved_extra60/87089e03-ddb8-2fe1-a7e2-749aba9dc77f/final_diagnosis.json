@@ -1,0 +1,262 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.37,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >=30)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 132, DBP 101)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL cholesterol",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline LDL cholesterol",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, pre\u2011diabetic HbA1c, hypertension, and dyslipidemia fulfills the core criteria for metabolic syndrome and explains insulin resistance."
+    },
+    {
+      "rank": 2,
+      "name": "Early/incipient type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 5.9%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling fasting glucose trend (66 mg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension as risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prediabetic HbA1c together with cardiometabolic risk factors suggests early type\u202f2 diabetes, though the hypoglycaemia is atypical and warrants separate evaluation."
+    },
+    {
+      "rank": 3,
+      "name": "Reactive / iatrogenic hypoglycaemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Fasting glucose 66 mg/dL with decreasing trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented diabetes medication regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The isolated low glucose is most plausibly due to a reactive or medication\u2011induced hypoglycaemic episode; further medication review is needed."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperchloremia (Cl 107.9 mmol/L) and decreasing CO\u2082 (23.3 mmol/L)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and metabolic syndrome increase CKD risk, but lack of eGFR and albuminuria limits certainty."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease / iron\u2011deficiency (GI source)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Colonic adenomatous polyp (potential GI blood loss)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia may be multifactorial; the presence of a colonic lesion raises suspicion for iron\u2011deficiency from occult GI loss."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary hypertension (OSA, primary aldosteronism, renal\u2011artery stenosis)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension resistant to lifestyle alone",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (risk factor for OSA)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension in the setting of obesity suggests a secondary cause such as OSA or endocrine/vascular etiologies."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism (subclinical/clinical)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidemia (low HDL, borderline LDL)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can contribute to dyslipidemia, but no thyroid labs are available, making this less likely."
+    },
+    {
+      "rank": 8,
+      "name": "Colorectal neoplasia (missed surveillance)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of adenomatous polyp with unclear surveillance schedule",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Single\u2011sample FOBT result only",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Incomplete surveillance raises concern for missed or recurrent neoplasia."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity predisposes to OSA, but no symptom or sleep study data are present."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome is a risk factor, but no liver enzymes or imaging are available."
+    },
+    {
+      "rank": 11,
+      "name": "Major depressive disorder / anxiety",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mood symptoms",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychiatric conditions are possible but lack any documented evidence in the record."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome / insulin resistance",
+  "primary_probability": 0.37,
+  "clinical_reasoning_summary": "The patient exhibits classic features of metabolic syndrome\u2014obesity, pre\u2011diabetes, hypertension, and dyslipidemia\u2014making insulin resistance the most plausible unifying diagnosis. Concurrent low fasting glucose suggests a reactive or iatrogenic hypoglycaemic process that must be investigated separately. Secondary considerations include early type\u202f2 diabetes, early CKD, anemia related to a colonic lesion, and secondary causes of hypertension.",
+  "unresolved_findings": [
+    "Falling fasting glucose (66 mg/dL) despite pre\u2011diabetic A1c",
+    "Mild hyperchloremia (Cl 107.9 mmol/L)",
+    "Decreasing CO\u2082 trend (23.3 mmol/L)",
+    "Absence of eGFR and urine albumin\u2011to\u2011creatinine ratio",
+    "No thyroid function tests (TSH, free T4)",
+    "No iron studies, B12, folate",
+    "No liver function tests or hepatic imaging",
+    "Missing detailed lifestyle data (smoking, alcohol, activity)",
+    "No documented colonoscopy surveillance schedule",
+    "Single\u2011sample FOBT result only"
+  ],
+  "recommended_workup": [
+    "Repeat fasting glucose and oral glucose tolerance test",
+    "C\u2011peptide and insulin levels to assess endogenous secretion",
+    "Comprehensive medication review for hypoglycaemic agents",
+    "Thyroid panel (TSH, free T4)",
+    "Iron studies (serum ferritin, iron, TIBC), vitamin B12 and folate",
+    "Serum creatinine, eGFR, urine albumin\u2011to\u2011creatinine ratio",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase) and hepatic ultrasound",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Colonoscopy with surveillance per guidelines",
+    "Aldosterone\u2011renin ratio and renal artery Doppler ultrasound to assess secondary hypertension"
+  ]
+}

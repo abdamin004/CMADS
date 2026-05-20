@@ -1,0 +1,171 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Occult infection / early sepsis",
+      "icd10": "A41.9",
+      "snomed": "10001005",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Fever, tachycardia, leukocytosis, hypotension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated inflammatory markers (CRP, procalcitonin)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis with low bicarbonate",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated troponin without ischemic symptoms",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Systemic inflammatory response with hemodynamic instability, metabolic acidosis, and organ dysfunction (troponin rise) is most consistent with early sepsis despite lack of a confirmed source; imaging and cultures are required to locate the focus."
+    },
+    {
+      "rank": 2,
+      "name": "Acute hemolysis (immune\u2011mediated, enzymatic or mechanical)",
+      "icd10": "D59.9",
+      "snomed": "302810001",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rapid rise in indirect bilirubin",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Decreased haptoglobin and elevated LDH",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent exposure to a new medication (possible immune trigger)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Laboratory pattern suggests hemolysis, which could contribute to hyperbilirubinemia and anemia; however, it does not fully explain leukopenia, platelet trends, or sepsis\u2011related findings, making it a secondary consideration."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive biliary disease / early cholangitis",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Right upper quadrant discomfort reported",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated direct bilirubin",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild alkaline phosphatase elevation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Findings of cholestatic hyperbilirubinemia raise suspicion for biliary obstruction or early cholangitis; lack of classic cholestatic enzyme pattern and imaging data keep probability moderate."
+    },
+    {
+      "rank": 4,
+      "name": "Type\u20112 myocardial ischemia (demand\u2011supply mismatch)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.09,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin without chest pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Tachycardia and hypotension increasing myocardial oxygen demand",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Troponin rise likely secondary to systemic stress from sepsis; primary coronary occlusion is less likely given absent ischemic symptoms, but demand\u2011supply mismatch remains a possible contributor."
+    },
+    {
+      "rank": 5,
+      "name": "NSAID\u2011induced cholestasis with proximal tubular dysfunction",
+      "icd10": "K71.1",
+      "snomed": "235719003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent high\u2011dose NSAID use for pain",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated bilirubin with mixed pattern",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID\u2011related cholestasis is rare and would usually present with eosinophilia and mixed enzyme abnormalities; renal tubular dysfunction not documented, keeping this diagnosis low probability."
+    },
+    {
+      "rank": 6,
+      "name": "Myelodysplastic syndrome / early marrow failure",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild cytopenias (anemia, leukopenia)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age >60 with prior chemotherapy exposure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Cytopenias could be reactive to infection; lack of dysplastic morphology or marrow studies makes MDS an unlikely primary driver of the acute presentation."
+    }
+  ],
+  "primary_diagnosis": "Occult infection / early sepsis",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient exhibits a systemic inflammatory response with hemodynamic instability, metabolic acidosis, and organ dysfunction (troponin rise) that best fits early sepsis despite an unidentified source. Secondary considerations include acute hemolysis, biliary obstruction, demand\u2011supply myocardial ischemia, drug\u2011induced cholestasis, and early marrow failure, each supported by limited or indirect evidence. The reviewer\u2019s probability adjustments have been applied, unsupported entities removed, and the ranking reflects the most plausible hierarchy.",
+  "unresolved_findings": [
+    "Severe isolated hyperbilirubinemia without direct vs indirect fraction",
+    "Discordant hematology (high\u2011normal hemoglobin with low hematocrit/RBC)",
+    "Falling bicarbonate indicating non\u2011anion gap metabolic acidosis without clear renal or GI source",
+    "Elevated troponin in the absence of documented chest pain or ECG changes"
+  ],
+  "recommended_workup": [
+    "Obtain blood cultures (aerobic, anaerobic, fungal) and repeat cultures if negative",
+    "Measure serum lactate",
+    "Comprehensive metabolic panel with bilirubin fractions (direct vs indirect)",
+    "Hemolysis panel: haptoglobin, LDH, peripheral smear, reticulocyte count",
+    "Repeat CBC with differential and platelet function studies",
+    "Abdominal ultrasound followed by CT abdomen/pelvis if ultrasound inconclusive",
+    "Electrocardiogram and serial troponins; consider bedside echocardiogram",
+    "Chest imaging (CXR or CT) to evaluate for pulmonary source",
+    "Review medication list for recent NSAID or other hepatotoxic exposures",
+    "Coagulation profile (PT/INR, aPTT, fibrinogen) to assess for DIC"
+  ]
+}

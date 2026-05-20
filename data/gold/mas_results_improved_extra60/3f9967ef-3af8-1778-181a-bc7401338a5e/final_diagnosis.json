@@ -1,0 +1,157 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute decompensated heart failure with ischemic cardiomyopathy (cardiorenal\u2011hepatic syndrome)",
+      "icd10": "I50.23",
+      "snomed": "271442005",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI, hypertension, diabetes, obesity, elevated BNP (noted in chart)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe hyperbilirubinemia suggestive of congestive hepatopathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 chronic kidney disease with rising creatinine",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of recent ischemic event, volume overload signs, elevated BNP, and hepatic congestion manifested by high bilirubin points to acute decompensated heart failure with cardiorenal\u2011hepatic involvement."
+    },
+    {
+      "rank": 2,
+      "name": "Acute\u2011on\u2011chronic kidney injury on CKD stage 4 (diabetic/hypertensive nephropathy)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known CKD stage 4 with baseline eGFR ~25\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum creatinine and BUN consistent with acute kidney injury superimposed on CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Use of ACE\u2011I (lisinopril) and possible volume overload from heart failure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic kidney disease is present and recent hemodynamic compromise from heart failure likely precipitated an acute\u2011on\u2011chronic renal injury."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled atherosclerotic coronary disease \u2013 type\u20112 demand ischemia",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI and ongoing chest discomfort reported",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated troponin trend (not fully detailed but noted in chart)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, obesity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent myocardial oxygen demand mismatch due to heart failure and anemia risk may be driving type\u20112 demand ischemia, contributing to ongoing cardiac instability."
+    },
+    {
+      "rank": 4,
+      "name": "Congestive hepatopathy (cardiac liver congestion)",
+      "icd10": "K76.0",
+      "snomed": "235719002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Marked elevation of total bilirubin without cholestatic enzyme pattern",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Evidence of right\u2011sided heart failure (elevated JVP noted, peripheral edema)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Bilirubin rise is most consistent with hepatic congestion secondary to right\u2011sided heart failure rather than biliary obstruction."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive cholestasis (choledocholithiasis or biliary stricture)",
+      "icd10": "K80.00",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated total bilirubin",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While bilirubin is high, lack of alkaline phosphatase, GGT, or imaging data makes obstructive cholestasis less likely; retained as low\u2011probability alternative."
+    },
+    {
+      "rank": 6,
+      "name": "Drug\u2011induced cholestatic liver injury (statin or ACE\u2011I related)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on high\u2011dose statin and lisinopril (possible duplicate dosing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated bilirubin rise without transaminase elevation makes drug\u2011induced cholestasis unlikely, but retained as a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Acute decompensated heart failure with ischemic cardiomyopathy (cardiorenal\u2011hepatic syndrome)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with recent NSTEMI, known ischemic cardiomyopathy, and signs of volume overload. Laboratory data reveal severe hyperbilirubinemia without a cholestatic pattern, consistent with congestive hepatopathy. Chronic kidney disease stage 4 is documented, and rising creatinine suggests an acute\u2011on\u2011chronic renal insult likely precipitated by hemodynamic compromise. Ongoing myocardial demand in the setting of heart failure explains type\u20112 demand ischemia. Obstructive biliary disease and drug\u2011induced cholestasis are considered but lack supporting enzyme patterns or imaging, keeping their probabilities low.",
+  "unresolved_findings": [
+    "Severe hyperbilirubinemia without fractionated bilirubin or liver enzyme data",
+    "Borderline high hemoglobin (17.3\u202fg/dL) without anemia work\u2011up",
+    "Duplicate lisinopril dosing (10\u202fmg + 20\u202fmg) \u2013 possible data entry or dosing error",
+    "Missing current vital signs (BP, HR, weight, SpO\u2082)",
+    "Missing eGFR and urine albumin/creatinine ratio",
+    "Absence of alkaline phosphatase, GGT, albumin, INR",
+    "No recent ECG or cardiac imaging"
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel with fractionated bilirubin, alkaline phosphatase, GGT, albumin, INR",
+    "Bedside point\u2011of\u2011care ultrasound to assess IVC collapsibility, hepatic vein flow, and pulmonary congestion",
+    "Formal transthoracic echocardiogram to quantify ejection fraction and valvular function",
+    "Serial BNP measurements",
+    "Abdominal ultrasound (or MRCP) to rule out biliary obstruction",
+    "12\u2011lead ECG and cardiac enzymes trend to differentiate type\u20111 vs type\u20112 ischemia",
+    "Renal ultrasound to evaluate for obstructive uropathy",
+    "Medication reconciliation focusing on ACE\u2011I dosing and statin therapy"
+  ]
+}

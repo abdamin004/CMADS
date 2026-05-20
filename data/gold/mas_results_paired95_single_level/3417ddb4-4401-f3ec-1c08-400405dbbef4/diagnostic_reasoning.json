@@ -1,0 +1,312 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus (poorly controlled)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.29,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.8% (diabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (BP 99/82 mmHg, diastolic 82)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 80.1 mL/min/1.73 m\u00b2 (early CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia present since 1994",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age 50, female, diabetes, hypertension, severe dyslipidaemia \u2192 high 10\u2011yr ASCVD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated HbA1c confirms diabetes, which explains hypertension, early CKD, and contributes to dyslipidaemia and anemia. Diabetes is a major driver of the patient's metabolic and renal abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Heterozygous Familial Hypercholesterolaemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "237599002",
+      "probability": 0.22,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 204.2 mg/dL (very high)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 278.8 mg/dL (severe hypercholesterolaemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing LDL and total\u2011cholesterol in EHR summary (possible under\u2011recognition)",
+          "strength": "weak"
+        },
+        {
+          "source": "medication list",
+          "finding": "No statin therapy documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "LDL\u2011C >190 mg/dL in a 50\u2011year\u2011old woman is highly specific for FH, especially when total cholesterol is also markedly elevated and no lipid\u2011lowering therapy is recorded. Diabetes alone rarely produces LDL this high, so FH is a likely primary cause."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic Cardiovascular Disease (sub\u2011clinical plaque burden)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.14,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Age 50, female, diabetes, hypertension, LDL\u2011C 204 mg/dL \u2192 10\u2011yr ASCVD risk >20%",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe dyslipidaemia (LDL\u2011C 204 mg/dL, total cholesterol 279 mg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (BP 99/82 mmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of extreme LDL, diabetes, and hypertension yields a high calculated ASCVD risk, making sub\u2011clinical atherosclerosis highly probable even without documented events."
+    },
+    {
+      "rank": 4,
+      "name": "Early Diabetic Nephropathy (stage 2 CKD)",
+      "icd10": "E11.21",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 80.1 mL/min/1.73 m\u00b2 (borderline reduced)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN (10 mg/dL) despite normal range",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Potassium 5.1 mmol/L (borderline high)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Diabetes (HbA1c 6.8%)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR in EHR summary (possible under\u2011monitoring)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mildly reduced eGFR together with diabetes and a rising BUN suggests early diabetic kidney disease, warranting ACE\u2011I/ARB initiation and closer renal surveillance."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic Mixed Anemia (iron\u2011deficiency + anemia of chronic disease)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 1994 (moderate severity)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 80 mL/min (early CKD) \u2013 possible reduced erythropoietin",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "No iron supplements or ESA therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "demographic data",
+          "finding": "Female, reproductive age (menstrual losses possible)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing anemia in a woman with early CKD suggests a multifactorial etiology: iron loss, anemia of chronic disease, and reduced erythropoietin. Lack of treatment indicates an unmet need."
+    },
+    {
+      "rank": 6,
+      "name": "Degenerative Cervical/Lumbar Spondylosis with Chronic Axial Pain",
+      "icd10": "M48.06",
+      "snomed": "239873007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011back pain (onset 2014\u201102\u201102) \u2013 high priority",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic neck pain (onset 2014\u201102\u201102) \u2013 high priority",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Not in labor force since 2020 due to pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "No analgesic, NSAID, muscle\u2011relaxant, or PT prescriptions",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent axial pain with functional limitation, absent pharmacologic or rehabilitative therapy, points to degenerative spine disease as a primary pain generator."
+    },
+    {
+      "rank": 7,
+      "name": "Major Depressive Disorder / Chronic Stress Syndrome",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of intimate\u2011partner abuse, limited social contact, and chronic stress (resolved 2020)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Unemployment since 2020, functional disability",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication list",
+          "finding": "No antidepressant therapy documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors and functional impairment raise the likelihood of depressive disorder, which can worsen pain perception and metabolic control."
+    },
+    {
+      "rank": 8,
+      "name": "Primary Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe hypercholesterolaemia (LDL\u2011C 204 mg/dL, total 279 mg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia",
+          "strength": "weak"
+        },
+        {
+          "source": "demographic data",
+          "finding": "Female, age 50 (higher prevalence of hypothyroidism)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can cause dyslipidaemia and anemia; however, no thyroid labs are available, making this a low\u2011probability but plausible contributor."
+    },
+    {
+      "rank": 9,
+      "name": "Obstructive Sleep Apnoea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of diabetes and possible obesity (BMI missing)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage 1 hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in middle\u2011aged patients with diabetes and hypertension and can exacerbate both, but no sleep study data are present."
+    },
+    {
+      "rank": 10,
+      "name": "Medication\u2011induced metabolic effect of Medroxyprogesterone acetate",
+      "icd10": "T88.7",
+      "snomed": "4421005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "medication list",
+          "finding": "Medroxyprogesterone acetate 150\u202fmg/mL injection",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated LDL\u2011C and HbA1c",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Progestin therapy can modestly worsen insulin resistance and lipid profiles, contributing to the metabolic derangements, but is unlikely to be the primary driver."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus (poorly controlled)",
+  "primary_probability": 0.29,
+  "clinical_reasoning_summary": "The patient is a 50\u2011year\u2011old woman with markedly elevated LDL\u2011C (204\u202fmg/dL) and total cholesterol (279\u202fmg/dL), stage\u20111 hypertension, and HbA1c 6.8%, indicating poorly controlled type 2 diabetes. Diabetes explains the early CKD (eGFR 80), chronic anemia, and contributes to dyslipidaemia, but the LDL level is disproportionately high, raising strong suspicion for heterozygous familial hypercholesterolaemia. The combined metabolic risk yields a high calculated ASCVD risk, making sub\u2011clinical atherosclerosis likely. Chronic axial pain, psychosocial stressors, and possible hypothyroidism or OSA act as modifiers. The differential was calibrated using Bayesian reasoning, giving the highest weight to diabetes and FH while retaining downstream sequelae and other plausible contributors.",
+  "unresolved_findings": [
+    "Borderline high potassium 5.1 mmol/L",
+    "Upper\u2011normal chloride 107.2 mmol/L",
+    "Markedly high PDW 207.8 fL (likely artefact)",
+    "Normal\u2011range rising CO\u2082 27.2 mmol/L",
+    "Missing BMI and smoking status"
+  ],
+  "recommended_workup": [
+    "Genetic testing panel for familial hypercholesterolaemia (LDLR, APOB, PCSK9)",
+    "Urine albumin\u2011creatinine ratio or 24\u2011hour protein excretion",
+    "Iron studies (serum ferritin, iron, TIBC, transferrin saturation) and reticulocyte count",
+    "Thyroid panel (TSH, free T4)",
+    "25\u2011OH vitamin D level",
+    "Overnight polysomnography or home sleep\u2011apnoea test",
+    "Cervical and lumbar spine X\u2011ray or MRI to assess spondylosis",
+    "Coronary artery calcium scoring or carotid duplex ultrasound",
+    "PHQ\u20119 and GAD\u20117 questionnaires for depression/anxiety screening",
+    "Initiate high\u2011intensity statin therapy and consider PCSK9 inhibitor if FH confirmed",
+    "Start ACE\u2011I or ARB for renal protection"
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Iron-deficiency anemia due to occult blood loss (gynecologic or gastrointestinal)",
+      "icd10": "D50.0",
+      "snomed": "271442005",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant hemoglobin decline (>4 g/dL) without obvious acute bleed",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia noted on CBC; iron studies pending but clinical picture suggests iron loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The rapid drop in hemoglobin together with risk factors (potential heavy menstrual bleeding or IUD use, and age\u2011related GI cancer risk) makes occult blood loss the most likely cause. Absence of iron studies is a gap, but the magnitude of anemia points toward iron deficiency."
+    },
+    {
+      "rank": 2,
+      "name": "Occult gastrointestinal malignancy / advanced adenoma (colorectal cancer suspicion)",
+      "icd10": "C18.9",
+      "snomed": "363406005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Patient age >50 with unexplained iron\u2011deficiency anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No GI symptoms documented, but anemia alone warrants cancer screening",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In patients over 50, iron\u2011deficiency anemia is a red flag for colorectal neoplasia even in the absence of overt GI symptoms. The reviewer raised this as a plausible diagnosis that may be under\u2011estimated."
+    },
+    {
+      "rank": 3,
+      "name": "Medication\u2011induced volume depletion / relative hypotension",
+      "icd10": "E86.1",
+      "snomed": "271327008",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low blood pressure readings and urine specific gravity 1.000 (extremely dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Chronic thiazide diuretic therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diuretic use can cause intravascular volume depletion leading to relative hypotension and may contribute to reduced renal perfusion, but it does not fully explain the anemia; still a plausible contributing factor."
+    },
+    {
+      "rank": 4,
+      "name": "Psychosocial stress affecting nutrition and medication adherence",
+      "icd10": "Z63.5",
+      "snomed": "24700007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intimate\u2011partner violence and limited social support documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Potential poor dietary intake and medication non\u2011adherence",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic stress and possible inadequate nutrition can exacerbate anemia and hinder follow\u2011up of other conditions, making it a relevant but indirect contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Early chronic kidney disease (CKD) \u2013 anemia of CKD and tubular dysfunction",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension and obesity increase CKD risk",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucosuria despite normal fasting glucose suggests tubular stress",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Early CKD can cause a mild normocytic anemia, but the magnitude of the hemoglobin drop is atypical for early disease, so this remains a less likely primary cause."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease (inflammation from chronic sinusitis and possible low\u2011grade UTI)",
+      "icd10": "D63.8",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Chronic sinusitis and suspected low\u2011grade urinary infection",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No inflammatory markers provided; anemia pattern not typical for ACD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Inflammatory conditions can cause anemia of chronic disease, but the rapid hemoglobin decline makes this a secondary rather than primary explanation."
+    }
+  ],
+  "primary_diagnosis": "Iron-deficiency anemia due to occult blood loss (gynecologic or gastrointestinal)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with a marked drop in hemoglobin in the setting of hypertension, obesity, prediabetes, chronic sinusitis, and significant psychosocial stressors. The reviewer emphasized iron\u2011deficiency anemia from occult blood loss as the most likely diagnosis, supported by the magnitude of anemia and the patient's risk for gynecologic or gastrointestinal bleeding. While early CKD and anemia of chronic disease are possible contributors, they are less consistent with the rapid Hb decline. Volume depletion from thiazide diuretic use and psychosocial factors are plausible co\u2011factors. Given the age\u2011related risk of colorectal cancer, occult GI malignancy remains a serious consideration that must be ruled out. The differential reflects these weighted probabilities and the need for targeted investigations.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.000 (extremely dilute) \u2013 could be diuretic effect or early concentrating defect",
+    "Glucosuria despite normal fasting glucose \u2013 unclear if tubular threshold shift or lab artifact",
+    "Missing lipid panel components (HDL, triglycerides) limiting ASCVD risk calculation",
+    "Absent smoking status and alcohol use data",
+    "No eGFR or albuminuria measurement",
+    "Lack of iron studies (ferritin, transferrin saturation)",
+    "No documented menstrual history or IUD bleeding pattern",
+    "No stool occult blood test or recent colonoscopy"
+  ],
+  "recommended_workup": [
+    "Serum iron, ferritin, transferrin saturation, total iron\u2011binding capacity",
+    "Reticulocyte count and peripheral smear",
+    "Fecal occult blood test (FIT) and referral for colonoscopy",
+    "Comprehensive gynecologic history; pelvic exam; ultrasound if IUD present",
+    "Repeat CBC with indices",
+    "Renal panel: serum creatinine, eGFR, urine albumin\u2011to\u2011creatinine ratio",
+    "Urine culture to exclude true urinary tract infection",
+    "Basic metabolic panel and repeat blood pressure monitoring",
+    "Medication review focusing on diuretics and potential contributors to volume status",
+    "Psychosocial assessment and referral to social work/violence support services"
+  ]
+}

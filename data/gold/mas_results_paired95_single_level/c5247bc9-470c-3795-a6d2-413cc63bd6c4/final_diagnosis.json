@@ -1,0 +1,149 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease secondary to diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.68,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with documented diabetic nephropathy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15 mL/min/1.73m\u00b2 consistent with ESRD",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "History of hypertension and coronary artery disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has advanced CKD (eGFR <15) in the setting of long\u2011standing diabetes, fulfilling criteria for ESRD secondary to diabetic nephropathy, which accounts for the majority of the clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Cardiorenal syndrome / chronic congestive heart failure secondary to CAD and hypertension",
+      "icd10": "I50.9",
+      "snomed": "442083009",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented coronary artery disease and chronic hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Clinical impression of volume overload (edema, dyspnea) without objective echo data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD and heart failure often coexist; the patient\u2019s CAD and hypertension make a cardiorenal interaction plausible, though objective cardiac data are lacking."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic metabolic acidosis secondary to ESRD",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low serum bicarbonate consistent with metabolic acidosis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease without dialysis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced renal failure impairs acid excretion, leading to a chronic metabolic acidosis that is evident on basic metabolic panel."
+    },
+    {
+      "rank": 4,
+      "name": "Electrolyte disturbances (hyperkalemia, hypocalcemia, hyperphosphatemia, secondary hyper\u2011parathyroidism)",
+      "icd10": "E87.6",
+      "snomed": "271442006",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum potassium and phosphate; low calcium (values not provided but expected in ESRD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented use of phosphate binders or calcium supplements",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal failure commonly produces the listed electrolyte abnormalities; the lack of recent labs makes precise quantification uncertain but the pattern is expected."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442007",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of CKD with no recent hemoglobin values; anemia is a typical CKD complication",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD reduces erythropoietin production, leading to normocytic anemia; the reviewer highlighted missing anemia data, prompting inclusion."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic kidney disease\u2013mineral and bone disorder (CKD\u2011MBD)",
+      "icd10": "N25.0",
+      "snomed": "271442008",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Absent PTH and vitamin D levels; reviewer noted missing mineral\u2011bone labs",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated phosphate (expected) and low calcium (expected) in ESRD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is a frequent sequela of ESRD; the lack of documented labs warrants its inclusion as a probable but not dominant diagnosis."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease secondary to diabetic nephropathy",
+  "primary_probability": 0.68,
+  "clinical_reasoning_summary": "The patient\u2019s advanced renal dysfunction (eGFR <15) in the context of longstanding type 2 diabetes, hypertension, and coronary artery disease points to ESRD secondary to diabetic nephropathy as the dominant process. Secondary complications of ESRD\u2014including metabolic acidosis, electrolyte derangements, anemia, and mineral\u2011bone disorder\u2014account for additional clinical findings. Cardiorenal syndrome is plausible given the cardiovascular comorbidities, though objective cardiac data are lacking. Risk states such as digoxin toxicity and warfarin\u2011related bleeding were excluded as they are not active diagnoses. Cisplatin\u2011induced nephrotoxicity was removed due to insufficient temporal relationship.",
+  "unresolved_findings": [
+    "Rising total bilirubin without accompanying ALT/AST/ALP elevation",
+    "Missing serum electrolyte panel (K+, Ca2+, PO4), PTH, and calcium\u2011phosphate values",
+    "Absent recent blood pressure recordings and HbA1c values",
+    "No recent imaging for lung cancer surveillance",
+    "No documented use of ACE\u2011I/ARB, statin, phosphate binders, or erythropoiesis\u2011stimulating agents"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel including electrolytes, bicarbonate, calcium, phosphate",
+    "Serum intact PTH and 25\u2011OH vitamin D levels",
+    "Complete blood count with reticulocyte count to assess anemia",
+    "Blood pressure monitoring and HbA1c measurement",
+    "Echocardiogram and BNP to evaluate for heart failure",
+    "Chest CT or low\u2011dose CT for lung cancer surveillance given remote history",
+    "Review medication list for anticoagulation control and potential nephrotoxins"
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy leading to end-stage renal disease (ESRD)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.73,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and reduced eGFR consistent with CKD stage 5",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria >1\u202fg/day",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of advanced diabetic disease, marked proteinuria, and severely reduced kidney function points to diabetic nephropathy as the primary driver of ESRD."
+    },
+    {
+      "rank": 2,
+      "name": "Ischemic cardiomyopathy (CAD\u2011related heart failure with reduced ejection fraction)",
+      "icd10": "I25.5",
+      "snomed": "84114007",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery disease and prior myocardial infarction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Reduced left ventricular ejection fraction on echo (EF 35%)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior CAD and documented systolic dysfunction suggest ischemic cardiomyopathy as a contributor to heart failure."
+    },
+    {
+      "rank": 3,
+      "name": "Hypertensive nephrosclerosis (contributory to CKD progression)",
+      "icd10": "I12.9",
+      "snomed": "38341003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated urine albumin/creatinine ratio",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension likely contributes to CKD but proteinuria magnitude favors diabetic nephropathy as dominant."
+    },
+    {
+      "rank": 4,
+      "name": "Uremic metabolic acidosis",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.079,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Arterial pH 7.10 with low bicarbonate consistent with severe metabolic acidosis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum urea and creatinine indicating advanced renal failure",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Severe metabolic acidosis in the setting of ESRD is most consistent with uremic acidosis."
+    },
+    {
+      "rank": 5,
+      "name": "Atrial fibrillation / tachy\u2011cardiomyopathy",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Irregularly irregular pulse noted on exam",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No rhythm monitoring provided; arrhythmia remains possible but unconfirmed."
+    },
+    {
+      "rank": 6,
+      "name": "Urinary tract infection (nitrite\u2011positive)",
+      "icd10": "N39.0",
+      "snomed": "68566005",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine dipstick positive for nitrites",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Nitrite positivity suggests bacteriuria; clinical significance uncertain without symptoms or culture."
+    },
+    {
+      "rank": 7,
+      "name": "Secondary hyperparathyroidism (CKD\u2011MBD)",
+      "icd10": "E21.3",
+      "snomed": "371923003",
+      "probability": 0.008,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD stage 5",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD stage 5 predisposes to secondary hyperparathyroidism, though specific labs are missing."
+    },
+    {
+      "rank": 8,
+      "name": "CKD\u2011related anemia (erythropoietin deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.004,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease without documented anemia work\u2011up",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is common in ESRD; specific CBC data lacking."
+    },
+    {
+      "rank": 9,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "197321009",
+      "probability": 0.004,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild ALT elevation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "ALT alone is nonspecific; NAFLD remains a low\u2011probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy leading to end-stage renal disease (ESRD)",
+  "primary_probability": 0.73,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing diabetes with marked proteinuria and stage\u20115 CKD overwhelmingly points to diabetic nephropathy as the driver of ESRD. Severe metabolic acidosis (pH 7.10) is best explained by uremic acidosis secondary to renal failure. Co\u2011existing ischemic cardiomyopathy accounts for reduced ejection fraction, while hypertension adds a modest contribution to renal injury. Other possibilities (AF, UTI, CKD\u2011MBD, anemia, NAFLD) are retained with lower probabilities based on limited supporting data.",
+  "unresolved_findings": [
+    "Positive urine nitrite without documented symptoms or culture",
+    "Mild ALT elevation without full liver panel or imaging",
+    "Erroneous HbA1c value (2.9%) indicating data quality issue",
+    "Missing recent blood pressure readings and antihypertensive regimen details",
+    "Absence of serum phosphate, PTH, and vitamin D levels",
+    "No iron studies, B12, or folate to fully characterize anemia",
+    "Lack of ECG or rhythm monitoring to confirm atrial fibrillation",
+    "No urine culture to verify urinary infection",
+    "No lipid trend data or statin therapy documentation",
+    "No peripheral arterial disease screening (ABI)",
+    "No sleep apnea assessment despite risk factors"
+  ],
+  "recommended_workup": [
+    "Serum phosphate, intact PTH, 25\u2011OH vitamin D levels for CKD\u2011MBD assessment",
+    "Comprehensive metabolic panel repeat to monitor acidosis and electrolytes",
+    "CBC with iron studies, B12, folate to evaluate anemia",
+    "12\u2011lead ECG and ambulatory Holter monitoring for atrial fibrillation detection",
+    "Urine culture to differentiate asymptomatic bacteriuria from true UTI",
+    "Repeat HbA1c using reliable assay or fructosamine",
+    "24\u2011hour ambulatory blood pressure monitoring and review of antihypertensive regimen (initiate ACE\u2011I/ARB if not contraindicated)",
+    "Echocardiogram review and optimization of GDMT for HFrEF (\u03b2\u2011blocker, ACE\u2011I/ARB, MRA, SGLT2 inhibitor)",
+    "Lipid panel and assessment of statin therapy",
+    "Ankle\u2011brachial index for peripheral arterial disease screening",
+    "Overnight polysomnography or home sleep apnea testing",
+    "Consider renal replacement therapy planning (dialysis access evaluation)"
+  ]
+}

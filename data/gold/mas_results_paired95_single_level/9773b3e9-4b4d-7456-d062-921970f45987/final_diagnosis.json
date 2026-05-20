@@ -1,0 +1,213 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven Metabolic Syndrome (including untreated OSA)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled stage\u20112 hypertension (169/105 mmHg) in an obese patient",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented obstructive sleep apnea without current therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High Charlson comorbidity index driven by metabolic risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of severe hypertension, obesity, untreated OSA, and prediabetes fits the classic presentation of metabolic syndrome, which drives cardiovascular risk and explains the uncontrolled blood pressure."
+    },
+    {
+      "rank": 2,
+      "name": "Early Chronic Kidney Disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.23,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline elevated creatinine and rising BUN",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and prediabetes as risk factors for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and impaired glucose metabolism are leading causes of early CKD; laboratory trends suggest renal stress despite lack of formal eGFR reporting."
+    },
+    {
+      "rank": 3,
+      "name": "Prediabetes / Early Type\u20112 Diabetes Mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 5.9% (prediabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome increase risk of progression to diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The HbA1c value places the patient in the prediabetic range, consistent with the metabolic milieu."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome with obesity and prediabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High prevalence of NAFLD in patients with similar risk profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although liver labs and imaging are missing, the metabolic risk factors make NAFLD plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary Hypertension \u2013 Suspected Primary Hyperaldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599001",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe, resistant hypertension despite no documented antihypertensive regimen",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age and hypertension severity raise suspicion for secondary causes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the uncontrolled blood pressure, a secondary etiology such as primary hyperaldosteronism cannot be excluded, but no biochemical data are available."
+    },
+    {
+      "rank": 6,
+      "name": "Possible Hematologic Disorder (e.g., Myelodysplastic Syndrome) causing elevated PDW",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "PDW 390 fL flagged as severe artifact",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia flag without clear etiology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A markedly abnormal platelet distribution width may reflect an underlying marrow disorder; further hematologic evaluation is warranted."
+    },
+    {
+      "rank": 7,
+      "name": "Major Depressive Disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and trauma history",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High comorbidity of depression with metabolic syndrome",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial factors are present, but no formal screening has been performed."
+    },
+    {
+      "rank": 8,
+      "name": "Chronic Anemia (unspecified etiology)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Flag for chronic anemia without accompanying lab values",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is noted but lacks laboratory confirmation; could be related to CKD or a hematologic disorder."
+    },
+    {
+      "rank": 9,
+      "name": "Substance\u2011Use Disorder (alcohol or other)",
+      "icd10": "F10.20",
+      "snomed": "365981007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented substance\u2011use screening despite risk factors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential contributor to hypertension and liver disease, but no direct evidence is available."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven Metabolic Syndrome (including untreated OSA)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage\u20112 hypertension, obesity, prediabetes, and untreated obstructive sleep apnea, forming a classic metabolic\u2011cardiovascular syndrome that drives most of the clinical picture. Early CKD is plausible given hypertensive and diabetic stress on the kidneys, while prediabetes is confirmed by HbA1c. NAFLD is likely secondary to the metabolic milieu, though liver studies are missing. Secondary hypertension such as primary hyperaldosteronism remains a consideration due to resistant blood pressure, but lacks biochemical confirmation. An abnormal PDW suggests a possible hematologic disorder, and chronic anemia may be related. Psychiatric and substance\u2011use disorders are possible contributors but are unsupported by screening data.",
+  "unresolved_findings": [
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing eGFR and urine albumin\u2011creatinine ratio",
+    "Absent thyroid function tests",
+    "Absent liver function tests or imaging for NAFLD",
+    "No iron studies, vitamin B12, folate, or reticulocyte count",
+    "No psychiatric screening results (PHQ\u20119, GAD\u20117, PTSD checklist)",
+    "No substance\u2011use screening (AUDIT\u2011C, urine drug screen)",
+    "PDW 390 fL artifact not fully explained"
+  ],
+  "recommended_workup": [
+    "Comprehensive lipid panel",
+    "Serum creatinine with eGFR calculation and urine albumin\u2011creatinine ratio",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "Liver function tests (ALT, AST, GGT, alkaline phosphatase) and abdominal ultrasound",
+    "Repeat complete blood count with peripheral smear, iron studies, vitamin B12, folate",
+    "Polysomnography to assess severity of obstructive sleep apnea",
+    "Plasma aldosterone concentration and plasma renin activity; if elevated, adrenal CT",
+    "Oral glucose tolerance test to clarify prediabetes status",
+    "PHQ\u20119, GAD\u20117, and PTSD checklist for mental health screening",
+    "AUDIT\u2011C questionnaire and urine drug screen for substance\u2011use assessment"
+  ]
+}

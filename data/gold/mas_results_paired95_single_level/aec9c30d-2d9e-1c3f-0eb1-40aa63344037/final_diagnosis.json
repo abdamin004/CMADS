@@ -1,0 +1,234 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease (ESRD) secondary to diabetic nephropathy, on chronic dialysis",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 5 chronic kidney disease on maintenance dialysis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15 mL/min/1.73m\u00b2, markedly elevated serum creatinine",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with proteinuria",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced diabetic nephropathy has progressed to ESRD, evidenced by dialysis dependence and severely reduced eGFR, making this the dominant diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "High bleeding risk (dual antiplatelet therapy + uremic platelet dysfunction)",
+      "icd10": "Z92.21",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "medication_list",
+          "finding": "Patient on dual antiplatelet therapy (aspirin + P2Y12 inhibitor)",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Uremic platelet dysfunction associated with CKD\u20115",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Both pharmacologic antiplatelet effect and intrinsic uremic platelet dysfunction markedly increase bleeding propensity."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease (prior NSTEMI)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of non\u2011ST elevation myocardial infarction",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Established atherosclerotic disease risk factors (diabetes, hypertension)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented prior NSTEMI and persistent risk factors indicate ongoing coronary artery disease."
+    },
+    {
+      "rank": 4,
+      "name": "Hyperkalemia (risk)",
+      "icd10": "E87.5",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "CKD\u20115 with reduced potassium excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication_list",
+          "finding": "Renin\u2011angiotensin\u2011aldosterone system blockade",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced renal failure and RAAS inhibition predispose to elevated serum potassium, a common complication in dialysis patients."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic (uremic) acidosis (risk)",
+      "icd10": "E87.2",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20115 on dialysis, known to develop uremic acidosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uremia in ESRD frequently leads to metabolic acidosis, especially between dialysis sessions."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic kidney disease (risk)",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20115, a high\u2011risk state for erythropoietin deficiency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients with ESRD commonly develop anemia due to reduced erythropoietin production and iron dysregulation."
+    },
+    {
+      "rank": 7,
+      "name": "Heart\u2011failure with preserved ejection fraction (HFpEF) (risk)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and fluid overload concerns",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertensive, elderly patients with CKD often develop HFpEF; however, objective cardiac data are lacking."
+    },
+    {
+      "rank": 8,
+      "name": "Renal osteodystrophy \u2013 low\u2011turnover (adynamic) bone disease (risk)",
+      "icd10": "N25.8",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low alkaline phosphatase",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD\u20115 on dialysis, predisposes to low\u2011turnover bone disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low ALP in the setting of advanced CKD suggests adynamic bone disease, though full mineral panel is missing."
+    },
+    {
+      "rank": 9,
+      "name": "Dyslipidemia (risk)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication_list",
+          "finding": "Statin therapy documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Statin use implies prior abnormal lipid profile; exact values are unavailable."
+    },
+    {
+      "rank": 10,
+      "name": "Volume overload / pulmonary edema (risk)",
+      "icd10": "J81.0",
+      "snomed": "195949004",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Clinical note mentions possible fluid overload",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD patients are prone to volume shifts; no objective signs of congestion are recorded."
+    },
+    {
+      "rank": 11,
+      "name": "Peripheral arterial disease / diabetic foot\u2011ulcer risk (risk)",
+      "icd10": "I73.9",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing diabetes and hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes confers high PAD risk, though no active ulcer or ischemia is documented."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease (ESRD) secondary to diabetic nephropathy, on chronic dialysis",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is ESRD from diabetic nephropathy, confirmed by dialysis dependence and severely reduced eGFR. This underlies most secondary complications: high bleeding risk from dual antiplatelet therapy compounded by uremic platelet dysfunction; coronary artery disease from prior NSTEMI; electrolyte and metabolic disturbances (hyperkalemia, uremic acidosis); anemia of CKD; and bone\u2011mineral disorder suggested by low alkaline phosphatase. Moderate\u2011probability risks such as HFpEF, volume overload, dyslipidemia, and peripheral arterial disease are plausible given the comorbidity burden but lack concrete objective data. The reviewer\u2019s probability adjustments have been incorporated, unsupported entities removed, and the ranking reflects the revised likelihoods.",
+  "unresolved_findings": [
+    "Low alkaline phosphatase (potential adynamic bone disease vs nutritional deficiency)",
+    "Trace urine ketones without documented hyperglycemia",
+    "Very dilute urine (specific gravity 1.0) without dialysis timing information",
+    "Missing key labs: serum potassium, bicarbonate, CBC, calcium, phosphorus, PTH, vitamin D, lipid panel, HbA1c, blood pressure readings",
+    "Absence of any glucose\u2011lowering medication in the medication list"
+  ],
+  "recommended_workup": [
+    "Serum potassium and bicarbonate levels",
+    "Complete blood count with differential",
+    "Comprehensive metabolic panel including calcium, phosphorus, and albumin",
+    "Parathyroid hormone (PTH) and 25\u2011OH vitamin D levels",
+    "Lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "HbA1c to assess glycemic control",
+    "Blood pressure monitoring (home and clinic)",
+    "Review and reconcile medication list for antidiabetic agents",
+    "Repeat alkaline phosphatase and consider bone turnover markers",
+    "Access site examination and culture if infection suspected",
+    "Echocardiogram to evaluate diastolic function and confirm HFpEF",
+    "Chest radiograph to assess for pulmonary edema"
+  ]
+}

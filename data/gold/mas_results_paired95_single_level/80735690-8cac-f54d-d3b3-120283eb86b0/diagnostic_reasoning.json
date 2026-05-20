@@ -1,0 +1,263 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.42,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI \u2265 30 (obesity) documented 2017",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 essential hypertension (BP 140/96 mmHg) diagnosed 2009",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.1%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 131.1 mg/dL and total cholesterol 206.7 mg/dL (borderline high)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social determinants: unsatisfactory housing, limited education, full\u2011time employment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, hypertension, impaired glucose tolerance, and dyslipidaemia constitutes metabolic syndrome, a systemic insulin\u2011resistance state that drives the downstream cardiovascular, renal, and hematologic abnormalities observed."
+    },
+    {
+      "rank": 2,
+      "name": "Stage\u20112 Essential Hypertension (secondary to metabolic syndrome)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BP 140/96 mmHg (stage\u20112) despite amlodipine 2.5\u202fmg monotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Only low\u2011dose CCB prescribed, indicating therapeutic inertia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic alkalosis (CO\u2082 28.6 mmol/L) and low\u2011normal potassium (3.8 mmol/L) suggesting renal sodium retention",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled blood pressure is a direct manifestation of the metabolic\u2011syndrome milieu; it also explains the electrolyte pattern and contributes to early renal injury."
+    },
+    {
+      "rank": 3,
+      "name": "Early Type\u20112 Diabetes Mellitus (progression from pre\u2011diabetes)",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.1% (borderline abnormal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Insulin resistance inherent to metabolic syndrome predisposes to progression from pre\u2011diabetes to overt T2DM, which would further aggravate hypertension and renal dysfunction."
+    },
+    {
+      "rank": 4,
+      "name": "Early Hypertensive/Obesity\u2011related Chronic Kidney Disease (CKD stage 1\u20112)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic alkalosis (CO\u2082 28.6 mmol/L) and low\u2011normal potassium (3.8 mmol/L) suggest renal bicarbonate retention",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline anemia (Hb 12.6 g/dL, Hct 35.6%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension on sub\u2011therapeutic regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic pressure overload and obesity\u2011related hyperfiltration can cause early CKD, which in turn contributes to anemia and electrolyte disturbances."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnoea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic alkalosis and low\u2011normal potassium (possible chronic respiratory compensation)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is common in obese patients and can exacerbate hypertension, insulin resistance, and sympathetic drive, reinforcing the metabolic\u2011syndrome loop."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic Axial Musculoskeletal Pain due to Adolescent Idiopathic Scoliosis",
+      "icd10": "M41.9",
+      "snomed": "72696002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented adolescent idiopathic scoliosis (diagnosed 1988)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011back and neck pain since 2014",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No analgesic or muscle\u2011relaxant medications recorded",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Structural spinal deformity explains persistent axial pain, which likely limits physical activity and worsens obesity and metabolic risk."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive/Anxiety Disorder (undocumented)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.03,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain, socioeconomic stressors, and lack of mental\u2011health screening",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia contributing to fatigue",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stress can impair adherence to lifestyle and medication regimens, amplifying metabolic derangements."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary Endocrine Hypertension (Cushing\u2019s syndrome, overt thyroid disease, PCOS)",
+      "icd10": "E24.9",
+      "snomed": "237599002",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, dyslipidaemia, mild anemia \u2013 a pattern that can be seen in Cushing\u2019s or thyroid excess",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If present, endocrine disorders would replace metabolic syndrome as the primary driver; currently low probability pending targeted testing."
+    },
+    {
+      "rank": 9,
+      "name": "Primary Hyperaldosteronism (Conn\u2019s syndrome)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal potassium with falling trend and metabolic alkalosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite CCB monotherapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Classic triad of hypertension, hypokalaemia, and alkalosis raises suspicion, but prevalence is low; requires aldosterone\u2011renin ratio for confirmation."
+    },
+    {
+      "rank": 10,
+      "name": "Iron\u2011deficiency Anemia vs Anemia of Chronic Disease",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.6 g/dL, Hematocrit 35.6%, RBC 4.2\u00d710\u2076/\u00b5L (borderline low, normocytic)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No iron studies, B12, folate, or renal function available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild normocytic anemia could be secondary to early CKD, chronic inflammation, or a nutritional deficiency; further labs needed to differentiate."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven Metabolic Syndrome",
+  "primary_probability": 0.42,
+  "clinical_reasoning_summary": "The patient presents with a classic constellation of obesity, stage\u20112 hypertension, borderline dyslipidaemia, and pre\u2011diabetes, all documented across the EHR and laboratory summaries. These findings coalesce into metabolic syndrome, which serves as the root pathological process driving secondary hypertension, early renal injury, evolving type\u20112 diabetes, and associated electrolyte disturbances. Chronic axial pain from longstanding scoliosis likely limits physical activity, reinforcing the metabolic derangements, while socioeconomic stressors further impede lifestyle modification and medication adherence. Secondary contributors such as obstructive sleep apnoea, depressive disorder, and less common endocrine causes are considered but assigned lower probabilities pending targeted investigations. The differential hierarchy reflects this root\u2011cause > consequence framework, with probabilities calibrated to avoid double\u2011counting overlapping entities.",
+  "unresolved_findings": [
+    "Platelet Distribution Width (PDW) 238.6\u202ffL flagged as artifact",
+    "Borderline high CO\u2082 (28.6\u202fmmol/L) and chloride (107.9\u202fmmol/L) with low\u2011normal potassium without documented diuretic use",
+    "Mild normocytic anemia without iron, B12, folate, or renal markers",
+    "Missing lipid panel components (HDL, triglycerides)",
+    "Missing renal function data (eGFR, urine albumin\u2011creatinine ratio)",
+    "Absent smoking, alcohol, physical activity, and diet documentation",
+    "No mental\u2011health screening results"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio to assess for CKD",
+    "Complete lipid panel (HDL, triglycerides) and calculation of ASCVD risk score",
+    "Repeat fasting glucose, HbA1c, and consider oral glucose tolerance test to confirm progression to diabetes",
+    "Aldosterone\u2011renin ratio with confirmatory suppression testing for primary hyperaldosteronism",
+    "Morning cortisol level (or 1\u2011mg dexamethasone suppression test) and thyroid panel (TSH, free T4) to screen for endocrine hypertension",
+    "Home sleep\u2011apnoea test or polysomnography to evaluate for OSA",
+    "Iron studies (serum iron, ferritin, transferrin saturation), vitamin B12, folate, and CRP to characterize anemia",
+    "Comprehensive medication and OTC review (including NSAIDs, diuretics, supplements)",
+    "Validated depression and anxiety questionnaires (PHQ\u20119, GAD\u20117)",
+    "Physical activity and dietary assessment questionnaire"
+  ]
+}

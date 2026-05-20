@@ -1,0 +1,128 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute non\u2011ST\u2011segment elevation myocardial infarction (NSTEMI)",
+      "icd10": "I21.4",
+      "snomed": "413839001",
+      "probability": 0.7,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent NSTEMI documented in admission note",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (prior MI, hypertension, hyperlipidemia, obesity, recent stress)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated cardiac biomarkers (troponin) consistent with myocardial injury",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient\u2019s recent NSTEMI, extensive atherosclerotic risk factors, and elevated troponin make an acute NSTEMI the most likely explanation for his current presentation."
+    },
+    {
+      "rank": 2,
+      "name": "Stage 5 chronic kidney disease (CKD\u20115), non\u2011dialysis dependent",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Known CKD stage 5 documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <15\u202fmL/min/1.73\u202fm\u00b2 on recent labs",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Chronic kidney disease is established and contributes to the patient\u2019s overall morbidity; no dialysis is currently required."
+    },
+    {
+      "rank": 3,
+      "name": "Biliary obstruction (choledocholithiasis or malignant stricture)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe hyperbilirubinemia (total bilirubin 7.5\u202fmg/dL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated alkaline phosphatase and GGT (cholestatic pattern) \u2013 pending but suspected",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The marked hyperbilirubinemia raises concern for an obstructive process; imaging is required to differentiate choledocholithiasis from malignant obstruction."
+    },
+    {
+      "rank": 4,
+      "name": "Statin\u2011associated cholestatic liver injury",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on high\u2011dose statin therapy for hyperlipidemia",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of clear hepatocellular injury; cholestatic pattern not yet confirmed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Statins can cause cholestasis, but the lack of definitive cholestatic enzyme data makes this diagnosis less likely."
+    },
+    {
+      "rank": 5,
+      "name": "Cardiac hepatopathy (congestive hepatic injury)",
+      "icd10": "K76.0",
+      "snomed": "235719003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent acute coronary syndrome with potential right\u2011sided heart strain",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Bilirubin level unusually high for isolated congestive hepatopathy",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While cardiac dysfunction can cause hepatic congestion, the degree of hyperbilirubinemia is atypical, lowering its likelihood."
+    }
+  ],
+  "primary_diagnosis": "Acute non\u2011ST\u2011segment elevation myocardial infarction (NSTEMI)",
+  "primary_probability": 0.7,
+  "clinical_reasoning_summary": "The patient\u2019s recent NSTEMI, extensive atherosclerotic risk factors (including markedly elevated total cholesterol), and elevated cardiac biomarkers dominate the clinical picture, justifying a 70% probability. Chronic kidney disease stage 5 is well documented and contributes to overall risk. Severe hyperbilirubinemia prompts consideration of biliary obstruction, but lacking imaging and cholestatic enzyme data, its probability is moderate. Statin\u2011induced cholestasis and cardiac hepatopathy are possible but less supported by current evidence.",
+  "unresolved_findings": [
+    "Total cholesterol 272.9\u202fmg/dL (severity 4) \u2013 not directly linked to a specific diagnosis in the current list",
+    "Absence of cholestatic enzyme pattern (ALP, GGT) and imaging to differentiate biliary obstruction from drug\u2011induced injury"
+  ],
+  "recommended_workup": [
+    "Abdominal ultrasound or MRCP to evaluate for biliary obstruction",
+    "Complete liver panel with fractionated bilirubin, ALP, GGT, AST, ALT, INR, albumin",
+    "Repeat cardiac biomarkers and transthoracic echocardiogram to assess left\u2011ventricular function and rule out cardiac hepatopathy",
+    "Renal function panel (serum creatinine, BUN, electrolytes) and urine analysis to assess for acute\u2011on\u2011chronic kidney injury",
+    "Review medication list for recent statin dose changes or other hepatotoxic agents"
+  ]
+}

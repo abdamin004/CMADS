@@ -1,0 +1,259 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Atherosclerotic coronary artery disease / cardiac\u2011renal syndrome (post\u2011MI, CABG)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction with coronary artery bypass grafting",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent acute decompensated heart failure and worsening renal function",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Prior MI and CABG indicate significant atherosclerotic burden; the acute cardiac event has precipitated renal hypoperfusion and progression of CKD, fitting a cardiac\u2011renal syndrome."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive\u2011mediated vascular disease",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension with target\u2011organ damage (LVH, CKD stage 4)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Chronic pressure overload drives both renal insufficiency and cardiac remodeling, contributing substantially to the patient\u2019s clinical picture."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic vascular chronic kidney disease (stage 4 DKD)",
+      "icd10": "E11.22",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus with advanced CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HbA1c (3.2%) suggesting tight glucose control or hypoglycemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Diabetes is a known cause of CKD; however, the unusually low HbA1c raises doubt about ongoing hyperglycaemic injury as the dominant driver."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease / possible drug\u2011induced liver injury",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated ALT without clear etiology",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Use of potentially hepatotoxic medications",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild transaminitis could stem from fatty infiltration or drug toxicity; imaging is needed for differentiation."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011related anemia / iron deficiency",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin consistent with anemia of chronic kidney disease",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to erythropoietin deficiency and anemia; iron studies would clarify contribution of iron deficiency."
+    },
+    {
+      "rank": 6,
+      "name": "Iatrogenic hypoglycemia (excess glucose\u2011lowering therapy)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.2% indicating possible over\u2011treatment",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intensive insulin or sulfonylurea regimen",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The markedly low HbA1c suggests excessive glucose\u2011lowering, predisposing to hypoglycemia."
+    },
+    {
+      "rank": 7,
+      "name": "Polypharmacy\u2011related toxicity (bleeding, hepatic injury, drug\u2011induced AKI)",
+      "icd10": "T88.7",
+      "snomed": "442452003",
+      "probability": 0.06,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple concurrent medications including anticoagulants and hepatotoxic agents",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated liver enzymes and possible AKI markers",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of drugs raises risk for bleeding, liver injury, and acute kidney injury, fitting the observed laboratory abnormalities."
+    },
+    {
+      "rank": 8,
+      "name": "Hyperkalaemia / metabolic acidosis (CKD\u2011related electrolyte disorder)",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "Stage\u20114 CKD predisposes to impaired potassium excretion and acid retention",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Even without a BMP, advanced CKD makes hyperkalaemia and metabolic acidosis highly likely."
+    },
+    {
+      "rank": 9,
+      "name": "Heart failure with preserved ejection fraction (HFpEF) / hypertensive LVH",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and left ventricular hypertrophy on prior reports",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but objective data (echocardiogram) are lacking, making this diagnosis uncertain."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and reported snoring",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No sleep study has been performed; the diagnosis remains speculative."
+    },
+    {
+      "rank": 11,
+      "name": "Atherosclerotic renal artery stenosis",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension in setting of atherosclerotic disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Proteinuria pattern and imaging are absent; the likelihood is low."
+    },
+    {
+      "rank": 12,
+      "name": "Alzheimer\u2019s disease (cognitive\u2011function modifier)",
+      "icd10": "G30.9",
+      "snomed": "372087000",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented progressive memory loss and cognitive decline",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Cognitive impairment is well documented, influencing medication adherence and overall management."
+    },
+    {
+      "rank": 13,
+      "name": "CKD\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "399720009",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reasoning",
+          "finding": "Stage\u20114 CKD predisposes to secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory panels (PTH, calcium, phosphate) are missing, but the disorder is expected in advanced CKD."
+    }
+  ],
+  "primary_diagnosis": "Atherosclerotic coronary artery disease / cardiac\u2011renal syndrome (post\u2011MI, CABG)",
+  "primary_probability": 0.15,
+  "clinical_reasoning_summary": "The patient\u2019s recent myocardial infarction with CABG, coupled with acute decompensated heart failure, most plausibly explains the rapid decline in renal function (cardiac\u2011renal syndrome). Chronic hypertension and diabetes contribute substantially, but the reviewer\u2019s confidence places the coronary disease as the dominant driver. Anemia, electrolyte disturbances, and polypharmacy are important comorbidities that require targeted management. Uncertain entities such as OSA and renal artery stenosis are retained with low confidence pending further testing.",
+  "unresolved_findings": [
+    "HbA1c = 3.2% (unusually low for type 2 diabetes)",
+    "Absence of recent BMP (electrolytes, bicarbonate, potassium)",
+    "No recent lipid trend or eGFR trajectory data",
+    "Lack of liver imaging or FibroScan to characterize ALT rise",
+    "No documented vaccination status (hepatitis B, pneumococcal, COVID\u201119)",
+    "No renal Doppler or imaging to assess for renal artery stenosis",
+    "Missing sleep study to confirm OSA"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel (BMP) to assess potassium, bicarbonate, and renal function trends",
+    "Echocardiogram with diastolic function assessment",
+    "Iron studies, ferritin, transferrin saturation",
+    "PTH, calcium, phosphate, vitamin D levels",
+    "Renal artery duplex ultrasound or CT angiography",
+    "Polysomnography or home sleep apnea testing",
+    "Abdominal ultrasound or FibroScan for liver evaluation",
+    "Medication reconciliation with focus on nephrotoxic and hypoglycaemic agents"
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (type 2 diabetic nephropathy)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus with long\u2011standing disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe chronic kidney disease (eGFR 16\u202fmL/min/1.73\u202fm\u00b2, creatinine 2.7\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Marked proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension as comorbidity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing type\u202f2 diabetes combined with advanced CKD and heavy proteinuria is classic for diabetic nephropathy, which accounts for the majority of renal impairment in this patient."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (vascular CKD)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease with reduced eGFR",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension contributes to CKD and can coexist with diabetic nephropathy; the proteinuria level is higher than typical for isolated hypertensive nephrosclerosis, suggesting it is a secondary contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (type\u202f2 diabetes, obesity likely, dyslipidemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild ALT elevation (44.8\u202fU/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.3\u202fmg/dL (suggests possible hepatic dysfunction)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk factors and mild transaminase elevation raise suspicion for NAFLD/NASH, though imaging and full hepatic panel are lacking."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic kidney disease\u2011mineral and bone disorder (CKD\u2011MBD)",
+      "icd10": "N25.81",
+      "snomed": "39972008",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (eGFR 16\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented calcium, phosphate, PTH, or vitamin D levels",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patients with eGFR <30\u202fmL/min commonly develop disturbances in calcium\u2011phosphate metabolism and secondary hyperparathyroidism; the absence of these labs makes this a plausible but unconfirmed diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe CKD (eGFR 16\u202fmL/min/1.73\u202fm\u00b2) predisposes to anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD reduces erythropoietin production, leading to anemia; however, a complete blood count is missing, so the diagnosis remains presumptive."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (type 2 diabetic nephropathy)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with advanced CKD, heavy proteinuria, and longstanding type\u202f2 diabetes, making diabetic nephropathy the dominant cause of renal dysfunction. Hypertension likely adds a secondary vascular component. Metabolic risk factors and mild ALT elevation raise concern for NAFLD/NASH, while the severity of CKD warrants consideration of CKD\u2011MBD and anemia of CKD, though laboratory confirmation is lacking. Opioid\u2011related endocrine dysfunction was deemed unsupported and excluded.",
+  "unresolved_findings": [
+    "Hemoglobin A1c 3.4\u202f% \u2013 discordantly low for an insulin\u2011requiring diabetic; could reflect anemia, recent hypoglycemia, or lab error",
+    "Urine bilirubin 1.3\u202fmg/dL \u2013 suggests conjugated hyperbilirubinemia without a documented serum bilirubin level",
+    "Urine specific gravity 1.0 \u2013 extremely dilute urine, could be due to over\u2011hydration, impaired concentrating ability, or diabetes insipidus",
+    "Urine ketones 15\u202fmg/dL \u2013 unexpected in a non\u2011fasting state",
+    "Mild ALT elevation without full hepatic panel",
+    "Absence of serum electrolytes, calcium/phosphate, PTH, 25\u2011OH vitamin D, and complete blood count",
+    "No renal biopsy performed despite advanced CKD and heavy proteinuria",
+    "No imaging (ultrasound, FibroScan) to confirm NAFLD/NASH"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and obtain fasting glucose to verify glycemic control",
+    "Comprehensive metabolic panel including serum bilirubin, AST, ALT, ALP, GGT",
+    "Complete blood count with differential to assess for anemia",
+    "Serum calcium, phosphate, PTH, 25\u2011OH vitamin D levels to evaluate CKD\u2011MBD",
+    "Renal ultrasound (and consider kidney biopsy) to characterize renal pathology",
+    "Liver ultrasound or FibroScan to assess for steatosis/fibrosis",
+    "Urine osmolality and water deprivation test if diabetes insipidus is suspected",
+    "Endocrine panel (cortisol, testosterone) if opioid\u2011induced endocrine dysfunction remains a concern"
+  ]
+}

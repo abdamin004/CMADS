@@ -1,0 +1,200 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (diabetic nephropathy)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing diabetes mellitus with A1c 3.9% (tight control) and hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage 2 chronic kidney disease noted in impression",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria implied by urine dipstick (not quantified)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of diabetes, hypertension, and CKD stage 2 makes diabetic nephropathy the most plausible explanation for the renal impairment, accounting for the majority of the probability."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis",
+      "icd10": "I12.9",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 143/99 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 2 without clear rapid decline",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated blood pressure contributes to renal injury and may coexist with diabetic nephropathy; however, diabetes is the dominant driver, lowering its relative weight."
+    },
+    {
+      "rank": 3,
+      "name": "Insulin\u2011related overtreatment / high\u2011risk hypoglycaemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "A1c 3.9% indicating potentially excessive insulin dosing",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 11.7\u202fmg/dL in a non\u2011fasting state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Tight glycemic control raises concern for overtreatment and risk of severe hypoglycemia, which may explain ketonuria and warrants dose adjustment."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic anemia of CKD",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Impression of chronic kidney disease stage 2",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia noted in labs (specific values not provided)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly leads to anemia via reduced erythropoietin; the reviewer highlighted this as under\u2011estimated."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011diabetic renal disease (e.g., primary glomerulonephritis, renal\u2011artery stenosis, tubulointerstitial nephritis)",
+      "icd10": "N02.9",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of red\u2011flag urinary sediment or rapid creatinine rise",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While possible, there is limited evidence to support a primary non\u2011diabetic renal pathology."
+    },
+    {
+      "rank": 6,
+      "name": "CKD\u2011related metabolic acidosis",
+      "icd10": "N18.5",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis noted in labs (exact values not provided)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD can cause a mild metabolic acidosis; the reviewer assigned a modest probability."
+    },
+    {
+      "rank": 7,
+      "name": "Tubular concentrating defect / tubulointerstitial injury",
+      "icd10": "N25.0",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very low urine specific gravity (1.00)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Possible secondary to advanced DKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Low urine specific gravity suggests impaired concentrating ability, which may be secondary to diabetic nephropathy or a separate tubulointerstitial process."
+    },
+    {
+      "rank": 8,
+      "name": "Atherogenic dyslipidaemia / metabolic\u2011syndrome\u2011related ASCVD risk",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome noted in impression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A comorbidity that contributes to cardiovascular risk but is not a primary renal diagnosis; probability reduced accordingly."
+    },
+    {
+      "rank": 9,
+      "name": "Alcohol\u2011related liver disease / NAFLD",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 1.2\u202fmg/dL without serum LFTs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Urine bilirubin may be a false\u2011positive; lack of serum liver panel makes this diagnosis questionable."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (diabetic nephropathy)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient presents with longstanding diabetes, tight glycemic control (A1c 3.9%), hypertension (143/99 mmHg), and stage 2 CKD. These factors together make diabetic nephropathy the most likely cause of renal impairment. Hypertension contributes additional renal injury, while overtreatment with insulin raises hypoglycemia risk. CKD explains the observed anemia and mild metabolic acidosis. Low urine specific gravity suggests a tubular concentrating defect, likely secondary to DKD. Non\u2011diabetic renal disease, dyslipidaemia, and alcohol\u2011related liver disease have minimal supporting data and are retained only for completeness.",
+  "unresolved_findings": [
+    "Urine ketones 11.7\u202fmg/dL (unexpected in non\u2011fasting state)",
+    "Urine bilirubin 1.2\u202fmg/dL without serum LFTs",
+    "Very low urine specific gravity (1.00)",
+    "Mild leukocytosis (10.3\u202f\u00d710\u00b3/\u00b5L)",
+    "Missing BMI and obesity metrics",
+    "Lack of serial eGFR trend data",
+    "Absence of urine microscopy, protein electrophoresis, and renal imaging"
+  ],
+  "recommended_workup": [
+    "Quantitative urine protein assessment (UACR)",
+    "Urine microscopy with sediment analysis",
+    "Serum liver panel (AST, ALT, ALP, GGT, bilirubin)",
+    "Complete blood count with iron studies, ferritin, B12",
+    "Renal ultrasound to assess size and rule out obstruction",
+    "Ambulatory blood pressure monitoring",
+    "Repeat eGFR and creatinine trend over 3\u20136 months",
+    "Review insulin regimen and consider dose reduction"
+  ]
+}

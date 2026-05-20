@@ -1,0 +1,139 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (stage 4 chronic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD stage 4 documented as secondary to diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine with eGFR consistent with stage 4 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus in chart history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has documented stage 4 CKD in the context of long\u2011standing type 2 diabetes, a classic pattern of diabetic nephropathy. Laboratory data confirm severely reduced eGFR, making this the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Atherosclerotic cardiovascular disease (subclinical)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, diabetes, obesity, and CKD documented as comorbidities",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated 10\u2011year ASCVD risk estimate (implicit from risk factors)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple high\u2011risk vascular factors place the patient at substantial risk for subclinical atherosclerosis, even though no overt cardiac events are recorded."
+    },
+    {
+      "rank": 3,
+      "name": "CKD\u2011related mineral\u2011bone disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD noted, which predisposes to secondary hyperparathyroidism",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Calcium, phosphate, PTH, and vitamin D levels not available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to disturbances in calcium\u2011phosphate metabolism; however, lacking laboratory confirmation makes this diagnosis tentative."
+    },
+    {
+      "rank": 4,
+      "name": "Uncontrolled type 2 diabetes mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes mellitus",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 16.9\u202fmg/dL (ketonuria) without documented fasting state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Ketonuria suggests periods of hyperglycemia, but the absence of recent HbA1c or glucose values limits certainty about current control."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted in chart",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild ALT elevation (if present) and bilirubinuria of 1.4\u202fmg/dL",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and minimal transaminase rise raise the possibility of NAFLD/NASH, but the evidence is sparse and non\u2011specific."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (stage 4 chronic kidney disease)",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "The patient\u2019s advanced CKD is most plausibly explained by diabetic nephropathy given the documented long\u2011standing diabetes and renal function data. Co\u2011existing vascular risk factors elevate the likelihood of subclinical atherosclerotic disease, while CKD\u2011related mineral\u2011bone disorder remains possible but unconfirmed due to missing labs. Uncontrolled diabetes is plausible based on ketonuria, yet the degree of hyperglycemia cannot be quantified. NAFLD/NASH is a low\u2011probability consideration driven only by obesity and minimal liver enzyme changes.",
+  "unresolved_findings": [
+    "Missing recent hemoglobin A1c value",
+    "Missing current blood pressure readings",
+    "Missing current body\u2011mass index",
+    "Absent serum calcium, phosphate, PTH, 25\u2011OH vitamin D levels",
+    "No hemoglobin or iron studies reported",
+    "Urine ketones 16.9\u202fmg/dL (ketonuria) \u2013 etiology unclear",
+    "Urine bilirubin 1.4\u202fmg/dL (bilirubinuria) \u2013 etiology unclear",
+    "Urine specific gravity 1.00 (very dilute) \u2013 may reflect impaired concentrating ability or over\u2011diuresis",
+    "No renal imaging (ultrasound/CT) to exclude renal mass prior to transplant"
+  ],
+  "recommended_workup": [
+    "Serum HbA1c and fasting glucose to assess diabetes control",
+    "Blood pressure measurement and ambulatory monitoring",
+    "Body\u2011mass index calculation",
+    "Serum calcium, phosphate, intact PTH, and 25\u2011OH vitamin D levels",
+    "Complete blood count with iron studies",
+    "Renal ultrasound (or CT) to evaluate renal anatomy before transplantation",
+    "Lipid panel and calculation of 10\u2011year ASCVD risk",
+    "Cardiac stress testing or coronary calcium scoring given high ASCVD risk",
+    "Liver ultrasound or FibroScan to evaluate for NAFLD/NASH"
+  ]
+}

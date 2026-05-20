@@ -1,0 +1,213 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.41,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension, obesity, prediabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk due to BMI >30 and hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, and impaired glucose regulation fulfills criteria for metabolic syndrome and drives most of the patient's risk profile."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of Chronic Disease / Iron-Deficiency (occult GI loss)",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with low ferritin and elevated RDW",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain and NSAID use raising suspicion for GI blood loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory pattern suggests mixed iron\u2011deficiency and anemia of chronic disease; occult gastrointestinal bleeding must be excluded."
+    },
+    {
+      "rank": 3,
+      "name": "Substance Use Disorder (opioid/mixed\u2011drug dependence)",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented active opioid and mixed\u2011drug use",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Substance use contributing to poor hypertension control and chronic pain",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Active opioid dependence is clearly recorded and explains medication\u2011overuse patterns and barriers to care."
+    },
+    {
+      "rank": 4,
+      "name": "Early Hypertensive/Analgesic Nephropathy (Stage\u202f2 CKD)",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of uncontrolled hypertension and chronic NSAID use",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Missing recent eGFR values",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and analgesic exposure raise concern for early CKD, but lack of recent renal labs makes the estimate provisional."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "86203005",
+      "probability": 0.06,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and daytime fatigue reported",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity predisposes to OSA, yet objective testing is absent, keeping probability low."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic Migraine with Medication\u2011Overuse Headache",
+      "icd10": "G44.41",
+      "snomed": "37796009",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic migraine and frequent analgesic use",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Medication overuse likely contributing to headache frequency",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Pattern of daily headache with high analgesic consumption fits medication\u2011overuse headache."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "124055006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Weight gain and fatigue noted but no thyroid labs ordered",
+          "strength": "weak"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Absence of thyroid function testing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Clinical features could be explained by hypothyroidism, but lack of laboratory confirmation keeps confidence low."
+    },
+    {
+      "rank": 8,
+      "name": "Depressive/Anxiety Disorder (secondary to chronic pain & substance use)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High psychosocial stress, chronic pain, and substance use",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "No formal depression or anxiety screening performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial burden suggests mood disorder, yet objective screening is missing, limiting certainty."
+    },
+    {
+      "rank": 9,
+      "name": "Hyperuricemia (thiazide\u2011induced)",
+      "icd10": "E79.0",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on thiazide diuretic for hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Uric acid level not measured",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thiazides can raise uric acid; without labs the likelihood remains low."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven Metabolic Syndrome",
+  "primary_probability": 0.41,
+  "clinical_reasoning_summary": "The patient's obesity, uncontrolled hypertension, and prediabetes constitute metabolic syndrome, which accounts for the majority of his cardiovascular risk and explains many downstream findings. Co\u2011existing anemia likely reflects chronic disease and possible occult GI blood loss, warranting further work\u2011up. Active opioid and mixed\u2011drug dependence drives medication\u2011overuse headache, interferes with hypertension control, and contributes to psychosocial distress. Early hypertensive nephropathy is plausible given analgesic exposure but lacks recent renal labs. Obstructive sleep apnea, hypothyroidism, depression/anxiety, and thiazide\u2011induced hyperuricemia remain possible but are less supported by current data.",
+  "unresolved_findings": [
+    "Platelet Distribution Width 166\u202ffL (markedly high) \u2013 no clear inflammatory or myeloproliferative cause identified",
+    "Falling CO\u2082 (22.5\u202fmmol/L) without overt metabolic acidosis",
+    "Declining fasting glucose (74\u202fmg/dL) while A1c is rising",
+    "Absence of recent blood pressure, BMI, and eGFR measurements"
+  ],
+  "recommended_workup": [
+    "Obtain current blood pressure, BMI, and calculate eGFR",
+    "Complete iron studies (serum iron, ferritin, TIBC) and fecal occult blood test",
+    "Thyroid panel (TSH, free T4)",
+    "Overnight polysomnography for obstructive sleep apnea",
+    "Depression and anxiety screening (PHQ\u20119, GAD\u20117)",
+    "Serum uric acid level",
+    "Comprehensive medication reconciliation including OTC NSAIDs/acetaminophen",
+    "Renal ultrasound if CKD suspected",
+    "Repeat complete blood count with differential to evaluate platelet distribution width"
+  ]
+}

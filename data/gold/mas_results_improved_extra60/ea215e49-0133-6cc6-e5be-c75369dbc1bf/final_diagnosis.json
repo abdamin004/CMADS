@@ -1,0 +1,154 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (stage 5 chronic kidney disease)",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.7,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with documented microvascular complications",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Estimated GFR <15\u202fmL/min/1.73\u202fm\u00b2 consistent with CKD stage\u202f5",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "High Charlson comorbidity index driven by diabetes and renal disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has advanced CKD (eGFR <15) in the setting of long\u2011standing type\u202f2 diabetes, the most common cause of stage\u202f5 CKD. Absence of other primary renal insults and the metabolic profile make diabetic nephropathy the dominant diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage\u202f5 (eGFR <15) which commonly leads to reduced erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CBC not yet obtained but epidemiologic data indicate >80% of patients with CKD\u20115 develop anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD virtually guarantees anemia due to erythropoietin deficiency; despite missing CBC, the pre\u2011test probability is high, justifying inclusion with elevated weight."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic\u2011syndrome\u2011associated atherogenic dyslipidemia",
+      "icd10": "E78.5",
+      "snomed": "443883004",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented metabolic syndrome, hypertension, and type\u202f2 diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides reported as elevated (exact value missing)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of insulin resistance, hypertension, and dyslipidemia points to an atherogenic lipid profile typical of metabolic syndrome."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive chronic kidney disease (nephrosclerosis)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension (duration unspecified)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD present; however, blood pressure readings are missing, limiting assessment of hypertension as primary driver",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is a known co\u2011factor in CKD progression; without current BP data its independent contribution is uncertain, thus a lower probability."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD/NASH)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity risk (BMI not recorded), dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "imaging",
+          "finding": "Liver imaging not performed; diagnosis inferred from risk profile",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the high prevalence of NAFLD in patients with metabolic syndrome, it remains plausible but lacks direct imaging confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Uncontrolled type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c reported as 3.9\u202f% (likely erroneous) \u2013 no reliable glycemic marker available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The label 'uncontrolled' is not substantiated; the erroneous HbA1c prevents confirmation, so the probability is kept minimal."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (stage 5 chronic kidney disease)",
+  "primary_probability": 0.7,
+  "clinical_reasoning_summary": "The patient presents with end\u2011stage renal disease in the context of long\u2011standing type\u202f2 diabetes, making diabetic nephropathy the overwhelming cause of CKD. Advanced CKD virtually guarantees anemia of chronic disease, which is therefore weighted higher despite missing labs. Metabolic syndrome drives dyslipidemia and raises suspicion for NAFLD/NASH, though imaging is lacking. Hypertension contributes as a co\u2011factor but lacks current BP data, reducing its independent weight. The notion of uncontrolled diabetes is unsupported due to erroneous HbA1c, so its probability is minimal.",
+  "unresolved_findings": [
+    "HbA1c reported as 3.9\u202f% (likely erroneous) \u2013 needs repeat testing",
+    "Current systolic and diastolic blood pressures are missing",
+    "Body mass index not recorded",
+    "Complete lipid panel (HDL, VLDL) and repeat triglycerides",
+    "CBC, iron studies, vitamin\u202fD, calcium, phosphate, PTH, uric acid \u2013 not available",
+    "Liver imaging (ultrasound/FibroScan) not performed",
+    "Sleep study for obstructive sleep apnea not done",
+    "Assessment for peripheral arterial disease (ABI) absent"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c or obtain fructosamine to assess glycemic control",
+    "Measure current blood pressure (multiple readings) and calculate average",
+    "Record weight and height to calculate BMI",
+    "Full lipid profile including HDL, LDL, VLDL, and triglycerides",
+    "CBC with differential, iron studies, ferritin, vitamin\u202fD, calcium, phosphate, PTH, uric acid",
+    "Renal ultrasound to evaluate kidney size and rule out obstructive causes",
+    "Liver ultrasound or FibroScan to confirm NAFLD/NASH and stage fibrosis",
+    "Polysomnography or home sleep apnea test",
+    "Ankle\u2011brachial index (ABI) to screen for peripheral arterial disease"
+  ]
+}

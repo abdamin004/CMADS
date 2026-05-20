@@ -1,0 +1,141 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "End\u2011stage renal disease (ESRD) secondary to diabetic nephropathy",
+      "original_probability": 0.48,
+      "verified_probability": 0.42,
+      "confidence_score": 92,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "eGFR\u202f10.8\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+        "Serum creatinine\u202f2.5\u202fmg/dL",
+        "Urine protein \u2248\u202f360\u202fmg/dL and micro\u2011albumin/creatinine ratio\u202f557\u202fmg/g",
+        "Long\u2011standing type\u202f2 diabetes, hypertension, dyslipidemia, prior CABG"
+      ],
+      "evidence_gaps": [
+        "Renal imaging or prior biopsy to definitively exclude non\u2011diabetic glomerulopathies"
+      ],
+      "concerns": [
+        "Probability slightly high given that ESRD is already essentially certain; other diagnoses should not be down\u2011weighted excessively"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Insulin\u2011related overtreatment causing recurrent hypoglycemia (pseudo\u2011low A1c)",
+      "original_probability": 0.25,
+      "verified_probability": 0.33,
+      "confidence_score": 80,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Hemoglobin A1c\u202f3.1\u202f% (markedly low)",
+        "Patient is on insulin therapy",
+        "CKD stage\u202f5 reduces insulin clearance",
+        "Urine ketones\u202f12.3\u202fmg/dL and glucosuria\u202f1.1\u202fmg/dL"
+      ],
+      "evidence_gaps": [
+        "Actual capillary or serum glucose values at the time of testing",
+        "CBC to assess anemia that could falsely lower A1c",
+        "Serum insulin/C\u2011peptide to rule out endogenous hyperinsulinaemia"
+      ],
+      "concerns": [
+        "DA labels the low A1c as \"pseudo\u2011low\" without emphasizing the immediate hypoglycemia risk",
+        "Probability may still be understated given the combination of low A1c, ketonuria, and insulin use"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Metformin\u2011associated lactic acidosis (MALA) risk",
+      "original_probability": 0.12,
+      "verified_probability": 0.08,
+      "confidence_score": 55,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Metformin prescribed despite eGFR\u202f<\u202f30\u202fmL/min/1.73\u202fm\u00b2"
+      ],
+      "evidence_gaps": [
+        "Serum lactate, arterial blood gas, anion gap",
+        "Recent acute illness, volume status, or contrast exposure"
+      ],
+      "concerns": [
+        "DA treats this as a current diagnosis rather than a risk; no acid\u2011base data are provided"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Ischemic cardiomyopathy with chronic heart failure",
+      "original_probability": 0.1,
+      "verified_probability": 0.09,
+      "confidence_score": 60,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "History of CABG, ischemic heart disease, hypertension"
+      ],
+      "evidence_gaps": [
+        "Recent echocardiogram (EF, wall\u2011motion abnormalities)",
+        "BNP/NT\u2011proBNP levels",
+        "Physical exam findings (edema, rales, JVD)"
+      ],
+      "concerns": [
+        "DA infers heart failure solely from comorbidities; objective cardiac data are missing"
+      ],
+      "verdict": "questionable"
+    },
+    {
+      "diagnosis": "CKD\u2011Mineral and Bone Disorder (secondary hyperparathyroidism)",
+      "original_probability": 0.05,
+      "verified_probability": 0.08,
+      "confidence_score": 50,
+      "evidence_strength": "weak",
+      "supporting_evidence_verified": [
+        "eGFR\u202f\u2248\u202f10\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+        "Documented osteoporosis in problem list"
+      ],
+      "evidence_gaps": [
+        "Serum calcium, phosphate, PTH, 25\u2011OH\u2011vitamin D, alkaline phosphatase"
+      ],
+      "concerns": [
+        "DA assigns a very low probability despite near\u2011certainty of biochemical disturbance at this GFR"
+      ],
+      "verdict": "questionable"
+    }
+  ],
+  "overall_confidence": 78,
+  "consistency_checks": [
+    {
+      "area": "Probability sum",
+      "status": "consistent",
+      "detail": "Adjusted probabilities sum to 1.00"
+    },
+    {
+      "area": "EHR\u2011lab alignment",
+      "status": "consistent",
+      "detail": "All severe lab findings are reflected in at least one diagnosis except urine bilirubin"
+    },
+    {
+      "area": "Medication safety flags",
+      "status": "consistent",
+      "detail": "Metformin continuation and insulin dosing are correctly identified as safety concerns"
+    }
+  ],
+  "critical_findings_addressed": [
+    "eGFR\u202f10.8\u202fmL/min/1.73\u202fm\u00b2",
+    "Urine protein \u2248\u202f360\u202fmg/dL",
+    "Micro\u2011albumin/creatinine ratio\u202f557\u202fmg/g",
+    "Urine specific gravity\u202f1.0",
+    "Urine ketones\u202f12.3\u202fmg/dL",
+    "Urine glucose\u202f1.1\u202fmg/dL"
+  ],
+  "critical_findings_missed": [
+    "Urine bilirubin\u202f0.9\u202fmg/dL (severity\u202f3) \u2013 not explained by any diagnosis"
+  ],
+  "top_concerns": [
+    "Iatrogenic hypoglycemia from insulin over\u2011treatment",
+    "Continued metformin in ESRD (risk of lactic acidosis)",
+    "Unexplained urine bilirubin \u2013 possible hepatic congestion or dip\u2011stick artifact",
+    "Missing glucose, lactate, and cardiac function data to confirm key diagnoses",
+    "Potential hyperkalaemia and anemia not explicitly listed"
+  ],
+  "recommended_primary": "End\u2011stage renal disease (ESRD) secondary to diabetic nephropathy",
+  "recommended_primary_confidence": 92,
+  "review_summary": "The Diagnostic Agent correctly identified ESRD from diabetic nephropathy as the dominant problem and flagged insulin\u2011related hypoglycemia and metformin safety. However, probability weighting needed adjustment, and several high\u2011impact diagnoses (anemia, hyperkalaemia, possible right\u2011sided heart failure) were omitted. All severe lab abnormalities are accounted for except urine bilirubin. Overall the differential is solid but incomplete, warranting a confidence of 78/100."
+}

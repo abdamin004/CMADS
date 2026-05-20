@@ -1,0 +1,262 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Drug-induced thrombocytopenia / marrow suppression (hydrochlorothiazide or tramadol)",
+      "icd10": "D69.6",
+      "snomed": "271442005",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is taking hydrochlorothiazide and tramadol, both reported to cause thrombocytopenia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet\u2011distribution width (280.3\u202ffL) and a 40% rapid platelet count decline",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The temporal relationship between exposure to HCTZ/tramadol and the abrupt, significant drop in platelets with a high PDW suggests a drug\u2011induced process, making this the most likely primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome / early type\u20112 diabetes",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30), prediabetes (A1c\u202f6.1\u202f%), stage\u20112 hypertension (DBP\u202f94\u202fmmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The constellation of obesity, impaired glucose tolerance, and hypertension fulfills criteria for metabolic syndrome and predicts progression to type\u20112 diabetes."
+    },
+    {
+      "rank": 3,
+      "name": "Occult gastrointestinal blood loss leading to iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling hemoglobin with high\u2011normal hematocrit (48.4\u202f%) suggesting early anemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No iron studies performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The discordance between hematocrit and hemoglobin points toward a developing iron\u2011deficiency anemia, likely from occult GI blood loss, though confirmation requires iron studies."
+    },
+    {
+      "rank": 4,
+      "name": "Early chronic kidney disease (hypertensive/diabetic nephropathy)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20112 hypertension, obesity, prediabetes \u2013 risk factors for CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal function not yet quantified (eGFR missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient\u2019s cardiometabolic profile, early CKD is plausible and may contribute to anemia and platelet abnormalities."
+    },
+    {
+      "rank": 5,
+      "name": "Myelodysplastic syndrome (early)",
+      "icd10": "D46.9",
+      "snomed": "414545008",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW and unexplained thrombocytopenia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Middle\u2011aged male; early MDS possible but less common",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The abnormal platelet morphology and drop raise concern for a marrow production disorder such as early MDS, warranting further hematologic evaluation."
+    },
+    {
+      "rank": 6,
+      "name": "Secondary hypertension (primary aldosteronism or renal\u2011artery stenosis)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant stage\u20112 hypertension despite therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No hormonal or imaging data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent hypertension raises suspicion for secondary causes, though data are lacking."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension are risk factors for OSA",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep\u2011study data reported",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While plausible given risk factors, lack of objective testing makes OSA a less likely contributor to current labs."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Obesity and metabolic syndrome predispose to NAFLD",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver enzymes or imaging obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic risk makes NAFLD possible, but absent hepatic data limit its relevance."
+    },
+    {
+      "rank": 9,
+      "name": "Immune\u2011mediated thrombocytopenia (ITP or other autoimmune cytopenia)",
+      "icd10": "D69.3",
+      "snomed": "365560000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Thrombocytopenia without clear cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "PDW elevation unusually high for classic ITP",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "ITP remains a consideration but the extreme PDW and lack of bleeding signs lower its likelihood."
+    },
+    {
+      "rank": 10,
+      "name": "Inflammatory bowel disease / celiac disease (occult malabsorption)",
+      "icd10": "K50.9",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No gastrointestinal symptoms reported",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No specific GI testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible source of iron loss, but absent GI manifestations make this unlikely."
+    },
+    {
+      "rank": 11,
+      "name": "Axial spondyloarthropathy (ankylosing spondylitis)",
+      "icd10": "M45.9",
+      "snomed": "239873007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic musculoskeletal pain",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No inflammatory markers or imaging to support diagnosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Unlikely to explain laboratory abnormalities; retained only for completeness."
+    }
+  ],
+  "primary_diagnosis": "Drug-induced thrombocytopenia / marrow suppression (hydrochlorothiazide or tramadol)",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient\u2019s abrupt, significant platelet count decline with a markedly elevated PDW, in the context of exposure to hydrochlorothiazide and tramadol, points to a drug\u2011induced thrombocytopenic process as the most likely primary diagnosis. Co\u2011existing metabolic syndrome drives hypertension, obesity, and prediabetes, contributing to early CKD and possible occult GI blood loss causing iron\u2011deficiency anemia. Early myelodysplastic syndrome remains a differential for the platelet abnormalities and warrants hematologic work\u2011up. Secondary hypertension, OSA, NAFLD, immune thrombocytopenia, and occult GI disease are less likely but still plausible contributors. Unresolved laboratory gaps (iron studies, renal function, hormonal panels) limit definitive exclusion of several entities.",
+  "unresolved_findings": [
+    "Markedly elevated platelet\u2011distribution width (280.3\u202ffL) \u2013 exceeds typical reactive changes",
+    "Rapid platelet count decline (40% drop) without clear etiology",
+    "Borderline high total CO\u2082 (28.6\u202fmmol/L) \u2013 unclear respiratory or metabolic cause",
+    "Discordance between high\u2011normal hematocrit (48.4\u202f%) and falling hemoglobin",
+    "Absence of lipid panel",
+    "Missing eGFR and urine albumin/creatinine ratio",
+    "No iron studies (Ferritin, TIBC, serum iron, transferrin saturation)",
+    "Undocumented tobacco, alcohol, and recreational drug use",
+    "Lack of blood pressure trend data beyond a single reading"
+  ],
+  "recommended_workup": [
+    "Comprehensive iron panel (Ferritin, TIBC, serum iron, transferrin saturation)",
+    "Peripheral blood smear with platelet morphology assessment",
+    "Detailed medication timeline and possible drug cessation trial",
+    "Repeat CBC with reticulocyte count",
+    "Renal function panel (eGFR, serum creatinine) and urine albumin/creatinine ratio",
+    "Lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Serum aldosterone/renin ratio and renal artery Doppler if secondary hypertension suspected",
+    "Sleep study (polysomnography) to evaluate for OSA",
+    "Abdominal ultrasound or FibroScan to assess for NAFLD",
+    "Bone marrow biopsy if thrombocytopenia persists despite drug withdrawal",
+    "Screen for autoimmune markers (ANA, anti\u2011platelet antibodies) if ITP considered"
+  ]
+}

@@ -1,0 +1,289 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced diabetic nephropathy leading to end-stage renal disease",
+      "icd10": "E11.22",
+      "snomed": "709044004",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 2.8\u202fmg/dL (severe elevation)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 10.9\u202fmL/min/1.73\u202fm\u00b2 (CKD stage\u202f5)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Micro\u2011albumin/creatinine ratio 489.8\u202fmg/g (macro\u2011albuminuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Disorder of kidney due to diabetes mellitus (SNOMED\u202f127013003)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type\u202f2 diabetes (30\u202fy) with metabolic syndrome",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black male, age\u202f62 (higher risk for rapid CKD progression)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple independent data points (severe reduction in eGFR, nephrotic\u2011range proteinuria, coded diagnosis of diabetic kidney disease, and long\u2011standing diabetes in a high\u2011risk demographic) converge on diabetic nephropathy as the primary driver of the current ESRD."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (contributory)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension for 30\u202fyears",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black ethnicity (higher prevalence of hypertension\u2011related CKD)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current antihypertensive regimen (lisinopril + HCTZ)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent blood\u2011pressure readings (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension undoubtedly accelerates renal decline, but the nephrotic\u2011range proteinuria is atypical for pure hypertensive nephrosclerosis, so it is weighted as a contributing rather than sole cause."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced acute\u2011on\u2011chronic kidney injury (naproxen)",
+      "icd10": "N14.9",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic naproxen use for osteoarthritis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (eGFR\u202f<\u202f15) making kidneys prostaglandin\u2011dependent",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Recent creatinine elevation without clear alternative trigger",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAIDs are nephrotoxic, especially in advanced CKD, and likely contribute to an acute decline superimposed on chronic diabetic nephropathy."
+    },
+    {
+      "rank": 4,
+      "name": "APOL1\u2011associated focal segmental glomerulosclerosis (FSGS) or other non\u2011diabetic CKD",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Black ancestry (high prevalence of APOL1 risk alleles)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria in the nephrotic range",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No renal biopsy performed (knowledge gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While diabetic nephropathy explains most findings, APOL1\u2011related FSGS can present similarly and would alter management if confirmed; currently speculative due to lack of biopsy."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT 40.8\u202fU/L (borderline elevated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, dyslipidemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Trace urine bilirubin (non\u2011specific)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD, which can explain mild transaminase elevation; other liver causes have not been excluded."
+    },
+    {
+      "rank": 6,
+      "name": "Over\u2011treated diabetes with recurrent hypoglycaemia",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mixed\u2011insulin regimen",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "HbA1c 4.0\u202f% (very low)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Random glucose 121.6\u202fmg/dL (borderline)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetic peripheral neuropathy (blunted hypoglycaemia awareness)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Extremely low HbA1c in a CKD patient raises concern for overtreatment; however, anemia can artifactually lower HbA1c, so probability is modest."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of chronic kidney disease (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia of chronic disease (on problem list since 1974)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (eGFR\u202f\u2248\u202f11)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing recent CBC (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD at this stage almost invariably leads to reduced erythropoietin production; confirmation pending CBC."
+    },
+    {
+      "rank": 8,
+      "name": "CKD\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism / adynamic bone disease)",
+      "icd10": "N25.0",
+      "snomed": "236423003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low alkaline phosphatase 25.5\u202fU/L (unusual)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (stage\u202f5)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing calcium, phosphate, PTH, vitamin\u202fD labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is a common downstream complication; current labs are insufficient to characterize the specific bone disorder."
+    },
+    {
+      "rank": 9,
+      "name": "Atherosclerotic cardiovascular disease (CAD / heart failure risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension, dyslipidemia, obesity, CKD, Black male",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 155\u202fmg/dL, total cholesterol 231.6\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented ECG, stress test, or imaging (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk profile is extremely high, but no objective cardiac data are present; therefore placed as a downstream consequence with low current probability."
+    }
+  ],
+  "primary_diagnosis": "Advanced diabetic nephropathy leading to end-stage renal disease",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient is a 62\u2011year\u2011old Black male with a 30\u2011year history of type\u202f2 diabetes, hypertension, obesity, and metabolic syndrome. Laboratory data reveal severe renal dysfunction (creatinine 2.8\u202fmg/dL, eGFR 10.9\u202fmL/min/1.73\u202fm\u00b2) and nephrotic\u2011range proteinuria, which together with coded diagnoses of diabetic kidney disease strongly point to advanced diabetic nephropathy as the primary etiology of his ESRD. Hypertension, chronic NSAID use, and possible APOL1\u2011related FSGS act as additional contributors. Metabolic syndrome explains mild hepatic enzyme elevation (NAFLD). The very low HbA1c suggests possible overtreatment of diabetes, raising hypoglycaemia risk, while CKD explains anemia of chronic disease. Missing recent CBC, blood\u2011pressure logs, mineral\u2011bone labs, and cardiac imaging create uncertainty for several secondary diagnoses, prompting targeted work\u2011up.",
+  "unresolved_findings": [
+    "Low alkaline phosphatase (25.5\u202fU/L) \u2013 unclear etiology",
+    "Trace urine bilirubin (0.6\u202fmg/dL) \u2013 not typical for CKD",
+    "Serum albumin 5.2\u202fg/dL (borderline high) \u2013 may reflect dehydration",
+    "Missing recent blood\u2011pressure measurements",
+    "Missing complete blood count and iron studies",
+    "Missing calcium, phosphate, PTH, vitamin\u202fD levels",
+    "Missing full liver panel (AST, GGT, total bilirubin)",
+    "No documented ECG, echocardiogram, or stress test"
+  ],
+  "recommended_workup": [
+    "Discontinue naproxen; switch to acetaminophen or topical analgesics",
+    "Obtain home blood\u2011pressure logs and schedule an in\u2011office BP measurement; consider adding a calcium\u2011channel blocker if targets not met",
+    "Repeat CBC with iron studies, B12, folate, and reticulocyte count",
+    "Order CKD\u2011MBD panel: serum calcium, phosphate, PTH, 25\u2011OH vitamin\u202fD, repeat alkaline phosphatase",
+    "Complete liver panel (AST, ALT, GGT, total bilirubin) and abdominal ultrasound or FibroScan to evaluate NAFLD vs other hepatopathies",
+    "Review insulin dosing; obtain recent SMBG logs or CGM data; consider reducing total daily insulin dose by ~20\u202f% and educate on hypoglycaemia signs",
+    "Initiate high\u2011intensity statin therapy (e.g., atorvastatin 40\u201180\u202fmg) if not already prescribed",
+    "Schedule cardiology evaluation: baseline ECG, transthoracic echocardiogram, and consider coronary calcium scoring or stress testing",
+    "Perform podiatric exam and ankle\u2011brachial index to assess peripheral vascular disease and foot ulcer risk",
+    "Consider renal biopsy only if clinical picture deviates from typical diabetic nephropathy or if APOL1\u2011related disease is strongly suspected",
+    "Provide psychosocial screening for depression/anxiety and refer to counseling or support services as needed"
+  ]
+}

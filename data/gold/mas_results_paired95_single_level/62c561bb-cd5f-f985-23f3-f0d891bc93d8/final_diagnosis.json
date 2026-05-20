@@ -1,0 +1,148 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute coronary syndrome \u2013 type 1 myocardial infarction (NSTEMI)",
+      "icd10": "I21.4",
+      "snomed": "22298006",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated troponin I detected",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated CK-MB",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple cardiovascular risk factors (diabetes, hypertension, hyperlipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of elevated cardiac biomarkers, significant atherosclerotic risk profile, and the reviewer\u2019s strong confidence supports NSTEMI as the most likely diagnosis despite the lack of ECG confirmation."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive biliary disease (choledocholithiasis or distal CBD stricture)",
+      "icd10": "K80.1",
+      "snomed": "236423003",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Isolated hyperbilirubinemia with predominance of direct bilirubin",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Right upper quadrant discomfort reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Direct bilirubin elevation without a matching transaminase rise suggests cholestasis, making biliary obstruction a plausible explanation."
+    },
+    {
+      "rank": 3,
+      "name": "Diabetic kidney disease with progressive proteinuria",
+      "icd10": "E11.21",
+      "snomed": "236423003",
+      "probability": 0.19,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and proteinuria on urinalysis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic diabetic nephropathy accounts for the renal dysfunction and proteinuria, reinforced by the reviewer\u2019s high confidence."
+    },
+    {
+      "rank": 4,
+      "name": "Resistant hypertension (non\u2011adherence & secondary causes)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure remains >140/90 mmHg despite three antihypertensives",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented medication adherence assessment",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension despite therapy, coupled with the reviewer\u2019s emphasis on secondary cause work\u2011up, makes resistant hypertension a strong contender."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and reported snoring",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factors are present, but limited direct evidence; retained as a low\u2011probability contributor."
+    },
+    {
+      "rank": 6,
+      "name": "Cholestatic drug\u2011induced liver injury (rosuvastatin \u00b1 acetaminophen)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent initiation/increase of rosuvastatin and intermittent acetaminophen use",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild cholestatic pattern without marked ALT/AST rise",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Temporal association exists but the enzyme pattern is atypical, leading to a low probability."
+    }
+  ],
+  "primary_diagnosis": "Acute coronary syndrome \u2013 type 1 myocardial infarction (NSTEMI)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s cardiovascular risk profile, elevated troponin, and modest CK\u2011MB elevation point toward NSTEMI as the leading diagnosis. Concurrent isolated direct hyperbilirubinemia raises suspicion for biliary obstruction, while chronic diabetes explains renal findings. Persistent hypertension suggests resistant hypertension, and obesity raises the possibility of OSA. Drug\u2011induced cholestasis remains possible but unlikely. Gaps in ECG, serial troponins, and imaging limit definitive confirmation.",
+  "unresolved_findings": [
+    "Severe isolated hyperbilirubinemia without accompanying ALT/AST/ALP/GGT/INR values",
+    "Elevated troponin I without serial trends or ECG confirmation",
+    "Lack of imaging data (RUQ ultrasound, echocardiography) to assess biliary obstruction or cardiac function",
+    "No documented medication adherence data for antihypertensives"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG and continuous cardiac monitoring",
+    "Serial troponin measurements",
+    "Transthoracic echocardiogram",
+    "Right upper quadrant ultrasound (with Doppler) and, if needed, MRCP",
+    "Medication adherence assessment (pill count, pharmacy refill data)",
+    "Secondary hypertension evaluation (renin, aldosterone, renal artery imaging)",
+    "Polysomnography to evaluate for obstructive sleep apnea"
+  ]
+}

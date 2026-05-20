@@ -1,0 +1,319 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled hypertension / hypertensive heart disease",
+      "icd10": "I11.9",
+      "snomed": "38341003",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black male, age 59, obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking (daily)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis (CO\u2082 total = 20.3 mmol/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing recent blood pressure readings",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a high\u2011prevalence driver of both CKD progression and cardiac remodeling, especially in Black patients with obesity and smoking. Absence of recent BP data raises concern for poor control, making this the most likely root cause."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic nephropathy progressing to end\u2011stage renal disease",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD) = 5.6 mL/min/1.73 m\u00b2 (stage 5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 2.7 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick = 323 mg/dL (moderate proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria due to type 2 diabetes (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin (isophane + regular) \u2013 intensive regimen",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Severe reduction in eGFR together with heavy proteinuria and insulin\u2011requiring type 2 diabetes unequivocally points to diabetic nephropathy as the primary renal pathology, now at ESRD stage."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease (stable/ischemic heart disease)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.17,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Ischemic heart disease (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Low HDL\u2011C = 24.5 mg/dL (severe)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Smoking (daily)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Nitroglycerin spray (active medication)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Simvastatin 20 mg (active medication)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented IHD, severe dyslipidemia, and ongoing tobacco use create a high pre\u2011test probability for significant coronary atherosclerosis, explaining angina and the need for antiplatelet therapy."
+    },
+    {
+      "rank": 4,
+      "name": "Atrial fibrillation with high thrombo\u2011embolic risk",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.11,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Atrial fibrillation (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Warfarin (anticoagulation) + Clopidogrel (antiplatelet)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metoprolol succinate 100 mg ER, Verapamil 80 mg, Digoxin 0.125 mg (rate control)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea (moderate)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "AF is a chronic arrhythmia requiring anticoagulation; its presence explains the dual antithrombotic regimen and contributes to cardiovascular morbidity."
+    },
+    {
+      "rank": 5,
+      "name": "Medication\u2011induced acute\u2011on\u2011chronic kidney injury (NSAID)",
+      "icd10": "N99.0",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Naproxen sodium 220 mg (NSAID) \u2013 chronic use",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine specific gravity = 1.000 (very dilute)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Metabolic acidosis (CO\u2082 total = 20.3 mmol/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (eGFR 5.6) \u2013 kidneys highly susceptible",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "NSAID exposure in the setting of ESRD can precipitate an acute decline in renal function, potentially accounting for recent creatinine rise and the unusually low urine specific gravity."
+    },
+    {
+      "rank": 6,
+      "name": "Gastrointestinal bleeding / peptic ulcer disease (NSAID + dual antithrombotic therapy)",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Warfarin + Clopidogrel (dual antithrombotic) \u2013 high bleeding risk",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Naproxen sodium (NSAID) \u2013 ulcerogenic",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (active problem) with ferrous sulfate therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of NSAID use and two antithrombotics predisposes to GI mucosal injury and bleeding, which could be the underlying cause of the documented anemia."
+    },
+    {
+      "rank": 7,
+      "name": "CKD\u2011related anemia (EPO deficiency \u00b1 iron deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Ferrous sulfate 325 mg (iron supplementation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR <10 mL/min/1.73 m\u00b2 (stage 5 CKD)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Advanced CKD leads to reduced erythropoietin production; iron supplementation suggests concurrent iron deficiency."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease (early steatohepatitis)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "ALT 56 U/L, AST 39 U/L (borderline elevations)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome X (active problem)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) (active problem)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Mild transaminase rise in the context of obesity and metabolic syndrome is typical for NAFLD."
+    },
+    {
+      "rank": 9,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy (early stage)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 5.6 mL/min/1.73 m\u00b2 (stage 5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "Missing calcium, phosphate, PTH labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to secondary hyperparathyroidism; lack of labs prevents confirmation, but the condition remains plausible."
+    },
+    {
+      "rank": 10,
+      "name": "Congestive heart failure (HFpEF) secondary to hypertension, CAD, and AF",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Atrial fibrillation, hypertension, CAD",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No recent echocardiogram or BNP reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of long\u2011standing hypertension, CAD, and AF predisposes to diastolic dysfunction; however, objective cardiac imaging is absent."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled hypertension / hypertensive heart disease",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient is a 59\u2011year\u2011old Black male with advanced diabetic nephropathy (eGFR 5.6, proteinuria) and a heavy burden of cardiovascular risk factors (HTN, CAD, AF, smoking, obesity). Missing recent blood pressure and lipid data limit certainty about control, but the demographic profile and presence of essential hypertension make uncontrolled hypertension the most plausible root cause driving both renal decline and cardiac remodeling. Diabetic nephropathy remains a close second, explaining the ESRD state. Atherosclerotic CAD, AF, NSAID\u2011related AKI, and medication\u2011induced GI bleeding are also strongly supported by the problem list and medication profile. Less certain but still plausible are CKD\u2011related anemia, NAFLD, secondary hyperparathyroidism, and early heart failure. Probabilities were allocated using Bayesian weighting of the strength of each piece of evidence and adjusted for data gaps.",
+  "unresolved_findings": [
+    "Urine bilirubin positive (1.4 mg/dL) \u2013 atypical for isolated CKD",
+    "HbA1c reported as 3.4% (likely erroneous)",
+    "Mildly elevated ALT/AST without definitive hepatic diagnosis",
+    "Urine specific gravity = 1.000 (extremely dilute)",
+    "Missing recent vital signs (BP, HR) and lipid panel",
+    "Missing recent CBC, iron studies, PTH, calcium/phosphate",
+    "No documented echocardiogram or BNP"
+  ],
+  "recommended_workup": [
+    "Obtain urgent CBC with differential, ferritin, transferrin saturation, reticulocyte count, vitamin B12, folate, LDH, and INR.",
+    "Repeat basic metabolic panel including potassium, calcium, phosphate, and obtain PTH and 25\u2011OH vitamin D levels.",
+    "Measure a complete lipid panel (LDL\u2011C, total cholesterol, triglycerides).",
+    "Review and document recent office/home blood pressure readings; consider 24\u2011hour ambulatory BP monitoring.",
+    "Schedule transthoracic echocardiogram to assess LV hypertrophy, diastolic function, and ejection fraction.",
+    "Perform fecal occult blood test; consider upper endoscopy with H. pylori testing if anemia persists.",
+    "Order liver ultrasound with elastography (or FibroScan) to evaluate for NAFLD/fibrosis.",
+    "Repeat HbA1c or obtain fructosamine to verify glycemic control.",
+    "Assess dialysis access status and adequacy (Kt/V) if dialysis is ongoing.",
+    "Re\u2011evaluate antithrombotic regimen (warfarin + clopidogrel) and consider gastro\u2011protective PPI.",
+    "Discontinue naproxen; substitute with acetaminophen or topical NSAID for OA pain."
+  ]
+}

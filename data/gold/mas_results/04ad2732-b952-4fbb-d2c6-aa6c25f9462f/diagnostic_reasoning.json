@@ -5,300 +5,173 @@
       "name": "Essential (primary) hypertension",
       "icd10": "I10",
       "snomed": "38341003",
-      "probability": 0.327,
+      "probability": 0.48,
       "confidence": "high",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "BP 151/105 mmHg (stage 2 hypertension)",
+          "finding": "Stage\u202f2 hypertension (BP\u202f151/105\u202fmmHg) documented on recent visit",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Lisinopril 10 mg daily prescribed for hypertension",
-          "strength": "strong"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Age 30 years, female",
+          "finding": "Age\u202f30, female, no documented secondary causes (e.g., adrenal mass, pregnancy)",
           "strength": "moderate"
         },
         {
           "source": "lab_interpreter",
-          "finding": "Normal lipid panel (total cholesterol 169 mg/dL, HDL 64 mg/dL, LDL 79 mg/dL, triglycerides 130 mg/dL)",
+          "finding": "Normal lipid panel (LDL\u202f78.9\u202fmg/dL, HDL\u202f64.6\u202fmg/dL, TG\u202f129.6\u202fmg/dL) \u2013 does not explain severe hypertension",
           "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg daily prescribed for hypertension",
+          "strength": "strong"
         }
       ],
-      "reasoning": "A young adult with markedly elevated blood pressure despite being on an ACE inhibitor, without documented secondary causes, makes essential hypertension the most likely label, especially after accounting for data gaps."
+      "reasoning": "The only objectively abnormal physiologic finding is a persistently elevated blood pressure despite guideline\u2011dose ACE\u2011inhibitor therapy. In a young adult woman, primary hypertension is far more common than any specific secondary etiology, and the normal lipid profile removes dyslipidemia as a driver. Therefore essential hypertension is the most likely primary diagnosis."
     },
     {
       "rank": 2,
-      "name": "Renal\u2011artery fibromuscular dysplasia (FMD)",
-      "icd10": "I77.4",
+      "name": "Fibromuscular dysplasia (renal\u2011artery stenosis)",
+      "icd10": "I77.5",
       "snomed": "235719002",
-      "probability": 0.111,
+      "probability": 0.16,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Female, age < 40 with resistant stage 2 hypertension",
+          "finding": "Young female with severe, treatment\u2011resistant hypertension",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No secondary\u2011hypertension work\u2011up yet (missing renal labs, imaging)",
+          "finding": "ACE\u2011inhibitor therapy initiated without baseline renal function labs \u2013 raises concern for renal\u2011artery disease",
           "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No renal function data (creatinine, eGFR, urinalysis) available",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "No documented secondary\u2011cause clues such as adrenal mass or pregnancy",
+          "strength": "weak"
         }
       ],
-      "reasoning": "In young women, fibromuscular dysplasia is a leading cause of secondary hypertension; the absence of renal imaging and labs leaves this possibility high."
+      "reasoning": "Fibromuscular dysplasia is the classic cause of secondary hypertension in women <\u202f50\u202fyears. The combination of uncontrolled BP on a single ACE\u2011I, the absence of renal labs (which would reveal an ACE\u2011I\u2011induced creatinine rise), and the patient\u2019s demographic profile makes FMD a plausible secondary contributor that warrants targeted imaging."
     },
     {
       "rank": 3,
-      "name": "Primary aldosteronism (PA)",
-      "icd10": "E26.0",
-      "snomed": "237599002",
-      "probability": 0.101,
+      "name": "Fibromyalgia (chronic pain syndrome)",
+      "icd10": "M79.7",
+      "snomed": "20314005",
+      "probability": 0.13,
       "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Severe, uncontrolled hypertension on sub\u2011maximal ACE\u2011I dose",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Missing serum potassium and aldosterone\u2011renin ratio",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "PA often presents with resistant hypertension; the lack of potassium and ARR data creates uncertainty, but the clinical picture warrants inclusion."
-    },
-    {
-      "rank": 4,
-      "name": "Chronic kidney disease (CKD) \u2013 renal\u2011parenchymal hypertension",
-      "icd10": "N18.9",
-      "snomed": "709044004",
-      "probability": 0.083,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "ACE\u2011I prescribed (often for renal protection)",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Missing serum creatinine, eGFR, urine albumin\u2011creatinine ratio",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Renal dysfunction can cause refractory hypertension; the complete absence of renal labs makes CKD a plausible but unconfirmed contributor."
-    },
-    {
-      "rank": 5,
-      "name": "Obstructive sleep apnea (OSA)",
-      "icd10": "G47.33",
-      "snomed": "23141008",
-      "probability": 0.083,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Full\u2011time stressful employment and chronic pain (risk factors for OSA)",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Missing BMI/weight data (obesity likely)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "OSA is a common, treatable cause of resistant hypertension in young adults, especially when obesity cannot be ruled out."
-    },
-    {
-      "rank": 6,
-      "name": "Degenerative axial spine disease (lumbar/cervical spondylosis)",
-      "icd10": "M48.06",
-      "snomed": "239873007",
-      "probability": 0.083,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic low\u2011back and neck pain since 2014",
+          "finding": "Chronic neck and low\u2011back pain since 2014, managed only with low\u2011dose acetaminophen",
           "strength": "strong"
         },
         {
           "source": "ehr_analyst",
-          "finding": "Only acetaminophen 325\u202fmg PRN for analgesia",
-          "strength": "moderate"
-        }
-      ],
-      "reasoning": "Long\u2011standing axial pain without advanced imaging suggests degenerative changes as a primary musculoskeletal diagnosis."
-    },
-    {
-      "rank": 7,
-      "name": "Inflammatory axial spondyloarthropathy (ankylosing spondylitis)",
-      "icd10": "M45.9",
-      "snomed": "71388002",
-      "probability": 0.055,
-      "confidence": "low\u2011moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic axial pain beginning in early adulthood",
+          "finding": "No structural imaging or specialist evaluation documented for the musculoskeletal pain",
           "strength": "moderate"
         },
         {
           "source": "ehr_analyst",
-          "finding": "No HLA\u2011B27 or imaging data (missing)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Axial spondyloarthropathy can present with chronic back pain in a 30\u2011year\u2011old; lack of confirmatory labs/imaging keeps probability modest."
-    },
-    {
-      "rank": 8,
-      "name": "Pheochromocytoma / paraganglioma",
-      "icd10": "D35.0",
-      "snomed": "237599003",
-      "probability": 0.046,
-      "confidence": "low\u2011moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Severe hypertension with episodic stressors",
-          "strength": "moderate"
-        },
-        {
-          "source": "lab_interpreter",
-          "finding": "Catecholamine labs not ordered (missing)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Although rare, pheochromocytoma can cause refractory hypertension; the absence of catecholamine testing leaves it as a low\u2011moderate probability diagnosis."
-    },
-    {
-      "rank": 9,
-      "name": "Fibromyalgia / myofascial pain syndrome",
-      "icd10": "M79.7",
-      "snomed": "64572001",
-      "probability": 0.046,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "Chronic widespread axial pain with poor response to acetaminophen",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "Psychosocial stressors (IPV history, work stress)",
+          "finding": "History of psychosocial stressors (intimate partner violence, social isolation) that are risk factors for central\u2011sensitization syndromes",
           "strength": "moderate"
         }
       ],
-      "reasoning": "The pain pattern and psychosocial context fit a central sensitization syndrome."
+      "reasoning": "Long\u2011standing diffuse musculoskeletal pain without clear anatomic pathology, minimal pharmacologic treatment, and a background of psychosocial stressors fits the clinical picture of fibromyalgia. This condition can increase sympathetic tone, potentially worsening blood\u2011pressure control."
     },
     {
-      "rank": 10,
-      "name": "Depressive / anxiety / PTSD disorder",
-      "icd10": "F33.1",
-      "snomed": "35489007",
-      "probability": 0.037,
-      "confidence": "moderate",
-      "supporting_evidence": [
-        {
-          "source": "ehr_analyst",
-          "finding": "History of intimate\u2011partner violence and ongoing work stress",
-          "strength": "moderate"
-        },
-        {
-          "source": "ehr_analyst",
-          "finding": "No mental\u2011health screening documented (gap)",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Unaddressed mood or anxiety disorders can worsen pain perception and hypertension control."
-    },
-    {
-      "rank": 11,
-      "name": "Medication\u2011induced hypertension (e.g., oral contraceptives, NSAIDs, stimulants)",
-      "icd10": "I95.1",
-      "snomed": "271327008",
-      "probability": 0.018,
+      "rank": 4,
+      "name": "Hypertensive chronic kidney disease (early stage)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.12,
       "confidence": "low",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "Medication list incomplete; OTC/ hormonal contraception not captured",
-          "strength": "weak"
+          "finding": "Uncontrolled stage\u202f2 hypertension despite ACE\u2011I therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of serum creatinine/eGFR or urine albumin data",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No renal function labs available to exclude early nephropathy",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Potential contributors not documented; probability remains low but not negligible."
+      "reasoning": "Sustained high blood pressure can cause early hypertensive nephropathy even in young adults. Because renal function tests are missing, occult CKD cannot be excluded and should be evaluated."
     },
     {
-      "rank": 12,
-      "name": "Pregnancy\u2011associated hypertension",
-      "icd10": "O13.9",
-      "snomed": "237599004",
-      "probability": 0.005,
-      "confidence": "very low",
+      "rank": 5,
+      "name": "Non\u2011adherence / psychosocial barrier to care",
+      "icd10": "Z91.14",
+      "snomed": "18286008",
+      "probability": 0.11,
+      "confidence": "moderate",
       "supporting_evidence": [
         {
           "source": "ehr_analyst",
-          "finding": "No pregnancy status recorded",
-          "strength": "weak"
-        }
-      ],
-      "reasoning": "Unlikely given lack of any pregnancy documentation, but retained for completeness."
-    },
-    {
-      "rank": 13,
-      "name": "Other rare secondary causes of hypertension (e.g., Cushing\u2019s syndrome, hyperthyroidism, coarctation)",
-      "icd10": "I15.9",
-      "snomed": "38341003",
-      "probability": 0.005,
-      "confidence": "very low",
-      "supporting_evidence": [
+          "finding": "Documented lack of access to transportation",
+          "strength": "strong"
+        },
         {
           "source": "ehr_analyst",
-          "finding": "No specific clinical clues for these entities",
-          "strength": "weak"
+          "finding": "Only primary\u2011school education (low health\u2011literacy proxy)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Full\u2011time employment but persistent transport problem",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No mental\u2011health screening despite prior intimate\u2011partner violence and social isolation",
+          "strength": "moderate"
         }
       ],
-      "reasoning": "Kept as a catch\u2011all for rare etiologies; probability minimal."
+      "reasoning": "Social\u2011determinant barriers such as transportation difficulty and limited health literacy are strongly linked to missed appointments, incomplete labs, and medication non\u2011adherence, all of which can sustain uncontrolled hypertension. The documented barriers make non\u2011adherence a plausible contributor to the current clinical picture."
     }
   ],
   "primary_diagnosis": "Essential (primary) hypertension",
-  "primary_probability": 0.327,
-  "clinical_reasoning_summary": "The patient is a 30\u2011year\u2011old woman with stage\u202f2 hypertension (BP 151/105) despite being on lisinopril, normal lipid profile, and extensive chronic axial pain managed only with acetaminophen. Socio\u2011economic stressors, limited transportation, and prior trauma likely impair adherence and exacerbate both blood pressure and pain. Significant data gaps (renal function, BMI, glucose, aldosterone\u2011renin ratio, catecholamines, sleep assessment) prevent definitive exclusion of secondary hypertension. Consequently, the differential emphasizes essential hypertension as the most probable label but allocates substantial weight to treatable secondary causes (fibromuscular dysplasia, primary aldosteronism, CKD, OSA) and to the chronic pain syndromes that may be driving sympathetic tone. Psychosocial contributors (depression/PTSD) and medication\u2011induced hypertension are also considered. Probabilities were derived from Bayesian weighting of prevalence, patient age, and the strength of available evidence, then normalized to sum to 1.0.",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "The patient\u2019s dominant abnormality is stage\u20112 hypertension that remains uncontrolled despite lisinopril. Essential hypertension is the most likely primary diagnosis given its prevalence in this age group and the absence of documented secondary causes. Secondary hypertension due to fibromuscular dysplasia is a strong consideration because of the patient\u2019s demographic (young female) and the lack of renal function data. Chronic widespread musculoskeletal pain is best explained by fibromyalgia, a central\u2011sensitization syndrome that may amplify sympathetic tone. Early hypertensive kidney disease cannot be ruled out without renal labs, and psychosocial barriers (transportation, low education, prior trauma) likely contribute to medication non\u2011adherence, further worsening blood\u2011pressure control. The normal lipid panel reduces dyslipidemia\u2011related risk, but missing data (BMI, glucose, thyroid, renal function, aldosterone/renin) limit definitive risk stratification.",
   "unresolved_findings": [
-    "Risk activity involvement (SNOMED 160968000) \u2013 unspecified activity",
-    "History of tubal ligation (2014) \u2013 gynecologic surgery not linked to current issues",
-    "Full\u2011time employment listed as an active problem \u2013 social context, not disease",
-    "Medication review due \u2013 process issue, not a pathophysiologic finding",
-    "Missing BMI/weight/waist circumference",
-    "Missing serum creatinine, eGFR, BUN, electrolytes, potassium",
-    "Missing urine albumin\u2011creatinine ratio",
-    "Missing fasting glucose and HbA1c",
-    "Missing thyroid panel",
-    "Missing uric acid and vitamin D levels"
+    "Missing serum potassium, aldosterone/renin levels \u2013 cannot definitively exclude primary aldosteronism",
+    "Absent serum creatinine, eGFR, and urine albumin/creatinine ratio \u2013 renal function unknown",
+    "No BMI, weight, or waist circumference \u2013 metabolic syndrome assessment incomplete",
+    "Missing fasting glucose/HbA1c \u2013 diabetes risk not evaluated",
+    "No thyroid function tests \u2013 hyper/hypothyroidism not excluded",
+    "No smoking or alcohol use documentation",
+    "Absence of mental\u2011health screening (PHQ\u20119, GAD\u20117) despite prior psychosocial stressors",
+    "No imaging of cervical/lumbar spine \u2013 structural contributors to pain not ruled out",
+    "No assessment for obstructive sleep apnea"
   ],
   "recommended_workup": [
-    "Basic metabolic panel with electrolytes, creatinine, BUN, and calculated eGFR",
-    "Urine albumin\u2011to\u2011creatinine ratio",
-    "Aldosterone\u2011renin ratio with concurrent serum potassium",
-    "Plasma free metanephrines or 24\u2011hour urine catecholamines",
-    "Renal artery duplex ultrasound (or CTA/MRA) to assess for fibromuscular dysplasia",
-    "Home sleep apnea testing or polysomnography",
-    "Measurement of height, weight, BMI, and waist circumference",
-    "Fasting glucose and HbA1c",
-    "Thyroid stimulating hormone (TSH) and free T4",
-    "Uric acid and 25\u2011hydroxy vitamin D levels",
-    "Lumbar and cervical spine X\u2011ray; consider MRI if red\u2011flag symptoms emerge",
-    "HLA\u2011B27 testing and CRP/ESR if inflammatory spondyloarthropathy suspected",
-    "Standardized mental\u2011health screening (PHQ\u20119, GAD\u20117, PCL\u20115)",
-    "Comprehensive medication reconciliation including OTCs, hormonal contraception, NSAIDs, and supplements",
-    "Pregnancy test (urine \u03b2\u2011hCG) if sexually active and reproductive age"
+    "Basic metabolic panel with electrolytes, serum creatinine, BUN, and calculated eGFR",
+    "Urine albumin\u2011to\u2011creatinine ratio (spot) to screen for hypertensive nephropathy",
+    "Fasting plasma glucose and HbA1c",
+    "Thyroid panel (TSH, free T4)",
+    "Serum potassium and plasma aldosterone/renin ratio to screen for primary aldosteronism",
+    "Renal artery duplex ultrasound or CTA/MRA to evaluate for fibromuscular dysplasia",
+    "24\u2011hour ambulatory blood\u2011pressure monitoring",
+    "Sleep study (polysomnography or home sleep apnea test) if BMI >\u202f25\u202fkg/m\u00b2 or sleep symptoms emerge",
+    "PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety screening",
+    "Validated pain assessment tools (e.g., Fibromyalgia Impact Questionnaire, PROMIS\u2011Pain Interference)",
+    "MRI or CT of cervical and lumbar spine if red\u2011flag symptoms develop or pain remains refractory",
+    "Medication adherence assessment (pill count, pharmacy refill data) and counseling; consider community health worker or transportation assistance"
   ]
 }

@@ -1,0 +1,289 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Extra-hepatic biliary obstruction",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Total bilirubin = 10.5 mg/dL (severe hyperbilirubinemia)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use with acetaminophen component (potential hepatotoxicity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver enzyme panel or imaging performed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented liver disease or alcohol use",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Marked direct hyperbilirubinemia without accompanying enzyme data strongly suggests an obstructive process in the extra\u2011hepatic biliary tree. The lack of imaging and the magnitude of bilirubin (>10 mg/dL) make obstruction more likely than mild drug\u2011induced cholestasis."
+    },
+    {
+      "rank": 2,
+      "name": "Undiagnosed / inadequately controlled hypertension (including secondary renal\u2011artery stenosis)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 3.0 mg/dL, eGFR = 10.2 mL/min/1.73m\u00b2 (stage\u20115 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prescription of lisinopril 10 mg (ACE\u2011I) without recent renal monitoring",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing office blood\u2011pressure measurements (data\u2011quality flag)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI at age 40 (suggests long\u2011standing vascular risk)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe CKD in a young adult without diabetes points toward chronic hypertension, possibly secondary to renal\u2011artery disease. The absence of BP data limits confirmation, but the clinical context makes uncontrolled hypertension the most plausible driver of both renal and cardiac pathology."
+    },
+    {
+      "rank": 3,
+      "name": "Familial hypercholesterolemia (heterozygous)",
+      "icd10": "E78.01",
+      "snomed": "190332009",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011intensity statin therapy (atorvastatin 40 mg) prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Early NSTEMI at age 40",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent lipid panel available (data\u2011quality flag)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male sex (moderate risk factor for premature ASCVD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Premature coronary event in a 40\u2011year\u2011old male on high\u2011intensity statin raises suspicion for an underlying genetic dyslipidemia. Lack of lipid values prevents definitive confirmation, but the pattern fits familial hypercholesterolemia."
+    },
+    {
+      "rank": 4,
+      "name": "Cholestatic drug\u2011induced liver injury (acetaminophen\u2011containing opioids)",
+      "icd10": "K71.1",
+      "snomed": "235719002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic use of tramadol, Percocet, and hydrocodone/acetaminophen",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe total bilirubin elevation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No other hepatotoxic medications documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic exposure to acetaminophen\u2011containing opioids can cause cholestatic injury, typically with modest bilirubin rise. The magnitude of bilirubin is higher than expected for pure DILI, but DILI remains a plausible contributor, especially if dosing exceeds safe limits."
+    },
+    {
+      "rank": 5,
+      "name": "Primary glomerular disease (e.g., FSGS, IgA nephropathy)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u20115 CKD without documented cause (no diabetes, no hypertension documented)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented hypertension or diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No urine protein data available (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "When CKD is severe and the usual etiologies are absent, a primary glomerular process becomes likely. Confirmation requires proteinuria assessment and possibly renal biopsy."
+    },
+    {
+      "rank": 6,
+      "name": "Cardiorenal syndrome type 2 (chronic heart failure secondary to CAD)",
+      "icd10": "I13.0",
+      "snomed": "423990008",
+      "probability": 0.05,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI and ongoing antiplatelet, beta\u2011blocker, ACE\u2011I therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistently elevated high\u2011sensitivity troponin I (68.5 ng/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u20115 CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic myocardial injury can drive progressive renal dysfunction. The persistent troponin elevation and severe CKD suggest a bidirectional cardiorenal interaction."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid Use Disorder / opioid\u2011related toxicity",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Poly\u2011opioid regimen (tramadol, Percocet, hydrocodone/acetaminophen)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic low\u2011back pain and generalized pain diagnoses",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No pain\u2011severity or functional scores documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple high\u2011risk opioids without objective pain monitoring raise concern for misuse, dependence, and opioid\u2011related adverse effects, including potential contribution to hepatic injury."
+    },
+    {
+      "rank": 8,
+      "name": "Hemolytic anemia (unconjugated hyperbilirubinemia)",
+      "icd10": "D55.9",
+      "snomed": "302810001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe total bilirubin elevation",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No hemolysis work\u2011up performed (missing retic count, LDH, haptoglobin)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If the bilirubin is predominantly indirect, hemolysis could explain the level, but no supporting labs are available, making this a low\u2011probability alternative."
+    },
+    {
+      "rank": 9,
+      "name": "Acetaminophen\u2011induced nephropathy",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic use of acetaminophen\u2011containing opioids",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Stage\u20115 CKD without clear etiology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term acetaminophen exposure can cause tubulo\u2011interstitial nephropathy, but the degree of CKD is severe and other causes are more likely."
+    },
+    {
+      "rank": 10,
+      "name": "Rare genetic liver disease (e.g., \u03b1\u20111 antitrypsin deficiency, Wilson disease)",
+      "icd10": "E88.01",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "very low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Marked hyperbilirubinemia without identified cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented liver disease, alcohol use, or viral hepatitis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In the absence of common causes, a hereditary cholestatic or metabolic liver disorder remains possible but unlikely given the patient\u2019s age and lack of other systemic clues."
+    }
+  ],
+  "primary_diagnosis": "Extra-hepatic biliary obstruction",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is a 40\u2011year\u2011old male with recent NSTEMI, stage\u20115 CKD, severe hyperbilirubinemia, and poly\u2011opioid use. Persistent troponin elevation may be CKD\u2011related, while the striking bilirubin level (>10 mg/dL) without enzyme data points most strongly toward an obstructive biliary process. Hypertension is highly plausible given CKD severity and lack of BP measurements. Early MI on high\u2011intensity statin suggests possible familial hypercholesterolemia. Opioid\u2011related cholestasis, primary glomerular disease, and cardiorenal syndrome are also considered, each supported by specific findings. Probabilities were calibrated using the strength of each piece of evidence and penalized for missing key data (BP, lipid panel, full LFTs, imaging).",
+  "unresolved_findings": [
+    "Missing office blood\u2011pressure and ambulatory BP data",
+    "Absent fasting lipid panel (total cholesterol, LDL\u2011C, HDL\u2011C, triglycerides)",
+    "No full liver function panel (AST, ALT, ALP, GGT, INR) or fractionated bilirubin",
+    "No hepatobiliary imaging (RUQ ultrasound, MRCP)",
+    "No urine protein\u2011to\u2011creatinine ratio or urine sediment analysis",
+    "Smoking status not documented",
+    "Alcohol consumption not documented",
+    "No pain\u2011severity or functional assessment scores"
+  ],
+  "recommended_workup": [
+    "Office blood pressure measurement and 24\u2011hour ambulatory blood pressure monitoring",
+    "Fasting lipid panel with LDL\u2011C calculation",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, INR) plus direct/indirect bilirubin fractions",
+    "Right upper quadrant ultrasound with Doppler; proceed to MRCP if ultrasound equivocal",
+    "Urine protein\u2011to\u2011creatinine ratio and urine sediment analysis",
+    "Renal\u2011artery Doppler ultrasound or CTA/MRA to evaluate for renal\u2011artery stenosis",
+    "Transthoracic echocardiogram with assessment of ejection fraction and diastolic function",
+    "CBC with reticulocyte count, LDH, haptoglobin to assess for hemolysis",
+    "Opioid misuse screening (SOAPP\u2011R or WHO\u2011ASSIST) and urine drug screen with morphine\u2011equivalent dose calculation",
+    "Serum \u03b1\u20111 antitrypsin level and ceruloplasmin if bilirubin remains unexplained after imaging"
+  ]
+}

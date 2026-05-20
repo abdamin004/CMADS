@@ -1,0 +1,250 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled early\u2011onset type 2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.34,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Early\u2011onset type\u202f2 diabetes diagnosed 2014 (age \u224810 years)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 13.9\u202fmg/dL (ketonuria)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antidiabetic medication documented",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No HbA1c value recorded (missing)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The patient has a long history of early\u2011onset type\u202f2 diabetes with evidence of ketonuria and no documented glycemic control measures, indicating likely uncontrolled hyperglycemia driving downstream complications."
+    },
+    {
+      "rank": 2,
+      "name": "Advanced diabetic nephropathy / end\u2011stage renal disease",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR (MDRD)\u202f=\u202f12.3\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine\u202f\u2248\u202f3\u202fmg/dL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 314.3\u202fmg/dL (nephrotic\u2011range proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Progressive CKD documentation (stage\u202f1 \u2192\u202f4) since 2014",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria attributed to type\u202f2 diabetes",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in eGFR, high creatinine, and nephrotic\u2011range proteinuria in a patient with longstanding diabetes strongly point to diabetic nephropathy as the primary cause of ESRD."
+    },
+    {
+      "rank": 3,
+      "name": "Untreated/under\u2011treated hypertension (possible hypertensive nephrosclerosis)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure values missing",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive agents documented",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Rapid CKD progression suggests possible uncontrolled hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is a common co\u2011factor in CKD progression; the absence of BP data and antihypertensive therapy raises suspicion that untreated hypertension is contributing to renal decline."
+    },
+    {
+      "rank": 4,
+      "name": "Secondary hyperparathyroidism of CKD\u20115",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (eGFR\u202f12\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD\u20115 confers >90% pre\u2011test probability of secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "At eGFR <15, secondary hyperparathyroidism is almost universal; despite missing labs, the diagnosis is highly probable."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic kidney disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage\u202f5 (eGFR\u202f12\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD\u20115 carries >80% likelihood of erythropoietin deficiency anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD almost invariably leads to anemia due to reduced erythropoietin production; the condition is therefore highly likely even without CBC data."
+    },
+    {
+      "rank": 6,
+      "name": "Atherosclerotic cardiovascular disease (latent high risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD + early\u2011onset diabetes \u2192 high ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No lipid panel or antihypertensive therapy documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Combined diabetes and CKD confer a markedly elevated cardiovascular risk, even though specific lipid or BP data are missing."
+    },
+    {
+      "rank": 7,
+      "name": "Severe IgE\u2011mediated allergy (anaphylaxis) influencing drug selection",
+      "icd10": "T78.2XXA",
+      "snomed": "39579001",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Epinephrine auto\u2011injector present (history of anaphylaxis)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Loratadine prescribed for allergic rhinitis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Documented severe allergy mandates avoidance of certain drugs (e.g., ACE\u2011I/ARB if angioedema risk) and impacts transplant immunosuppression planning."
+    },
+    {
+      "rank": 8,
+      "name": "Unexplained urinary bilirubin (possible hemolysis or early liver disease)",
+      "icd10": "R79.9",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.5\u202fmg/dL (abnormal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No hepatic disease documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated urinary bilirubin lacks a clear source; possibilities include transient hepatic dysfunction, hemolysis, or assay artifact."
+    },
+    {
+      "rank": 9,
+      "name": "Alternative/overlapping renal pathology (e.g., FSGS, chronic glomerulonephritis, obstructive uropathy, renal\u2011artery stenosis)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No renal imaging or biopsy performed",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria could be seen in primary glomerulopathies",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Potential contribution of untreated hypertension to renal\u2011vascular disease",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While diabetic nephropathy is most likely, the absence of imaging/biopsy leaves room for co\u2011existent primary renal disease that could modify management."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled early\u2011onset type 2 diabetes mellitus",
+  "primary_probability": 0.34,
+  "clinical_reasoning_summary": "The adolescent patient presents with severe CKD (eGFR 12\u202fmL/min/1.73\u202fm\u00b2) and nephrotic\u2011range proteinuria in the context of early\u2011onset type\u202f2 diabetes diagnosed at age ~10. Absence of documented antidiabetic and antihypertensive therapy, together with ketonuria and trace glucosuria, points to uncontrolled diabetes as the primary driver of renal decline. The CKD stage predicts secondary hyperparathyroidism and anemia, both highly probable despite missing labs. Missing blood pressure, lipid, and CKD\u2011related labs create uncertainty around hypertension and ASCVD risk, while a severe allergy influences drug choices. An isolated urinary bilirubin finding remains unexplained, and without imaging or biopsy, alternative renal pathologies cannot be excluded.",
+  "unresolved_findings": [
+    "Urine bilirubin 0.5\u202fmg/dL without documented liver disease",
+    "Very dilute urine specific gravity 1.0 despite nephrotic\u2011range proteinuria",
+    "Discrepancy between CKD stage documentation (stage\u202f4) and eGFR indicating stage\u202f5"
+  ],
+  "recommended_workup": [
+    "Obtain HbA1c and fasting glucose to assess glycemic control",
+    "Measure seated blood pressure and consider ambulatory monitoring",
+    "Order a fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Perform calcium, phosphate, PTH, 25\u2011OH vitamin D, and alkaline phosphatase panel",
+    "Complete blood count to confirm anemia and assess severity",
+    "Renal ultrasound with Doppler to evaluate kidney size, obstruction, and renal\u2011artery stenosis",
+    "Consider kidney biopsy if imaging or clinical picture suggests non\u2011diabetic glomerular disease",
+    "Liver function tests (AST, ALT, ALP, GGT, total/direct bilirubin) and hemolysis work\u2011up (haptoglobin, LDH, peripheral smear)",
+    "Comprehensive medication reconciliation including OTC and supplements",
+    "Identify specific allergen trigger for anaphylaxis to guide future drug avoidance",
+    "Initiate or optimize renin\u2011angiotensin system blockade if not contraindicated",
+    "Start statin therapy per KDIGO guidelines for CKD \u2265 stage\u202f3"
+  ]
+}

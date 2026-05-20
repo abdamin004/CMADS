@@ -1,0 +1,173 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled (pseudo\u2011resistant) hypertension \u2013 multifactorial",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 147/101 mmHg despite beta\u2011blocker, ACE\u2011inhibitor, and lifestyle measures",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Multiple contributing factors: obesity, metabolic syndrome, OSA, prior MI",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Resistant hypertension criteria met (\u22653 antihypertensives including a diuretic missing)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated BP persists on a three\u2011drug regimen lacking a thiazide\u2011type diuretic, indicating pseudo\u2011resistant hypertension driven by volume overload, OSA, and metabolic syndrome."
+    },
+    {
+      "rank": 2,
+      "name": "Stable atherosclerotic coronary artery disease post\u2011NSTEMI",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of NSTEMI with ongoing antiplatelet therapy and statin",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (age, hypertension, diabetes\u2011prediabetes, dyslipidemia likely)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Established CAD explains chronic medication regimen and contributes to elevated BP; disease is stable but remains a major comorbidity."
+    },
+    {
+      "rank": 3,
+      "name": "Iron\u2011deficiency anemia with reactive thrombocytosis",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin/hematocrit consistent with anemia; platelet count at upper\u2011normal range suggesting reactive rise",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented iron studies yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia likely due to iron deficiency; the modest thrombocytosis is typical reactive response, but iron studies are needed for confirmation."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes / early type\u20112 diabetes (metabolic syndrome)",
+      "icd10": "R73.03",
+      "snomed": "15777000",
+      "probability": 0.12,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (prediabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and dyslipidemia risk factors present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c in prediabetic range together with metabolic syndrome features supports early glucose dysregulation."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea, inadequately treated",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [],
+      "reasoning": "Known OSA likely suboptimally treated, which can exacerbate hypertension; lack of adherence data limits certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Medication\u2011induced hyperkalaemia (ramipril)",
+      "icd10": "E87.5",
+      "snomed": "302810001",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum potassium noted on recent labs",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on ACE\u2011inhibitor (ramipril) without a potassium\u2011sparing diuretic",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "ACE\u2011I therapy is a recognized cause of hyperkalaemia, especially when renal function is uncertain."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (stage 2\u20113) \u2013 hypertensive/diabetic nephropathy",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and prediabetes present; renal labs (eGFR, creatinine) missing",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given risk factors, CKD is plausible but cannot be confirmed without renal function data."
+    },
+    {
+      "rank": 8,
+      "name": "Essential thrombocythemia / early myeloproliferative neoplasm",
+      "icd10": "D47.3",
+      "snomed": "41672002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count mildly elevated but not >600\u202f\u00d710\u2079/L; leukocyte count borderline low",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Laboratory pattern is atypical for essential thrombocythemia; low confidence reflects limited supporting data."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled (pseudo\u2011resistant) hypertension \u2013 multifactorial",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s stage 2 hypertension persists despite a three\u2011drug regimen lacking a diuretic, indicating pseudo\u2011resistant hypertension driven by volume overload, obstructive sleep apnea, and metabolic syndrome. Co\u2011existing stable coronary artery disease, prediabetes, and likely iron\u2011deficiency anemia further compound cardiovascular risk. ACE\u2011inhibitor therapy contributes to observed hyperkalaemia, while CKD remains possible but unconfirmed due to missing renal labs. Essential thrombocythemia is considered unlikely given the laboratory profile.",
+  "unresolved_findings": [
+    "Missing renal function data (eGFR, serum creatinine, urine albumin/creatinine ratio)",
+    "Missing iron studies (serum iron, ferritin, TIBC) and B12/folate levels",
+    "Absence of recent CPAP adherence data or repeat polysomnography",
+    "Missing fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)"
+  ],
+  "recommended_workup": [
+    "Serum creatinine, eGFR, and urine albumin/creatinine ratio to assess CKD",
+    "Comprehensive iron panel (serum iron, ferritin, TIBC) plus B12 and folate",
+    "Repeat polysomnography or CPAP device download to evaluate adherence and efficacy",
+    "Fasting lipid profile",
+    "Add thiazide\u2011type diuretic (e.g., chlorthalidone) and reassess blood pressure",
+    "Repeat serum potassium after diuretic initiation and ACE\u2011I dose adjustment"
+  ]
+}

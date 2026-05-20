@@ -1,0 +1,130 @@
+{
+  "diagnosis_verifications": [
+    {
+      "diagnosis": "End\u2011stage renal disease (ESRD) secondary to diabetic\u2011ischemic nephropathy",
+      "original_probability": 0.55,
+      "verified_probability": 0.6,
+      "confidence_score": 90,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "eGFR\u202f7.8\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f5)",
+        "Serum creatinine\u202f2.4\u202fmg/dL",
+        "Urine protein\u202f283\u202fmg/dL (nephrotic\u2011range)",
+        "Long\u2011standing type\u202f2 diabetes, hypertension, proteinuria, CKD\u2011stage\u202f4 documented for decades",
+        "\"Awaiting kidney transplantation\" on problem list"
+      ],
+      "evidence_gaps": [
+        "Current dialysis status (on\u2011dialysis vs. pre\u2011dialysis)",
+        "BUN, electrolytes (K\u207a, Na\u207a, Cl\u207b), bicarbonate, arterial blood gas",
+        "Calcium, phosphate, PTH for CKD\u2011MBD assessment",
+        "Trend of eGFR/creatinine to exclude acute\u2011on\u2011chronic injury"
+      ],
+      "concerns": [
+        "Original probability under\u2011estimates certainty given unequivocal lab data",
+        "Differential does not explicitly mention CKD\u2011related mineral\u2011bone disorder or uremic electrolyte derangements"
+      ],
+      "verdict": "supported"
+    },
+    {
+      "diagnosis": "Ischemic cardiomyopathy with chronic heart failure (reduced EF)",
+      "original_probability": 0.2,
+      "verified_probability": 0.2,
+      "confidence_score": 70,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Remote STEMI (1981) and CABG (1986)",
+        "Active problem \"Ischemic heart disease\"",
+        "Chronic anti\u2011ischemic medications (\u03b2\u2011blocker, statin, antiplatelet)"
+      ],
+      "evidence_gaps": [
+        "Recent transthoracic echocardiogram (EF, wall\u2011motion abnormalities)",
+        "BNP/NT\u2011proBNP levels",
+        "Clinical signs of heart failure (NYHA class, edema, dyspnea)",
+        "Stress test or coronary imaging if transplant evaluation required"
+      ],
+      "concerns": [
+        "No objective cardiac imaging or biomarker data to confirm reduced EF",
+        "Probability may be slightly low given high cardiovascular risk burden"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Anemia of chronic disease secondary to CKD",
+      "original_probability": 0.15,
+      "verified_probability": 0.05,
+      "confidence_score": 65,
+      "evidence_strength": "moderate",
+      "supporting_evidence_verified": [
+        "Hematocrit\u202f37.5\u202f% (borderline low for adult male)",
+        "CKD\u2011stage\u202f5 (eGFR\u202f<\u202f15) indicating reduced erythropoietin production",
+        "\"Anemia\" coded in problem list"
+      ],
+      "evidence_gaps": [
+        "Iron studies (serum iron, ferritin, transferrin saturation)",
+        "Reticulocyte count",
+        "ESA usage and response",
+        "B12/folate levels if macrocytosis suspected"
+      ],
+      "concerns": [
+        "Degree of anemia is modest; without iron studies the etiology remains uncertain",
+        "Probability may be higher than warranted given limited data"
+      ],
+      "verdict": "plausible"
+    },
+    {
+      "diagnosis": "Insulin\u2011related hypoglycemia in advanced CKD",
+      "original_probability": 0.1,
+      "verified_probability": 0.15,
+      "confidence_score": 75,
+      "evidence_strength": "strong",
+      "supporting_evidence_verified": [
+        "HbA1c\u202f3.3\u202f% (markedly low)",
+        "Urine ketones\u202f12.3\u202fmg/dL (ketonuria)",
+        "Insulin listed in medication list",
+        "eGFR\u202f<\u202f15\u202fmL/min reducing renal insulin clearance"
+      ],
+      "evidence_gaps": [
+        "Glucose logs or documented hypoglycemia episodes",
+        "Insulin dosing schedule and type",
+        "Point\u2011of\u2011care glucose records (<70\u202fmg/dL frequency)",
+        "CGM data if available"
+      ],
+      "concerns": [
+        "Original probability too low given high\u2011risk laboratory pattern",
+        "Absence of symptom documentation limits assessment of clinical impact"
+      ],
+      "verdict": "supported"
+    }
+  ],
+  "overall_confidence": 78,
+  "consistency_checks": [
+    {
+      "area": "Lab\u2011EHR alignment",
+      "status": "consistent",
+      "detail": "All high\u2011severity laboratory values are reflected in the problem list and match the diagnoses provided."
+    },
+    {
+      "area": "Probability calibration",
+      "status": "inconsistent",
+      "detail": "ESRD and insulin\u2011related hypoglycemia probabilities are underestimated relative to the strength of supporting evidence."
+    }
+  ],
+  "critical_findings_addressed": [
+    "eGFR\u202f7.8\u202fmL/min/1.73\u202fm\u00b2 (severity\u202f5) \u2013 covered by ESRD",
+    "Serum creatinine\u202f2.4\u202fmg/dL (severity\u202f4) \u2013 covered by ESRD",
+    "Urine protein\u202f283\u202fmg/dL (severity\u202f4) \u2013 covered by ESRD",
+    "Serum albumin\u202f3.7\u202fg/dL (severity\u202f3) \u2013 covered by ESRD (protein loss) and noted as a possible malnutrition\u2011inflammation issue",
+    "Urine ketones\u202f12.3\u202fmg/dL (severity\u202f3) \u2013 covered by insulin\u2011related hypoglycemia"
+  ],
+  "critical_findings_missed": [],
+  "top_concerns": [
+    "Probability weights for ESRD and hypoglycemia are too low; recalibration needed.",
+    "Missing cardiac imaging and biomarkers to confirm ischemic cardiomyopathy.",
+    "Dialysis status and CKD\u2011MBD labs (Ca, P, PTH) are absent, limiting full assessment.",
+    "No electrolyte or acid\u2011base data to evaluate uremic complications.",
+    "Medication dosing review not addressed despite polypharmacy and severe renal impairment."
+  ],
+  "recommended_primary": "End\u2011stage renal disease (ESRD) secondary to diabetic\u2011ischemic nephropathy",
+  "recommended_primary_confidence": 92,
+  "review_summary": "The junior differential captures the major pathologies (ESRD, ischemic heart disease, CKD\u2011related anemia, and insulin\u2011induced hypoglycemia) but under\u2011estimates the certainty of ESRD and hypoglycemia, lacks confirmatory cardiac and CKD\u2011MBD data, and omits several high\u2011impact ESRD complications. Adjusted probabilities and added concerns bring the list into better alignment with the raw evidence."
+}

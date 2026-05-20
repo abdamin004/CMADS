@@ -1,0 +1,241 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Cisplatin-induced acute tubular necrosis",
+      "icd10": "N17.2",
+      "snomed": "236423003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient receiving cisplatin-based chemotherapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Recent rise in serum creatinine consistent with AKI",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Known dose\u2011dependent nephrotoxicity of cisplatin",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Cisplatin is a well\u2011documented cause of proximal tubular injury leading to acute tubular necrosis. The temporal relationship between chemotherapy administration and the acute decline in renal function makes this the most likely primary driver of the current renal abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive/Prediabetic vascular nephropathy",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.19,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and pre\u2011diabetes (A1c 6.3%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum chloride (108.8 mmol/L) suggestive of chronic tubular dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic exposure to elevated blood pressure and metabolic syndrome contributes to progressive glomerular and vascular injury, accounting for a baseline CKD component that coexists with the acute cisplatin injury."
+    },
+    {
+      "rank": 3,
+      "name": "Cisplatin\u2011induced chronic kidney disease progression",
+      "icd10": "N18.4",
+      "snomed": "709045003",
+      "probability": 0.14,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Cumulative cisplatin exposure over multiple cycles",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistently reduced eGFR beyond the acute phase",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Repeated cisplatin dosing can lead to irreversible tubular loss and interstitial fibrosis, manifesting as a chronic CKD component that persists after the acute insult resolves."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia (EPO deficiency) \u00b1 iron deficiency",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with normocytic indices in setting of CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage \u22653",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Reduced erythropoietin production from diseased kidneys explains the anemia; iron studies are pending to delineate an additional iron\u2011deficiency component."
+    },
+    {
+      "rank": 5,
+      "name": "Chemotherapy\u2011related myelosuppression",
+      "icd10": "D61.9",
+      "snomed": "302810001",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Current platinum\u2011taxane regimen",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild neutropenia and thrombocytopenia on recent CBC",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Myelosuppression is a predictable adverse effect of the chemotherapy agents and contributes to the patient\u2019s overall cytopenias."
+    },
+    {
+      "rank": 6,
+      "name": "Stage\u202f1 non\u2011small cell lung cancer (contextual diagnosis)",
+      "icd10": "C34.9",
+      "snomed": "254637007",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "imaging",
+          "finding": "Thoracic CT showing a 1.5\u202fcm peripheral nodule consistent with early NSCLC",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient enrolled in platinum\u2011taxane chemotherapy protocol",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While the malignancy itself is not directly causing the renal findings, its presence frames the therapeutic exposures and overall clinical context."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic obstructive pulmonary disease (COPD) \u2013 smoking\u2011related",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented smoking history (pack\u2011years not quantified)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "COPD is plausible given smoking risk, but no objective pulmonary function data are available; its contribution to renal dysfunction is likely minimal."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) noted in chart",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA can exacerbate hypertension and renal hypoxia, but no sleep study has been performed; probability remains low."
+    },
+    {
+      "rank": 9,
+      "name": "Heart\u2011failure with preserved ejection fraction (HFpEF) / cardiorenal syndrome",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low\u2011normal diastolic blood pressure (61\u202fmmHg) suggesting possible volume depletion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Limited cardiac data; HFpEF could contribute to renal congestion but evidence is insufficient."
+    },
+    {
+      "rank": 10,
+      "name": "Depression / Anxiety (psychosocial stressors)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented psychosocial stressors and mood symptoms",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychological distress may affect medication adherence and blood pressure control, modestly influencing renal outcomes."
+    },
+    {
+      "rank": 11,
+      "name": "Other medication\u2011related nephrotoxicity (NSAIDs, contrast, etc.)",
+      "icd10": "N99.0",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented NSAID or contrast exposure in recent records",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the lack of documented exposure, this remains a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Cisplatin-induced acute tubular necrosis",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s acute kidney injury is most plausibly explained by cisplatin\u2011induced acute tubular necrosis, supported by recent chemotherapy exposure and a rapid rise in creatinine. Underlying hypertensive/prediabetic vascular nephropathy provides a chronic CKD substrate that is further worsened by cumulative cisplatin toxicity, accounting for the CKD progression component. Ancillary issues such as CKD\u2011related anemia, chemotherapy\u2011induced myelosuppression, and psychosocial stressors modify the clinical picture but are less dominant. Speculative entities (COPD, OSA, HFpEF, NAFLD) lack objective data and are retained only with low probability.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without accompanying liver enzyme data or known hepatic disease",
+    "Serum albumin 5.2\u202fg/dL (slightly high) \u2013 atypical for chronic disease",
+    "Low\u2011normal diastolic BP (61\u202fmmHg)",
+    "Mildly elevated serum chloride (108.8\u202fmmol/L)",
+    "Duplicate thoracic CT entries (data\u2011entry error)",
+    "Missing BMI, lipid panel, smoking history, mental\u2011health screens, performance status, vaccination records",
+    "Chemotherapy agents absent from active medication list"
+  ],
+  "recommended_workup": [
+    "Serial serum creatinine and eGFR to track renal recovery",
+    "Comprehensive urinalysis with protein quantification and urine electrolytes",
+    "Renal ultrasound to assess size and rule out obstruction",
+    "Detailed medication reconciliation focusing on nephrotoxic agents (NSAIDs, contrast, aminoglycosides)",
+    "Iron studies (serum iron, ferritin, TIBC) to clarify anemia etiology",
+    "Erythropoietin level if anemia persists",
+    "Echocardiogram to evaluate for HFpEF and volume status",
+    "Pulmonary function tests to confirm or exclude COPD",
+    "Overnight polysomnography for obstructive sleep apnea assessment",
+    "Full liver panel (AST, ALT, ALP, GGT, bilirubin) to investigate isolated urine bilirubin",
+    "Fasting lipid profile and repeat HbA1c",
+    "Performance status assessment (ECOG/Karnofsky) and vaccination review"
+  ]
+}

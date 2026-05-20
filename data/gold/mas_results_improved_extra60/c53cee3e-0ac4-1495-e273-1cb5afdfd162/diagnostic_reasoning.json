@@ -1,0 +1,283 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "COPD with obstructive sleep apnea overlap",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Pulmonary emphysema (SNOMED 87433001)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem: Obstructive sleep apnea (SNOMED 73430006)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications: Albuterol inhalation solution, Fluticasone/Salmeterol DPI",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyspnea and fatigue reported as chief complaint",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of documented emphysema, chronic dyspnea, inhaled bronchodilator/ICS\u2011LABA therapy, and a co\u2011existing diagnosis of OSA strongly supports a COPD\u2011OSA overlap syndrome as the primary driver of the patient's respiratory symptoms."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary hypertension (renal artery stenosis, primary aldosteronism, pheochromocytoma)",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (BP 156/100 mmHg) with no antihypertensive medication",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline high chloride (107.6 mmol/L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Young age (31) with severe hypertension increases pre\u2011test probability of secondary cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe hypertension at a young age, especially when untreated, raises suspicion for secondary etiologies. The electrolyte abnormality (high chloride) may reflect volume contraction seen in certain secondary forms."
+    },
+    {
+      "rank": 3,
+      "name": "Essential (primary) hypertension, stage 2, untreated",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BP 156/100 mmHg recorded at visit",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication listed",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Female sex and prediabetes are common contributors to primary hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In the absence of identified secondary causes, primary hypertension remains a likely contributor to the elevated BP and cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Alpha\u20111 antitrypsin deficiency (early\u2011onset emphysema)",
+      "icd10": "E88.01",
+      "snomed": "235719002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Emphysema documented with onset date 1944\u201111\u201110 (suggesting early disease)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No smoking history recorded (data gap)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Young age with emphysema raises suspicion for genetic cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Early\u2011onset emphysema in a young adult without documented smoking exposure is classic for \u03b1\u20111 antitrypsin deficiency, warranting targeted testing."
+    },
+    {
+      "rank": 5,
+      "name": "Prediabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 6.2% (prediabetic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes listed as active problem",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Co\u2011existing hypertension and possible obesity (data gap) increase diabetes risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c in the prediabetic range together with hypertension suggests early dysglycemia that may progress to overt diabetes."
+    },
+    {
+      "rank": 6,
+      "name": "Mixed anemia (vitamin B12 deficiency \u00b1 iron deficiency / anemia of chronic disease)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 12.8 g/dL (borderline low) with high\u2011normal hematocrit 46.6%",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Vitamin B12 injections prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW 163.1 fL)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Borderline anemia with ongoing B12 therapy suggests a component of B12\u2011deficiency; lack of iron studies prevents exclusion of concurrent iron deficiency or anemia of chronic disease."
+    },
+    {
+      "rank": 7,
+      "name": "Asthma\u2011COPD overlap (ACO)",
+      "icd10": "J44.9",
+      "snomed": "195967001",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Use of short\u2011acting bronchodilator (albuterol) suggests reversible airway component",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic emphysema present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The need for both bronchodilator rescue and maintenance inhaled therapy raises the possibility of an overlapping asthma component, though spirometry data are missing."
+    },
+    {
+      "rank": 8,
+      "name": "Pulmonary hypertension secondary to chronic hypoxia",
+      "icd10": "I27.2",
+      "snomed": "233851006",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic emphysema and OSA both cause chronic hypoxemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW may reflect vascular stress",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypoxic lung disease can lead to secondary pulmonary hypertension; confirmation requires echocardiography or right\u2011heart catheterization."
+    },
+    {
+      "rank": 9,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "423341008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension and dyspnea could reflect diastolic dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal hematocrit may be a compensatory response to reduced cardiac output",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and exertional dyspnea are common in HFpEF; echocardiographic assessment is needed to evaluate diastolic function."
+    },
+    {
+      "rank": 10,
+      "name": "Iron\u2011deficiency anemia secondary to menstrual blood loss",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, reproductive age with borderline low hemoglobin",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No iron studies available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In a young woman, menstrual loss is a common cause of iron\u2011deficiency anemia; iron studies are required to confirm."
+    }
+  ],
+  "primary_diagnosis": "COPD with obstructive sleep apnea overlap",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient presents with chronic dyspnea, documented emphysema, and obstructive sleep apnea, all treated with inhaled bronchodilators and corticosteroids, establishing COPD\u2011OSA overlap as the leading syndrome. Severe, untreated hypertension in a 31\u2011year\u2011old raises both essential and secondary hypertension possibilities, with secondary causes weighted higher due to age and electrolyte findings. Early-onset emphysema without a recorded smoking history suggests alpha\u20111 antitrypsin deficiency. Prediabetes (A1c 6.2%) adds metabolic risk. Borderline anemia with ongoing B12 therapy points to a mixed anemia etiology, while other low\u2011probability entities (ACO, pulmonary hypertension, HFpEF, menstrual iron deficiency) are included to account for orphan findings. Missing key data (spirometry, smoking exposure, BMI, lipid panel, iron studies, \u03b1\u20111\u2011AT level, renin\u2011aldosterone panel, echocardiogram, ABG) limit certainty, resulting in a moderate overall confidence score of 78/100.",
+  "unresolved_findings": [
+    "Elevated platelet distribution width (PDW 163.1 fL)",
+    "Borderline high chloride (107.6 mmol/L)",
+    "High\u2011normal hematocrit (46.6%) with low\u2011normal hemoglobin (12.8 g/dL)",
+    "Missing smoking history / pack\u2011year data",
+    "Missing spirometry and diffusion capacity",
+    "Missing resting and nocturnal oxygen saturation",
+    "Missing BMI and waist circumference",
+    "Missing fasting lipid panel",
+    "Missing iron studies (Ferritin, serum iron, TIBC, transferrin saturation)",
+    "Missing serum \u03b1\u20111\u2011antitrypsin level and genotype",
+    "Missing renin\u2011aldosterone panel and renal\u2011artery imaging",
+    "Missing echocardiogram / BNP",
+    "Missing thyroid function tests",
+    "Vaccination status not documented"
+  ],
+  "recommended_workup": [
+    "Spirometry with bronchodilator reversibility and DLCO to stage COPD and assess for ACO",
+    "Serum \u03b1\u20111\u2011antitrypsin level and genotype",
+    "Comprehensive secondary hypertension evaluation: plasma renin activity, aldosterone, aldosterone\u2011renin ratio, renal\u2011artery Doppler ultrasound, urinary catecholamines",
+    "Iron studies (Ferritin, serum iron, TIBC, transferrin saturation) and complete CBC with indices",
+    "Basic metabolic panel with eGFR and bicarbonate to interpret chloride elevation",
+    "Fasting lipid panel and calculation of 10\u2011year ASCVD risk",
+    "BMI, waist circumference, and assessment for obesity\u2011hypoventilation syndrome",
+    "Echocardiogram with estimation of pulmonary pressures and diastolic function",
+    "Arterial blood gas or overnight pulse oximetry to evaluate chronic hypoxemia/hypercapnia",
+    "Thyroid panel (TSH, free T4, anti\u2011TPO antibodies)",
+    "Detailed smoking history and pack\u2011year calculation",
+    "Menstrual and gynecologic history to assess for heavy menstrual bleeding",
+    "Vaccination review (influenza, pneumococcal, COVID\u201119) and update as needed"
+  ]
+}

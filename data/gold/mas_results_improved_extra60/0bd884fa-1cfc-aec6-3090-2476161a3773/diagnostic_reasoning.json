@@ -1,0 +1,142 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease secondary to diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "709044004",
+      "probability": 0.48,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 4 progressing to stage 5; awaiting kidney transplantation; long-standing type 2 diabetes with diabetic retinopathy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 10.8\u202fmL/min/1.73\u202fm\u00b2, serum creatinine 2.5\u202fmg/dL, urine albumin/creatinine ratio 557.5\u202fmg/g, urine protein 358.6\u202fmg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Very dilute urine (specific gravity 1.0) indicating loss of concentrating ability typical of advanced CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe reduction in GFR together with massive proteinuria, a decades-long history of type\u202f2 diabetes with microvascular complications, and the fact that the patient is on the transplant list unequivocally point to ESRD caused by diabetic nephropathy as the dominant pathology."
+    },
+    {
+      "rank": 2,
+      "name": "Insulin-related overtreatment causing recurrent hypoglycemia (pseudo-low A1c)",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient is on insulin therapy (and metformin) despite advanced CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 3.1\u202f% (far below target), urine glucosuria (1.1\u202fmg/dL) and ketonuria (12.3\u202fmg/dL) despite low A1c",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD reduces insulin clearance, increasing risk of hypoglycemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A markedly low A1c together with documented insulin use, glucosuria and ketonuria in the setting of reduced insulin clearance from CKD strongly suggests frequent or severe hypoglycemia, which may be masked by the low A1c and contributes to functional decline."
+    },
+    {
+      "rank": 3,
+      "name": "Metformin-associated lactic acidosis risk (MALA)",
+      "icd10": "E87.2",
+      "snomed": "271442005",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metformin continued despite eGFR <30\u202fmL/min/1.73\u202fm\u00b2 (actual eGFR 10.8)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe CKD creates a high-risk environment for metformin accumulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metformin is contraindicated at eGFR <30; accumulation can precipitate lactic acidosis, especially in the setting of renal failure, dehydration, or sepsis. No lactate level is provided, so the diagnosis remains a high-risk possibility that must be ruled out."
+    },
+    {
+      "rank": 4,
+      "name": "Ischemic cardiomyopathy with chronic heart failure",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery bypass graft (2008), ongoing ischemic heart disease, current nitroglycerin, beta-blocker, clopidogrel therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline high potassium (4.9\u202fmmol/L) and rising BUN, both can be seen in chronic heart failure with renal congestion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Extensive coronary disease and anti-ischemic therapy indicate underlying left ventricular dysfunction that likely contributes to renal hypoperfusion and may accelerate the patient\u2019s CKD trajectory."
+    },
+    {
+      "rank": 5,
+      "name": "CKD-Mineral and Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD stage 4-5 with documented osteoporosis",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "eGFR 10.8\u202fmL/min/1.73\u202fm\u00b2 (stage 5) \u2013 classic setting for secondary hyperparathyroidism",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe renal impairment commonly leads to dysregulated calcium\u2011phosphate\u2011PTH metabolism, contributing to bone disease and vascular calcification. Laboratory confirmation (Ca, PO4, PTH) is pending."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease secondary to diabetic nephropathy",
+  "primary_probability": 0.48,
+  "clinical_reasoning_summary": "Both prior-based (Round\u202fA) and clean-room (Round\u202fB) analyses converge on advanced diabetic kidney disease as the primary driver of the patient\u2019s presentation. The laboratory profile (eGFR\u202f10.8\u202fmL/min/1.73\u202fm\u00b2, massive proteinuria, dilute urine) together with a 30\u2011year history of type\u202f2 diabetes and diabetic retinopathy confirms ESRD from diabetic nephropathy. Secondary but urgent issues are insulin\u2011induced hypoglycemia (explained by an implausibly low A1c, glucosuria, ketonuria, and reduced insulin clearance) and the unsafe continuation of metformin in severe CKD, which raises the spectre of lactic acidosis. Chronic ischemic cardiomyopathy with heart failure is a logical comorbidity given the CABG history and current anti\u2011ischemic regimen, and it likely contributes to renal hypoperfusion. CKD\u2011Mineral and Bone Disorder is added as a probable complication of stage\u202f5 CKD with documented osteoporosis. A diagnosis of occult hepatobiliary obstruction was suggested only in the prior\u2011based list; because the supporting evidence (isolated urinary bilirubin) is weak and not corroborated by any other data, it was excluded. The final differential reflects the clean\u2011room hierarchy while retaining any condition that has clear objective support.",
+  "unresolved_findings": [
+    "Urine bilirubin 0.9\u202fmg/dL without documented liver disease",
+    "Persistent ketonuria despite low A1c and absent hyperglycemia",
+    "Very low urine specific gravity (1.0) \u2013 could reflect diabetes insipidus or infection",
+    "Borderline high potassium (4.9\u202fmmol/L) \u2013 risk of impending hyperkalaemia",
+    "Absence of serum lactate, arterial blood gas, calcium/phosphate/PTH values"
+  ],
+  "recommended_workup": [
+    "Serum lactate level and arterial blood gas to assess for metformin-associated lactic acidosis",
+    "Comprehensive metabolic panel including calcium, phosphate, magnesium, and PTH to evaluate CKD-MBD",
+    "Liver function tests (AST, ALT, ALP, GGT, total bilirubin) and abdominal ultrasound to investigate urinary bilirubin",
+    "Continuous glucose monitoring or frequent capillary glucose checks to characterize hypoglycemia frequency",
+    "Review and adjust insulin regimen; consider dose reduction or basal-only strategy",
+    "Immediate discontinuation of metformin; consider alternative glucose-lowering agents safe in ESRD",
+    "Echocardiogram with assessment of ejection fraction and diastolic function; obtain BNP level",
+    "Serial serum potassium measurements and ECG monitoring; consider potassium-binding agents if trend rises",
+    "Nutritional assessment (serum albumin, pre-albumin, dietary intake) and frailty screening",
+    "Medication reconciliation focusing on nephrotoxic agents (NSAIDs, ACE-I/ARB, contrast exposure)",
+    "Dental evaluation and treatment plan to address poor oral health and infection risk"
+  ]
+}

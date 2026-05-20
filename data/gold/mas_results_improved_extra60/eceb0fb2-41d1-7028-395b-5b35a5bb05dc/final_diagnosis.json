@@ -1,0 +1,230 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential (primary) hypertension, uncontrolled",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 135/103 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Poor control despite antihypertensive therapy",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Consistently elevated systolic and diastolic pressures in a middle\u2011aged male with obesity indicate uncontrolled essential hypertension, the most plausible driver of his cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI not quantified but documented)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High LDL and very low HDL",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 6.3% (prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Uncontrolled hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, dyslipidemia, prediabetes, and hypertension fulfills criteria for metabolic syndrome, markedly increasing cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Atherogenic dyslipidemia",
+      "icd10": "E78.2",
+      "snomed": "55822004",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL cholesterol and markedly low HDL cholesterol",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension as atherogenic drivers",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lipid profile shows a classic atherogenic pattern that, together with other risk factors, drives his cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis / early chronic kidney disease",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline elevated serum creatinine and rising BUN",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing uncontrolled hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Missing eGFR and urine albumin\u2011creatinine ratio",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal function markers suggest early CKD likely secondary to chronic pressure overload from uncontrolled hypertension; definitive staging requires eGFR and albuminuria."
+    },
+    {
+      "rank": 5,
+      "name": "Prediabetes / early insulin\u2011resistance (type 2 diabetes spectrum)",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 6.3%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (risk for insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c in the prediabetic range combined with obesity indicates early dysglycemia that contributes to his overall metabolic burden."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic disease / early CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic mild anemia on CBC",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "Iron studies, ferritin, TIBC not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia in the setting of possible early CKD is most consistent with anemia of chronic disease; iron studies are needed to exclude iron deficiency."
+    },
+    {
+      "rank": 7,
+      "name": "Subclinical atherosclerotic cardiovascular disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple major risk factors (hypertension, dyslipidemia, prediabetes, obesity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While no clinical event is documented, the burden of risk factors makes subclinical atherosclerosis plausible."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (major OSA risk factor)",
+          "strength": "moderate"
+        },
+        {
+          "source": "unresolved_findings",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA, but without polysomnography the diagnosis remains speculative."
+    },
+    {
+      "rank": 9,
+      "name": "Isolated mild pulmonic\u2011valve regurgitation",
+      "icd10": "I36.9",
+      "snomed": "235719002",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Echocardiogram note describing mild\u2011to\u2011moderate pulmonic regurgitation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Mild isolated pulmonic regurgitation is an incidental finding with limited hemodynamic impact at this stage."
+    }
+  ],
+  "primary_diagnosis": "Essential (primary) hypertension, uncontrolled",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient presents with markedly elevated blood pressures, obesity, dyslipidemia, and prediabetes, forming a high\u2011risk metabolic profile. Uncontrolled hypertension is the dominant driver of his current presentation and underlies secondary concerns such as early CKD, anemia of chronic disease, and potential subclinical atherosclerosis. Dyslipidemia and metabolic syndrome further amplify cardiovascular risk. While OSA and mild pulmonic regurgitation are noted, they are less certain contributors pending targeted testing.",
+  "unresolved_findings": [
+    "Missing estimated glomerular filtration rate (eGFR) and urine albumin\u2011creatinine ratio",
+    "No triglyceride measurement; full lipid panel incomplete",
+    "Smoking status unknown",
+    "Thyroid function tests not performed (possible contributor to dyslipidaemia, weight gain, anemia)",
+    "Liver function tests absent (to evaluate for NAFLD)",
+    "Iron studies, ferritin, TIBC, reticulocyte count missing for anemia work\u2011up",
+    "No sleep study to confirm or exclude obstructive sleep apnea",
+    "No recent echocardiogram to quantify pulmonic valve regurgitation severity or right\u2011ventricular function",
+    "Exact BMI numeric value missing (obesity documented but not quantified)",
+    "Mental\u2011health assessment for impact of intimate\u2011partner violence not documented"
+  ],
+  "recommended_workup": [
+    "Serum creatinine with eGFR calculation and urine albumin\u2011creatinine ratio",
+    "Complete lipid panel including triglycerides",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "Comprehensive metabolic panel with liver enzymes (ALT, AST, ALP, GGT)",
+    "Iron studies: serum iron, ferritin, total iron\u2011binding capacity, reticulocyte count",
+    "Polysomnography or home sleep apnea testing",
+    "Repeat transthoracic echocardiogram with focus on pulmonic valve and right\u2011ventricular function",
+    "Accurate measurement of height and weight to calculate BMI",
+    "Smoking history assessment and counseling",
+    "Standardized mental\u2011health screening (e.g., PHQ\u20119, GAD\u20117) and referral as indicated"
+  ]
+}

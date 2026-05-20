@@ -1,0 +1,158 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy with hypertensive nephrosclerosis",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Progressive decline in eGFR with albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of chronic diabetes and evidence of renal impairment with proteinuria points to diabetic nephropathy, while coexistent hypertension likely contributes to nephrosclerosis."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related anemia (erythropoietin deficiency)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia with low reticulocyte count",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 3\u20114 chronic kidney disease",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Anemia in the setting of moderate\u2011to\u2011severe CKD is most commonly due to reduced erythropoietin production."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (subclinical CAD/PAD/CVA)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing diabetes and dyslipidemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk estimate",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Diabetes and dyslipidemia confer high risk for subclinical atherosclerosis, warranting consideration despite lack of overt symptoms."
+    },
+    {
+      "rank": 4,
+      "name": "Uncontrolled systemic hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented history of hypertension without recent BP readings",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Absence of antihypertensive medication list",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension is likely present and may be inadequately controlled, contributing to renal injury, though objective BP data are missing."
+    },
+    {
+      "rank": 5,
+      "name": "Secondary hyperparathyroidism / CKD\u2011Mineral\u2011Bone Disorder",
+      "icd10": "N25.81",
+      "snomed": "41672002",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low\u2011normal serum calcium with missing phosphate, PTH, vitamin D",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage \u22653",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD predisposes to disturbances in calcium\u2011phosphate metabolism; incomplete labs limit certainty."
+    },
+    {
+      "rank": 6,
+      "name": "Heart failure (HFpEF or HFrEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyspnea on exertion noted in chart",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No cardiac imaging performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms could reflect early heart failure, but lack of cardiac evaluation makes this diagnosis tentative."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy with hypertensive nephrosclerosis",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing diabetes and progressive CKD with proteinuria make diabetic nephropathy the dominant diagnosis, likely compounded by hypertension. CKD\u2011related anemia is a common complication and is now appropriately weighted. Subclinical atherosclerosis is probable given the metabolic risk profile. Hypertension remains plausible but lacks objective data. Secondary hyperparathyroidism and heart failure are possible but less certain pending further labs and imaging.",
+  "unresolved_findings": [
+    "Urine specific gravity 1.000 (extremely dilute)",
+    "Rising total bilirubin (1.0\u202fmg/dL) without accompanying transaminases",
+    "Low\u2011grade ketonuria (9.5\u202fmg/dL) without serum ketone or glucose context",
+    "Absence of documented blood pressure values or antihypertensive therapy",
+    "No lipid\u2011lowering therapy listed despite dyslipidemia",
+    "Missing iron studies, phosphate, PTH, vitamin D, and full liver panel",
+    "No imaging (renal ultrasound, cardiac echo) reported"
+  ],
+  "recommended_workup": [
+    "Obtain accurate blood pressure measurements and 24\u2011hour ambulatory BP monitoring",
+    "Renal ultrasound to assess kidney size and rule out obstructive disease",
+    "Quantify proteinuria (spot urine albumin/creatinine ratio or 24\u2011hour collection)",
+    "Complete iron panel, ferritin, transferrin saturation",
+    "Serum phosphate, PTH, 25\u2011OH vitamin D, and calcium levels for CKD\u2011MBD evaluation",
+    "Liver function panel including AST, ALT, ALP, GGT to investigate bilirubin rise",
+    "Cardiac evaluation: ECG, transthoracic echocardiogram, and consider stress testing or coronary calcium scoring",
+    "Lipid profile and initiate statin therapy per guidelines",
+    "Consider referral to nephrology for possible kidney biopsy if atypical features emerge"
+  ]
+}

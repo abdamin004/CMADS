@@ -1,0 +1,88 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "End-stage renal disease due to diabetic nephropathy",
+      "icd10": "N18.6",
+      "snomed": "431855005",
+      "probability": 0.75,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with poor glycemic control",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine and BUN consistent with ESRD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "History of proteinuria and progressive decline in GFR",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented ACE\u2011I/ARB therapy (potential modifier)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient has a long history of diabetes mellitus, documented progressive renal insufficiency, and laboratory evidence of end\u2011stage renal disease. These findings overwhelmingly point to diabetic nephropathy as the primary driver of the current renal failure."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (contributory chronic kidney disease)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": ">40 years of hypertension with suboptimal control",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated urine albumin/creatinine ratio beyond diabetic contribution",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic uncontrolled hypertension can cause vascular injury and interstitial fibrosis, contributing to the patient\u2019s CKD alongside diabetic nephropathy. Although imaging or biopsy data are lacking, the duration and severity of hypertension make this a plausible co\u2011morbidity."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "E83.5",
+      "snomed": "414916001",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "End\u2011stage renal disease predisposing to phosphate retention and hypocalcemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD often leads to secondary hyperparathyroidism, but no serum calcium, phosphate, or PTH values are available to confirm the diagnosis. It remains a possible contributor to bone disease but is currently weakly supported."
+    }
+  ],
+  "primary_diagnosis": "End-stage renal disease due to diabetic nephropathy",
+  "primary_probability": 0.75,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing diabetes with documented progressive renal decline, together with laboratory evidence of ESRD, makes diabetic nephropathy the dominant etiology. Chronic hypertension likely adds a secondary nephrosclerotic component, while the expected metabolic bone disorder of secondary hyperparathyroidism cannot be confirmed without specific labs. Unexplained urine findings (bilirubin, ketones, glucose) are noted but do not alter the primary renal diagnoses.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented serum bilirubin elevation",
+    "Persistent ketonuria despite likely normoglycemia",
+    "Very dilute urine (specific gravity 1.0) indicating profound concentrating defect"
+  ],
+  "recommended_workup": [
+    "Serum total and direct bilirubin, ALT/AST, alkaline phosphatase to evaluate hepatobiliary source of urine bilirubin",
+    "Serum haptoglobin, LDH, peripheral smear to assess hemolysis",
+    "Serum glucose, insulin levels, and review of insulin regimen to explain ketonuria and glucosuria",
+    "Serum calcium, phosphate, 25\u2011OH vitamin D, and intact PTH to confirm secondary hyperparathyroidism",
+    "Renal ultrasound or Doppler to assess structural changes and rule out obstructive uropathy",
+    "Consider kidney biopsy if atypical features emerge or if hypertensive nephrosclerosis needs histologic confirmation"
+  ]
+}

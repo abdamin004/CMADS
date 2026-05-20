@@ -1,0 +1,196 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Chronic Pain Syndrome with Opioid Use Disorder",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports high-impact chronic musculoskeletal pain managed with long-term opioid therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented opioid dependence and ongoing drug misuse",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Frequent NSAID use for pain control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic severe pain combined with documented opioid dependence creates a high\u2011risk opioid use disorder that drives much of the patient's morbidity and aligns with the reviewer\u2019s recommendation as the primary diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive Sleep Apnea (moderate-to-severe)",
+      "icd10": "G47.33",
+      "snomed": "233678006",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and hypertension present",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Daytime fatigue and loud snoring reported by partner",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High pre\u2011test probability for OSA based on STOP\u2011BANG criteria (not explicitly recorded but inferred)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, and classic symptoms yields a high pre\u2011test probability for moderate\u2011to\u2011severe OSA, though objective sleep study data are lacking."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID\u2011induced chronic interstitial nephropathy / hypertensive nephrosclerosis",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use for pain management",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyperkalaemia (K\u207a 5.0 mmol/L) and low\u2011normal bicarbonate (22.3 mmol/L) suggesting early renal impairment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u20111 hypertension (131/85 mmHg)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011term NSAID exposure together with hypertension predisposes to chronic interstitial nephropathy; laboratory trends support early renal dysfunction."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic\u2011vascular syndrome (insulin\u2011resistance cluster)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes (A1c 6.9%), and hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Incomplete lipid panel suggesting possible dyslipidemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, impaired glucose tolerance, and hypertension fulfills criteria for metabolic syndrome, increasing cardiovascular risk."
+    },
+    {
+      "rank": 5,
+      "name": "Iron\u2011deficiency anemia from occult gastrointestinal bleed / NSAID gastritis",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented without iron studies",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Regular NSAID use increasing risk for GI mucosal injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is present; NSAID use raises suspicion for occult GI blood loss, though definitive iron studies are missing."
+    },
+    {
+      "rank": 6,
+      "name": "Major Depressive Disorder / PTSD secondary to intimate\u2011partner violence",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of intimate\u2011partner violence documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No mental\u2011health medication despite trauma history",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Trauma exposure predisposes to depression and PTSD, yet formal screening has not been performed, lowering confidence."
+    },
+    {
+      "rank": 7,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome present, known risk factors for NAFLD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated liver enzymes (not explicitly listed but implied by risk profile)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the high prevalence of NAFLD in patients with metabolic syndrome, it remains a plausible contributor to overall morbidity."
+    }
+  ],
+  "primary_diagnosis": "Chronic Pain Syndrome with Opioid Use Disorder",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient\u2019s dominant problem is chronic severe musculoskeletal pain managed with long\u2011term opioids, creating an opioid use disorder that drives immediate safety concerns. Obesity, hypertension, and prediabetes generate a high likelihood of obstructive sleep apnea and metabolic syndrome, both contributing to cardiovascular risk. Chronic NSAID consumption combined with hypertension explains early renal dysfunction. Anemia is present but work\u2011up is incomplete, raising suspicion for iron deficiency from occult GI bleeding. A history of intimate\u2011partner violence suggests possible depression/PTSD, though not yet screened. Metabolic risk also predisposes to NAFLD. The differential reflects the reviewer\u2019s probability adjustments and prioritizes the opioid\u2011related pain disorder as the primary diagnosis.",
+  "unresolved_findings": [
+    "Borderline hyper\u2011kalaemia (K\u207a 5.0 mmol/L) without repeat measurement",
+    "Low\u2011normal bicarbonate (22.3 mmol/L) with falling trend",
+    "Chronic anemia etiology unknown (no iron studies, B12, folate, retic count)",
+    "Platelet distribution width artifact (415.2 fL)",
+    "Missing exact BMI and waist circumference",
+    "Incomplete lipid panel (total cholesterol, triglycerides absent)",
+    "Smoking status not documented",
+    "Allergy information absent",
+    "No mental\u2011health medication despite documented trauma and drug misuse",
+    "Lack of urine albumin\u2011creatinine ratio and serial eGFR values"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography to confirm obstructive sleep apnea severity",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC) and fecal occult blood test",
+    "Upper endoscopy and colonoscopy if iron studies suggest deficiency",
+    "Renal panel with urine albumin\u2011creatinine ratio and repeat eGFR",
+    "Thyroid function tests (TSH, free T4) to rule out hypothyroidism",
+    "Vitamin B12 and folate levels",
+    "Liver ultrasound with elastography to assess NAFLD/NASH",
+    "Full lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Standardized mental\u2011health screening (PHQ\u20119, PCL\u20115) for depression and PTSD",
+    "Medication review and taper plan for opioids and NSAIDs",
+    "Urine drug screen to assess ongoing substance use",
+    "BMI and waist circumference measurement",
+    "Smoking status assessment and counseling"
+  ]
+}

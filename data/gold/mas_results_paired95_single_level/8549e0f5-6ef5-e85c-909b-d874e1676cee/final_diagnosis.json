@@ -1,0 +1,177 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.33,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and hypertension (128/77 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.0%)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, hypertension, and prediabetes fulfills criteria for metabolic syndrome and explains the patient's early cardiometabolic abnormalities."
+    },
+    {
+      "rank": 2,
+      "name": "Early Hypertensive/Obesity-related Chronic Kidney Disease (CKD)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.27,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity as risk factors for CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Modestly elevated serum potassium trending upward",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing renal function tests (eGFR, creatinine, albuminuria)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and obesity predispose to early CKD; the rising potassium suggests impaired renal excretion, warranting confirmation with renal labs."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "233100006",
+      "probability": 0.15,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (major risk factor for OSA)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study or screening questionnaire",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises suspicion for OSA, but lack of sleep\u2011related data makes this diagnosis tentative."
+    },
+    {
+      "rank": 4,
+      "name": "Renovascular Hypertension / Secondary Hypertension",
+      "icd10": "I15.0",
+      "snomed": "237599009",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension in a young adult",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperkalaemia argues against classic renovascular cause",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While secondary hypertension is a consideration in young patients, the potassium trend makes renovascular disease less likely."
+    },
+    {
+      "rank": 5,
+      "name": "Polycystic Ovary Syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599001",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female of reproductive age with obesity",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No menstrual or androgen data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity raises the baseline risk for PCOS, but absence of reproductive/endocrine data limits confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Dietary Potassium Excess / Potassium\u2011rich Supplement Use",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Modestly elevated and rising serum potassium",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential dietary potassium intake not captured",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The potassium trend may reflect excess intake; confirming dietary sources or supplements is needed."
+    },
+    {
+      "rank": 7,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No thyroid function tests available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction could contribute to dyslipidemia and weight gain, but lack of labs makes this speculative."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven Metabolic Syndrome",
+  "primary_probability": 0.33,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, hypertension, and prediabetes collectively satisfy criteria for metabolic syndrome, which the reviewer identified as the most likely primary diagnosis. Early CKD is a close second given the rising potassium and the known impact of hypertension and obesity on renal function. OSA, renovascular hypertension, PCOS, dietary potassium excess, and hypothyroidism remain possible contributors but have weaker supporting data. The differential reflects the reviewer\u2019s probability adjustments and removes diagnoses deemed unsupported.",
+  "unresolved_findings": [
+    "Low fasting glucose (67 mg/dL) discordant with rising HbA1c",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Missing renal function tests (eGFR, creatinine, urine albumin)",
+    "Missing thyroid function tests",
+    "No documented sleep study or screening questionnaire",
+    "No menstrual/androgen data to assess PCOS",
+    "Potential dietary potassium intake not captured"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography or home sleep apnea testing",
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Serum creatinine, eGFR, and urine albumin-to-creatinine ratio",
+    "Comprehensive thyroid panel (TSH, free T4)",
+    "Reproductive hormone panel (LH, FSH, total and free testosterone, DHEAS)",
+    "Detailed dietary assessment focusing on potassium intake and supplement use",
+    "Repeat fasting glucose and oral glucose tolerance test to resolve glucose discordance"
+  ]
+}

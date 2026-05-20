@@ -1,0 +1,167 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential hypertension, untreated (stage 2)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.5,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension documented (SBP 159 mmHg, DBP 97 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication prescribed or documented",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient has documented stage 2 hypertension without any recorded antihypertensive therapy, making untreated essential hypertension the most likely cause of the elevated blood pressures."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive sleep apnea, moderate\u2011to\u2011severe, untreated",
+      "icd10": "G47.33",
+      "snomed": "23310003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed moderate\u2011to\u2011severe OSA, not on CPAP or other therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "OSA known to exacerbate hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Confirmed OSA contributes to sympathetic activation and worsens blood pressure control, supporting its role as a major modifiable contributor."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease secondary to hypertension",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal function labs not available; hypertension duration suggests possible early CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension uncontrolled, a known risk factor for CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Uncontrolled hypertension can lead to early renal injury; absence of renal labs warrants evaluation for CKD."
+    },
+    {
+      "rank": 4,
+      "name": "Obesity\u2011driven metabolic syndrome (questionable)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity mentioned in chart, but BMI not recorded; no lipid abnormalities",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Without objective BMI or metabolic lab data, metabolic syndrome remains a possible but weak contributor."
+    },
+    {
+      "rank": 5,
+      "name": "Primary hyperaldosteronism (questionable)",
+      "icd10": "E26.0",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Resistant hypertension noted, but no aldosterone\u2011renin testing performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Resistant hypertension raises suspicion, yet lack of biochemical testing makes this diagnosis speculative."
+    },
+    {
+      "rank": 6,
+      "name": "Excess dietary sodium intake (questionable)",
+      "icd10": "Z72.3",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No dietary history documented; sodium intake not assessed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High sodium intake can worsen hypertension, but there is no documented evidence in this case."
+    },
+    {
+      "rank": 7,
+      "name": "Prediabetes / impaired glucose tolerance (questionable)",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "No fasting glucose or HbA1c values available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the metabolic risk profile, pre\u2011diabetes is possible, but no laboratory confirmation exists."
+    },
+    {
+      "rank": 8,
+      "name": "Thyroid dysfunction (questionable)",
+      "icd10": "E03.9",
+      "snomed": "371923003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Thyroid function tests not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid disorders can affect blood pressure, yet no lab data are present to support this."
+    }
+  ],
+  "primary_diagnosis": "Essential hypertension, untreated (stage 2)",
+  "primary_probability": 0.5,
+  "clinical_reasoning_summary": "The patient presents with documented stage 2 hypertension and no antihypertensive therapy, making untreated essential hypertension the dominant diagnosis. Co\u2011existing moderate\u2011to\u2011severe obstructive sleep apnea further aggravates blood pressure control. Secondary contributors such as early CKD, metabolic syndrome, and rare endocrine causes are considered but lack objective evidence. The reviewer\u2019s adjustments have been incorporated, unsupported entities removed, and probabilities re\u2011balanced to reflect the clinical certainty.",
+  "unresolved_findings": [
+    "Single normal lipid panel (does not explain hypertension)",
+    "History of resolved loose dental filling (2017\u201101)",
+    "Prior part\u2011time employment (resolved 2016\u201112)",
+    "Stress resolved (December\u202f2016) despite persistent hypertension",
+    "Medication review completed (December\u202f2016) with no subsequent therapy documented"
+  ],
+  "recommended_workup": [
+    "Obtain fasting glucose and HbA1c to assess for pre\u2011diabetes/diabetes",
+    "Serum electrolytes, creatinine, eGFR, and urine albumin to evaluate renal function",
+    "Aldosterone\u2011renin ratio with confirmatory testing for primary hyperaldosteronism",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "Repeat lipid panel and calculate ASCVD risk score",
+    "Measure height, weight, and calculate BMI",
+    "Ambulatory blood pressure monitoring to confirm hypertension severity",
+    "Renal ultrasound if suspicion for renal artery stenosis persists"
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea (untreated)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed obstructive sleep apnea on 2016-10-16 (SNOMED 73430006)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CPAP or other sleep-apnea therapy documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resting heart rate 92 bpm (sympathetic overactivity common in OSA)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis may worsen upper-airway obstruction",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Estimated BMI \u2248 29 kg/m\u00b2 (overweight) \u2013 risk factor for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented OSA with no therapy, together with tachycardia and severe hypertension, makes untreated OSA the most plausible primary driver of the current hemodynamic disturbance."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension, uncontrolled (stage 2)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 159/97 mmHg (stage 2 hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black male, age 40 \u2013 high prevalence of primary hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No antihypertensive medication listed",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal lipid panel (does not exclude hypertension)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In a high-risk demographic with a markedly elevated BP reading and no antihypertensive therapy, essential hypertension is the most parsimonious explanation, though OSA likely contributes to resistance."
+    },
+    {
+      "rank": 3,
+      "name": "Primary hyperaldosteronism (Conn's syndrome)",
+      "icd10": "E26.0",
+      "snomed": "235719002",
+      "probability": 0.12,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe, untreated stage 2 hypertension suggests secondary causes should be screened",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing serum potassium, renin, and aldosterone labs (screening not performed)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Black race \u2013 lower prevalence of primary aldosteronism but still a recognized cause of resistant hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the severity of hypertension and lack of workup, primary hyperaldosteronism remains a possible secondary cause, but probability is limited by absent biochemical data."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic kidney disease, early/undetected",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension in a Black male \u2013 high association with CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of renal function labs (creatinine, eGFR, urine albumin)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD is a common contributor to hypertension in this population, but without renal labs the diagnosis cannot be confirmed."
+    },
+    {
+      "rank": 5,
+      "name": "Obesity-related metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Estimated BMI 29.1 kg/m\u00b2 (overweight/near obesity)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Co-existence of hypertension and untreated OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Normal lipids (does not rule out early metabolic dysfunction)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing fasting glucose/HbA1c (cannot exclude insulin resistance)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient meets criteria for hypertension and likely obesity; however, triglycerides, HDL, and glucose data are insufficient to fully satisfy metabolic syndrome definition, so it remains a lower-probability consideration."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea (untreated)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "A 40-year-old Black male presents with stage 2 hypertension and documented untreated obstructive sleep apnea. The OSA diagnosis is strongly supported by EHR entries and lack of therapy, making it the most likely driver of sympathetic overactivity and resistant hypertension. Essential hypertension is also highly probable given demographic risk and absence of antihypertensive medication. Secondary causes such as primary hyperaldosteronism and early CKD are possible but lack laboratory confirmation. Metabolic syndrome is considered due to overweight status and hypertension but is limited by missing glucose and lipid criteria. The differential prioritizes untreated OSA, followed by essential hypertension, with secondary etiologies and metabolic syndrome as lower\u2011rank possibilities.",
+  "unresolved_findings": [
+    "Missing body-mass index (BMI) and weight data \u2013 cannot fully assess obesity or metabolic syndrome.",
+    "Absent fasting glucose/HbA1c \u2013 diabetes status unknown.",
+    "No serum creatinine/eGFR or urine albumin \u2013 renal function and CKD status unclear.",
+    "No electrolyte panel \u2013 hypokalemia (suggestive of hyperaldosteronism) not evaluated.",
+    "No serum potassium, renin, aldosterone levels \u2013 screening for primary hyperaldosteronism not performed.",
+    "No thyroid function tests (TSH, free T4).",
+    "No plasma metanephrines or catecholamine measurements \u2013 pheochromocytoma not excluded.",
+    "No documented smoking, alcohol, or illicit-drug use.",
+    "No family history of cardiovascular or renal disease.",
+    "No recent polysomnography data (AHI, oxygen desaturation index) or CPAP prescription details.",
+    "No current medication list (including over-the-counter NSAIDs or supplements)."
+  ],
+  "recommended_workup": [
+    "Repeat polysomnography or home sleep-apnea test to quantify severity and initiate CPAP titration.",
+    "24-hour ambulatory blood pressure monitoring to confirm sustained hypertension.",
+    "Basic metabolic panel with electrolytes, serum creatinine, eGFR, and bicarbonate.",
+    "Urine albumin-to-creatinine ratio.",
+    "Fasting plasma glucose and HbA1c.",
+    "Serum potassium level.",
+    "Plasma aldosterone concentration and plasma renin activity with calculation of aldosterone-renin ratio.",
+    "Thyroid-stimulating hormone (TSH) and free T4.",
+    "Plasma free metanephrines or 24-hour urinary catecholamines if hypertension remains uncontrolled after OSA and primary HTN treatment.",
+    "Renal ultrasound if CKD is suspected.",
+    "Baseline electrocardiogram and transthoracic echocardiogram to assess left-ventricular hypertrophy or early heart failure.",
+    "Comprehensive social-history interview (tobacco, alcohol, caffeine, illicit drugs, NSAID use).",
+    "Family history questionnaire for premature cardiovascular or renal disease.",
+    "ENT evaluation for chronic sinusitis and possible nasal polyposis.",
+    "Lifestyle counseling: weight management, dietary sodium reduction, regular aerobic exercise, and sleep-hygiene education.",
+    "Discussion of initiating antihypertensive therapy (e.g., ACE inhibitor or ARB) in conjunction with CPAP therapy for OSA."
+  ]
+}

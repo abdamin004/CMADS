@@ -1,0 +1,204 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (insulin resistance)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetic A1c 6.1%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (127/80 mmHg)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated platelet distribution width (PDW 280 fL) suggesting inflammatory state",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of obesity, prediabetes, and hypertension fulfills criteria for metabolic syndrome, making insulin resistance the most likely driver of the patient's laboratory abnormalities and chronic anemia."
+    },
+    {
+      "rank": 2,
+      "name": "Anemia, unspecified (work\u2011up pending)",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia flagged in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet distribution width (PDW 280 fL) without clear etiology",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia is documented but etiology is unclear; iron studies, B12/folate levels, reticulocyte count, and peripheral smear are required to differentiate iron\u2011deficiency, anemia of chronic disease, or vitamin deficiencies."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease, stage 2\u20113a (early)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.18,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Isolated mild creatinine elevation noted",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No eGFR or urine albumin data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild creatinine rise in a patient with metabolic syndrome raises suspicion for early CKD; confirmation requires eGFR calculation and albuminuria assessment."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity noted, a major risk factor for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented sleep study or screening questionnaire",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient's obesity, OSA is plausible but unconfirmed without sleep study or validated screening scores."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, prediabetes, hypertension)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver panel or imaging performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NAFLD is common in metabolic syndrome; lack of liver labs/imaging limits confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Drug\u2011induced cytopenia / renal injury",
+      "icd10": "D61.9",
+      "snomed": "4421005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Medication and supplement list unavailable",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild creatinine elevation and chronic anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Without a medication review, drug\u2011induced cytopenia or nephrotoxicity remains speculative but cannot be excluded."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic viral infection (HCV/HIV)",
+      "icd10": "B18.2",
+      "snomed": "235856003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Risk\u2011activity flag noted but no specific exposure documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low pre\u2011test probability given absent exposure history and lack of serologic testing."
+    },
+    {
+      "rank": 8,
+      "name": "Hypothyroidism (possible contributor to anemia and dyslipidaemia)",
+      "icd10": "E03.9",
+      "snomed": "56717001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Thyroid function tests not performed",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypothyroidism can cause anemia and lipid abnormalities; testing is needed to evaluate this possibility."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (insulin resistance)",
+  "primary_probability": 0.35,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, prediabetes (A1c 6.1%), and stage 1 hypertension satisfy criteria for metabolic syndrome, making insulin resistance the most likely unifying diagnosis. This metabolic derangement also predisposes to early CKD, NAFLD, and contributes to chronic anemia. Ancillary possibilities such as OSA, drug\u2011induced cytopenia, chronic viral infection, and hypothyroidism remain plausible but are less supported by the current data, which is limited by missing medication history, iron studies, renal function details, liver panel, and thyroid testing.",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (280\u202ffL) without clear etiology",
+    "Isolated mild creatinine elevation without eGFR or urine albumin",
+    "Absence of full fasting lipid panel (HDL, triglycerides, total cholesterol)",
+    "No iron studies, ferritin, transferrin saturation, B12, folate, reticulocyte count",
+    "No peripheral blood smear",
+    "No documented smoking status, alcohol use, or detailed occupational exposure",
+    "No medication list (prescription, OTC, supplements)",
+    "No sleep study or validated OSA screening score",
+    "No liver function tests or abdominal imaging",
+    "No thyroid function tests"
+  ],
+  "recommended_workup": [
+    "Comprehensive iron panel (serum iron, ferritin, transferrin saturation) and reticulocyte count",
+    "Vitamin B12 and folate levels",
+    "Peripheral blood smear",
+    "Serum creatinine with eGFR calculation and urine albumin-to-creatinine ratio",
+    "Fasting lipid panel (total cholesterol, HDL, LDL, triglycerides)",
+    "Liver function tests (AST, ALT, ALP, GGT, bilirubin) and abdominal ultrasound",
+    "Thyroid stimulating hormone (TSH) and free T4",
+    "Detailed medication, supplement, and occupational exposure review",
+    "Validated OSA screening questionnaire (e.g., STOP-Bang) followed by polysomnography if indicated",
+    "Viral serologies for hepatitis C, hepatitis B, and HIV"
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled essential hypertension (resistant)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on two antihypertensive agents with persistently elevated BP readings",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk profile (obesity, Black race, metabolic syndrome)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of recent BP data but prior records show uncontrolled values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension despite dual therapy in a high\u2011risk patient points to resistant essential hypertension as the most likely cause of current clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary hypertension (primary aldosteronism or renovascular disease)",
+      "icd10": "I15",
+      "snomed": "38341003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Continued hypertension despite adequate therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Metabolic syndrome may coexist with secondary causes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Although less likely than essential hypertension, secondary etiologies remain possible and warrant targeted testing."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild hyperchloremia and trend of decreasing eGFR (data missing but inferred)",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing hypertension and prediabetes increase CKD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension and metabolic risk factors suggest early CKD, though definitive renal labs are absent."
+    },
+    {
+      "rank": 4,
+      "name": "Prediabetes / early type\u20112 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Glucose values in pre\u2011diabetic range (e.g., fasting glucose 108\u202fmg/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Obesity, dyslipidemia, and hypertension comprise metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory evidence of impaired glucose tolerance together with metabolic syndrome supports early diabetes."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, reported snoring and daytime fatigue",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High STOP\u2011BANG risk based on BMI and neck circumference",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Clinical features and risk scoring indicate a substantial likelihood of OSA contributing to resistant hypertension."
+    },
+    {
+      "rank": 6,
+      "name": "Major depressive disorder / generalized anxiety disorder",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Significant psychosocial stressors (intimate partner violence, unemployment) and reported low mood",
+          "strength": "moderate"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Use of diphenhydramine possibly for sleep suggests insomnia related to mood disturbance",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial context and medication use raise the probability of mood or anxiety disorder affecting adherence and blood pressure control."
+    },
+    {
+      "rank": 7,
+      "name": "Early myeloproliferative neoplasm (essential thrombocythemia)",
+      "icd10": "D47.3",
+      "snomed": "10828004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated platelet distribution width (PDW 491.6\u202ffL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling platelet count trend despite values remaining within normal limits",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The abnormal PDW is atypical for simple anemia and raises concern for a clonal platelet disorder, warranting further hematologic evaluation."
+    },
+    {
+      "rank": 8,
+      "name": "Iron\u2011deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia present; iron studies not yet obtained",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Potential dietary insufficiency not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is evident, but lack of iron studies and the extreme PDW make pure iron deficiency less likely as sole explanation."
+    },
+    {
+      "rank": 9,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic anemia without iron studies; inflammatory markers not available",
+          "strength": "weak"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Long\u2011standing hypertension and metabolic syndrome may contribute to chronic inflammation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the atypical PDW, ACD is less convincing but remains a remote possibility."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled essential hypertension (resistant)",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient exhibits a high\u2011risk cardiometabolic profile with persistent hypertension despite dual therapy, obesity, prediabetes, and psychosocial stressors. The most compelling explanation is resistant essential hypertension, which also aligns with the elevated cardiovascular risk. Secondary hypertension, early CKD, and prediabetes are plausible contributors. Markedly elevated platelet distribution width raises concern for an early myeloproliferative neoplasm, while the pattern of anemia could reflect iron deficiency or anemia of chronic disease. Obstructive sleep apnea and mood/anxiety disorders are likely comorbidities influencing blood pressure control and adherence.",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (491.6\u202ffL) without a definitive hematologic diagnosis",
+    "Mild hyperchloremia (Cl 108.5\u202fmmol/L) isolated from other electrolytes",
+    "Falling trends in RBC, platelet count, sodium, and potassium that remain within normal limits",
+    "Use of diphenhydramine without documented allergy or sleep disorder",
+    "Missing recent blood pressure readings, eGFR, urine albumin, iron studies, lipid sub\u2011fractions, and mental\u2011health screening scores"
+  ],
+  "recommended_workup": [
+    "24\u2011hour ambulatory blood pressure monitoring",
+    "Plasma renin activity and aldosterone concentration with aldosterone\u2011renin ratio",
+    "Renal artery duplex ultrasound or CT angiography to assess renovascular disease",
+    "Repeat fasting glucose/HbA1c and consider oral glucose tolerance test",
+    "Polysomnography for obstructive sleep apnea evaluation",
+    "Comprehensive iron panel (serum iron, ferritin, transferrin saturation) and reticulocyte count",
+    "JAK2 V617F mutation testing; if positive or high suspicion, referral for bone marrow biopsy",
+    "Serum creatinine, eGFR, and urine albumin\u2011to\u2011creatinine ratio to stage CKD",
+    "PHQ\u20119 and GAD\u20117 questionnaires for depression and anxiety screening",
+    "Review medication adherence and consider adding a third antihypertensive agent (e.g., mineralocorticoid receptor antagonist) if resistant hypertension confirmed"
+  ]
+}

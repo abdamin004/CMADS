@@ -1,0 +1,181 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (proteinuric CKD 3b)",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.53,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing diabetes with low A1c (3.9%) and proteinuric CKD stage 3b",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated urine protein on dipstick",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High diabetic kidney disease risk based on hypertension and glycemic control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of diabetes, proteinuria, and reduced eGFR is classic for diabetic nephropathy, which accounts for the majority of renal findings."
+    },
+    {
+      "rank": 2,
+      "name": "CKD\u2011related anemia",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3b documented without CBC results",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Absence of CBC but anemia is common in CKD of this stage",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD at stage 3b frequently leads to decreased erythropoietin production and anemia; the missing CBC makes this a likely but unconfirmed diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Metabolic (hyperchloremic) acidosis \u2013 CKD\u2011associated",
+      "icd10": "E87.2",
+      "snomed": "302810001",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3b with expected reduced acid excretion",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No arterial blood gas provided; however hyperchloremic metabolic acidosis is typical in this CKD stage",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD impairs bicarbonate regeneration, leading to a non\u2011anion\u2011gap metabolic acidosis; the reviewer noted this was under\u2011weighted."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis (co\u2011driver)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 143/99 mmHg (stage 2 hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension likely contributes to CKD progression alongside diabetes, but heavy proteinuria is less typical for isolated hypertensive nephrosclerosis."
+    },
+    {
+      "rank": 5,
+      "name": "Non\u2011diabetic glomerular disease (e.g., IgA nephropathy, membranous)",
+      "icd10": "N03.9",
+      "snomed": "236423003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria present without definitive diabetic pattern",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No serologic or biopsy data to confirm",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While possible, there is no specific serologic or histologic evidence; retained as a plausible alternative."
+    },
+    {
+      "rank": 6,
+      "name": "Insulin overtreatment / recurrent hypoglycemia with ketosis",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.05,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Low A1c (3.9%) despite insulin therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Risk of hypoglycemia heightened by reduced renal clearance of insulin",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The discordantly low A1c suggests possible insulin excess, especially in CKD where insulin clearance is reduced."
+    },
+    {
+      "rank": 7,
+      "name": "Atherosclerotic cardiovascular disease (high ASCVD risk)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, diabetes, CKD \u2013 all major ASCVD risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated calculated 10\u2011year ASCVD risk (not yet documented as disease)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient has a high risk profile for ASCVD; while not yet documented as overt disease, it remains a relevant consideration."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (proteinuric CKD 3b)",
+  "primary_probability": 0.53,
+  "clinical_reasoning_summary": "The patient\u2019s longstanding diabetes, proteinuric CKD stage 3b, and hypertension point to diabetic nephropathy as the dominant process. CKD\u2011related anemia and metabolic acidosis are common complications of this level of renal dysfunction and were under\u2011weighted in the initial output. Hypertensive nephrosclerosis likely contributes as a co\u2011driver, while non\u2011diabetic glomerular disease remains a less likely alternative without supporting serology or biopsy. Insulin overtreatment is supported by an unusually low A1c in the context of CKD, and the overall cardiovascular risk profile warrants consideration of subclinical atherosclerotic disease.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented liver disease",
+    "Very dilute urine specific gravity (1.00)",
+    "Markedly increased platelet distribution width (PDW 225.9 fL)",
+    "Missing BMI and smoking status",
+    "Absent liver enzyme panel (AST/ALT/ALP/GGT)",
+    "Missing complete blood count values (hemoglobin, hematocrit, platelet count)",
+    "Absence of documented NSAID/analgesic use"
+  ],
+  "recommended_workup": [
+    "Complete blood count with differential and reticulocyte count",
+    "Iron studies (serum iron, ferritin, TIBC) to characterize anemia",
+    "Serum electrolytes, bicarbonate, and arterial blood gas for acid\u2011base assessment",
+    "Comprehensive liver panel (AST, ALT, ALP, GGT, total and direct bilirubin)",
+    "Quantitative urine protein/creatinine ratio",
+    "Renal ultrasound to evaluate for obstruction or renal artery stenosis",
+    "Consider renal biopsy if proteinuria >1\u202fg/day and non\u2011diabetic glomerular disease remains a concern",
+    "Fasting lipid panel",
+    "Detailed medication review focusing on insulin dosing and potential nephrotoxic agents",
+    "Blood pressure monitoring and optimization",
+    "Assessment of BMI, smoking status, and lifestyle factors"
+  ]
+}

@@ -1,0 +1,275 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy (proteinuric CKD)",
+      "icd10": "E11.21",
+      "snomed": "127013003",
+      "probability": 0.45,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR = 23.2 mL/min/1.73 m\u00b2 (stage 4 CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 2.7 mg/dL (rising trend)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick = 436.8 mg/dL (nephrotic\u2011range proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with SNOMED code for diabetic kidney disease",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic proteinuria documented since 2003",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011I (lisinopril) prescribed for renal protection",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of markedly reduced eGFR, rising creatinine, nephrotic\u2011range proteinuria, and a 20\u2011year history of type 2 diabetes with specific SNOMED coding strongly points to diabetic nephropathy as the primary driver of the current CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Combined diabetic\u2011hypertensive nephropathy / hypertensive nephrosclerosis",
+      "icd10": "N18.4",
+      "snomed": "236423003",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 1989, on three antihypertensives",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High renal risk flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Progressive decline in eGFR over 12 years",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension, especially when resistant, independently causes glomerular injury. In a patient with diabetes, the renal disease is likely a mixed diabetic\u2011hypertensive phenotype, accelerating CKD progression."
+    },
+    {
+      "rank": 3,
+      "name": "Resistant hypertension (essential)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Triple\u2011drug regimen: lisinopril, hydrochlorothiazide, amlodipine",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent systolic BP reading (data\u2011quality flag)",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The need for three antihypertensives and lack of documented BP control suggest resistant hypertension, which also fuels CKD progression and cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia (EPO deficiency)",
+      "icd10": "D63.1",
+      "snomed": "302810001",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin = 11.7 g/dL (decline from prior 16.3 g/dL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD (eGFR <30) impairing erythropoietin production",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "CKD\u2011related anemia flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Normocytic anemia in the setting of eGFR <30 without documented ESA therapy is most consistent with anemia of chronic kidney disease."
+    },
+    {
+      "rank": 5,
+      "name": "CKD\u2011Mineral\u2011Bone Disorder (secondary hyperparathyroidism)",
+      "icd10": "N25.81",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 4 CKD (eGFR 23.2)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High renal risk flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing calcium, phosphate, PTH labs (data gap flagged)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to disturbances in calcium\u2011phosphate metabolism and secondary hyperparathyroidism; the absence of labs heightens suspicion."
+    },
+    {
+      "rank": 6,
+      "name": "Atherosclerotic cardiovascular disease (CAD / PAD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes, hypertension, obesity, CKD \u2013 high ASCVD risk profile",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin or antiplatelet therapy listed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of major risk factors without documented primary prevention suggests a high likelihood of subclinical atherosclerotic disease."
+    },
+    {
+      "rank": 7,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, CKD, anemia \u2013 typical HFpEF risk triad",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of loop diuretic or beta\u2011blocker in medication list",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the comorbidities, HFpEF is a plausible cardiac complication that may be silent without targeted evaluation."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular risk flag (OSA contributes)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity\u2011related OSA commonly coexists with resistant hypertension and can worsen metabolic control; no sleep study has been performed."
+    },
+    {
+      "rank": 9,
+      "name": "Depression / Anxiety (psychosocial distress)",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.01,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Social isolation, chronic stress, criminal record",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High psychosocial\u2011risk flag",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors may impair medication adherence and transplant eligibility, but no formal mental\u2011health assessment is documented."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy (proteinuric CKD)",
+  "primary_probability": 0.45,
+  "clinical_reasoning_summary": "The patient presents with stage 4 CKD (eGFR 23.2) and nephrotic\u2011range proteinuria in the context of a 20\u2011year history of type 2 diabetes, chronic hypertension, and obesity. Strong laboratory and coding evidence point to diabetic nephropathy as the dominant pathology. Hypertension is resistant despite three agents, indicating a co\u2011existing hypertensive nephrosclerosis component that accelerates renal decline. Consequent complications\u2014CKD\u2011related anemia, mineral\u2011bone disorder, and heightened cardiovascular risk\u2014are supported by the CKD stage and risk\u2011score flags. Additional comorbidities (HFpEF, OSA, depression) are plausible given the metabolic and psychosocial profile but have lower probabilities due to lack of direct objective data. The differential was calibrated to reflect the strength of each evidence cluster while acknowledging key data gaps.",
+  "unresolved_findings": [
+    "Tubal ligation (1993) \u2013 gynecologic surgery unrelated to current renal/cardiovascular issues",
+    "Chronic sinusitis (diagnosed 1970) \u2013 remote, no current ENT symptoms",
+    "Criminal record (onset 2005) \u2013 social/legal factor, not a pathophysiologic abnormality",
+    "Full\u2011time employment \u2013 protective socioeconomic factor, not a disease"
+  ],
+  "recommended_workup": [
+    "Current office blood pressure measurement (average of 3 readings) and 24\u2011hour ambulatory BP monitoring",
+    "HbA1c or fasting glucose to assess glycemic control",
+    "Fasting lipid panel (LDL, HDL, triglycerides)",
+    "Iron studies (serum ferritin, transferrin saturation), vitamin B12, folate",
+    "Serum calcium, phosphate, PTH, 25\u2011OH vitamin D levels",
+    "Spot urine protein\u2011to\u2011creatinine ratio or 24\u2011hour urine protein quantification",
+    "Urine sediment analysis for casts or hematuria",
+    "Serum/urine protein electrophoresis and free light chains (rule out amyloidosis)",
+    "Renal ultrasound (size, echogenicity) and, if indicated, renal artery duplex imaging",
+    "Consider renal biopsy if proteinuria >3\u202fg/day with atypical features",
+    "ECG and transthoracic echocardiogram (evaluate for HFpEF, LVH)",
+    "Cardiac stress test or coronary calcium scoring for silent CAD",
+    "Ankle\u2011brachial index to screen for peripheral arterial disease",
+    "Home sleep apnea test or polysomnography",
+    "Formal psychosocial screening (PHQ\u20119, GAD\u20117) and medication\u2011adherence questionnaire",
+    "Review of all current medications, including OTC NSAIDs and supplements"
+  ]
+}

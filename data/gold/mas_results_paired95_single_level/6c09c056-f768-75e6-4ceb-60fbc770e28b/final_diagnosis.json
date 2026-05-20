@@ -1,0 +1,198 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute decompensated heart failure (ADHF)",
+      "icd10": "I50.23",
+      "snomed": "194828000",
+      "probability": 0.29,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of chronic heart failure with recent dyspnea and peripheral edema",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated BNP noted in labs (value pending but ordered)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Patient presents with signs of volume overload and known cardiac disease; despite lack of definitive imaging, clinical picture strongly suggests ADHF, especially given possible precipitating ACS."
+    },
+    {
+      "rank": 2,
+      "name": "Acute coronary syndrome (unstable angina / NSTEMI)",
+      "icd10": "I21.4",
+      "snomed": "413444003",
+      "probability": 0.29,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chest discomfort with risk factors (age, CKD, diabetes, hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Troponin ordered but results not yet available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High pre\u2011test probability given risk profile; ACS may be the primary driver of decompensation and must be ruled out urgently."
+    },
+    {
+      "rank": 3,
+      "name": "Acute on chronic kidney injury (AKI on CKD\u20114)",
+      "icd10": "N17.9",
+      "snomed": "431855005",
+      "probability": 0.16,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising serum creatinine from baseline CKD\u20114, urine output decline",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent exposure to diuretics and possible volume depletion",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory trend demonstrates acute deterioration superimposed on chronic kidney disease, influencing fluid balance and medication dosing."
+    },
+    {
+      "rank": 4,
+      "name": "Sepsis / infection (UTI, pneumonia, dental)",
+      "icd10": "A41.9",
+      "snomed": "10001005",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Fever and leukocytosis noted on exam",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Blood cultures and urinalysis pending",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Infection could be a precipitant but objective data are limited; probability downgraded."
+    },
+    {
+      "rank": 5,
+      "name": "Hyperkalemia / CKD\u2011related metabolic derangement",
+      "icd10": "E87.5",
+      "snomed": "302810001",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum potassium elevated (value pending but ordered)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 predisposes to potassium retention",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic derangement may contribute to arrhythmia risk and needs urgent correction."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia\u2011related type\u202f2 myocardial ischemia",
+      "icd10": "I21.9",
+      "snomed": "413444003",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin decreased from baseline",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Symptoms of chest discomfort in setting of anemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia can precipitate supply\u2011demand mismatch leading to type\u202f2 MI; contributes but not primary."
+    },
+    {
+      "rank": 7,
+      "name": "Uremic pericarditis / pericardial effusion",
+      "icd10": "I31.9",
+      "snomed": "302810001",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chest pain without classic pericarditic rub, but CKD raises suspicion",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible but clinical description does not strongly support pericarditis."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011cardiac chest pain (esophageal spasm / GERD)",
+      "icd10": "R07.89",
+      "snomed": "29857009",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Retrosternal discomfort reported, no clear cardiac etiology yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Considered after cardiac causes; low likelihood but kept for completeness."
+    },
+    {
+      "rank": 9,
+      "name": "Atrial fibrillation or clinically significant arrhythmia",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Irregular pulse noted on exam, but no ECG performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Arrhythmia could worsen heart failure; probability low due to lack of rhythm data."
+    }
+  ],
+  "primary_diagnosis": "Acute decompensated heart failure (ADHF)",
+  "primary_probability": 0.29,
+  "clinical_reasoning_summary": "The patient\u2019s presentation of dyspnea, peripheral edema, and known cardiac disease points to acute decompensated heart failure, likely precipitated by an acute coronary syndrome and compounded by acute on chronic kidney injury. While infection, electrolyte derangements, anemia, and possible arrhythmias are present, they are secondary contributors. Objective cardiac biomarkers, ECG, and imaging are pending and will clarify the relative contributions of ADHF and ACS.",
+  "unresolved_findings": [
+    "Exact BNP and troponin values pending",
+    "Chest imaging results not yet available",
+    "Microbiologic cultures pending"
+  ],
+  "recommended_workup": [
+    "12\u2011lead ECG",
+    "Serial high\u2011sensitivity troponin",
+    "BNP or NT\u2011proBNP",
+    "Transthoracic echocardiogram",
+    "Comprehensive metabolic panel including potassium, bicarbonate, lactate",
+    "Complete blood count with differential",
+    "Urinalysis and urine culture",
+    "Blood cultures (2 sets)",
+    "Chest X\u2011ray",
+    "Review medication list for nephrotoxic and contraindicated agents (metformin, tacrine)"
+  ]
+}

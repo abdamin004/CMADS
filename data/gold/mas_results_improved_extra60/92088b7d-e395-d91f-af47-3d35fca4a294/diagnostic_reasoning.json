@@ -1,0 +1,171 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus, insulin-requiring",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Humulin (insulin 70/30) listed as active medication \u2013 indicates overt diabetes in an adult",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome and documented obesity (BMI \u226530) present",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list records prediabetes but insulin use shows outdated coding",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria (urine protein 214.8\u202fmg/dL) consistent with diabetic nephropathy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c reported as 2.8\u202f% interpreted as artefact; does not negate diabetes diagnosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Insulin therapy in a middle\u2011aged man with metabolic syndrome is a highly specific marker of overt type\u202f2 diabetes, even though the problem list still says prediabetes. The presence of obesity, hypertension, and proteinuric kidney disease further supports diabetes as the primary metabolic disorder driving the patient\u2019s clinical picture."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic kidney disease (CKD due to diabetes mellitus)",
+      "icd10": "E11.22",
+      "snomed": "127013003",
+      "probability": 0.35,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 3.3\u202fmg/dL (severely elevated) and eGFR 46.5\u202fmL/min/1.73\u202fm\u00b2 (stage\u202f3a CKD)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 214.8\u202fmg/dL (~2+ proteinuria)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy indicating insulin\u2011requiring diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Problem list includes \u201cDisorder of kidney due to diabetes mellitus\u201d",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing hypertension and metabolic syndrome as additional risk factors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of insulin\u2011requiring diabetes, markedly reduced eGFR, high serum creatinine, and significant proteinuria is classic for diabetic nephropathy. The problem list already tags a diabetes\u2011related kidney disorder, making this the most parsimonious unifying diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic disease / CKD-related anemia",
+      "icd10": "D63.1",
+      "snomed": "271737000",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 2005",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CKD stage 3a (eGFR 46.5\u202fmL/min/1.73\u202fm\u00b2) provides a physiological basis for reduced erythropoietin",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild metabolic acidosis (CO\u2082 20.9\u202fmmol/L) and hyperchloremia consistent with CKD\u2011related metabolic derangements",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "In patients with moderate CKD, anemia is frequently due to decreased erythropoietin production. The long\u2011standing nature of the anemia and lack of iron studies make CKD\u2011related anemia the most likely explanation."
+    },
+    {
+      "rank": 4,
+      "name": "Iron-deficiency anemia secondary to occult gastrointestinal bleeding",
+      "icd10": "D50.9",
+      "snomed": "271737000",
+      "probability": 0.1,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood (24.2\u202fng/mL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia without documented iron studies",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A positive FOB test in a patient >50\u202fyears raises concern for chronic GI blood loss, which can cause iron\u2011deficiency anemia. The anemia may be multifactorial (CKD + iron loss)."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Sleep apnea diagnosed in 2012 with no CPAP or other therapy documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension present, both common contributors to OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA can exacerbate hypertension, insulin resistance, and CKD progression. Although not directly reflected in labs, its presence is clinically relevant."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus, insulin-requiring",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "Both diabetes and its renal complications dominate the clinical picture. Insulin therapy provides a concrete anchor for overt type\u202f2 diabetes, while the severe creatinine elevation, reduced eGFR, and proteinuria confirm diabetic kidney disease. Anemia is explained primarily by CKD, with a secondary contribution from possible occult GI bleeding, as indicated by a positive fecal occult blood test. Untreated obstructive sleep apnea adds to hypertension and metabolic dysregulation. The differential reflects the hierarchy of evidence, with probabilities adjusted to sum to 1.0.",
+  "unresolved_findings": [
+    "Urine total bilirubin positive (0.6\u202fmg/dL) \u2013 unclear hepatic vs hemolytic source",
+    "Low serum CO\u2082 (20.9\u202fmmol/L) suggesting mild metabolic acidosis",
+    "Hyperchloremia (108.1\u202fmmol/L) possibly secondary to renal dysfunction",
+    "Urine ketones present without marked hyperglycaemia",
+    "Implausibly low HbA1c (2.8\u202f%) \u2013 likely laboratory artefact",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Missing BMI value",
+    "Absence of documented statin or antiplatelet therapy despite high ASCVD risk"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c using an assay less affected by CKD (e.g., fructosamine) or obtain fasting plasma glucose",
+    "Oral glucose tolerance test if needed to confirm diabetes status",
+    "Quantitative urine albumin-to-creatinine ratio (UACR) to better characterize proteinuria",
+    "Renal ultrasound to assess kidney size and exclude obstructive causes",
+    "Comprehensive iron studies (serum iron, ferritin, transferrin saturation) and reticulocyte count",
+    "Colonoscopy (and upper endoscopy if indicated) given positive fecal occult blood",
+    "Full lipid panel and calculation of 10\u2011year ASCVD risk; initiate moderate\u2011intensity statin if indicated",
+    "Liver function tests (ALT, AST, ALP, GGT) and abdominal imaging to evaluate bilirubin in urine",
+    "Review prior sleep study; consider repeat polysomnography and start CPAP therapy",
+    "CKD\u2011MBD work\u2011up: serum calcium, phosphate, PTH, vitamin D",
+    "Referral to nephrology for CKD management and possible erythropoiesis\u2011stimulating agent evaluation",
+    "Depression/anxiety screening (PHQ\u20119, GAD\u20117) given psychosocial stressors"
+  ]
+}

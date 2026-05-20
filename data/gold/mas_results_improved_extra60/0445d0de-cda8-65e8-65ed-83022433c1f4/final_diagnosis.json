@@ -1,0 +1,283 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient has hypertension, type\u20112 diabetes, dyslipidaemia and central obesity noted in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c 7.0% indicating suboptimal glycaemic control",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of cardiometabolic risk factors (HTN, T2DM, dyslipidaemia, likely obesity) fulfills criteria for metabolic syndrome and drives insulin resistance."
+    },
+    {
+      "rank": 2,
+      "name": "True resistant hypertension",
+      "icd10": "I15.9",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension listed as chronic condition with multiple antihypertensive agents prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer notes lack of objective BP measurements, but clinical impression suggests resistant pattern",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Persistent hypertension despite \u22653 agents (including a diuretic) is plausible; confirmation pending ambulatory BP monitoring."
+    },
+    {
+      "rank": 3,
+      "name": "Uncontrolled type\u20112 diabetes mellitus",
+      "icd10": "E11.65",
+      "snomed": "44054006",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin A1c 7.0% (target <6.5% for many patients)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes mellitus type 2 documented in problem list",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "A1c above goal indicates suboptimal control, contributing to cardiovascular risk and possible renal hyperfiltration."
+    },
+    {
+      "rank": 4,
+      "name": "Untreated obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.095,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior sleep study indicating moderate OSA, no CPAP prescription recorded",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer notes untreated OSA as a contributor to resistant hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA exacerbates hypertension and metabolic dysfunction; lack of CPAP documentation suggests non\u2011adherence."
+    },
+    {
+      "rank": 5,
+      "name": "Atherogenic dyslipidaemia (untreated)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.08,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dyslipidaemia flagged in comorbidity list; lipid panel incomplete",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer notes missing HDL, non\u2011HDL, ApoB values",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Known dyslipidaemia in context of metabolic syndrome likely atherogenic; treatment status unclear."
+    },
+    {
+      "rank": 6,
+      "name": "Silent coronary artery disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.065,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High cardiovascular risk profile (metabolic syndrome, hypertension, diabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No symptom or testing data; prevalence high in this population",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given risk factors, subclinical CAD is plausible; further cardiac evaluation warranted."
+    },
+    {
+      "rank": 7,
+      "name": "Early diabetic nephropathy (hyperfiltration)",
+      "icd10": "E11.21",
+      "snomed": "236423003",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diabetes present; renal function data incomplete",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer flags missing urine albumin\u2011creatinine ratio",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Early hyperfiltration can precede albuminuria; lack of urine data limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Renal\u2011artery stenosis",
+      "icd10": "I70.2",
+      "snomed": "236423003",
+      "probability": 0.025,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension noted, a known risk factor for renal artery disease",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Prevalence low; imaging not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible secondary cause of resistant hypertension; low pre\u2011test probability without imaging."
+    },
+    {
+      "rank": 9,
+      "name": "Anemia of chronic disease",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.021,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Mild anemia documented in labs (exact values not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer notes need for iron studies, B12, folate to differentiate causes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic inflammation from diabetes and possible renal disease can cause anemia of chronic disease."
+    },
+    {
+      "rank": 10,
+      "name": "Non\u2011alcoholic fatty liver disease / alcohol\u2011related liver injury overlap",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.017,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome present; liver enzymes not recorded",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No hepatic labs or imaging to differentiate NAFLD from alcohol injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "High prevalence in metabolic syndrome; cannot confirm without labs/imaging."
+    },
+    {
+      "rank": 11,
+      "name": "Depression / anxiety affecting adherence",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.017,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial risk factors noted; no mental\u2011health screening documented",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer highlights lack of PHQ\u20119/GAD\u20117 screening",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Potential contributor to medication non\u2011adherence; evidence limited."
+    },
+    {
+      "rank": 12,
+      "name": "Primary aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599009",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension present, a trigger for screening",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Low pre\u2011test probability given multiple other contributors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible secondary cause but unlikely without hypokalemia or confirmatory testing."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome / insulin resistance",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient exhibits a classic cardiometabolic cluster\u2014hypertension, type\u20112 diabetes, dyslipidaemia and probable central obesity\u2014fulfilling criteria for metabolic syndrome and driving insulin resistance. This syndrome underlies most of the other findings, including resistant hypertension, suboptimal glycaemic control, early renal changes, and heightened atherosclerotic risk. Untreated obstructive sleep apnea further aggravates hypertension. Gaps in objective blood pressure data, renal albuminuria, lipid sub\u2011fractions, liver enzymes, iron studies, and mental\u2011health screening limit precise quantification of secondary contributors, but the overall picture points to metabolic syndrome as the primary driver.",
+  "unresolved_findings": [
+    "Missing blood pressure measurements (clinic, home, ABPM)",
+    "Absent BMI, waist circumference, and hip\u2011to\u2011waist ratio",
+    "Incomplete lipid panel (HDL, non\u2011HDL, ApoB, Lp(a))",
+    "No urine albumin\u2011to\u2011creatinine ratio or micro\u2011albuminuria data",
+    "No documented CPAP prescription or usage data for OSA",
+    "No pharmacy refill or adherence data for antihypertensives, statin, or antidiabetic agents",
+    "Absent liver function tests and hepatic imaging",
+    "Missing iron studies, vitamin B12, folate, reticulocyte count for anemia work\u2011up",
+    "No mental\u2011health screening (PHQ\u20119, GAD\u20117)",
+    "No cardiac evaluation (ECG, stress test, coronary calcium score)"
+  ],
+  "recommended_workup": [
+    "Ambulatory blood pressure monitoring (ABPM) to confirm resistant hypertension",
+    "Repeat lipid panel with HDL, non\u2011HDL, ApoB, and Lp(a)",
+    "Urine albumin\u2011to\u2011creatinine ratio and eGFR to stage diabetic kidney disease",
+    "Medication adherence assessment (pharmacy refill review, patient interview)",
+    "Polysomnography repeat or CPAP adherence data review",
+    "Liver function tests (ALT, AST, GGT) and hepatic ultrasound to evaluate NAFLD vs alcohol injury",
+    "Iron studies, vitamin B12, folate, and reticulocyte count to clarify anemia etiology",
+    "PHQ\u20119 and GAD\u20117 screening for depression and anxiety",
+    "Resting ECG and, if indicated, stress testing or coronary calcium scoring for silent CAD",
+    "Renal artery duplex ultrasound or CT angiography if secondary hypertension remains suspected"
+  ]
+}

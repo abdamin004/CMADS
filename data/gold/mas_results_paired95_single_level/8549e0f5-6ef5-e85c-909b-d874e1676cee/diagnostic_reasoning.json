@@ -1,0 +1,272 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30 kg/m\u00b2) documented since 2011",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension treated with amlodipine, BP 128/77 mmHg (elevated for a treated hypertensive)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.0%) \u2013 upward trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, 33 y, sedentary lifestyle not documented (risk factor for OSA in obesity)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension in a young adult are classic risk factors for obstructive sleep apnea, which can drive resistant hypertension and insulin resistance. The presence of prediabetes further supports OSA as a root cause of the metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Renovascular hypertension / secondary hypertension (possible renal artery stenosis or early CKD)",
+      "icd10": "I15.0",
+      "snomed": "237600009",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 04\u20112022, still elevated despite amlodipine",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyper\u2011kalaemia (K\u207a 5.1 mmol/L) \u2013 upward trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR/albuminuria \u2013 data gap limiting renal assessment",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Age 33 with early\u2011onset hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent hypertension in a young adult, together with mild hyper\u2011kalaemia and absent renal function data, raises suspicion for secondary causes such as renal artery stenosis or early hypertensive nephropathy. Confirmatory imaging and renal labs are required."
+    },
+    {
+      "rank": 3,
+      "name": "Obesity\u2011driven metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u2265 30 kg/m\u00b2) documented since 2011",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension treated with amlodipine",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.0%) \u2013 upward trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width 249.9 fL \u2013 markedly high (platelet activation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyper\u2011kalaemia (K\u207a 5.1 mmol/L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, hypertension, impaired glucose regulation, and platelet activation fulfills criteria for metabolic syndrome, explaining the majority of the patient\u2019s cardiovascular risk profile."
+    },
+    {
+      "rank": 4,
+      "name": "Early hypertensive/obesity\u2011related chronic kidney disease (CKD)",
+      "icd10": "N18.9",
+      "snomed": "709044004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyper\u2011kalaemia (K\u207a 5.1 mmol/L) \u2013 upward trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension, treated but still elevated",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing eGFR and albuminuria data",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Hypertension and obesity are leading causes of early CKD. The mild hyper\u2011kalaemia may be an early sign of reduced tubular excretion. Confirmation requires renal function testing."
+    },
+    {
+      "rank": 5,
+      "name": "Reactive platelet activation / low\u2011grade systemic inflammation",
+      "icd10": "R79.1",
+      "snomed": "271442005",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet Distribution Width 249.9 fL \u2013 markedly elevated",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) \u2013 known driver of inflammation",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "MCHC 36.0 g/dL \u2013 borderline high",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Elevated PDW suggests platelet activation, likely secondary to systemic inflammation from obesity and metabolic syndrome. Repeat CBC with peripheral smear is needed to exclude a primary hematologic disorder."
+    },
+    {
+      "rank": 6,
+      "name": "Primary aldosteronism (early/partial)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed at age 33",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyper\u2011kalaemia (K\u207a 5.1 mmol/L) \u2013 atypical for classic PA but does not exclude early disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Early-onset hypertension warrants screening for primary aldosteronism, though the hyper\u2011kalaemia makes classic PA less likely. An aldosterone\u2011renin ratio will clarify."
+    },
+    {
+      "rank": 7,
+      "name": "Polycystic ovary syndrome (PCOS)",
+      "icd10": "E28.2",
+      "snomed": "237599008",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Female, reproductive age, obesity",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (HbA1c 6.0%) \u2013 upward trend",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Inhaled fluticasone \u2013 mild glucocorticoid exposure (potentially aggravates insulin resistance)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity\u2011related insulin resistance in a young woman raises the possibility of PCOS, which can further worsen metabolic parameters. Menstrual and androgen data are needed."
+    },
+    {
+      "rank": 8,
+      "name": "Dietary potassium excess / potassium\u2011rich supplement use",
+      "icd10": "E87.5",
+      "snomed": "271327008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyper\u2011kalaemia (K\u207a 5.1 mmol/L) \u2013 upward trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented potassium\u2011sparing diuretic or medication causing hyper\u2011kalaemia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In the absence of renal impairment or medication effect, excess dietary potassium (e.g., salt substitutes) is a plausible explanation for the mild hyper\u2011kalaemia."
+    },
+    {
+      "rank": 9,
+      "name": "Hypothyroidism (subclinical or overt)",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity \u2013 common in hypothyroidism",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyper\u2011kalaemia (K\u207a 5.1 mmol/L) \u2013 can be seen in hypothyroid renal handling changes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Thyroid dysfunction can contribute to hypertension, dyslipidaemia, and mild electrolyte shifts. A thyroid panel is required to rule this in or out."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea (OSA)",
+  "primary_probability": 0.2,
+  "clinical_reasoning_summary": "The patient is a 33\u2011year\u2011old obese female with treated hypertension, rising HbA1c, and elevated platelet activation markers. While the constellation fits an obesity\u2011driven metabolic syndrome, the presence of persistent hypertension at a young age, mild hyper\u2011kalaemia, and missing renal data suggest secondary hypertension or early CKD as root causes. Obstructive sleep apnea is a high\u2011yield, modifiable driver of both resistant hypertension and insulin resistance in this demographic, thus ranked first. Secondary hypertension (possible renovascular disease), metabolic syndrome, early CKD, and inflammatory platelet activation follow, with lower\u2011probability considerations including primary aldosteronism, PCOS, dietary potassium excess, and hypothyroidism. The differential integrates all available evidence, acknowledges data gaps, and prioritises investigations that will most impact management.",
+  "unresolved_findings": [
+    "Low fasting glucose (67 mg/dL) discordant with rising HbA1c",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Missing renal function tests (eGFR, creatinine, urine albumin)",
+    "Missing thyroid function tests",
+    "No documented sleep study or screening questionnaire",
+    "No menstrual/androgen data to assess PCOS",
+    "Potential dietary potassium intake not captured"
+  ],
+  "recommended_workup": [
+    "STOP\u2011Bang questionnaire and, if positive, overnight polysomnography to evaluate OSA",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio to assess renal function",
+    "Renal ultrasound or CT angiography if secondary hypertension is suspected",
+    "Fasting lipid panel (total cholesterol, LDL, HDL, triglycerides) and hs\u2011CRP",
+    "Repeat CBC with platelet indices and peripheral smear to confirm PDW elevation",
+    "Thyroid panel (TSH, free T4)",
+    "Reproductive hormone panel (total/free testosterone, LH, FSH) and pelvic ultrasound if menstrual irregularities are present",
+    "Plasma renin activity and aldosterone concentration with aldosterone\u2011to\u2011renin ratio",
+    "Detailed dietary and supplement review focusing on potassium\u2011rich foods or salt substitutes",
+    "Repeat fasting glucose and consider a 2\u2011hour oral glucose tolerance test"
+  ]
+}

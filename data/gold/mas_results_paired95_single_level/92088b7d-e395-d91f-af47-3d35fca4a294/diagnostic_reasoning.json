@@ -1,0 +1,231 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled / resistant hypertension (possible renal-artery stenosis)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosis",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Current BP 115/87 mmHg on lisinopril + amlodipine",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea (contributes to resistant hypertension)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 46.5 mL/min/1.73m\u00b2 (CKD stage 3a)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Two antihypertensives are required to keep BP at the upper\u2011normal range, suggesting resistant hypertension. In the setting of CKD progression, OSA, and the possibility of renovascular disease, uncontrolled hypertension is likely a proximal driver of renal decline."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic kidney disease (proteinuric CKD)",
+      "icd10": "E11.22",
+      "snomed": "90734009",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Insulin therapy (Humulin) indicating insulin\u2011requiring diabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein 214.8 mg/dL and micro\u2011albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 3.3 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "ACE\u2011inhibitor (lisinopril) prescribed for renal protection",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of insulin\u2011requiring diabetes, significant proteinuria, and declining eGFR is classic for diabetic nephropathy, now manifesting as stage 3a CKD despite renin\u2011angiotensin blockade."
+    },
+    {
+      "rank": 3,
+      "name": "Occult gastrointestinal bleeding (iron\u2011deficiency component)",
+      "icd10": "K92.2",
+      "snomed": "236423003",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive fecal occult blood (24.2 ng/mL)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia of chronic disease",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No NSAID use (rules out drug\u2011induced bleed)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "FOBT positivity together with anemia raises the likelihood of a chronic GI blood loss, which may be iron\u2011deficiency mediated and contribute to the overall anemia burden."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed obstructive sleep apnea",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and insulin resistance present",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA contributes to sympathetic over\u2011activity, worsening hypertension and glycemic control, thereby accelerating CKD progression."
+    },
+    {
+      "rank": 5,
+      "name": "Metabolic\u2011syndrome\u2011associated non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530 kg/m\u00b2) and metabolic syndrome",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin 0.6 mg/dL (unexpected)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Type 2 diabetes mellitus",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The classic triad of obesity, diabetes, and hypertension makes NAFLD highly probable; the urine bilirubin may reflect subclinical hepatobiliary dysfunction."
+    },
+    {
+      "rank": 6,
+      "name": "Anemia of chronic kidney disease (with possible iron\u2011deficiency overlap)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented anemia of chronic disease",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 46.5 mL/min/1.73m\u00b2 (reduced erythropoietin production)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD reduces erythropoietin output, leading to anemia; iron studies are needed to assess a superimposed iron\u2011deficiency component from possible GI bleed."
+    },
+    {
+      "rank": 7,
+      "name": "Psychosocial stress / medication non\u2011adherence",
+      "icd10": "Z63.5",
+      "snomed": "160573003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and intimate\u2011partner abuse documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Potential barriers to medication adherence (implied)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial factors can impair adherence to antihypertensives and insulin, thereby worsening blood pressure and glycemic control."
+    },
+    {
+      "rank": 8,
+      "name": "Primary glomerulonephritis (low\u2011probability scenario)",
+      "icd10": "N00",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Proteinuria present but no hematuria reported",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No serologic or renal biopsy data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "In the absence of hematuria or serologic markers, primary GN remains unlikely but cannot be completely excluded without further testing."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled / resistant hypertension (possible renal-artery stenosis)",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s renal decline is driven primarily by uncontrolled/resistant hypertension, which persists despite dual therapy and is amplified by obstructive sleep apnea. Diabetic kidney disease provides the underlying substrate, while occult gastrointestinal bleeding likely contributes to anemia and may further impair renal function. Metabolic syndrome underlies NAFLD, and psychosocial stressors may hinder adherence to the therapeutic regimen. The differential is ordered from upstream modifiable drivers to downstream consequences, integrating all available lab abnormalities, medication data, and risk\u2011factor summaries.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented liver disease",
+    "Discrepancy between EHR CKD stage 2 and laboratory\u2011derived stage 3a",
+    "Implausible A1c value of 2.8% (data error)",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Undocumented smoking and alcohol use",
+    "Absent vaccination records"
+  ],
+  "recommended_workup": [
+    "24\u2011hour ambulatory blood pressure monitoring and trial of a loop diuretic to assess true resistant hypertension.",
+    "Renal artery duplex ultrasound or CT angiography to evaluate for renal\u2011artery stenosis.",
+    "Quantitative proteinuria: spot urine albumin\u2011to\u2011creatinine ratio and protein\u2011to\u2011creatinine ratio.",
+    "Repeat reliable HbA1c (or fructosamine) and fasting glucose; consider continuous glucose monitoring.",
+    "Iron studies (ferritin, transferrin saturation, serum iron) and reticulocyte count to differentiate anemia types.",
+    "Repeat fecal occult blood test or FIT followed by colonoscopy \u00b1 upper endoscopy to locate GI bleed source.",
+    "Comprehensive liver panel (ALT, AST, ALP, GGT, total and direct bilirubin) and abdominal ultrasound/FibroScan for NAFLD assessment.",
+    "Sleep study data review and CPAP adherence report.",
+    "Lipid panel (total cholesterol, LDL, HDL, triglycerides) and consider initiating statin therapy per ASCVD guidelines.",
+    "Social work and mental health evaluation (PHQ\u20119, GAD\u20117, medication adherence questionnaire).",
+    "Vaccination review and update per CDC recommendations for adults with CKD."
+  ]
+}

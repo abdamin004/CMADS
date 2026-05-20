@@ -1,0 +1,215 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive Sleep Apnea (moderate-to-severe, untreated)",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of untreated moderate-to-severe OSA with CPAP non\u2011adherence",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High STOP\u2011Bang score and BMI >35 kg/m\u00b2",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s documented untreated moderate\u2011to\u2011severe OSA explains daytime fatigue, hypertension, and contributes to metabolic derangements; reviewer up\u2011scaled probability based on concrete documentation."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30), hypertension, prediabetes (elevated fasting glucose), and dyslipidemia noted",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides and low HDL reported in prior labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cluster of cardiometabolic risk factors meets criteria for metabolic syndrome; reviewer kept probability near original."
+    },
+    {
+      "rank": 3,
+      "name": "Early Chronic Kidney Disease (stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly reduced eGFR (80\u201190 mL/min/1.73m\u00b2) with normal albuminuria trend",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Gradual decrease in serum sodium within normal range and borderline low bicarbonate suggesting early tubular dysfunction",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Electrolyte trends and modest eGFR reduction support early CKD; reviewer increased probability."
+    },
+    {
+      "rank": 4,
+      "name": "Hyperlipidaemia (elevated LDL / triglycerides)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Prior lipid panel shows LDL >130 mg/dL and triglycerides >150 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hyperlipidaemia contributes to metabolic syndrome and ASCVD risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lipid abnormalities are present and align with metabolic syndrome; reviewer raised probability."
+    },
+    {
+      "rank": 5,
+      "name": "Subclinical Atherosclerotic Cardiovascular Disease",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Family history unknown; presence of hypertension, dyslipidaemia, and smoking history (if any) increase ASCVD risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011year ASCVD risk estimated >7% based on available data",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiometabolic profile suggests early atherosclerosis despite lack of overt symptoms."
+    },
+    {
+      "rank": 6,
+      "name": "Depressive Disorder / Generalized Anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports chronic stress, low mood, and sleep disturbance beyond OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_notes",
+          "finding": "No formal psychiatric diagnosis documented yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stressors are present; reviewer kept a modest probability."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic Anemia \u2013 mixed iron\u2011deficiency and anemia of chronic disease",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistent normocytic\u2011microcytic anemia with low ferritin and elevated CRP",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent work\u2011up to delineate iron deficiency vs chronic disease",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is documented but etiology not fully investigated; reviewer downgraded probability."
+    },
+    {
+      "rank": 8,
+      "name": "Secondary Hypertension (e.g., primary aldosteronism)",
+      "icd10": "E26.0",
+      "snomed": "236423003",
+      "probability": 0.01,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Slightly low serum potassium trend (within normal) and resistant hypertension history",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure currently controlled on medication, but etiology not explored",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Electrolyte clues raise possibility; reviewer kept low probability but noted need for work\u2011up."
+    },
+    {
+      "rank": 9,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and obesity, mild dyspnea on exertion reported",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_notes",
+          "finding": "No echocardiogram performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Symptoms are nonspecific; reviewer downgraded probability due to lack of imaging."
+    }
+  ],
+  "primary_diagnosis": "Obstructive Sleep Apnea (moderate-to-severe, untreated)",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient\u2019s cardiometabolic burden is driven primarily by untreated moderate\u2011to\u2011severe obstructive sleep apnea, which underlies hypertension, insulin resistance, and contributes to dyslipidaemia. Metabolic syndrome, early CKD, and hyperlipidaemia follow logically from this core pathology. Subclinical atherosclerosis is plausible given the risk profile. Anemia, mood disturbance, secondary hypertension, and possible HFpEF are considered but have weaker supporting data. The reviewer\u2019s adjustments have been applied, unsupported hypothyroidism removed, and probabilities renormalised to sum to 1.0.",
+  "unresolved_findings": [
+    "Elevated MPV and PDW (possible early myeloproliferative process)",
+    "Borderline low bicarbonate with a falling trend",
+    "Gradually decreasing serum sodium within normal range",
+    "Absence of documented dental treatment despite extensive tooth loss",
+    "Missing family history of cardiovascular disease, diabetes, and CKD"
+  ],
+  "recommended_workup": [
+    "Overnight polysomnography with CPAP titration to confirm severity and guide therapy",
+    "Comprehensive lipid panel (LDL, HDL, triglycerides, non\u2011HDL cholesterol)",
+    "Aldosterone\u2011renin ratio with confirmatory testing for primary aldosteronism",
+    "Repeat basic metabolic panel focusing on bicarbonate, sodium, and potassium trends",
+    "Serum ferritin, iron, total iron\u2011binding capacity, and transferrin saturation to clarify anemia etiology",
+    "Renal ultrasound to assess structural abnormalities",
+    "Echocardiogram to evaluate diastolic function and rule out HFpEF",
+    "Screening for myeloproliferative neoplasm (e.g., JAK2 mutation) given MPV/PDW elevation",
+    "Dental evaluation and imaging to address tooth loss and potential infection source",
+    "Family history interview to document cardiovascular and renal disease prevalence"
+  ]
+}

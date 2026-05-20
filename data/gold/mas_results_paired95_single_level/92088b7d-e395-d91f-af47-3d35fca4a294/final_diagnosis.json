@@ -1,0 +1,173 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic kidney disease (proteinuric chronic kidney disease)",
+      "icd10": "E11.22",
+      "snomed": "237599002",
+      "probability": 0.39,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of type 2 diabetes mellitus with elevated HbA1c (despite data error) and micro\u2011albuminuria",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR 45\u202fmL/min/1.73\u202fm\u00b2 (CKD stage 3a) with proteinuria",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High cardiovascular and renal risk profile (obesity, hypertension, metabolic syndrome)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of diabetes, reduced eGFR, and proteinuria is classic for diabetic nephropathy, explaining the CKD stage discrepancy and anemia of chronic disease."
+    },
+    {
+      "rank": 2,
+      "name": "Occult gastrointestinal bleeding",
+      "icd10": "K92.2",
+      "snomed": "371923003",
+      "probability": 0.2,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Iron\u2011deficiency anemia (low ferritin, low transferrin saturation) with no overt bleeding source",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic fatigue and low hemoglobin despite iron supplementation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Iron\u2011deficiency pattern suggests a hidden source of blood loss; GI tract is the most common origin, warranting endoscopic evaluation."
+    },
+    {
+      "rank": 3,
+      "name": "Anemia of chronic kidney disease (with possible iron\u2011deficiency overlap)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic, normochromic anemia with reduced erythropoietin production expected at eGFR <60",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3a\u20114 documented in labs",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD at this stage commonly causes anemia; overlapping iron\u2011deficiency may amplify severity."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented diagnosis of OSA on problem list, BMI >30\u202fkg/m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "OSA contributes to hypertension and metabolic dysregulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Known OSA can worsen hypertension and CKD progression; adherence to CPAP should be confirmed."
+    },
+    {
+      "rank": 5,
+      "name": "Uncontrolled / resistant hypertension (possible renal\u2011artery stenosis)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension requiring \u22652 agents, but systolic pressure currently at target",
+          "strength": "weak"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension contributes to CKD progression",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While blood pressure is presently controlled, the prior need for multiple agents raises concern for resistant hypertension; renal\u2011artery stenosis lacks supporting clues."
+    },
+    {
+      "rank": 6,
+      "name": "Metabolic\u2011syndrome\u2011associated non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, dyslipidemia (missing labs), and metabolic syndrome present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Positive urine bilirubin dipstick (possible false\u2011positive)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Risk factors are present, but lack of imaging or liver enzymes makes NAFLD speculative."
+    },
+    {
+      "rank": 7,
+      "name": "Psychosocial stress / medication non\u2011adherence",
+      "icd10": "Z73.3",
+      "snomed": "160573003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented evidence of non\u2011adherence or stressors",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Considered a modifier rather than a primary driver; retained for completeness."
+    }
+  ],
+  "primary_diagnosis": "Diabetic kidney disease (proteinuric chronic kidney disease)",
+  "primary_probability": 0.39,
+  "clinical_reasoning_summary": "The patient\u2019s diabetes, reduced eGFR, and proteinuria point to diabetic nephropathy as the dominant process, accounting for CKD stage discrepancy and anemia. Iron\u2011deficiency anemia suggests occult GI bleeding, which must be investigated. Co\u2011existing OSA, hypertension, and metabolic syndrome further aggravate renal risk. NAFLD remains possible given obesity, but lacks confirmatory data. Psychosocial factors are low\u2011confidence contributors. The reviewer\u2019s adjustments elevate diabetic kidney disease to the top rank and down\u2011weight resistant hypertension, aligning the differential with the strongest evidence.",
+  "unresolved_findings": [
+    "Positive urine bilirubin without documented liver disease",
+    "Implausible HbA1c value of 2.8% (data quality issue)",
+    "CKD stage discrepancy between problem list (stage 2) and laboratory\u2011derived stage (3a\u20114)",
+    "Missing lipid panel (total cholesterol, LDL)",
+    "Undocumented smoking and alcohol use",
+    "Absent vaccination records"
+  ],
+  "recommended_workup": [
+    "Nephrology referral for comprehensive CKD management and possible renal biopsy if indicated",
+    "Renal artery Doppler ultrasound to evaluate for renal\u2011artery stenosis (if hypertension remains uncontrolled)",
+    "Colonoscopy or fecal occult blood testing to locate source of occult GI bleeding",
+    "Abdominal ultrasound with liver elastography to assess for NAFLD or other hepatic pathology",
+    "Repeat HbA1c with proper laboratory verification",
+    "Complete lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Polysomnography adherence check and CPAP titration if needed",
+    "Serum iron studies (ferritin, transferrin saturation) to delineate iron\u2011deficiency vs anemia of CKD",
+    "Vaccination status review and update per CDC guidelines"
+  ]
+}

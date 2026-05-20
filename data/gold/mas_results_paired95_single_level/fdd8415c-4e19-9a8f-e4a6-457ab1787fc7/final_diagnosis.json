@@ -1,0 +1,259 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic-syndrome-driven primary hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.26,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (SBP 157/DBP 90) with obesity and prediabetes",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk based on blood pressure, BMI, and A1c 6.2%",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Obesity, prediabetes, and elevated blood pressure are classic components of metabolic syndrome driving primary hypertension."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease, stage 3",
+      "icd10": "N18.3",
+      "snomed": "431855005",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Reduced eGFR consistent with stage 3 CKD (exact value missing but implied)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia present, suggesting CKD-related anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal function decline with accompanying anemia points to moderate CKD."
+    },
+    {
+      "rank": 3,
+      "name": "NSAID-induced nephropathy / interstitial injury",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use reported for musculoskeletal pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated serum creatinine without other clear cause",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAID exposure can cause interstitial nephritis contributing to CKD."
+    },
+    {
+      "rank": 4,
+      "name": "Iron-deficiency anemia (NSAID-related GI loss)",
+      "icd10": "D50.9",
+      "snomed": "271327008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Microcytic anemia noted (specific indices missing)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID use increasing risk of GI bleeding",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "NSAID\u2011induced GI loss can cause iron deficiency anemia."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of chronic disease / CKD-related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia in setting of CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 3 CKD documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly causes anemia of chronic disease."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension raise suspicion for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No sleep study performed yet",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity\u2011related OSA can exacerbate hypertension and metabolic risk."
+    },
+    {
+      "rank": 7,
+      "name": "Depression / Generalised Anxiety Disorder",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports chronic pain and low mood",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No formal PHQ\u20119/GAD\u20117 completed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic pain and metabolic disease increase risk for mood/anxiety disorders."
+    },
+    {
+      "rank": 8,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.045,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Elevated blood pressure readings",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Baseline primary hypertension present, though largely explained by metabolic syndrome."
+    },
+    {
+      "rank": 9,
+      "name": "Chronic gastritis / H. pylori\u2011related ulcer (occult GI bleed)",
+      "icd10": "K29.5",
+      "snomed": "235719002",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia with possible GI blood loss, NSAID use",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "No endoscopy performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAID use predisposes to gastritis/ulcer, which could cause occult bleeding."
+    },
+    {
+      "rank": 10,
+      "name": "Fibromyalgia / chronic\u2011pain syndrome",
+      "icd10": "M79.7",
+      "snomed": "69896004",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Widespread musculoskeletal pain without clear structural cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Spine imaging not performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic diffuse pain may represent fibromyalgia, contributing to NSAID use."
+    },
+    {
+      "rank": 11,
+      "name": "Secondary hypertension (pending endocrine work\u2011up)",
+      "icd10": "I15.9",
+      "snomed": "237599002",
+      "probability": 0.035,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension refractory to lifestyle measures",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Endocrine labs not yet obtained",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While primary metabolic causes dominate, secondary endocrine etiologies remain possible."
+    }
+  ],
+  "primary_diagnosis": "Metabolic-syndrome-driven primary hypertension",
+  "primary_probability": 0.26,
+  "clinical_reasoning_summary": "The patient presents with stage 2 hypertension, obesity, and prediabetes, forming a classic metabolic\u2011syndrome picture that most plausibly explains the elevated blood pressure. Concurrently, reduced renal function indicates stage 3 chronic kidney disease, likely multifactorial with contributions from NSAID\u2011induced nephropathy and CKD\u2011related anemia. NSAID use also raises the possibility of iron\u2011deficiency anemia from occult GI loss, while obesity predisposes to obstructive sleep apnea and mood disorders. Secondary endocrine hypertension is considered but deemed low probability given the strong metabolic risk profile. Unexplained platelet distribution width abnormality remains pending repeat testing.",
+  "unresolved_findings": [
+    "Platelet Distribution Width (PDW) = 500.1 fL \u2013 likely lab error, needs repeat CBC",
+    "Exact BMI value missing \u2013 limits precise risk stratification",
+    "eGFR not calculated \u2013 hampers CKD staging and medication dosing",
+    "Lipid panel (total cholesterol, LDL) absent \u2013 prevents ASCVD risk calculation",
+    "Smoking status undocumented \u2013 unknown impact on cardiovascular risk",
+    "Iron studies, ferritin, B12, folate not performed \u2013 cannot classify anemia type",
+    "Urinalysis and urine albumin\u2011to\u2011creatinine ratio missing \u2013 essential for CKD etiology",
+    "Spine imaging (X\u2011ray/MRI) not performed \u2013 structural cause of chronic pain unknown",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) not documented \u2013 depression/anxiety may be under\u2011recognized",
+    "Menstrual history and gynecologic evaluation absent \u2013 possible menorrhagia or PCOS"
+  ],
+  "recommended_workup": [
+    "Repeat CBC to verify PDW abnormality",
+    "Calculate eGFR using serum creatinine and record exact value",
+    "Obtain full lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Document smoking status and quantify pack\u2011years",
+    "Perform iron studies (serum iron, ferritin, TIBC) plus B12 and folate levels",
+    "Urinalysis with urine albumin\u2011to\u2011creatinine ratio",
+    "Renal ultrasound to assess structural kidney disease",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Upper endoscopy with H. pylori testing (urea breath test or stool antigen) if GI bleed suspected",
+    "Standardized mental\u2011health questionnaires (PHQ\u20119, GAD\u20117)",
+    "Comprehensive endocrine work\u2011up for secondary hypertension (plasma renin activity, aldosterone, cortisol, thyroid panel)",
+    "Gynecologic evaluation including menstrual history and pelvic ultrasound if indicated"
+  ]
+}

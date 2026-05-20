@@ -1,0 +1,309 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obstructive sleep apnea (moderate-to-severe, untreated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.3,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obstructive sleep apnea diagnosed 1980, untreated",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Stage 2 hypertension, obesity, metabolic syndrome \u2013 high pre\u2011test probability for OSA",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "Diphenhydramine use (sedating antihistamine) suggesting sleep\u2011related symptoms",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented long\u2011standing OSA combined with resistant hypertension, obesity, and metabolic syndrome makes untreated OSA the most likely driver of the current cardiovascular and metabolic derangements."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome with insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.19,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome diagnosed 2012",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Prediabetes (A1c 6.2%)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "Atorvastatin therapy indicating dyslipidemia",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The clustering of obesity, pre\u2011diabetes, hypertension, and statin use fulfills the criteria for metabolic syndrome, which underlies insulin resistance and fuels cardiovascular risk."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (stage 2\u20113)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.13,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline hyperkalaemia (K 5.0 mmol/L, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension and ACE\u2011inhibitor therapy (ramipril)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb 13.8 g/dL, borderline low)",
+          "strength": "weak"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No eGFR or albuminuria values available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension, ACE\u2011I use, borderline hyperkalaemia, and mild anemia raise suspicion for early CKD, though definitive staging is limited by missing renal labs."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic coronary artery disease (post\u2011MI) with high thrombotic potential",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.11,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior acute non\u2011ST\u2011segment elevation myocardial infarction (2009)",
+          "strength": "strong"
+        },
+        {
+          "source": "medication",
+          "finding": "Metoprolol, ramipril, atorvastatin \u2013 guideline\u2011directed secondary prevention",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet distribution width (PDW 206.9 fL) and high\u2011normal MPV (11.6 fL)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal platelet count (449.5 \u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Established CAD combined with platelet activation markers indicates ongoing high thrombotic risk despite secondary\u2011prevention therapy."
+    },
+    {
+      "rank": 5,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension, obesity, and metabolic syndrome \u2013 common HFpEF risk factors",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age >75 and male sex increase HFpEF prevalence",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No echocardiogram performed (missing EF data)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Given the patient's age, hypertension, obesity, and metabolic syndrome, HFpEF is a plausible contributor to dyspnea and elevated cardiac risk, pending echocardiographic confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Atrial fibrillation (paroxysmal or persistent)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "risk_scores",
+          "finding": "Advanced age, hypertension, and CAD increase AF risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No ECG or Holter data available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "AF is common in this demographic and could explain intermittent symptoms; however, lack of rhythm monitoring makes the probability modest."
+    },
+    {
+      "rank": 7,
+      "name": "Reactive thrombocytosis / platelet activation",
+      "icd10": "D75.1",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Markedly elevated PDW (206.9 fL) and high\u2011normal MPV (11.6 fL)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "High\u2011normal platelet count (449.5 \u00d710\u00b3/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior MI and ongoing atherosclerosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Platelet indices suggest a pro\u2011thrombotic state that may be reactive to inflammation, iron deficiency, or early CKD."
+    },
+    {
+      "rank": 8,
+      "name": "Iron\u2011deficiency anemia / anemia of chronic disease",
+      "icd10": "D50.9",
+      "snomed": "271442009",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Borderline low hemoglobin (13.8 g/dL) and RBC count (4.0 \u00d710\u2076/\u00b5L)",
+          "strength": "weak"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No iron studies, ferritin, or reticulocyte count",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Mild anemia could be due to iron deficiency (possible occult GI loss) or chronic disease/CKD; further iron studies are needed."
+    },
+    {
+      "rank": 9,
+      "name": "Medication omission \u2013 missing antiplatelet therapy (clinical safety gap)",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.03,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "medication",
+          "finding": "No aspirin or P2Y12 inhibitor listed despite prior MI and guideline recommendations",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Active problem list includes prior MI (secondary prevention indication)",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Omission of antiplatelet therapy in a post\u2011MI patient represents a high\u2011impact, actionable safety issue."
+    },
+    {
+      "rank": 10,
+      "name": "Colorectal adenomatous polyp \u2013 risk of advanced neoplasia",
+      "icd10": "D12.6",
+      "snomed": "414916001",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Colon polyp identified 2023\u201102\u201121 (moderate priority)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Age >75 and metabolic syndrome increase colorectal neoplasia risk",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No pathology report or recent colonoscopy available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "The polyp signals increased surveillance need and a modest probability of progression to advanced neoplasia."
+    },
+    {
+      "rank": 11,
+      "name": "Essential thrombocythemia (early myeloproliferative disorder)",
+      "icd10": "D47.3",
+      "snomed": "10828004",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistently high\u2011normal platelet count with markedly elevated PDW",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No JAK2 mutation testing or bone\u2011marrow evaluation",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While reactive causes are more likely, the platelet profile could represent early essential thrombocythemia; low probability pending further workup."
+    }
+  ],
+  "primary_diagnosis": "Obstructive sleep apnea (moderate-to-severe, untreated)",
+  "primary_probability": 0.3,
+  "clinical_reasoning_summary": "The patient is a 77\u2011year\u2011old male with established atherosclerotic disease, stage 2 hypertension, obesity, and metabolic syndrome. Long\u2011standing untreated obstructive sleep apnea, documented by the EHR, aligns with resistant hypertension, insulin resistance, and platelet activation. Secondary\u2011prevention cardiovascular medications confirm high CV risk. Missing renal function and lipid data, as well as the absence of documented antiplatelet therapy, create critical gaps. By integrating organ\u2011system patterns, demographic risk modifiers, and medication clues, the differential was ranked with OSA as the most probable driver, followed by metabolic syndrome, early CKD, CAD, and HFpEF, while also highlighting safety\u2011critical issues (missing antiplatelet) and less likely but possible entities (AF, reactive thrombocytosis, iron\u2011deficiency anemia, colorectal neoplasia, essential thrombocythemia).",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (PDW 206.9 fL) \u2013 extreme outlier",
+    "Borderline hyperkalaemia (K 5.0 mmol/L) with rising trend",
+    "Absence of recent lipid panel (total cholesterol, LDL)",
+    "Missing eGFR, serum creatinine, and urine albumin/creatinine ratio",
+    "No documented smoking status or alcohol use",
+    "No recorded physical activity level or diet information",
+    "Diphenhydramine use (sedating antihistamine) potentially worsening OSA"
+  ],
+  "recommended_workup": [
+    "Basic metabolic panel with serum creatinine, eGFR, and urine albumin/creatinine ratio",
+    "Fasting lipid profile (total cholesterol, LDL, HDL, triglycerides)",
+    "Repeat complete blood count with platelet indices to confirm PDW/MPV",
+    "Iron studies (serum iron, ferritin, total iron\u2011binding capacity) and fecal occult blood test",
+    "12\u2011lead ECG now and 2\u2011week Holter monitor to detect atrial fibrillation",
+    "Transthoracic echocardiogram to assess ejection fraction and diastolic function (HFpEF evaluation)",
+    "Polysomnography or validated home sleep apnea test to grade OSA severity",
+    "Medication reconciliation focusing on antiplatelet therapy (aspirin or P2Y12 inhibitor)",
+    "Retrieve colon polyp pathology report and schedule surveillance colonoscopy per guidelines",
+    "Consider JAK2 V617F mutation testing if platelet activation persists without clear reactive cause"
+  ]
+}

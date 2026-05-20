@@ -1,0 +1,410 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) documented as active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (HbA1c 6.2%) active problem",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Total cholesterol 240.1\u202fmg/dL (\u2191) and LDL\u2011C 165.1\u202fmg/dL (\u2191)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension active problem",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Obesity, impaired glucose tolerance, dyslipidemia, and hypertension together constitute metabolic syndrome, driving insulin resistance and cardiovascular risk."
+    },
+    {
+      "rank": 2,
+      "name": "Medication non\u2011adherence / access barrier",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Only hydrochlorothiazide listed; no statin, antidiabetic, or MAT agents",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Social\u2011risk flags: transport problem, social isolation, criminal record",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension flagged as major risk but no recent BP values",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Multiple barriers and the absence of expected chronic\u2011disease medications suggest poor medication adherence, a common driver of uncontrolled hypertension and dyslipidemia."
+    },
+    {
+      "rank": 3,
+      "name": "Resistant / under\u2011treated hypertension (possible secondary component)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.13,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension active since 2011",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Only hydrochlorothiazide 25\u202fmg prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 19.5\u202fmg/dL (upper\u2011normal, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No recent SBP/DBP values (data\u2011quality flag)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Monotherapy for longstanding hypertension, combined with early renal laboratory changes, raises suspicion for resistant hypertension, possibly with a secondary cause."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "2331000016105",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension pattern",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Hypertension and metabolic syndrome increase OSA prevalence",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity plus uncontrolled hypertension is a classic phenotype for OSA, which can worsen blood\u2011pressure control."
+    },
+    {
+      "rank": 5,
+      "name": "Primary hypothyroidism",
+      "icd10": "E03.9",
+      "snomed": "40930008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Normocytic anemia (Hb 13.0\u202fg/dL, RBC 3.9\u202f\u00d710\u2076/\u00b5L)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Dyslipidemia (high LDL\u2011C)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity present",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypothyroidism can simultaneously cause dyslipidemia, hypertension, and normocytic anemia; the triad is present, but thyroid labs are missing."
+    },
+    {
+      "rank": 6,
+      "name": "Depression / anxiety",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.06,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain and migraine documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Substance\u2011use disorder and social isolation",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Psychiatric comorbidity increases non\u2011adherence risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High prevalence of mood disorders in patients with chronic pain, opioid dependence, and obesity; would explain poor follow\u2011up and medication non\u2011adherence."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 19.5\u202fmg/dL (upper\u2011normal, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "CO\u2082 22.5\u202fmmol/L (low\u2011normal, falling)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No eGFR available (data\u2011quality flag)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Early renal perfusion changes suggested by BUN/CO\u2082 trends, combined with hypertension and possible NSAID/opioid exposure."
+    },
+    {
+      "rank": 8,
+      "name": "Normocytic anemia \u2013 occult GI blood loss vs anemia of chronic disease",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 13.0\u202fg/dL (borderline low, falling)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated PDW 166\u202ffL (platelet activation)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic NSAID/opioid use implied by chronic pain and substance\u2011use disorder",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Falling hemoglobin with normal MCV suggests either anemia of chronic disease or occult GI loss, especially in the context of possible NSAID use."
+    },
+    {
+      "rank": 9,
+      "name": "Medication\u2011overuse headache / chronic migraine",
+      "icd10": "G43.709",
+      "snomed": "124171000119105",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic intractable migraine without aura active since 1990",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No migraine\u2011specific acute or preventive medications listed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Frequent ED visits for acute crises",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Lack of preventive therapy and possible over\u2011use of analgesics/opiates can perpetuate chronic migraine."
+    },
+    {
+      "rank": 10,
+      "name": "Sub\u2011clinical atherosclerotic cardiovascular disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C 165.1\u202fmg/dL (\u2191)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension, obesity, prediabetes present",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011yr ASCVD risk estimated \u224813\u202f% for a 50\u2011y female with current risk profile",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Risk factor burden suggests silent atherosclerosis, though no cardiac symptoms or imaging yet."
+    },
+    {
+      "rank": 11,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.02,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome components (obesity, dyslipidemia, prediabetes)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Liver function tests not yet obtained (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome confers high prevalence of NAFLD; pending LFTs."
+    },
+    {
+      "rank": 12,
+      "name": "Secondary endocrine hypertension (primary aldosteronism, Cushing\u2019s, pheochromocytoma)",
+      "icd10": "I15.0",
+      "snomed": "236423003",
+      "probability": 0.015,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension despite therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Secondary causes account for ~5\u201110\u202f% of resistant HTN",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "If hypertension remains uncontrolled after adherence optimization, endocrine causes should be evaluated."
+    },
+    {
+      "rank": 13,
+      "name": "Chronic viral hepatitis (HCV) / HIV infection",
+      "icd10": "B18.2",
+      "snomed": "235719002",
+      "probability": 0.009,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of injection\u2011drug use (substance\u2011use disorder)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated risk for blood\u2011borne infections in this population",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Injection\u2011drug use raises risk for HCV/HIV, which could contribute to liver disease and systemic inflammation."
+    },
+    {
+      "rank": 14,
+      "name": "Unexplained platelet activation (elevated PDW)",
+      "icd10": "R79.1",
+      "snomed": "271442005",
+      "probability": 0.004,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "PDW 166\u202ffL (markedly high)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No concurrent thrombocytosis or inflammatory markers",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated PDW elevation without other hematologic abnormalities; needs repeat testing."
+    },
+    {
+      "rank": 15,
+      "name": "Renal\u2011artery stenosis (renovascular hypertension)",
+      "icd10": "I70.1",
+      "snomed": "236423003",
+      "probability": 0.003,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension phenotype",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Renovascular disease accounts for ~5\u202f% of resistant HTN",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Consider if hypertension remains uncontrolled after adherence and secondary endocrine work\u2011up."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome / insulin resistance",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient is a 50\u2011year\u2011old obese woman with documented essential hypertension, prediabetes, and markedly elevated LDL\u2011C and total cholesterol, fulfilling criteria for metabolic syndrome. Social\u2011determinant barriers and the presence of only a thiazide diuretic point to significant medication non\u2011adherence, which likely drives the uncontrolled hypertension and untreated dyslipidemia. The hypertension appears resistant, raising the possibility of secondary causes (renovascular, endocrine) and early renal involvement (elevated BUN, low CO\u2082). Obesity also predisposes to obstructive sleep apnea, which can further worsen blood pressure control. Ancillary findings (normocytic anemia, elevated PDW) suggest possible occult GI blood loss or chronic disease, while chronic migraine without preventive therapy may be perpetuated by medication overuse. Depression/anxiety, though not yet screened, is highly probable given chronic pain, substance\u2011use disorder, and social isolation, and would exacerbate non\u2011adherence. The remaining low\u2011probability entities (ASCVD, NAFLD, viral hepatitis, hypothyroidism) are supported by the metabolic milieu but require targeted testing.",
+  "unresolved_findings": [
+    "Low\u2011normal bicarbonate (CO\u2082 22.5\u202fmmol/L) falling",
+    "Elevated platelet distribution width (PDW 166\u202ffL) without other hematologic abnormalities",
+    "Missing eGFR/creatinine and urine albumin\u2011creatinine ratio",
+    "Missing thyroid function tests (TSH, free T4)",
+    "Missing full lipid panel (HDL, triglycerides)",
+    "Missing liver function tests and viral serologies",
+    "No documented blood pressure measurements or home BP log",
+    "No medication reconciliation for OTC NSAIDs, acetaminophen, or opioids",
+    "No depression/anxiety screening (PHQ\u20119, GAD\u20117)",
+    "No sleep\u2011disordered breathing assessment (STOP\u2011BANG, polysomnography)",
+    "No ECG or cardiac imaging"
+  ],
+  "recommended_workup": [
+    "Core labs: BMP (incl. creatinine, K\u207a), eGFR, urine ACR, TSH/free T4, iron panel (Ferritin, Fe, TIBC), reticulocyte count, FIT, LFTs, HCV antibody with reflex RNA, HIV Ag/Ab.",
+    "Office blood pressure (\u22652 readings) and provide home BP log; consider 24\u2011h ambulatory monitoring.",
+    "Comprehensive medication reconciliation including OTC analgesics, NSAIDs, and opioid use.",
+    "Morisky\u20118 adherence questionnaire and urine toxicology for prescribed vs illicit opioids.",
+    "Initiate medication\u2011assisted treatment (MAT) evaluation for opioid dependence (e.g., buprenorphine\u2011naloxone).",
+    "Start high\u2011intensity statin (e.g., atorvastatin 40\u202fmg) once LFTs are available.",
+    "If BP remains >140/90 on HCTZ, add a calcium\u2011channel blocker after confirming adherence.",
+    "STOP\u2011BANG questionnaire; if \u22653, schedule home sleep apnea test or in\u2011lab polysomnography.",
+    "PHQ\u20119 and GAD\u20117 screening for depression and anxiety.",
+    "Repeat CBC with PDW after iron studies to clarify anemia etiology.",
+    "If resistant hypertension persists after adherence optimization, order plasma aldosterone\u2011renin ratio and renal\u2011artery duplex ultrasound.",
+    "Cardiac evaluation: 12\u2011lead ECG and transthoracic echocardiogram to assess for LVH or silent ischemia.",
+    "Referral to neurology for migraine preventive therapy (beta\u2011blocker, CGRP monoclonal antibody, etc.) once cardiovascular risk is addressed."
+  ]
+}

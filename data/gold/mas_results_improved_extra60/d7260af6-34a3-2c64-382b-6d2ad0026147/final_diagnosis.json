@@ -1,0 +1,296 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome / insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.2632,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes (A1c 6.2%), dyslipidemia (high total cholesterol and LDL)",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "10\u2011yr ASCVD risk ~13%",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of central obesity, impaired glucose tolerance, and atherogenic dyslipidemia points to insulin resistance driving the patient's multimorbidity."
+    },
+    {
+      "rank": 2,
+      "name": "Medication non\u2011adherence / access barrier",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.1754,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient reports transportation difficulties, recent incarceration, and inconsistent pharmacy refills",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Uncontrolled hypertension despite prescription of only one antihypertensive agent",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Social determinants limit medication acquisition and adherence, likely contributing to uncontrolled blood pressure and lack of statin therapy."
+    },
+    {
+      "rank": 3,
+      "name": "Resistant / under\u2011treated hypertension (possible secondary component)",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.1053,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented hypertension with no recent BP values; only one antihypertensive listed",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Medication non\u2011adherence may mask true resistance; further evaluation needed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent elevation of BP despite therapy (or lack thereof) suggests either true resistance or under\u2011treatment, warranting optimization and assessment for secondary causes."
+    },
+    {
+      "rank": 4,
+      "name": "Sub\u2011clinical atherosclerotic cardiovascular disease (ASCVD)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.0702,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High LDL and total cholesterol, 10\u2011yr ASCVD risk ~13%",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No statin documented despite high risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated lipid profile and calculated risk indicate early atherosclerotic disease even in the absence of symptoms."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.0702,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, hypertension, daytime fatigue noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No STOP\u2011BANG or polysomnography performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and resistant\u2011type hypertension raise suspicion for OSA, a reversible contributor to metabolic derangements."
+    },
+    {
+      "rank": 6,
+      "name": "Depression / anxiety",
+      "icd10": "F33.9",
+      "snomed": "35489007",
+      "probability": 0.0614,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain, substance dependence, and social isolation documented",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No PHQ\u20119 or GAD\u20117 completed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychosocial stressors likely contribute to poor self\u2011care and may exacerbate hypertension and metabolic control."
+    },
+    {
+      "rank": 7,
+      "name": "Opioid/NSAID\u2011induced renal injury (drug\u2011related nephropathy)",
+      "icd10": "N14.2",
+      "snomed": "236423003",
+      "probability": 0.063,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid use for severe migraine and NSAID use for chronic pain noted",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Missing renal labs despite suspicion of early CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Nephrotoxic analgesics in the setting of possible early CKD raise concern for drug\u2011induced renal impairment."
+    },
+    {
+      "rank": 8,
+      "name": "Early chronic kidney disease (stage 1\u20112)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.0526,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Normocytic anemia and hypertension suggest renal involvement",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Renal function tests (creatinine, eGFR, urine ACR) are missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia of chronic disease and hypertension are early markers; labs are needed to confirm stage."
+    },
+    {
+      "rank": 9,
+      "name": "Medication\u2011overuse headache / chronic migraine",
+      "icd10": "G44.221",
+      "snomed": "37796009",
+      "probability": 0.0517,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Severe migraine history with frequent analgesic use",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No documented preventive migraine therapy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Frequent use of abortive meds can perpetuate headache cycles and contribute to opioid exposure."
+    },
+    {
+      "rank": 10,
+      "name": "Normocytic anemia \u2013 occult GI blood loss vs anemia of chronic disease",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.0431,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Low hemoglobin with normal MCV",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "No iron studies or fecal occult blood test performed",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Anemia may be secondary to chronic disease or occult bleeding; further work\u2011up required."
+    },
+    {
+      "rank": 11,
+      "name": "Non\u2011alcoholic fatty liver disease / NASH",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.0263,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and dyslipidemia present; liver enzymes not yet obtained",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Liver function tests and viral serologies missing",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to hepatic steatosis; labs will clarify."
+    },
+    {
+      "rank": 12,
+      "name": "Secondary endocrine hypertension (primary aldosteronism, Cushing\u2019s, pheochromocytoma)",
+      "icd10": "I15.0",
+      "snomed": "237599001",
+      "probability": 0.0088,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "Low pre\u2011test probability; no suggestive signs documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Consider only after primary hypertension is optimized and secondary causes are excluded."
+    },
+    {
+      "rank": 13,
+      "name": "Chronic viral hepatitis (HCV) / HIV infection",
+      "icd10": "B18.2",
+      "snomed": "235856004",
+      "probability": 0.0088,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_reviewer",
+          "finding": "No viral serologies performed; risk factors not documented",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low suspicion currently; testing recommended if risk factors emerge."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome / insulin resistance",
+  "primary_probability": 0.2632,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of obesity, prediabetes, dyslipidemia, and uncontrolled hypertension points to metabolic syndrome as the central driver of his multimorbidity. Social barriers foster medication non\u2011adherence, further worsening blood pressure control and delaying statin initiation. Early renal involvement, possible drug\u2011induced nephropathy, and subclinical atherosclerosis are logical downstream sequelae. Co\u2011morbid conditions such as OSA, depression, chronic migraine, and anemia are plausible contributors that require targeted evaluation.",
+  "unresolved_findings": [
+    "Low\u2011normal bicarbonate (CO\u2082 22.5\u202fmmol/L) trending downward",
+    "Elevated platelet distribution width (PDW 166\u202ffL) without other hematologic abnormalities",
+    "Missing eGFR/creatinine and urine albumin\u2011creatinine ratio",
+    "Missing thyroid function tests (TSH, free T4)",
+    "Missing full lipid panel (HDL, triglycerides)",
+    "Missing liver function tests and viral serologies",
+    "No documented blood pressure measurements or home BP log",
+    "No medication reconciliation for OTC NSAIDs, acetaminophen, or opioids",
+    "No depression/anxiety screening (PHQ\u20119, GAD\u20117)",
+    "No sleep\u2011disordered breathing assessment (STOP\u2011BANG, polysomnography)",
+    "No ECG or cardiac imaging"
+  ],
+  "recommended_workup": [
+    "Comprehensive metabolic panel with serum bicarbonate, creatinine, eGFR, and urine ACR",
+    "Thyroid panel (TSH, free T4)",
+    "Full fasting lipid profile (LDL, HDL, triglycerides)",
+    "Liver panel (AST, ALT, GGT, alkaline phosphatase) and hepatitis C/HIV serologies",
+    "Complete blood count with iron studies and fecal occult blood test",
+    "Home blood pressure monitoring log for at least 2 weeks",
+    "Medication reconciliation focusing on OTC NSAIDs, acetaminophen, and opioid use",
+    "PHQ\u20119 and GAD\u20117 questionnaires",
+    "STOP\u2011BANG questionnaire; refer for polysomnography if indicated",
+    "Resting ECG and, if indicated, coronary calcium scoring or carotid ultrasound",
+    "Renal ultrasound if drug\u2011induced nephropathy suspected"
+  ]
+}

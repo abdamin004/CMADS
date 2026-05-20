@@ -1,0 +1,237 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Obesity-driven metabolic syndrome",
+      "icd10": "E66.9+E78.5+I10+R73.03",
+      "snomed": "237599002",
+      "probability": 0.28,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "BMI 30.3 kg/m\u00b2 (class I obesity)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension (126/81 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress from full\u2011time employment",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Mitral valve stenosis (structural heart disease)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity, prediabetes, and borderline hypertension constitute metabolic syndrome, which drives low\u2011grade inflammation (explaining mild thrombocytosis) and accelerates cardiovascular strain from existing mitral stenosis."
+    },
+    {
+      "rank": 2,
+      "name": "NSAID\u2011related chronic GI blood loss \u2192 iron\u2011deficiency anemia with reactive thrombocytosis (red\u2011flag: occult GI malignancy)",
+      "icd10": "D50.9+D75.0",
+      "snomed": "271327008",
+      "probability": 0.22,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Intermittent naproxen 220\u202fmg PRN for knee OA",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia documented since 1992",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count 424\u202f\u00d710\u00b3/\u00b5L (\u2191) and PDW 190.5\u202ffL (\u2191)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hematocrit 35.9% (borderline low) and MCH 27.4\u202fpg (low\u2011normal)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (inflammatory state) contributing to reactive thrombocytosis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic NSAID use can cause occult gastrointestinal bleeding, leading to iron\u2011deficiency anemia, which stimulates reactive thrombocytosis. The anemia is longstanding, but iron studies are missing, so occult malignancy must be considered as a red\u2011flag."
+    },
+    {
+      "rank": 3,
+      "name": "Early chronic kidney disease (NSAID, hypertension, obesity related)",
+      "icd10": "N18.1",
+      "snomed": "709044004",
+      "probability": 0.17,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 1 hypertension",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Regular naproxen use (NSAID exposure)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 30.3)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Missing eGFR/creatinine (data\u2011quality flag)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension, obesity, and chronic NSAID exposure are major risk factors for CKD. Absence of renal labs creates uncertainty, but the pre\u2011test probability is high enough to place CKD early in the differential."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive (or mixed) sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI 30.3) \u2013 major risk factor for OSA",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and prediabetes \u2013 commonly co\u2011existent with OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity\u2011related upper airway obstruction can worsen hypertension and insulin resistance, contributing to the metabolic syndrome picture."
+    },
+    {
+      "rank": 5,
+      "name": "Mitral\u2011valve\u2011stenosis hemodynamic sequelae",
+      "icd10": "I05.0",
+      "snomed": "235719002",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed mitral valve stenosis (2007)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and obesity increasing afterload",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Structural valve disease may now be symptomatic due to added pressure overload from hypertension and metabolic strain, but it is downstream of the primary metabolic drivers."
+    },
+    {
+      "rank": 6,
+      "name": "Primary hematologic disorder (essential thrombocythemia / early myeloproliferative neoplasm) \u2013 red\u2011flag",
+      "icd10": "D47.3",
+      "snomed": "237599002",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated platelet count 424\u202f\u00d710\u00b3/\u00b5L with markedly increased PDW",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia (potential stimulus for secondary thrombocytosis)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While reactive thrombocytosis is most likely, a primary myeloproliferative process cannot be excluded without JAK2/CALR testing; the platelet count is modestly elevated but the PDW suggests platelet activation."
+    },
+    {
+      "rank": 7,
+      "name": "Depressive / anxiety disorder",
+      "icd10": "F33.1/F41.1",
+      "snomed": "35489007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Increased psychosocial stress since returning to full\u2011time work",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented mental\u2011health medications or counseling (data\u2011quality gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic stress and pain can precipitate mood disorders, which in turn worsen adherence to lifestyle modifications and exacerbate metabolic derangements."
+    },
+    {
+      "rank": 8,
+      "name": "Progression to overt type\u202f2 diabetes mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.2% (prediabetes)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension \u2013 components of metabolic syndrome",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prediabetes is likely to evolve to overt diabetes if risk factors remain uncontrolled; it is already encompassed within the metabolic\u2011syndrome diagnosis but listed separately for completeness."
+    }
+  ],
+  "primary_diagnosis": "Obesity-driven metabolic syndrome",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient presents with class I obesity, prediabetes, and borderline hypertension, forming a classic metabolic\u2011syndrome cluster that drives low\u2011grade inflammation (explaining mild reactive thrombocytosis) and increases cardiovascular strain on a pre\u2011existing mitral stenosis. Chronic NSAID use for knee osteoarthritis likely contributes to occult gastrointestinal blood loss, producing iron\u2011deficiency anemia and secondary thrombocytosis; occult malignancy remains a red\u2011flag. Hypertension, obesity, and NSAID exposure raise the pre\u2011test probability of early CKD, while obesity also predisposes to obstructive sleep apnea, further worsening metabolic control. Secondary considerations include mitral\u2011valve sequelae, a possible primary myeloproliferative disorder, mood disorder, and progression to type\u202f2 diabetes. Data gaps (renal function, iron studies, lipid panel, sleep study, echocardiography) limit certainty, prompting targeted work\u2011up.",
+  "unresolved_findings": [
+    "Elevated platelet count with high PDW \u2013 reactive vs primary cause not yet clarified",
+    "Mildly low hematocrit and low\u2011normal MCH \u2013 iron status unknown",
+    "Missing lipid panel (total cholesterol, LDL, HDL, triglycerides)",
+    "Missing renal function (creatinine, eGFR, urine ACR)",
+    "No imaging data on severity of mitral stenosis",
+    "Smoking, alcohol, physical activity, diet \u2013 not documented",
+    "Incomplete medication list (possible undocumented antihypertensives, statins, iron, PPIs)"
+  ],
+  "recommended_workup": [
+    "CBC with differential, serum ferritin, iron, TIBC, transferrin saturation, vitamin B12, folate, reticulocyte count",
+    "Fecal occult blood test (FIT) or colonoscopy if iron studies suggest deficiency",
+    "Serum creatinine, eGFR, urine albumin\u2011to\u2011creatinine ratio",
+    "Fasting lipid panel and ASCVD risk calculation",
+    "STOP\u2011BANG questionnaire followed by home sleep apnea test or polysomnography if high risk",
+    "Transthoracic echocardiogram to assess mitral valve area, mean gradient, left atrial size, and pulmonary pressures",
+    "JAK2 V617F (and CALR) mutation testing if iron studies are normal or platelet count rises >500\u202f\u00d710\u00b3/\u00b5L",
+    "PHQ\u20119 and GAD\u20117 screening for depression and anxiety",
+    "Comprehensive medication reconciliation (including OTC, supplements, PPIs)",
+    "Consider initiating low\u2011dose ACE\u2011I/ARB for blood\u2011pressure control and renal protection pending renal labs",
+    "Weight\u2011loss program with dietitian referral and structured exercise plan"
+  ]
+}

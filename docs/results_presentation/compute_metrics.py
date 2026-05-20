@@ -25,8 +25,13 @@ def _load(path: Path) -> dict | None:
         return None
 
 
-def _aggregate_dir(results_dir: Path) -> dict:
-    """Aggregate every evaluated patient under results_dir (no batch filter)."""
+def _aggregate_dir(results_dir: Path, repo: Path | None = None) -> dict:
+    """Aggregate every evaluated patient under results_dir (no batch filter).
+    `repo` is accepted for API symmetry with _aggregate but is not used:
+    the judge's match_type is read directly from evaluation.json with no
+    post-hoc relabeling. Re-run the LLM judge (scripts/rerun_judge.py)
+    to change DIRECT/INDIRECT classification."""
+    _ = repo  # unused
     out = {
         "n": 0, "DIRECT": 0, "INDIRECT": 0, "MISS": 0,
         "found": 0, "rank1_in_found": 0,
@@ -55,7 +60,8 @@ def _aggregate_dir(results_dir: Path) -> dict:
     return out
 
 
-def _aggregate(results_dir: Path, uuids: list[str]) -> dict:
+def _aggregate(results_dir: Path, uuids: list[str], repo: Path | None = None) -> dict:
+    _ = repo  # unused; see _aggregate_dir
     out = {
         "n": 0, "DIRECT": 0, "INDIRECT": 0, "MISS": 0,
         "found": 0, "rank1_in_found": 0,
@@ -101,8 +107,8 @@ def compute(repo: Path | None = None) -> dict:
     b3 = json.loads((batches / "batch_3.json").read_text())
     b4 = json.loads((batches / "batch_4.json").read_text())
 
-    cold = _decorate(_aggregate(results / "mas_results_improved_b3", b3))
-    warm = _decorate(_aggregate(results / "mas_results_improved_50", b4))
+    cold = _decorate(_aggregate(results / "mas_results_improved_b3", b3, repo))
+    warm = _decorate(_aggregate(results / "mas_results_improved_50", b4, repo))
 
     # Optional third multi-level slice: the +60 patients run to reach
     # N=160 parity with the single-level baseline. Aggregates over the
@@ -114,7 +120,7 @@ def compute(repo: Path | None = None) -> dict:
         b60 = json.loads(extra60_batch.read_text())
     else:
         b60 = []
-    extra60 = _decorate(_aggregate(results / "mas_results_improved_extra60", b60))
+    extra60 = _decorate(_aggregate(results / "mas_results_improved_extra60", b60, repo))
 
     def _sum_decorate(parts: list[dict]) -> dict:
         keys = ("n", "DIRECT", "INDIRECT", "MISS", "found",
@@ -128,7 +134,7 @@ def compute(repo: Path | None = None) -> dict:
     # "Combined 160" is only meaningful when the extra60 run has finished.
     combined_160 = _sum_decorate([cold, warm, extra60]) if extra60["n"] >= 60 else None
 
-    baseline = _decorate(_aggregate_dir(results / "mas_results"))
+    baseline = _decorate(_aggregate_dir(results / "mas_results", repo))
 
     # Paired-160 cohorts: same 160 UUIDs in both arms. Single-level
     # arm draws from mas_results/ (65 overlap UUIDs) and
@@ -162,7 +168,14 @@ def compute(repo: Path | None = None) -> dict:
         return out
 
     paired_uuids = list({u for u in b3 + b4 + b60})  # 160 distinct
-    single_dirs = [results / "mas_results",
+    # For the paired single-level arm we use the relaxed-judge evaluations
+    # consistently across both halves: the 65 paired-overlap UUIDs sit in
+    # mas_results_paired65_relaxed_judge/ (new judge) and the 95 fresh
+    # runs in mas_results_paired95_single_level/ (new judge). The
+    # original mas_results/ directory is left at the strict-judge state
+    # so the headline 73.1% in Section 4.1 of the thesis remains
+    # reproducible from disk.
+    single_dirs = [results / "mas_results_paired65_relaxed_judge",
                    results / "mas_results_paired95_single_level"]
     multi_dirs = [results / "mas_results_improved_b3",
                   results / "mas_results_improved_50",

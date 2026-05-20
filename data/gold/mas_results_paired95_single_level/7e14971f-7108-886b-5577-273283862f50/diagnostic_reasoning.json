@@ -1,0 +1,313 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Uncontrolled Type 2 Diabetes Mellitus",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.2373,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Proteinuria due to type 2 diabetes (SNOMED 157141000119108)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (SNOMED 59621000)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of any antidiabetic medication in medication list",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent HbA1c or fasting glucose",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of documented type 2 diabetes\u2013related proteinuria, obesity, hypertension, and the complete lack of glucose\u2011lowering therapy strongly suggests that diabetes is present and poorly controlled, serving as the primary driver of the patient's renal and cardiovascular pathology."
+    },
+    {
+      "rank": 2,
+      "name": "Advanced Diabetic Nephropathy (CKD Stage 4 with Nephrotic\u2011range Proteinuria)",
+      "icd10": "N18.4",
+      "snomed": "431857002",
+      "probability": 0.1525,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR = 22.2 mL/min/1.73 m\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine = 2.4 mg/dL, rising trend",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine protein dip\u2011stick = 424.2 mg/dL (nephrotic range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease stage 4 (SNOMED 431857002)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril prescribed (renoprotective for proteinuric kidney disease)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Laboratory data demonstrate severe reduction in filtration and heavy protein loss, consistent with advanced diabetic kidney disease. ACE\u2011I therapy indicates clinician awareness of proteinuric CKD, reinforcing this diagnosis, though biopsy has not been performed to exclude other glomerulopathies."
+    },
+    {
+      "rank": 3,
+      "name": "Essential Hypertension (likely sub\u2011optimally controlled)",
+      "icd10": "I10",
+      "snomed": "59621000",
+      "probability": 0.1186,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension (SNOMED 59621000)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Lisinopril 10\u202fmg and Amlodipine 2.5\u202fmg prescribed",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Missing recent blood pressure readings",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) \u2013 a known contributor to resistant hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hypertension is documented and treated with two agents, yet recent BP data are absent, suggesting possible inadequate control, which further accelerates CKD progression and cardiovascular risk."
+    },
+    {
+      "rank": 4,
+      "name": "Atherosclerotic Cardiovascular Disease (subclinical or overt)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1017,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C = 224 mg/dL (very high)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension and obesity",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin or other lipid\u2011lowering therapy documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (accelerates atherosclerosis)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s risk factor constellation (very high LDL, hypertension, diabetes, CKD) yields a high pre\u2011test probability of coronary or peripheral arterial disease, yet no cardiac evaluation is recorded, making ASCVD a critical, yet unconfirmed, diagnosis."
+    },
+    {
+      "rank": 5,
+      "name": "Anemia of Chronic Kidney Disease",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.1695,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (\u226580% prevalence of anemia at this stage)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No CBC or iron studies documented (data gap)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Given the severity of CKD, anemia is highly likely even though labs are missing; it contributes to fatigue, cardiovascular strain, and transplant candidacy considerations."
+    },
+    {
+      "rank": 6,
+      "name": "Chronic Kidney Disease\u2011Mineral Bone Disorder (secondary hyperparathyroidism, hyperphosphatemia, vitamin D deficiency)",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.0593,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (common cause of secondary hyperparathyroidism)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No calcium, phosphate, PTH, or vitamin D labs reported",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD\u2011MBD is a frequent complication at this level of renal dysfunction; absence of relevant labs makes the diagnosis probable but unconfirmed."
+    },
+    {
+      "rank": 7,
+      "name": "Atherogenic Dyslipidaemia (untreated CKD\u2011related hyperlipidaemia)",
+      "icd10": "E78.5",
+      "snomed": "55822004",
+      "probability": 0.0678,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C = 224 mg/dL",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No statin or ezetimibe documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (CKD\u2011associated lipid abnormalities)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated LDL in the setting of CKD markedly raises atherosclerotic risk; guideline\u2011directed therapy is missing, making this a distinct therapeutic target."
+    },
+    {
+      "rank": 8,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "86203009",
+      "probability": 0.0339,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Obesity and uncontrolled hypertension raise suspicion for OSA, which can further worsen BP and CKD, but evidence is limited."
+    },
+    {
+      "rank": 9,
+      "name": "Non\u2011Alcoholic Fatty Liver Disease / Early Hepatobiliary Dysfunction",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.0254,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine bilirubin = 1.4 mg/dL (isolated)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome features (obesity, diabetes, dyslipidaemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Isolated urinary bilirubin may reflect mild cholestasis or early fatty liver disease; further liver testing is needed."
+    },
+    {
+      "rank": 10,
+      "name": "Chronic Sinusitis (incidental)",
+      "icd10": "J32.9",
+      "snomed": "40055000",
+      "probability": 0.0085,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic sinusitis documented since 1987",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing upper airway disease is unlikely to impact the primary renal\u2011cardiovascular picture but is noted for completeness."
+    },
+    {
+      "rank": 11,
+      "name": "Alternative Primary Glomerular Disease (e.g., membranous nephropathy, FSGS, amyloidosis)",
+      "icd10": "N04.9",
+      "snomed": "236423003",
+      "probability": 0.0254,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic\u2011range proteinuria (424 mg/dL) in a diabetic patient",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No renal biopsy performed to exclude non\u2011diabetic glomerulopathy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While diabetic nephropathy is most likely, heavy proteinuria warrants consideration of a concurrent or alternative glomerular disease, especially if proteinuria persists despite optimal diabetes and ACE\u2011I therapy."
+    }
+  ],
+  "primary_diagnosis": "Uncontrolled Type 2 Diabetes Mellitus",
+  "primary_probability": 0.2373,
+  "clinical_reasoning_summary": "The patient presents with stage\u20114 chronic kidney disease, nephrotic\u2011range proteinuria, severe dyslipidaemia, hypertension, and obesity. Coding and medication data point to diabetes as the upstream driver, yet no antidiabetic therapy or recent glycaemic labs are recorded, indicating likely uncontrolled diabetes. Renal labs confirm advanced diabetic nephropathy, while the absence of blood pressure measurements suggests sub\u2011optimal hypertension control. The lipid profile and lack of statin therapy raise the probability of unrecognized atherosclerotic cardiovascular disease. CKD\u2011related complications such as anemia and mineral\u2011bone disorder are highly probable despite missing labs. Additional findings (urine bilirubin, missing anemia and bone labs, no cardiac work\u2011up) are flagged for further evaluation.",
+  "unresolved_findings": [
+    "Urine bilirubin 1.4 mg/dL without accompanying liver function tests",
+    "Missing recent blood pressure readings",
+    "Missing HbA1c / fasting glucose",
+    "Absence of complete lipid panel (HDL, triglycerides)",
+    "No CBC or iron studies (anemia data)",
+    "No calcium, phosphate, PTH, or vitamin D levels (CKD\u2011MBD data)",
+    "No documented statin or SGLT2\u2011inhibitor therapy",
+    "No cardiac evaluation (ECG, echo, stress test)",
+    "No sleep study despite obesity and resistant hypertension"
+  ],
+  "recommended_workup": [
+    "CBC with iron studies and reticulocyte count to assess anemia of CKD",
+    "Serum calcium, phosphate, PTH, and 25\u2011OH vitamin D to evaluate CKD\u2011MBD",
+    "Fasting glucose and HbA1c; review pharmacy records for any antidiabetic agents",
+    "Comprehensive blood pressure measurement (clinic and home) and medication titration",
+    "Full lipid panel (total cholesterol, HDL, triglycerides) and initiate high\u2011intensity statin therapy",
+    "24\u2011hour urine protein quantification or spot protein/creatinine ratio",
+    "Renal ultrasound and consider percutaneous kidney biopsy if proteinuria >3\u202fg/24\u202fh persists after optimal diabetes and ACE\u2011I therapy",
+    "Cardiovascular assessment: ECG, transthoracic echocardiogram, and stress test or coronary calcium scoring",
+    "Serum liver panel (AST, ALT, ALP, GGT, total bilirubin) and hemolysis work\u2011up (haptoglobin, LDH, peripheral smear) to explain urinary bilirubin",
+    "Overnight polysomnography or home sleep apnea test",
+    "Review for contraindications and initiate SGLT2\u2011inhibitor (e.g., dapagliflozin) if eGFR \u226520 mL/min/1.73\u202fm\u00b2",
+    "Counseling on lifestyle modification (diet, weight loss, smoking cessation if applicable) and referral to diabetes education"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Hemolytic anemia with pigment nephropathy",
+      "icd10": "D58.9",
+      "snomed": "30217000",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severely elevated total bilirubin (\u224814\u202fmg/dL) with anemia",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal dysfunction (serum creatinine 2.9\u202fmg/dL, eGFR 10.9\u202fmL/min/1.73\u202fm\u00b2)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Discrepancy between serum and blood creatinine suggesting assay interference",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of marked hyperbilirubinemia, anemia, and acute kidney injury is classic for intravascular hemolysis with release of hemoglobin pigment causing tubular obstruction and nephropathy. Assay interference between bilirubin and creatinine may exaggerate creatinine values, reinforcing the hemolysis picture."
+    },
+    {
+      "rank": 2,
+      "name": "Obstructive/cholestatic biliary disease",
+      "icd10": "K83.1",
+      "snomed": "235719002",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Very high total bilirubin without corresponding transaminase elevation (ALT/AST not provided)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Young adult male with risk factors for biliary obstruction (possible gallstone disease, pancreatic head mass not ruled out)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A bilirubin level of 14\u202fmg/dL out of proportion to liver enzyme abnormalities raises suspicion for an obstructive process. Imaging is required to confirm biliary dilation or a mass."
+    },
+    {
+      "rank": 3,
+      "name": "Thalassemia / other hemoglobinopathy",
+      "icd10": "D56.1",
+      "snomed": "37104000",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anemia in a young adult male predating CKD diagnosis",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated bilirubin compatible with chronic hemolysis",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Inherited hemoglobin disorders can cause lifelong hemolytic anemia and secondary hyperbilirubinemia. The anemia preceding renal disease supports a primary hematologic etiology."
+    },
+    {
+      "rank": 4,
+      "name": "Hypertensive nephrosclerosis / secondary renal ischemia",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 isolated diastolic hypertension (DBP\u202f108\u202fmmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Chronic kidney disease with eGFR\u202f10.9\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing uncontrolled hypertension can lead to arteriolar nephrosclerosis and reduced renal perfusion, contributing to CKD. The pattern of isolated diastolic elevation is atypical but still plausible."
+    },
+    {
+      "rank": 5,
+      "name": "Chronic hepatitis C infection with mixed cryoglobulinemic glomerulonephritis",
+      "icd10": "B18.2",
+      "snomed": "235719001",
+      "probability": 0.08,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes and possible exposure risk (history not detailed)",
+          "strength": "weak"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Renal dysfunction with possible immune\u2011complex mediated injury",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Hepatitis C can cause mixed cryoglobulinemia leading to glomerulonephritis and mild cholestasis. Lack of viral serology and liver enzyme data weakens this hypothesis."
+    },
+    {
+      "rank": 5,
+      "name": "Uremic cholestasis / CKD\u2011related hepatic dysfunction",
+      "icd10": "K71.7",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Advanced CKD (eGFR\u202f10.9) with possible accumulation of bilirubin metabolites",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Severe CKD can cause a cholestatic picture, but the bilirubin level observed is far higher than typical uremic cholestasis, making this a less likely primary driver."
+    },
+    {
+      "rank": 7,
+      "name": "Primary glomerulonephritis (IgA, membranous, etc.)",
+      "icd10": "N02.9",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD with unknown proteinuria/hematuria status",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Primary GN could explain renal impairment, but no urinalysis data (proteinuria, hematuria) are available, and it does not account for the marked hyperbilirubinemia."
+    }
+  ],
+  "primary_diagnosis": "Hemolytic anemia with pigment nephropathy",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient presents with profound hyperbilirubinemia, chronic anemia, and severe renal dysfunction. The pattern most closely aligns with intravascular hemolysis leading to pigment nephropathy, supported by the magnitude of bilirubin and anemia preceding CKD. Obstructive biliary disease remains a strong alternative given the bilirubin level, while hemoglobinopathies, hypertensive renal injury, and less likely hepatic or glomerular processes round out the differential. Assay interference between bilirubin and creatinine may inflate creatinine values, reinforcing the hemolysis hypothesis.",
+  "unresolved_findings": [
+    "Severely elevated total bilirubin without accompanying ALT/AST/ALP/GGT values",
+    "Discrepancy between serum creatinine (2.9\u202fmg/dL) and blood creatinine (1.6\u202fmg/dL)",
+    "Anemia documented before CKD diagnosis, suggesting a non\u2011renal cause",
+    "Absence of documented CKD stage despite eGFR 10.9",
+    "Missing smoking, alcohol, BMI, and physical activity data",
+    "Unclear medication adherence to lisinopril",
+    "Vaccination status not recorded"
+  ],
+  "recommended_workup": [
+    "Fractionated bilirubin (direct vs indirect) and reticulocyte count",
+    "Serum haptoglobin, LDH, and peripheral blood smear",
+    "Direct antiglobulin (Coombs) test",
+    "Abdominal ultrasound with Doppler; if inconclusive, MRCP to evaluate biliary tree",
+    "Hepatitis C antibody and RNA PCR; cryoglobulin panel",
+    "Renal ultrasound and possible kidney biopsy",
+    "Genetic testing for thalassemia/hemoglobinopathies",
+    "Repeat creatinine measurement with bilirubin\u2011free assay",
+    "24\u2011hour blood pressure monitoring and renal artery Doppler to assess renovascular hypertension",
+    "Review medication list for potential hepatotoxic agents"
+  ]
+}

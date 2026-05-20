@@ -1,0 +1,191 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic Syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.44,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI >30) and central adiposity documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension on multiple visits despite antihypertensive therapy",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated fasting triglycerides and low HDL-C",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High ASCVD risk score consistent with metabolic derangements",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient exhibits the classic constellation of obesity, hypertension, dyslipidemia, and insulin\u2011resistance\u2011related findings, which together constitute metabolic syndrome and explain the paradoxical blood\u2011pressure profile."
+    },
+    {
+      "rank": 2,
+      "name": "Iatrogenic Over\u2011treated Hypotension",
+      "icd10": "I95.9",
+      "snomed": "271327008",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Recent medication changes include up\u2011titration of antihypertensives (ACE\u2011I, thiazide)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Office blood pressure readings occasionally low (systolic <100 mmHg) with symptoms of dizziness",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "No orthostatic vitals recorded, but patient reports orthostatic symptoms",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Aggressive antihypertensive therapy in a patient with metabolic syndrome can lead to overtreatment, producing low office BP despite underlying hypertension."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive Sleep Apnea",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Snoring reported by partner and excessive daytime sleepiness",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High STOP\u2011Bang score based on BMI, neck circumference, hypertension",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "OSA is common in obese hypertensive patients and can cause resistant hypertension and nocturnal BP surges, contributing to the observed paradox."
+    },
+    {
+      "rank": 4,
+      "name": "Primary Aldosteronism",
+      "icd10": "E26.0",
+      "snomed": "237599009",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Persistent hypertension with occasional low normal office BP",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While primary aldosteronism can cause resistant hypertension, the lack of biochemical confirmation and low\u2011normal office BP make this diagnosis unlikely."
+    },
+    {
+      "rank": 5,
+      "name": "Early Chronic Kidney Disease",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of hypertension and possible neurogenic urinary tract infections",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Renal impairment could contribute to hypertension, but missing creatinine/eGFR data limits confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Opioid\u2011Induced Endocrine/Autonomic Dysfunction",
+      "icd10": "E27.9",
+      "snomed": "442083009",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic opioid therapy documented for chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_note",
+          "finding": "Symptoms of orthostatic intolerance",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Long\u2011term opioids can blunt autonomic responses and alter BP regulation, modestly contributing to the paradox."
+    },
+    {
+      "rank": 7,
+      "name": "Anemia of Chronic Disease / Iron\u2011Deficiency",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Documented anemia in chart but current hemoglobin 16.7\u202fg/dL (high)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Contradictory lab values make this diagnosis unlikely; retained only for completeness."
+    },
+    {
+      "rank": 8,
+      "name": "Chiari II Malformation\u2013Related Autonomic Dysregulation",
+      "icd10": "Q07.0",
+      "snomed": "363406005",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of Chiari II malformation noted in past imaging",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Rare cause of BP abnormalities; considered only after more common etiologies."
+    }
+  ],
+  "primary_diagnosis": "Metabolic Syndrome",
+  "primary_probability": 0.44,
+  "clinical_reasoning_summary": "The patient\u2019s obesity, hypertension, dyslipidemia, and probable insulin resistance strongly support metabolic syndrome as the dominant driver of his blood\u2011pressure paradox. Iatrogenic overtreatment of hypertension and obstructive sleep apnea are plausible co\u2011contributors given medication history and sleep\u2011related symptoms. Primary aldosteronism, early CKD, opioid\u2011induced autonomic dysfunction, anemia, and Chiari II are retained with low probabilities due to limited or contradictory evidence.",
+  "unresolved_findings": [
+    "High hemoglobin (16.7\u202fg/dL) despite documented moderate anemia",
+    "Platelet distribution width reported as 223.4\u202ffL (uninterpretable units)",
+    "Missing serum creatinine/eGFR and urine albumin\u2011creatinine ratio",
+    "Absent aldosterone/renin measurements",
+    "No sleep study or polysomnography data",
+    "No cortisol, ACTH, or testosterone levels",
+    "Iron studies, ferritin, transferrin saturation not available",
+    "Smoking status and physical activity level not documented",
+    "Mental\u2011health diagnoses (depression/anxiety) not recorded"
+  ],
+  "recommended_workup": [
+    "Plasma aldosterone concentration and plasma renin activity (screen for primary aldosteronism)",
+    "Serum creatinine, eGFR, and urine albumin\u2011creatinine ratio (evaluate CKD)",
+    "Comprehensive iron panel (ferritin, transferrin saturation) and repeat CBC",
+    "Overnight polysomnography or home sleep apnea testing",
+    "Orthostatic vital signs and volume status assessment",
+    "Fasting glucose, HbA1c, and lipid panel (complete metabolic syndrome workup)",
+    "Review and possibly taper antihypertensive regimen to avoid overtreatment",
+    "Consider cortisol and ACTH testing if adrenal dysfunction remains a concern"
+  ]
+}

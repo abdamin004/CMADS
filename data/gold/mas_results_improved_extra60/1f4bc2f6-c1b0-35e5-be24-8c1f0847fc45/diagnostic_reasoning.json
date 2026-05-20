@@ -1,0 +1,293 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome (obesity, hypertension, pre\u2011diabetes, dyslipidaemia)",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.27,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) documented",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension treated with four antihypertensives",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Prediabetes (A1c\u202f6.4\u202f%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C\u202f187.9\u202fmg/dL and total cholesterol\u202f262.6\u202fmg/dL despite high\u2011intensity statin",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Male, age\u202f57\u202fy",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The clustering of obesity, resistant hypertension, impaired glucose tolerance and severe atherogenic dyslipidaemia creates a pro\u2011atherogenic milieu that underlies the patient\u2019s cardiovascular, renal and hepatic manifestations. It is the primary driver of downstream disease."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic kidney disease (hypertensive/diabetic nephropathy), likely stage\u202f4\u20115",
+      "icd10": "N18.5",
+      "snomed": "709044004",
+      "probability": 0.22,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine\u202f2.7\u202fmg/dL (2017) and eGFR\u202f9.5\u202fmL/min/1.73\u202fm\u00b2 (2017)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension on four agents (including ACE\u2011I and thiazide)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, obesity, pre\u2011diabetes",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb\u202f13.2\u202fg/dL) consistent with CKD\u2011related anemia",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Historic labs indicate end\u2011stage renal dysfunction; the medication regimen (ACE\u2011I, CCB, \u03b2\u2011blocker, thiazide) reflects renal compromise. CKD explains anemia, contributes to resistant hypertension and secondary dyslipidaemia."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic coronary artery disease with residual ischemia",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.18,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior NSTEMI (May\u202f2017) and PCI (implied by prasugrel)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Dual antiplatelet therapy (aspirin + prasugrel)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe LDL\u2011C despite high\u2011intensity statin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Multiple ASCVD risk factors (age, male sex, metabolic syndrome)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Prior MI and ongoing secondary\u2011prevention therapy indicate established CAD. Uncontrolled dyslipidaemia and persistent risk factors make residual ischemia likely."
+    },
+    {
+      "rank": 4,
+      "name": "Familial hyper\u2011cholesterolaemia (heterozygous)",
+      "icd10": "E78.01",
+      "snomed": "19056002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u2011C\u202f\u2248\u202f188\u202fmg/dL on high\u2011intensity atorvastatin",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented secondary cause for severe hyperlipidaemia (e.g., hypothyroidism, nephrotic syndrome)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Family history not recorded (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Refractory LDL\u2011C despite maximal statin therapy is classic for heterozygous FH; if present, it accelerates CAD and may contribute to secondary hyperlipidaemia in CKD."
+    },
+    {
+      "rank": 5,
+      "name": "Alcoholic liver disease (alcohol\u2011related hepatocellular injury / early cirrhosis)",
+      "icd10": "K70.30",
+      "snomed": "235856003",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Unhealthy alcohol use documented",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe total bilirubin\u202f9.2\u202fmg/dL (isolated)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No liver panel or imaging available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Chronic alcohol misuse can cause hepatocellular injury and cholestasis, explaining the marked hyperbilirubinemia; lack of AST/ALT prevents confirmation."
+    },
+    {
+      "rank": 6,
+      "name": "Medication non\u2011adherence / sub\u2011optimal dosing (statin, antihypertensives)",
+      "icd10": "Z91.14",
+      "snomed": "182836005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Psychosocial stressors: alcohol misuse, intimate\u2011partner abuse, chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Persistently elevated LDL\u2011C despite high\u2011intensity statin",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure well\u2011controlled on four agents (possible over\u2011treatment if non\u2011adherent)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of psychosocial barriers and the pattern of uncontrolled lipid levels suggests that the patient may not be taking medications as prescribed, which would affect all downstream findings."
+    },
+    {
+      "rank": 7,
+      "name": "Obstructive cholestasis (biliary obstruction, gallstone disease, stricture)",
+      "icd10": "K83.1",
+      "snomed": "236423003",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe isolated total bilirubin\u202f9.2\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No abdominal imaging or liver panel available (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "If the bilirubin is predominantly direct, an obstructive process is plausible; currently speculative pending imaging and cholestatic enzyme data."
+    },
+    {
+      "rank": 8,
+      "name": "Statin\u2011induced cholestatic liver injury",
+      "icd10": "K71.1",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High\u2011intensity atorvastatin therapy",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe bilirubin elevation without AST/ALT data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Statins rarely cause cholestasis; the finding is possible but unlikely without corroborating transaminase elevations."
+    },
+    {
+      "rank": 9,
+      "name": "Intravascular hemolysis (e.g., G6PD deficiency, autoimmune hemolysis)",
+      "icd10": "D55.9",
+      "snomed": "271442005",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Severe total bilirubin\u202f9.2\u202fmg/dL",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia (Hb\u202f13.2\u202fg/dL)",
+          "strength": "weak"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No hemolysis work\u2011up performed (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hemolysis could produce indirect hyperbilirubinemia and mild anemia, but lack of LDH, haptoglobin, retic count makes this diagnosis unlikely."
+    },
+    {
+      "rank": 10,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "182721006",
+      "probability": 0.01,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and resistant hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No sleep study performed (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA can worsen hypertension and metabolic dysfunction; given the obesity, it remains a possible contributor."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome (obesity, hypertension, pre\u2011diabetes, dyslipidaemia)",
+  "primary_probability": 0.27,
+  "clinical_reasoning_summary": "The patient presents with a constellation of high\u2011impact cardiometabolic risk factors\u2014obesity, resistant hypertension, pre\u2011diabetes, and severe dyslipidaemia\u2014forming a metabolic syndrome that drives downstream organ damage. Historic labs reveal advanced chronic kidney disease, which together with the metabolic milieu explains the mild anemia, resistant hypertension, and secondary lipid abnormalities. Prior NSTEMI and ongoing dual antiplatelet therapy confirm established coronary artery disease, likely with residual ischemia. Refractory LDL\u2011C despite high\u2011intensity statin raises suspicion for heterozygous familial hypercholesterolaemia and/or medication non\u2011adherence, both of which are amplified by psychosocial stressors (alcohol misuse, intimate\u2011partner abuse, chronic pain). Isolated severe hyperbilirubinemia could stem from alcoholic liver disease, obstructive cholestasis, or rare statin\u2011induced cholestasis; the lack of a full liver panel is a critical data gap. All these pieces were weighted using Bayesian reasoning, prioritising upstream drivers (metabolic syndrome) over downstream manifestations (CAD).",
+  "unresolved_findings": [
+    "Severe isolated total bilirubin\u202f9.2\u202fmg/dL without accompanying AST/ALT, ALP, GGT, INR or imaging",
+    "Single historic eGFR\u202f9.5\u202fmL/min/1.73\u202fm\u00b2 (no trend, no current renal labs, no dialysis status)",
+    "LDL\u2011C\u202f187.9\u202fmg/dL despite high\u2011intensity statin (possible FH, non\u2011adherence, secondary cause)",
+    "Mild anemia (Hb\u202f13.2\u202fg/dL) in the context of presumed stage\u202f5 CKD (expected to be more severe)",
+    "Absence of recent cardiac evaluation (ECG, echo, stress test)",
+    "No documented family history of premature ASCVD or hypercholesterolaemia",
+    "No documented smoking status"
+  ],
+  "recommended_workup": [
+    "Current renal panel: serum creatinine, eGFR, urine albumin\u2011to\u2011creatinine ratio, electrolytes (K\u207a, Na\u207a, HCO\u2083\u207b)",
+    "Comprehensive liver panel: AST, ALT, ALP, GGT, INR, direct vs. indirect bilirubin",
+    "Abdominal ultrasound (or MRCP) to assess biliary tree and liver morphology",
+    "Repeat fasting lipid profile with apolipoprotein B, lipoprotein(a), and thyroid function tests (TSH, free T4)",
+    "Hemolysis work\u2011up: LDH, haptoglobin, reticulocyte count, peripheral smear, direct Coombs test",
+    "Cardiac evaluation: 12\u2011lead ECG, transthoracic echocardiogram (EF, wall\u2011motion), and stress testing or coronary CT angiography",
+    "Medication adherence assessment: pharmacy refill data, pill\u2011box review, patient interview using validated adherence scales",
+    "Sleep study (polysomnography) after STOP\u2011BANG screening",
+    "Psychiatric screening: PHQ\u20119, GAD\u20117, and substance\u2011use assessment",
+    "Family history interview focusing on premature CAD, hypercholesterolaemia, and early\u2011onset cardiovascular events"
+  ]
+}

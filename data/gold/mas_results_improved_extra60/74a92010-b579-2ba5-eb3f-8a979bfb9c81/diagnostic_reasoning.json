@@ -1,0 +1,249 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Essential Hypertension with Metabolic\u2011vascular Syndrome",
+      "icd10": "I10 + E66.9 + R73.03",
+      "snomed": "59621000",
+      "probability": 0.28,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Essential hypertension diagnosed 2009\u201108\u201123 (SNOMED 59621000)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI\u202f\u2265\u202f30) flagged since 2009",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "A1c\u202f6.0\u202f% (prediabetes, borderline rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "LDL\u202f100\u202fmg/dL (upper\u2011limit of optimal) and total cholesterol\u202f187\u202fmg/dL (desirable)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Medications: hydrochlorothiazide + lisinopril \u2013 target hypertension",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Long\u2011standing hypertension together with obesity and pre\u2011diabetes creates a metabolic\u2011vascular syndrome that drives early CKD, contributes to OSA, predisposes to HFpEF, and fuels chronic inflammation underlying anemia and COPD exacerbations. It is therefore the upstream root cause of the patient\u2019s multi\u2011system findings."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic Obstructive Pulmonary Disease \u2013 Emphysema dominant",
+      "icd10": "J44.9",
+      "snomed": "87433001",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Pulmonary emphysema diagnosed 2021\u201106\u201127 (SNOMED 87433001)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Maintenance inhaled therapy (fluticasone/salmeterol) and rescue albuterol prescribed",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_factors",
+          "finding": "Stress, social isolation \u2013 known to worsen COPD symptom perception and exacerbation risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented emphysema and chronic inhaler regimen confirm COPD as a major organ\u2011injury. It explains dyspnoea and exercise limitation but is downstream of the metabolic\u2011vascular milieu and possible smoking/biomass exposure."
+    },
+    {
+      "rank": 3,
+      "name": "Obstructive Sleep Apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "86290005",
+      "probability": 0.12,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Obesity, hypertension, stress, and social isolation \u2013 classic OSA risk profile",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "Dyspnoea out of proportion to spirometric findings (inferred) suggests nocturnal hypoxia",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "OSA is a hidden driver that worsens hypertension, insulin resistance, and nocturnal hypoxaemia, thereby amplifying COPD symptoms, CKD progression, and cardiovascular strain."
+    },
+    {
+      "rank": 4,
+      "name": "Early\u2011stage Chronic Kidney Disease \u2013 Moderate (Stage\u202f2/3)",
+      "icd10": "N18.3",
+      "snomed": "431855005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.5\u202fmg/dL (elevated, severity\u202f3)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 18.2\u202fmg/dL (high\u2011normal, rising)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension treated with ACE\u2011inhibitor and thiazide \u2013 risk and protective factors for CKD",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "Chronic ibuprofen use \u2013 known nephrotoxic agent",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated creatinine in a young adult with hypertension, metabolic syndrome, and NSAID exposure points to early CKD, likely hypertensive nephrosclerosis compounded by drug\u2011induced injury."
+    },
+    {
+      "rank": 5,
+      "name": "Multifactorial Anemia (Anemia of Chronic Disease\u202f\u00b1\u202fIron\u2011loss)",
+      "icd10": "D64.9",
+      "snomed": "271737000",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia flagged 2021\u201106\u201127 (SNOMED 271737000)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 11.9\u202fg/dL and Hematocrit 33.3\u202f% (both decreased, trend falling)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions: emphysema, hypertension, obesity, chronic pain",
+          "strength": "moderate"
+        },
+        {
+          "source": "medication",
+          "finding": "Regular ibuprofen use \u2013 possible gastrointestinal blood loss",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The falling hemoglobin/hematocrit in the setting of chronic inflammation and NSAID exposure suggests anemia of chronic disease with a superimposed iron\u2011loss component."
+    },
+    {
+      "rank": 6,
+      "name": "NSAID\u2011related Gastric/Duodenal Ulceration (occult GI blood loss)",
+      "icd10": "K71.9",
+      "snomed": "418799008",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "medication",
+          "finding": "Ibuprofen 400\u202fmg PRN for chronic musculoskeletal pain",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.5\u202fmg/dL \u2013 possible early renal impairment from NSAIDs",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic pain since 2014, ongoing NSAID exposure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic NSAID use predisposes to mucosal injury and occult bleeding, which can contribute to the iron\u2011loss component of the patient\u2019s anemia."
+    },
+    {
+      "rank": 7,
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "icd10": "I50.3",
+      "snomed": "84114007",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Long\u2011standing hypertension, obesity, and dyspnoea in a 35\u2011year\u2011old",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_inference",
+          "finding": "Exertional dyspnoea may be out of proportion to spirometry (inferred)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "HFpEF is a common sequela of metabolic\u2011vascular disease and can mimic or worsen COPD\u2011related dyspnoea, contributing to exercise intolerance."
+    },
+    {
+      "rank": 8,
+      "name": "Depression / Generalized Anxiety Disorder",
+      "icd10": "F33.1 + F41.1",
+      "snomed": "48694002 + 197480006",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "risk_factors",
+          "finding": "Stress, social isolation \u2013 known risk factors for depression and anxiety",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic anxiety noted in past visits",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Psychological distress can amplify symptom perception, reduce adherence to therapy, and limit physical activity, thereby feeding the metabolic\u2011vascular loop."
+    }
+  ],
+  "primary_diagnosis": "Essential Hypertension with Metabolic\u2011vascular Syndrome",
+  "primary_probability": 0.28,
+  "clinical_reasoning_summary": "The patient\u2019s picture is dominated by a metabolic\u2011vascular syndrome (hypertension, obesity, pre\u2011diabetes) that serves as the upstream driver of multiple downstream organ injuries: early CKD, COPD/emphysema, OSA, HFpEF, and a multifactorial anemia. Chronic NSAID use adds renal and gastrointestinal risk, further aggravating anemia. By placing the metabolic syndrome first, the differential reflects the causal hierarchy and guides work\u2011up toward modifiable root causes before addressing downstream manifestations.",
+  "unresolved_findings": [
+    "Missing smoking history \u2013 essential for COPD etiology and management",
+    "BMI value absent \u2013 limits assessment of obesity severity",
+    "eGFR not calculated \u2013 hampers precise CKD staging",
+    "Complete lipid panel (LDL\u2011C, HDL\u2011C, triglycerides) incomplete for ASCVD risk",
+    "Vaccination status (influenza, pneumococcal, COVID\u201119) unknown",
+    "Pulmonary function test results (spirometry, GOLD stage) unavailable",
+    "Mental\u2011health screening (PHQ\u20119, GAD\u20117) not performed",
+    "Family history of cardiovascular, metabolic, or pulmonary disease not recorded",
+    "Alcohol and substance use history missing",
+    "Physical activity level not documented",
+    "Echocardiogram (EF, diastolic function, pulmonary pressures) not performed",
+    "Sleep study (polysomnography or home sleep\u2011apnea test) not performed"
+  ],
+  "recommended_workup": [
+    "Calculate eGFR and order urine albumin\u2011to\u2011creatinine ratio to stage CKD",
+    "Obtain a full fasting lipid panel (LDL\u2011C, HDL\u2011C, triglycerides) and repeat in 3\u20116\u202fmonths",
+    "Perform spirometry with post\u2011bronchodilator testing; assign GOLD stage and assess for asthma\u2011COPD overlap",
+    "Document smoking status (current, former, never) and quantify pack\u2011years",
+    "Screen for iron deficiency, vitamin B12, folate, and obtain reticulocyte count; include ferritin and transferrin saturation",
+    "Conduct fecal occult blood test (or FIT) to evaluate occult GI bleeding from NSAID use",
+    "Order transthoracic echocardiogram to evaluate ejection fraction, diastolic function, and pulmonary artery pressures (rule in/out HFpEF and pulmonary hypertension)",
+    "Schedule overnight polysomnography or home sleep\u2011apnea test to diagnose OSA",
+    "Update vaccination record \u2013 administer influenza, pneumococcal (PCV13/23) and COVID\u201119 boosters as indicated",
+    "Administer PHQ\u20119 and GAD\u20117 questionnaires to assess depression and anxiety",
+    "Take a detailed family history for CAD, diabetes, COPD, and CKD",
+    "Screen alcohol use with AUDIT\u2011C and inquire about other substance use",
+    "Document physical activity level and provide counseling on exercise tailored to COPD and obesity"
+  ]
+}

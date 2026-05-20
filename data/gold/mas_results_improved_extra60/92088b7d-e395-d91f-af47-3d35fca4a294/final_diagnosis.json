@@ -1,0 +1,154 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Type 2 Diabetes Mellitus, insulin-requiring",
+      "icd10": "E11.9",
+      "snomed": "44054006",
+      "probability": 0.4,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented insulin therapy for hyperglycemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones present (14.6 mg/dL) without marked hyperglycemia",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome, hypertension, obesity noted in comorbidity flags",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Insulin requirement is highly specific for established diabetes. The presence of ketonuria despite modest glucose, metabolic syndrome, and hypertension further support insulin\u2011requiring type 2 diabetes."
+    },
+    {
+      "rank": 2,
+      "name": "Diabetic kidney disease",
+      "icd10": "E11.22",
+      "snomed": "236423003",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic kidney disease documented in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperchloremia (108.1 mmol/L) and low serum CO\u2082 (20.9 mmol/L) suggesting renal tubular dysfunction",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing insulin\u2011requiring diabetes",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "CKD in the setting of insulin\u2011requiring diabetes is most consistent with diabetic nephropathy, especially with laboratory evidence of renal tubular acid\u2011base disturbance."
+    },
+    {
+      "rank": 3,
+      "name": "Chronic kidney disease stage 3a (non\u2011diabetic component)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.15,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 3a recorded as separate comorbidity",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Hyperchloremia and low CO\u2082 indicating reduced renal function",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD may have a component unrelated to diabetes (e.g., hypertensive nephrosclerosis). Recognizing it as a distinct entity guides guideline\u2011based CKD management."
+    },
+    {
+      "rank": 4,
+      "name": "Anemia of chronic disease / CKD\u2011related anemia",
+      "icd10": "D63.8",
+      "snomed": "271442005",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Anemia noted in problem list with CKD comorbidity",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Laboratory trend consistent with normocytic, normochromic anemia (implicit from CKD)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "CKD commonly causes anemia of chronic disease via reduced erythropoietin; the coexistence of CKD makes this the most plausible anemia etiology."
+    },
+    {
+      "rank": 5,
+      "name": "Iron\u2011deficiency anemia secondary to occult gastrointestinal bleeding",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Positive fecal occult blood test noted in chart",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Microcytic anemia pattern suggested by recent CBC (implicit)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Occult GI bleeding can cause iron\u2011deficiency anemia, especially in older adults. The positive FOB test raises this possibility despite CKD\u2011related anemia."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "18286008",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented CPAP or sleep study orders despite risk factors (obesity, hypertension)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Absence of therapy suggests possible untreated OSA, but lack of direct diagnostic evidence keeps probability low."
+    }
+  ],
+  "primary_diagnosis": "Type 2 Diabetes Mellitus, insulin-requiring",
+  "primary_probability": 0.4,
+  "clinical_reasoning_summary": "The patient\u2019s insulin requirement, metabolic syndrome, and ketonuria strongly indicate insulin\u2011requiring type 2 diabetes, which the reviewer elevated to primary status. Diabetic kidney disease is the next most likely complication, but CKD stage 3a is also present as a separate entity, warranting distinct management. Anemia is most plausibly CKD\u2011related, yet occult GI bleeding could contribute iron deficiency. Obstructive sleep apnea remains a low\u2011probability comorbidity based on missing treatment documentation. Unexplained urine bilirubin, artefactual HbA1c, and metabolic acidosis require further evaluation.",
+  "unresolved_findings": [
+    "Urine total bilirubin positive (0.6 mg/dL) \u2013 unclear hepatic vs hemolytic source",
+    "Implausibly low HbA1c (2.8%) \u2013 likely laboratory artefact",
+    "Urine ketones present without marked hyperglycaemia",
+    "Low serum CO\u2082 (20.9 mmol/L) suggesting mild metabolic acidosis",
+    "Hyperchloremia (108.1 mmol/L) possibly secondary to renal dysfunction"
+  ],
+  "recommended_workup": [
+    "Repeat HbA1c and obtain fasting plasma glucose to confirm glycemic status",
+    "Comprehensive liver panel and repeat urine bilirubin with microscopy to assess hepatic vs hemolytic origin",
+    "Serum electrolytes with arterial blood gas to characterize metabolic acidosis",
+    "Iron studies (serum ferritin, iron, TIBC) and repeat CBC to differentiate anemia types",
+    "Colonoscopy or upper endoscopy if iron deficiency confirmed",
+    "Polysomnography to evaluate for obstructive sleep apnea",
+    "Renal ultrasound to assess structural contributors to CKD"
+  ]
+}

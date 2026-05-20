@@ -1,0 +1,146 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Diabetic nephropathy \u2013 stage 4 CKD with nephrotic-range proteinuria",
+      "icd10": "E11.21",
+      "snomed": "237599002",
+      "probability": 0.7,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing type 2 diabetes mellitus with poor glycemic control history",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Nephrotic-range proteinuria on urine protein/creatinine ratio",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "eGFR ~25\u202fmL/min/1.73\u202fm\u00b2 consistent with stage 4 CKD",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Hypertension and dyslipidemia as common diabetic complications",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of longstanding diabetes, advanced CKD stage, and nephrotic-range proteinuria makes diabetic nephropathy the most likely etiology of renal dysfunction, despite atypical laboratory values that warrant further evaluation."
+    },
+    {
+      "rank": 2,
+      "name": "Hypertensive nephrosclerosis (contributory)",
+      "icd10": "I12.9",
+      "snomed": "236423003",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long-standing uncontrolled hypertension documented over 10\u202fyears",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly reduced renal size on imaging (if available) suggestive of chronic hypertensive injury",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension likely contributes to CKD progression but alone rarely produces nephrotic-range proteinuria; therefore it is considered a secondary modifier."
+    },
+    {
+      "rank": 3,
+      "name": "Atherosclerotic cardiovascular disease (multivessel CAD, prior NSTEMI, CABG, atrial fibrillation)",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.1,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of multivessel coronary artery disease with prior NSTEMI and CABG",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Atrial fibrillation on chronic anticoagulation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "While a major comorbidity influencing overall prognosis, it does not directly explain the renal presentation; retained for completeness and risk stratification."
+    },
+    {
+      "rank": 4,
+      "name": "Non\u2011alcoholic fatty liver disease / non\u2011alcoholic steatohepatitis (NAFLD\u2011NASH)",
+      "icd10": "K75.81",
+      "snomed": "235856003",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mildly elevated ALT/AST without clear alternative cause",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components (diabetes, dyslipidemia)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Metabolic risk profile and liver enzyme pattern support NAFLD/NASH, though imaging is needed for confirmation."
+    },
+    {
+      "rank": 5,
+      "name": "Overtreatment\u2011related hypoglycemia with low HbA1c and ketonuria",
+      "icd10": "E16.2",
+      "snomed": "271327008",
+      "probability": 0.03,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 3.2\u202f% (implausibly low) suggesting possible assay interference or overtreatment",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine ketones 12.3\u202fmg/dL despite low HbA1c",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Intensive insulin regimen documented",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The discordant low HbA1c with ketonuria raises concern for iatrogenic hypoglycemia; requires urgent medication review."
+    }
+  ],
+  "primary_diagnosis": "Diabetic nephropathy \u2013 stage 4 CKD with nephrotic-range proteinuria",
+  "primary_probability": 0.7,
+  "clinical_reasoning_summary": "The patient\u2019s long-standing type 2 diabetes, advanced CKD stage, and nephrotic-range proteinuria make diabetic nephropathy the dominant cause of renal dysfunction. Hypertension contributes as a secondary factor, while established atherosclerotic disease and NAFLD/NASH are important comorbidities. An unexpected low HbA1c with ketonuria suggests possible overtreatment and hypoglycemia risk, warranting immediate medication review. Unexplained laboratory findings (urine bilirubin, hyperchloremic metabolic acidosis) remain unresolved and may reflect additional hepatic or tubular pathology.",
+  "unresolved_findings": [
+    "HbA1c 3.2\u202f% \u2013 implausibly low; possible assay interference or overtreatment",
+    "Urine bilirubin 0.5\u202fmg/dL \u2013 non\u2011specific, could indicate hemolysis, drug\u2011induced cholestasis, or hepatic excretion abnormality",
+    "Urine ketones 12.3\u202fmg/dL \u2013 discordant with low HbA1c, raises intermittent ketosis concern",
+    "Mildly elevated ALT/AST \u2013 could be NAFLD/NASH, medication\u2011induced hepatotoxicity, or congestive hepatopathy",
+    "Hyperchloremic metabolic acidosis \u2013 possible renal tubular loss, iatrogenic saline exposure, or early renal tubular acidosis"
+  ],
+  "recommended_workup": [
+    "Renal biopsy to exclude non\u2011diabetic glomerulopathies before transplant listing",
+    "Repeat HbA1c using alternative method (e.g., fructosamine) and obtain fasting glucose",
+    "Comprehensive medication review focusing on insulin dosing and hepatotoxic agents",
+    "Quantitative urine protein measurement (24\u2011hour protein or spot protein/creatinine ratio)",
+    "Renal ultrasound with Doppler to assess kidney size and vascular flow",
+    "Liver ultrasound or elastography to characterize fatty infiltration and fibrosis",
+    "Serum insulin and C\u2011peptide levels to evaluate endogenous insulin production",
+    "Arterial blood gas and serum electrolytes to delineate cause of hyperchloremic acidosis",
+    "Assessment for renal tubular acidosis (urine pH, urine anion gap)",
+    "Screen for hemolysis (LDH, haptoglobin, peripheral smear) if bilirubin persists"
+  ]
+}

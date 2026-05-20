@@ -1,0 +1,305 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Opioid use disorder with analgesic (NSAID/acetaminophen) nephropathy",
+      "icd10": "F11.20",
+      "snomed": "365981007",
+      "probability": 0.25,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Dependent drug abuse since 1998 with multiple overdose events (2017, 2018)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Frequent ED visits for pain\u2011related issues; no analgesic regimen captured",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Creatinine 1.4\u202fmg/dL, low CO\u2082 20.6\u202fmmol/L, potassium 5.0\u202fmmol/L suggesting CKD with metabolic acidosis",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome risk flag (0.69) indicating high vascular risk",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Chronic opioid dependence and repeated overdoses imply likely use of analgesics (NSAIDs/acetaminophen) for pain, which together with uncontrolled hypertension and metabolic\u2011syndrome features can cause analgesic\u2011induced nephropathy, explaining the early CKD labs."
+    },
+    {
+      "rank": 2,
+      "name": "Metabolic syndrome",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.24,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530) and prediabetes (A1c 6.1%)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Triglycerides 148\u202fmg/dL (borderline high) with normal LDL/HDL",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Metabolic\u2011syndrome pattern score \u22480.69",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated obstructive sleep apnea",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The combination of central obesity, impaired glucose tolerance, dyslipidemia, and hypertension fulfills ATP\u2011III criteria for metabolic syndrome, driving cardiovascular and renal risk."
+    },
+    {
+      "rank": 3,
+      "name": "Stage 3a chronic kidney disease",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.17,
+      "confidence": "moderate-high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated creatinine 1.4\u202fmg/dL with low bicarbonate 20.6\u202fmmol/L and borderline hyper\u2011kalemia 5.0\u202fmmol/L",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD risk flag present",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "BUN 16.3\u202fmg/dL (rising trend)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Renal panel abnormalities are characteristic of stage\u202f3a CKD (GFR ~45\u201159), likely secondary to hypertension, metabolic\u2011syndrome, and possible analgesic nephropathy."
+    },
+    {
+      "rank": 4,
+      "name": "Essential (resistant) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.11,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure 136/93\u202fmmHg (stage\u202f2) despite lisinopril 10\u202fmg",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, prediabetes, untreated OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Persistent elevated BP despite ACE\u2011inhibitor monotherapy indicates resistant hypertension, likely driven by metabolic\u2011syndrome and OSA."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea, untreated",
+      "icd10": "G47.33",
+      "snomed": "73430006",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Diagnosed OSA in 2017 with no CPAP prescription recorded",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (major risk factor)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Untreated OSA contributes to hypertension, insulin resistance, and CKD progression."
+    },
+    {
+      "rank": 6,
+      "name": "Reactive (secondary) thrombocytosis",
+      "icd10": "D75.1",
+      "snomed": "271442001",
+      "probability": 0.04,
+      "confidence": "low-moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet count 424\u202f\u00d710\u00b3/\u00b5L (high\u2011normal) with PDW 229\u202ffL (markedly elevated)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Historical anemia flag, chronic inflammation from CKD/obesity",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Elevated platelets with high PDW are typical of a reactive process secondary to inflammation, CKD, or iron deficiency."
+    },
+    {
+      "rank": 7,
+      "name": "Chronic pain syndrome",
+      "icd10": "G89.29",
+      "snomed": "27624003",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic musculoskeletal pain since 1994 with frequent ED visits",
+          "strength": "strong"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No analgesic regimen captured",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Long\u2011standing pain likely drives NSAID use (linking to nephropathy) and contributes to health\u2011care utilization."
+    },
+    {
+      "rank": 8,
+      "name": "Major depressive disorder (undocumented)",
+      "icd10": "F33.1",
+      "snomed": "370143000",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "High psychosocial stressors (unstable housing, substance dependence, social isolation)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No mental\u2011health diagnoses recorded despite stress flag",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial burden raises the pre\u2011test probability of depression, which may affect adherence and pain perception."
+    },
+    {
+      "rank": 9,
+      "name": "Secondary (renovascular) hypertension",
+      "icd10": "I15.0",
+      "snomed": "38341003",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Resistant hypertension in a young adult",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "No imaging data to exclude renal artery stenosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Age and refractory BP warrant evaluation for renovascular causes, though no direct evidence yet."
+    },
+    {
+      "rank": 10,
+      "name": "Chronic viral infection (HIV/HCV)",
+      "icd10": "B20",
+      "snomed": "86406008",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011term injection drug use history",
+          "strength": "moderate"
+        },
+        {
+          "source": "data_quality",
+          "finding": "No viral serology results available",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Injection drug use places the patient at risk for HIV/HCV, which can cause CKD and cytopenias."
+    },
+    {
+      "rank": 11,
+      "name": "Iron deficiency anemia",
+      "icd10": "D50.9",
+      "snomed": "271442001",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Historical anemia problem flag",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Current hemoglobin 15.9\u202fg/dL (normal) but high\u2011normal platelets suggest prior iron deficiency",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Past anemia with reactive thrombocytosis may reflect iron deficiency, which can be intermittent."
+    },
+    {
+      "rank": 12,
+      "name": "Non\u2011alcoholic fatty liver disease",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic\u2011syndrome phenotype (obesity, prediabetes, dyslipidemia)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "No liver enzymes reported (data gap)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Metabolic syndrome predisposes to NAFLD; absence of labs leaves this as a possible but unconfirmed diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Opioid use disorder with analgesic (NSAID/acetaminophen) nephropathy",
+  "primary_probability": 0.25,
+  "clinical_reasoning_summary": "The patient presents with uncontrolled stage\u20112 hypertension, obesity, prediabetes, and untreated OSA, forming a classic metabolic\u2011syndrome picture. Laboratory data reveal early CKD (elevated creatinine, metabolic acidosis, borderline hyper\u2011kalemia) and reactive thrombocytosis. A long history of opioid dependence with multiple overdoses and frequent pain\u2011related ED visits, combined with the absence of documented analgesic prescriptions, strongly suggests chronic use of nephrotoxic analgesics contributing to the renal impairment. These factors together explain the resistant hypertension and metabolic derangements. Secondary contributors include possible secondary hypertension, chronic viral infection risk, and psychosocial stressors that may underlie undocumented depression and poor adherence. Low\u2011normal leukocyte count and normal lipid profile despite metabolic syndrome remain unexplained, highlighting data gaps.",
+  "unresolved_findings": [
+    "Low\u2011normal leukocyte count (4.1\u202f\u00d710\u00b3/\u00b5L) \u2013 borderline leukopenia",
+    "Normal lipid profile despite metabolic\u2011syndrome phenotype",
+    "Missing eGFR and urine albumin/creatinine ratio",
+    "No CPAP prescription or adherence data for OSA",
+    "Absence of documented smoking or alcohol use",
+    "Dental impacted molars without documented infection"
+  ],
+  "recommended_workup": [
+    "Serum eGFR calculation and urine albumin\u2011to\u2011creatinine ratio (UACR) to stage CKD",
+    "Comprehensive medication reconciliation focusing on OTC NSAIDs, acetaminophen, and other nephrotoxins",
+    "Urine toxicology screen and assessment of current opioid\u2011use\u2011disorder treatment (buprenorphine, methadone, naltrexone)",
+    "Renal\u2011artery duplex ultrasound or CT angiography; plasma aldosterone/renin ratio; plasma metanephrines to evaluate secondary hypertension",
+    "HIV antigen/antibody combo and hepatitis C antibody (with RNA if positive)",
+    "Iron studies (ferritin, transferrin saturation, TIBC) to assess iron\u2011deficiency anemia",
+    "Repeat fasting lipid panel including triglycerides and LDL\u2011particle size",
+    "Polysomnography or home sleep\u2011apnea test and CPAP adherence download",
+    "Dental evaluation of impacted molars for infection or inflammation",
+    "PHQ\u20119, GAD\u20117, and PTSD screening for mood and anxiety disorders",
+    "Vaccination review (influenza, COVID\u201119, hepatitis B, HPV) and update as needed"
+  ]
+}

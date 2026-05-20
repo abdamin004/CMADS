@@ -1,0 +1,259 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Medication omission \u2013 missing antiplatelet therapy (clinical safety gap)",
+      "icd10": "Z91.14",
+      "snomed": "441935006",
+      "probability": 0.36,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Prior myocardial infarction with no documented antiplatelet prescription",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer flagged antiplatelet omission as most urgent safety issue",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "A history of MI confers high thrombotic risk; absence of antiplatelet therapy markedly increases risk of recurrent ischemic events, making this the most critical modifiable factor."
+    },
+    {
+      "rank": 2,
+      "name": "Uncontrolled/resistant stage\u202f2 hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Blood pressure recorded 147/101 mmHg (stage\u202f2)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer added this diagnosis with high confidence",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Sustained stage\u202f2 hypertension drives cardiovascular risk, contributes to renal injury and may exacerbate platelet activation."
+    },
+    {
+      "rank": 3,
+      "name": "Reactive thrombocytosis / platelet activation",
+      "icd10": "D75.8",
+      "snomed": "271442005",
+      "probability": 0.11,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Platelet distribution width (PDW) markedly elevated at 206.9 fL (extreme outlier)",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Reviewer raised probability due to severe PDW abnormality",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Elevated PDW reflects platelet size heterogeneity and activation, likely reactive to inflammation, hypertension, or metabolic stress, increasing thrombotic propensity."
+    },
+    {
+      "rank": 4,
+      "name": "Metabolic syndrome with insulin resistance",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.09,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity, dyslipidemia (on statin), pre\u2011diabetic A1c 6.2%",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Supported diagnosis with strong confidence",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Cluster of risk factors fuels a pro\u2011inflammatory, pro\u2011thrombotic state and contributes to hypertension and renal dysfunction."
+    },
+    {
+      "rank": 5,
+      "name": "Obstructive sleep apnea (moderate\u2011to\u2011severe, untreated)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.08,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented untreated OSA in problem list",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Over\u2011rated by original agent; severity not objectively confirmed",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Untreated OSA can worsen hypertension and promote sympathetic activation, but lack of severity data limits its weight."
+    },
+    {
+      "rank": 6,
+      "name": "Atherosclerotic coronary artery disease (post\u2011MI) with high thrombotic potential",
+      "icd10": "I25.10",
+      "snomed": "53741008",
+      "probability": 0.06,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of myocardial infarction",
+          "strength": "strong"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Antiplatelet omission raises thrombotic risk",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Prior MI indicates established coronary atherosclerosis; without antiplatelet protection, risk of recurrent events is elevated."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (stage 2\u20113, suspected)",
+      "icd10": "N18.3",
+      "snomed": "709044004",
+      "probability": 0.05,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Renal labs missing; reviewer notes plausibility but low confidence",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Adjusted probability downward due to absent labs",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Hypertension and metabolic syndrome predispose to CKD; however, lack of eGFR/creatinine data limits certainty."
+    },
+    {
+      "rank": 8,
+      "name": "Colorectal adenomatous polyp \u2013 risk of advanced neoplasia",
+      "icd10": "D12.6",
+      "snomed": "236423003",
+      "probability": 0.02,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documented adenomatous polyp on prior colonoscopy",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Supported with strong confidence",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "Polyp confers future colorectal cancer risk; relevant but not an immediate driver of current thrombotic concerns."
+    },
+    {
+      "rank": 9,
+      "name": "Iron\u2011deficiency anemia / anemia of chronic disease",
+      "icd10": "D50.9",
+      "snomed": "271442005",
+      "probability": 0.02,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Mild anemia noted in CBC (details not provided)",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Plausible but low impact on primary problem",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia may contribute to fatigue but does not explain the thrombotic profile."
+    },
+    {
+      "rank": 10,
+      "name": "Heart failure with preserved ejection fraction (HFpEF)",
+      "icd10": "I50.31",
+      "snomed": "84114007",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No objective cardiac imaging or exam data provided",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Questionable diagnosis without data",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Possible given hypertension and metabolic syndrome, but insufficient evidence to prioritize."
+    },
+    {
+      "rank": 11,
+      "name": "Atrial fibrillation (paroxysmal or persistent)",
+      "icd10": "I48.91",
+      "snomed": "49436004",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "No rhythm monitoring data documented",
+          "strength": "weak"
+        },
+        {
+          "source": "clinical_reviewer",
+          "finding": "Weak support; low confidence",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "AF would increase embolic risk, yet no ECG or telemetry evidence is present."
+    }
+  ],
+  "primary_diagnosis": "Medication omission \u2013 missing antiplatelet therapy (clinical safety gap)",
+  "primary_probability": 0.36,
+  "clinical_reasoning_summary": "The patient is an elderly male with prior myocardial infarction, uncontrolled stage\u202f2 hypertension, metabolic syndrome, and a markedly elevated platelet distribution width, all converging on a high thrombotic milieu. The most actionable and life\u2011threatening issue identified is the omission of antiplatelet therapy, which the reviewer highlighted as the primary safety gap. Uncontrolled hypertension and reactive thrombocytosis further amplify cardiovascular risk. Secondary contributors include metabolic syndrome, untreated OSA, and early CKD, while other listed conditions (colorectal polyp, anemia, possible HFpEF, AF) are less directly linked to the immediate risk profile.",
+  "unresolved_findings": [
+    "Markedly elevated platelet distribution width (PDW 206.9 fL) \u2013 extreme outlier",
+    "Borderline hyperkalaemia (K 5.0 mmol/L) with rising trend",
+    "Absence of recent lipid panel (total cholesterol, LDL)",
+    "Missing eGFR, serum creatinine, and urine albumin/creatinine ratio",
+    "No documented smoking status or alcohol use",
+    "No recorded physical activity level or diet information",
+    "Diphenhydramine use (sedating antihistamine) potentially worsening OSA"
+  ],
+  "recommended_workup": [
+    "Repeat comprehensive metabolic panel including eGFR, serum creatinine, electrolytes, and urine albumin/creatinine ratio",
+    "Obtain a fasting lipid panel",
+    "Ambulatory blood pressure monitoring to characterize hypertension control",
+    "Polysomnography to quantify severity of obstructive sleep apnea",
+    "Repeat CBC with platelet indices and consider platelet function testing",
+    "12\u2011lead ECG and ambulatory cardiac monitoring to rule out atrial fibrillation",
+    "Echocardiogram to assess cardiac structure and function (HFpEF evaluation)",
+    "Review medication list and initiate appropriate antiplatelet therapy (e.g., low\u2011dose aspirin or P2Y12 inhibitor) unless contraindicated",
+    "Colonoscopic surveillance per guidelines for adenomatous polyp",
+    "Lifestyle counseling: smoking cessation, alcohol moderation, diet, and exercise"
+  ]
+}

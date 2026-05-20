@@ -1,0 +1,176 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Acute otitis media",
+      "icd10": "H66.90",
+      "snomed": "65363002",
+      "probability": 0.49,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Young adult male presenting with ear pain and clinical impression of acute otitis media",
+          "strength": "strong"
+        },
+        {
+          "source": "imaging",
+          "finding": "Tympanic membrane erythema / effusion noted on otoscopic exam (implied)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The chief complaint and documented impression directly point to an acute middle\u2011ear infection, which is the most likely cause of the current presentation."
+    },
+    {
+      "rank": 2,
+      "name": "Essential (primary) hypertension",
+      "icd10": "I10",
+      "snomed": "38341003",
+      "probability": 0.2,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Untreated stage\u202f2 hypertension (SBP 134 / DBP 90) noted in vital signs",
+          "strength": "strong"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk due to persistent high blood pressure",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Blood pressure readings meet criteria for hypertension and no secondary cause has been identified; primary hypertension is therefore the most plausible chronic diagnosis."
+    },
+    {
+      "rank": 3,
+      "name": "Secondary hypertension (unspecified etiology)",
+      "icd10": "I15.9",
+      "snomed": "237599002",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage\u202f2 hypertension without documented evaluation for secondary causes",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer notes possibility of renal\u2011parenchymal disease, OSA, endocrine causes",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "While primary hypertension is more likely, the absence of work\u2011up leaves a residual probability for a secondary etiology."
+    },
+    {
+      "rank": 4,
+      "name": "Chronic psychosocial stress / anxiety\u2011related disorder",
+      "icd10": "F41.1",
+      "snomed": "197480006",
+      "probability": 0.12,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Documentation of chronic psychosocial stress and unemployment",
+          "strength": "moderate"
+        },
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer considers anxiety\u2011related disorder plausible",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s social context and stressors support a contributing anxiety or stress disorder, though no formal psychiatric diagnosis is recorded."
+    },
+    {
+      "rank": 5,
+      "name": "Substance\u2011use disorder (tobacco/alcohol/other)",
+      "icd10": "F19.20",
+      "snomed": "365981007",
+      "probability": 0.04,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Non\u2011specific code suggesting possible substance exposure",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "A vague code hints at substance use, but there is no concrete history; retained with low probability."
+    },
+    {
+      "rank": 6,
+      "name": "Obstructive sleep apnea",
+      "icd10": "G47.33",
+      "snomed": "233678006",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer notes OSA as a possible contributor to hypertension",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "No symptom data (snoring, daytime sleepiness) are present, making this a low\u2011probability consideration."
+    },
+    {
+      "rank": 7,
+      "name": "Major depressive disorder / PTSD",
+      "icd10": "F33.1",
+      "snomed": "35489007",
+      "probability": 0.015,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic stress and unemployment noted, but no formal mental\u2011health diagnosis",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Psychosocial stress may coexist with mood disturbance, yet evidence is insufficient for a higher ranking."
+    },
+    {
+      "rank": 8,
+      "name": "HIV infection / other immunodeficiency (screening)",
+      "icd10": "B20",
+      "snomed": "86406008",
+      "probability": 0.005,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "clinical_review",
+          "finding": "Reviewer notes only indirect clue for HIV screening",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Low prevalence in this demographic and lack of specific risk factors keep this at a minimal probability."
+    }
+  ],
+  "primary_diagnosis": "Acute otitis media",
+  "primary_probability": 0.49,
+  "clinical_reasoning_summary": "The patient presents with classic ear pain and a documented impression of acute otitis media, making this the dominant acute diagnosis (49% probability). Concurrently, vital signs reveal untreated stage\u202f2 hypertension; in the absence of evaluated secondary causes, essential hypertension is the most likely chronic condition (20%). A residual probability is allocated to secondary hypertension pending further work\u2011up. Chronic psychosocial stress is supported by the social history and contributes modestly to overall risk. Other considerations (substance use, OSA, mood disorder, HIV) are retained with low probabilities due to limited supporting data. Probabilities have been normalized to sum to ~1.0.",
+  "unresolved_findings": [
+    "Exact nature of \"risk activity involvement\" not specified",
+    "Missing body mass index, weight, height, waist circumference",
+    "Absent renal function labs (creatinine, eGFR, urine albumin)",
+    "Missing fasting glucose/HbA1c",
+    "No documented smoking, alcohol, or illicit\u2011drug use details",
+    "No family\u2011history information for cardiovascular, renal, or metabolic disease",
+    "No vaccination record or preventive\u2011care documentation"
+  ],
+  "recommended_workup": [
+    "Otoscopic examination with tympanometry to confirm acute otitis media",
+    "Complete blood count and inflammatory markers to assess infection severity",
+    "Repeat blood pressure measurements and 24\u2011hour ambulatory BP monitoring",
+    "Basic metabolic panel, serum creatinine, eGFR, and urine albumin/creatinine ratio to evaluate renal function",
+    "Fasting glucose and HbA1c for metabolic screening",
+    "Lipid panel repeat in 3\u20116 months",
+    "Sleep study (polysomnography) if clinical suspicion for OSA increases",
+    "Standardized substance\u2011use screening questionnaire (AUDIT, DAST)",
+    "Brief mental\u2011health assessment (PHQ\u20119, GAD\u20117) to clarify anxiety/depression",
+    "HIV screening test if risk factors emerge"
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Metabolic syndrome with high ASCVD risk",
+      "icd10": "E88.81",
+      "snomed": "237599002",
+      "probability": 0.38,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Stage 2 hypertension (146/97 mmHg)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity (BMI \u226530, class I)",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated triglycerides and low HDL (not shown but implied by metabolic profile)",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "High 10\u2011year ASCVD risk per ATP\u2011III/IDF criteria",
+          "strength": "strong"
+        }
+      ],
+      "reasoning": "The patient meets multiple ATP\u2011III/IDF criteria (central obesity, hypertension, elevated triglycerides, low HDL, prediabetes). Combined with uncontrolled blood pressure, this drives a high atherosclerotic cardiovascular disease risk, making metabolic syndrome the most likely unifying diagnosis."
+    },
+    {
+      "rank": 2,
+      "name": "Chronic obstructive pulmonary disease (moderate\u2011to\u2011severe)",
+      "icd10": "J44.9",
+      "snomed": "13645005",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Longstanding COPD diagnosis in problem list",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Falling CO\u2082 trend on basic metabolic panel",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Documented COPD with likely moderate\u2011to\u2011severe airflow limitation; the declining CO\u2082 may reflect chronic hypercapnia. Absence of spirometry limits severity grading, but the clinical picture supports COPD as a significant comorbidity."
+    },
+    {
+      "rank": 3,
+      "name": "Mixed iron\u2011deficiency / anemia of chronic disease",
+      "icd10": "D64.9",
+      "snomed": "271442005",
+      "probability": 0.16,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Anemia with very high RDW (44.7 fL) and elevated PDW/MPV",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Chronic inflammatory conditions (COPD, metabolic syndrome)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The disproportionate RDW and platelet indices suggest a mixed picture; chronic disease can cause anemia of chronic disease, while iron deficiency may coexist given high RDW. Further iron studies are needed to delineate components."
+    },
+    {
+      "rank": 4,
+      "name": "Obstructive sleep apnea (OSA)",
+      "icd10": "G47.33",
+      "snomed": "7340000",
+      "probability": 0.09,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and hypertension, both risk factors for OSA",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Obesity and hypertension raise suspicion for OSA, but no sleep study data are available, lowering confidence."
+    },
+    {
+      "rank": 5,
+      "name": "Familial heterozygous hyper\u2011LDL\u2011cholesterolaemia (FH)",
+      "icd10": "E78.01",
+      "snomed": "414916001",
+      "probability": 0.07,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Elevated LDL cholesterol (value not provided but implied)",
+          "strength": "moderate"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Absence of documented family history of premature ASCVD",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "LDL elevation could be secondary to metabolic syndrome or hypothyroidism; without family history or genetic testing, FH remains a less likely contributor."
+    },
+    {
+      "rank": 6,
+      "name": "Prediabetes / early type 2 diabetes mellitus",
+      "icd10": "R73.03",
+      "snomed": "237599002",
+      "probability": 0.07,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "HbA1c 6.0% (prediabetes range)",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Obesity and metabolic syndrome components",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "A1c meets prediabetes criteria; combined with insulin\u2011resistant phenotype, early type 2 diabetes is plausible."
+    },
+    {
+      "rank": 7,
+      "name": "Early chronic kidney disease (CKD) stage 2",
+      "icd10": "N18.2",
+      "snomed": "709044004",
+      "probability": 0.03,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Rising BUN with stable creatinine",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Isolated BUN rise without creatinine elevation is insufficient to confirm CKD stage 2; further renal function testing (eGFR, urine albumin) is required."
+    },
+    {
+      "rank": 8,
+      "name": "Non\u2011alcoholic fatty liver disease (NAFLD)",
+      "icd10": "K76.0",
+      "snomed": "235856003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Metabolic syndrome and obesity, strong risk factors for NAFLD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "High prevalence in metabolic syndrome, but no liver enzymes or imaging are provided, making this a tentative diagnosis."
+    }
+  ],
+  "primary_diagnosis": "Metabolic syndrome with high ASCVD risk",
+  "primary_probability": 0.38,
+  "clinical_reasoning_summary": "The patient\u2019s constellation of hypertension, class I obesity, dyslipidemia, and prediabetes fulfills ATP\u2011III/IDF criteria for metabolic syndrome, driving a high ASCVD risk and serving as the central unifying diagnosis. Co\u2011existing COPD, anemia with abnormal red cell indices, and possible sleep\u2011disordered breathing further complicate the picture. While familial hypercholesterolemia and early CKD are considered, limited supporting data lower their likelihood. The differential is weighted to reflect the reviewer\u2019s probability adjustments and confidence levels.",
+  "unresolved_findings": [
+    "Very high RDW (44.7 fL) \u2013 exceeds typical ranges for simple iron deficiency or anemia of chronic disease",
+    "Elevated PDW (438.8 fL) and MPV (11.9 fL) without overt thrombocytosis",
+    "Falling CO\u2082 trend not fully explained by COPD alone",
+    "Rising BUN with stable creatinine",
+    "Missing smoking status",
+    "Missing exact BMI and waist circumference",
+    "No repeat lipid panel or family history of premature ASCVD",
+    "Absence of arterial blood gas or venous bicarbonate with anion gap"
+  ],
+  "recommended_workup": [
+    "Spirometry with post\u2011bronchodilator testing to stage COPD severity",
+    "Overnight polysomnography for obstructive sleep apnea",
+    "Comprehensive iron studies (serum iron, ferritin, TIBC, transferrin saturation)",
+    "Thyroid function tests (TSH, free T4) to assess secondary dyslipidemia",
+    "Liver panel (ALT, AST, GGT, alkaline phosphatase) and abdominal ultrasound for NAFLD evaluation",
+    "Repeat fasting lipid panel and assessment of family history of premature ASCVD",
+    "Estimated glomerular filtration rate (eGFR) and urine albumin\u2011to\u2011creatinine ratio for CKD staging",
+    "Arterial blood gas or venous bicarbonate measurement to clarify CO\u2082 trend",
+    "Detailed smoking history and quantification of pack\u2011years",
+    "Accurate measurement of BMI and waist circumference"
+  ]
+}

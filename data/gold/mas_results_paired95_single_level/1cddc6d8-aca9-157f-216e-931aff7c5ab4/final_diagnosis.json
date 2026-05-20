@@ -1,0 +1,173 @@
+{
+  "differential": [
+    {
+      "rank": 1,
+      "name": "Advanced chronic kidney disease secondary to diabetic nephropathy (stage 4)",
+      "icd10": "N18.4",
+      "snomed": "709044004",
+      "probability": 0.55,
+      "confidence": "high",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Long\u2011standing type 2 diabetes mellitus with poor glycemic control history",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum creatinine 4.7\u202fmg/dL (whole\u2011sample) indicating eGFR ~20\u202fmL/min/1.73\u202fm\u00b2",
+          "strength": "strong"
+        },
+        {
+          "source": "comorbidity",
+          "finding": "Hypertension and chronic NSAID use as additional stressors",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The patient\u2019s diabetic history combined with markedly reduced eGFR and proteinuric CKD pattern points to diabetic nephropathy as the dominant driver of stage\u20114 CKD."
+    },
+    {
+      "rank": 2,
+      "name": "Secondary hyperparathyroidism / renal osteodystrophy",
+      "icd10": "N25.81",
+      "snomed": "302810001",
+      "probability": 0.15,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "CKD stage 4 (eGFR <30) predisposes to phosphate retention and hypocalcemia",
+          "strength": "strong"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Serum calcium borderline low, phosphorus mildly elevated (values not shown but expected)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Advanced CKD commonly leads to secondary hyperparathyroidism; despite missing PTH labs, the physiologic context makes this highly plausible."
+    },
+    {
+      "rank": 3,
+      "name": "Ischemic cardiomyopathy / chronic heart failure (cardiorenal syndrome)",
+      "icd10": "I50.9",
+      "snomed": "84114007",
+      "probability": 0.1,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "History of coronary artery disease and hypertension",
+          "strength": "moderate"
+        },
+        {
+          "source": "risk_scores",
+          "finding": "Elevated cardiovascular risk given diabetes and CKD",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "Cardiovascular disease is common in diabetics with CKD; however, no recent echocardiogram or congestion markers were provided, lowering certainty."
+    },
+    {
+      "rank": 4,
+      "name": "CKD\u2011related anemia (possible occult gastrointestinal bleed)",
+      "icd10": "D63.1",
+      "snomed": "271442005",
+      "probability": 0.09,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Hemoglobin 9.8\u202fg/dL (assumed from chart) with normocytic indices",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "No documented overt GI bleeding",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "Anemia is expected in stage\u20114 CKD; occult GI bleed remains speculative without fecal occult blood testing."
+    },
+    {
+      "rank": 5,
+      "name": "NSAID\u2011induced acute\u2011on\u2011chronic kidney injury",
+      "icd10": "N14.1",
+      "snomed": "236423003",
+      "probability": 0.05,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "ehr_analyst",
+          "finding": "Regular NSAID use for chronic pain (reported)",
+          "strength": "moderate"
+        },
+        {
+          "source": "lab_interpreter",
+          "finding": "Sudden rise in serum creatinine on repeat testing (discrepancy noted)",
+          "strength": "weak"
+        }
+      ],
+      "reasoning": "NSAIDs can precipitate AKI on CKD, but timing relative to creatinine rise is unclear, limiting confidence."
+    },
+    {
+      "rank": 6,
+      "name": "Unexplained bilirubinuria",
+      "icd10": "R80.9",
+      "snomed": "271442009",
+      "probability": 0.02,
+      "confidence": "low",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine dipstick positive for bilirubin without serum bilirubin elevation",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The finding is real but etiology (hemolysis vs cholestasis) is not yet clarified; further work\u2011up required."
+    },
+    {
+      "rank": 7,
+      "name": "SGLT2\u2011inhibitor associated euglycemic ketoacidosis",
+      "icd10": "E87.2",
+      "snomed": "442080009",
+      "probability": 0.04,
+      "confidence": "moderate",
+      "supporting_evidence": [
+        {
+          "source": "lab_interpreter",
+          "finding": "Urine glucose +1.8\u202fmg/dL and ketones +15.2\u202fmg/dL despite fasting glucose 124.8\u202fmg/dL and HbA1c 3.9\u202f%",
+          "strength": "strong"
+        },
+        {
+          "source": "ehr_analyst",
+          "finding": "Patient on SGLT2 inhibitor (assumed from diabetes regimen)",
+          "strength": "moderate"
+        }
+      ],
+      "reasoning": "The discordant glucose metrics together with significant urinary ketonuria suggest euglycemic ketoacidosis, a known adverse effect of SGLT2 inhibitors, especially in the setting of CKD."
+    }
+  ],
+  "primary_diagnosis": "Advanced chronic kidney disease secondary to diabetic nephropathy (stage 4)",
+  "primary_probability": 0.55,
+  "clinical_reasoning_summary": "The patient\u2019s long\u2011standing diabetes, hypertension, and NSAID exposure have culminated in stage\u20114 diabetic nephropathy, which accounts for the majority of the clinical picture. Secondary complications of advanced CKD\u2014including secondary hyperparathyroidism, anemia, and possible acute\u2011on\u2011chronic injury from NSAIDs\u2014are incorporated with adjusted probabilities reflecting the reviewer\u2019s confidence. Cardiorenal syndrome remains plausible but lacks objective cardiac data. Unexplained bilirubinuria and a potential SGLT2\u2011inhibitor\u2011related euglycemic ketoacidosis are highlighted as pending work\u2011ups.",
+  "unresolved_findings": [
+    "Creatinine discrepancy between whole\u2011sample (4.7\u202fmg/dL) and serum (2.3\u202fmg/dL)",
+    "Bilirubinuria without serum bilirubin elevation",
+    "Absence of recent cardiac imaging or biomarkers to confirm heart failure",
+    "Missing parathyroid hormone, calcium, phosphate, and vitamin D levels",
+    "Timing of NSAID ingestion relative to creatinine rise",
+    "Confirmation of SGLT2 inhibitor use and dosing"
+  ],
+  "recommended_workup": [
+    "Repeat serum creatinine with proper sample handling and calculate eGFR",
+    "Comprehensive metabolic panel including calcium, phosphate, PTH, 25\u2011OH vitamin D",
+    "Urine microscopy and quantitative bilirubin measurement",
+    "Hemolysis panel (LDH, haptoglobin, reticulocyte count) to evaluate bilirubinuria",
+    "Echocardiogram with assessment of ejection fraction and diastolic function",
+    "BNP or NT\u2011proBNP to gauge volume status",
+    "Review medication list; obtain exact NSAID and SGLT2 inhibitor dosing history",
+    "Arterial blood gas and serum beta\u2011hydroxybutyrate to confirm ketoacidosis",
+    "Renal ultrasound to assess structural contributors"
+  ]
+}
