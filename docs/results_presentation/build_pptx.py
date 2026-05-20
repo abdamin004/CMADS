@@ -592,7 +592,7 @@ def slide_literature(prs, metrics):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
     add_header(slide, "Where CMADS sits against the literature",
-               "Seven comparators · what they do, their result, and what they leave out")
+               "Eight comparators · what they do, their result, and what they leave out")
 
     # Each item: (paper, what-they-do, result, missing-that-CMADS-adds, accent)
     items = [
@@ -631,9 +631,14 @@ def slide_literature(prs, metrics):
          "Cardiologist-level on 7/8 metrics (qualitative).",
          "Single specialty · no memory · no treatment plan · no open backbone.",
          TEAL),
+        ("Rahman & Emdad (2025, ACM ICIM)",
+         "Tabular NN diagnostic classifier on Synthea — closest Synthea-on-AI prior.",
+         "F1 drops to 0.581 under telemedicine context loss (100k encounters).",
+         "Classification on tabular features · no LLM reasoning · no multi-agent.",
+         AMBER),
     ]
 
-    # 2-column grid: 4 left, 3 right
+    # 2-column grid: 4 left, 4 right
     col_w = 6.15
     row_h = 1.40
     rows = [(items[:4], 0.35), (items[4:], 6.85)]

@@ -80,6 +80,26 @@ ships the combination of end-to-end EHR ingestion, non-destructive
 Reviewer-Refiner, CoALA-style four-tier memory, and a doctor-facing
 inspection interface that this thesis evaluates as one system.
 
+\paragraph{Synthea as a data substrate for diagnostic AI.}
+The data source itself deserves a brief comment. The most directly
+comparable contemporary work that evaluates a diagnostic AI system on
+Synthea-generated patients is the neural-network telemedicine study
+of Rahman and Emdad \cite{Rahman2025SyntheaNN}, which generates
+100,000 synthetic encounters with Synthea and trains a family of
+tabular classifiers (MLP, deep MLP, TabNet, and a custom PyTorch
+network) to detect metabolic, oncology, and allergy/immunology
+conditions; their reported F1 drops to 0.581 when telemedicine
+context is limited. The two designs operate at opposite ends of the
+design space: their work treats Synthea as a large statistical
+training cohort for tabular classifiers under feature drop-out,
+while the present work treats a smaller, deeply-annotated Synthea
+cohort as a substrate for multi-agent LLM differential diagnosis
+with persistent memory and treatment planning. To the best of the
+literature search reported in Section~\ref{sec:search}, no prior
+multi-agent LLM diagnostic pipeline has been evaluated end-to-end on
+Synthea-derived patient records; the present thesis is the first to
+do so in this configuration.
+
 \FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Research Gaps Identified}
@@ -137,7 +157,7 @@ relevance to this thesis, and overall relevance score. The ``22'' here refers
 to papers retained by the multi-agent-system literature review process
 described in Section~\ref{sec:search}; CoALA, BioLORD, and the
 epidemiology / workload sources cited elsewhere in the thesis sit outside
-that count and bring the total bibliography to 27 entries.
+that count and bring the total bibliography to 29 entries.
 
 \begin{table}[p]
 \centering
