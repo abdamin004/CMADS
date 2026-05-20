@@ -130,6 +130,46 @@ def compute(repo: Path | None = None) -> dict:
 
     baseline = _decorate(_aggregate_dir(results / "mas_results"))
 
+    # Paired-160 cohorts: same 160 UUIDs in both arms. Single-level
+    # arm draws from mas_results/ (65 overlap UUIDs) and
+    # mas_results_paired95_single_level/ (95 fills). Multi-level arm is
+    # the same as combined_160.
+    def _aggregate_multi_dir(dirs: list[Path], uuids: list[str]) -> dict:
+        out = {"n": 0, "DIRECT": 0, "INDIRECT": 0, "MISS": 0,
+               "found": 0, "rank1_in_found": 0,
+               "duration_total_s": 0.0, "missing": 0}
+        for u in uuids:
+            ev = None
+            tr = None
+            for d in dirs:
+                ev = _load(d / u / "evaluation.json")
+                if ev:
+                    tr = _load(d / u / "execution_trace.json")
+                    break
+            if not ev or "match_type" not in ev:
+                out["missing"] += 1
+                continue
+            out["n"] += 1
+            mt = ev["match_type"]
+            if mt in out:
+                out[mt] += 1
+            if mt in ("DIRECT", "INDIRECT"):
+                out["found"] += 1
+                if ev.get("rank") == 1:
+                    out["rank1_in_found"] += 1
+            if tr and isinstance(tr.get("duration_s"), (int, float)):
+                out["duration_total_s"] += tr["duration_s"]
+        return out
+
+    paired_uuids = list({u for u in b3 + b4 + b60})  # 160 distinct
+    single_dirs = [results / "mas_results",
+                   results / "mas_results_paired95_single_level"]
+    multi_dirs = [results / "mas_results_improved_b3",
+                  results / "mas_results_improved_50",
+                  results / "mas_results_improved_extra60"]
+    paired_single = _decorate(_aggregate_multi_dir(single_dirs, paired_uuids))
+    paired_multi = _decorate(_aggregate_multi_dir(multi_dirs, paired_uuids))
+
     mc = _load(results / "paired_memory_mcnemar.json") or {}
 
     paired = {
@@ -161,6 +201,8 @@ def compute(repo: Path | None = None) -> dict:
             "combined_100": combined,
             "combined_160": combined_160,
             "single_level_baseline": baseline,
+            "paired_single_level_160": paired_single,
+            "paired_multi_level_160": paired_multi,
         },
         "paired_mcnemar": paired,
         "paired_160": paired_160,

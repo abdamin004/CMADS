@@ -15,9 +15,9 @@ PPTX = HERE / "CMADS_Results_Presentation.pptx"
 REQUIRED_PHRASES = [
     "CMADS — Multi-Agent Systems for AI Clinical Decisioning",
     "What CMADS is",
-    "Results — paired 160-patient memory A/B (McNemar)",
-    "Exact McNemar",
-    "discordant",
+    "Results — single-level vs multi-level memory",
+    "Same 160 patients",
+    "Δ (Multi-level − Single-level)",
     "Doctor dashboard — features overview",
     "Where CMADS sits against the literature",
     "AMIE",
