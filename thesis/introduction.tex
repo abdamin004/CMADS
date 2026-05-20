@@ -48,10 +48,17 @@ the EHR, another can interpret laboratory trends, another can construct the
 differential diagnosis, and a reviewer can challenge the result before a final
 answer is saved. This resembles the way complex cases are often discussed by
 clinical teams, where the value comes not only from one expert opinion but from
-structured comparison and review. Recent systems such as MDAgents, ZODIAC,
-ClinicalLab, the MAC Framework, RareAgents, and MDTeamGPT show that multi-agent
-LLM workflows can improve medical reasoning in specific settings
-\cite{Kim2024MDAgents,Zhou2024ZODIAC,Yan2024ClinicalLab,MAC2025npj,Chen2024RareAgents,Chen2025MDTeamGPT}.
+structured comparison and review. Recent systems show that multi-agent LLM workflows can improve medical
+reasoning in specific settings: MDAgents routes cases by complexity across
+solo and group consultation modes~\cite{Kim2024MDAgents}; ZODIAC reaches
+cardiologist-level performance on cardiac data with a human-review
+stage~\cite{Zhou2024ZODIAC}; ClinicalLab deploys department-specific agents
+across eleven hospital departments on real cases~\cite{Yan2024ClinicalLab};
+the MAC framework structures rare-disease consultation as multi-doctor
+debate under a supervisor~\cite{MAC2025npj}; RareAgents combines persistent
+memory and tool use for rare-disease diagnosis~\cite{Chen2024RareAgents};
+and MDTeamGPT models a self-evolving multidisciplinary team that debates
+before synthesising the final answer~\cite{Chen2025MDTeamGPT}.
 
 The remaining challenge is not simply choosing a larger or more medical model.
 It is designing the workflow that connects the agents. If agents pass weak
@@ -135,8 +142,9 @@ the meanings used in this project.
 
   \item[\textbf{Cohort leakage.}] A risk in memory-based evaluation where the
     system looks better because it has already seen similar cases from the same
-    test cohort. This thesis reports this risk explicitly when interpreting the
-    aggregate memory comparison.
+    test cohort. This thesis controls for this risk by reporting a paired
+    160-patient memory A/B in which patient identity is held constant across
+    arms.
 
 \end{description}
 
@@ -159,21 +167,19 @@ evaluation, and treatment planning. This requires an execution graph that can
 run agents in the right order, allow parallel work where it is useful, and
 continue safely when an agent produces a partial or invalid output.
 
-The second problem is \textbf{meaningful disagreement between agents}. A
-multi-agent system is weak if all agents simply confirm the first diagnosis.
-Prior work shows that structured conflict resolution can improve diagnostic
-accuracy \cite{Fan2024AIHospital,Wang2025Catfish}. In this thesis, the Clinical
-Reviewer challenges the Diagnostic Reasoning output, and the Diagnostic Refiner
-uses that critique to produce the final diagnosis. The original diagnostic
-reasoning is not deleted, which keeps the decision path available for audit.
+The second problem is \textbf{meaningful disagreement between agents}.
+A multi-agent system is weak if all agents simply confirm the first
+diagnosis, and prior work shows that structured conflict resolution
+improves diagnostic accuracy \cite{Fan2024AIHospital,Wang2025Catfish}.
+The Reviewer-Refiner pattern adopted in this thesis is described in
+Chapter~\ref{chap:methodology}.
 
-The third problem is \textbf{shared memory}. Many clinical agent systems treat
-each patient as a completely new case. This makes evaluation easier, but it
-does not test whether the system can reuse useful patterns across runs. Memory
-can also create a false improvement if the system retrieves cases from the same
-cohort that is later used for evaluation. For that reason, this thesis
-implements multi-level memory, compares it against the memory-disabled setting
-across all available runs, and discusses the cohort-leakage risk directly.
+The third problem is \textbf{shared memory}. Many clinical agent
+systems treat each patient as a new case and do not test whether
+useful patterns can be reused across runs. This thesis implements
+multi-level memory and compares it against a memory-disabled setting;
+the cohort-leakage risk that any such comparison must control for is
+discussed in Section~\ref{subsec:memory_state}.
 
 The fourth problem is \textbf{evaluation}. Medical multiple-choice benchmarks
 are useful, but they are not the same as generating a ranked differential
@@ -195,8 +201,12 @@ black-box model?
 
 Two related topics are outside the main scope: defending the system against a
 compromised agent \cite{Chen2025MedSentry}, and fully measuring the trade-off
-between safety constraints and diagnostic accuracy \cite{Kim2025TAO,Wu2024EHRFlow}.
-They are discussed again as future work in Chapter~\ref{chap:conclusion}.
+between safety constraints and diagnostic accuracy \cite{Kim2025TAO,Chen2025MedSentry}.
+Iterative EHR error recovery, as in EHRFlow's Debugger-agent
+loop~\cite{Wu2024EHRFlow}, is a related design pattern that this thesis adopts
+in spirit through the Reviewer-Refiner step rather than as a separately
+evaluated dimension. They are discussed again as future work in
+Chapter~\ref{chap:conclusion}.
 
 % -----------------------------------------------------------------------------
 \section{Aim and Research Question}
@@ -216,7 +226,7 @@ The main research question is:
 When clinical reasoning is split across a small team of specialised AI agents
 that can review, critique, and remember each other's work, can they reach a
 clinically plausible diagnosis --- and does giving them memory of past
-patients actually help, or just add noise?
+patients improve, degrade, or have a neutral effect on diagnostic accuracy?
 \end{quote}
 
 The corresponding hypothesis is that a coordinated team of specialised
@@ -224,26 +234,11 @@ agents, with an explicit review step that can rewrite a flawed primary
 diagnosis without erasing the earlier reasoning, produces clinically
 plausible diagnoses more reliably than a single model alone; and that
 shared memory of past patients broadens the differential the system
-considers without making the top diagnosis more accurate. Figure~\ref{fig:intro_system} previews the system at a high level; the
-detailed agent graph, shared-memory subsystem, and dashboard are unpacked in
-Chapter~\ref{chap:methodology}.
+considers without making the top diagnosis more accurate.
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.92\textwidth]{images/ch3_system_architecture.png}
-\caption{High-level view of the proposed system. Synthea-generated patient
-records pass through a medallion data pipeline into Gold case objects, which
-are consumed by the seven-agent reasoning system. NICE guidelines are
-retrieved at the treatment stage. Outputs are persisted as per-agent JSON
-files and made available to a Streamlit evaluator dashboard and a
-React-based doctor console for clinician review.}
-\label{fig:intro_system}
-\end{figure}
-
-The evaluation cohort used in Chapter~\ref{chap:results} consists of 160 Gold-layer
-patients that pass the deterministic eligibility and LLM-based detectability
-filters described in Section~\ref{sec:llm_verifier}. The memory comparison
-additionally uses all available unique runs within each memory setting.
+The detailed agent graph, shared-memory subsystem, data pipeline, and
+dashboard are unpacked in Chapter~\ref{chap:methodology}; the evaluation
+cohort and headline results are reported in Chapter~\ref{chap:results}.
 
 % -----------------------------------------------------------------------------
 \section{Objectives}
@@ -263,14 +258,10 @@ The objectives of the thesis are:
   detectability verifier to yield a 160-patient evaluation cohort across the
   implemented disease groups.
 
-  \item \textbf{Implement the multi-agent workflow.} Build a LangGraph pipeline
-  with EHR Analyst, Lab Interpreter, Diagnostic Reasoning, Clinical Reviewer,
-  Diagnostic Refiner, LLM Evaluator, and Treatment Planning agents.
-
-  \item \textbf{Support structured clinical review.} Add a
-  Reviewer--Refiner pattern where the reviewer challenges the diagnostic output
-  and the refiner updates the final differential while keeping the earlier
-  output available for audit.
+  \item \textbf{Implement the multi-agent workflow.} Build a LangGraph
+  pipeline of seven specialised agents, including the Reviewer--Refiner
+  step that challenges the primary diagnosis while preserving the
+  earlier reasoning for audit.
 
   \item \textbf{Implement multi-level shared memory.} Store working state,
   episodic traces, semantic disease summaries, guideline knowledge, and
@@ -283,9 +274,9 @@ The objectives of the thesis are:
   \item \textbf{Evaluate free-text diagnoses.} Use a separate LLM judge with
   DIRECT, INDIRECT, and MISS labels, plus rank-1-when-found.
 
-  \item \textbf{Measure the effect of memory.} Compare multi-level memory with
-  a single-level setup across all available runs and report the cohort-leakage
-  risk as a limitation of the comparison.
+  \item \textbf{Measure the effect of memory.} Compare multi-level memory
+  with a memory-disabled setting under the leakage-aware protocol
+  introduced in Section~\ref{subsec:memory_state}.
 
   \item \textbf{Build reviewer-facing interfaces.} Provide a Streamlit
   dashboard and a doctor console that allow a reviewer to choose a patient,
@@ -328,39 +319,6 @@ claim final clinical performance.
 
 \textbf{English-only reasoning.} The prompts, retrieved guidelines, and
 dashboard text are in English. Non-English clinical text is outside the scope.
-
-% -----------------------------------------------------------------------------
-\section{Contributions}
-\label{sec:contributions}
-% -----------------------------------------------------------------------------
-
-The main contributions of this thesis are:
-
-\begin{enumerate}
-
-  \item A working LangGraph clinical multi-agent pipeline with seven agents,
-  parallel Stage~1 analysis, adaptive diagnostic reasoning, reviewer-based
-  critique, diagnostic refinement, automated evaluation, and treatment planning.
-
-  \item A multi-level shared-memory design for clinical agents, including working
-  state, episodic traces, semantic disease summaries, guideline retrieval, and
-  case-based recall of prior patients.
-
-  \item A reproducible Synthea-to-Gold data pipeline that turns synthetic FHIR-R4
-  records into structured EHR and lab case files with hidden ground-truth labels.
-
-  \item A treatment planning step that retrieves NICE guideline material from
-  Qdrant and uses it to produce guideline-grounded recommendations.
-
-  \item An LLM-as-judge evaluation setup for free-text differential diagnoses,
-  using DIRECT, INDIRECT, and MISS labels, rank-1-when-found, and an aggregate
-  memory comparison with explicit cohort-leakage caveats.
-
-  \item A Streamlit doctor-facing dashboard that shows the patient case, each
-  agent's output, the memory events, retrieved guideline evidence, and the final
-  diagnosis in a format that is easier to review than raw JSON files.
-
-\end{enumerate}
 
 % -----------------------------------------------------------------------------
 \section{Thesis Outline}

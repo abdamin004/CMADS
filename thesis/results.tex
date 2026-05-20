@@ -74,7 +74,7 @@ success, partial, error, or skipped in \texttt{execution\_trace.json}.
 \texttt{null} value. \emph{Skipped} means the agent was intentionally bypassed,
 as with Treatment Planning when the match is not DIRECT. \textbf{Per-agent
 latency} is the wall-clock time for each agent call. For memory, the chapter
-reports an aggregate comparison across all available unique runs in each memory
+reports a paired controlled comparison on 160 identical patients run in each memory
 setting and discusses cohort leakage as a limitation of interpreting memory
 effects.
 
@@ -573,7 +573,7 @@ RareAgents \newline \cite{Chen2024RareAgents}
 This work
   & 7-agent LangGraph pipeline with non-destructive Reviewer-Refiner and 4-tier shared memory
   & Synthea patients filtered through deterministic eligibility and an LLM detectability verifier across 8 disease families
-  & 73.8\% DIRECT, 87.5\% combined found rate, 60.0\% Rank-1 within found, plus an aggregate all-runs memory comparison \\
+  & 73.8\% DIRECT, 87.5\% combined found rate, 60.0\% Rank-1 within found, plus a paired 160-patient memory A/B showing $+3.8$ pp DIRECT for multi-level memory \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -583,8 +583,9 @@ Compared with MDAgents and MAC, this system uses the same broad idea of
 specialised agents working on one clinical task. The difference is that CMADS
 uses a fixed LangGraph workflow with parallel Stage~1 execution, a diagnostic
 critique loop, and a non-destructive Reviewer-Refiner step. It also adds the
-four-tier memory system and reports an all-runs memory comparison with the
-leakage risk made explicit.
+four-tier memory system and reports a paired 160-patient memory A/B that
+controls for cohort composition by holding patient identity constant across
+arms.
 
 Compared with ZODIAC and ClinicalLab, a direct accuracy comparison would be
 unfair because the cohorts are different. ZODIAC uses real cardiology data.
