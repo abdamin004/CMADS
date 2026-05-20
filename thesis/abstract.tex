@@ -1,44 +1,28 @@
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 
-This thesis presents the design, implementation, and evaluation of a multi-agent
-system for clinical decisioning that targets the workflow-coordination problem
-identified by recent literature as the primary unsolved challenge in clinical AI.
-A seven-agent LangGraph pipeline --- EHR Analyst, Lab Interpreter, Diagnostic
-Reasoning, Clinical Reviewer, Diagnostic Refiner, LLM Evaluator, and Treatment
-Planning --- is arranged in a six-stage state graph with parallel evidence
-gathering, an adaptive multi-round diagnostic loop, and a non-destructive
-Reviewer-Refiner deliberation pattern that preserves the original diagnostic
-output for audit. A four-tier shared-memory subsystem inspired by the CoALA
-architecture --- working, episodic, semantic, and case-based --- augments the
-agents with persistent state across cases, paired with a disease canonicaliser
-and a three-phase diagnostic protocol that mitigates anchoring on retrieved
-priors.
+Recent literature identifies workflow coordination, not individual
+agent capability, as the principal unsolved problem in clinical
+multi-agent AI. This thesis presents CMADS, a seven-agent LangGraph
+clinical decision support pipeline that targets that problem through
+two architectural contributions: a non-destructive Reviewer--Refiner
+pattern that lets a critique step rewrite a flawed primary diagnosis
+while preserving the original reasoning for audit, and a four-tier
+shared-memory subsystem instantiated after the CoALA taxonomy,
+combined with a three-phase anti-anchoring protocol that controls
+undue influence from retrieved priors.
 
-Patient data originates from a Synthea-driven medallion lake (Bronze FHIR-R4
-ingestion, Silver transformation to OMOP CDM v5.4 via dbt-core, Gold case
-assembly in Python over DuckDB), filtered through deterministic eligibility
-rules and an LLM-based detectability verifier to produce the candidate
-evaluation cohort across eight target disease families. Treatment plans are
-generated only on confirmed diagnoses and are grounded in NICE guideline
-passages retrieved from a Qdrant vector store. Evaluation uses an LLM-as-judge
-protocol that compares free-text differential diagnoses against the hidden
-Synthea ground truth on a three-label scale (DIRECT / INDIRECT / MISS) with
-rank-1-when-found, complemented by an aggregate multi-level versus single-level
-memory comparison across all available runs for each memory setting, with
-cohort-leakage caveats reported explicitly.
-
-On the principal evaluation cohort the pipeline returns a DIRECT match in
-74\% of cases, a combined DIRECT-or-INDIRECT found rate of 88\%, and ranks
-the ground-truth condition first in 61\% of the cases in which it is found.
-The aggregate comparison of multi-level memory against a memory-disabled
-configuration shows that multi-level memory broadens the candidate differential
-but does not improve primary-diagnosis precision across all available runs. The
-multi-level setting has a higher found rate and a lower miss rate, but also a
-lower DIRECT rate, showing that memory helps surface related diagnoses more
-than it improves the primary diagnosis. This nuanced result is a contribution
-of the thesis. A Streamlit
-research dashboard and a React-based doctor console prototype expose the
-agent reasoning, memory operations, and retrieved guideline evidence for
-clinical review, supporting calibrated trust rather than uncritical
-acceptance of model output.
+Evaluation uses an LLM-as-judge protocol on a 160-patient
+Synthea-derived cohort across eight cardiometabolic disease families,
+classifying free-text differentials as DIRECT, INDIRECT, or MISS
+against hidden ground truth. The pipeline returns a DIRECT match in
+73.8\% of cases (Wilson 95\% CI [66.4, 80.0]), a combined
+DIRECT-or-INDIRECT found rate of 87.5\%, and ranks the target
+condition first in 60.0\% of cases in which it is found. A controlled
+160-patient paired memory A/B test (exact McNemar $p = 1.0$ on 49
+discordant pairs) shows multi-level memory broadens the candidate
+differential (Found rate $87.5\% \to 93.8\%$) without changing
+primary-diagnosis precision (DIRECT rate $53.1\% \to 52.5\%$). A doctor-facing console exposes the
+agent chain, memory operations, and retrieved guideline evidence to
+support calibrated clinical trust rather than uncritical acceptance
+of model output.

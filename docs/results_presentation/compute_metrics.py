@@ -140,6 +140,19 @@ def compute(repo: Path | None = None) -> dict:
         "mcnemar_p_two_sided": (mc.get("mcnemar_exact") or {}).get("p_value_two_sided"),
     }
 
+    # Paired-160 (supersedes the n=20 paired test): same 160 UUIDs,
+    # memory OFF vs memory ON. Loaded from data/gold/paired_160_mcnemar.json
+    # produced by scripts/paired_160_mcnemar.py.
+    mc160 = _load(results / "paired_160_mcnemar.json") or {}
+    paired_160 = {
+        "n_paired": mc160.get("n_paired"),
+        "off_direct_rate": mc160.get("off_direct_rate"),
+        "on_direct_rate": mc160.get("on_direct_rate"),
+        "contingency": mc160.get("contingency_2x2", {}),
+        "mcnemar_p_two_sided": (mc160.get("mcnemar_exact") or {}).get("p_value_two_sided"),
+        "discordant_pairs": (mc160.get("mcnemar_exact") or {}).get("discordant_pairs"),
+    } if mc160 else None
+
     return {
         "cohorts": {
             "batch_3_cold_start": cold,
@@ -150,6 +163,7 @@ def compute(repo: Path | None = None) -> dict:
             "single_level_baseline": baseline,
         },
         "paired_mcnemar": paired,
+        "paired_160": paired_160,
         "sources": {
             "cold_start_dir": "data/gold/mas_results_improved_b3",
             "warmed_dir": "data/gold/mas_results_improved_50",

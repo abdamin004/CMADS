@@ -17,26 +17,45 @@ results are reported in Chapter~\ref{chap:results}.
 The research question stated in Section~\ref{sec:aim} is answered in two
 parts. On the first half --- whether a small team of specialised agents
 can reach a clinically plausible diagnosis when they review, critique, and
-remember each other's work --- the answer is yes, with the headline rates
-reported in Section~\ref{sec:concl_findings}. On the second half ---
-whether giving the team memory of past patients actually helps --- the
-answer is more nuanced: shared memory broadens the candidate differential
-the system considers, but it does not improve the precision of the top
-diagnosis in the aggregate comparison with a memory-disabled
-configuration. The corresponding hypothesis is therefore confirmed: the
-non-destructive Reviewer-Refiner pattern is the practical mechanism that
-lets the system rewrite a flawed primary diagnosis while preserving the
-earlier reasoning for audit, and memory contributes breadth rather than
-precision.
+remember each other's work --- the seven-agent pipeline produced the
+headline rates reported in Section~\ref{sec:concl_findings}; reliability
+claims are scoped to this evaluated seven-agent pipeline, since no
+matched single-model baseline was run on the principal cohort. On the
+second half --- whether giving the team memory of past patients
+actually helps --- the answer is more nuanced: on the controlled
+paired comparison of 160 identical patients run with and without the
+memory subsystem, the DIRECT rate moves from 53.1\% to 52.5\% and an
+exact McNemar on the 49 discordant pairs gives $p = 1.0$; shared
+memory broadens the candidate differential the system considers
+(Found rate 87.5\% $\to$ 93.8\%) but does not change the precision of
+the top diagnosis. The corresponding hypothesis is therefore only
+\emph{partially supported}:
+the non-destructive Reviewer-Refiner pattern is the practical mechanism
+that lets the system rewrite a flawed primary diagnosis while
+preserving the earlier reasoning for audit, and the available evidence
+is consistent with memory contributing breadth rather than precision,
+but not powered to establish that pattern as a confirmed empirical
+finding.
 
 All nine objectives stated in Section~\ref{sec:objectives} were
-implemented and evaluated within the bounds defined in
-Section~\ref{sec:scope}: the medallion data pipeline, the seven-agent
-LangGraph workflow, the Reviewer-Refiner pattern, the four-tier shared
-memory, the NICE-grounded treatment planner, the LLM-as-judge evaluation
-framework with explicit cohort-leakage caveats, the provider-agnostic LLM
-adapter, the comparative model study, and the doctor-facing inspection
-dashboard.
+implemented; they were evaluated where reported in
+Chapter~\ref{chap:results}, within the bounds defined in
+Section~\ref{sec:scope}. In Section~\ref{sec:objectives} order: the
+clinical data pipeline (Bronze/Silver/Gold over Synthea FHIR-R4); the
+160-patient evaluation cohort built by the deterministic eligibility
+rules and the LLM-based detectability verifier; the seven-agent
+LangGraph multi-agent workflow; the Reviewer-Refiner pattern that
+allows structured clinical review while preserving the earlier
+diagnostic output for audit; the four-tier shared-memory subsystem
+covering working, episodic, semantic, and case-based tiers; the
+NICE-guideline-grounded Treatment Planning stage gated on DIRECT
+matches; the LLM-as-judge evaluation framework using
+DIRECT~/~INDIRECT~/~MISS with Rank-1-within-found; the descriptive
+all-runs and paired memory comparisons; and the Streamlit research
+dashboard plus the React doctor console for clinician inspection. The
+clinician-facing interfaces were built but their expert-evaluation
+component remains a planned protocol
+(Section~\ref{subsec:results_expert}), not a completed validation.
 The literature gaps identified in Chapter~\ref{chap:background} --- end-to-end
 coordination, non-destructive deliberation, persistent shared memory, and
 leakage-aware evaluation --- are each addressed directly by the
@@ -93,30 +112,43 @@ The substantive contributions of this thesis are:
 Three empirical findings of this thesis are worth highlighting at the
 point of conclusion. First, within this synthetic-evaluation setting,
 the end-to-end pipeline produced encouraging diagnostic results: a
-DIRECT match in 74\% of evaluated cases, a combined
-DIRECT-or-INDIRECT found rate of 88\%, and the ground-truth condition
-ranked first in 61\% of the cases in which it was found, at a median
-per-patient latency around two minutes and with no single patient run
-aborted by an agent failure. The detailed per-disease-family
+DIRECT match in 73.8\% of evaluated cases (Wilson 95\% CI
+[66.4, 80.0]), a combined DIRECT-or-INDIRECT found rate of 87.5\%,
+and the ground-truth condition ranked first in 60.0\% of the cases in
+which it was found (Rank-1 within found), at a median per-patient latency around two minutes and
+with no single patient run aborted by an agent failure. The detailed per-disease-family
 breakdown and per-agent reliability profile are reported in
 Sections~\ref{sec:results_e2e} and \ref{sec:results_agents}.
 
-Second, the aggregate comparison of all available single-level and
-multi-level memory runs produced a result that differs from the
-expectation set by the literature. Multi-level memory did not improve
-primary-diagnosis precision; it broadened the system's candidate
-differential, raised the found rate, and reduced the miss rate, but at
-the cost of fewer DIRECT matches. This may be useful in a deployment in
-which a clinician consumes the full differential and decides downstream,
-but it is a harmful trade-off in a deployment in which the primary alone
+Second, the paired controlled comparison of multi-level memory
+against the single-level pipeline on the same 160 patients
+(Section~\ref{sec:results_memory_ab}) suggests a pattern that
+differs from the expectation set by the literature. The DIRECT rate
+is essentially unchanged --- 53.1\% with single-level memory versus
+52.5\% with multi-level memory, with 25 patients improved by
+multi-level and 24 worsened by it (49 discordant pairs total, exact McNemar $p = 1.0$). On the
+same patients, the Found rate rises from 87.5\% to 93.8\% and the
+MISS rate falls from 12.5\% to 5.0\%. The earlier 205-vs-100
+unpaired aggregate that appeared in drafts of this work is now
+known to have been a cohort-selection artifact: the multi-level
+cohort is on average a harder patient subset than the original
+baseline. With patient identity held constant, the substantive
+memory effect lives in the wider differential, not in top-1
+accuracy. The trade-off, if real, may be useful in a deployment in
+which a clinician consumes the full differential and decides
+downstream, and neutral in a deployment in which the primary alone
 drives downstream action.
 
-Third, the memory evaluation itself is a useful warning. Published clinical
-multi-agent systems with memory often present memory as a direct source of
-accuracy improvement. The aggregate all-runs comparison in this thesis does not
-support that simple claim: memory reduces misses and broadens the differential,
-but it lowers the DIRECT rate. Reporting that trade-off, together with the
-cohort-leakage caveat, is important for any later work on memory-augmented
+Third, the memory evaluation itself is a useful warning about how
+memory-augmented clinical agents are commonly reported. The paired
+controlled comparison in this thesis does not support a simple
+``memory improves accuracy'' claim: at $n = 160$ with the same
+patient set per arm, memory reduces misses and broadens the
+differential but leaves DIRECT essentially unchanged. The 205-vs-100
+unpaired comparison that earlier appeared to show a large DIRECT
+gap was a cohort artifact. Reporting that pattern transparently ---
+paired test as the primary result, unpaired numbers labelled as
+such --- is important for any later work on memory-augmented
 clinical agents.
 
 % -----------------------------------------------------------------------------

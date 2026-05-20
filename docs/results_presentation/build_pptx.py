@@ -197,27 +197,114 @@ def slide_what_is_cmads(prs, metrics):
 def slide_headline(prs, metrics):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
+    p160 = metrics.get("paired_160")
+    if p160 and p160.get("n_paired"):
+        _slide_headline_paired(slide, metrics, p160)
+    else:
+        _slide_headline_unpaired(slide, metrics)
+
+
+def _slide_headline_paired(slide, metrics, p):
+    add_header(slide, "Results — paired 160-patient memory A/B (McNemar)",
+               f"Same {p['n_paired']} UUIDs run with single-level memory and multi-level memory; "
+               "the controlled comparison")
+
+    c = p["contingency"]
+    off_pct = p["off_direct_rate"] * 100
+    on_pct = p["on_direct_rate"] * 100
+    pval = p["mcnemar_p_two_sided"]
+    discordant = p["discordant_pairs"]
+
+    # Big-number tiles up top
+    tile_w, tile_h, gap, left0, top0 = 2.9, 1.45, 0.2, 0.6, 1.15
+    tiles = [
+        (f"{off_pct:.1f}%",       "DIRECT · single-level",      BLUE),
+        (f"{on_pct:.1f}%",        "DIRECT · multi-level",       AMBER),
+        (f"{on_pct - off_pct:+.1f} pp",
+                                  "Paired Δ on DIRECT",         GREY_DARK),
+        (f"p = {pval:.2f}",       f"Exact McNemar  ·  {discordant} discordant", RED),
+    ]
+    for i, (v, lbl, col) in enumerate(tiles):
+        add_metric_tile(slide, left0 + i * (tile_w + gap), top0, tile_w, tile_h,
+                        v, lbl, value_color=col)
+
+    # 2x2 contingency on the left
+    headers = ["", "Multi-level · DIRECT", "Multi-level · not-DIRECT"]
+    rows = [
+        ["Single-level · DIRECT",     c["both_DIRECT"],     c["only_OFF_DIRECT"]],
+        ["Single-level · not-DIRECT", c["only_ON_DIRECT"],  c["neither_DIRECT"]],
+    ]
+    add_table(slide, 0.6, 2.85, 6.2, 2.4, headers, rows)
+    add_textbox(slide, 0.6, 5.3, 6.2, 0.4,
+                "2×2 paired contingency · diagonal = concordant, off-diagonal drives McNemar",
+                size=10, color=GREY_MED, align=PP_ALIGN.CENTER)
+
+    # Interpretation panel on the right
+    panel = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                    Inches(7.1), Inches(2.85),
+                                    Inches(5.7), Inches(2.4))
+    panel.fill.solid(); panel.fill.fore_color.rgb = WHITE
+    panel.line.color.rgb = GREY_LIGHT
+    add_textbox(slide, 7.3, 2.95, 5.3, 0.45,
+                "Reading the result",
+                size=13, bold=True, color=NAVY)
+    add_textbox(slide, 7.3, 3.4, 5.3, 1.8,
+                "• Discordant pairs are virtually balanced: 25 only "
+                "single-level, 24 only multi-level.\n"
+                "• Memory has no measurable effect on DIRECT at n=160 "
+                "(p = 1.0).\n"
+                "• The earlier unpaired aggregate (73% vs 52%) was a "
+                "cohort-selection artifact — the multi-level cohort is "
+                "harder than the original baseline.\n"
+                "• Memory's effect lives in the wider differential, "
+                "not in top-1 accuracy.",
+                size=10.5, color=GREY_DARK)
+
+    # Found/MISS sub-strip — paired same 160 UUIDs from the cohorts blocks
+    base = metrics["cohorts"]["single_level_baseline"]
+    mem = metrics["cohorts"].get("combined_160") or metrics["cohorts"]["combined_100"]
+    d_found = mem["found_pct"] - base["found_pct"]
+    d_miss = mem["MISS_pct"] - base["MISS_pct"]
+    add_textbox(slide, 0.6, 5.85, 12.1, 0.45,
+                "Wider-differential effect (unpaired aggregate, n=160 each)",
+                size=12, bold=True, color=GREY_DARK)
+    strip = [
+        ("Found rate",
+         f"{base['found_pct']:.1f}% → {mem['found_pct']:.1f}%   ({d_found:+.1f} pp)",
+         GREEN if d_found > 0 else RED),
+        ("MISS rate",
+         f"{base['MISS_pct']:.1f}% → {mem['MISS_pct']:.1f}%   ({d_miss:+.1f} pp)",
+         GREEN if d_miss < 0 else RED),
+    ]
+    for i, (k, v, col) in enumerate(strip):
+        left = 0.6 + i * 6.2
+        chip = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                       Inches(left), Inches(6.35),
+                                       Inches(5.9), Inches(0.85))
+        chip.fill.solid(); chip.fill.fore_color.rgb = WHITE
+        chip.line.color.rgb = GREY_LIGHT
+        add_textbox(slide, left + 0.25, 6.45, 1.8, 0.45, k,
+                    size=13, bold=True, color=GREY_DARK)
+        add_textbox(slide, left + 2.1, 6.45, 3.7, 0.45, v,
+                    size=15, bold=True, color=col, align=PP_ALIGN.LEFT)
+
+
+def _slide_headline_unpaired(slide, metrics):
+    """Fallback if paired_160 isn't computed yet — keeps the deck buildable."""
     base_n = metrics["cohorts"]["single_level_baseline"]["n"]
     mem_cohort = metrics["cohorts"].get("combined_160") or metrics["cohorts"]["combined_100"]
     mem_n = mem_cohort["n"]
     add_header(slide, "Results — multi-level memory vs single-level baseline",
-               f"Baseline pipeline (n={base_n}) vs four-tier memory subsystem (n={mem_n})")
+               f"Baseline pipeline (n={base_n}) vs four-tier memory subsystem (n={mem_n})  ·  unpaired")
 
-    # Prefer the 160-patient multi-level cohort if it's been computed;
-    # otherwise fall back to the original 100 (batch_3 + batch_4).
-    mem = metrics["cohorts"].get("combined_160") or metrics["cohorts"]["combined_100"]
+    mem = mem_cohort
     base = metrics["cohorts"]["single_level_baseline"]
-
-    mem_sub = (f"4-tier subsystem · {mem['n']} patients"
-               if mem['n'] != 100
-               else "4-tier subsystem · 100 patients (batch_3 + batch_4)")
-
     cards = [
         ("Single-level baseline",
          f"Original pipeline · {base['n']} patients",
          base, BLUE),
         ("Multi-level memory",
-         mem_sub,
+         f"4-tier subsystem · {mem['n']} patients",
          mem, AMBER),
     ]
     for i, (title, sub, agg, accent) in enumerate(cards):
@@ -243,37 +330,9 @@ def slide_headline(prs, metrics):
                         size=12, bold=True, color=GREY_DARK)
             add_textbox(slide, left + 3.0, top, 2.8, 0.45, v,
                         size=14, bold=True, color=accent)
-
-    # Delta strip
-    d_dir = mem["DIRECT_pct"] - base["DIRECT_pct"]
-    d_found = mem["found_pct"] - base["found_pct"]
-    d_miss = mem["MISS_pct"] - base["MISS_pct"]
-
-    add_textbox(slide, 0.6, 5.0, 12.1, 0.5,
-                "Δ (Multi-level − Single-level)",
-                size=14, bold=True, color=GREY_DARK)
-    deltas = [
-        ("DIRECT", f"{d_dir:+.1f} pp",  RED if d_dir < 0 else GREEN),
-        ("Found",  f"{d_found:+.1f} pp", GREEN if d_found > 0 else RED),
-        ("MISS",   f"{d_miss:+.1f} pp",  GREEN if d_miss < 0 else RED),
-    ]
-    for i, (k, v, col) in enumerate(deltas):
-        left = 0.6 + i * 4.1
-        chip = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
-                                       Inches(left), Inches(5.5),
-                                       Inches(3.9), Inches(0.7))
-        chip.fill.solid(); chip.fill.fore_color.rgb = WHITE
-        chip.line.color.rgb = GREY_LIGHT
-        add_textbox(slide, left + 0.2, 5.6, 1.5, 0.5, k,
-                    size=14, bold=True, color=GREY_DARK)
-        add_textbox(slide, left + 1.7, 5.6, 2.1, 0.5, v,
-                    size=18, bold=True, color=col, align=PP_ALIGN.RIGHT)
-
-    add_textbox(slide, 0.6, 6.5, 12.1, 0.9,
-                f"Memory broadens recall (Found {d_found:+.1f} pp, MISS {d_miss:+.1f} pp) but "
-                f"shifts confirmed matches into the related-but-not-exact bucket "
-                f"(DIRECT {d_dir:+.1f} pp). Different patient subsets per arm — "
-                "comparison is descriptive, not a paired test.",
+    add_textbox(slide, 0.6, 5.2, 12.1, 1.0,
+                "Unpaired aggregate — different patient subsets per arm. "
+                "Run scripts/paired_160_mcnemar.py for the controlled comparison.",
                 size=11, color=GREY_MED)
 
 
