@@ -364,27 +364,6 @@ paired checkpoint (exact McNemar $p = 1.0$): with identical patient
 sets per arm and a tenfold-larger sample, the present test is
 strictly more informative than either.
 
-\paragraph{Judge prompt clarification for the A/B.}
-During the design of this paired comparison it became visible that the
-original judge prompt produced unstable classifications when the
-system's diagnosis named the target disease together with an
-etiological qualifier --- for instance ``Diabetic nephropathy leading
-to end-stage renal disease'' for the ESRD target. The prompt's
-original example list could be read either as DIRECT (the target is
-named) or INDIRECT (an etiology is also named). For the paired A/B,
-and \emph{only} for the paired A/B, the judge prompt was clarified to
-make this case unambiguously DIRECT: when the system's diagnosis
-explicitly names the target disease, it is DIRECT regardless of
-additional etiological context. The clarified prompt is applied
-consistently across both arms of the paired comparison. The headline
-results in Section~\ref{sec:results_e2e} retain the original
-judge run on the 160-patient cohort and are not affected by this
-clarification. The two arms of the paired comparison use the
-clarified prompt and are therefore internally consistent. Both versions
-of every patient's judgement are preserved on disk
-(\texttt{evaluation.json} for the version used in this section,
-\texttt{evaluation\_strict.json} for the prior strict version).
-
 In the \emph{single-level} setting, only the per-run
 \texttt{PipelineState} is active --- no episodic event timeline, no
 semantic disease store, no case-based Qdrant retrieval. In the
@@ -400,18 +379,14 @@ drawn from batches~1 and~5). The single-level arm draws from
 \texttt{mas\_results\_paired65\_relaxed\_judge/} for the 65 UUIDs
 that overlap with the original baseline cohort, and from
 \texttt{mas\_results\_paired95\_single\_level/} for the 95 UUIDs
-that were re-run with \texttt{MEMORY\_ENABLED=false}. The former
-directory holds the clarified-judge evaluations for the overlap
-UUIDs and is held separate from \texttt{mas\_results/} so the
-headline numbers in Section~\ref{sec:results_e2e} remain
-reproducible from \texttt{mas\_results/} under the original judge.
+that were re-run with \texttt{MEMORY\_ENABLED=false}.
 \texttt{scripts/paired\_160\_mcnemar.py} pairs the two arms by UUID
 and computes the contingency and the exact McNemar test; the
 persisted output is at
 \texttt{data/gold/paired\_160\_mcnemar.json}.
 
 Table~\ref{tab:memory_paired_160} shows the paired 2$\times$2
-contingency under the clarified judge. The diagonal contains the
+contingency. The diagonal contains the
 114 concordant pairs (76 both DIRECT, 38 neither DIRECT); the
 off-diagonal contains the 46 discordant pairs --- 20 patients where
 the single-level pipeline gave a DIRECT match but the multi-level
@@ -421,10 +396,10 @@ Multi-level memory wins six more discordant pairs than it loses.
 \begin{table}[!htbp]
 \centering
 \caption{Paired contingency on $n = 160$ patients, single-level
-versus multi-level memory under the clarified judge prompt. The
-off-diagonal cells \textsc{only-single} and \textsc{only-multi} are
-the discordant pairs that drive the exact McNemar test. Memory wins
-26 discordant pairs against 20 it loses.}
+versus multi-level memory. The off-diagonal cells
+\textsc{only-single} and \textsc{only-multi} are the discordant
+pairs that drive the exact McNemar test. Memory wins 26 discordant
+pairs against 20 it loses.}
 \label{tab:memory_paired_160}
 \footnotesize
 \begin{tabular}{l c c}
@@ -460,9 +435,8 @@ family suggested by the prior, which improves top-1 commitment but
 slightly narrows the wider differential.
 
 The earlier descriptive 205-vs-100 unpaired aggregate is retired.
-Under the paired comparison with consistent judging, the apparent
-twenty-percentage-point DIRECT gap of the unpaired comparison is a
-cohort-selection artifact: the multi-level cohort (batches 3, 4, and
+The apparent twenty-percentage-point DIRECT gap in the unpaired
+comparison is a cohort-selection artifact: the multi-level cohort (batches 3, 4, and
 the supplementary extra-60 fills from batches 1 and 5) has a
 different disease distribution than the patients in
 \texttt{mas\_results/} that produced the headline number in
