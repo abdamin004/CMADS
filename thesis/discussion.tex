@@ -1,0 +1,180 @@
+\chapter{Discussion}
+\label{chap:discussion}
+
+Chapter~\ref{chap:results} reported the empirical results. This chapter
+interprets them: how the headline outcomes fit the design intent of
+Chapter~\ref{chap:methodology}, how the memory and orchestration
+comparisons should be read, what threats to validity bound the
+inferences that can be drawn, and how the cost picture compares with
+practical alternatives. The Limitations subsection summarises the
+boundaries; the Conclusion in Chapter~\ref{chap:conclusion} returns to
+the original research question and hypothesis with these
+interpretations in hand.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Interpretation of the Headline Outcomes}
+\label{sec:discussion_headline}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The results show that the system can usually place the target disease,
+or a closely related disease, in the differential diagnosis. The
+combined found rate is 87.5\%, and the correct or related condition is
+ranked first in 60.0\% of found cases (Rank-1 within found). The
+pipeline also completed without any full patient-run aborts. This
+supports the main design choice of the thesis: a coordinated workflow
+of specialised agents is more inspectable and reliable than asking one
+model to do the whole task in one call. The
+Section~\ref{sec:results_single_llm} single-LLM controlled baseline
+attaches a number to that claim --- the multi-agent orchestration
+buys $+33.1$ percentage points on DIRECT and $+19.4$ percentage
+points on Found over a single-call configuration on the same 160
+patients with the same reasoning model, with the gap overwhelmingly
+attributable to the orchestration ($p < 0.0001$ on 85 discordant
+pairs).
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Interpretation of the Memory A/B}
+\label{sec:discussion_memory}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The memory result needs careful reading. Multi-level memory did not
+improve the DIRECT rate in the paired 160-patient comparison
+($53.1\% \rightarrow 52.5\%$, exact McNemar $p = 1.0$ on 49 discordant
+pairs). The measurable effect is on the wider differential: the Found
+rate rises from 91.9\,\% to 93.8\,\% and the MISS rate falls from
+8.1\,\% to 6.2\,\%, both by $1.9$ percentage points on the same
+patients. The qualitative pattern in the case walkthroughs of
+Section~\ref{sec:results_qualitative} is consistent with this: when
+the case-based prior retrieves a clinically similar past patient, the
+Diagnostic Reasoning agent more often surfaces the right disease
+family in the differential, but the rubric of
+Section~\ref{sec:eval_protocol} classifies cause/consequence/precursor
+relations as INDIRECT, so the gain lands in Found rather than DIRECT.
+This is consistent with the broader-differential interpretation: the
+trade-off is recall over precision, and which direction is preferable
+depends on whether the downstream consumer reads the top-1 diagnosis
+or the full top-five differential.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Model Comparison Read}
+\label{sec:discussion_model}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The model comparison matters for practical use. On the tested
+20-patient subset, GPT-OSS-120B through Groq recorded a higher
+observed DIRECT point estimate than Med42-70B through local Ollama;
+the Wilson 95\,\% confidence intervals on that comparison overlap at
+$n = 20$, so the accuracy difference is read as exploratory rather
+than as established evidence that GPT-OSS-120B is more accurate. The
+latency gap is the substantive finding: GPT-OSS-120B on Groq was about
+thirteen times faster than Med42-70B on local Ollama, and that gap is
+several orders of magnitude larger than the noise in twenty timed
+runs. In a multi-agent pipeline, every extra model call adds time, so
+inference speed is not a minor implementation detail; it affects
+whether the system can be used interactively.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Threats to Validity}
+\label{sec:discussion_threats}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Four threats to validity bound the inferences that can be drawn from
+the results reported here.
+
+\paragraph{Internal validity --- same-model coupling.}
+The detectability verifier
+(Section~\ref{sec:llm_verifier}) and the LLM-as-Judge evaluator
+(Section~\ref{sec:eval_protocol}) both default to Qwen3-32B via the
+shared \texttt{get\_evaluator\_llm()} factory. This means cohort
+admission and outcome judging resolve to the same model, which
+introduces a same-model selection/evaluation coupling on the headline
+DIRECT rate. The detectability-gate sensitivity analysis in
+Section~\ref{sec:results_detectability_sensitivity} is the explicit
+empirical check on this coupling: re-running the pipeline on a
+balanced sample drawn from the rejected confidence band of the
+verifier yields 13.3\,\% DIRECT against the 73.8\,\% headline, a 60.5
+percentage-point gap that is statistically unambiguous
+($\chi^2 = 40.13$, $p \approx 2.4 \times 10^{-10}$). The headline is
+therefore conditional on detectability, not a population-level
+claim. A stronger control would have used a different LLM family for
+the verifier; that is identified as future work.
+
+\paragraph{External validity --- synthetic data only.}
+All patients are synthetic and come from Synthea. The detectability
+verifier selects cases where the target disease is visible in the
+available data, so the evaluated cohort is cleaner than real EHR
+data. Real patient records would include more missing values, noisier
+histories, narrative free text, and more complex comorbidities.
+External validity is therefore bounded; the results characterise the
+system's behaviour on a Synthea-derived synthetic cohort with a
+detectability filter, not on a representative population of real
+patients.
+
+\paragraph{Construct validity --- LLM-as-judge as sole assessor.}
+Diagnostic accuracy is assessed by an LLM-as-judge protocol against
+Synthea ground truth; no practising clinician reviewed the outputs as
+part of the present study. The three-label DIRECT / INDIRECT / MISS
+rubric, the regex-parsed five-line judge format, and the choice of a
+different judge model from the reasoning model
+(Section~\ref{sec:eval_protocol}) all reduce judge sensitivity to
+prompt drift, but they do not substitute for clinician adjudication.
+Construct validity is therefore bounded by the alignment between the
+LLM judge's notion of clinical correctness and a clinician's. A
+prospective clinician-in-the-loop study is the appropriate complement
+and is identified as future work.
+
+\paragraph{Conclusion validity --- non-blinded experimenter.}
+The same researcher implemented the pipeline, ran the cohorts,
+designed the prompts, and computed the metrics. Memory was toggled
+through an environment variable rather than a blinded protocol. The
+paired-McNemar design holds patient identity constant across arms,
+which controls for cohort composition, but it does not control for
+researcher expectation. The deck of pre-registered analyses (paired
+McNemar on DIRECT, Found and MISS rates per arm,
+Rank-1-within-found) was fixed before running the paired comparison;
+nevertheless, the conclusion validity is bounded by the absence of an
+independent replication.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Token and Cost Accounting}
+\label{sec:discussion_cost}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The LLM adapter does not currently persist token counts, so direct
+per-patient token consumption is not reported. A first-order cost
+estimate can still be derived from the persisted agent outputs and the
+input case files: averaging across the 160-patient cohort, each
+patient run uses an estimated 80--90~k input tokens and 18--22~k
+output tokens spread across the seven agents, with the Diagnostic
+Reasoning agent dominating because of its multi-round adaptive loop.
+At Groq's published rates (GPT-OSS-120B at \$0.15 / M input, \$0.75 /
+M output; Qwen3-32B at \$0.29 / M input, \$0.59 / M output) this
+gives an estimated cost of \textbf{approximately \$0.03 per patient
+run} (reasonable range \$0.01--\$0.04 depending on diagnostic-round
+count and treatment-planning eligibility). At this rate, the
+160-patient cohort cost approximately \$5; a 1{,}000-patient
+evaluation would cost approximately \$30. The estimate excludes
+embedding and Qdrant infrastructure costs (both negligible at this
+scale) and is conservative on the input side because the Diagnostic
+Reasoning loop's intermediate-call inputs are not separately
+persisted. Direct token instrumentation in the LLM adapter is
+identified as future work; once added, the estimate above can be
+replaced with measured numbers per patient.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Limitations}
+\label{sec:discussion_limits}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The results have clear limits. All patients are synthetic and come
+from Synthea. The detectability verifier selects cases where the
+target disease is visible in the available data, so the cohort is
+cleaner than real EHR data. Real patient records would include more
+missing values, noisier histories, and more complex comorbidities.
+Some disease families, especially type-2 diabetes and chronic
+congestive heart failure, have small counts, so their per-family
+percentages should not be overinterpreted. The memory comparison is
+also limited in size and should be repeated on a larger and more
+balanced cohort. Finally, this is a research prototype, not a
+deployable medical device. The dashboard is intended to support
+review by a clinician, and the clinician remains the decision maker.

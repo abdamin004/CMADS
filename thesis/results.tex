@@ -827,68 +827,10 @@ Found, for $22\times$ more wall-clock and a comparable multiple in
 LLM call volume.
 
 % ─────────────────────────────────────────────────────────────────────────────
-\section{Discussion and Limitations}
+\section{Pointer to the Discussion}
 \label{sec:results_discussion}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The results show that the system can usually place the target disease, or a
-closely related disease, in the differential diagnosis. The combined found rate
-is 87.5\%, and the correct or related condition is ranked first in 60.0\% of
-found cases (Rank-1 within found). The pipeline also completed without any full patient-run aborts. This
-supports the main design choice of the thesis: a coordinated workflow of
-specialised agents is more inspectable and reliable than asking one model to do
-the whole task in one call.
-
-The memory result needs careful reading. Multi-level memory did not improve the
-DIRECT rate in the aggregate comparison. Instead, it increased INDIRECT cases,
-raised the found rate, and reduced MISS cases. This means memory helped the
-system surface related diagnoses, but it also made the primary diagnosis less
-precise. This may still be useful in a dashboard where a doctor reads the full
-differential. It would be less useful in a system where the first diagnosis
-automatically drives the next action.
-
-The model comparison also matters for practical use. On the tested
-subset, GPT-OSS-120B through Groq recorded a higher observed DIRECT
-point estimate than Med42-70B through local Ollama; the Wilson 95\%
-confidence intervals on that comparison overlap at $n = 20$, so the
-accuracy difference is read as exploratory rather than as established
-evidence that GPT-OSS-120B is more accurate. The latency gap is the
-substantive finding: GPT-OSS-120B on Groq was about thirteen times
-faster than Med42-70B on local Ollama, and that gap is several orders
-of magnitude larger than the noise in twenty timed runs. In a
-multi-agent pipeline, every extra model call adds time, so inference
-speed is not a minor implementation detail. It affects whether the
-system can be used interactively.
-
-\paragraph{Token and cost accounting.}
-The LLM adapter does not currently persist token counts, so direct
-per-patient token consumption is not reported. A first-order cost
-estimate can still be derived from the persisted agent outputs and
-the input case files: averaging across the 160-patient cohort, each
-patient run uses an estimated 80--90~k input tokens and 18--22~k
-output tokens spread across the seven agents, with the Diagnostic
-Reasoning agent dominating because of its multi-round adaptive loop.
-At Groq's published rates (GPT-OSS-120B at \$0.15 / M input, \$0.75
-/ M output; Qwen3-32B at \$0.29 / M input, \$0.59 / M output) this
-gives an estimated cost of \textbf{approximately \$0.03 per patient
-run} (reasonable range \$0.01--\$0.04 depending on diagnostic-round
-count and treatment-planning eligibility). At this rate, the
-160-patient cohort cost approximately \$5; a 1{,}000-patient
-evaluation would cost approximately \$30. The estimate excludes
-embedding and Qdrant infrastructure costs (both negligible at this
-scale) and is conservative on the input side because the Diagnostic
-Reasoning loop's intermediate-call inputs are not separately
-persisted. Direct token instrumentation in the LLM adapter is
-identified as future work; once added, the estimate above can be
-replaced with measured numbers per patient.
-
-The results have clear limits. All patients are synthetic and come from Synthea.
-The detectability verifier selects cases where the target disease is visible in
-the available data, so the cohort is cleaner than real EHR data. Real patient
-records would include more missing values, noisier histories, and more complex
-comorbidities. Some disease families, especially type-2 diabetes and chronic
-congestive heart failure, have small counts, so their per-family percentages
-should not be overinterpreted. The memory comparison is also limited in size and
-should be repeated on a larger and more balanced cohort. Finally, this is a
-research prototype, not a deployable medical device. The dashboard is intended
-to support review by a clinician, and the clinician remains the decision maker.
+This chapter has reported the empirical outcomes; interpretation,
+threats to validity, cost accounting and a consolidated limitations
+list are presented in Chapter~\ref{chap:discussion}.
