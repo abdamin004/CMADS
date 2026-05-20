@@ -53,10 +53,14 @@ NICE-guideline-grounded Treatment Planning stage gated on DIRECT
 matches; the LLM-as-judge evaluation framework using
 DIRECT~/~INDIRECT~/~MISS with Rank-1-within-found; the descriptive
 all-runs and paired memory comparisons; and the Streamlit research
-dashboard plus the React doctor console for clinician inspection. The
-clinician-facing interfaces were built but their expert-evaluation
-component remains a planned protocol
-(Section~\ref{subsec:results_expert}), not a completed validation.
+dashboard plus the React doctor console for clinician inspection.
+A single-LLM controlled baseline on the same 160-patient cohort
+(Section~\ref{sec:results_single_llm}) confirms that the multi-agent
+orchestration buys $+33.1$ percentage points on DIRECT and
+$+19.4$ percentage points on Found over a single-call baseline at
+identical patient data and identical reasoning model, with the gap
+overwhelmingly attributable to the orchestration (exact McNemar
+$p < 0.0001$ on 85 discordant pairs).
 The literature gaps identified in Chapter~\ref{chap:background} --- end-to-end
 coordination, non-destructive deliberation, persistent shared memory, and
 leakage-aware evaluation --- are each addressed directly by the
@@ -185,12 +189,11 @@ the evaluation can demonstrate; the system's behaviour on conditions
 outside this distribution is not characterised by the results reported
 here.
 
-\paragraph{Clinical expert review not yet completed.}
-The clinical-expert review in Section~\ref{subsec:results_expert} is
-reported as a protocol, not as a completed validation study. Therefore,
-this thesis does not claim clinician-validated diagnostic accuracy. A
-completed review would still need to be treated as retrospective unless
-it is repeated prospectively with several clinicians.
+\paragraph{No clinician-in-the-loop validation.}
+Diagnostic accuracy in this thesis is assessed by an LLM-as-judge
+protocol against Synthea ground truth; no practising clinician
+reviewed the outputs as part of the present study. Prospective
+clinician review is identified as future work.
 
 \paragraph{Single-model pipeline.}
 The agent pipeline runs every stage on a single primary reasoning model

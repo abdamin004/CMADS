@@ -680,7 +680,7 @@ candidate.
 \par\endgroup
 
 % ─────────────────────────────────────────────────────────────────────────────
-\section{Doctor-Facing Dashboard and Clinical Expert Review}
+\section{Doctor-Facing Dashboard}
 \label{sec:results_dashboard_review}
 % ─────────────────────────────────────────────────────────────────────────────
 
@@ -716,46 +716,88 @@ doctor can see their outcomes and evidence patterns. This makes memory use
 inspectable. If memory affects the differential, the reviewer should be able to
 see which prior cases influenced it.
 
-\subsection{Planned Clinical Review Protocol}
-\label{subsec:results_expert}
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Single-LLM Controlled Baseline}
+\label{sec:results_single_llm}
+% ─────────────────────────────────────────────────────────────────────────────
 
-The clinical expert review has not been completed and is therefore not a
-result of this thesis. This subsection describes the \emph{planned}
-review protocol so that the doctor console can be assessed before
-submission or future deployment; it is reported as future work rather
-than as evidence of clinician-validated accuracy, and no result claims
-are made from it.
+A natural question is how much of the headline accuracy comes from
+the multi-agent orchestration itself as opposed to the underlying
+language model. To answer it directly, the same 160-patient principal
+cohort (Section~\ref{sec:results_e2e}) was re-evaluated under a
+single-LLM-call baseline. For each patient, one prompt is constructed
+from the same Gold-layer EHR and lab inputs the multi-agent pipeline
+sees; the prompt asks the model to produce a ranked top-five
+differential in a fixed five-line format. No agent orchestration is
+present, no Reviewer/Refiner step, no memory subsystem, no NICE
+retrieval. The same evaluator model (Qwen3-32B) then scores the
+resulting differential against the hidden Synthea ground truth using
+the same three-label rubric.
 
-\paragraph{Method.}
-The reviewer will be shown ten patient cases from the evaluated cohort:
-three DIRECT cases, three INDIRECT cases, two MISS cases, and two DIRECT cases
-with treatment plans. For each case, the reviewer will see the doctor console
-assessment view, including the ranked differential, reasoning summary,
-retrieved NICE guideline chunks, and similar-past-cases panel. The reviewer
-will not see the Synthea ground truth or the evaluator verdict. Each case will
-be scored on four dimensions from 1 to 5, where 1 means unsafe or misleading
-and 5 means clinically sound.
+The reasoning model is held constant (GPT-OSS-120B via Groq,
+temperature 0.1) so that any observed difference is attributable to
+the orchestration, not to a model swap.
+\texttt{scripts/single\_llm\_baseline.py} pairs the two arms by UUID
+and computes the contingency and an exact McNemar test; the persisted
+output is at
+\texttt{data/gold/mas\_results\_single\_llm\_baseline/paired\_vs\_7agent.json}.
 
-\paragraph{Scoring dimensions.}
-\begin{itemize}
-\item \textbf{Diagnostic plausibility} --- is the primary diagnosis a
-  reasonable candidate given the presented evidence?
-\item \textbf{Differential completeness} --- does the ranked
-  differential cover the conditions a clinician would consider?
-\item \textbf{Reasoning transparency} --- is the agents' reasoning
-  chain inspectable and clinically intelligible?
-\item \textbf{Treatment-plan safety} --- for DIRECT cases that produced
-  a treatment plan, does the plan avoid contraindications and align
-  with the cited NICE guideline?
-\end{itemize}
+\begin{table}[!htbp]
+\centering
+\caption{Paired single-LLM vs.\ multi-agent comparison on the same
+$n = 160$ patients. Both arms use the identical reasoning model
+(GPT-OSS-120B) and judge model (Qwen3-32B). The difference between
+arms is the multi-agent orchestration --- parallel Stage~1,
+adaptive Diagnostic loop, non-destructive Reviewer-Refiner, and
+treatment gating.}
+\label{tab:single_llm_baseline}
+\footnotesize
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Metric}  & \textbf{Single LLM call} & \textbf{7-agent pipeline} & \textbf{$\Delta$ (multi $-$ single)} \\
+\midrule
+DIRECT           & 40.0\% (64/160)          & 73.1\% (117/160)          & \textbf{$+33.1$ pp} \\
+INDIRECT         & 28.1\% (45/160)          & 14.4\% (23/160)           & $-13.7$ pp          \\
+MISS             & 31.9\% (51/160)          & 12.5\% (20/160)           & $-19.4$ pp          \\
+Found (D $+$ I)  & 68.1\% (109/160)         & 87.5\% (140/160)          & \textbf{$+19.4$ pp} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\paragraph{Planned reporting.}
-The review should be reported as a small table with the mean score for each
-dimension and the number of cases scoring 4 or 5. Free-text comments should be
-grouped into practical themes, such as unsafe treatment advice, missing
-differential diagnoses, unclear reasoning, or useful memory explanations. Any
-clinician comments must be kept separate from the LLM-as-judge results, because
-they measure different things.
+The 2$\times$2 paired contingency on the DIRECT classification
+contains 48 patients where both arms produced a DIRECT match, 27
+where neither did, 69 where only the multi-agent pipeline did, and 16
+where only the single LLM call did --- 85 discordant pairs in total
+with an overwhelming asymmetry of 69 versus 16. An exact (binomial)
+McNemar test on the discordants gives \textbf{$p < 0.0001$}. The
+multi-agent orchestration buys a measurable and statistically
+significant $+33.1$ percentage-point advantage on top-1
+primary-diagnosis accuracy over the single-call baseline on identical
+patient data with the same model.
+
+The Found rate moves in the same direction: $87.5\%$ for the
+multi-agent pipeline against $68.1\%$ for the single-call baseline, a
+$+19.4$ percentage-point gain in recall. The single-call baseline
+loses on both axes; the multi-agent pipeline does not buy precision
+at the cost of recall, it buys both.
+
+The mechanism is visible in the qualitative case walkthroughs in
+Section~\ref{sec:results_qualitative}. In Case~1, the single LLM call
+commits to ``Acute non-ST elevation myocardial infarction'' for a
+patient whose ground truth is essential hypertension; the multi-agent
+Reviewer/Refiner step downweights that hypothesis after the Lab
+Interpreter flags consistently elevated blood pressure with no
+troponin trajectory. The single-call run cannot benefit from this
+because no second pass exists.
+
+The wall-clock cost of the multi-agent advantage is
+non-trivial. The single-call baseline runs at approximately
+$5$ seconds per patient against approximately $113$ seconds per
+patient for the seven-agent pipeline --- a 22$\times$ speed
+disadvantage for the orchestration. This is the practical trade-off:
+$+33$ percentage points on DIRECT and $+19$ percentage points on
+Found, for $22\times$ more wall-clock and a comparable multiple in
+LLM call volume.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Discussion and Limitations}

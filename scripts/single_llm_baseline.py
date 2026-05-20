@@ -39,8 +39,8 @@ from src.evaluation.judge_common import (  # noqa: E402
 
 GOLD = REPO / "data" / "gold"
 PATIENT_CASES = GOLD / "patient_cases"
-OUT_DIR = GOLD / "mas_results_single_llm_baseline"
-OUT_DIR.mkdir(exist_ok=True)
+DEFAULT_OUT_DIR = GOLD / "mas_results_single_llm_baseline"
+OUT_DIR = DEFAULT_OUT_DIR  # rebound in main() if --out-dir is passed
 
 
 SINGLE_CALL_PROMPT = """You are an experienced internist. Given the following structured patient case, produce the most likely differential diagnosis as a ranked list of 5 candidates.
@@ -200,27 +200,37 @@ def _one_patient(uuid: str, llm, judge_llm) -> dict:
     return eval_blob
 
 
-def _default_20(seed: int = 42) -> list[str]:
-    """Controlled selection: 20 UUIDs from data/gold/mas_results/ so the
-    single-LLM baseline can be paired against the 7-agent pipeline's
-    headline result on identical patients."""
+def _default_pool(seed: int = 42, n: int | None = None) -> list[str]:
+    """Controlled selection: shuffled UUIDs from data/gold/mas_results/
+    so the single-LLM baseline can be paired against the 7-agent
+    pipeline's headline result on identical patients."""
     import random
     pool = sorted([d.name for d in (GOLD / "mas_results").iterdir()
                    if d.is_dir() and (d / "evaluation.json").exists()
                                   and (d / "final_diagnosis.json").exists()])
     rng = random.Random(seed)
     rng.shuffle(pool)
-    return pool[:20]
+    return pool if n is None else pool[:n]
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--uuids", nargs="*", default=None)
-    ap.add_argument("--max", type=int, default=20)
+    ap.add_argument("--max", type=int, default=None,
+                    help="cap the patient count (default: all available in mas_results/)")
+    ap.add_argument("--out-dir", type=str, default=None,
+                    help="output dir under data/gold/ (default: mas_results_single_llm_baseline)")
     args = ap.parse_args()
 
-    uuids = args.uuids or _default_20()
-    uuids = uuids[:args.max]
+    global OUT_DIR
+    if args.out_dir:
+        OUT_DIR = GOLD / args.out_dir if not args.out_dir.startswith("/") else Path(args.out_dir)
+        OUT_DIR.mkdir(parents=True, exist_ok=True)
+    else:
+        OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    uuids = args.uuids or _default_pool(n=None)
+    uuids = uuids[:args.max] if args.max else uuids
     print(f"Single-LLM baseline on {len(uuids)} patients")
 
     llm = get_llm(temperature=0.1)
