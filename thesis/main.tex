@@ -5,7 +5,7 @@
 \usepackage{rotating}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage{placeins}
+\usepackage[section]{placeins}
 \usepackage{subfig}
 \usepackage{array}
 \usepackage{multirow}
@@ -23,6 +23,28 @@
 \usetikzlibrary{shapes.geometric, shapes.multipart, arrows.meta, positioning, fit, calc, backgrounds, decorations.pathreplacing}
 \usepackage{amsmath}
 \usepackage{amssymb}
+
+% --- Float placement tuning -------------------------------------------------
+% Make LaTeX more willing to keep figures/tables near their text reference
+% and less likely to generate float-only pages or empty pages.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{6}
+
+% Prevent widow / orphan lines (single-line breakaways at top/bottom of page)
+\widowpenalty=10000
+\clubpenalty=10000
+
+% Let LaTeX stretch inter-word spacing more aggressively before declaring
+% an overfull \hbox. Eliminates most cosmetic margin overruns from long
+% compound words and tracker-table cells.
+\setlength{\emergencystretch}{3em}
+\hyphenpenalty=400
+% ---------------------------------------------------------------------------
 
 \newcommand{\submissionDay}{29}
 \newcommand{\submissionMonth}{May}
@@ -57,8 +79,8 @@
   /Author  (\authorOfThesis)
   /Title   (\titleOfThesisOne)
   /Subject (\typeOfThesis)
-  /Keywords ()
-  /CreationDate (D:20250101000000)
+  /Keywords (multi-agent systems, LangGraph, clinical decision support, retrieval-augmented generation, memory-augmented agents, LLM-as-judge)
+  /CreationDate (D:20260529000000)
 }
 \fi
 

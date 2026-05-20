@@ -21,7 +21,10 @@ Throughout this chapter and Chapter~\ref{chap:results}, components are
 referred to by name (e.g.\ ``the detectability verifier'', ``the
 persisted execution trace'') rather than by file path; the exact
 locations live in the repository's \texttt{README.md} for readers who
-want to inspect or re-run a step.
+want to inspect or re-run a step. Pinned versions for the empirical
+results reported in Chapter~\ref{chap:results}: LangGraph 0.6.x,
+\texttt{dbt-core} 1.8.x, Synthea release 3.4, BioLORD-2023
+(HuggingFace \texttt{FremyCompany/BioLORD-2023}), Qdrant 1.13.x.
 
 \begin{figure}[!htbp]
 \centering
@@ -293,9 +296,12 @@ stage that folds each run's outcome into the cross-session memory tiers
   Lab Interpreter run concurrently, each consuming its Gold case file and
   producing a structured clinical summary.
   \item \textbf{Stage 2 --- Diagnostic reasoning:} an adaptive loop generates
-  a ranked differential of at least three candidates, self-critiques it, and
-  re-ranks for up to three rounds or until a confidence threshold of 75\% is
-  reached.
+  a ranked differential, self-critiques it, and re-ranks for up to three
+  rounds or until a confidence threshold of 75\% is reached. The
+  Pydantic schema (\texttt{DiagnosticOutput}) requires the differential
+  to be non-empty; the prompt requests five candidates and the
+  reasoning agent typically returns five, but no schema-level lower
+  bound above one is enforced.
   \item \textbf{Stage 3 --- Clinical review:} an adversarial reviewer agent
   independently re-examines the evidence and issues per-diagnosis verification
   flags.
@@ -866,7 +872,9 @@ Three model configurations were used in this thesis:
   same-model selection/evaluation coupling on cohort admission and
   judging; the detectability-gate sensitivity analysis in
   Section~\ref{sec:results_detectability_sensitivity} is the explicit
-  empirical check on this coupling.
+  empirical check on this coupling (see also
+  Section~\ref{sec:results_detectability_sensitivity} for the
+  rejected-band counterfactual that bounds the coupling's effect).
 \end{itemize}
 
 All LLM calls use exponential backoff with at most three attempts. The
@@ -945,11 +953,11 @@ agent-level reliability and latency statistics.
   \item \textbf{Wilson 95\% confidence intervals} --- a Wilson score
   interval is computed for the diagnostic-outcome rates above,
   implemented in \texttt{scripts/compute\_cis.py}.
-  \item \textbf{Memory comparison metrics} --- the descriptive
-  205~vs.~100 aggregate (unpaired) is reported as DIRECT, INDIRECT,
-  MISS, Found, and Rank-1-within-found per memory setting; the
-  controlled 20-patient subset uses the paired exact-McNemar test on
-  the DIRECT/non-DIRECT off-diagonal.
+  \item \textbf{Memory comparison metrics} --- the controlled
+  160-patient paired cohort (Section~\ref{sec:results_memory_ab}) uses
+  the paired exact-McNemar test on the DIRECT/non-DIRECT off-diagonal.
+  Per memory setting we also report DIRECT, INDIRECT, MISS, Found, and
+  Rank-1-within-found rates over the same patients.
   \item \textbf{Detectability-gate sensitivity} --- a Fisher's exact
   test on the accepted-cohort versus rejected-band 2$\times$2 table
   (Section~\ref{sec:results_detectability_sensitivity}).
@@ -1007,7 +1015,7 @@ Orchestration   & LangGraph \texttt{StateGraph} & Typed graph with reducers and 
                 & structlog       & JSON-lines structured logs \\
 \midrule
 LLM inference   & Groq · GPT-OSS-120B & Primary reasoning model (default) \\
-                & Groq · Qwen3-32B    & LLM-as-judge evaluator \\
+                & Groq · Qwen3-32B    & LLM-as-judge evaluator and detectability verifier \\
                 & Provider adapter    & OpenAI / Anthropic / Gemini / Ollama swap-in \\
                 & LangSmith           & Optional call tracing (EU endpoint) \\
 \midrule

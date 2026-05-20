@@ -78,9 +78,10 @@ configuration, so apparent gains can be confounded with same-cohort
 contamination.
 
 Chapter~\ref{chap:methodology} responds to each of these gaps directly. The
-end-to-end coordination problem is addressed by a six-stage LangGraph
-\texttt{StateGraph} that wires the full pipeline from EHR analysis through
-treatment planning into a single typed graph
+end-to-end coordination problem is addressed by a LangGraph
+\texttt{StateGraph} with six clinical stages plus one memory-consolidation
+stage that wires the full pipeline from EHR analysis through treatment
+planning and Stage~7 memory consolidation into a single typed graph
 (Section~\ref{sec:mas_framework}). The conflict-resolution gap is addressed
 by the non-destructive Reviewer-Refiner pattern that lets the Clinical
 Reviewer challenge the Diagnostic Reasoning agent while preserving the
@@ -107,7 +108,11 @@ future work in Chapter~\ref{chap:conclusion}.
 % ─────────────────────────────────────────────────────────────────────────────
 
 Table~\ref{tab:summary} compares the 22 reviewed papers by method, main finding,
-relevance to this thesis, and overall relevance score.
+relevance to this thesis, and overall relevance score. The ``22'' here refers
+to papers retained by the multi-agent-system literature review process
+described in Section~\ref{sec:search}; CoALA, BioLORD, and the
+epidemiology / workload sources cited elsewhere in the thesis sit outside
+that count and bring the total bibliography to 27 entries.
 
 \begin{table}[p]
 \centering
@@ -116,11 +121,11 @@ relevance to this thesis, and overall relevance score.
 \begin{adjustbox}{max width=\textwidth, max totalheight=0.93\textheight, keepaspectratio}
 \begin{tabular}{%
   c
-  p{2.4cm}
+  >{\raggedright\arraybackslash}p{2.4cm}
   c
-  p{3.5cm}
-  p{3.9cm}
-  p{3.4cm}
+  >{\raggedright\arraybackslash}p{3.5cm}
+  >{\raggedright\arraybackslash}p{3.9cm}
+  >{\raggedright\arraybackslash}p{3.4cm}
   c}
 \toprule
 \textbf{\#} &
@@ -129,7 +134,7 @@ relevance to this thesis, and overall relevance score.
 \textbf{Methodology} &
 \textbf{Key Finding} &
 \textbf{Supports Thesis} &
-\textbf{Rel.} \\
+\textbf{Relevance (1--5)} \\
 \midrule
 \cite{Tang2024MedAgents}
   & MedAgents \newline ACL 2024

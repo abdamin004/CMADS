@@ -54,7 +54,17 @@ exponential retry. Prompt templates are loaded from
 seeing the reported results. Run files are saved under
 \texttt{data/gold/mas\_results\_*/}, with one folder per patient UUID. Each
 folder contains one JSON file per agent and an \texttt{execution\_trace.json}
-timeline. The metrics below are computed from those files.
+timeline. The metrics below are computed from those files.\footnote{The
+headline outcomes in this section are computed from
+\texttt{data/gold/mas\_results/} (the principal multi-level
+configuration on the 160-patient cohort). The paired memory A/B in
+Section~\ref{sec:results_memory_ab} draws from a separate dataset
+\texttt{data/gold/mas\_results\_paired95\_single\_level/} alongside
+the multi-level run directories
+(\texttt{mas\_results\_improved\_b3/}, \texttt{\_50/},
+\texttt{\_extra60/}); the single-LLM controlled baseline in
+Section~\ref{sec:results_single_llm} writes to
+\texttt{data/gold/mas\_results\_single\_llm\_baseline/}.}
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Evaluation Metrics}
@@ -304,10 +314,15 @@ Table~\ref{tab:agent_reliability}, those 49 cases are unknown; read
 best-case (output file inspected directly), the Evaluator reaches
 100\% success and Treatment Planning matches its DIRECT-gated design.
 Seven runs additionally have no persisted \texttt{treatment\_planning.json}
-file at all, and a small number of pre-telemetry MISS / INDIRECT
-runs hold non-skip placeholders rather than the structured skip
-described in Section~\ref{sec:agent_tx}; those are stale artifacts
-from earlier code, not evidence of a treatment-gate failure.
+file at all; in these cases the pipeline reached Stage~5 (LLM
+Evaluator) but exited before Stage~6 wrote a file, either through the
+SkipAgentException path (the structured skip used for non-DIRECT
+matches in current code) or through a pre-telemetry transient that no
+longer occurs on re-runs. A small number of pre-telemetry MISS /
+INDIRECT runs hold non-skip placeholders rather than the structured
+skip described in Section~\ref{sec:agent_tx}; those are stale
+artifacts from earlier code, not evidence of a treatment-gate
+failure.
 
 Diagnostic Reasoning is the slowest stage, with a mean runtime of about
 100 seconds and a 95th percentile near 133 seconds. This is expected because
