@@ -16,6 +16,8 @@ REQUIRED_PHRASES = [
     "CMADS — Multi-Agent Systems for AI Clinical Decisioning",
     "What CMADS is",
     "Results — single-level vs multi-level memory",
+    "Multi-agent orchestration vs single LLM call",
+    "Exact McNemar p < 0.0001",
     "Same 160 patients",
     "Δ (Multi-level − Single-level)",
     "Doctor dashboard — features overview",
@@ -49,8 +51,8 @@ def main() -> int:
 
     prs = Presentation(str(PPTX))
     print(f"slides: {len(prs.slides)}")
-    if len(prs.slides) != 6:
-        print(f"FAIL: expected 6 slides, got {len(prs.slides)}")
+    if len(prs.slides) != 7:
+        print(f"FAIL: expected 7 slides, got {len(prs.slides)}")
         return 1
 
     full_text = "\n\n---SLIDE BREAK---\n\n".join(

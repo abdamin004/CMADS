@@ -418,6 +418,89 @@ def slide_paired_mcnemar(prs, metrics):
                 size=12, color=GREY_DARK)
 
 
+def slide_single_llm_vs_multiagent(prs, metrics):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    add_bg(slide)
+    sl = metrics["cohorts"].get("single_llm_baseline")
+    seven = metrics["cohorts"]["single_level_baseline"]
+    if not sl or sl.get("n", 0) < 158:
+        add_header(slide, "Single-LLM vs multi-agent — pending",
+                   "data not yet available")
+        add_textbox(slide, 0.6, 1.6, 12.0, 1.0,
+                    "Run scripts/single_llm_baseline.py to populate.",
+                    size=14, color=GREY_MED)
+        return
+
+    add_header(slide, "Multi-agent orchestration vs single LLM call",
+               "Same 160 UUIDs · same reasoning model (GPT-OSS-120B) · "
+               "same judge (Qwen3-32B)")
+
+    # Two side-by-side cards
+    cards = [
+        ("Single LLM call",
+         "1 prompt per patient", sl, AMBER),
+        ("Multi-agent pipeline (7 agents)",
+         "Parallel Stage 1 + adaptive Diagnostic loop + Reviewer-Refiner",
+         seven, BLUE),
+    ]
+    for i, (title, sub, agg, accent) in enumerate(cards):
+        left = 0.6 + i * 6.2
+        box = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                      Inches(left), Inches(1.2),
+                                      Inches(5.9), Inches(3.5))
+        box.fill.solid(); box.fill.fore_color.rgb = WHITE
+        box.line.color.rgb = accent; box.line.width = Pt(1.5)
+        add_textbox(slide, left + 0.25, 1.35, 5.5, 0.45, title,
+                    size=18, bold=True, color=accent)
+        add_textbox(slide, left + 0.25, 1.82, 5.5, 0.4, sub,
+                    size=11, color=GREY_MED)
+        lines = [
+            ("DIRECT",        f"{agg['DIRECT_pct']:.1f}%   ({agg['DIRECT']}/{agg['n']})"),
+            ("Found (D + I)", f"{agg['found_pct']:.1f}%   ({agg['found']}/{agg['n']})"),
+            ("MISS",          f"{agg['MISS_pct']:.1f}%   ({agg['MISS']}/{agg['n']})"),
+        ]
+        for j, (k, v) in enumerate(lines):
+            top = 2.4 + j * 0.65
+            add_textbox(slide, left + 0.3, top, 2.7, 0.5, k,
+                        size=13, bold=True, color=GREY_DARK)
+            add_textbox(slide, left + 3.0, top, 2.8, 0.5, v,
+                        size=16, bold=True, color=accent)
+
+    # Δ strip
+    d_dir = seven["DIRECT_pct"] - sl["DIRECT_pct"]
+    d_found = seven["found_pct"] - sl["found_pct"]
+    d_miss = seven["MISS_pct"] - sl["MISS_pct"]
+    add_textbox(slide, 0.6, 5.0, 12.1, 0.45,
+                "Δ (Multi-agent − single LLM)",
+                size=14, bold=True, color=GREY_DARK)
+    deltas = [
+        ("DIRECT", f"{d_dir:+.1f} pp",  GREEN if d_dir > 0 else RED),
+        ("Found",  f"{d_found:+.1f} pp", GREEN if d_found > 0 else RED),
+        ("MISS",   f"{d_miss:+.1f} pp",  GREEN if d_miss < 0 else RED),
+    ]
+    for i, (k, v, col) in enumerate(deltas):
+        left = 0.6 + i * 4.1
+        chip = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE,
+                                       Inches(left), Inches(5.5),
+                                       Inches(3.9), Inches(0.7))
+        chip.fill.solid(); chip.fill.fore_color.rgb = WHITE
+        chip.line.color.rgb = GREY_LIGHT
+        add_textbox(slide, left + 0.2, 5.6, 1.5, 0.5, k,
+                    size=14, bold=True, color=GREY_DARK)
+        add_textbox(slide, left + 1.7, 5.6, 2.1, 0.5, v,
+                    size=18, bold=True, color=col, align=PP_ALIGN.RIGHT)
+
+    # McNemar callout
+    add_textbox(slide, 0.6, 6.4, 12.1, 0.4,
+                "Paired contingency on DIRECT: 48 both · 69 only-multi-agent · "
+                "16 only-single-LLM · 27 neither  (85 discordant)",
+                size=11, color=GREY_DARK, align=PP_ALIGN.CENTER)
+    add_textbox(slide, 0.6, 6.85, 12.1, 0.4,
+                "Exact McNemar p < 0.0001  ·  Multi-agent orchestration buys "
+                "+33 pp DIRECT and +19 pp Found at ~22× wall-clock cost.",
+                size=12, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
+
+
 def slide_dashboard_overview(prs, metrics):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_bg(slide)
@@ -631,6 +714,7 @@ def main():
     prs.slide_height = Inches(7.5)
 
     for fn in (slide_title, slide_what_is_cmads, slide_headline,
+               slide_single_llm_vs_multiagent,
                slide_dashboard_overview, slide_literature, slide_gaps):
         fn(prs, metrics)
 

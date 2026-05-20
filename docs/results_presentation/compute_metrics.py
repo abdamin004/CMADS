@@ -135,6 +135,8 @@ def compute(repo: Path | None = None) -> dict:
     combined_160 = _sum_decorate([cold, warm, extra60]) if extra60["n"] >= 60 else None
 
     baseline = _decorate(_aggregate_dir(results / "mas_results", repo))
+    # Single-LLM controlled baseline (one prompt per patient, no orchestration).
+    single_llm = _decorate(_aggregate_dir(results / "mas_results_single_llm_baseline", repo))
 
     # Paired-160 cohorts: same 160 UUIDs in both arms. Single-level
     # arm draws from mas_results/ (65 overlap UUIDs) and
@@ -213,6 +215,7 @@ def compute(repo: Path | None = None) -> dict:
             "single_level_baseline": baseline,
             "paired_single_level_160": paired_single,
             "paired_multi_level_160": paired_multi,
+            "single_llm_baseline": single_llm,
         },
         "paired_mcnemar": paired,
         "paired_160": paired_160,
