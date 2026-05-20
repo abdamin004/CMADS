@@ -168,14 +168,11 @@ def compute(repo: Path | None = None) -> dict:
         return out
 
     paired_uuids = list({u for u in b3 + b4 + b60})  # 160 distinct
-    # For the paired single-level arm we use the relaxed-judge evaluations
-    # consistently across both halves: the 65 paired-overlap UUIDs sit in
-    # mas_results_paired65_relaxed_judge/ (new judge) and the 95 fresh
-    # runs in mas_results_paired95_single_level/ (new judge). The
-    # original mas_results/ directory is left at the strict-judge state
-    # so the headline 73.1% in Section 4.1 of the thesis remains
-    # reproducible from disk.
-    single_dirs = [results / "mas_results_paired65_relaxed_judge",
+    # All evaluations use the original (strict) judge prompt. The 65
+    # paired-overlap UUIDs are read from mas_results/ (same as the
+    # headline baseline); the 95 fresh single-level runs from
+    # mas_results_paired95_single_level/.
+    single_dirs = [results / "mas_results",
                    results / "mas_results_paired95_single_level"]
     multi_dirs = [results / "mas_results_improved_b3",
                   results / "mas_results_improved_50",

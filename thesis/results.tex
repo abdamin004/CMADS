@@ -376,8 +376,8 @@ The multi-level arm draws from
 \texttt{mas\_results\_improved\_50/} (batch~4, 50 patients), and
 \texttt{mas\_results\_improved\_extra60/} (60 additional patients
 drawn from batches~1 and~5). The single-level arm draws from
-\texttt{mas\_results\_paired65\_relaxed\_judge/} for the 65 UUIDs
-that overlap with the original baseline cohort, and from
+\texttt{mas\_results/} for the 65 UUIDs that overlap with the
+original baseline cohort, and from
 \texttt{mas\_results\_paired95\_single\_level/} for the 95 UUIDs
 that were re-run with \texttt{MEMORY\_ENABLED=false}.
 \texttt{scripts/paired\_160\_mcnemar.py} pairs the two arms by UUID
@@ -386,53 +386,58 @@ persisted output is at
 \texttt{data/gold/paired\_160\_mcnemar.json}.
 
 Table~\ref{tab:memory_paired_160} shows the paired 2$\times$2
-contingency. The diagonal contains the
-114 concordant pairs (76 both DIRECT, 38 neither DIRECT); the
-off-diagonal contains the 46 discordant pairs --- 20 patients where
+contingency on the DIRECT classification. The diagonal contains the
+111 concordant pairs (60 both DIRECT, 51 neither DIRECT); the
+off-diagonal contains the 49 discordant pairs --- 25 patients where
 the single-level pipeline gave a DIRECT match but the multi-level
-pipeline did not, and 26 patients where the reverse was true.
-Multi-level memory wins six more discordant pairs than it loses.
+pipeline did not, and 24 patients where the reverse was true. The
+discordant counts on DIRECT are essentially balanced; the effect of
+memory on this metric is invisible under the present test.
 
 \begin{table}[!htbp]
 \centering
 \caption{Paired contingency on $n = 160$ patients, single-level
-versus multi-level memory. The off-diagonal cells
-\textsc{only-single} and \textsc{only-multi} are the discordant
-pairs that drive the exact McNemar test. Memory wins 26 discordant
-pairs against 20 it loses.}
+versus multi-level memory, classified on the DIRECT outcome. The
+off-diagonal cells \textsc{only-single} and \textsc{only-multi} are
+the discordant pairs that drive the exact McNemar test. The
+discordant counts are balanced (25 vs.\ 24).}
 \label{tab:memory_paired_160}
 \footnotesize
 \begin{tabular}{l c c}
 \toprule
                                   & Multi-level $=$ DIRECT  & Multi-level $\neq$ DIRECT  \\
 \midrule
-Single-level $=$ DIRECT           & 76                      & 20                         \\
-Single-level $\neq$ DIRECT        & 26                      & 38                         \\
+Single-level $=$ DIRECT           & 60                      & 25                         \\
+Single-level $\neq$ DIRECT        & 24                      & 51                         \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The DIRECT rate moved from \textbf{60.0\%} (96/160) with single-level
-memory to \textbf{63.8\%} (102/160) with multi-level memory on the
-same 160 patients --- a paired delta of \textbf{$+3.8$ percentage
-points} in memory's favour. An exact (binomial) McNemar test on the
-46 discordant pairs gives \textbf{$p = 0.46$}: the direction of
-effect favours multi-level memory but does not reach statistical
-significance at $\alpha = 0.05$. The signal is therefore directional
-rather than confirmed --- 26 patients improved by adding memory
-against 20 worsened, a 6-pair imbalance over 46 discordants.
+The DIRECT rate moved from \textbf{53.1\%} (85/160) with single-level
+memory to \textbf{52.5\%} (84/160) with multi-level memory on the
+same 160 patients --- a paired delta of $-0.6$ percentage points. An
+exact (binomial) McNemar test on the 49 discordant pairs gives
+\textbf{$p = 1.000$}: the effect of memory on top-1 accuracy is not
+distinguishable from chance at this sample size.
 
-Memory also produces a measurable shift on rank-1-within-found. On
-the same paired cohort the multi-level configuration places the
-correct diagnosis at rank 1 within the differential in 63.4\,\% of
-found cases against 60.4\,\% for the single-level configuration ---
-a 3.0\,pp gain. The complementary Found rate moves in the opposite
-direction: multi-level recovers the correct disease as DIRECT or
-INDIRECT in 90.6\,\% of patients against 93.1\,\% for the
-single-level configuration. The pattern is internally consistent:
-case-based retrieval concentrates probability mass on the disease
-family suggested by the prior, which improves top-1 commitment but
-slightly narrows the wider differential.
+Memory's effect lives in the wider differential, not in top-1
+accuracy. On the same 160-patient paired cohort the multi-level
+configuration recovers the correct disease as DIRECT or INDIRECT in
+\textbf{93.8\,\%} of patients against \textbf{91.9\,\%} for the
+single-level configuration --- a \textbf{$+1.9$ percentage-point
+Found-rate gain}. The complementary MISS rate falls from
+\textbf{8.1\,\%} to \textbf{6.2\,\%} on the same patients --- a
+matching \textbf{$-1.9$ percentage-point} drop. Memory consistently
+catches related-disease evidence the single-level configuration
+misses entirely, even when the top-1 commitment does not change. The
+mechanism is consistent with the qualitative pattern in
+Section~\ref{sec:results_qualitative}: when the case-based prior
+retrieves a clinically similar past patient, the Diagnostic Reasoning
+agent surfaces the right disease family in the differential more
+often --- but, with the rubric of Section~\ref{sec:eval_protocol}
+that classifies cause/consequence/precursor relations as INDIRECT
+rather than DIRECT, this extra recall lands in the Found bucket
+without moving DIRECT.
 
 The earlier descriptive 205-vs-100 unpaired aggregate is retired.
 The apparent twenty-percentage-point DIRECT gap in the unpaired
@@ -441,18 +446,13 @@ the supplementary extra-60 fills from batches 1 and 5) has a
 different disease distribution than the patients in
 \texttt{mas\_results/} that produced the headline number in
 Section~\ref{sec:results_e2e}. When patient identity is held
-constant, multi-level memory shows a small directional advantage on
-DIRECT and an offsetting cost on Found, not the twenty-point gap of
-the earlier descriptive read. The mechanism is consistent with the
-qualitative pattern in Section~\ref{sec:results_qualitative}: when
-the case-based prior retrieves a clinically similar past patient,
-the Diagnostic Reasoning agent more often surfaces the right
-disease family --- but sometimes follows the prior's family into an
-INDIRECT match rather than the patient's exact Synthea label. The
-Reviewer/Refiner step recovers some of this but not all of it. The
-trade memory makes is recall over precision; whether the trade is
-worth it depends on whether the downstream consumer reads the top-1
-diagnosis or the full top-five differential.
+constant, multi-level memory shows no measurable effect on DIRECT
+and a small but consistent gain on Found ($+1.9$ pp) with a matching
+drop on MISS ($-1.9$ pp), not the twenty-point DIRECT gap of the
+earlier descriptive read. The practical question is therefore one of
+recall versus precision: whether the trade is worth it depends on
+whether the downstream consumer reads the top-1 diagnosis or the full
+top-five differential.
 
 An intermediate configuration --- Tier-4 case-based memory only,
 with the other three tiers disabled --- was also run during

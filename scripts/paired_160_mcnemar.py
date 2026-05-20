@@ -38,7 +38,7 @@ ON_DIRS = [
 ]
 
 OFF_DIRS = [
-    GOLD / "mas_results_paired65_relaxed_judge",
+    GOLD / "mas_results",
     GOLD / "mas_results_paired95_single_level",
 ]
 
