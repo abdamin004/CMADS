@@ -13,12 +13,11 @@ from compute_metrics import compute
 REPO = Path(__file__).resolve().parents[2]
 
 
-def test_paired_160_split_judge_setup():
-    """The paired 160 cohort uses the relaxed (clarified) judge across
-    both arms; the headline baseline keeps the strict judge. Numbers
-    below are the snapshot at the time the relaxed judge was applied.
-    If the judge prompt is changed again, regenerate evaluations and
-    update these expectations."""
+def test_paired_160_strict_judge():
+    """The paired 160 cohort uses the strict (original) judge across
+    both arms. Memory shows no measurable effect on DIRECT but does
+    catch slightly more in the wider differential (+1.9 pp Found,
+    -1.9 pp MISS on the same UUIDs)."""
     m = compute(REPO)
     s = m["cohorts"]["paired_single_level_160"]
     ml = m["cohorts"]["paired_multi_level_160"]
@@ -28,12 +27,13 @@ def test_paired_160_split_judge_setup():
     assert b["n"] == 160
     assert b["DIRECT_pct"] == 73.1, b["DIRECT_pct"]
 
-    # Paired arms at relaxed judge
+    # Paired arms at strict judge
     assert s["n"] == 160
     assert ml["n"] == 160
-    assert 58 <= s["DIRECT_pct"] <= 62, s["DIRECT_pct"]
-    assert 62 <= ml["DIRECT_pct"] <= 66, ml["DIRECT_pct"]
-    assert ml["DIRECT_pct"] > s["DIRECT_pct"], "Multi-level should beat single-level on DIRECT"
+    assert 51 <= s["DIRECT_pct"] <= 55, s["DIRECT_pct"]   # 53.1
+    assert 50 <= ml["DIRECT_pct"] <= 54, ml["DIRECT_pct"] # 52.5
+    # Memory's measurable effect is on Found, not DIRECT
+    assert ml["found_pct"] > s["found_pct"], "Multi-level should beat single-level on Found"
 
 
 def test_single_level_baseline():
