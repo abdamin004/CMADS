@@ -360,8 +360,6 @@ function buildPatientTabs(args: {
   const target =
     String(result.patient.targetCondition ?? evalRecord.target ?? "—");
 
-  const semanticCount = result.semanticMemory?.length ?? 0;
-
   return [
     {
       id: "overview",
@@ -395,6 +393,9 @@ function buildPatientTabs(args: {
                   <strong>Reasoning</strong> — agent-by-agent narrative
                 </li>
                 <li>
+                  <strong>Differential</strong> — ranked top-5 final diagnoses
+                </li>
+                <li>
                   <strong>Treatment</strong> — NICE-guideline plan when DIRECT
                 </li>
               </ul>
@@ -413,7 +414,7 @@ function buildPatientTabs(args: {
       id: "reasoning",
       label: "Reasoning",
       badge: workflowAgents.length || undefined,
-      hint: "Each agent's narrative, in execution order. Click an agent to inspect.",
+      hint: "Each agent's narrative, in execution order. Click an agent in the workflow to inspect; click a section to expand.",
       render: () =>
         workflowAgents.length ? (
           <>
@@ -423,14 +424,19 @@ function buildPatientTabs(args: {
               onSelectAgent={setSelectedAgentId}
               activeAgentId={runTask?.activeAgentId}
             />
-            <div className="content-grid">
+            <div className="content-grid single-column">
               <AgentInspector agent={selectedAgent} narrative={selectedNarrative} />
-              <ResultsPanel result={result} />
             </div>
           </>
         ) : (
           <div className="panel"><p>No agent narrative for this patient yet.</p></div>
         ),
+    },
+    {
+      id: "differential",
+      label: "Differential",
+      hint: "The final ranked top-5 differential after Reviewer-Refiner, judged against the hidden ground truth.",
+      render: () => <ResultsPanel result={result} />,
     },
     {
       id: "treatment",
@@ -464,41 +470,6 @@ function buildPatientTabs(args: {
           }}
         />
       ),
-    },
-    {
-      id: "memory",
-      label: "Memory",
-      badge: semanticCount || undefined,
-      hint: "Cross-run semantic statistics for the matched disease family.",
-      render: () =>
-        semanticCount ? (
-          <section className="panel">
-            <div className="panel-heading">
-              <div>
-                <h2>Semantic memory matches</h2>
-                <p>Cross-run disease statistics matching the final/evaluated diagnosis.</p>
-              </div>
-            </div>
-            <div className="semantic-list">
-              {result.semanticMemory.map((item) => (
-                <div className="semantic-row" key={String(item.disease)}>
-                  <strong>{String(item.disease)}</strong>
-                  <span>
-                    Runs {String(item.runs_observed ?? 0)} | DIRECT{" "}
-                    {rate(item.direct_matches, item.runs_observed)} | Found{" "}
-                    {rate(
-                      Number(item.direct_matches ?? 0) +
-                        Number(item.indirect_matches ?? 0),
-                      item.runs_observed,
-                    )}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
-        ) : (
-          <div className="panel"><p>No cross-run statistics available yet.</p></div>
-        ),
     },
   ];
 }
