@@ -1,22 +1,31 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AlertCircle, BrainCircuit, PanelLeftOpen, RefreshCw } from "lucide-react";
+import { AlertCircle, PanelLeftOpen, RefreshCw } from "lucide-react";
 import { getPatients, getResult, getResultSets, startRun, subscribeRun } from "./api";
-import type { AgentCard, PatientListItem, PatientResult, ResultSet, RunTask } from "./types";
+import type { AgentCard, AgentNarrative, PatientListItem, PatientResult, ResultSet, RunTask } from "./types";
 import { AgentFlow } from "./components/AgentFlow";
 import { AgentInspector } from "./components/AgentInspector";
-import { MemoryTimeline } from "./components/MemoryTimeline";
+import { AnnotationPanel } from "./components/AnnotationPanel";
+import { AgentsBoard } from "./components/AgentsBoard";
+import { DashboardHero } from "./components/DashboardHero";
 import { PatientBrowser } from "./components/PatientBrowser";
+import { PatientDetailTabs, type TabDef } from "./components/PatientDetailTabs";
 import { PatientEvidence } from "./components/PatientEvidence";
 import { ResultsPanel } from "./components/ResultsPanel";
 import { RunTimeline } from "./components/RunTimeline";
 import { SimilarCases } from "./components/SimilarCases";
+import { TreatmentReview } from "./components/TreatmentReview";
+import { useUrlState } from "./useUrlState";
 
 export default function App() {
   const [resultSets, setResultSets] = useState<ResultSet[]>([]);
-  const [resultSetId, setResultSetId] = useState("");
+  // URL-driven: ?r=<resultSet>&p=<patientUuid>&a=<agentId>
+  // Shareable links survive refresh; back/forward navigates between views.
+  const [resultSetId, setResultSetId] = useUrlState("r", "");
+  const [selectedUuidUrl, setSelectedUuidUrl] = useUrlState("p", "");
+  const selectedUuid: string | undefined = selectedUuidUrl || undefined;
+  const setSelectedUuid = (uuid: string | undefined) => setSelectedUuidUrl(uuid ?? "");
+  const [selectedAgentId, setSelectedAgentId] = useUrlState("a", "final_diagnosis");
   const [patients, setPatients] = useState<PatientListItem[]>([]);
-  const [selectedUuid, setSelectedUuid] = useState<string>();
-  const [selectedAgentId, setSelectedAgentId] = useState("final_diagnosis");
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<PatientResult>();
   const [runTask, setRunTask] = useState<RunTask | null>(null);
@@ -52,7 +61,10 @@ export default function App() {
     try {
       const rows = await getPatients(resultSetId, query);
       setPatients(rows);
-      if (!selectedUuid || !rows.some((row) => row.uuid === selectedUuid)) {
+      // Only auto-fall-back when a previously-selected patient has
+      // disappeared from the roster. Leaving selection empty on a fresh
+      // visit lets the overview hero render as the landing screen.
+      if (selectedUuid && !rows.some((row) => row.uuid === selectedUuid)) {
         const firstWithRun = rows.find((row) => row.hasRun) ?? rows[0];
         setSelectedUuid(firstWithRun?.uuid);
       }
@@ -124,8 +136,16 @@ export default function App() {
     [selectedAgentId, workflowAgents]
   );
 
-  const selectedNarrative =
-    runTask?.agentNarratives?.[selectedAgentId] ?? result?.agentNarratives?.[selectedAgentId];
+  // During an active live run, never fall back to the previously-loaded
+  // result's narratives — a fresh run hasn't produced its narrative yet
+  // for an agent that's still working, and we don't want to render the
+  // PRIOR patient's stale output in its place.
+  const isLiveRunActive =
+    !!runTask && (runTask.status === "running" || runTask.status === "queued");
+  const selectedNarrative = isLiveRunActive
+    ? runTask?.agentNarratives?.[selectedAgentId]
+    : runTask?.agentNarratives?.[selectedAgentId] ??
+      result?.agentNarratives?.[selectedAgentId];
 
   async function handleRun() {
     if (!selectedUuid) return;
@@ -164,6 +184,10 @@ export default function App() {
         runTask={runTask}
         collapsed={sidebarCollapsed}
         onCollapseChange={setSidebarCollapsed}
+        onGoOverview={() => {
+          setSelectedUuid(undefined);
+          setSidebarCollapsed(false);
+        }}
         onQueryChange={setQuery}
         onSelectPatient={(uuid) => {
           setSelectedUuid(uuid);
@@ -192,10 +216,24 @@ export default function App() {
                 <PanelLeftOpen size={16} />
               </button>
             ) : null}
-            <div>
+            <button
+              type="button"
+              onClick={() => setSelectedUuid(undefined)}
+              title="Return to overview"
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                margin: 0,
+                textAlign: "left",
+                color: "inherit",
+                cursor: "pointer",
+                font: "inherit",
+              }}
+            >
               <div className="eyebrow">Clinical Multi-Agent Decisioning</div>
-              <h1>Patient Review</h1>
-            </div>
+              <h1>{selectedUuid ? "Patient Review" : "Overview"}</h1>
+            </button>
           </div>
           <button className="ghost-button" type="button" onClick={() => void loadResult()}>
             <RefreshCw size={16} />
@@ -212,19 +250,18 @@ export default function App() {
 
         <RunTimeline task={runTask} />
 
-        {!result && !loadingResult && !workflowAgents.length ? (
-          <section className="empty-workspace">
-            <BrainCircuit size={36} />
-            <h2>No saved run selected</h2>
-            <p>Select a patient with a saved run, or start a live run from the sidebar.</p>
-          </section>
+        {!selectedUuid ? (
+          <>
+            <DashboardHero />
+            <AgentsBoard />
+          </>
         ) : null}
 
         {loadingResult ? <div className="loading-bar">Loading clinical run...</div> : null}
 
         {result ? (
           <>
-            <section className="patient-header panel">
+            <section className="patient-header panel" data-demo-anchor="patient-header">
               <div>
                 <div className="eyebrow mono">{result.patient.uuid}</div>
                 <h2>
@@ -241,66 +278,34 @@ export default function App() {
               </div>
             </section>
 
-            <PatientEvidence result={result} />
-          </>
-        ) : null}
-
-        {workflowAgents.length ? (
-          <>
-            <section className="panel">
-              <div className="panel-heading">
-                <div>
-                  <h2>Agent workflow</h2>
-                  <p>Click a stage to inspect the doctor-readable output as soon as it is available.</p>
-                </div>
-              </div>
-              <AgentFlow
-                agents={workflowAgents}
-                selectedAgentId={selectedAgentId}
-                onSelectAgent={setSelectedAgentId}
-              />
-            </section>
-
-            <div className={`content-grid ${result ? "" : "single-column"}`}>
-              <AgentInspector agent={selectedAgent} narrative={selectedNarrative} />
-              {result ? <ResultsPanel result={result} /> : null}
-            </div>
-          </>
-        ) : null}
-
-        {result ? (
-          <>
-            <SimilarCases
-              patientUuid={selectedUuid}
-              resultSet={resultSetId}
-              onOpenPatient={(uuid) => {
-                setSelectedUuid(uuid);
-                setSelectedAgentId("final_diagnosis");
-              }}
+            <PatientDetailTabs
+              defaultActive="overview"
+              tabs={buildPatientTabs({
+                result,
+                selectedUuid: selectedUuid!,
+                resultSetId,
+                workflowAgents,
+                selectedAgentId,
+                selectedAgent,
+                selectedNarrative,
+                runTask,
+                setSelectedAgentId,
+                setSelectedUuid,
+                loadPatients,
+              })}
             />
-
-            <MemoryTimeline result={result} />
-
-            {result.semanticMemory.length ? (
-              <section className="panel">
-                <div className="panel-heading">
-                  <div>
-                    <h2>Semantic memory matches</h2>
-                    <p>Cross-run disease statistics matching the final/evaluated diagnosis.</p>
-                  </div>
-                </div>
-                <div className="semantic-list">
-                  {result.semanticMemory.map((item) => (
-                    <div className="semantic-row" key={String(item.disease)}>
-                      <strong>{String(item.disease)}</strong>
-                      <span>
-                        Runs {String(item.runs_observed ?? 0)} | DIRECT {rate(item.direct_matches, item.runs_observed)} | Found {rate(Number(item.direct_matches ?? 0) + Number(item.indirect_matches ?? 0), item.runs_observed)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ) : null}
+          </>
+        ) : workflowAgents.length ? (
+          <>
+            <AgentFlow
+              agents={workflowAgents}
+              selectedAgentId={selectedAgentId}
+              onSelectAgent={setSelectedAgentId}
+              activeAgentId={runTask?.activeAgentId}
+            />
+            <div className="content-grid single-column">
+              <AgentInspector agent={selectedAgent} narrative={selectedNarrative} />
+            </div>
           </>
         ) : null}
       </main>
@@ -315,6 +320,187 @@ function Metric({ label, value }: { label: string; value?: number }) {
       <strong>{value ?? 0}</strong>
     </div>
   );
+}
+
+function buildPatientTabs(args: {
+  result: PatientResult;
+  selectedUuid: string;
+  resultSetId: string;
+  workflowAgents: AgentCard[];
+  selectedAgentId: string;
+  selectedAgent: AgentCard | undefined;
+  selectedNarrative: AgentNarrative | undefined;
+  runTask: RunTask | null | undefined;
+  setSelectedAgentId: (id: string) => void;
+  setSelectedUuid: (uuid: string | undefined) => void;
+  loadPatients: () => Promise<void> | void;
+}): TabDef[] {
+  const {
+    result,
+    selectedUuid,
+    resultSetId,
+    workflowAgents,
+    selectedAgentId,
+    selectedAgent,
+    selectedNarrative,
+    runTask,
+    setSelectedAgentId,
+    setSelectedUuid,
+    loadPatients,
+  } = args;
+
+  const evalRecord = (result.evaluation ?? {}) as Record<string, unknown>;
+  const matchType = String(evalRecord.match_type ?? "—");
+  const primaryDiagnosis =
+    String(
+      (result.finalDiagnosis as Record<string, unknown> | undefined)?.primary_diagnosis ??
+        evalRecord.matched_diagnosis ??
+        "Pending",
+    );
+  const target =
+    String(result.patient.targetCondition ?? evalRecord.target ?? "—");
+
+  const semanticCount = result.semanticMemory?.length ?? 0;
+
+  return [
+    {
+      id: "overview",
+      label: "Overview",
+      hint: "At-a-glance: match outcome, primary diagnosis, and what to look at next.",
+      render: () => (
+        <section className="panel patient-overview">
+          <div className="overview-grid">
+            <div className={`overview-card overview-card--match match-${matchType.toLowerCase()}`}>
+              <span className="overview-eyebrow">Match outcome</span>
+              <strong>{matchType}</strong>
+              <span className="overview-meta">
+                Ground truth: <em>{target}</em>
+              </span>
+            </div>
+            <div className="overview-card">
+              <span className="overview-eyebrow">Primary diagnosis (final)</span>
+              <strong className="overview-diagnosis">{primaryDiagnosis}</strong>
+              <span className="overview-meta">
+                Rank{" "}
+                <em>{String(evalRecord.rank ?? "—")}</em> in the differential
+              </span>
+            </div>
+            <div className="overview-card">
+              <span className="overview-eyebrow">Where to look next</span>
+              <ul className="overview-jumps">
+                <li>
+                  <strong>Input</strong> — the EHR + Lab data the agents see
+                </li>
+                <li>
+                  <strong>Reasoning</strong> — agent-by-agent narrative
+                </li>
+                <li>
+                  <strong>Treatment</strong> — NICE-guideline plan when DIRECT
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      id: "input",
+      label: "Input",
+      hint: "Exactly the structured data the multi-agent pipeline receives.",
+      render: () => <PatientEvidence result={result} />,
+    },
+    {
+      id: "reasoning",
+      label: "Reasoning",
+      badge: workflowAgents.length || undefined,
+      hint: "Each agent's narrative, in execution order. Click an agent to inspect.",
+      render: () =>
+        workflowAgents.length ? (
+          <>
+            <AgentFlow
+              agents={workflowAgents}
+              selectedAgentId={selectedAgentId}
+              onSelectAgent={setSelectedAgentId}
+              activeAgentId={runTask?.activeAgentId}
+            />
+            <div className="content-grid">
+              <AgentInspector agent={selectedAgent} narrative={selectedNarrative} />
+              <ResultsPanel result={result} />
+            </div>
+          </>
+        ) : (
+          <div className="panel"><p>No agent narrative for this patient yet.</p></div>
+        ),
+    },
+    {
+      id: "treatment",
+      label: "Treatment",
+      hint: "NICE-guideline plan with assumptions and missing-data warnings (DIRECT matches only).",
+      render: () => <TreatmentReview result={result} />,
+    },
+    {
+      id: "review",
+      label: "Review",
+      hint: "Your verdict on this run — agree, uncertain, or disagree. Persisted.",
+      render: () => (
+        <AnnotationPanel
+          patientUuid={selectedUuid}
+          onChange={() => { void loadPatients(); }}
+        />
+      ),
+    },
+    {
+      id: "similar",
+      label: "Similar cases",
+      hint: "Top-K Tier-4 neighbours from case-based memory. One click opens that patient.",
+      render: () => (
+        <SimilarCases
+          patientUuid={selectedUuid}
+          resultSet={resultSetId}
+          onOpenPatient={(uuid) => {
+            setSelectedUuid(uuid);
+            setSelectedAgentId("final_diagnosis");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+      ),
+    },
+    {
+      id: "memory",
+      label: "Memory",
+      badge: semanticCount || undefined,
+      hint: "Cross-run semantic statistics for the matched disease family.",
+      render: () =>
+        semanticCount ? (
+          <section className="panel">
+            <div className="panel-heading">
+              <div>
+                <h2>Semantic memory matches</h2>
+                <p>Cross-run disease statistics matching the final/evaluated diagnosis.</p>
+              </div>
+            </div>
+            <div className="semantic-list">
+              {result.semanticMemory.map((item) => (
+                <div className="semantic-row" key={String(item.disease)}>
+                  <strong>{String(item.disease)}</strong>
+                  <span>
+                    Runs {String(item.runs_observed ?? 0)} | DIRECT{" "}
+                    {rate(item.direct_matches, item.runs_observed)} | Found{" "}
+                    {rate(
+                      Number(item.direct_matches ?? 0) +
+                        Number(item.indirect_matches ?? 0),
+                      item.runs_observed,
+                    )}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : (
+          <div className="panel"><p>No cross-run statistics available yet.</p></div>
+        ),
+    },
+  ];
 }
 
 function rate(num: unknown, den: unknown) {

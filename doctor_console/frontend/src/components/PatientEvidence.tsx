@@ -1,5 +1,5 @@
-import { AlertTriangle, HeartPulse, ListChecks, TestTube2 } from "lucide-react";
-import type { ReactNode } from "react";
+import { AlertTriangle, HeartPulse, ListChecks, TestTube2, FileJson, User } from "lucide-react";
+import { useState, type ReactNode } from "react";
 import type { PatientResult } from "../types";
 
 type Props = {
@@ -14,14 +14,47 @@ export function PatientEvidence({ result }: Props) {
   const vitals = readArray(labCase.recent_vitals);
   const latestLabs = readArray(labCase.latest_labs);
   const criticalFlags = readArray(readRecord(labCase.critical_flags)?.flags);
+  const demo = readRecord(ehrCase.demographics) ?? {};
+  const comorbidity = readRecord(ehrCase.comorbidity) ?? {};
+  const riskScores = readRecord(ehrCase.risk_scores) ?? {};
+
+  const [showRawJson, setShowRawJson] = useState(false);
 
   return (
-    <section className="panel evidence-panel">
+    <section className="panel evidence-panel" data-demo-anchor="patient-input">
       <div className="panel-heading">
         <div>
-          <h2>Patient evidence</h2>
-          <p>{activeConditions.length} active conditions, {activeMeds.length} active medications, {criticalFlags.length} critical flags</p>
+          <h2>Patient input — what the agents see</h2>
+          <p>{activeConditions.length} active conditions · {activeMeds.length} active medications · {criticalFlags.length} critical flags · {Object.keys(demo).length} demographic fields</p>
         </div>
+        <button
+          type="button"
+          className="json-toggle"
+          onClick={() => setShowRawJson((v) => !v)}
+          data-demo-anchor="patient-input-json-toggle"
+        >
+          <FileJson size={14} />
+          {showRawJson ? "Hide raw JSON" : "Show raw input JSON"}
+        </button>
+      </div>
+
+      <div className="demographics-strip">
+        <User size={14} />
+        <span>
+          {String(demo.age ?? "?")} y/o
+          {demo.gender ? ` · ${String(demo.gender)}` : ""}
+          {demo.race ? ` · ${String(demo.race)}` : ""}
+          {Object.keys(comorbidity).length > 0
+            ? ` · comorbidity flags: ${Object.entries(comorbidity)
+                .filter(([, v]) => v === true || v === "true")
+                .map(([k]) => k.replace(/_/g, " "))
+                .slice(0, 4)
+                .join(", ") || "none truthy"}`
+            : ""}
+          {Object.keys(riskScores).length > 0
+            ? ` · risk scores: ${Object.keys(riskScores).slice(0, 3).join(", ")}`
+            : ""}
+        </span>
       </div>
 
       <div className="evidence-grid">
@@ -62,6 +95,19 @@ export function PatientEvidence({ result }: Props) {
           empty="No latest labs saved."
         />
       </div>
+
+      {showRawJson ? (
+        <div className="raw-json-grid" data-demo-anchor="patient-input-json">
+          <details open>
+            <summary><FileJson size={14} /> ehr_case.json</summary>
+            <pre className="raw-json">{JSON.stringify(ehrCase, null, 2)}</pre>
+          </details>
+          <details open>
+            <summary><FileJson size={14} /> lab_case.json</summary>
+            <pre className="raw-json">{JSON.stringify(labCase, null, 2)}</pre>
+          </details>
+        </div>
+      ) : null}
     </section>
   );
 }
