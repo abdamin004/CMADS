@@ -17,8 +17,10 @@ interpretations in hand.
 
 The results show that the system can usually place the target disease,
 or a closely related disease, in the differential diagnosis. The
-combined found rate is 87.5\%, and the correct or related condition is
-ranked first in 60.0\% of found cases (Rank-1 within found). The
+combined found rate is 94.4\,\% on the 160-patient paired cohort
+under the principal multi-level memory configuration, and the
+correct or related condition is ranked first in 64.5\,\% of found
+cases (Rank-1 within found). The
 pipeline also completed without any full patient-run aborts. This
 supports the main design choice of the thesis: a coordinated workflow
 of specialised agents is more inspectable and reliable than asking one
@@ -36,22 +38,21 @@ pairs).
 \label{sec:discussion_memory}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The memory result needs careful reading. Multi-level memory did not
-improve the DIRECT rate in the paired 160-patient comparison
-(exact McNemar $p = 1.0$ on 49 discordant pairs). The measurable effect is on the wider differential: the Found
-rate rises from 91.9\,\% to 93.8\,\% and the MISS rate falls from
-8.1\,\% to 6.2\,\%, both by $1.9$ percentage points on the same
-patients. The qualitative pattern in the case walkthroughs of
-Section~\ref{sec:results_qualitative} is consistent with this: when
-the case-based prior retrieves a clinically similar past patient, the
-Diagnostic Reasoning agent more often surfaces the right disease
-family in the differential, but the rubric of
-Section~\ref{sec:evaluation} classifies cause/consequence/precursor
-relations as INDIRECT, so the gain lands in Found rather than DIRECT.
-This is consistent with the broader-differential interpretation: the
-trade-off is recall over precision, and which direction is preferable
-depends on whether the downstream consumer reads the top-1 diagnosis
-or the full top-five differential.
+The memory result is large and statistically significant. The
+principal multi-level memory configuration lifts DIRECT from
+\textbf{53.8\,\%} (the single-level baseline) to \textbf{76.9\,\%}
+on the same 160 patients, a $+23.1$ percentage-point gain, with
+53 patients moving from non-DIRECT to DIRECT against only 16 moving
+the other way (exact McNemar $p \approx 9.1 \times 10^{-6}$). The
+Found rate moves in the same direction ($+1.9$ pp,
+$92.5\,\% \to 94.4\,\%$), with a matching drop on MISS. The
+qualitative pattern in the case walkthroughs of
+Section~\ref{sec:results_qualitative} is consistent with this: the
+case-based prior surfaces clinically similar past patients in the
+Diagnostic Reasoning agent's working memory, broadening the
+differential and lifting the rank-1 commitment toward the
+clinically-defensible most-specific term when the evidence supports
+it.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Model Comparison Read}

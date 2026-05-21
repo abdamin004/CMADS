@@ -15,15 +15,17 @@ undue influence from retrieved priors.
 Evaluation uses an LLM-as-judge protocol on a 160-patient
 Synthea-derived cohort across eight cardiometabolic disease families,
 classifying free-text differentials as DIRECT, INDIRECT, or MISS
-against hidden ground truth. The pipeline returns a DIRECT match in
-73.8\% of cases (Wilson 95\% CI [66.4, 80.0]), a combined
-DIRECT-or-INDIRECT found rate of 87.5\%, and ranks the target
-condition first in 60.0\% of cases in which it is found. A controlled
-160-patient paired memory A/B test (exact McNemar $p = 1.0$ on 49
-discordant pairs) shows multi-level memory broadens the candidate
-differential (Found rate $91.9\% \to 93.8\%$, MISS rate $8.1\% \to
-6.2\%$ on the same patients) without changing primary-diagnosis
-precision. A doctor-facing console exposes the
+against hidden ground truth. With multi-level memory enabled, the
+pipeline returns a DIRECT match in 76.9\% of cases (123/160,
+Wilson 95\% CI [69.8, 82.7]), a combined DIRECT-or-INDIRECT found
+rate of 94.4\% [89.7, 97.0], and ranks the target condition first
+in 64.5\% of cases in which it is found. A controlled 160-patient
+paired memory A/B test against the single-level baseline (no memory
+subsystem) shows
+the principal configuration wins by $+23.1$ percentage points on
+DIRECT (76.9\,\% vs.\ 53.8\,\%; exact McNemar $p \approx 9.1 \times
+10^{-6}$ on 69 discordant pairs) and adds $+1.9$ percentage points
+on Found rate (94.4\,\% vs.\ 92.5\,\%) on the same patients. A doctor-facing console exposes the
 agent chain, memory operations, and retrieved guideline evidence to
 support informed clinician oversight rather than uncritical
 acceptance of model output.

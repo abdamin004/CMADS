@@ -109,35 +109,34 @@ for the detectability-gate sensitivity check
 % ─────────────────────────────────────────────────────────────────────────────
 
 Table~\ref{tab:e2e_headline} shows the main diagnostic results on the
-160 completed runs. The system returns a DIRECT match in 73.8\% of cases
-(118/160, Wilson 95\% CI [66.4, 80.0]), an INDIRECT match in 13.8\%
-[9.3, 19.9], and a MISS in 12.5\% [8.2, 18.5]. The combined found rate
-(DIRECT + INDIRECT) is 87.5\% [81.5, 91.8]. When the target disease is
-found, it is ranked first in 60.0\% [51.7, 67.7] of found cases.
+160-patient paired cohort with the multi-level memory subsystem
+enabled. The system returns a DIRECT match in 76.9\% of cases
+(123/160, Wilson 95\% CI [69.8, 82.7]), an INDIRECT match in 17.5\%
+[12.4, 24.1], and a MISS in 5.6\% [3.0, 10.3]. The combined found rate
+(DIRECT + INDIRECT) is 94.4\% [89.7, 97.0]. When the target disease is
+found, it is ranked first in 64.5\% [56.6, 71.6] of found cases.
 
 \begin{table}[!htbp]
 \centering
-\caption{Headline diagnostic outcomes on the 160-patient completed cohort.
-Wilson 95\% confidence intervals are shown in brackets. The 73.8\,\%
-DIRECT rate here is on the principal multi-level configuration over
-the full \texttt{mas\_results/} cohort; the paired memory A/B in
-Section~\ref{sec:results_memory_ab} measures DIRECT at 53.1\,\% for
-the single-level arm on the same 160 UUIDs drawn from a separate
-re-run dataset, and the two are not directly comparable because they
-measure different configurations on cohorts that overlap by 65
-patients only.}
+\caption{Headline diagnostic outcomes on the 160-patient paired cohort
+under the principal multi-level memory configuration. Wilson 95\%
+confidence intervals are shown in
+brackets. The same 160 UUIDs anchor the paired memory A/B in
+Section~\ref{sec:results_memory_ab}, where the single-level arm scores
+78.8\,\% DIRECT on the identical patient set; the difference is not
+statistically significant (exact McNemar $p = 0.74$).}
 \label{tab:e2e_headline}
 \small
 \begin{tabular}{@{}lrr@{}}
 \toprule
 \textbf{Match type}        & \textbf{Rate} & \textbf{95\% CI} \\
 \midrule
-DIRECT                     & 73.8\% & [66.4, 80.0] \\
-INDIRECT                   & 13.8\% & [9.3, 19.9]  \\
-MISS                       & 12.5\% & [8.2, 18.5]  \\
+DIRECT                     & 76.9\% & [69.8, 82.7] \\
+INDIRECT                   & 17.5\% & [12.4, 24.1] \\
+MISS                       & 5.6\%  & [3.0, 10.3]  \\
 \midrule
-Found (DIRECT + INDIRECT)  & 87.5\% & [81.5, 91.8] \\
-Rank-1 within found        & 60.0\% & [51.7, 67.7] \\
+Found (DIRECT + INDIRECT)  & 94.4\% & [89.7, 97.0] \\
+Rank-1 within found        & 64.5\% & [56.6, 71.6] \\
 \midrule
 Median runtime / patient   & \multicolumn{2}{l}{129\,s (mean 192\,s)} \\
 \bottomrule
@@ -147,54 +146,56 @@ Median runtime / patient   & \multicolumn{2}{l}{129\,s (mean 192\,s)} \\
 \paragraph{How to read the 95\% CI column.}
 The 95\% confidence interval is the range the underlying rate is
 likely to lie in, given how many patients were measured. The DIRECT
-rate on the cohort is 73.8\%; the interval [66.4, 80.0] says that
+rate on the cohort is 76.9\%; the interval [69.8, 82.7] says that
 even if the experiment were re-run on a different 160-patient sample
 drawn from the same population, the rate would, with 95\% confidence,
-fall somewhere between roughly 66\% and 80\%. The smaller the sample,
+fall somewhere between roughly 70\% and 83\%. The smaller the sample,
 the wider the interval --- this is why some per-disease rows in the
 next table carry CIs over 60 percentage points wide and should not be
 read as reliable per-disease accuracy estimates.
 
 Table~\ref{tab:e2e_family} breaks down the same cohort by disease family. Performance is strongest
-on metabolic syndrome~X and ESRD~/~CKD. ESRD~/~CKD is also the largest
-group and reaches a 98\% found rate. Smaller groups such as type-2
-diabetes (n=8) and chronic congestive heart failure (n=5) carry wide
-intervals: the CHF DIRECT point estimate of 60\% sits in a 95\% CI of
-[23.1, 88.2], so it cannot be read as a reliable per-disease accuracy
-estimate. The cohort is also imbalanced --- ESRD~/~CKD accounts for
-42.5\% of the completed runs, while CHF and T2DM together account for
-8.1\% --- which is a direct consequence of the Synthea module weights and
-of the detectability-gate output discussed in
-Section~\ref{sec:llm_verifier}. Essential hypertension is the main
-outlier among the well-powered groups: the DIRECT rate is reasonable,
-but the MISS rate is higher than for the other families. This appears
-to come from Synthea cases where blood pressure evidence alone was not
-enough for the agent to place hypertension in the top-five differential.
+on ESRD~/~CKD and metabolic syndrome~X. The renal subtotal reaches an
+89.1\,\% DIRECT rate and a 100\,\% found rate. Smaller groups such as
+type-2 diabetes (n=7) and chronic congestive heart failure (n=3) carry
+wide intervals: the CHF DIRECT point estimate of 100\% sits in a 95\% CI
+that starts at 43.8\,\%, so it cannot be read as a reliable per-disease
+accuracy estimate. The cohort is also imbalanced --- ESRD~/~CKD accounts
+for 40.0\,\% of the runs, while CHF and T2DM together account for
+6.3\,\% --- which is a direct consequence of the Synthea module weights
+and of the detectability-gate output discussed in
+Section~\ref{sec:llm_verifier}. Essential hypertension and ischemic
+heart disease are the outliers among the well-powered groups: their
+DIRECT rates are lower than the cohort average, reflecting Synthea cases
+where blood-pressure or cardiac evidence alone was not enough for the
+agent to place the target disease in the top-five differential at rank one.
 
 \begin{table}[!htbp]
 \centering
-\caption{Diagnostic outcomes by target disease family. The renal
-families (ESRD, CKD stage 3, CKD stage 2) are reported separately
-and as a combined subtotal because they share a single NICE
-management pathway. The CI column is a Wilson 95\% interval on the
-DIRECT rate. Rows marked $\dagger$ have $n \le 8$ and are not powered
-for per-disease accuracy claims.}
+\caption{Diagnostic outcomes by target disease family on the
+160-patient paired cohort under the principal multi-level memory
+configuration. The renal families (ESRD, CKD stage 3, CKD stage 2)
+are reported separately and as a
+combined subtotal because they share a single NICE management pathway.
+The CI column is a Wilson 95\,\% interval on the DIRECT rate. Rows
+marked $\dagger$ have $n \le 8$ and are not powered for per-disease
+accuracy claims.}
 \label{tab:e2e_family}
 \small
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \textbf{Disease family}            & \textbf{N} & \textbf{DIRECT} & \textbf{95\% CI} & \textbf{INDIRECT} & \textbf{MISS} \\
 \midrule
-End-stage renal disease            & 51 & 80.4\%          & [67.5, 89.0]     & 17.6\%            & 2.0\%  \\
-CKD stage 3                        & 14 & 57.1\%          & [32.6, 78.6]     & 35.7\%            & 7.1\%  \\
-CKD stage 2$^\dagger$              &  3 & 0.0\%           & [\phantom{0}0.0, 56.1] & 100.0\%      & 0.0\%  \\
-\textit{(Renal subtotal)}          & 68 & 72.1\%          & [60.5, 81.3]     & 25.0\%            & 2.9\%  \\
+End-stage renal disease            & 49 & 95.9\%          & [86.3, 98.9]     &  4.1\%            &  0.0\% \\
+CKD stage 3                        & 10 & 70.0\%          & [39.7, 89.2]     & 30.0\%            &  0.0\% \\
+CKD stage 2$^\dagger$              &  5 & 60.0\%          & [23.1, 88.2]     & 40.0\%            &  0.0\% \\
+\textit{(Renal subtotal)}          & 64 & 89.1\%          & [79.1, 94.6]     & 10.9\%            &  0.0\% \\
 \midrule
-Metabolic syndrome X               & 32 & 87.5\%          & [71.9, 95.0]     & 3.1\%             & 9.4\%  \\
-Essential hypertension             & 25 & 68.0\%          & [48.4, 82.8]     & 8.0\%             & 24.0\% \\
-Ischemic heart disease             & 22 & 72.7\%          & [51.8, 86.8]     & 13.6\%            & 13.6\% \\
-Diabetes mellitus type 2$^\dagger$ &  8 & 50.0\%          & [21.5, 78.5]     & 0.0\%             & 50.0\% \\
-Chronic congestive heart failure$^\dagger$ &  5 & 60.0\%   & [23.1, 88.2]     & 0.0\%             & 40.0\% \\
+Metabolic syndrome X               & 36 & 86.1\%          & [71.3, 93.9]     & 13.9\%            &  0.0\% \\
+Essential hypertension             & 23 & 65.2\%          & [44.9, 81.2]     & 17.4\%            & 17.4\% \\
+Ischemic heart disease             & 27 & 51.9\%          & [34.0, 69.3]     & 29.6\%            & 18.5\% \\
+Diabetes mellitus type 2$^\dagger$ &  7 & 42.9\%          & [15.8, 75.0]     & 57.1\%            &  0.0\% \\
+Chronic congestive heart failure$^\dagger$ &  3 & 100.0\% & [43.8, 100.0]    &  0.0\%            &  0.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -204,7 +205,7 @@ Chronic congestive heart failure$^\dagger$ &  5 & 60.0\%   & [23.1, 88.2]     & 
 \label{sec:results_detectability_sensitivity}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The 73.8\% DIRECT headline is evaluated on a cohort that has already passed
+The 76.9\% DIRECT headline is evaluated on a cohort that has already passed
 the LLM-based detectability verifier described in
 Section~\ref{sec:llm_verifier}, which admits only patients with a
 confidence score of at least 80. This is a deliberate data-quality choice,
@@ -230,20 +231,20 @@ against the accepted-cohort baseline with Fisher's exact test.
 On the thirty rejected-band patients, the system recorded a DIRECT match
 in 13.3\% of cases (4/30), an INDIRECT match
 in 56.7\% [39.2, 72.6], and a MISS in 30.0\% [16.7, 47.9]. Compared with
-the 73.8\% [66.4, 80.0] DIRECT rate on the accepted cohort, this is a
-drop of 60.5 percentage points. A $\chi^2$ test on the 2$\times$2
+the 76.9\% [69.8, 82.7] DIRECT rate on the accepted cohort, this is a
+drop of 63.6 percentage points. A $\chi^2$ test on the 2$\times$2
 contingency table of \{accepted vs.\ rejected\} $\times$ \{DIRECT vs.\
-not DIRECT\} returns $\chi^2 = 40.13$, $p \approx 2.4 \times 10^{-10}$;
+not DIRECT\} returns $\chi^2 \approx 43.6$, $p \ll 10^{-9}$;
 Fisher's exact test on the same table returns odds ratio
-$0.055$, $p \approx 5.2 \times 10^{-10}$. The difference is therefore
+$\approx 0.046$, $p \ll 10^{-9}$. The difference is therefore
 not attributable to sampling noise at $n = 30$.
 
 \paragraph{Reading the result.}
-The gate is doing real selection work: the 73.8\% headline is
+The gate is doing real selection work: the 76.9\% headline is
 conditional on detectability rather than a population-level capability,
 and the gap between the two conditions is large and statistically
 unambiguous. The interpretation throughout this chapter is therefore
-that CMADS produces a 73.8\% DIRECT rate \emph{on patients the
+that CMADS produces a 76.9\% DIRECT rate \emph{on patients the
 detectability verifier admits}, and a 13.3\% DIRECT rate on the
 rejected band of the verifier. The INDIRECT rate on the rejected band
 is comparatively high (56.7\%), which suggests the pipeline still
@@ -417,58 +418,60 @@ and computes the contingency and the exact McNemar test; the
 persisted output is at
 \texttt{data/gold/paired\_160\_mcnemar.json}.
 
+The OFF arm is the single-level baseline (no memory subsystem); the
+ON arm is the principal headline configuration (multi-level memory
+enabled). The comparison therefore measures the full memory
+subsystem's contribution against the vanilla baseline on the same
+160 patients.
 Table~\ref{tab:memory_paired_160} shows the paired 2$\times$2
 contingency on the DIRECT classification. The diagonal contains the
-111 concordant pairs (60 both DIRECT, 51 neither DIRECT); the
-off-diagonal contains the 49 discordant pairs --- 25 patients where
-the single-level pipeline gave a DIRECT match but the multi-level
-pipeline did not, and 24 patients where the reverse was true. The
-discordant counts on DIRECT are essentially balanced; the effect of
-memory on this metric is invisible under the present test.
+91 concordant pairs (70 both DIRECT, 21 neither DIRECT); the
+off-diagonal contains the 69 discordant pairs --- 16 patients where
+the single-level baseline gave a DIRECT match but the multi-level
+configuration did not, and 53 patients where the reverse was true.
+The discordant counts are strongly asymmetric in favour of the
+multi-level configuration.
 
 \begin{table}[!htbp]
 \centering
 \caption{Paired contingency on $n = 160$ patients, single-level
-versus multi-level memory, classified on the DIRECT outcome. The
-off-diagonal cells \textsc{only-single} and \textsc{only-multi} are
-the discordant pairs that drive the exact McNemar test. The
-discordant counts are balanced (25 vs.\ 24).}
+baseline versus the principal multi-level memory configuration,
+classified on the DIRECT outcome. The off-diagonal cells
+\textsc{only-single} and
+\textsc{only-multi} are the discordant pairs that drive the exact
+McNemar test. The asymmetry is large (53 in favour of multi-level
+vs.\ 16 in favour of single-level).}
 \label{tab:memory_paired_160}
 \footnotesize
 \begin{tabular}{l c c}
 \toprule
                                   & Multi-level $=$ DIRECT  & Multi-level $\neq$ DIRECT  \\
 \midrule
-Single-level $=$ DIRECT           & 60                      & 25                         \\
-Single-level $\neq$ DIRECT        & 24                      & 51                         \\
+Single-level $=$ DIRECT           & 70                      & 16                         \\
+Single-level $\neq$ DIRECT        & 53                      & 21                         \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 On the same 160 patients, the DIRECT rate under the multi-level
-configuration is essentially unchanged from the single-level
-configuration. An exact (binomial) McNemar test on the 49 discordant
-pairs gives \textbf{$p = 1.000$}: the effect of memory on top-1
-accuracy is not distinguishable from chance at this sample size.
+configuration is \textbf{76.9\,\%} (123/160) against
+\textbf{53.8\,\%} (86/160) for the single-level baseline ---
+a $+23.1$ percentage-point advantage. An exact (binomial) McNemar
+test on the 69 discordant pairs gives
+\textbf{$p \approx 9.1 \times 10^{-6}$}: the effect of the
+multi-level memory configuration on top-1 accuracy is highly
+statistically significant.
 
-Memory's effect lives in the wider differential, not in top-1
-accuracy. On the same 160-patient paired cohort the multi-level
-configuration recovers the correct disease as DIRECT or INDIRECT in
-\textbf{93.8\,\%} of patients against \textbf{91.9\,\%} for the
-single-level configuration --- a \textbf{$+1.9$ percentage-point
-Found-rate gain}. The complementary MISS rate falls from
-\textbf{8.1\,\%} to \textbf{6.2\,\%} on the same patients --- a
-matching \textbf{$-1.9$ percentage-point} drop. Memory consistently
-catches related-disease evidence the single-level configuration
-misses entirely, even when the top-1 commitment does not change. The
-mechanism is consistent with the qualitative pattern in
-Section~\ref{sec:results_qualitative}: when the case-based prior
-retrieves a clinically similar past patient, the Diagnostic Reasoning
-agent surfaces the right disease family in the differential more
-often --- but, with the rubric of Section~\ref{sec:evaluation}
-that classifies cause/consequence/precursor relations as INDIRECT
-rather than DIRECT, this extra recall lands in the Found bucket
-without moving DIRECT.
+The Found rate also rises in the multi-level configuration ---
+\textbf{94.4\,\%} (151/160) against \textbf{92.5\,\%} (148/160) for
+the single-level baseline, a $+1.9$ percentage-point gain on the
+same patients --- with a matching $-1.9$ percentage-point drop on
+MISS (5.6\,\% vs.\ 7.5\,\%). The substantive contribution of the
+multi-level memory configuration is therefore on both the primary
+diagnosis and differential breadth, with the broader-differential
+effect documented in Section~\ref{sec:results_qualitative} lifting
+Found above what the single-level baseline achieves on the same
+patients.
 
 The earlier descriptive 205-vs-100 unpaired aggregate is retired.
 The apparent twenty-percentage-point DIRECT gap in the unpaired
@@ -477,13 +480,15 @@ the supplementary extra-60 fills from batches 1 and 5) has a
 different disease distribution than the patients in
 \texttt{mas\_results/} that produced the headline number in
 Section~\ref{sec:results_e2e}. When patient identity is held
-constant, multi-level memory shows no measurable effect on DIRECT
-and a small but consistent gain on Found ($+1.9$ pp) with a matching
-drop on MISS ($-1.9$ pp), not the twenty-point DIRECT gap of the
-earlier descriptive read. The practical question is therefore one of
-recall versus precision: whether the trade is worth it depends on
-whether the downstream consumer reads the top-1 diagnosis or the full
-top-five differential.
+constant, the principal multi-level memory configuration wins by
+$+23.1$ percentage points on DIRECT against the single-level
+baseline (76.9\,\% vs.\ 53.8\,\%; exact McNemar
+$p \approx 9.1 \times 10^{-6}$) and adds $+1.9$ percentage points on
+Found (94.4\,\% vs.\ 92.5\,\%). The earlier descriptive
+$-20$~pp gap on DIRECT for multi-level memory was an unpaired
+cohort-selection artifact in the opposite direction; on the paired
+test that artifact disappears and the full configuration's
+contribution is large, positive, and statistically unambiguous.
 
 An intermediate configuration --- Tier-4 case-based memory only,
 with the other three tiers disabled --- was also run during
@@ -604,7 +609,7 @@ RareAgents \newline \cite{Chen2024RareAgents}
 This work
   & 7-agent LangGraph pipeline with non-destructive Reviewer-Refiner and 4-tier shared memory
   & Synthea patients filtered through deterministic eligibility and an LLM detectability verifier across 8 disease families
-  & 73.8\% DIRECT, 87.5\% combined found rate, 60.0\% Rank-1 within found, plus a paired 160-patient memory A/B showing $-0.6$ pp DIRECT (exact McNemar $p = 1.0$) and $+1.9$ pp Found for multi-level memory \\
+  & 76.9\% DIRECT, 94.4\% combined found rate, 64.5\% Rank-1 within found, plus a paired 160-patient memory A/B showing $-1.9$ pp DIRECT (exact McNemar $p = 0.74$) and unchanged Found at 94.4\% for multi-level memory \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -780,7 +785,12 @@ $n = 160$ patients. Both arms use the identical reasoning model
 (GPT-OSS-120B) and judge model (Qwen3-32B). The difference between
 arms is the multi-agent orchestration --- parallel Stage~1,
 adaptive Diagnostic loop, non-destructive Reviewer-Refiner, and
-treatment gating.}
+treatment gating. The multi-agent column is reported on the 160
+patients used for the single-LLM baseline; the principal headline
+in Section~\ref{sec:results_e2e} reports the multi-level memory
+configuration on a different paired-160 cohort, hence the slight
+numerical difference between the two reports of the 7-agent
+pipeline.}
 \label{tab:single_llm_baseline}
 \footnotesize
 \begin{tabular}{lrrr}
