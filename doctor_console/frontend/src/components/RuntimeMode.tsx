@@ -1,0 +1,235 @@
+import { useCallback, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { AlertCircle, Cloud, HardDrive, Home, Stethoscope } from "lucide-react";
+import { getPatientCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
+import type { ModelPreset, PatientResult, RunTask } from "../types";
+import { ModeSwitcher } from "./ModeSwitcher";
+import { RuntimeHero } from "./RuntimeHero";
+import { RuntimeResultView } from "./RuntimeResultView";
+import { RuntimeRunningView } from "./RuntimeRunningView";
+import type { Mode } from "../useMode";
+
+type Props = {
+  mode: Mode;
+  onModeChange: (next: Mode) => void;
+  onHome: () => void;
+};
+
+type Phase = "idle" | "running" | "completed" | "error";
+
+// Persist the active task across mode switches / home navigations so the
+// doctor can pop back into the runtime view and find the run still running
+// (or its completed result).
+const RUN_STORAGE_KEY = "cmads.runtime.activeTaskId";
+function storedTaskId(): string | null {
+  try { return window.localStorage.getItem(RUN_STORAGE_KEY); }
+  catch { return null; }
+}
+function setStoredTaskId(taskId: string | null) {
+  try {
+    if (taskId) window.localStorage.setItem(RUN_STORAGE_KEY, taskId);
+    else        window.localStorage.removeItem(RUN_STORAGE_KEY);
+  } catch { /* ignore */ }
+}
+
+/**
+ * Doctor runtime workspace — pure single-run flow.
+ *
+ *   idle      → RuntimeHero (UUID input + model selector)
+ *   running   → Live agent flow streaming via SSE
+ *   completed → RuntimeResultView (differential first, treatment, then "dive in")
+ *
+ * No sidebar. No patient browser. No prior-run history. The clinician's
+ * mental model is "this patient, now". Past runs live in the Researcher
+ * workspace if needed.
+ */
+export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [task, setTask] = useState<RunTask | null>(null);
+  const [result, setResult] = useState<PatientResult | undefined>();
+  const [caseBundle, setCaseBundle] = useState<CaseBundle | undefined>();
+  const [activeAgentId, setActiveAgentId] = useState<string>("ehr_analyst");
+  const [error, setError] = useState<string | null>(null);
+
+  // Reset to the hero.
+  const reset = useCallback(() => {
+    setPhase("idle");
+    setTask(null);
+    setResult(undefined);
+    setCaseBundle(undefined);
+    setActiveAgentId("ehr_analyst");
+    setError(null);
+    setStoredTaskId(null);
+  }, []);
+
+  // Kick off a run.
+  const handleRun = useCallback(async (uuid: string, preset: ModelPreset) => {
+    setError(null);
+    setResult(undefined);
+    setCaseBundle(undefined);
+    setActiveAgentId("ehr_analyst");
+    setPhase("running");
+    // Fetch the patient case immediately so the doctor can see the data
+    // the system is reading while the run is in progress.
+    void getPatientCase(uuid)
+      .then((bundle) => setCaseBundle(bundle))
+      .catch(() => { /* non-fatal — the running view simply omits the data panel */ });
+    try {
+      const fresh = await startRun(uuid, { presetId: preset.id });
+      setTask(fresh);
+      setStoredTaskId(fresh.taskId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+      setPhase("error");
+    }
+  }, []);
+
+  // On mount: if we left a previous run in flight (or completed and didn't
+  // reset), restore it so the doctor sees the same state when they return.
+  useEffect(() => {
+    const tid = storedTaskId();
+    if (!tid) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const t = await getRun(tid);
+        if (cancelled) return;
+        setTask(t);
+        void getPatientCase(t.patientUuid).then((b) => !cancelled && setCaseBundle(b)).catch(() => {});
+        if (t.status === "running" || t.status === "queued") {
+          setPhase("running");
+        } else if (t.status === "completed") {
+          try {
+            const detail = await getResult(t.resultSet, t.patientUuid);
+            if (!cancelled) {
+              setResult(detail);
+              setPhase("completed");
+            }
+          } catch { /* fall through to idle */ }
+        } else if (t.status === "error") {
+          if (!cancelled) {
+            setError(t.error || "Pipeline failed");
+            setPhase("error");
+          }
+        }
+      } catch {
+        // Task expired on the backend (server restarted, etc.) — wipe.
+        setStoredTaskId(null);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Subscribe to SSE while running.
+  useEffect(() => {
+    if (!task || (task.status !== "queued" && task.status !== "running")) return;
+    return subscribeRun(
+      task.taskId,
+      (incoming) => {
+        setTask(incoming);
+        // Don't auto-switch the inspector to the evaluator — it's hidden
+        // from the doctor view by design.
+        if (incoming.activeAgentId && incoming.activeAgentId !== "evaluation") {
+          setActiveAgentId(incoming.activeAgentId);
+        }
+        if (incoming.status === "completed") {
+          void (async () => {
+            try {
+              const detail = await getResult(incoming.resultSet, incoming.patientUuid);
+              setResult(detail);
+              setPhase("completed");
+            } catch (err) {
+              setError(err instanceof Error ? err.message : String(err));
+              setPhase("error");
+            }
+          })();
+        }
+        if (incoming.status === "error") {
+          setError(incoming.error || "Pipeline failed");
+          setPhase("error");
+        }
+      },
+      (msg) => {
+        setError(msg);
+        setPhase("error");
+      },
+    );
+  }, [task?.taskId, task?.status]);
+
+  // Doctor view hides the LLM Evaluator agent — it compares against the
+  // hidden ground truth and isn't part of the clinical narrative. The
+  // evaluator still runs in the pipeline (its verdict gates the treatment
+  // plan), it's just not surfaced in the doctor's agent flow.
+  const workflowAgents = (task?.agents ?? []).filter((a) => a.id !== "evaluation");
+  const safeActiveId = activeAgentId === "evaluation" ? "ehr_analyst" : activeAgentId;
+  const selectedAgent = workflowAgents.find((a) => a.id === safeActiveId);
+  const selectedNarrative = task?.agentNarratives?.[safeActiveId];
+
+  return (
+    <div className="runtime-shell">
+      <div className="mode-ribbon mode-ribbon--runtime">
+        <button type="button" className="mode-ribbon__brand mode-ribbon__brand--button" onClick={onHome} title="Back to home">
+          <Home size={15} strokeWidth={1.7} />
+          <strong>At the bedside</strong>
+          <span className="mono mode-ribbon__sep">·</span>
+          <span className="mono">a second opinion in real time</span>
+        </button>
+        <div className="mode-ribbon__trust">
+          {task?.modelOverride?.label ? (
+            <span className="runtime-shell__model-pill">
+              {task.modelOverride.location === "local" ? (
+                <HardDrive size={12} strokeWidth={1.8} />
+              ) : (
+                <Cloud size={12} strokeWidth={1.8} />
+              )}
+              {task.modelOverride.label}
+              <span className="mono runtime-shell__model-vendor">· {task.modelOverride.vendor}</span>
+            </span>
+          ) : null}
+        </div>
+        <ModeSwitcher mode={mode} onChange={onModeChange} />
+      </div>
+
+      <main className="runtime-shell__main">
+        {phase === "idle" ? (
+          <RuntimeHero onRun={handleRun} />
+        ) : null}
+
+        {phase === "running" ? (
+          <RuntimeRunningView
+            task={task}
+            workflowAgents={workflowAgents}
+            selectedAgent={selectedAgent}
+            selectedNarrative={selectedNarrative}
+            activeAgentId={safeActiveId}
+            onSelectAgent={setActiveAgentId}
+            caseBundle={caseBundle}
+          />
+        ) : null}
+
+        {phase === "completed" && result ? (
+          <RuntimeResultView result={result} onReset={reset} />
+        ) : null}
+
+        {phase === "error" ? (
+          <motion.section
+            className="panel runtime-shell__error"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="runtime-shell__error-head">
+              <AlertCircle size={20} strokeWidth={1.7} />
+              <h2>The pipeline failed for this run</h2>
+            </div>
+            <p>{error ?? "An unexpected error occurred."}</p>
+            <button type="button" className="runtime-solo__cta" onClick={reset}>
+              Try another patient
+            </button>
+          </motion.section>
+        ) : null}
+      </main>
+    </div>
+  );
+}
+
