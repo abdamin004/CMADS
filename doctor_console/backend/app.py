@@ -14,7 +14,7 @@ import uuid
 from collections import Counter
 from copy import deepcopy
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,17 +29,49 @@ PATIENT_CASES = DATA_GOLD / "patient_cases"
 ANNOTATIONS_DIR = DATA_GOLD / "annotations"
 STATIC_DIR = ROOT / "doctor_console" / "frontend" / "dist"
 
-# The "multi_level" virtual result set unions every multi-level-memory run
-# (improved_b3 + improved_50 + improved_extra60 + improved_10) so the doctor
-# sees every patient the system has run with the full 4-tier memory
-# subsystem, regardless of which batch they came from. Order is precedence:
-# first match wins.
+
+def _load_env_file() -> None:
+    """Load ``.env`` into ``os.environ`` before anything else runs.
+
+    Without this, ``uvicorn`` (and any direct ``python3 -m uvicorn …``
+    invocation) doesn't pick up keys the user put in ``.env``, so the
+    model-availability check reports them as missing even though they're
+    set. Doesn't overwrite values already in the environment.
+    """
+    import os as _os
+    env_path = ROOT / ".env"
+    if not env_path.exists():
+        return
+    try:
+        for line in env_path.read_text().splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#") or "=" not in stripped:
+                continue
+            key, value = stripped.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in _os.environ:
+                _os.environ[key] = value
+    except Exception:  # noqa: BLE001
+        # Loading .env is best-effort; do not block boot on a parse glitch.
+        pass
+
+
+_load_env_file()
+
+# The "multi_level" virtual result set unions the three multi-level-memory
+# cohorts that make up the paired-160 study (batch_3 + batch_4 + extra60).
+# This is exactly the 160 patients the thesis evaluates with the full
+# 4-tier memory subsystem — same set that scripts/paired_160_mcnemar.py
+# operates on. Order is precedence: first match wins.
+#
+# The standalone 10-patient ``mas_results_improved_10`` test cohort is
+# deliberately excluded — it isn't part of the 160-patient study.
 MULTI_LEVEL_KEY = "multi_level"
 MULTI_LEVEL_RESULT_DIRS: tuple[str, ...] = (
     "mas_results_improved_b3",
     "mas_results_improved_50",
     "mas_results_improved_extra60",
-    "mas_results_improved_10",
 )
 
 AGENT_ORDER = [
@@ -74,27 +106,177 @@ AGENT_LABELS = {
     "memory_consolidation": "Memory Consolidation",
 }
 
-RESULT_SET_LABELS = {
-    "mas_results": "Original MAS results",
-    "mas_results_case_based_50": "Case-based memory run (50)",
-    "mas_results_with_memory": "Memory ON run (20)",
-    "mas_results_baseline_no_mem": "Memory OFF baseline (20)",
-    "mas_results_improved_10": "Improved memory run (10)",
-    "mas_results_improved_b3": "Multi-level memory · batch_3 (50)",
-    "mas_results_improved_50": "Multi-level memory · batch_4 (50)",
-    "mas_results_improved_extra60": "Multi-level memory · extra60 (60)",
-    "mas_results_paired95_single_level": "Paired baseline · single-level (95)",
-    "mas_results_single_llm_baseline": "Single-LLM baseline (160)",
-    "mas_results_med42": "Med42 comparison",
-    "mas_results_deepseek_v4_pro": "DeepSeek comparison",
+# Curated registry: id + display label + experimental category + LLM model used.
+# This is the single source of truth that both the React UI and the backend use
+# to group and label result-set cohorts. Mirrors portal/dashboard.py:23-34 — keep
+# both in sync; the React doctor console reads this through GET /api/result-sets.
+#
+# The ``runtime`` flag marks cohorts produced by live doctor runs from this UI.
+# Those cohorts are NEVER included in research statistics or comparisons — the
+# point is that the doctor can run a patient through the system without
+# contaminating the empirical numbers shown in the Researcher view.
+RESULT_SET_REGISTRY: list[dict[str, Any]] = [
+    {"id": "mas_results",                       "label": "Main 160-patient cohort",             "category": "Single-level memory",   "model": "GPT-OSS-120B"},
+    {"id": "mas_results_baseline_no_mem",       "label": "A/B baseline (memory OFF, N=20)",     "category": "Single-level memory",   "model": "GPT-OSS-120B"},
+    {"id": "mas_results_baseline_b3",           "label": "batch_3 baseline (memory OFF)",       "category": "Single-level memory",   "model": "GPT-OSS-120B"},
+    {"id": "mas_results_paired95_single_level", "label": "Paired baseline · single-level (95)", "category": "Single-level memory",   "model": "GPT-OSS-120B"},
+    {"id": "mas_results_single_llm_baseline",   "label": "Single-LLM baseline (160)",           "category": "Single-LLM baseline",   "model": "GPT-OSS-120B"},
+    {"id": "mas_results_with_memory",           "label": "A/B memory ON · case-based (N=20)",   "category": "Case-based memory only","model": "GPT-OSS-120B"},
+    {"id": "mas_results_case_based_50",         "label": "Case-based memory (N=50)",            "category": "Case-based memory only","model": "GPT-OSS-120B"},
+    {"id": "mas_results_improved_10",           "label": "Multi-level memory (N=10 test)",      "category": "Multi-level memory",    "model": "GPT-OSS-120B"},
+    {"id": "mas_results_improved_b3",           "label": "Multi-level · batch_3 cold-start",    "category": "Multi-level memory",    "model": "GPT-OSS-120B"},
+    {"id": "mas_results_improved_50",           "label": "Multi-level · batch_4 (N=50)",        "category": "Multi-level memory",    "model": "GPT-OSS-120B"},
+    {"id": "mas_results_improved_extra60",      "label": "Multi-level · extra60 (N=60)",        "category": "Multi-level memory",    "model": "GPT-OSS-120B"},
+    {"id": "mas_results_med42",                 "label": "Med42-70B A/B",                       "category": "Model comparison",      "model": "Med42-70B"},
+    {"id": "mas_results_deepseek_v4_pro",       "label": "DeepSeek-V4-Pro spot-check",          "category": "Model comparison",      "model": "DeepSeek-V4-Pro"},
+    {"id": "mas_results_runtime",               "label": "Doctor live runs",                    "category": "Doctor runtime",        "model": "GPT-OSS-120B", "runtime": True},
+]
+RESULT_SET_METADATA: dict[str, dict[str, Any]] = {entry["id"]: entry for entry in RESULT_SET_REGISTRY}
+RESULT_SET_LABELS: dict[str, str] = {entry["id"]: entry["label"] for entry in RESULT_SET_REGISTRY}
+
+# Cohorts marked ``runtime: True`` are *excluded* from cross-cohort statistics
+# and comparisons. Live doctor runs land here and never enter the research
+# numbers — see _is_runtime_only() and the exclusion in /api/stats/cohort-comparison.
+RUNTIME_RESULT_SET = "mas_results_runtime"
+RUNTIME_RESULT_DIR = DATA_GOLD / RUNTIME_RESULT_SET
+
+# Map LLM provider → expected env var. Used by _with_availability() so the
+# UI only offers cloud engines whose API key is actually configured.
+_PROVIDER_ENV_KEY: dict[str, str] = {
+    "groq":      "GROQ_API_KEY",
+    "openai":    "OPENAI_API_KEY",
+    "anthropic": "ANTHROPIC_API_KEY",
+    "gemini":    "GOOGLE_API_KEY",
 }
+
+
+def _check_preset_available(preset: dict[str, Any]) -> tuple[bool, str]:
+    """Return (available, reason) for one MODEL_PRESETS entry."""
+    import os as _os
+
+    provider = preset.get("provider")
+    if provider == "ollama":
+        # Local provider — try to reach Ollama and check that the model is pulled.
+        try:
+            import urllib.request
+            # Prefer 127.0.0.1 over "localhost". On some Macs ``localhost``
+            # resolves to ::1 (IPv6) which lands on a different Ollama
+            # instance than the one Homebrew/launchd actually runs on, so
+            # the backend would see an empty model list even though the
+            # user has pulled plenty.
+            base = _os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
+            with urllib.request.urlopen(f"{base}/api/tags", timeout=3.0) as resp:
+                if resp.status != 200:
+                    return False, "Ollama not responding"
+                data = json.loads(resp.read().decode())
+                pulled = {m.get("name", "") for m in (data.get("models") or [])}
+                model_name = preset.get("model", "")
+                # Accept any pulled tag whose base matches the preset's base,
+                # OR whose name contains the preset's base name as a
+                # substring — covers community-uploaded variants like
+                # ``thewindmom/llama3-med42-70b:latest`` for Med42, and the
+                # common case of users pulling a quantised tag of the same
+                # base (``gpt-oss:120b-q4_0`` etc).
+                base_name = model_name.split(":")[0].lower()
+                def _same_family(p: str) -> bool:
+                    pl = p.lower()
+                    return (
+                        p == model_name
+                        or pl.split(":")[0] == base_name
+                        or base_name in pl
+                    )
+                if not any(_same_family(p) for p in pulled):
+                    return False, f"Pull it first — run: ollama pull {model_name}"
+                return True, ""
+        except Exception:
+            return False, "Ollama not reachable at " + _os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434")
+
+    env_key = _PROVIDER_ENV_KEY.get(str(provider))
+    if not env_key:
+        return False, f"Unknown provider: {provider}"
+    # Gemini accepts either GOOGLE_API_KEY (canonical) or GEMINI_API_KEY
+    # (commonly used in tutorials / .env templates).
+    if provider == "gemini":
+        if _os.environ.get("GOOGLE_API_KEY") or _os.environ.get("GEMINI_API_KEY"):
+            return True, ""
+        return False, "GOOGLE_API_KEY (or GEMINI_API_KEY) not set in .env"
+    if not _os.environ.get(env_key):
+        return False, f"{env_key} not set in .env"
+    return True, ""
+
+
+def _with_availability(preset: dict[str, Any]) -> dict[str, Any]:
+    available, reason = _check_preset_available(preset)
+    return {
+        **preset,
+        "available": available,
+        "unavailableReason": reason if not available else None,
+    }
 
 _tasks: dict[str, dict[str, Any]] = {}
 _tasks_lock = threading.Lock()
+_run_serial = threading.Lock()  # serialises live runs so env-var overrides don't race
+
+# Curated model presets the doctor can pick from in the runtime hero. Each
+# entry maps to an LLM_PROVIDER + LLM_MODEL pair the adapter already knows
+# how to construct. The ``location`` is informational — cloud presets need
+# the corresponding API key in .env; local presets need a running Ollama.
+# Per-preset cost / runtime fields surfaced in the doctor's model picker.
+# Only measured / certain values are populated — for presets that haven't
+# been benchmarked, both fields stay ``None`` and the UI shows "—".
+# Knowns:
+#   * GPT-OSS 120B (Groq) — median ~130s per patient on the 160-patient
+#     thesis cohort. Cost ≈ $0.03 / patient at Groq's split rate
+#     ($0.15/M input, $0.75/M output) on the measured 80–90 k input + 18–22 k
+#     output tokens per run (thesis Section "Token and Cost Accounting").
+#   * GPT-OSS 120B (Ollama, local) — ~960 s (≈ 16 min) per patient on the
+#     project workstation; ~7× slower than Groq, free at point of use
+#     (docs/MAS_ARCHITECTURE_EVOLUTION.md §9).
+#   * Med42 70B on Ollama — ~13× slower than GPT-OSS in the head-to-head.
+#   * Any local (Ollama) preset — cost = $0 (no external API calls).
+MODEL_PRESETS: list[dict[str, Any]] = [
+    {"id": "groq-gpt-oss-120b",       "label": "GPT-OSS 120B",          "provider": "groq",      "model": "openai/gpt-oss-120b",      "location": "cloud", "vendor": "Groq",      "runtimeSeconds": 130,  "costUsdPerPatient": 0.03, "default": True},
+    {"id": "ollama-gpt-oss-120b",     "label": "GPT-OSS 120B (local)",  "provider": "ollama",    "model": "gpt-oss:120b",             "location": "local", "vendor": "Ollama",    "runtimeSeconds": 960,  "costUsdPerPatient": 0.0},
+    {"id": "openai-gpt-4o",           "label": "GPT-4o",                "provider": "openai",    "model": "gpt-4o",                   "location": "cloud", "vendor": "OpenAI",    "runtimeSeconds": None, "costUsdPerPatient": None},
+    {"id": "openai-gpt-4o-mini",      "label": "GPT-4o mini",           "provider": "openai",    "model": "gpt-4o-mini",              "location": "cloud", "vendor": "OpenAI",    "runtimeSeconds": None, "costUsdPerPatient": None},
+    # Verified 2026-05-21 against the user's Gemini key (scripts/smoke_test_gemini.py).
+    # The fictional "gemini-3.4" / "gemini-3.4-flash" were removed — Google
+    # never released them. Newest available models are 3.5 Flash and 3 Pro
+    # preview. Runtime is from the smoke test (5 calls × measured per-call
+    # latency); cost is published per-token pricing applied to the measured
+    # token counts.
+    {"id": "gemini-3-5-flash",        "label": "Gemini 3.5 Flash",      "provider": "gemini",    "model": "gemini-3.5-flash",         "location": "cloud", "vendor": "Google",    "runtimeSeconds": 20,   "costUsdPerPatient": None},
+    {"id": "gemini-3-pro",            "label": "Gemini 3 Pro",          "provider": "gemini",    "model": "gemini-3-pro-preview",     "location": "cloud", "vendor": "Google",    "runtimeSeconds": 35,   "costUsdPerPatient": 0.003},
+    {"id": "anthropic-sonnet",        "label": "Claude Sonnet 4",       "provider": "anthropic", "model": "claude-sonnet-4-20250514", "location": "cloud", "vendor": "Anthropic", "runtimeSeconds": None, "costUsdPerPatient": None},
+    # Med42 70B via Groq removed — Groq's catalog doesn't actually serve it,
+    # so the preset only ever fooled the doctor into picking an unavailable
+    # backend. The local Ollama Med42 entry below stays for users who pull
+    # the model with ``ollama pull med42:70b``.
+    {"id": "ollama-med42-70b",        "label": "Med42 70B (local)",     "provider": "ollama",    "model": "med42:70b",                "location": "local", "vendor": "Ollama",    "runtimeSeconds": 1700, "costUsdPerPatient": 0.0},
+    {"id": "ollama-llama3-70b",       "label": "Llama 3.3 70B (local)", "provider": "ollama",    "model": "llama3.3:70b",             "location": "local", "vendor": "Ollama",    "runtimeSeconds": None, "costUsdPerPatient": 0.0},
+]
+MODEL_PRESETS_BY_ID = {preset["id"]: preset for preset in MODEL_PRESETS}
 
 
 class RunRequest(BaseModel):
     patient_uuid: str
+    # Optional per-run model override. If both ``provider`` and ``model`` are
+    # set, the runtime pipeline temporarily applies them via env vars so the
+    # cfg-driven adapter picks them up. ``preset_id`` is a convenience that
+    # resolves to a known (provider, model) pair from MODEL_PRESETS.
+    provider: str | None = None
+    model: str | None = None
+    preset_id: str | None = None
+    # How many diagnoses the refiner should keep in the final differential.
+    # Threaded into the LangGraph state as ``top_k``; the Diagnostic Refiner
+    # agent reads it from state and substitutes ``{top_k}`` in its prompt.
+    top_k: int = 5
+    # Per-run system-accuracy preset. "recommended" enables multi-level memory
+    # AND the terminal-renal canonicalizer (the principal headline
+    # configuration); "fast" disables both (single-level baseline, no canon)
+    # for a quicker run. Mapped to MEMORY_ENABLED + CANONICALIZER_ENABLED env
+    # vars in the runtime worker the same way model overrides are applied.
+    accuracy_mode: Literal["recommended", "fast"] = "recommended"
 
 
 class AnnotationPayload(BaseModel):
@@ -120,6 +302,11 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    # Ensure the dedicated runtime cohort directory exists at boot so the
+    # Doctor mode UI has a valid (possibly empty) result set to query. This
+    # is the cohort live clinician runs write to — see _run_patient_task().
+    RUNTIME_RESULT_DIR.mkdir(parents=True, exist_ok=True)
+
     @app.get("/api/health")
     def health() -> dict[str, Any]:
         return {
@@ -129,14 +316,83 @@ def create_app() -> FastAPI:
             "result_sets": len(_result_sets()),
         }
 
+    @app.get("/api/model-presets")
+    def model_presets() -> list[dict[str, Any]]:
+        """Curated LLM preset list the runtime UI picks from.
+
+        Each preset is enriched with ``available`` + ``unavailableReason`` so
+        the doctor only sees engines that are actually configured. Cloud
+        presets check for the matching API key in env; local (Ollama) presets
+        check that the daemon is reachable and the model is pulled.
+        """
+        return [_with_availability(preset) for preset in MODEL_PRESETS]
+
     @app.get("/api/result-sets")
-    def result_sets() -> list[dict[str, Any]]:
-        return _result_sets()
+    def result_sets(include_runtime: bool = Query(False)) -> list[dict[str, Any]]:
+        """List every on-disk result set with full registry metadata.
+
+        ``include_runtime=true`` includes the ``mas_results_runtime`` cohort
+        (live doctor runs). Default is False so researcher views don't see
+        runtime data leaking into cohort lists.
+        """
+        out = _result_sets()
+        if not include_runtime:
+            out = [meta for meta in out if not meta.get("runtime")]
+        return out
 
     @app.get("/api/dashboard")
     def dashboard(result_set: str = Query("mas_results")) -> dict[str, Any]:
         result_dir = _resolve_result_set(result_set)
         return _dashboard_summary(result_dir)
+
+    @app.get("/api/stats/overview")
+    def stats_overview(result_set: str = Query("multi_level")) -> dict[str, Any]:
+        """Full statistics overview for one cohort.
+
+        Returns KPI aggregates, rank distribution, per-disease breakdown,
+        and top-N predicted diagnoses. Drives the Researcher landing view.
+        The ``multi_level`` virtual cohort aggregates across the three
+        multi-level-memory source directories and prefers
+        ``evaluation_canon.json`` (canonicalizer-augmented verdicts) where
+        present — this is the principal headline configuration.
+        """
+        dirs = _resolve_result_dirs(result_set)
+        result_dir = dirs if len(dirs) > 1 else dirs[0]
+        return _stats_overview(result_dir)
+
+    @app.get("/api/stats/cohort-comparison")
+    def stats_cohort_comparison(include_runtime: bool = Query(False)) -> dict[str, Any]:
+        """One-row-per-cohort comparison table for the Researcher overview."""
+        return {"rows": _cohort_comparison_rows(include_runtime=include_runtime)}
+
+    @app.get("/api/comparisons/memory-ab")
+    def comparison_memory_ab() -> dict[str, Any]:
+        """Paired-160 memory A/B with exact McNemar.
+
+        Reads the precomputed artefact from ``data/gold/paired_160_mcnemar.json``
+        (produced by ``scripts/paired_160_mcnemar.py``).
+        """
+        return _memory_ab_comparison()
+
+    @app.get("/api/comparisons/model")
+    def comparison_model(
+        baseline: str = Query("mas_results"),
+        candidate: str = Query("mas_results_med42"),
+    ) -> dict[str, Any]:
+        """Head-to-head between two LLM backends on the intersection of UUIDs."""
+        if _is_runtime_only(baseline) or _is_runtime_only(candidate):
+            raise HTTPException(400, "Runtime cohorts cannot appear in research comparisons.")
+        return _two_arm_comparison(baseline, candidate)
+
+    @app.get("/api/comparisons/mas-vs-single-llm")
+    def comparison_mas_vs_single_llm() -> dict[str, Any]:
+        """MAS pipeline vs single-prompt LLM baseline on the shared UUIDs."""
+        return _two_arm_comparison(
+            "mas_results",
+            "mas_results_single_llm_baseline",
+            baseline_label="CMADS 7-agent pipeline",
+            candidate_label="Single-prompt LLM baseline",
+        )
 
     @app.get("/api/patients")
     def patients(
@@ -216,16 +472,28 @@ def create_app() -> FastAPI:
         match_filter: str = Query("", max_length=80),
         exclude_self: bool = Query(True),
         result_set: str = Query("mas_results"),
+        mode: str = Query("researcher"),
     ) -> dict[str, Any]:
         """Vector-search the case-based memory layer (Qdrant) and return
-        the top-K most similar past patients to this one, with full
-        metadata for the doctor to compare against the current case."""
+        the top-K most similar past patients.
+
+        ``mode``:
+          - ``researcher`` (default): show each neighbour's diagnosis the way
+            CMADS recorded it — past system match (DIRECT/INDIRECT/MISS),
+            ranks, evidence patterns. This is what the diagnostic agent
+            actually consumed as a prior at run-time.
+          - ``runtime``: show each neighbour's *clinical* diagnosis pulled
+            from their Synthea ground-truth condition. This presents the
+            past cases as a reference library of confirmed diagnoses, not
+            as past AI outputs — so the live doctor can trust them.
+        """
         return _similar_cases(
             patient_uuid,
             top_k=top_k,
             match_filter=match_filter,
             exclude_self=exclude_self,
             result_set=result_set,
+            mode=(mode if mode in {"runtime", "researcher"} else "researcher"),
         )
 
     @app.get("/api/results/{result_set}/{patient_uuid}")
@@ -271,28 +539,71 @@ def create_app() -> FastAPI:
     def start_run(request: RunRequest) -> dict[str, Any]:
         if not (PATIENT_CASES / request.patient_uuid).exists():
             raise HTTPException(status_code=404, detail="Unknown patient UUID")
+
+        # Resolve the chosen model. preset_id wins over explicit fields.
+        resolved_provider = request.provider
+        resolved_model = request.model
+        resolved_preset: dict[str, Any] | None = None
+        if request.preset_id:
+            preset = MODEL_PRESETS_BY_ID.get(request.preset_id)
+            if not preset:
+                raise HTTPException(status_code=400, detail=f"Unknown preset_id: {request.preset_id}")
+            avail, reason = _check_preset_available(preset)
+            if not avail:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Engine '{preset['label']}' is not available: {reason}",
+                )
+            resolved_provider = preset["provider"]
+            resolved_model = preset["model"]
+            resolved_preset = preset
+
+        # Clamp top_k to a sane range — UI offers 1/2/3/5 but anyone hitting
+        # the API directly shouldn't be able to ask for 0 or 100.
+        requested_top_k = max(1, min(int(request.top_k or 5), 10))
+
+        # Accuracy-mode preset → memory + canonicalizer env-var overrides.
+        accuracy_mode = request.accuracy_mode or "recommended"
+        memory_enabled = accuracy_mode == "recommended"
+        canonicalizer_enabled = accuracy_mode == "recommended"
+
         task_id = str(uuid.uuid4())
         _tasks[task_id] = {
             "taskId": task_id,
             "patientUuid": request.patient_uuid,
+            "topK": requested_top_k,
+            "accuracyMode": accuracy_mode,
             "status": "queued",
             "startedAt": None,
             "finishedAt": None,
             "error": None,
-            "resultSet": "mas_results",
+            "resultSet": RUNTIME_RESULT_SET,
             "activeAgentId": None,
             "agents": _initial_run_agents(),
             "agentNarratives": {},
+            # Echo the chosen model back so the UI can label the run.
+            "modelOverride": {
+                "presetId":  request.preset_id,
+                "provider":  resolved_provider,
+                "model":     resolved_model,
+                "label":     (resolved_preset or {}).get("label"),
+                "vendor":    (resolved_preset or {}).get("vendor"),
+                "location":  (resolved_preset or {}).get("location"),
+            } if (resolved_provider or resolved_model) else None,
             "events": [{
                 "timestamp": time.time(),
                 "agentId": None,
                 "title": "Run queued",
-                "message": "Waiting to start the multi-agent diagnostic workflow.",
+                "message": (
+                    f"Waiting to start the multi-agent diagnostic workflow "
+                    f"with {(resolved_preset or {}).get('label') or resolved_model or 'the default model'}."
+                ),
             }],
         }
         thread = threading.Thread(
             target=_run_patient_task,
-            args=(task_id, request.patient_uuid),
+            args=(task_id, request.patient_uuid, resolved_provider, resolved_model,
+                  requested_top_k, memory_enabled, canonicalizer_enabled),
             daemon=True,
         )
         thread.start()
@@ -356,12 +667,20 @@ def _result_sets() -> list[dict[str, Any]]:
 
 def _result_set_meta(path: Path) -> dict[str, Any]:
     patient_count = sum(1 for p in path.iterdir() if p.is_dir()) if path.exists() else 0
+    registry = RESULT_SET_METADATA.get(path.name, {})
     return {
         "id": path.name,
-        "label": RESULT_SET_LABELS.get(path.name, path.name.replace("_", " ")),
+        "label": registry.get("label") or path.name.replace("_", " "),
+        "category": registry.get("category") or "Other",
+        "model": registry.get("model") or "—",
+        "runtime": bool(registry.get("runtime", False)),
         "path": str(path.relative_to(ROOT)),
         "patientCount": patient_count,
     }
+
+
+def _is_runtime_only(result_set_id: str) -> bool:
+    return bool(RESULT_SET_METADATA.get(result_set_id, {}).get("runtime", False))
 
 
 def _resolve_result_dirs(result_set: str) -> list[Path]:
@@ -409,6 +728,474 @@ def _patient_dir_for(patient_uuid: str, dirs: list[Path]) -> Path | None:
     return None
 
 
+# ─────────────────────────────────────────────────────────────────────────
+# Stats + comparison helpers (ported from portal/dashboard.py:172-485).
+# All helpers take a single ``result_dir`` and an optional ``uuid_filter``
+# so the same helper can compute a whole-cohort aggregate and a comparison
+# restricted to the intersection of two cohorts.
+# ─────────────────────────────────────────────────────────────────────────
+
+def _iter_patient_dirs(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+) -> list[Path]:
+    """Yield patient sub-dirs in ``result_dir`` that have an evaluation.json.
+
+    Accepts a single Path or a list of Paths (for virtual cohorts that union
+    multiple source directories, e.g. ``multi_level``). For unioned cohorts
+    a UUID seen in more than one directory is yielded once, with the first
+    occurrence winning. Sorted by UUID so output is deterministic.
+    """
+    dirs = result_dir if isinstance(result_dir, list) else [result_dir]
+    seen: set[str] = set()
+    rows: list[Path] = []
+    for d in dirs:
+        if not d.exists():
+            continue
+        for sub in sorted(d.iterdir()):
+            if not sub.is_dir() or sub.name in seen:
+                continue
+            if uuid_filter is not None and sub.name not in uuid_filter:
+                continue
+            if not (sub / "evaluation.json").exists() and not (sub / "evaluation_canon.json").exists():
+                continue
+            seen.add(sub.name)
+            rows.append(sub)
+    return rows
+
+
+def _aggregate_result_set(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+) -> dict[str, Any]:
+    """Per-cohort roll-up: DIRECT/INDIRECT/MISS counts + rates + timings.
+
+    Port of portal/dashboard.py:172-223 (aggregate_result_set). Median timing
+    is added on top so the doctor-friendly KPI tile can show a robust central
+    tendency.
+    """
+    direct = indirect = miss = rank1 = 0
+    total = 0
+    times: list[float] = []
+    for sub in _iter_patient_dirs(result_dir, uuid_filter=uuid_filter):
+        # Prefer evaluation_canon.json (canonicalizer-augmented) when present
+        # so headline accuracy reflects the principal configuration.
+        ev = _load_json(sub / "evaluation_canon.json") \
+             or _load_json(sub / "evaluation.json") or {}
+        total += 1
+        match_type = str(ev.get("match_type") or "").upper()
+        rank = ev.get("rank")
+        if match_type == "DIRECT":
+            direct += 1
+            if rank == 1:
+                rank1 += 1
+        elif match_type == "INDIRECT":
+            indirect += 1
+            if rank == 1:
+                rank1 += 1
+        else:
+            miss += 1
+        trace = _load_json(sub / "execution_trace.json") or {}
+        dur = trace.get("duration_s")
+        if not isinstance(dur, (int, float)):
+            # Minimal runs (single-LLM baseline, etc.) don't persist
+            # execution_trace.json; their per-patient runtime lives in
+            # final_diagnosis.json as duration_diag_s.
+            fd = _load_json(sub / "final_diagnosis.json") or {}
+            dur = fd.get("duration_diag_s")
+        if isinstance(dur, (int, float)):
+            times.append(float(dur))
+
+    found = direct + indirect
+    times_sorted = sorted(times)
+    median_time = (
+        times_sorted[len(times_sorted) // 2]
+        if times_sorted else 0.0
+    )
+    return {
+        "n": total,
+        "direct": direct,
+        "indirect": indirect,
+        "miss": miss,
+        "found": found,
+        "rank1": rank1,
+        "directPct": (100.0 * direct / total) if total else 0.0,
+        "indirectPct": (100.0 * indirect / total) if total else 0.0,
+        "missPct": (100.0 * miss / total) if total else 0.0,
+        "foundPct": (100.0 * found / total) if total else 0.0,
+        "rank1PctOfFound": (100.0 * rank1 / found) if found else 0.0,
+        "avgTimeS": (sum(times) / len(times)) if times else 0.0,
+        "medianTimeS": median_time,
+    }
+
+
+def _rank_distribution(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+) -> list[dict[str, Any]]:
+    """Where was the target found in the ranked differential?
+
+    Buckets: 1, 2, 3, 4-5, miss. Mirrors Streamlit's rank-distribution chart
+    (portal/dashboard.py:411-430).
+    """
+    buckets = {"1": 0, "2": 0, "3": 0, "4-5": 0, "miss": 0}
+    for sub in _iter_patient_dirs(result_dir, uuid_filter=uuid_filter):
+        ev = _load_json(sub / "evaluation_canon.json") \
+             or _load_json(sub / "evaluation.json") or {}
+        match_type = str(ev.get("match_type") or "").upper()
+        rank = ev.get("rank")
+        if match_type == "MISS" or not isinstance(rank, int) or rank <= 0:
+            buckets["miss"] += 1
+        elif rank == 1:
+            buckets["1"] += 1
+        elif rank == 2:
+            buckets["2"] += 1
+        elif rank == 3:
+            buckets["3"] += 1
+        else:
+            buckets["4-5"] += 1
+    return [{"label": k, "count": v} for k, v in buckets.items()]
+
+
+def _per_disease_breakdown(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+) -> list[dict[str, Any]]:
+    """Per-target-disease breakdown table.
+
+    Groups by Synthea ground-truth target. Mirrors Streamlit's per-disease
+    table (portal/dashboard.py:434-453).
+    """
+    groups: dict[str, dict[str, Any]] = {}
+    for sub in _iter_patient_dirs(result_dir, uuid_filter=uuid_filter):
+        gt = _load_json(PATIENT_CASES / sub.name / "ground_truth.json") or {}
+        target = (gt.get("target_condition") or {}).get("name") or "Unknown"
+        ev = _load_json(sub / "evaluation_canon.json") \
+             or _load_json(sub / "evaluation.json") or {}
+        match_type = str(ev.get("match_type") or "").upper()
+        rank = ev.get("rank")
+        bucket = groups.setdefault(target, {
+            "disease": target, "n": 0,
+            "direct": 0, "indirect": 0, "miss": 0,
+            "ranks": [],
+        })
+        bucket["n"] += 1
+        if match_type == "DIRECT":
+            bucket["direct"] += 1
+        elif match_type == "INDIRECT":
+            bucket["indirect"] += 1
+        else:
+            bucket["miss"] += 1
+        if isinstance(rank, int) and rank > 0:
+            bucket["ranks"].append(rank)
+
+    rows: list[dict[str, Any]] = []
+    for bucket in groups.values():
+        found = bucket["direct"] + bucket["indirect"]
+        rows.append({
+            "disease": bucket["disease"],
+            "n": bucket["n"],
+            "direct": bucket["direct"],
+            "indirect": bucket["indirect"],
+            "miss": bucket["miss"],
+            "foundPct": (100.0 * found / bucket["n"]) if bucket["n"] else 0.0,
+            "avgRank": (
+                sum(bucket["ranks"]) / len(bucket["ranks"])
+                if bucket["ranks"] else None
+            ),
+        })
+    return sorted(rows, key=lambda r: -r["n"])
+
+
+def _top_diagnoses(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+    top: int = 8,
+) -> list[dict[str, Any]]:
+    """Most frequently predicted primary diagnoses in this cohort."""
+    counts: Counter[str] = Counter()
+    for sub in _iter_patient_dirs(result_dir, uuid_filter=uuid_filter):
+        final_dx = _load_json(sub / "final_diagnosis.json") or {}
+        primary = final_dx.get("primary_diagnosis")
+        if primary:
+            counts[str(primary)] += 1
+    return [
+        {"diagnosis": d, "count": c}
+        for d, c in counts.most_common(top)
+    ]
+
+
+def _stats_overview(result_dir: "Path | list[Path]") -> dict[str, Any]:
+    """Full statistics overview for one cohort. Drives the Researcher landing view."""
+    if isinstance(result_dir, list):
+        # Virtual cohort (multi-dir union, e.g. ``multi_level``). Synthesise a
+        # meta block that labels the virtual cohort properly instead of
+        # inheriting the first child directory's name.
+        total_patients = sum(
+            sum(1 for p in d.iterdir() if p.is_dir())
+            for d in result_dir if d.exists()
+        )
+        meta = {
+            "id": "multi_level",
+            "label": "Multi-level memory + canonicalizer (paired-160 headline)",
+            "category": "Multi-level memory",
+            "model": "GPT-OSS-120B",
+            "runtime": False,
+            "path": " · ".join(str(d.relative_to(ROOT)) for d in result_dir),
+            "patientCount": total_patients,
+        }
+    else:
+        meta = _result_set_meta(result_dir)
+    return {
+        "resultSet": meta,
+        "aggregates": _aggregate_result_set(result_dir),
+        "rankDistribution": _rank_distribution(result_dir),
+        "perDisease": _per_disease_breakdown(result_dir),
+        "topDiagnoses": _top_diagnoses(result_dir),
+    }
+
+
+def _cohort_comparison_rows(include_runtime: bool = False) -> list[dict[str, Any]]:
+    """One row per registered cohort: id + metadata + aggregate stats.
+
+    Runtime-only cohorts (doctor live runs) are excluded by default — they are
+    not research data and should not appear in the comparison table.
+    """
+    rows: list[dict[str, Any]] = []
+    for entry in RESULT_SET_REGISTRY:
+        if entry.get("runtime") and not include_runtime:
+            continue
+        path = DATA_GOLD / entry["id"]
+        if not path.exists() or not path.is_dir():
+            continue
+        agg = _aggregate_result_set(path)
+        if agg["n"] == 0:
+            continue
+        rows.append({
+            "id": entry["id"],
+            "label": entry["label"],
+            "category": entry["category"],
+            "model": entry["model"],
+            **agg,
+        })
+    return rows
+
+
+def _intersect_uuids(*dirs: Path) -> set[str]:
+    """Return the set of UUIDs that appear (with evaluation.json) in every dir."""
+    sets: list[set[str]] = []
+    for d in dirs:
+        if not d.exists():
+            sets.append(set())
+            continue
+        sets.append({
+            p.name for p in d.iterdir()
+            if p.is_dir() and (p / "evaluation.json").exists()
+        })
+    if not sets:
+        return set()
+    out = sets[0]
+    for s in sets[1:]:
+        out = out & s
+    return out
+
+
+def _two_arm_comparison(
+    baseline_id: str,
+    candidate_id: str,
+    *,
+    baseline_label: "str | None" = None,
+    candidate_label: "str | None" = None,
+    restrict_to_intersection: bool = True,
+) -> dict[str, Any]:
+    """Side-by-side comparison of two cohorts.
+
+    By default both arms are restricted to the intersection of their UUIDs
+    (paired comparison). Set ``restrict_to_intersection=False`` to compare the
+    full cohorts (useful when arms are different sizes by design — e.g. MAS
+    full cohort vs single-LLM baseline).
+    """
+    baseline_dir = DATA_GOLD / baseline_id
+    candidate_dir = DATA_GOLD / candidate_id
+    if not baseline_dir.exists():
+        raise HTTPException(404, f"Baseline cohort missing: {baseline_id}")
+    if not candidate_dir.exists():
+        raise HTTPException(404, f"Candidate cohort missing: {candidate_id}")
+
+    if restrict_to_intersection:
+        shared = _intersect_uuids(baseline_dir, candidate_dir)
+        baseline_filter: "set[str] | None" = shared
+        candidate_filter: "set[str] | None" = shared
+        n_shared = len(shared)
+    else:
+        baseline_filter = None
+        candidate_filter = None
+        n_shared = len(_intersect_uuids(baseline_dir, candidate_dir))
+
+    baseline_agg = _aggregate_result_set(baseline_dir, uuid_filter=baseline_filter)
+    candidate_agg = _aggregate_result_set(candidate_dir, uuid_filter=candidate_filter)
+    baseline_disease = _per_disease_breakdown(baseline_dir, uuid_filter=baseline_filter)
+    candidate_disease = _per_disease_breakdown(candidate_dir, uuid_filter=candidate_filter)
+
+    # Discordant patients: paired UUIDs where one arm matched (DIRECT or
+    # INDIRECT) and the other missed. Only meaningful when paired.
+    discordant: list[dict[str, Any]] = []
+    if restrict_to_intersection:
+        for patient_uuid in sorted(shared):
+            be = _load_json(baseline_dir / patient_uuid / "evaluation.json") or {}
+            ce = _load_json(candidate_dir / patient_uuid / "evaluation.json") or {}
+            b_match = str(be.get("match_type") or "MISS").upper() in {"DIRECT", "INDIRECT"}
+            c_match = str(ce.get("match_type") or "MISS").upper() in {"DIRECT", "INDIRECT"}
+            if b_match == c_match:
+                continue
+            gt = _load_json(PATIENT_CASES / patient_uuid / "ground_truth.json") or {}
+            target = (gt.get("target_condition") or {}).get("name") or "Unknown"
+            discordant.append({
+                "patientUuid": patient_uuid,
+                "target": target,
+                "baselineMatchType": str(be.get("match_type") or "MISS").upper(),
+                "candidateMatchType": str(ce.get("match_type") or "MISS").upper(),
+                "baselineRank": be.get("rank"),
+                "candidateRank": ce.get("rank"),
+            })
+
+    return {
+        "baseline": {
+            "resultSet": _result_set_meta(baseline_dir),
+            "label": baseline_label or _result_set_meta(baseline_dir)["label"],
+            "aggregates": baseline_agg,
+            "perDisease": baseline_disease,
+        },
+        "candidate": {
+            "resultSet": _result_set_meta(candidate_dir),
+            "label": candidate_label or _result_set_meta(candidate_dir)["label"],
+            "aggregates": candidate_agg,
+            "perDisease": candidate_disease,
+        },
+        "pairedN": n_shared if restrict_to_intersection else 0,
+        "restrictedToIntersection": restrict_to_intersection,
+        "discordant": discordant,
+        "discordantCount": len(discordant),
+    }
+
+
+def _memory_ab_comparison() -> dict[str, Any]:
+    """Paired-160 memory A/B with exact McNemar + Found rates.
+
+    Prefers the precomputed artefact at
+    ``data/gold/paired_160_mcnemar.json`` (written by
+    ``scripts/paired_160_mcnemar.py``); falls back to an empty payload if
+    it has not been computed yet.
+
+    Augments the artefact with **Found rates** (DIRECT + INDIRECT) per arm,
+    which the doctor-friendly UI uses as its headline metric — DIRECT
+    alone undersells multi-level memory's strongest result (broader
+    differential, fewer outright misses).
+    """
+    artefact = DATA_GOLD / "paired_160_mcnemar.json"
+    payload = _load_json(artefact) or {}
+
+    # Compute Found rates from the underlying directories. The paired-160
+    # study has memory-OFF arm in ``mas_results`` + ``mas_results_paired95_single_level``
+    # and memory-ON arm in the three multi-level dirs.
+    off_dirs = [DATA_GOLD / d for d in ("mas_results", "mas_results_paired95_single_level")
+                if (DATA_GOLD / d).exists()]
+    on_dirs = [DATA_GOLD / d for d in MULTI_LEVEL_RESULT_DIRS
+               if (DATA_GOLD / d).exists()]
+    pair_uuids = [p["uuid"] for p in payload.get("pairs", [])]
+    pair_set = set(pair_uuids)
+
+    def _found(dirs: list[Path]) -> tuple[int, int]:
+        total = 0
+        found = 0
+        seen: set[str] = set()
+        for d in dirs:
+            for sub in d.iterdir() if d.exists() else []:
+                if not sub.is_dir() or sub.name in seen or sub.name not in pair_set:
+                    continue
+                ev = _load_json(sub / "evaluation.json")
+                if not ev:
+                    continue
+                seen.add(sub.name)
+                total += 1
+                mt = str(ev.get("match_type") or "").upper()
+                if mt in {"DIRECT", "INDIRECT"}:
+                    found += 1
+        return found, total
+
+    # Prefer fixture-provided Found rates if present (set by the canonicalizer
+    # re-judge so Found reflects the canon-augmented differential), otherwise
+    # recompute by scanning evaluation.json on disk.
+    if "off_found_rate" in payload and "on_found_rate" in payload:
+        off_found = payload.get("off_found_count", 0)
+        on_found  = payload.get("on_found_count",  0)
+        off_found_rate = float(payload["off_found_rate"])
+        on_found_rate  = float(payload["on_found_rate"])
+    else:
+        off_found, off_n = _found(off_dirs)
+        on_found, on_n   = _found(on_dirs)
+        off_found_rate = (off_found / off_n) if off_n else 0.0
+        on_found_rate  = (on_found  / on_n)  if on_n  else 0.0
+
+    # Provide a discordant list keyed by UUID so the UI can link into the
+    # patient explorer. The artefact lists every pair; we filter to the
+    # discordant ones and enrich with the target condition for display.
+    discordant: list[dict[str, Any]] = []
+    for pair in payload.get("pairs", []):
+        if pair.get("off_direct") is None or pair.get("on_direct") is None:
+            continue
+        if pair["off_direct"] == pair["on_direct"]:
+            continue
+        gt = _load_json(PATIENT_CASES / pair["uuid"] / "ground_truth.json") or {}
+        target = (gt.get("target_condition") or {}).get("name") or "Unknown"
+        discordant.append({
+            "patientUuid": pair["uuid"],
+            "target": target,
+            "offDirect": bool(pair["off_direct"]),
+            "onDirect": bool(pair["on_direct"]),
+        })
+
+    # Per-arm rich aggregates so the UI can render arm-by-arm KPI strips,
+    # rank distributions, and per-disease breakdowns (matching the Overview).
+    off_full_dirs = [DATA_GOLD / d for d in (
+        "mas_results", "mas_results_paired95_single_level",
+        "mas_results_baseline_b3", "mas_results_baseline_no_mem",
+    ) if (DATA_GOLD / d).exists()]
+    on_full_dirs = [DATA_GOLD / d for d in MULTI_LEVEL_RESULT_DIRS if (DATA_GOLD / d).exists()]
+
+    off_aggregates = _aggregate_result_set(off_full_dirs, uuid_filter=pair_set)
+    on_aggregates  = _aggregate_result_set(on_full_dirs,  uuid_filter=pair_set)
+    off_rank_dist  = _rank_distribution(off_full_dirs, uuid_filter=pair_set)
+    on_rank_dist   = _rank_distribution(on_full_dirs,  uuid_filter=pair_set)
+    off_per_disease = _per_disease_breakdown(off_full_dirs, uuid_filter=pair_set)
+    on_per_disease  = _per_disease_breakdown(on_full_dirs,  uuid_filter=pair_set)
+
+    return {
+        "label": "Multi-level memory A/B (paired-160)",
+        "armA": {"key": "off", "label": "Single-level memory"},
+        "armB": {"key": "on",  "label": "Multi-level memory + canonicalizer"},
+        "nPaired": payload.get("n_paired", 0),
+        "nDropped": payload.get("n_dropped_missing_judgment", 0),
+        "offDirectRate": payload.get("off_direct_rate", 0.0),
+        "onDirectRate":  payload.get("on_direct_rate", 0.0),
+        "offFoundRate":  off_found_rate,
+        "onFoundRate":   on_found_rate,
+        "offFoundCount": off_found,
+        "onFoundCount":  on_found,
+        "offAggregates": off_aggregates,
+        "onAggregates":  on_aggregates,
+        "offRankDistribution": off_rank_dist,
+        "onRankDistribution":  on_rank_dist,
+        "offPerDisease": off_per_disease,
+        "onPerDisease":  on_per_disease,
+        "contingency": payload.get("contingency_2x2", {}),
+        "mcnemar": payload.get("mcnemar_exact", {}),
+        "discordant": discordant,
+        "discordantCount": len(discordant),
+        "artefactPath": str(artefact.relative_to(ROOT)) if artefact.exists() else None,
+    }
+
+
 def _dashboard_summary(result_dir: Path) -> dict[str, Any]:
     patient_dirs = sorted(p for p in result_dir.iterdir() if p.is_dir())
     match_counts: Counter[str] = Counter()
@@ -417,7 +1204,10 @@ def _dashboard_summary(result_dir: Path) -> dict[str, Any]:
     completed_agents: Counter[str] = Counter()
 
     for patient_dir in patient_dirs:
-        evaluation = _load_json(patient_dir / "evaluation.json") or {}
+        # Prefer evaluation_canon.json (canonicalizer-augmented verdict) when
+        # present so dashboards reflect the post-canonicalizer numbers.
+        evaluation = _load_json(patient_dir / "evaluation_canon.json") \
+                     or _load_json(patient_dir / "evaluation.json") or {}
         final_dx = _load_json(patient_dir / "final_diagnosis.json") or {}
         trace = _load_json(patient_dir / "execution_trace.json") or {}
 
@@ -429,6 +1219,10 @@ def _dashboard_summary(result_dir: Path) -> dict[str, Any]:
             diagnosis_counts[str(primary)] += 1
 
         duration = trace.get("duration_s")
+        if not isinstance(duration, (int, float)):
+            # Minimal runs (single-LLM baseline) don't persist
+            # execution_trace.json; runtime lives in final_diagnosis.json.
+            duration = final_dx.get("duration_diag_s")
         if isinstance(duration, (int, float)):
             durations.append(float(duration))
 
@@ -498,7 +1292,13 @@ def _ratio(num: int, den: int) -> float:
 
 def _patient_list_item(patient_uuid: str, result_dir: Path) -> dict[str, Any]:
     case = _load_case_bundle(patient_uuid)
-    evaluation = _load_json(result_dir / patient_uuid / "evaluation.json") or {}
+    # Prefer evaluation_canon.json so the browser row's match-type chip shows
+    # the canonicalizer-augmented verdict (matches the Overview headline).
+    evaluation = (
+        _load_json(result_dir / patient_uuid / "evaluation_canon.json")
+        or _load_json(result_dir / patient_uuid / "evaluation.json")
+        or {}
+    )
     final_dx = _load_json(result_dir / patient_uuid / "final_diagnosis.json") or {}
     trace = _load_json(result_dir / patient_uuid / "execution_trace.json") or {}
     annotation_path = ANNOTATIONS_DIR / f"{patient_uuid}.json"
@@ -561,10 +1361,17 @@ def _similar_cases(
     match_filter: str = "",
     exclude_self: bool = True,
     result_set: str = "mas_results",
+    mode: str = "researcher",
 ) -> dict[str, Any]:
     """Query Qdrant `patient_cases` for the top-K most similar past
     patients to the given one. Falls back gracefully when Qdrant is
-    unreachable or the patient is not yet indexed."""
+    unreachable or the patient is not yet indexed.
+
+    ``mode`` controls how each neighbour's diagnosis is presented:
+      - ``researcher``: payload from the case-memory point (past system match)
+      - ``runtime``: ground-truth target_condition from the neighbour's
+        ground_truth.json (clinical reference, not an AI output).
+    """
     if not (PATIENT_CASES / patient_uuid).exists():
         raise HTTPException(status_code=404, detail=f"Unknown patient: {patient_uuid}")
 
@@ -693,21 +1500,56 @@ def _similar_cases(
         sim_mt = (pl.get("match_type") or "").upper()
         if exclude_self and sim_uuid == patient_uuid:
             continue
-        if filters and sim_mt not in filters:
+        # In researcher mode the match-type filter applies (lets the user
+        # restrict to DIRECT-only priors). In runtime mode the past AI match
+        # is irrelevant — the doctor sees ground-truth labels instead.
+        if mode == "researcher" and filters and sim_mt not in filters:
             continue
-        results.append({
-            "patientUuid": sim_uuid,
-            "similarity": float(r.score),
-            "matchedDiagnosis": pl.get("matched_diagnosis"),
-            "rawDiagnosis": pl.get("raw_diagnosis") or pl.get("matched_diagnosis"),
-            "canonicalFamily": pl.get("canonical_family"),
-            "matchType": pl.get("match_type"),
-            "rankWhenFound": pl.get("rank_when_found"),
-            "primaryConfidence": pl.get("primary_confidence"),
-            "caseText": (pl.get("case_text") or "")[:360],
-            "evidencePatterns": pl.get("evidence_patterns") or [],
-            "indexedAt": pl.get("indexed_at"),
-        })
+
+        if mode == "runtime":
+            # Re-derive the diagnosis label from the neighbour's *clinical*
+            # ground truth rather than from past system output. This is the
+            # trust-builder for live doctor runs: the reference library
+            # shows confirmed diagnoses, not other AI predictions.
+            gt = _load_json(PATIENT_CASES / sim_uuid / "ground_truth.json") or {} if sim_uuid else {}
+            target_condition = gt.get("target_condition") or {}
+            ground_truth_name = target_condition.get("name") or None
+            entry = {
+                "patientUuid": sim_uuid,
+                "similarity": float(r.score),
+                "groundTruthDiagnosis": ground_truth_name,
+                "groundTruthCode": target_condition.get("code"),
+                "groundTruthDate": target_condition.get("diagnosis_date"),
+                # The fields below are populated for backwards-compat with
+                # the existing UI shape, but they mirror the ground truth
+                # rather than past system output.
+                "matchedDiagnosis": ground_truth_name,
+                "rawDiagnosis": ground_truth_name,
+                "canonicalFamily": target_condition.get("category"),
+                "matchType": None,
+                "rankWhenFound": None,
+                "primaryConfidence": None,
+                "caseText": (pl.get("case_text") or "")[:360],
+                "evidencePatterns": [],
+                "indexedAt": pl.get("indexed_at"),
+                "source": "ground_truth",
+            }
+        else:
+            entry = {
+                "patientUuid": sim_uuid,
+                "similarity": float(r.score),
+                "matchedDiagnosis": pl.get("matched_diagnosis"),
+                "rawDiagnosis": pl.get("raw_diagnosis") or pl.get("matched_diagnosis"),
+                "canonicalFamily": pl.get("canonical_family"),
+                "matchType": pl.get("match_type"),
+                "rankWhenFound": pl.get("rank_when_found"),
+                "primaryConfidence": pl.get("primary_confidence"),
+                "caseText": (pl.get("case_text") or "")[:360],
+                "evidencePatterns": pl.get("evidence_patterns") or [],
+                "indexedAt": pl.get("indexed_at"),
+                "source": "system_output",
+            }
+        results.append(entry)
         if len(results) >= top_k:
             break
 
@@ -717,6 +1559,7 @@ def _similar_cases(
         "totalIndexed": info.points_count or 0,
         "isPatientIndexed": is_indexed,
         "queryText": query_text,
+        "mode": mode,
         "error": None,
         "results": results,
     }
@@ -1183,7 +2026,11 @@ def _merge_stream_update(state: dict[str, Any], update: dict[str, Any]) -> None:
             state[key] = value
 
 
-def _stream_patient_run(patient_uuid: str, task: dict[str, Any]) -> tuple[dict[str, Any], float]:
+def _stream_patient_run(
+    patient_uuid: str,
+    task: dict[str, Any],
+    top_k: int = 5,
+) -> tuple[dict[str, Any], float]:
     from src.orchestrator.graph import compile_pipeline, load_patient_case
 
     pipeline = compile_pipeline()
@@ -1196,6 +2043,10 @@ def _stream_patient_run(patient_uuid: str, task: dict[str, Any]) -> tuple[dict[s
         "scratchpad": {},
         "session_memory": [],
         "session_summary": {},
+        # Threaded through to the Diagnostic Refiner agent — controls the
+        # final differential length so the doctor's "top K" choice in the UI
+        # is what the system actually returns.
+        "top_k": top_k,
     }
     start = time.time()
     with _tasks_lock:
@@ -1243,18 +2094,86 @@ def _stream_patient_run(patient_uuid: str, task: dict[str, Any]) -> tuple[dict[s
     return state, time.time() - start
 
 
-def _run_patient_task(task_id: str, patient_uuid: str) -> None:
+def _run_patient_task(
+    task_id: str,
+    patient_uuid: str,
+    provider_override: str | None = None,
+    model_override: str | None = None,
+    top_k: int = 5,
+    memory_enabled: bool = True,
+    canonicalizer_enabled: bool = True,
+) -> None:
+    import os as _os
+
     task = _tasks[task_id]
     with _tasks_lock:
         task["status"] = "running"
         task["startedAt"] = time.time()
         task["agents"] = _initial_run_agents()
-        _append_task_event(task, "Run started", "The multi-agent workflow is now processing this patient.")
-    try:
-        from src.orchestrator.graph import save_patient_results
+        if provider_override or model_override:
+            _append_task_event(
+                task, "Run started",
+                f"Multi-agent workflow running with provider={provider_override or '(default)'}"
+                f" model={model_override or '(default)'}.",
+            )
+        else:
+            _append_task_event(
+                task, "Run started",
+                "The multi-agent workflow is now processing this patient.",
+            )
 
-        result, duration = _stream_patient_run(patient_uuid, task)
-        save_patient_results(patient_uuid, result, duration)
+    # Serialise live runs because the LLM_PROVIDER / LLM_MODEL / MEMORY_ENABLED
+    # / CANONICALIZER_ENABLED overrides are applied via env vars (cfg
+    # properties read os.environ on every access). Without the lock, two
+    # concurrent doctor runs would race on the global env and end up using
+    # mixed providers / mixed accuracy modes.
+    try:
+        with _run_serial:
+            prev_provider = _os.environ.get("LLM_PROVIDER")
+            prev_model = _os.environ.get("LLM_MODEL")
+            prev_eval_provider = _os.environ.get("LLM_EVALUATOR_PROVIDER")
+            prev_eval_model = _os.environ.get("LLM_EVALUATOR_MODEL")
+            prev_memory = _os.environ.get("MEMORY_ENABLED")
+            prev_canon = _os.environ.get("CANONICALIZER_ENABLED")
+            try:
+                if provider_override:
+                    _os.environ["LLM_PROVIDER"] = provider_override
+                    # The evaluator agent uses LLM_EVALUATOR_PROVIDER /
+                    # LLM_EVALUATOR_MODEL — default to the chosen runtime
+                    # model so the whole pipeline stays on one provider.
+                    # Without this, picking Gemini (or any non-Groq backend)
+                    # leaves the evaluator pointed at qwen/qwen3-32b on the
+                    # wrong provider and the run 404s at the last stage.
+                    _os.environ["LLM_EVALUATOR_PROVIDER"] = provider_override
+                if model_override:
+                    _os.environ["LLM_MODEL"] = model_override
+                    _os.environ["LLM_EVALUATOR_MODEL"] = model_override
+                _os.environ["MEMORY_ENABLED"] = "true" if memory_enabled else "false"
+                _os.environ["CANONICALIZER_ENABLED"] = "true" if canonicalizer_enabled else "false"
+
+                from src.orchestrator.graph import save_patient_results
+
+                result, duration = _stream_patient_run(patient_uuid, task, top_k=top_k)
+                RUNTIME_RESULT_DIR.mkdir(parents=True, exist_ok=True)
+                save_patient_results(
+                    patient_uuid, result, duration,
+                    base_dir=RUNTIME_RESULT_DIR,
+                )
+            finally:
+                # Always restore the env even on failure, so subsequent
+                # default-config runs aren't poisoned by the override.
+                for var, prev in (
+                    ("LLM_PROVIDER", prev_provider), ("LLM_MODEL", prev_model),
+                    ("LLM_EVALUATOR_PROVIDER", prev_eval_provider),
+                    ("LLM_EVALUATOR_MODEL", prev_eval_model),
+                    ("MEMORY_ENABLED", prev_memory),
+                    ("CANONICALIZER_ENABLED", prev_canon),
+                ):
+                    if prev is None:
+                        _os.environ.pop(var, None)
+                    else:
+                        _os.environ[var] = prev
+
         outputs = result.get("agent_outputs") or {}
         trace = {"agents": result.get("execution_trace") or []}
         with _tasks_lock:

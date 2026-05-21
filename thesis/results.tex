@@ -770,9 +770,12 @@ retrieval. The same evaluator model (Qwen3-32B) then scores the
 resulting differential against the hidden Synthea ground truth using
 the same three-label rubric.
 
-The reasoning model is held constant (GPT-OSS-120B via Groq,
-temperature 0.1) so that any observed difference is attributable to
-the orchestration, not to a model swap.
+\textbf{The single-LLM baseline uses the same reasoning model as the
+multi-agent pipeline --- GPT-OSS-120B served through Groq at
+temperature 0.1.} The judge model (Qwen3-32B) is also held constant
+across both arms. Holding the model identical across arms is what
+lets the observed difference be attributed to the orchestration
+rather than to a model swap.
 \texttt{scripts/single\_llm\_baseline.py} pairs the two arms by UUID
 and computes the contingency and an exact McNemar test; the persisted
 output is at
@@ -796,11 +799,14 @@ pipeline.}
 \begin{tabular}{lrrr}
 \toprule
 \textbf{Metric}  & \textbf{Single LLM call} & \textbf{7-agent pipeline} & \textbf{$\Delta$ (multi $-$ single)} \\
+                 & \footnotesize\textit{GPT-OSS-120B (Groq)} & \footnotesize\textit{GPT-OSS-120B (Groq)} & \\
 \midrule
 DIRECT           & 40.0\% (64/160)          & 73.1\% (117/160)          & \textbf{$+33.1$ pp} \\
 INDIRECT         & 28.1\% (45/160)          & 14.4\% (23/160)           & $-13.7$ pp          \\
 MISS             & 31.9\% (51/160)          & 12.5\% (20/160)           & $-19.4$ pp          \\
 Found (D $+$ I)  & 68.1\% (109/160)         & 87.5\% (140/160)          & \textbf{$+19.4$ pp} \\
+\midrule
+Median runtime / patient & 1.9\,s (mean 2.0\,s) & 129\,s (mean 192\,s) & $+127.1$\,s \\
 \bottomrule
 \end{tabular}
 \end{table}
