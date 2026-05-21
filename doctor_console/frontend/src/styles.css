@@ -5283,6 +5283,45 @@ details.tx-warnings ul { margin-top: 0.3rem; }
   border-color: var(--violet);
   box-shadow: 0 24px 60px rgba(183, 148, 246, 0.12);
 }
+
+/* "Start here" ribbon on the Build-trust card — orients first-time
+   visitors to the recommended path without forcing the card order to
+   change. Anchored to the card's top-right corner, violet-tinted to
+   match the researcher accent, with a slow ambient glow so the eye
+   lands on it. */
+.mode-chooser__card-suggest {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 5px 11px 5px 9px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--violet);
+  background: color-mix(in oklab, var(--violet) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--violet) 40%, transparent);
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--violet) 45%, transparent);
+  animation: mode-chooser-suggest-pulse 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+.mode-chooser__card-suggest::before {
+  content: "→";
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--violet);
+  opacity: 0.85;
+}
+@keyframes mode-chooser-suggest-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--violet) 30%, transparent); }
+  50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--violet) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mode-chooser__card-suggest { animation: none; }
+}
+
 .mode-chooser__card-head {
   display: flex;
   align-items: center;

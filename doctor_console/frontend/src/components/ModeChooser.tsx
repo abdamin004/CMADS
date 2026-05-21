@@ -33,8 +33,10 @@ export function ModeChooser({ onChoose }: Props) {
           How would you like to start?
         </h1>
         <p className="mode-chooser__lede">
-          Two ways in. Pick whichever fits the next minute of your work — you
-          can swap between them any time.
+          Two ways in, and an order worth following. Start with{" "}
+          <strong>Build trust</strong> — watch the system think on patients
+          whose diagnosis we already know. When it has earned your confidence,
+          switch to <strong>Assist me</strong> and bring it your next one.
         </p>
       </motion.header>
 
@@ -79,6 +81,9 @@ export function ModeChooser({ onChoose }: Props) {
           whileHover={{ y: -4 }}
           whileTap={{ scale: 0.985 }}
         >
+          <span className="mode-chooser__card-suggest mono" aria-hidden>
+            Start here
+          </span>
           <div className="mode-chooser__card-head">
             <div className="mode-chooser__card-icon">
               <HeartHandshake size={28} strokeWidth={1.4} />
