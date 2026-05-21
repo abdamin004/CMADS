@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { getStatsOverview } from "../api";
 import type { StatsOverview as StatsOverviewT } from "../types";
+import { cascade, cascadeItem, cascadeListContainer, cascadeRow } from "../lib/motion";
 import { KpiTile } from "./KpiTile";
 import { PerDiseaseTable } from "./PerDiseaseTable";
 import { PrecisionAtKCard } from "./PrecisionAtKCard";
@@ -68,65 +69,74 @@ export function StatsOverview({ onOpenPatient: _onOpenPatient }: Props) {
   }, [aggregates]);
 
   return (
-    <div className="stats-overview">
-      <section className="stats-overview__head panel">
+    <motion.div
+      className="stats-overview"
+      initial="hidden"
+      animate="visible"
+      variants={cascade}
+    >
+      <motion.section variants={cascadeItem} className="stats-overview__head panel">
         <div>
           <div className="eyebrow">Main system accuracy</div>
           <h2>{overview?.resultSet.label ?? "Loading…"}</h2>
           <p className="stats-overview__sub">
             {overview ? (
               <>
-                Seven-agent LangGraph pipeline · {overview.resultSet.model ?? "—"} ·
-                {" "}<code className="mono">{overview.resultSet.path}</code>
+                Seven-agent pipeline · {overview.resultSet.model ?? "—"}
+                {overview.aggregates?.n
+                  ? ` · ${overview.aggregates.n} patients evaluated`
+                  : ""}
               </>
-            ) : "Aggregating per-agent outputs from the 160-patient cohort."}
+            ) : "Aggregating per-agent outputs from the headline cohort."}
           </p>
         </div>
-      </section>
+      </motion.section>
 
       {error ? (
-        <div className="alert">
+        <motion.div variants={cascadeItem} className="alert">
           <AlertCircle size={16} />
           <span>{error}</span>
-        </div>
+        </motion.div>
       ) : null}
 
       {loading ? (
-        <div className="empty-state">
+        <motion.div variants={cascadeItem} className="empty-state">
           <Loader2 size={16} className="spin" /> Computing aggregates…
-        </div>
+        </motion.div>
       ) : null}
 
       {aggregates ? (
-        <motion.section
-          className="kpi-grid"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
-          }}
-        >
+        // KPI grid uses cascadeListContainer — it rises as one beat of
+        // the page cascade AND staggers its own children tightly so
+        // the tiles read as one wave rather than a second separate one.
+        <motion.section className="kpi-grid" variants={cascadeListContainer}>
           {kpis.map((kpi, idx) => (
-            <KpiTile key={kpi.label} index={idx} {...kpi} />
+            <motion.div key={kpi.label} variants={cascadeRow}>
+              <KpiTile index={idx} {...kpi} />
+            </motion.div>
           ))}
         </motion.section>
       ) : null}
 
       {overview ? (
-        <PrecisionAtKCard
-          cohortLabel={overview.resultSet.label}
-          buckets={overview.rankDistribution}
-          totalN={aggregates?.n ?? 0}
-        />
+        <motion.div variants={cascadeItem}>
+          <PrecisionAtKCard
+            cohortLabel={overview.resultSet.label}
+            buckets={overview.rankDistribution}
+            totalN={aggregates?.n ?? 0}
+          />
+        </motion.div>
       ) : null}
 
       {overview ? (
-        <section className="stats-overview__grid">
+        <motion.section
+          variants={cascadeItem}
+          className="stats-overview__grid"
+        >
           <RankHistogram buckets={overview.rankDistribution} />
           <PerDiseaseTable rows={overview.perDisease} />
-        </section>
+        </motion.section>
       ) : null}
-    </div>
+    </motion.div>
   );
 }

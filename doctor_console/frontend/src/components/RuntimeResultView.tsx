@@ -5,6 +5,7 @@ import {
   FlaskConical, Pill, RotateCw, Stethoscope, Users2,
 } from "lucide-react";
 import type { AgentCard, AgentNarrative, PatientResult } from "../types";
+import { cascadeListContainer, cascadeRow } from "../lib/motion";
 import { AgentFlow } from "./AgentFlow";
 import { AgentInspector } from "./AgentInspector";
 import { Disclosure } from "./Disclosure";
@@ -92,7 +93,7 @@ export function RuntimeResultView({ result, onReset }: Props) {
     {
       id: "reasoning",
       label: "Reasoning",
-      badge: "DIVE IN",
+      badge: "EXPLAINABILITY",
       hint: "Optional · step-by-step narrative for each part of the system's thinking. Useful if you want to verify how it reached the answer.",
       render: () => <ReasoningPanel result={result} doctorAgents={doctorAgents} />,
     },
@@ -171,11 +172,16 @@ function DifferentialPanel({
         {differential.length === 0 ? (
           <div className="empty-state">No differential produced.</div>
         ) : (
-          <ol className="differential-hero__list">
+          <motion.ol
+            className="differential-hero__list"
+            initial="hidden"
+            animate="visible"
+            variants={cascadeListContainer}
+          >
             {differential.slice(0, 5).map((dx, i) => (
               <DiagnosisRow key={`${String(dx.name)}-${i}`} dx={dx} index={i} />
             ))}
-          </ol>
+          </motion.ol>
         )}
       </section>
 
@@ -440,7 +446,10 @@ function DiagnosisRow({ dx, index }: { dx: Record<string, unknown>; index: numbe
   const tone = index === 0 ? "primary" : index === 1 ? "second" : "tertiary";
 
   return (
-    <li className={`differential-row differential-row--${tone}`}>
+    <motion.li
+      className={`differential-row differential-row--${tone}`}
+      variants={cascadeRow}
+    >
       <button
         type="button"
         className="differential-row__head"
@@ -463,7 +472,7 @@ function DiagnosisRow({ dx, index }: { dx: Record<string, unknown>; index: numbe
           ) : null}
         </div>
       ) : null}
-    </li>
+    </motion.li>
   );
 }
 
