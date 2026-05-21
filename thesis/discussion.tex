@@ -4,8 +4,7 @@
 Chapter~\ref{chap:results} reported the empirical results. This chapter
 interprets them: how the headline outcomes fit the design intent of
 Chapter~\ref{chap:methodology}, how the memory and orchestration
-comparisons should be read, what threats to validity bound the
-inferences that can be drawn, and how the cost picture compares with
+comparisons should be read, and how the cost picture compares with
 practical alternatives. The Limitations subsection summarises the
 boundaries; the Conclusion in Chapter~\ref{chap:conclusion} returns to
 the original research question and hypothesis with these
@@ -48,7 +47,7 @@ Section~\ref{sec:results_qualitative} is consistent with this: when
 the case-based prior retrieves a clinically similar past patient, the
 Diagnostic Reasoning agent more often surfaces the right disease
 family in the differential, but the rubric of
-Section~\ref{sec:eval_protocol} classifies cause/consequence/precursor
+Section~\ref{sec:evaluation} classifies cause/consequence/precursor
 relations as INDIRECT, so the gain lands in Found rather than DIRECT.
 This is consistent with the broader-differential interpretation: the
 trade-off is recall over precision, and which direction is preferable
@@ -72,68 +71,6 @@ several orders of magnitude larger than the noise in twenty timed
 runs. In a multi-agent pipeline, every extra model call adds time, so
 inference speed is not a minor implementation detail; it affects
 whether the system can be used interactively.
-
-% ─────────────────────────────────────────────────────────────────────────────
-\section{Threats to Validity}
-\label{sec:discussion_threats}
-% ─────────────────────────────────────────────────────────────────────────────
-
-Four threats to validity bound the inferences that can be drawn from
-the results reported here.
-
-\paragraph{Internal validity --- same-model coupling.}
-The detectability verifier
-(Section~\ref{sec:llm_verifier}) and the LLM-as-Judge evaluator
-(Section~\ref{sec:eval_protocol}) both default to Qwen3-32B via the
-shared \texttt{get\_evaluator\_llm()} factory. This means cohort
-admission and outcome judging resolve to the same model, which
-introduces a same-model selection/evaluation coupling on the headline
-DIRECT rate. The detectability-gate sensitivity analysis in
-Section~\ref{sec:results_detectability_sensitivity} is the explicit
-empirical check on this coupling: re-running the pipeline on a
-balanced sample drawn from the rejected confidence band of the
-verifier yields 13.3\,\% DIRECT against the 73.8\,\% headline, a 60.5
-percentage-point gap that is statistically unambiguous
-($\chi^2 = 40.13$, $p \approx 2.4 \times 10^{-10}$). The headline is
-therefore conditional on detectability, not a population-level
-claim. A stronger control would have used a different LLM family for
-the verifier; that is identified as future work.
-
-\paragraph{External validity --- synthetic data only.}
-All patients are synthetic and come from Synthea. The detectability
-verifier selects cases where the target disease is visible in the
-available data, so the evaluated cohort is cleaner than real EHR
-data. Real patient records would include more missing values, noisier
-histories, narrative free text, and more complex comorbidities.
-External validity is therefore bounded; the results characterise the
-system's behaviour on a Synthea-derived synthetic cohort with a
-detectability filter, not on a representative population of real
-patients.
-
-\paragraph{Construct validity --- LLM-as-judge as sole assessor.}
-Diagnostic accuracy is assessed by an LLM-as-judge protocol against
-Synthea ground truth; no practising clinician reviewed the outputs as
-part of the present study. The three-label DIRECT / INDIRECT / MISS
-rubric, the regex-parsed five-line judge format, and the choice of a
-different judge model from the reasoning model
-(Section~\ref{sec:eval_protocol}) all reduce judge sensitivity to
-prompt drift, but they do not substitute for clinician adjudication.
-Construct validity is therefore bounded by the alignment between the
-LLM judge's notion of clinical correctness and a clinician's. A
-prospective clinician-in-the-loop study is the appropriate complement
-and is identified as future work.
-
-\paragraph{Conclusion validity --- non-blinded experimenter.}
-The same researcher implemented the pipeline, ran the cohorts,
-designed the prompts, and computed the metrics. Memory was toggled
-through an environment variable rather than a blinded protocol. The
-paired-McNemar design holds patient identity constant across arms,
-which controls for cohort composition, but it does not control for
-researcher expectation. The deck of pre-registered analyses (paired
-McNemar on DIRECT, Found and MISS rates per arm,
-Rank-1-within-found) was fixed before running the paired comparison;
-nevertheless, the conclusion validity is bounded by the absence of an
-independent replication.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Token and Cost Accounting}
