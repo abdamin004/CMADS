@@ -23,7 +23,7 @@ export function ModeSwitcher({ mode, onChange }: Props) {
       >
         <Stethoscope size={14} strokeWidth={1.7} />
         <span>Doctor</span>
-        <span className="mode-switcher__sub mono">bedside</span>
+        <span className="mode-switcher__sub mono">assistant</span>
       </button>
       <button
         type="button"

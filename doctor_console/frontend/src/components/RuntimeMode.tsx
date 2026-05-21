@@ -170,7 +170,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
       <div className="mode-ribbon mode-ribbon--runtime">
         <button type="button" className="mode-ribbon__brand mode-ribbon__brand--button" onClick={onHome} title="Back to home">
           <Home size={15} strokeWidth={1.7} />
-          <strong>At the bedside</strong>
+          <strong>Your assistant</strong>
           <span className="mono mode-ribbon__sep">·</span>
           <span className="mono">a second opinion in real time</span>
         </button>
