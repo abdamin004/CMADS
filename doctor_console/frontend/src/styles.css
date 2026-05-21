@@ -4594,54 +4594,160 @@ p { margin: 0; line-height: 1.55; color: var(--ink-soft); }
     rgba(255, 255, 255, 0.005));
 }
 
-/* Ranked-differential row: rank chip + name + probability bar + confidence */
-.nrow--dx { padding: 0.55rem 0.9rem; }
+/* Ranked-differential row — CSS grid so every column lines up across
+   rows, regardless of disease-name length. Five tracks: rank chip,
+   disease name (flexible, truncates), probability (fixed), confidence
+   pill (fixed), chevron (fixed). The button uses display:contents so
+   its children become direct grid items of the row.
+
+   Probability bucket — one CSS custom property drives the bar fill,
+   the rank chip tint, and the numeric label, so disease + percentage
+   colour-code in lock-step:
+     >=50%   primary    green   confident leading hypothesis
+     25-49%  strong     blue    serious alternative
+     10-24%  moderate   amber   worth-mentioning differential
+     < 10%   trailing   grey    long-tail entry
+*/
+.nrow--dx {
+  display: grid;
+  grid-template-columns:
+    auto                  /* rank chip */
+    minmax(0, 1fr)        /* disease name */
+    8.5rem                /* probability bar + num */
+    5.5rem                /* confidence pill */
+    1rem;                 /* chevron */
+  align-items: center;
+  column-gap: 0.85rem;
+  padding: 0.6rem 0.95rem;
+  --bucket-strong: var(--accent);
+  --bucket-soft:   var(--accent-soft);
+  --bucket-deep:   var(--accent-deep);
+}
+.nrow--dx[data-prob-bucket="primary"]  {
+  --bucket-strong: #5dd49a;
+  --bucket-soft:   rgba(46, 204, 113, 0.12);
+  --bucket-deep:   #2eb37c;
+}
+.nrow--dx[data-prob-bucket="strong"]   {
+  --bucket-strong: var(--accent);
+  --bucket-soft:   var(--accent-soft);
+  --bucket-deep:   var(--accent-deep);
+}
+.nrow--dx[data-prob-bucket="moderate"] {
+  --bucket-strong: #e0bd5b;
+  --bucket-soft:   rgba(220, 180, 80, 0.12);
+  --bucket-deep:   #c79f3e;
+}
+.nrow--dx[data-prob-bucket="trailing"] {
+  --bucket-strong: #94a1b8;
+  --bucket-soft:   rgba(148, 161, 184, 0.08);
+  --bucket-deep:   #6e7c92;
+}
+
+.nrow--dx.nrow--open {
+  border-color: color-mix(in srgb, var(--bucket-strong) 35%, transparent);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--bucket-strong) 6%, transparent),
+    transparent);
+}
+
+.nrow--dx.nrow--open .nrow__detail {
+  grid-column: 2 / -1;
+}
+.nrow--dx .nrow__detail p {
+  margin: 0.35rem 0 0.1rem;
+}
+
 .nrow__rank {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 2.2rem;
-  height: 1.65rem;
+  height: 1.7rem;
   padding: 0 0.5rem;
-  border-radius: 5px;
+  border-radius: 6px;
   font-family: var(--font-mono);
   font-size: 0.74rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--ink, #f1f5fb);
-  background: rgba(255, 255, 255, 0.04);
-  flex-shrink: 0;
+  letter-spacing: 0.05em;
+  color: var(--bucket-strong);
+  background: var(--bucket-soft);
+  border: 1px solid color-mix(in srgb, var(--bucket-strong) 25%, transparent);
 }
-.nrow__rank--1 { background: rgba(110, 160, 255, 0.18); color: var(--accent); }
-.nrow__rank--2 { background: rgba(110, 160, 255, 0.12); color: var(--accent); }
-.nrow__rank--3 { background: rgba(110, 160, 255, 0.08); color: var(--accent); }
+.nrow--dx .nrow__rank--1 {
+  background: color-mix(in srgb, var(--bucket-strong) 20%, transparent);
+  color: var(--bucket-strong);
+  border-color: color-mix(in srgb, var(--bucket-strong) 45%, transparent);
+}
+.nrow--dx .nrow__rank--other {
+  color: var(--ink-muted, #94a1b8);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.nrow--dx .nrow__main {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+.nrow--dx .nrow__name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  color: var(--ink, #f1f5fb);
+}
+.nrow--dx.nrow--open .nrow__name {
+  white-space: normal;
+  overflow: visible;
+}
 
 .nrow__prob {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
+  gap: 0.45rem;
+  width: 100%;
 }
 .nrow__prob-bar {
-  width: 5.6rem;
   height: 5px;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.05);
   overflow: hidden;
+  width: 100%;
+  min-width: 3rem;
 }
 .nrow__prob-fill {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  background: linear-gradient(90deg,
+    var(--bucket-deep),
+    var(--bucket-strong));
   border-radius: 3px;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--bucket-strong) 40%, transparent);
 }
 .nrow__prob-num {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.04em;
-  color: var(--ink, #f1f5fb);
-  min-width: 2.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--bucket-strong);
   text-align: right;
+  min-width: 2.5rem;
+}
+
+@media (max-width: 720px) {
+  .nrow--dx {
+    grid-template-columns:
+      auto
+      minmax(0, 1fr)
+      5.5rem
+      auto
+      0.75rem;
+    column-gap: 0.55rem;
+  }
 }
 
 /* Status / tone pills */

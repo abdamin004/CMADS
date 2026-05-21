@@ -171,10 +171,22 @@ function RankedDifferentialRow({ parts }: { parts: string[] }) {
   const [open, setOpen] = useState(false);
   const hasReasoning = !!reasoning;
 
+  // Probability bucket for colour coding the bar fill + numeric label.
+  // Chosen at the quartile boundaries that read clinically: >=50% is
+  // a confident leading hypothesis; 25-49% is a serious alternative;
+  // 10-24% is a worth-mentioning differential; <10% is a long-tail
+  // entry. Bucket drives a CSS custom property — no inline colour.
+  const probBucket =
+    probPct >= 50 ? "primary"
+    : probPct >= 25 ? "strong"
+    : probPct >= 10 ? "moderate"
+    : "trailing";
+
   return (
     <div
       className={`nrow nrow--dx ${open ? "nrow--open" : ""}`}
       data-rank={rank || undefined}
+      data-prob-bucket={probBucket}
     >
       <button
         type="button"
