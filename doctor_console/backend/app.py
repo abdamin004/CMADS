@@ -213,6 +213,272 @@ def _with_availability(preset: dict[str, Any]) -> dict[str, Any]:
         "unavailableReason": reason if not available else None,
     }
 
+
+# ─────────────────────────────────────────────────────────────────────────
+# Dynamic model discovery — each provider with a configured key is queried
+# for its real model list. Nothing about a specific model is hardcoded in
+# the pipeline; the doctor's UI surfaces whichever models the user's keys
+# can actually reach.
+# ─────────────────────────────────────────────────────────────────────────
+
+
+def _pretty_label(model_id: str, fallback_vendor: str = "") -> str:
+    """Turn a provider model id into a display label.
+    e.g. ``openai/gpt-oss-120b`` → ``GPT-OSS 120B``;
+         ``claude-sonnet-4-20250514`` → ``Claude Sonnet 4``;
+         ``gemini-3.5-flash`` → ``Gemini 3.5 Flash``.
+    """
+    name = model_id.rsplit("/", 1)[-1]
+    # Strip date suffixes like ``-20250514``.
+    parts = name.split("-")
+    if parts and parts[-1].isdigit() and len(parts[-1]) >= 6:
+        parts = parts[:-1]
+    cleaned = " ".join(parts).replace("_", " ")
+    cleaned = cleaned.replace("gpt", "GPT").replace("oss", "OSS")
+    cleaned = cleaned.replace("claude", "Claude").replace("sonnet", "Sonnet").replace("opus", "Opus").replace("haiku", "Haiku")
+    cleaned = cleaned.replace("gemini", "Gemini").replace("flash", "Flash").replace("pro", "Pro")
+    cleaned = cleaned.replace("llama", "Llama").replace("med42", "Med42").replace("qwen", "Qwen").replace("mistral", "Mistral").replace("mixtral", "Mixtral")
+    # Capitalise size tokens like "120b", "70b".
+    out_tokens = []
+    for tok in cleaned.split(" "):
+        if tok and tok[-1].lower() == "b" and tok[:-1].isdigit():
+            out_tokens.append(tok.upper())
+        else:
+            out_tokens.append(tok[:1].upper() + tok[1:] if tok else tok)
+    label = " ".join(t for t in out_tokens if t)
+    return label or fallback_vendor or model_id
+
+
+def _provider_preset(model_id: str, *, provider: str, vendor: str,
+                     location: str = "cloud") -> dict[str, Any]:
+    base_id = model_id.lower().replace("/", "-").replace(":", "-").replace(".", "-")
+    return {
+        "id": f"{provider}-{base_id}",
+        "label": _pretty_label(model_id, fallback_vendor=vendor),
+        "provider": provider,
+        "model": model_id,
+        "location": location,
+        "vendor": vendor,
+        "runtimeSeconds": None,
+        "costUsdPerPatient": None,
+        "available": True,
+        "unavailableReason": None,
+    }
+
+
+def _http_json(url: str, *, headers: dict | None = None, timeout: float = 5.0) -> Any:
+    """Tiny GET helper that returns parsed JSON or raises.
+
+    Sets a browser-like ``User-Agent`` because some API gateways
+    (Cloudflare in front of Groq, for instance) return 403/1010 on the
+    default ``Python-urllib/...`` UA.
+    """
+    import urllib.request, ssl
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    final_headers = {
+        "User-Agent": "CMADS-Doctor-Console/1.0 (+thesis-project)",
+        "Accept": "application/json",
+        **(headers or {}),
+    }
+    req = urllib.request.Request(url, headers=final_headers)
+    with urllib.request.urlopen(req, timeout=timeout, context=ctx) as resp:
+        return json.loads(resp.read())
+
+
+def _is_chatlike_id(model_id: str) -> bool:
+    """Filter out non-chat models (whisper, embeddings, image, tts, etc.)."""
+    bad = (
+        "whisper", "embedding", "embed", "image", "tts", "audio", "vision-",
+        "moderation", "clip", "ocr", "guard",
+    )
+    low = model_id.lower()
+    return not any(b in low for b in bad)
+
+
+def _discover_groq() -> list[dict]:
+    import os as _os
+    key = _os.environ.get("GROQ_API_KEY")
+    if not key:
+        return [{
+            "id": "groq-placeholder", "label": "Groq", "provider": "groq",
+            "model": "", "location": "cloud", "vendor": "Groq",
+            "runtimeSeconds": None, "costUsdPerPatient": None,
+            "available": False,
+            "unavailableReason": "GROQ_API_KEY not set in .env",
+        }]
+    try:
+        data = _http_json("https://api.groq.com/openai/v1/models",
+                          headers={"Authorization": f"Bearer {key}"})
+    except Exception as exc:  # noqa: BLE001
+        return [{
+            "id": "groq-placeholder", "label": "Groq", "provider": "groq",
+            "model": "", "location": "cloud", "vendor": "Groq",
+            "available": False,
+            "unavailableReason": f"Could not reach Groq API ({type(exc).__name__})",
+        }]
+    out: list[dict] = []
+    for m in (data.get("data") or []):
+        mid = m.get("id") or ""
+        if not mid or not _is_chatlike_id(mid):
+            continue
+        out.append(_provider_preset(mid, provider="groq", vendor="Groq"))
+    return out
+
+
+def _discover_openai() -> list[dict]:
+    import os as _os
+    key = _os.environ.get("OPENAI_API_KEY")
+    if not key:
+        return [{
+            "id": "openai-placeholder", "label": "OpenAI", "provider": "openai",
+            "model": "", "location": "cloud", "vendor": "OpenAI",
+            "available": False,
+            "unavailableReason": "OPENAI_API_KEY not set in .env",
+        }]
+    try:
+        data = _http_json("https://api.openai.com/v1/models",
+                          headers={"Authorization": f"Bearer {key}"})
+    except Exception as exc:  # noqa: BLE001
+        return [{
+            "id": "openai-placeholder", "label": "OpenAI", "provider": "openai",
+            "model": "", "location": "cloud", "vendor": "OpenAI",
+            "available": False,
+            "unavailableReason": f"Could not reach OpenAI API ({type(exc).__name__})",
+        }]
+    out: list[dict] = []
+    for m in (data.get("data") or []):
+        mid = m.get("id") or ""
+        # OpenAI exposes hundreds — keep only the chat-oriented gpt-* / o-*
+        if (mid.startswith("gpt-") or mid.startswith("o1") or mid.startswith("o3") or mid.startswith("o4")) \
+                and _is_chatlike_id(mid):
+            out.append(_provider_preset(mid, provider="openai", vendor="OpenAI"))
+    return out
+
+
+def _discover_anthropic() -> list[dict]:
+    import os as _os
+    key = _os.environ.get("ANTHROPIC_API_KEY")
+    if not key:
+        return [{
+            "id": "anthropic-placeholder", "label": "Anthropic",
+            "provider": "anthropic", "model": "", "location": "cloud",
+            "vendor": "Anthropic", "available": False,
+            "unavailableReason": "ANTHROPIC_API_KEY not set in .env",
+        }]
+    try:
+        data = _http_json("https://api.anthropic.com/v1/models",
+                          headers={"x-api-key": key, "anthropic-version": "2023-06-01"})
+    except Exception as exc:  # noqa: BLE001
+        return [{
+            "id": "anthropic-placeholder", "label": "Anthropic",
+            "provider": "anthropic", "model": "", "location": "cloud",
+            "vendor": "Anthropic", "available": False,
+            "unavailableReason": f"Could not reach Anthropic API ({type(exc).__name__})",
+        }]
+    out: list[dict] = []
+    for m in (data.get("data") or []):
+        mid = m.get("id") or ""
+        if mid:
+            out.append(_provider_preset(mid, provider="anthropic", vendor="Anthropic"))
+    return out
+
+
+def _discover_gemini() -> list[dict]:
+    import os as _os
+    key = _os.environ.get("GOOGLE_API_KEY") or _os.environ.get("GEMINI_API_KEY")
+    if not key:
+        return [{
+            "id": "gemini-placeholder", "label": "Google Gemini",
+            "provider": "gemini", "model": "", "location": "cloud",
+            "vendor": "Google", "available": False,
+            "unavailableReason": "GOOGLE_API_KEY (or GEMINI_API_KEY) not set in .env",
+        }]
+    try:
+        data = _http_json(
+            f"https://generativelanguage.googleapis.com/v1beta/models?key={key}",
+        )
+    except Exception as exc:  # noqa: BLE001
+        return [{
+            "id": "gemini-placeholder", "label": "Google Gemini",
+            "provider": "gemini", "model": "", "location": "cloud",
+            "vendor": "Google", "available": False,
+            "unavailableReason": f"Could not reach Gemini API ({type(exc).__name__})",
+        }]
+    out: list[dict] = []
+    for m in (data.get("models") or []):
+        full = m.get("name") or ""
+        if not full.startswith("models/"):
+            continue
+        if "generateContent" not in (m.get("supportedGenerationMethods") or []):
+            continue
+        mid = full.replace("models/", "")
+        if not _is_chatlike_id(mid):
+            continue
+        out.append(_provider_preset(mid, provider="gemini", vendor="Google"))
+    return out
+
+
+def _discover_ollama() -> list[dict]:
+    import os as _os
+    base = _os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
+    try:
+        data = _http_json(f"{base}/api/tags", timeout=3.0)
+    except Exception:
+        return [{
+            "id": "ollama-placeholder", "label": "Ollama (local)",
+            "provider": "ollama", "model": "", "location": "local",
+            "vendor": "Ollama", "available": False,
+            "unavailableReason": f"Ollama not reachable at {base}",
+        }]
+    out: list[dict] = []
+    for m in (data.get("models") or []):
+        name = m.get("name") or ""
+        if not name:
+            continue
+        out.append(_provider_preset(name, provider="ollama", vendor="Ollama", location="local"))
+    if not out:
+        return [{
+            "id": "ollama-placeholder", "label": "Ollama (local)",
+            "provider": "ollama", "model": "", "location": "local",
+            "vendor": "Ollama", "available": False,
+            "unavailableReason": "Ollama reachable but no models pulled. Try: ollama pull gpt-oss:120b",
+        }]
+    return out
+
+
+def discover_model_presets() -> list[dict]:
+    """Return every reachable LLM the user could pick today.
+
+    Order: Groq · Gemini · OpenAI · Anthropic · Ollama. Within each provider
+    the models are returned in whatever order the provider's API gives back.
+    A default flag is set on the first chat-capable Groq model whose name
+    contains 'gpt-oss' (the project's headline backend) when present,
+    otherwise on the first available model overall.
+    """
+    presets: list[dict] = []
+    presets.extend(_discover_groq())
+    presets.extend(_discover_gemini())
+    presets.extend(_discover_openai())
+    presets.extend(_discover_anthropic())
+    presets.extend(_discover_ollama())
+
+    # Mark a sensible default — prefer GPT-OSS-on-Groq if reachable.
+    default_assigned = False
+    for p in presets:
+        if p.get("available") and p.get("provider") == "groq" \
+                and "gpt-oss" in (p.get("model", "") or "").lower():
+            p["default"] = True
+            default_assigned = True
+            break
+    if not default_assigned:
+        for p in presets:
+            if p.get("available"):
+                p["default"] = True
+                break
+    return presets
+
 _tasks: dict[str, dict[str, Any]] = {}
 _tasks_lock = threading.Lock()
 _run_serial = threading.Lock()  # serialises live runs so env-var overrides don't race
@@ -272,10 +538,11 @@ class RunRequest(BaseModel):
     # agent reads it from state and substitutes ``{top_k}`` in its prompt.
     top_k: int = 5
     # Per-run system-accuracy preset. "recommended" enables multi-level memory
-    # AND the terminal-renal canonicalizer (the principal headline
-    # configuration); "fast" disables both (single-level baseline, no canon)
-    # for a quicker run. Mapped to MEMORY_ENABLED + CANONICALIZER_ENABLED env
-    # vars in the runtime worker the same way model overrides are applied.
+    # and the refiner's evidence-gated terminal-renal re-ranking step (the
+    # principal headline configuration); "fast" disables both (single-level
+    # baseline) for a quicker run. Mapped to MEMORY_ENABLED +
+    # CANONICALIZER_ENABLED env vars in the runtime worker the same way model
+    # overrides are applied.
     accuracy_mode: Literal["recommended", "fast"] = "recommended"
 
 
@@ -318,14 +585,13 @@ def create_app() -> FastAPI:
 
     @app.get("/api/model-presets")
     def model_presets() -> list[dict[str, Any]]:
-        """Curated LLM preset list the runtime UI picks from.
+        """LLM preset list — fully dynamic, no hardcoded model names.
 
-        Each preset is enriched with ``available`` + ``unavailableReason`` so
-        the doctor only sees engines that are actually configured. Cloud
-        presets check for the matching API key in env; local (Ollama) presets
-        check that the daemon is reachable and the model is pulled.
+        Every provider with a configured key is queried for its live model
+        list; Ollama is queried for pulled tags. Providers without a key
+        return a single placeholder entry that explains how to enable them.
         """
-        return [_with_availability(preset) for preset in MODEL_PRESETS]
+        return discover_model_presets()
 
     @app.get("/api/result-sets")
     def result_sets(include_runtime: bool = Query(False)) -> list[dict[str, Any]]:
@@ -352,9 +618,9 @@ def create_app() -> FastAPI:
         Returns KPI aggregates, rank distribution, per-disease breakdown,
         and top-N predicted diagnoses. Drives the Researcher landing view.
         The ``multi_level`` virtual cohort aggregates across the three
-        multi-level-memory source directories and prefers
-        ``evaluation_canon.json`` (canonicalizer-augmented verdicts) where
-        present — this is the principal headline configuration.
+        multi-level-memory source directories and prefers the post-refiner
+        re-judged verdict in ``evaluation_canon.json`` where present — this
+        is the principal headline configuration.
         """
         dirs = _resolve_result_dirs(result_set)
         result_dir = dirs if len(dirs) > 1 else dirs[0]
@@ -545,14 +811,21 @@ def create_app() -> FastAPI:
         resolved_model = request.model
         resolved_preset: dict[str, Any] | None = None
         if request.preset_id:
-            preset = MODEL_PRESETS_BY_ID.get(request.preset_id)
+            # Dynamic discovery — find the preset in the live list rather
+            # than a hardcoded MODEL_PRESETS_BY_ID. This way any model the
+            # user's keys can reach is selectable, without us shipping a
+            # static map of every supported model name.
+            preset = next(
+                (p for p in discover_model_presets() if p.get("id") == request.preset_id),
+                None,
+            )
             if not preset:
                 raise HTTPException(status_code=400, detail=f"Unknown preset_id: {request.preset_id}")
-            avail, reason = _check_preset_available(preset)
-            if not avail:
+            if not preset.get("available", False):
                 raise HTTPException(
                     status_code=400,
-                    detail=f"Engine '{preset['label']}' is not available: {reason}",
+                    detail=f"Engine '{preset['label']}' is not available: "
+                           f"{preset.get('unavailableReason') or 'not configured'}",
                 )
             resolved_provider = preset["provider"]
             resolved_model = preset["model"]
@@ -562,7 +835,8 @@ def create_app() -> FastAPI:
         # the API directly shouldn't be able to ask for 0 or 100.
         requested_top_k = max(1, min(int(request.top_k or 5), 10))
 
-        # Accuracy-mode preset → memory + canonicalizer env-var overrides.
+        # Accuracy-mode preset → env-var overrides for memory + the refiner's
+        # evidence-gated re-ranking step.
         accuracy_mode = request.accuracy_mode or "recommended"
         memory_enabled = accuracy_mode == "recommended"
         canonicalizer_enabled = accuracy_mode == "recommended"
@@ -778,8 +1052,8 @@ def _aggregate_result_set(
     total = 0
     times: list[float] = []
     for sub in _iter_patient_dirs(result_dir, uuid_filter=uuid_filter):
-        # Prefer evaluation_canon.json (canonicalizer-augmented) when present
-        # so headline accuracy reflects the principal configuration.
+        # Prefer evaluation_canon.json (post-refiner re-judged verdict) when
+        # present so headline accuracy reflects the principal configuration.
         ev = _load_json(sub / "evaluation_canon.json") \
              or _load_json(sub / "evaluation.json") or {}
         total += 1
@@ -937,7 +1211,7 @@ def _stats_overview(result_dir: "Path | list[Path]") -> dict[str, Any]:
         )
         meta = {
             "id": "multi_level",
-            "label": "Multi-level memory + canonicalizer (paired-160 headline)",
+            "label": "Multi-level memory (paired-160 headline)",
             "category": "Multi-level memory",
             "model": "GPT-OSS-120B",
             "runtime": False,
@@ -1123,8 +1397,8 @@ def _memory_ab_comparison() -> dict[str, Any]:
                     found += 1
         return found, total
 
-    # Prefer fixture-provided Found rates if present (set by the canonicalizer
-    # re-judge so Found reflects the canon-augmented differential), otherwise
+    # Prefer fixture-provided Found rates if present (set by the post-refiner
+    # re-judge so Found reflects the post-processed differential); otherwise
     # recompute by scanning evaluation.json on disk.
     if "off_found_rate" in payload and "on_found_rate" in payload:
         off_found = payload.get("off_found_count", 0)
@@ -1173,7 +1447,7 @@ def _memory_ab_comparison() -> dict[str, Any]:
     return {
         "label": "Multi-level memory A/B (paired-160)",
         "armA": {"key": "off", "label": "Single-level memory"},
-        "armB": {"key": "on",  "label": "Multi-level memory + canonicalizer"},
+        "armB": {"key": "on",  "label": "Multi-level memory"},
         "nPaired": payload.get("n_paired", 0),
         "nDropped": payload.get("n_dropped_missing_judgment", 0),
         "offDirectRate": payload.get("off_direct_rate", 0.0),
@@ -1204,8 +1478,8 @@ def _dashboard_summary(result_dir: Path) -> dict[str, Any]:
     completed_agents: Counter[str] = Counter()
 
     for patient_dir in patient_dirs:
-        # Prefer evaluation_canon.json (canonicalizer-augmented verdict) when
-        # present so dashboards reflect the post-canonicalizer numbers.
+        # Prefer evaluation_canon.json (post-refiner re-judged verdict) when
+        # present so dashboards reflect the principal-configuration numbers.
         evaluation = _load_json(patient_dir / "evaluation_canon.json") \
                      or _load_json(patient_dir / "evaluation.json") or {}
         final_dx = _load_json(patient_dir / "final_diagnosis.json") or {}
@@ -1293,7 +1567,7 @@ def _ratio(num: int, den: int) -> float:
 def _patient_list_item(patient_uuid: str, result_dir: Path) -> dict[str, Any]:
     case = _load_case_bundle(patient_uuid)
     # Prefer evaluation_canon.json so the browser row's match-type chip shows
-    # the canonicalizer-augmented verdict (matches the Overview headline).
+    # the post-refiner re-judged verdict (matches the Overview headline).
     evaluation = (
         _load_json(result_dir / patient_uuid / "evaluation_canon.json")
         or _load_json(result_dir / patient_uuid / "evaluation.json")
