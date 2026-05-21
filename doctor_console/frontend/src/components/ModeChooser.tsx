@@ -34,9 +34,9 @@ export function ModeChooser({ onChoose }: Props) {
         </h1>
         <p className="mode-chooser__lede">
           Two ways in, and an order worth following. Start with{" "}
-          <strong>Build trust</strong> — watch the system think on patients
-          whose diagnosis we already know. When it has earned your confidence,
-          switch to <strong>Assist me</strong> and bring it your next one.
+          <strong>Build trust</strong> to see how the system thinks on past
+          patients. When it has earned your confidence, switch to{" "}
+          <strong>Assist me</strong> and bring it your next one.
         </p>
       </motion.header>
 
