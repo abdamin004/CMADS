@@ -4,11 +4,13 @@ import { getPatients, getResult, getResultSets, startRun, subscribeRun } from ".
 import type { AgentCard, AgentNarrative, PatientListItem, PatientResult, ResultSet, RunTask } from "./types";
 import { AgentFlow } from "./components/AgentFlow";
 import { AgentInspector } from "./components/AgentInspector";
-import { AnnotationPanel } from "./components/AnnotationPanel";
+// AnnotationPanel import dropped — review tab removed from the patient detail.
 import { AgentsBoard } from "./components/AgentsBoard";
 import { DashboardHero } from "./components/DashboardHero";
 import { PatientBrowser } from "./components/PatientBrowser";
 import { PatientDetailTabs, type TabDef } from "./components/PatientDetailTabs";
+// AnnotationPanel removed from per-patient tabs (user dropped the Review tab);
+// reachable via API but no longer surfaced in the detail tab strip.
 import { PatientEvidence } from "./components/PatientEvidence";
 import { ResultsPanel } from "./components/ResultsPanel";
 import { RunTimeline } from "./components/RunTimeline";
@@ -425,7 +427,17 @@ function buildPatientTabs(args: {
               activeAgentId={runTask?.activeAgentId}
             />
             <div className="content-grid single-column">
-              <AgentInspector agent={selectedAgent} narrative={selectedNarrative} />
+              <AgentInspector
+                agent={selectedAgent}
+                narrative={selectedNarrative}
+                rawOutput={
+                  selectedAgent
+                    ? (result.agentOutputs as Record<string, unknown>)?.[
+                        selectedAgent.id
+                      ]
+                    : undefined
+                }
+              />
             </div>
           </>
         ) : (
@@ -443,17 +455,6 @@ function buildPatientTabs(args: {
       label: "Treatment",
       hint: "NICE-guideline plan with assumptions and missing-data warnings (DIRECT matches only).",
       render: () => <TreatmentReview result={result} />,
-    },
-    {
-      id: "review",
-      label: "Review",
-      hint: "Your verdict on this run — agree, uncertain, or disagree. Persisted.",
-      render: () => (
-        <AnnotationPanel
-          patientUuid={selectedUuid}
-          onChange={() => { void loadPatients(); }}
-        />
-      ),
     },
     {
       id: "similar",

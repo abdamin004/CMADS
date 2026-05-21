@@ -1,14 +1,15 @@
-import { Clock, ClipboardList, Stethoscope, ChevronDown } from "lucide-react";
-import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Clock, ClipboardList, Stethoscope, FileJson } from "lucide-react";
 import type { AgentCard, AgentNarrative } from "../types";
+import { Disclosure } from "./Disclosure";
 
 type Props = {
   agent?: AgentCard;
   narrative?: AgentNarrative;
+  /** Raw persisted output for this agent (result.agentOutputs[agent.id]). */
+  rawOutput?: unknown;
 };
 
-export function AgentInspector({ agent, narrative }: Props) {
+export function AgentInspector({ agent, narrative, rawOutput }: Props) {
   if (!agent) {
     return (
       <section className="panel">
@@ -33,7 +34,12 @@ export function AgentInspector({ agent, narrative }: Props) {
       </div>
       {agent.error ? <div className="error-box">{agent.error}</div> : null}
       {narrative ? (
-        <NarrativeView agentId={agent.id} narrative={narrative} />
+        <NarrativeView
+          key={agent.id}
+          agentId={agent.id}
+          narrative={narrative}
+          rawOutput={rawOutput}
+        />
       ) : (
         <PendingNarrative status={agent.status} />
       )}
@@ -44,34 +50,22 @@ export function AgentInspector({ agent, narrative }: Props) {
 function NarrativeView({
   agentId,
   narrative,
+  rawOutput,
 }: {
   agentId: string;
   narrative: AgentNarrative;
+  rawOutput?: unknown;
 }) {
-  // Progressive disclosure: only the FIRST section is expanded by default.
-  // Others reveal on click. Resetting whenever the selected agent changes.
-  const firstSectionKey = narrative.sections[0]?.title;
-  const initiallyOpen = useMemo(
-    () => (firstSectionKey ? new Set([firstSectionKey]) : new Set<string>()),
-    // Recompute when the agent changes so each new agent starts collapsed-but-for-first.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [agentId, firstSectionKey],
-  );
-  const [openSections, setOpenSections] = useState<Set<string>>(initiallyOpen);
+  // Compact at-a-glance metrics row stays visible — small enough not to dominate.
+  // Everything else is grouped into named dropdowns. Doctor opens what they
+  // want; nothing dumps wholesale.
 
-  const toggle = (title: string) => {
-    setOpenSections((prev) => {
-      const next = new Set(prev);
-      if (next.has(title)) next.delete(title);
-      else next.add(title);
-      return next;
-    });
-  };
-  const allOpen = openSections.size === narrative.sections.length && narrative.sections.length > 0;
-  const expandAll = () =>
-    setOpenSections(
-      allOpen ? new Set() : new Set(narrative.sections.map((s) => s.title)),
-    );
+  const hasCallouts = narrative.callouts.length > 0;
+  const hasSections = narrative.sections.length > 0;
+  const hasRawOutput =
+    rawOutput !== undefined &&
+    rawOutput !== null &&
+    !(typeof rawOutput === "object" && rawOutput !== null && Object.keys(rawOutput).length === 0);
 
   return (
     <div className="narrative" data-demo-anchor="agent-narrative">
@@ -86,87 +80,74 @@ function NarrativeView({
         </div>
       ) : null}
 
-      {narrative.callouts.length ? (
-        <div className="clinical-callouts">
-          {narrative.callouts.map((callout, index) => (
-            <div className="clinical-callout" key={`${callout}-${index}`}>
-              <ClipboardList size={15} />
-              <span>{callout}</span>
-            </div>
-          ))}
-        </div>
-      ) : null}
-
-      {narrative.sections.length ? (
-        <>
-          <div className="narrative-sections-toolbar">
-            <span className="muted">
-              {narrative.sections.length} {narrative.sections.length === 1 ? "section" : "sections"}
-            </span>
-            <button
-              type="button"
-              className="narrative-expand-toggle"
-              onClick={expandAll}
-            >
-              {allOpen ? "Collapse all" : "Expand all"}
-            </button>
-          </div>
-          <div className="narrative-sections collapsible">
-            {narrative.sections.map((section) => {
-              const isOpen = openSections.has(section.title);
-              return (
-                <div
-                  className="narrative-section narrative-section--collapsible"
-                  key={section.title}
-                  data-demo-anchor={`agent-section-${section.title.toLowerCase().replace(/\s+/g, "-")}`}
-                  data-open={isOpen ? "true" : "false"}
-                >
-                  <button
-                    type="button"
-                    className="narrative-section-summary"
-                    aria-expanded={isOpen}
-                    onClick={() => toggle(section.title)}
-                  >
-                    <ChevronDown
-                      size={15}
-                      className="narrative-section-chevron"
-                      style={{ transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)" }}
-                    />
-                    <h3>{section.title}</h3>
-                    <span className="narrative-section-count">
-                      {section.items.length || (section.empty ? 0 : "")}
-                    </span>
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen ? (
-                      <motion.div
-                        key="content"
-                        className="narrative-section-content"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2, ease: [0.22, 0.65, 0.3, 0.96] }}
-                      >
-                        {section.items.length ? (
-                          <ul>
-                            {section.items.map((item, index) => (
-                              <li key={`${item}-${index}`}>{item}</li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <div className="empty-state compact">
-                            {section.empty || "No readable items saved."}
-                          </div>
-                        )}
-                      </motion.div>
-                    ) : null}
-                  </AnimatePresence>
+      <div className="disclosure-stack">
+        {hasCallouts ? (
+          <Disclosure
+            tone="callout"
+            title="Clinical highlights"
+            badge={narrative.callouts.length}
+            hint={`${narrative.callouts.length} alerts — short, non-narrative findings the agent flagged.`}
+            defaultOpen
+            demoAnchor="agent-disclosure-highlights"
+          >
+            <div className="clinical-callouts">
+              {narrative.callouts.map((callout, index) => (
+                <div className="clinical-callout" key={`${callout}-${index}`}>
+                  <ClipboardList size={15} />
+                  <span>{callout}</span>
                 </div>
-              );
-            })}
-          </div>
-        </>
-      ) : null}
+              ))}
+            </div>
+          </Disclosure>
+        ) : null}
+
+        {hasSections
+          ? narrative.sections.map((section, idx) => (
+              <Disclosure
+                key={`${agentId}-${section.title}`}
+                title={section.title}
+                badge={section.items.length || undefined}
+                hint={
+                  section.items.length
+                    ? `${section.items.length} ${section.items.length === 1 ? "item" : "items"}`
+                    : section.empty || "no items"
+                }
+                /* Open the first narrative section by default for context; rest closed. */
+                defaultOpen={idx === 0}
+                demoAnchor={`agent-section-${section.title.toLowerCase().replace(/\s+/g, "-")}`}
+              >
+                {section.items.length ? (
+                  <ul className="narrative-list">
+                    {section.items.map((item, index) => (
+                      <li key={`${item}-${index}`}>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="empty-state compact">
+                    {section.empty || "No readable items saved."}
+                  </div>
+                )}
+              </Disclosure>
+            ))
+          : null}
+
+        {hasRawOutput ? (
+          <Disclosure
+            tone="muted"
+            title={
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+                <FileJson size={14} /> Raw agent output (JSON)
+              </span>
+            }
+            hint="The persisted JSON this agent wrote to disk. For audit and debugging."
+            demoAnchor="agent-disclosure-raw"
+          >
+            <pre className="raw-json raw-json--agent">
+              {JSON.stringify(rawOutput, null, 2)}
+            </pre>
+          </Disclosure>
+        ) : null}
+      </div>
     </div>
   );
 }

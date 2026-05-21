@@ -14,6 +14,7 @@ type Props = {
   onRefresh: () => void;
   onRun: () => void;
   onCollapseChange?: (collapsed: boolean) => void;
+  onGoOverview?: () => void;
 };
 
 type MatchKey = "DIRECT" | "INDIRECT" | "MISS" | "NORUN";
@@ -36,6 +37,7 @@ export function PatientBrowser({
   onRefresh,
   onRun,
   onCollapseChange,
+  onGoOverview,
 }: Props) {
   const [matchFilters, setMatchFilters] = useState<Set<MatchKey>>(
     new Set(["DIRECT", "INDIRECT", "MISS", "NORUN"]),
@@ -97,10 +99,16 @@ export function PatientBrowser({
         <div className="brand-mark">
           <Activity size={20} />
         </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <button
+          type="button"
+          className="brand-link"
+          onClick={onGoOverview}
+          title="Back to overview"
+          disabled={!onGoOverview}
+        >
           <div className="brand-title">CMADS</div>
           <div className="brand-subtitle">Doctor Console</div>
-        </div>
+        </button>
         {onCollapseChange ? (
           <button
             type="button"
@@ -234,12 +242,22 @@ export function PatientBrowser({
         {filtered.map((patient) => (
           <button
             key={patient.uuid}
+            data-patient-uuid={patient.uuid}
+            data-demo-anchor="patient-row"
             className={`patient-row ${patient.uuid === selectedUuid ? "selected" : ""}`}
             type="button"
             onClick={() => onSelectPatient(patient.uuid)}
           >
             <span className="patient-main">
-              <span className="mono">{patient.uuid.slice(0, 12)}</span>
+              <span className="mono">
+                {patient.uuid.slice(0, 12)}
+                {patient.reviewed ? (
+                  <span
+                    className={`reviewed-dot reviewed-${patient.agreement ?? "uncertain"}`}
+                    title={`Reviewed: ${patient.agreement ?? "uncertain"}`}
+                  />
+                ) : null}
+              </span>
               <span>
                 {patient.age ?? "?"}y {patient.gender ?? ""} {patient.race ?? ""}
               </span>
