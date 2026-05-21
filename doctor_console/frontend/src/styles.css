@@ -4443,3 +4443,249 @@ p { margin: 0; line-height: 1.55; color: var(--ink-soft); }
 .raw-json--agent {
   max-height: 24rem;
 }
+
+/* ──────────────────────────────────────────────────────────────────────
+   NarrativeItems — structured row renderer for AgentNarrative sections.
+   The agent JSON emits pipe-delimited strings ("name | severity | status",
+   "#1 | dx name | 48% | high | reasoning..."); the renderer parses these
+   and lays them out as tone-tinted rows with rank chips, probability
+   bars, status pills, and expandable reasoning.
+   ────────────────────────────────────────────────────────────────────── */
+
+.narrative-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+}
+
+.narrative-prose {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.62;
+  color: var(--ink, #d6dee8);
+}
+.narrative-prose p {
+  margin: 0;
+}
+
+.nrow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.014);
+  font-family: var(--font-sans);
+  font-size: 0.87rem;
+  color: var(--ink, #d6dee8);
+  line-height: 1.4;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+.nrow:hover {
+  border-color: rgba(255, 255, 255, 0.085);
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.nrow__head {
+  display: contents;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+.nrow:has(.nrow__head[aria-disabled="true"]) {
+  cursor: default;
+}
+
+.nrow__icon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.nrow__main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 0;
+}
+.nrow__name {
+  font-weight: 500;
+  color: var(--ink, #f1f5fb);
+  letter-spacing: 0.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nrow:hover .nrow__name {
+  white-space: normal;
+}
+.nrow__sub {
+  font-size: 0.78rem;
+  color: var(--ink-muted, #94a1b8);
+}
+
+.nrow__value {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink, #d6dee8);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.nrow__field {
+  font-size: 0.82rem;
+  color: var(--ink-muted, #94a1b8);
+  flex-shrink: 0;
+}
+
+.nrow__key {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted, #94a1b8);
+  flex: 0 0 auto;
+  min-width: 11rem;
+}
+.nrow--kv .nrow__value {
+  font-family: var(--font-sans);
+  color: var(--ink, #f1f5fb);
+  font-weight: 500;
+}
+
+.nrow__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted, #94a1b8);
+  flex-shrink: 0;
+}
+
+.nrow__detail {
+  grid-column: 1 / -1;
+  overflow: hidden;
+}
+.nrow__detail p {
+  margin: 0.4rem 0 0.1rem 2.45rem;
+  font-size: 0.84rem;
+  color: var(--ink-muted, #94a1b8);
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+}
+.nrow--open {
+  flex-wrap: wrap;
+  border-color: rgba(110, 160, 255, 0.18);
+  background: linear-gradient(180deg,
+    rgba(110, 160, 255, 0.022),
+    rgba(255, 255, 255, 0.005));
+}
+
+/* Ranked-differential row: rank chip + name + probability bar + confidence */
+.nrow--dx { padding: 0.55rem 0.9rem; }
+.nrow__rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  height: 1.65rem;
+  padding: 0 0.5rem;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink, #f1f5fb);
+  background: rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
+}
+.nrow__rank--1 { background: rgba(110, 160, 255, 0.18); color: var(--accent); }
+.nrow__rank--2 { background: rgba(110, 160, 255, 0.12); color: var(--accent); }
+.nrow__rank--3 { background: rgba(110, 160, 255, 0.08); color: var(--accent); }
+
+.nrow__prob {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.nrow__prob-bar {
+  width: 5.6rem;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+.nrow__prob-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  border-radius: 3px;
+}
+.nrow__prob-num {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--ink, #f1f5fb);
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+/* Status / tone pills */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.pill.tone-good {
+  color: #5dd49a;
+  background: rgba(46, 204, 113, 0.10);
+}
+.pill.tone-warn {
+  color: #e0bd5b;
+  background: rgba(220, 180, 80, 0.12);
+}
+.pill.tone-bad {
+  color: #e88c8c;
+  background: rgba(220, 90, 90, 0.12);
+}
+.pill.tone-info {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.pill.tone-neutral {
+  color: var(--ink-muted, #94a1b8);
+  background: rgba(255, 255, 255, 0.04);
+}
+.pill--strength {
+  opacity: 0.85;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 720px) {
+  .nrow__prob-bar { width: 3.2rem; }
+  .nrow__key { min-width: 7rem; }
+}

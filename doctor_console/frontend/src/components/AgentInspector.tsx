@@ -1,6 +1,7 @@
 import { Clock, ClipboardList, Stethoscope, FileJson } from "lucide-react";
 import type { AgentCard, AgentNarrative } from "../types";
 import { Disclosure } from "./Disclosure";
+import { NarrativeItems } from "./NarrativeItems";
 
 type Props = {
   agent?: AgentCard;
@@ -117,11 +118,10 @@ function NarrativeView({
                 demoAnchor={`agent-section-${section.title.toLowerCase().replace(/\s+/g, "-")}`}
               >
                 {section.items.length ? (
-                  <ul className="narrative-list">
-                    {section.items.map((item, index) => (
-                      <li key={`${item}-${index}`}>{item}</li>
-                    ))}
-                  </ul>
+                  <NarrativeItems
+                    items={section.items}
+                    sectionTitle={section.title}
+                  />
                 ) : (
                   <div className="empty-state compact">
                     {section.empty || "No readable items saved."}

@@ -413,6 +413,22 @@ function buildPatientTabs(args: {
       render: () => <PatientEvidence result={result} />,
     },
     {
+      id: "similar",
+      label: "Similar cases",
+      hint: "Top-K Tier-4 case-based memory neighbours — read by the Diagnostic agent at run time as a clinical prior.",
+      render: () => (
+        <SimilarCases
+          patientUuid={selectedUuid}
+          resultSet={resultSetId}
+          onOpenPatient={(uuid) => {
+            setSelectedUuid(uuid);
+            setSelectedAgentId("final_diagnosis");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+      ),
+    },
+    {
       id: "reasoning",
       label: "Reasoning",
       badge: workflowAgents.length || undefined,
@@ -455,22 +471,6 @@ function buildPatientTabs(args: {
       label: "Treatment",
       hint: "NICE-guideline plan with assumptions and missing-data warnings (DIRECT matches only).",
       render: () => <TreatmentReview result={result} />,
-    },
-    {
-      id: "similar",
-      label: "Similar cases",
-      hint: "Top-K Tier-4 neighbours from case-based memory. One click opens that patient.",
-      render: () => (
-        <SimilarCases
-          patientUuid={selectedUuid}
-          resultSet={resultSetId}
-          onOpenPatient={(uuid) => {
-            setSelectedUuid(uuid);
-            setSelectedAgentId("final_diagnosis");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
-      ),
     },
   ];
 }
