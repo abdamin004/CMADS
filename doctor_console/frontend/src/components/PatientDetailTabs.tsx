@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export type TabDef = {
@@ -26,9 +26,30 @@ type Props = {
 export function PatientDetailTabs({ tabs, defaultActive }: Props) {
   const [active, setActive] = useState<string>(defaultActive ?? tabs[0]?.id ?? "");
   const activeTab = tabs.find((t) => t.id === active) ?? tabs[0];
+  const stripRef = useRef<HTMLDivElement | null>(null);
+  const userInitiatedRef = useRef(false);
+
+  // After a tab change initiated by a user click, scroll the strip into
+  // view so the new body appears at the top of the visible area. We skip
+  // the initial mount (userInitiatedRef stays false until the first click)
+  // so loading a patient with a default tab doesn't yank the page.
+  useEffect(() => {
+    if (!userInitiatedRef.current) return;
+    const el = stripRef.current;
+    if (!el) return;
+    // Wait a frame so the new body has rendered before scrolling.
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [active]);
+
+  const handleSelect = (id: string) => {
+    userInitiatedRef.current = true;
+    setActive(id);
+  };
 
   return (
-    <section className="patient-tabs">
+    <section className="patient-tabs" ref={stripRef}>
       <div
         className="patient-tabs__strip"
         role="tablist"
@@ -47,7 +68,7 @@ export function PatientDetailTabs({ tabs, defaultActive }: Props) {
               data-tab-id={t.id}
               data-demo-anchor={`tab-${t.id}`}
               className="patient-tabs__tab"
-              onClick={() => setActive(t.id)}
+              onClick={() => handleSelect(t.id)}
             >
               <span className="patient-tabs__label">{t.label}</span>
               {t.badge !== undefined && t.badge !== "" ? (

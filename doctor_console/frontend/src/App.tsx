@@ -144,6 +144,19 @@ export default function App() {
   // PRIOR patient's stale output in its place.
   const isLiveRunActive =
     !!runTask && (runTask.status === "running" || runTask.status === "queued");
+
+  // Selecting an agent in the workflow graph should also scroll the
+  // AgentInspector into view, matching the tab-strip behaviour.
+  const selectAgentAndScroll = useCallback((agentId: string) => {
+    setSelectedAgentId(agentId);
+    // Wait a frame for React to commit the new narrative content into
+    // the inspector before scrolling, otherwise we scroll to the panel
+    // while it still shows the previous agent.
+    requestAnimationFrame(() => {
+      const el = document.querySelector(".agent-inspector");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, []);
   const selectedNarrative = isLiveRunActive
     ? runTask?.agentNarratives?.[selectedAgentId]
     : runTask?.agentNarratives?.[selectedAgentId] ??
@@ -291,7 +304,7 @@ export default function App() {
                 selectedAgent,
                 selectedNarrative,
                 runTask,
-                setSelectedAgentId,
+                setSelectedAgentId: selectAgentAndScroll,
                 setSelectedUuid,
                 loadPatients,
               })}
@@ -302,7 +315,7 @@ export default function App() {
             <AgentFlow
               agents={workflowAgents}
               selectedAgentId={selectedAgentId}
-              onSelectAgent={setSelectedAgentId}
+              onSelectAgent={selectAgentAndScroll}
               activeAgentId={runTask?.activeAgentId}
             />
             <div className="content-grid single-column">
