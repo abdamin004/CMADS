@@ -939,6 +939,212 @@ p { margin: 0; line-height: 1.55; color: var(--ink-soft); }
   color: var(--ink-soft);
 }
 
+/* ── Patient-data explainer (master-detail schema description) ──── */
+details.data-explainer {
+  margin-bottom: 1.4rem;
+  padding: 1rem 1.3rem 1.3rem;
+  background:
+    radial-gradient(800px 200px at 0% 0%, rgba(110, 160, 255, 0.08), transparent 65%),
+    var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+}
+details.data-explainer > summary.data-explainer__head {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+details.data-explainer > summary.data-explainer__head::-webkit-details-marker { display: none; }
+details.data-explainer .data-explainer__head-toggle {
+  margin-left: auto;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+details.data-explainer:not([open]) .data-explainer__head-toggle {
+  transform: rotate(-90deg);
+}
+details.data-explainer[open] > summary.data-explainer__head {
+  margin-bottom: 1rem;
+}
+.data-explainer__layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: 1.1rem;
+  align-items: stretch;
+}
+@media (max-width: 920px) {
+  .data-explainer__layout { grid-template-columns: 1fr; }
+}
+/* ── Master column: list of selectable categories ────────────── */
+.data-explainer__list {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.data-explainer__item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.65rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+  transition: border-color 0.16s ease, background 0.16s ease;
+}
+.data-explainer__item:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 70%, var(--surface));
+}
+.data-explainer__item.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent);
+  padding-left: calc(0.8rem - 3px);
+}
+.data-explainer__item-icon {
+  flex-shrink: 0;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  padding-top: 1px;
+}
+.data-explainer__item-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 0;
+}
+.data-explainer__item-meta strong {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24;
+  font-weight: 500;
+  font-size: 0.94rem;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.data-explainer__item-meta em {
+  font-style: normal;
+  font-size: 0.74rem;
+  color: var(--ink-muted);
+  line-height: 1.35;
+}
+
+/* ── Detail panel on the right ────────────────────────────────── */
+.data-explainer__detail {
+  padding: 1.1rem 1.3rem 1.3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+}
+.data-explainer__detail-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.data-explainer__detail-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.data-explainer__detail-head h3 {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 72;
+  font-weight: 500;
+  font-size: 1.35rem;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.data-explainer__detail-tagline {
+  margin: 0.15rem 0 0;
+  font-size: 0.84rem;
+  color: var(--ink-muted);
+}
+.data-explainer__detail-why {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 78ch;
+}
+.data-explainer__detail-eyebrow {
+  margin: 0 0 0.45rem;
+}
+.data-explainer__detail-table {
+  margin-top: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.data-explainer__detail-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+.data-explainer__detail-table th {
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-muted);
+  background: var(--bg-elevated);
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.data-explainer__detail-table td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+.data-explainer__detail-table tr:last-child td { border-bottom: 0; }
+.data-explainer__detail-table td:first-child {
+  white-space: nowrap;
+  color: var(--ink);
+}
+.data-explainer__detail-table code.mono {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.82rem;
+}
+.data-explainer__detail-type {
+  color: var(--ink-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
 /* ── Evidence cards ────────────────────────────────────────────── */
 
 .evidence-grid {
@@ -6043,11 +6249,18 @@ details.tx-warnings ul { margin-top: 0.3rem; }
   flex-direction: column;
   gap: 1rem;
 }
-.memory-ab__arm--neutral { border-left: 3px solid var(--ink-muted); }
-.memory-ab__arm--primary {
+/* Baseline arm — blue accent ("the second / candidate as the blue line"). */
+.memory-ab__arm--neutral {
   border-left: 3px solid var(--accent);
-  background: linear-gradient(135deg, var(--accent-soft) 0%, var(--bg-elevated) 60%);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 60%, transparent) 0%, var(--bg-elevated) 60%);
 }
+/* Principal arm — green accent ("winner"). Used by Memory A/B (multi-level
+   memory wins) and Model comparison (the recommended model wins). */
+.memory-ab__arm--primary {
+  border-left: 3px solid var(--success);
+  background: linear-gradient(135deg, var(--success-soft) 0%, var(--bg-elevated) 60%);
+}
+.memory-ab__arm--primary .memory-ab__arm-head h3 { color: var(--ink); }
 
 .memory-ab__arm-head {
   display: flex;
@@ -6814,7 +7027,192 @@ details.tx-warnings ul { margin-top: 0.3rem; }
   background: rgba(255, 255, 255, 0.04); color: var(--ink);
 }
 
-/* Model preset list — grid of selectable cards with time + cost. */
+/* ── Model picker (vertical list — available first, unavailable below) ── */
+
+.model-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.model-picker__group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 12px 2px 6px;
+}
+.model-picker__group-label--muted { color: var(--ink-muted); }
+.model-picker__group-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.model-picker__group-dot--ok   { background: var(--success); box-shadow: 0 0 0 3px rgba(78, 214, 139, 0.16); }
+.model-picker__group-dot--off  { background: var(--ink-muted); }
+.model-picker__group-dot--star {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(110, 160, 255, 0.16);
+}
+
+/* Header row for "All available models" — label on the left, search input
+   tucked on the right so the user can filter the long list. */
+.model-picker__group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 2px 6px;
+}
+.model-picker__group-head .model-picker__group-label { margin: 0; }
+.model-picker__search {
+  flex: 0 1 280px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--ink);
+  font-size: 0.78rem;
+  outline: none;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+.model-picker__search::placeholder { color: var(--ink-muted); }
+.model-picker__search:focus { border-color: var(--accent); }
+.model-picker__list--scroll {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.model-picker__list--scroll::-webkit-scrollbar { width: 6px; }
+.model-picker__list--scroll::-webkit-scrollbar-thumb {
+  background: var(--border-strong); border-radius: 3px;
+}
+.model-picker__empty {
+  padding: 14px 16px;
+  font-size: 0.86rem;
+  color: var(--ink-muted);
+  font-style: italic;
+  text-align: center;
+}
+.model-picker__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.model-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+.model-row:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+.model-row:active { transform: scale(0.998); }
+.model-row.is-active {
+  border-color: var(--success);
+  background: linear-gradient(90deg, rgba(78, 214, 139, 0.10), rgba(78, 214, 139, 0.0) 60%);
+  box-shadow: 0 0 0 1px var(--success) inset;
+}
+
+.model-row__left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.model-row__name-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.model-row__name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.02rem;
+  letter-spacing: -0.014em;
+  color: var(--ink);
+}
+.model-row__loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.model-row__loc--cloud { color: var(--accent); border: 1px solid var(--accent); background: var(--accent-soft); }
+.model-row__loc--local { color: var(--gold);   border: 1px solid var(--gold);   background: rgba(243, 199, 92, 0.08); }
+.model-row__meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.model-row__reason {
+  font-size: 0.84rem;
+  color: var(--ink-muted);
+  font-style: italic;
+  line-height: 1.45;
+}
+.model-row.is-disabled .model-row__reason {
+  color: color-mix(in srgb, var(--critical) 70%, var(--ink-muted));
+}
+.model-row__right {
+  display: grid;
+  place-items: center;
+}
+.model-row__check {
+  display: grid;
+  place-items: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--success);
+  color: var(--bg);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Disabled (unavailable) row */
+.model-row.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  background: var(--surface-2);
+  border-style: dashed;
+}
+.model-row.is-disabled:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+.model-picker__list--unavailable { gap: 6px; }
+
+/* Legacy grid styles still referenced by other call-sites — keep but
+   noop for the picker now that we use .model-picker / .model-row. */
 .runtime-solo__model-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -6884,6 +7282,23 @@ details.tx-warnings ul { margin-top: 0.3rem; }
   color: var(--ink-soft);
 }
 
+/* Disabled preset — API key (or Ollama) not configured. Click is suppressed
+   in the component, and we visually fade + lock the affordance here. */
+.runtime-solo__model-item.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+.runtime-solo__model-item.is-disabled:hover {
+  border-color: var(--border);
+  background: var(--surface);
+  transform: none;
+}
+.runtime-solo__model-item-unavail {
+  color: var(--critical);
+  font-style: italic;
+}
+
 /* Suggestion dropdown sizing — larger so doctor can scroll the full list. */
 .runtime-solo__suggestions {
   max-height: 420px !important;
@@ -6899,6 +7314,124 @@ details.tx-warnings ul { margin-top: 0.3rem; }
   top: 0;
   background: var(--bg-elevated);
   z-index: 1;
+}
+
+/* ── Runtime hero advanced settings (collapsible panel) ────────── */
+.runtime-solo__advanced {
+  margin-top: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg-elevated) 95%, transparent 5%);
+  overflow: hidden;
+  transition: border-color 0.18s ease;
+}
+.runtime-solo__advanced[open] { border-color: var(--border-strong); }
+.runtime-solo__advanced-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.7rem 1rem;
+  user-select: none;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+.runtime-solo__advanced-summary::-webkit-details-marker { display: none; }
+.runtime-solo__advanced-caret {
+  transition: transform 0.2s ease;
+  color: var(--ink-muted);
+}
+.runtime-solo__advanced[open] .runtime-solo__advanced-caret { transform: rotate(180deg); }
+.runtime-solo__advanced-label {
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.runtime-solo__advanced-current {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.runtime-solo__advanced-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: 0.4rem 1rem 1.2rem;
+  border-top: 1px dashed var(--border);
+}
+.runtime-solo__adv-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* Accuracy-mode picker (cards with title + descriptor + headline pill) */
+.runtime-solo__accuracy-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+@media (max-width: 720px) {
+  .runtime-solo__accuracy-cards { grid-template-columns: 1fr; }
+}
+.runtime-solo__accuracy-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  text-align: left;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.12s ease;
+}
+.runtime-solo__accuracy-card:hover { border-color: var(--border-strong); }
+.runtime-solo__accuracy-card:active { transform: scale(0.992); }
+.runtime-solo__accuracy-card.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.runtime-solo__accuracy-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24;
+  font-weight: 500;
+  font-size: 1.0rem;
+}
+.runtime-solo__accuracy-head svg { color: var(--accent); flex-shrink: 0; }
+.runtime-solo__accuracy-card:not(.is-active) .runtime-solo__accuracy-head svg { color: var(--ink-muted); }
+.runtime-solo__accuracy-pill {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  color: var(--success);
+  border: 1px solid var(--success);
+  background: var(--success-soft);
+  white-space: nowrap;
+}
+.runtime-solo__accuracy-pill--muted {
+  color: var(--ink-muted);
+  border-color: var(--border-strong);
+  background: var(--surface);
+}
+.runtime-solo__accuracy-desc {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
 }
 
 /* ── Runtime hero precision picker (interactive trust signal) ── */
@@ -7665,4 +8198,160 @@ details.tx-warnings ul { margin-top: 0.3rem; }
   background: var(--success-soft);
 }
 .match-clinical { border-left-color: var(--success) !important; }
+
+/* ──────────────────────────────────────────────────────────────────
+   Tab-by-tab polish pass — surgical craft details across the
+   doctor-console tabs and features. Hover lift, transition tuning,
+   selection feedback, severity grouping, and entrance motion. No
+   structural rewrites; selectors hit only what they need to.
+   ────────────────────────────────────────────────────────────────── */
+
+/* ── PrecisionAtKCard ─────────────────────────────────────────────
+   Picker chips get a 1px lift on hover so the radio-group feels
+   responsive. Bar segments share a smooth width transition (no
+   instant jump when K changes), and non-selected segments dim so
+   the selected K reads first.
+*/
+.precision-card__chip {
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+.precision-card__chip:hover:not(.is-active) {
+  transform: translateY(-1px);
+}
+.precision-card__chip.is-active {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 4px 14px -8px color-mix(in oklab, var(--accent) 55%, transparent);
+}
+.precision-card__bar-seg {
+  transition:
+    filter var(--dur-panel) var(--ease-out),
+    opacity var(--dur-panel) var(--ease-out),
+    width var(--dur-panel) var(--ease-out);
+}
+.precision-card__bar:has(.is-selected) .precision-card__bar-seg:not(.is-selected) {
+  opacity: 0.42;
+}
+.precision-card__bar-seg.is-selected {
+  filter: brightness(1.22) saturate(1.15);
+  opacity: 1;
+  box-shadow: 0 0 12px -2px currentColor;
+}
+.precision-card__legend-item {
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
+}
+.precision-card__legend-item:hover:not(.precision-card__legend-item--miss) {
+  transform: translateX(2px);
+}
+
+/* ── SimilarCases ──────────────────────────────────────────────────
+   Similarity bar gets a width transition so the fill slides instead
+   of jumping when topK / filters change. Cards lift on hover with a
+   violet drop-shadow that matches the researcher accent already on
+   the section.
+*/
+.similar-bar > div {
+  transition: width 320ms var(--ease-out);
+  border-radius: 999px;
+}
+.similar-card {
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+.similar-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -16px color-mix(in oklab, var(--violet) 45%, transparent);
+}
+
+/* ── PatientEvidence ───────────────────────────────────────────────
+   Evidence rows get a soft hover background so a doctor can scan a
+   single finding without losing the others. Negative margins keep
+   the row inset matching the card padding when not hovered.
+*/
+.evidence-row {
+  margin-left: -0.6rem;
+  margin-right: -0.6rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.evidence-row:hover {
+  background: rgba(255, 255, 255, 0.022);
+}
+
+/* ── TreatmentReview ──────────────────────────────────────────────
+   Drug-interaction rows are sorted by severity; visually group them
+   with a 2px left-edge stripe in the severity colour so a severe
+   pair is spottable without reading the pill. Hover gives a soft
+   tinted band. Chips wrap with row-gap to keep long medication
+   tables from crushing the justification text.
+*/
+.tx-interactions ul > li {
+  position: relative;
+  padding-left: 0.95rem;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.tx-interactions ul > li::before {
+  content: "";
+  position: absolute;
+  top: 0.35rem; bottom: 0.35rem; left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--border-strong);
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.tx-interactions li.sev-severe::before   { background: var(--critical); }
+.tx-interactions li.sev-moderate::before { background: var(--warning); }
+.tx-interactions li.sev-mild::before     { background: var(--success); }
+.tx-interactions li.sev-severe {
+  background: color-mix(in oklab, var(--critical) 5%, transparent);
+}
+.tx-interactions li:hover {
+  background: color-mix(in oklab, var(--ink) 3%, transparent);
+}
+.tx-interactions li.sev-severe:hover {
+  background: color-mix(in oklab, var(--critical) 8%, transparent);
+}
+.tx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.35rem;
+  row-gap: 0.3rem;
+  align-items: center;
+}
+
+/* ── ComparisonShared / Memory A/B / Model / MAS-vs-Single-LLM ────
+   Primary arm gets a soft outer glow so "this is the winner" reads
+   before the deltas resolve — the existing accent stripe still does
+   the heavy lifting, this is the supplementary cue.
+*/
+.memory-ab__arm--primary {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--success) 18%, transparent),
+    0 18px 48px -28px color-mix(in oklab, var(--success) 35%, transparent);
+}
+.memory-ab__arm--primary:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--success) 28%, transparent),
+    0 22px 56px -28px color-mix(in oklab, var(--success) 45%, transparent);
+}
+/* Hover lifts both arms slightly so the section feels alive. */
+.memory-ab__arm {
+  transition:
+    box-shadow var(--dur-panel) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
+}
+.memory-ab__arm:hover { transform: translateY(-1px); }
 
