@@ -1101,6 +1101,99 @@ async def _aggregate_result_set_mongo(
     }
 
 
+async def _rank_distribution_mongo(
+    result_sets: list[str],
+    uuid_filter: "set[str] | None" = None,
+) -> list[dict[str, Any]]:
+    from src.db.documents import AgentRun
+    match: dict[str, Any] = {"result_set": {"$in": result_sets}}
+    if uuid_filter is not None:
+        match["patient_uuid"] = {"$in": sorted(uuid_filter)}
+    pipeline = [
+        {"$match": match},
+        {"$group": {"_id": "$patient_uuid", "doc": {"$first": "$$ROOT"}}},
+        {"$replaceRoot": {"newRoot": "$doc"}},
+        {"$project": {
+            "bucket": {"$switch": {"branches": [
+                {"case": {"$eq": ["$agents.evaluation.output.match_type", "MISS"]}, "then": "miss"},
+                {"case": {"$eq": ["$agents.evaluation.output.rank", 1]}, "then": "1"},
+                {"case": {"$eq": ["$agents.evaluation.output.rank", 2]}, "then": "2"},
+                {"case": {"$eq": ["$agents.evaluation.output.rank", 3]}, "then": "3"},
+                {"case": {"$in": ["$agents.evaluation.output.rank", [4, 5]]}, "then": "4-5"},
+            ], "default": "miss"}},
+        }},
+        {"$group": {"_id": "$bucket", "count": {"$sum": 1}}},
+    ]
+    rows = await AgentRun.aggregate(pipeline).to_list()
+    counts = {r["_id"]: r["count"] for r in rows}
+    return [{"label": k, "count": counts.get(k, 0)}
+            for k in ("1", "2", "3", "4-5", "miss")]
+
+
+async def _per_disease_breakdown_mongo(
+    result_sets: list[str],
+    uuid_filter: "set[str] | None" = None,
+) -> list[dict[str, Any]]:
+    from src.db.documents import AgentRun
+    match: dict[str, Any] = {"result_set": {"$in": result_sets}}
+    if uuid_filter is not None:
+        match["patient_uuid"] = {"$in": sorted(uuid_filter)}
+    pipeline = [
+        {"$match": match},
+        {"$group": {"_id": "$patient_uuid", "doc": {"$first": "$$ROOT"}}},
+        {"$replaceRoot": {"newRoot": "$doc"}},
+        {"$lookup": {"from": "patient_cases", "localField": "patient_uuid",
+                     "foreignField": "_id", "as": "case"}},
+        {"$addFields": {"case": {"$arrayElemAt": ["$case", 0]}}},
+        {"$group": {
+            "_id": "$case.ground_truth.target_condition.name",
+            "n":        {"$sum": 1},
+            "direct":   {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "DIRECT"]},   1, 0]}},
+            "indirect": {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "INDIRECT"]}, 1, 0]}},
+            "miss":     {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "MISS"]},     1, 0]}},
+            "ranks":    {"$push": "$agents.evaluation.output.rank"},
+        }},
+    ]
+    rows = await AgentRun.aggregate(pipeline).to_list()
+    out: list[dict[str, Any]] = []
+    for r in rows:
+        n = r["n"]; found = r["direct"] + r["indirect"]
+        ranks = [v for v in r.get("ranks") or [] if isinstance(v, int) and v > 0]
+        avg_rank = sum(ranks) / len(ranks) if ranks else None
+        out.append({
+            "disease": r["_id"] or "Unknown",
+            "n": n,
+            "direct":   r["direct"],
+            "indirect": r["indirect"],
+            "miss":     r["miss"],
+            "foundPct": (100.0 * found / n) if n else 0.0,
+            "avgRank":  avg_rank,
+        })
+    return out
+
+
+async def _top_diagnoses_mongo(
+    result_sets: list[str],
+    uuid_filter: "set[str] | None" = None,
+    top: int = 8,
+) -> list[dict[str, Any]]:
+    from src.db.documents import AgentRun
+    match: dict[str, Any] = {"result_set": {"$in": result_sets}}
+    if uuid_filter is not None:
+        match["patient_uuid"] = {"$in": sorted(uuid_filter)}
+    pipeline = [
+        {"$match": match},
+        {"$group": {"_id": "$patient_uuid", "doc": {"$first": "$$ROOT"}}},
+        {"$replaceRoot": {"newRoot": "$doc"}},
+        {"$group": {"_id": "$agents.final_diagnosis.output.primary_diagnosis",
+                    "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}},
+        {"$limit": top},
+    ]
+    rows = await AgentRun.aggregate(pipeline).to_list()
+    return [{"diagnosis": r["_id"] or "?", "count": r["count"]} for r in rows]
+
+
 def _aggregate_result_set(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
