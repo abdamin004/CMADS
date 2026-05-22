@@ -33,8 +33,9 @@ results reported in Chapter~\ref{chap:results}: LangGraph 0.6.x,
 \caption{CMADS technical data-flow diagram. Solid arrows mark patient-data
 flow from Synthea through the Bronze/Silver/Gold medallion pipeline into
 the seven-agent reasoning system; dashed arrows mark control and
-side-output flows into the per-patient JSON store, the Streamlit research
-dashboard, and the doctor console. The NICE corpus is queried only during
+side-output flows into the per-patient JSON store and the doctor console
+(which serves both the Doctor runtime and Researcher statistics journeys
+from a single React + FastAPI application). The NICE corpus is queried only during
 Stage~6 treatment planning. The reasoning system is shown collapsed here
 and is expanded as an explicit LangGraph in
 Figure~\ref{fig:agent_pipeline}.}
@@ -1024,8 +1025,7 @@ Memory \& RAG   & Qdrant                 & \texttt{patient\_cases} + \texttt{nic
                 & sentence-transformers  & Embedding runtime \\
                 & BioLORD-2023           & Biomedical sentence encoder \\
 \midrule
-Frontend        & Streamlit              & Researcher review dashboard \\
-                & React + Vite + FastAPI & Doctor-facing console \\
+Frontend        & React + Vite + FastAPI & Doctor-facing console (single application; hosts both the Doctor runtime and Researcher statistics journeys) \\
                 & DuckDB (read-only)     & Encounter and demographic lookup \\
 \midrule
 Build \& tests  & pytest                 & Unit and integration test suite \\
@@ -1046,14 +1046,13 @@ be rerun without changing the code.
 
 \subsection*{Code availability}
 The full implementation --- data pipeline, agent prompts, LangGraph workflow,
-shared-memory subsystem, evaluator, Streamlit research dashboard, and React
-doctor console --- is published at
-\href{https://github.com/abdamin004/CMADS}{\texttt{github.com/abdamin004/CMADS}}.
+shared-memory subsystem, evaluator, and React doctor console --- is published
+at \href{https://github.com/abdamin004/CMADS}{\texttt{github.com/abdamin004/CMADS}}.
 The repository contains a Makefile with single-command targets for installing
-dependencies, running the pipeline on one patient or a batch, launching the
-Streamlit dashboard, and launching the doctor console API and web client. A
-\texttt{Quick Start} block at the top of the \texttt{README} walks an external
-reader from clone to a running dashboard in five commands.
+dependencies, running the pipeline on one patient or a batch, and launching
+the doctor console (API plus web client). A \texttt{Quick Start} block at the
+top of the \texttt{README} walks an external reader from clone to a running
+dashboard in five commands.
 
 \FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
@@ -1062,8 +1061,8 @@ reader from clone to a running dashboard in five commands.
 % ─────────────────────────────────────────────────────────────────────────────
 
 Algorithm~\ref{alg:e2e} summarises one full patient run. The pipeline can be
-started from the command line for batch runs or through the Streamlit portal
-for interactive review.
+started from the command line for batch runs or through the doctor console's
+Doctor (runtime) journey for interactive review.
 
 \begin{algorithm}[ht]
 \caption{End-to-end processing of a single patient.}
@@ -1088,5 +1087,5 @@ for interactive review.
 \end{algorithm}
 
 After each patient, the system saves all agent outputs, the execution trace,
-and the evaluation result. These files can be reopened in the dashboard or
-analysed later without rerunning the agents.
+and the evaluation result. These files can be reopened in the doctor console
+(Researcher journey) or analysed later without rerunning the agents.

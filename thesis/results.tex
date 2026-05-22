@@ -42,7 +42,7 @@ Qwen3-32B, also served through Groq. Both are accessed through the provider
 adapter described in Section~\ref{sec:env}. Qdrant is used for NICE guideline
 retrieval and case-based memory. The data pipeline, prompt rendering, agent
 orchestration, and evaluation scripts run on an Apple Silicon workstation. The
-Streamlit dashboard and React doctor console are served locally.
+React + FastAPI doctor console is served locally on the same workstation.
 
 \paragraph{Pipeline configuration.}
 All runs use the default values in \texttt{src/config.py}: maximum diagnostic
@@ -720,37 +720,83 @@ candidate.
 \label{sec:results_dashboard_review}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The dashboard is important because it turns the saved JSON outputs into a form
-a doctor can inspect. It shows the patient case, agent reasoning, retrieved
-guidelines, memory use, and final diagnosis without forcing the reviewer to
-read raw files.
+The dashboard turns the saved per-agent JSON outputs into a form a clinician
+or research reviewer can inspect without opening files. It is a single React +
+Vite + FastAPI application served locally from \texttt{doctor\_console/};
+there is no separate research dashboard. On first load the application opens
+on a splash that asks the reviewer to pick one of two journeys
+(Figure~\ref{fig:doctor_console}): \emph{Doctor (runtime)} for a live patient
+run, or \emph{Researcher (statistics)} for cohort-level inspection of past
+runs. The choice is sticky in the URL so the two journeys can be bookmarked
+independently.
 
-\subsection{Dashboard walkthrough}
-\label{subsec:results_dashboard}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{images/ch4_doctor_console.png}
+\caption{The CMADS doctor console. The Researcher view shown here surfaces
+the headline system accuracy on the principal 160-patient cohort and a
+collapsible breakdown by rank and per ground-truth disease. The same
+application also hosts the Doctor (runtime) journey for live patient runs;
+the splash on first load asks the reviewer which journey to enter, and the
+selection is reflected in the URL so the two journeys are independently
+bookmarkable.}
+\label{fig:doctor_console}
+\end{figure}
 
-The system has two review interfaces. The Streamlit dashboard at
-\texttt{portal/dashboard.py} is used during development to inspect cohort
-metrics and per-patient outputs. The React + FastAPI doctor console at
-\texttt{doctor\_console/} is the clinician-facing version. It does not show the
-hidden ground truth. Instead, it shows the agent chain, retrieved evidence,
-final diagnosis, and similar prior cases.
+\subsection{Doctor (runtime) journey}
+\label{subsec:results_dashboard_doctor}
 
-The doctor console is organised around three views. The first view is the
-patient list, where cases can be filtered by match status and basic patient
-features. The second view is the assessment page for one patient. It shows the
-ranked differential, the final diagnosis, treatment-plan summary when
-available, and the saved outputs from each agent. The third view is the agent
-flow. It follows the seven stages of execution and lets the reviewer inspect
-the output of a selected agent without opening JSON files. This makes the
-pipeline easier to explain in a viva or clinician review session, because the
-reviewer can move from the patient record to the agent reasoning and then to
-the final result in one screen.
+The Doctor journey is for a clinician with a patient in front of them. The
+landing page accepts a patient UUID (or a search query against the Gold
+cohort), then launches the seven-agent pipeline against that patient end to
+end. While the run is in flight, the agent-flow strip lights up the active
+stage and streams each agent's narrative as it completes; the live execution
+trace is visible without opening a file. When the run finishes, the same view
+shows the ranked differential, the matched diagnosis, the NICE-grounded
+treatment plan (when the evaluator returned DIRECT), and the per-agent
+narrative for audit. Live Doctor runs are persisted into a separate cohort
+(\texttt{data/gold/mas\_results\_runtime/}) so they cannot contaminate the
+research statistics shown in the Researcher journey.
 
-The vector-search panel is especially important. It shows the top-$K$ similar
-prior patients from case-based memory, ranked by BioLORD-2023 similarity. The
-doctor can see their outcomes and evidence patterns. This makes memory use
-inspectable. If memory affects the differential, the reviewer should be able to
-see which prior cases influenced it.
+\subsection{Researcher (statistics) journey}
+\label{subsec:results_dashboard_researcher}
+
+The Researcher journey is for a reviewer or examiner inspecting past runs.
+Five tabs sit above the main panel:
+\textbf{Overview} (system-accuracy KPIs on the principal multi-level
+configuration, with a Precision-at-K interactive card and an expandable
+breakdown by rank and per-disease, all served from the multi-level cohort
+union of \texttt{mas\_results\_improved\_b3/\_50/\_extra60/});
+\textbf{Memory A/B} (single-level baseline versus the principal
+multi-level configuration on the same 160 paired patients --- per-arm KPI
+strips, side-by-side colour-coded delta table, and the 2$\times$2
+DIRECT-classification contingency that drives the exact McNemar test of
+Section~\ref{sec:results_memory_ab});
+\textbf{Model} (GPT-OSS 120B head-to-head against Med42 70B on the
+twenty-patient pilot of Section~\ref{sec:results_models});
+\textbf{MAS vs single-LLM} (the controlled-baseline comparison of
+Section~\ref{sec:results_single_llm});
+and \textbf{Patients}, the per-patient drill-down view that exposes the
+agent narrative, ranked differential, treatment plan, and the top-$K$
+similar prior cases from Tier-4 case-based memory for any selected
+patient.
+
+The five comparison tabs share one visual language: each surface opens
+with a one-sentence framing, then a side-by-side arm comparison with the
+baseline arm in neutral grey and the principal configuration in green to
+mark the recommended read, then the same coloured delta table format
+(green when the principal configuration wins on the metric's clinical
+direction, red when the baseline wins). The Patients tab additionally
+hosts the data-structure explainer (a static description of what the
+seven agents see for each patient) and the per-agent prompt-template
+viewer, so a reviewer can verify exactly what every agent was asked to do
+without leaving the dashboard.
+
+The combined effect is that one application carries the system from
+``run it on this patient'' to ``audit it across every past patient with
+the same accuracy table the thesis reports'', and a viva examiner can
+move from a headline percentage in this chapter to the patient-level
+evidence behind it in two clicks.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Single-LLM Controlled Baseline}
