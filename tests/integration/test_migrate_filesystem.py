@@ -147,3 +147,19 @@ async def test_migrate_semantic_and_derived(tmp_path, mongo_db):
     assert sm.counts == {"direct": 5, "indirect": 1, "miss": 0}
     da = await DerivedArtefact.get("paired_160_mcnemar")
     assert da.payload == {"n": 160}
+
+
+@pytest.mark.asyncio
+async def test_verify_detects_intact_roundtrip(tmp_path, mongo_db):
+    """After migration, --verify should report zero divergences."""
+    from scripts.migrate_filesystem_to_mongo import (
+        migrate_patient_runs, verify_patient_runs,
+    )
+    cohort = tmp_path / "mas_results"
+    (cohort / "u1").mkdir(parents=True)
+    (cohort / "u1" / "evaluation.json").write_text(
+        json.dumps({"match_type": "DIRECT", "rank": 1})
+    )
+    await migrate_patient_runs(tmp_path)
+    divergences = await verify_patient_runs(tmp_path, sample_all=True)
+    assert divergences == []

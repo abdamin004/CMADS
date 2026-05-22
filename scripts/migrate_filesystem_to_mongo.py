@@ -11,6 +11,7 @@ and --verify modes. See docs/superpowers/specs/2026-05-22-mongodb-migration-desi
 from __future__ import annotations
 import argparse
 import asyncio
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -221,6 +222,44 @@ async def migrate_derived_artefacts(gold_dir: Path) -> int:
     return count
 
 
+def _stable_json(obj) -> str:
+    return json.dumps(obj, sort_keys=True, separators=(",", ":"), default=str)
+
+
+def _sha256(s: str) -> str:
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
+
+async def verify_patient_runs(gold_dir: Path, sample_all: bool = False) -> list[dict]:
+    """For every patient run on disk, reload it, then compare a SHA-256
+    digest of its assembled payload against the corresponding Mongo
+    document's same fields. Returns the list of divergences (empty on
+    a clean migration)."""
+    import random
+    runs = walk_mas_results(gold_dir)
+    if not sample_all:
+        # 10% sample
+        runs = random.sample(runs, max(1, len(runs) // 10))
+    divergences: list[dict] = []
+    for result_set, patient_uuid in runs:
+        disk = load_patient_run(gold_dir, result_set, patient_uuid)
+        doc = await AgentRun.find_one(
+            AgentRun.result_set == result_set,
+            AgentRun.patient_uuid == patient_uuid,
+        )
+        if doc is None:
+            divergences.append({"result_set": result_set, "patient_uuid": patient_uuid,
+                                 "reason": "no_mongo_doc"})
+            continue
+        for key in ("agents", "execution_trace", "session_memory"):
+            disk_hash = _sha256(_stable_json(disk[key]))
+            mongo_hash = _sha256(_stable_json(getattr(doc, key)))
+            if disk_hash != mongo_hash:
+                divergences.append({"result_set": result_set, "patient_uuid": patient_uuid,
+                                     "field": key, "disk": disk_hash, "mongo": mongo_hash})
+    return divergences
+
+
 async def main_async(args: argparse.Namespace) -> int:
     gold = args.gold_dir
     patient_runs = walk_mas_results(gold)
@@ -248,6 +287,14 @@ async def main_async(args: argparse.Namespace) -> int:
     report["patient_cases_inserted"] = await migrate_patient_cases(gold)
     report["semantic_memory_inserted"] = await migrate_semantic_memory(gold)
     report["derived_artefacts_inserted"] = await migrate_derived_artefacts(gold)
+    if args.verify or args.verify_all:
+        divs = await verify_patient_runs(gold, sample_all=args.verify_all)
+        report["verifier_divergences"] = divs
+        if divs:
+            print(f"WARNING: {len(divs)} divergences", file=sys.stderr)
+            args.report.parent.mkdir(parents=True, exist_ok=True)
+            args.report.write_text(json.dumps(report, indent=2))
+            return 2
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))
