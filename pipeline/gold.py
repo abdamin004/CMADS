@@ -970,12 +970,12 @@ def build_gold_layer(cohort_path, output_dir, limit=None):
             (patient_dir / "ground_truth.json").write_text(json.dumps(ground_truth, indent=2, default=str))
 
             # Mongo write path (additive — filesystem write above is unchanged).
-            # run_mongo_write isolates the call from any running asyncio loop.
+            # Sync PyMongo helper — safe from any thread, no asyncio.
             from src.config import cfg
             if cfg.USE_MONGO:
-                from src.db.mongo import run_mongo_write
+                from src.db.mongo import write_patient_case_sync
                 try:
-                    run_mongo_write(write_patient_case_to_mongo({
+                    write_patient_case_sync({
                         "patient_uuid": uuid,
                         "person_id": person_id,
                         "cutoff_date": cutoff_date,
@@ -988,9 +988,9 @@ def build_gold_layer(cohort_path, output_dir, limit=None):
                         "risk_scores": ehr_case.get("risk_scores", {}),
                         "lab_case": lab_case,
                         "ground_truth": ground_truth,
-                    }))
+                    })
                 except Exception:  # noqa: BLE001
-                    pass  # filesystem write already succeeded; log via stderr above
+                    pass  # filesystem write already succeeded
 
             success += 1
             d = target["target_disease"]

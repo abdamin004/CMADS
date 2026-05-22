@@ -113,14 +113,13 @@ class SemanticMemory:
         """
         from src.config import cfg
         if cfg.USE_MONGO:
-            from src.db.mongo import run_mongo_write
-            from src.memory.semantic import consolidate_to_mongo
+            from src.db.mongo import semantic_inc_sync
             try:
-                run_mongo_write(consolidate_to_mongo(
+                semantic_inc_sync(
                     disease,
                     match_type=match_type,
                     at_rank_1=(rank_when_found == 1),
-                ))
+                )
             except Exception:  # noqa: BLE001
                 pass
             return self._load().get(disease) or SemanticInsight(disease=disease, runs_observed=0)

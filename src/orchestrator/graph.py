@@ -135,9 +135,25 @@ def load_patient_case(patient_uuid: str) -> dict:
     }
 
 
-def save_patient_results(patient_uuid: str, result: dict, duration_s: float):
-    """Save all agent outputs and execution trace for a patient."""
-    patient_dir = MAS_RESULTS_DIR / patient_uuid
+def save_patient_results(
+    patient_uuid: str,
+    result: dict,
+    duration_s: float,
+    base_dir: "Path | None" = None,
+):
+    """Save all agent outputs and execution trace for a patient.
+
+    Args:
+        patient_uuid: Patient UUID.
+        result: Final pipeline state.
+        duration_s: Wall-clock time the pipeline took.
+        base_dir: Override the default ``MAS_RESULTS_DIR``. Used by the doctor
+            console to route live clinician runs to a separate cohort
+            (``mas_results_runtime``) so they never contaminate the research
+            statistics that are derived from the fixed cohorts.
+    """
+    root = base_dir if base_dir is not None else MAS_RESULTS_DIR
+    patient_dir = root / patient_uuid
     patient_dir.mkdir(parents=True, exist_ok=True)
 
     outputs = result.get("agent_outputs", {})
@@ -189,9 +205,10 @@ def save_patient_results(patient_uuid: str, result: dict, duration_s: float):
             }, indent=2, default=str)
         )
 
-    # Mongo write path (additive — filesystem writes above are unchanged)
+    # Mongo write path (additive — filesystem writes above are unchanged).
+    # Sync PyMongo helper: graph.py runs inside the worker thread that owns
+    # the agent pipeline; the async Motor path would never resolve here.
     if cfg.USE_MONGO:
-        import asyncio as _asyncio
         _trace_entries = [
             {
                 "agent_id": t.get("agent_id"),
@@ -201,15 +218,15 @@ def save_patient_results(patient_uuid: str, result: dict, duration_s: float):
             }
             for t in trace
         ]
-        from src.db.mongo import run_mongo_write
+        from src.db.mongo import finalise_run_sync
         try:
-            run_mongo_write(finalise_run_to_mongo(
+            finalise_run_sync(
                 result_set=MAS_RESULTS_DIR.name,
                 patient_uuid=patient_uuid,
                 trace=_trace_entries,
                 session_memory=session_memory,
                 duration_s=duration_s,
-            ))
+            )
         except Exception as _e:  # noqa: BLE001
             logger.warning("mongo_finalise_failed",
                            patient=patient_uuid[:11], error=str(_e)[:200])

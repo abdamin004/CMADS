@@ -65,25 +65,119 @@ def get_sync_db() -> Any:
     return _client[cfg.MONGO_DB]
 
 
-def run_mongo_write(coro) -> Any:
-    """Synchronous bridge for fire-and-forget Mongo writes from inside
-    sync code paths (BaseAgent.__call__, pipeline/gold.py, etc.) that
-    may or may not already sit inside a running event loop.
+import threading
 
-    ``asyncio.run`` raises ``RuntimeError`` when there is already a
-    running event loop on the current thread — which happens whenever
-    LangGraph's executor invokes a node from an async context. That
-    error was being swallowed by the agent's broad exception handler,
-    so Mongo writes silently dropped during live patient runs.
+_sync_client = None  # pymongo.MongoClient — created lazily
+_sync_client_lock = threading.Lock()
 
-    This helper always creates a fresh isolated event loop, runs the
-    coroutine to completion on it, and closes it cleanly. It works in
-    both contexts: top-level scripts (no loop) and threads spawned by
-    the FastAPI runtime (may have a loop already). The cost is one
-    short-lived loop per call; the benefit is the writes actually land.
+
+def _get_sync_client():
+    """Lazy singleton PyMongo client for sync write paths.
+
+    Why sync PyMongo and not Motor: Motor's ``AsyncIOMotorClient`` is
+    loop-bound and the FastAPI lifespan already binds Beanie/Motor to
+    the FastAPI event loop. The agent code path (``BaseAgent.__call__``
+    and friends) runs sync inside a worker thread spawned by the
+    runtime; the loop on that thread is different (or absent), so
+    Motor calls there hit "Task pending" and never complete.
+
+    PyMongo is the official sync driver, ships with motor as a
+    transitive dep, has no asyncio at all, and is safe to call from any
+    thread. We use it for the four agent-side write paths (the four
+    ``run_mongo_write_*`` helpers below). The FastAPI read path keeps
+    using Motor/Beanie because it lives natively on the FastAPI loop.
     """
-    loop = asyncio.new_event_loop()
-    try:
-        return loop.run_until_complete(coro)
-    finally:
-        loop.close()
+    global _sync_client
+    with _sync_client_lock:
+        if _sync_client is None:
+            from pymongo import MongoClient
+            _sync_client = MongoClient(cfg.MONGO_URI)
+        return _sync_client
+
+
+def _coll(name: str):
+    """Get a sync pymongo Collection handle for the configured DB."""
+    return _get_sync_client()[cfg.MONGO_DB][name]
+
+
+# ── Sync write helpers — these are what BaseAgent / graph / gold / semantic call ──
+
+def write_agent_envelope_sync(*, result_set: str, patient_uuid: str,
+                              agent_id: str, envelope: dict) -> None:
+    """Atomic per-agent upsert. Compound-key by (result_set, patient_uuid)."""
+    from datetime import datetime
+    _coll("agent_runs").update_one(
+        {"result_set": result_set, "patient_uuid": patient_uuid},
+        {
+            "$set": {f"agents.{agent_id}": envelope},
+            "$setOnInsert": {"started_at": datetime.utcnow()},
+        },
+        upsert=True,
+    )
+
+
+def finalise_run_sync(*, result_set: str, patient_uuid: str,
+                      trace: list[dict], session_memory: list[dict],
+                      duration_s: float | None) -> None:
+    """End-of-run write: trace + session memory + finished_at + duration."""
+    from datetime import datetime
+    _coll("agent_runs").update_one(
+        {"result_set": result_set, "patient_uuid": patient_uuid},
+        {
+            "$set": {
+                "execution_trace": trace,
+                "session_memory":  session_memory,
+                "finished_at":     datetime.utcnow(),
+                "duration_s":      duration_s,
+            },
+            "$setOnInsert": {"started_at": datetime.utcnow()},
+        },
+        upsert=True,
+    )
+
+
+def write_patient_case_sync(payload: dict) -> None:
+    """Upsert a Gold case into the patient_cases collection."""
+    from datetime import datetime
+    case_stats = {
+        "activeConditions":  len((payload.get("conditions",  {}) or {}).get("active", []) or []),
+        "activeMedications": len((payload.get("medications", {}) or {}).get("active", []) or []),
+        "labTrends":         len((payload.get("lab_case", {}) or {}).get("latest_labs", []) or []),
+        "criticalFlags":     len((payload.get("lab_case", {}) or {}).get("critical_flags", []) or []),
+    }
+    cutoff_raw = str(payload.get("cutoff_date", "1970-01-01"))[:10]
+    doc = {
+        "person_id":        int(payload.get("person_id", 0)),
+        "cutoff_date":      datetime.fromisoformat(cutoff_raw),
+        "case_type":        str(payload.get("case_type", "ehr+lab")),
+        "demographics":     payload.get("demographics", {}),
+        "conditions":       payload.get("conditions", {}),
+        "medications":      payload.get("medications", {}),
+        "visits":           payload.get("visits", []),
+        "comorbidity":      payload.get("comorbidity", {}),
+        "risk_scores":      payload.get("risk_scores", {}),
+        "labs":             payload.get("lab_case", {}),
+        "ground_truth":     payload.get("ground_truth", {}),
+        "case_stats":       case_stats,
+        "assembled_at":     datetime.utcnow(),
+        "pipeline_version": "gold-3.4",
+    }
+    _coll("patient_cases").update_one(
+        {"_id": str(payload["patient_uuid"])},
+        {"$set": doc},
+        upsert=True,
+    )
+
+
+def semantic_inc_sync(disease: str, *, match_type: str, at_rank_1: bool) -> None:
+    """Atomic per-disease counter increment for semantic memory."""
+    from datetime import datetime
+    field = {"DIRECT": "direct", "INDIRECT": "indirect", "MISS": "miss"}.get(match_type, "miss")
+    inc: dict[str, int] = {f"counts.{field}": 1}
+    if at_rank_1 and match_type in ("DIRECT", "INDIRECT"):
+        inc["rank1_when_found"] = 1
+    _coll("semantic_memory").update_one(
+        {"_id": disease},
+        {"$inc": inc, "$set": {"updated_at": datetime.utcnow()}},
+        upsert=True,
+    )

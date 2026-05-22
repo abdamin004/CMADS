@@ -37,8 +37,27 @@ class SkipAgentException(Exception):
         super().__init__("Agent skipped")
 
 
-def _extract_json_from_response(text: str) -> dict:
-    """Extract JSON from LLM response, handling think tags, code blocks, and minor errors."""
+def _extract_json_from_response(text) -> dict:
+    """Extract JSON from LLM response, handling think tags, code blocks, and minor errors.
+
+    Tolerates ``text`` arriving as a list of message-parts (the Gemini
+    LangChain wrapper does this on recent versions) so we never hit
+    "expected string or bytes-like object, got 'list'" inside ``re.sub``.
+    """
+    if text is None:
+        text = ""
+    elif isinstance(text, list):
+        joined: list[str] = []
+        for part in text:
+            if isinstance(part, str):
+                joined.append(part)
+            elif isinstance(part, dict):
+                t = part.get("text")
+                if isinstance(t, str):
+                    joined.append(t)
+        text = "".join(joined)
+    elif not isinstance(text, str):
+        text = str(text)
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
     if "```json" in text:
         text = text.split("```json")[1].split("```")[0].strip()
@@ -82,9 +101,24 @@ def _extract_json_from_response(text: str) -> dict:
     except json.JSONDecodeError:
         pass
 
+    # Quote bare object keys — Gemini and a few other LLMs occasionally
+    # emit JS-style {key: value, other: 2} which json.loads rejects with
+    # "Expecting property name enclosed in double quotes" right after
+    # the opening brace. Wrap any unquoted identifier sitting at a key
+    # position (right after ``{`` or ``,``) in double quotes.
+    bare_repaired = re.sub(
+        r'([{,]\s*)([A-Za-z_][A-Za-z0-9_]*)(\s*:)',
+        r'\1"\2"\3',
+        sq_repaired,
+    )
+    try:
+        return json.loads(bare_repaired)
+    except json.JSONDecodeError:
+        pass
+
     # Last resort: brute-force replace all single quotes with double quotes
     # (risky with apostrophes but better than failing)
-    brute = repaired.replace("'", '"')
+    brute = bare_repaired.replace("'", '"')
     try:
         return json.loads(brute)
     except json.JSONDecodeError:
@@ -395,12 +429,13 @@ class BaseAgent:
                 update["session_summary"] = memory_summary
 
             # Mongo write path (additive — state write above is unchanged).
-            # Use the run_mongo_write bridge so the write survives being
-            # called from inside LangGraph's async executor (asyncio.run
-            # would raise RuntimeError there and silently drop the write).
+            # Use the sync PyMongo helper: BaseAgent runs in a worker thread
+            # with no asyncio loop of its own, so the async Motor path never
+            # resolves ("Task pending" hang). The sync upsert is one short
+            # round-trip and is safe from any thread.
             from src.config import cfg
             if cfg.USE_MONGO:
-                from src.db.mongo import run_mongo_write
+                from src.db.mongo import write_agent_envelope_sync
                 _patient_uuid = (
                     (state.get("patient_context") or {})
                     .get("ehr_case", {})
@@ -412,12 +447,12 @@ class BaseAgent:
                     "duration_ms": trace_entry["execution_ms"],
                 }
                 try:
-                    run_mongo_write(write_agent_envelope_to_mongo(
+                    write_agent_envelope_sync(
                         result_set=cfg.MAS_RESULTS_DIR.name,
                         patient_uuid=_patient_uuid,
                         agent_id=self.agent_id,
                         envelope=_envelope,
-                    ))
+                    )
                 except Exception as _e:  # noqa: BLE001 — log + continue
                     logger.warning("mongo_write_failed",
                                    agent_id=self.agent_id,
