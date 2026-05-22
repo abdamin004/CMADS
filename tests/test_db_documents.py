@@ -34,3 +34,31 @@ async def test_patient_case_roundtrip(mongo_db):
     assert loaded.demographics["age"] == 62
     assert loaded.ground_truth["target_condition"]["name"] == "Diabetes mellitus type 2"
     assert loaded.case_stats["activeConditions"] == 1
+
+
+@pytest.mark.asyncio
+async def test_agent_run_compound_lookup(mongo_db):
+    """AgentRun is keyed by (result_set, patient_uuid). Both halves of
+    the key must be queryable via the index without scanning."""
+    from src.db.documents import AgentRun
+    from datetime import datetime
+
+    doc = AgentRun(
+        result_set="mas_results_improved_b3",
+        patient_uuid="uuid-1",
+        started_at=datetime.utcnow(),
+        agents={"ehr_analyst": {"status": "success", "output": {"x": 1}}},
+    )
+    await doc.insert()
+
+    # By result_set + patient_uuid (the primary access pattern)
+    loaded = await AgentRun.find_one(
+        AgentRun.result_set == "mas_results_improved_b3",
+        AgentRun.patient_uuid == "uuid-1",
+    )
+    assert loaded is not None
+    assert loaded.agents["ehr_analyst"]["output"]["x"] == 1
+
+    # By patient_uuid alone (cross-cohort lookup)
+    cross = await AgentRun.find(AgentRun.patient_uuid == "uuid-1").to_list()
+    assert len(cross) == 1
