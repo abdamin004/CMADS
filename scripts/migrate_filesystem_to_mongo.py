@@ -91,7 +91,28 @@ def load_patient_run(gold_dir: Path, result_set: str, patient_uuid: str) -> dict
 
 
 async def main_async(args: argparse.Namespace) -> int:
-    raise NotImplementedError("Implemented in subsequent tasks.")
+    gold = args.gold_dir
+    patient_runs = walk_mas_results(gold)
+    patient_cases = [p.name for p in (gold / "patient_cases").iterdir()
+                     if (gold / "patient_cases" / p.name).is_dir()] if (gold / "patient_cases").exists() else []
+    semantic_path = gold / "memory" / "semantic_memory.json"
+    derived = [p.name for p in gold.glob("*.json")] if gold.exists() else []
+
+    report = {
+        "dry_run": args.dry_run,
+        "agent_runs_seen": len(patient_runs),
+        "patient_cases_seen": len(patient_cases),
+        "semantic_memory_present": semantic_path.exists(),
+        "derived_artefact_files": derived,
+    }
+
+    if args.dry_run:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(json.dumps(report, indent=2))
+        print(json.dumps(report, indent=2))
+        return 0
+
+    raise NotImplementedError("Real migration implemented in Task 11+.")
 
 
 def main() -> int:

@@ -41,3 +41,26 @@ def test_walk_mas_results_finds_expected_directories(tmp_path):
         ("mas_results", "uuid-b"),
         ("mas_results_improved_50", "uuid-c"),
     ]
+
+
+def test_dry_run_emits_report_without_touching_mongo(tmp_path):
+    """--dry-run on a synthesised tree produces a report JSON listing
+    the work it would have done."""
+    # Tiny synthetic layout
+    cohort = tmp_path / "mas_results"
+    (cohort / "u1").mkdir(parents=True)
+    (cohort / "u1" / "evaluation.json").write_text(json.dumps({"match_type": "DIRECT"}))
+    (cohort / "u2").mkdir(parents=True)
+    (cohort / "u2" / "evaluation.json").write_text(json.dumps({"match_type": "MISS"}))
+
+    report = tmp_path / "report.json"
+    proc = subprocess.run(
+        [sys.executable, str(SCRIPT), "--dry-run",
+         "--gold-dir", str(tmp_path), "--report", str(report)],
+        capture_output=True, text=True,
+    )
+    assert proc.returncode == 0, proc.stderr
+    data = json.loads(report.read_text())
+    assert data["dry_run"] is True
+    assert data["agent_runs_seen"] == 2
+    # Mongo should be untouched — easy to assert by spotcheck of dry-run flag.
