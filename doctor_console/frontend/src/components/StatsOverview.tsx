@@ -57,6 +57,11 @@ export function StatsOverview({ onOpenPatient: _onOpenPatient }: Props) {
         value: String(aggregates.n),
       },
       {
+        label: "DIRECT rate",
+        value: `${aggregates.directPct.toFixed(1)}%`,
+        tone: "success" as const,
+      },
+      {
         label: "System found rate",
         value: `${aggregates.foundPct.toFixed(1)}%`,
         tone: "success" as const,
@@ -129,13 +134,33 @@ export function StatsOverview({ onOpenPatient: _onOpenPatient }: Props) {
       ) : null}
 
       {overview ? (
-        <motion.section
-          variants={cascadeItem}
-          className="stats-overview__grid"
-        >
-          <RankHistogram buckets={overview.rankDistribution} />
-          <PerDiseaseTable rows={overview.perDisease} />
-        </motion.section>
+        <motion.div variants={cascadeItem}>
+          <details className="arm-collapsible">
+            <summary>
+              <span>Breakdowns</span>
+              <span className="arm-collapsible__hint mono">
+                rank distribution &middot; per ground-truth disease
+              </span>
+              <span className="arm-collapsible__toggle" aria-hidden="true">▾</span>
+            </summary>
+            <div className="arm-collapsible__body arm-collapsible__stack">
+              <div className="arm-collapsible__section">
+                <div className="arm-collapsible__section-head">
+                  <strong>Rank distribution</strong>
+                  <span className="mono">where the target lands in the differential</span>
+                </div>
+                <RankHistogram buckets={overview.rankDistribution} />
+              </div>
+              <div className="arm-collapsible__section">
+                <div className="arm-collapsible__section-head">
+                  <strong>Per ground-truth disease</strong>
+                  <span className="mono">accuracy broken down by target condition</span>
+                </div>
+                <PerDiseaseTable rows={overview.perDisease} />
+              </div>
+            </div>
+          </details>
+        </motion.div>
       ) : null}
     </motion.div>
   );
