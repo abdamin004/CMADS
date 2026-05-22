@@ -37,6 +37,24 @@ async def init_db(database: AsyncIOMotorDatabase | None = None) -> AsyncIOMotorD
     return database
 
 
+async def ensure_db_initialized() -> None:
+    """Initialize Beanie only when it has not been initialized yet.
+
+    This is the safe entry point for helper functions that may be called from
+    both production code (where nothing is set up yet) and from tests (where
+    the conftest has already called init_beanie on a test database). Re-calling
+    init_db in tests would re-bind document models to a new Motor client whose
+    event loop is the one from the previous test, causing 'Event loop is closed'
+    errors on subsequent test runs.
+    """
+    from beanie.exceptions import CollectionWasNotInitialized
+    try:
+        # If any document model has its Motor collection bound, Beanie is up.
+        AgentRun.get_motor_collection()
+    except CollectionWasNotInitialized:
+        await init_db()
+
+
 def get_sync_db() -> Any:
     """Synchronous bootstrap for scripts. Initialises the global client
     and runs ``init_db`` once via ``asyncio.run``. Subsequent calls in

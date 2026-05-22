@@ -17,10 +17,10 @@ async def consolidate_to_mongo(
     """Atomic per-disease increment. Replaces the previous read-modify-write
     on semantic_memory.json (which was unsafe under parallel consolidation)."""
     from datetime import datetime
-    from src.db.mongo import init_db
+    from src.db.mongo import ensure_db_initialized
     from src.db.documents import SemanticMemoryEntry
 
-    await init_db()
+    await ensure_db_initialized()
     field = {"DIRECT": "direct", "INDIRECT": "indirect", "MISS": "miss"}.get(match_type, "miss")
     inc: dict[str, int] = {f"counts.{field}": 1}
     if at_rank_1 and match_type in ("DIRECT", "INDIRECT"):

@@ -260,10 +260,10 @@ async def finalise_run_to_mongo(
     """End-of-run writer for the trace + session memory + duration. Called
     by run_single_patient() after the graph completes when USE_MONGO is set."""
     from datetime import datetime
-    from src.db.mongo import init_db
+    from src.db.mongo import ensure_db_initialized
     from src.db.documents import AgentRun
 
-    await init_db()
+    await ensure_db_initialized()
     await AgentRun.find_one(
         AgentRun.result_set == result_set, AgentRun.patient_uuid == patient_uuid,
     ).upsert(

@@ -482,10 +482,10 @@ async def write_agent_envelope_to_mongo(
     """Atomic per-agent upsert into AgentRun. Called from BaseAgent.__call__
     after the agent emits its envelope, when USE_MONGO is set."""
     from datetime import datetime
-    from src.db.mongo import init_db
+    from src.db.mongo import ensure_db_initialized
     from src.db.documents import AgentRun
 
-    await init_db()
+    await ensure_db_initialized()
     await AgentRun.find_one(
         AgentRun.result_set == result_set, AgentRun.patient_uuid == patient_uuid,
     ).upsert(

@@ -1083,10 +1083,10 @@ async def write_patient_case_to_mongo(payload: dict) -> None:
     build_gold_layer() when USE_MONGO is set; the filesystem write path
     remains the default until the cutover."""
     from datetime import datetime
-    from src.db.mongo import init_db
+    from src.db.mongo import ensure_db_initialized
     from src.db.documents import PatientCase
 
-    await init_db()
+    await ensure_db_initialized()
     case_stats = {
         "activeConditions":  len((payload.get("conditions",  {}) or {}).get("active", []) or []),
         "activeMedications": len((payload.get("medications", {}) or {}).get("active", []) or []),
