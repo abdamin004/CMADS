@@ -112,3 +112,36 @@ async def test_per_disease_breakdown_groups_by_target(mongo_db):
     by = {r["disease"]: r for r in rows}
     assert by["T2DM"]["direct"] == 1
     assert by["ESRD"]["miss"] == 1
+
+
+@pytest.mark.asyncio
+async def test_result_detail_mongo_serves_canon_when_present(mongo_db):
+    """When agents.evaluation.output_canon exists, the detail helper
+    returns it as the evaluation; same for final_diagnosis."""
+    from src.db.documents import AgentRun, PatientCase
+    from doctor_console.backend.app import _result_detail_mongo
+    from datetime import datetime
+
+    await PatientCase(id="u1", person_id=1, cutoff_date=datetime.utcnow(),
+                       case_type="ehr+lab", demographics={}, conditions={},
+                       medications={}, visits=[], comorbidity={}, risk_scores={},
+                       labs={}, ground_truth={"target_condition": {"name": "ESRD"}},
+                       case_stats={}, assembled_at=datetime.utcnow(),
+                       pipeline_version="t").insert()
+    await AgentRun(
+        result_set="r", patient_uuid="u1", started_at=datetime.utcnow(),
+        agents={
+            "evaluation": {
+                "status": "success",
+                "output":       {"match_type": "INDIRECT", "rank": 2},
+                "output_canon": {"match_type": "DIRECT",   "rank": 1, "matched_diagnosis": "ESRD"},
+            },
+            "final_diagnosis": {"status": "success",
+                                 "output": {"primary_diagnosis": "CKD stage 4"},
+                                 "output_canon": {"primary_diagnosis": "End-stage renal disease"}},
+        },
+    ).insert()
+
+    detail = await _result_detail_mongo("r", "u1")
+    assert detail["evaluation"]["match_type"] == "DIRECT"
+    assert detail["finalDiagnosis"]["primary_diagnosis"] == "End-stage renal disease"

@@ -1194,6 +1194,61 @@ async def _top_diagnoses_mongo(
     return [{"diagnosis": r["_id"] or "?", "count": r["count"]} for r in rows]
 
 
+async def _patient_list_item_mongo(result_set: str, patient_uuid: str) -> dict[str, Any]:
+    from src.db.documents import AgentRun, PatientCase
+    run = await AgentRun.find_one(
+        AgentRun.result_set == result_set, AgentRun.patient_uuid == patient_uuid,
+    )
+    case = await PatientCase.get(patient_uuid)
+    eval_envelope = (run.agents.get("evaluation") if run else {}) or {}
+    evaluation = eval_envelope.get("output_canon") or eval_envelope.get("output") or {}
+    if run:
+        fd_envelope = run.agents.get("final_diagnosis") or {}
+        final_dx = fd_envelope.get("output_canon") or fd_envelope.get("output") or {}
+    else:
+        final_dx = {}
+    return {
+        "uuid": patient_uuid,
+        "age":    (case.demographics if case else {}).get("age"),
+        "gender": (case.demographics if case else {}).get("gender"),
+        "race":   (case.demographics if case else {}).get("race"),
+        "hasRun": run is not None,
+        "matchType":        evaluation.get("match_type"),
+        "primaryDiagnosis": final_dx.get("primary_diagnosis"),
+        "durationS":        run.duration_s if run else None,
+    }
+
+
+async def _result_detail_mongo(result_set: str, patient_uuid: str) -> dict[str, Any]:
+    from src.db.documents import AgentRun, PatientCase
+    run = await AgentRun.find_one(
+        AgentRun.result_set == result_set, AgentRun.patient_uuid == patient_uuid,
+    )
+    if run is None:
+        raise HTTPException(status_code=404,
+                            detail=f"No saved run for {patient_uuid} in {result_set}")
+    case = await PatientCase.get(patient_uuid)
+    # Prefer canon variants where present (matches filesystem behaviour).
+    eval_envelope = run.agents.get("evaluation") or {}
+    evaluation = eval_envelope.get("output_canon") or eval_envelope.get("output") or {}
+    final_envelope = run.agents.get("final_diagnosis") or {}
+    final_dx = final_envelope.get("output_canon") or final_envelope.get("output") or {}
+
+    return {
+        "patient": (case.model_dump() if case else {"uuid": patient_uuid}),
+        "resultSet": {"id": result_set, "label": result_set,
+                       "category": "", "model": "", "path": "", "patientCount": 0,
+                       "runtime": False},
+        "case":            (case.model_dump() if case else {}),
+        "evaluation":      evaluation,
+        "finalDiagnosis":  final_dx,
+        "treatment":       (run.agents.get("treatment_planning") or {}).get("output") or {},
+        "agentOutputs":    {aid: env.get("output") for aid, env in run.agents.items()},
+        "trace":           {"agents": run.execution_trace, "duration_s": run.duration_s},
+        "sessionMemory":   run.session_memory,
+    }
+
+
 def _aggregate_result_set(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
