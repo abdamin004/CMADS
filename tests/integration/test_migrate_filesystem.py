@@ -91,3 +91,31 @@ async def test_real_migration_inserts_agent_runs(tmp_path, mongo_db):
     )
     assert doc is not None
     assert doc.agents["evaluation"]["output"]["match_type"] == "DIRECT"
+
+
+@pytest.mark.asyncio
+async def test_migrate_patient_cases(tmp_path, mongo_db):
+    from src.db.documents import PatientCase
+    from scripts.migrate_filesystem_to_mongo import migrate_patient_cases
+
+    cases = tmp_path / "patient_cases" / "u1"
+    cases.mkdir(parents=True)
+    (cases / "ehr_case.json").write_text(json.dumps({
+        "person_id": 42, "cutoff_date": "2021-10-18", "case_type": "ehr+lab",
+        "demographics": {"age": 60}, "conditions": {"active": []}, "medications": {"active": []},
+        "visits": [], "comorbidity": {}, "risk_scores": {},
+    }))
+    (cases / "lab_case.json").write_text(json.dumps({
+        "recent_vitals": [], "latest_labs": [], "critical_flags": [],
+    }))
+    (cases / "ground_truth.json").write_text(json.dumps({
+        "target_condition": {"name": "Diabetes mellitus type 2"},
+    }))
+
+    count = await migrate_patient_cases(tmp_path)
+    assert count == 1
+    doc = await PatientCase.get("u1")
+    assert doc is not None
+    assert doc.person_id == 42
+    assert doc.demographics["age"] == 60
+    assert doc.ground_truth["target_condition"]["name"] == "Diabetes mellitus type 2"

@@ -92,7 +92,7 @@ def load_patient_run(gold_dir: Path, result_set: str, patient_uuid: str) -> dict
 
 from datetime import datetime
 from src.db.mongo import init_db
-from src.db.documents import AgentRun
+from src.db.documents import AgentRun, PatientCase
 
 
 async def migrate_patient_runs(gold_dir: Path) -> int:
@@ -125,6 +125,55 @@ async def migrate_patient_runs(gold_dir: Path) -> int:
     return count
 
 
+async def migrate_patient_cases(gold_dir: Path) -> int:
+    """Load ehr_case.json + lab_case.json + ground_truth.json per
+    UUID and upsert as a single PatientCase document."""
+    root = gold_dir / "patient_cases"
+    if not root.exists():
+        return 0
+    count = 0
+    for sub in sorted(root.iterdir()):
+        if not sub.is_dir():
+            continue
+        ehr_path = sub / "ehr_case.json"
+        if not ehr_path.exists():
+            continue
+        ehr = json.loads(ehr_path.read_text())
+        lab_path = sub / "lab_case.json"
+        lab = json.loads(lab_path.read_text()) if lab_path.exists() else {}
+        gt_path = sub / "ground_truth.json"
+        gt = json.loads(gt_path.read_text()) if gt_path.exists() else {}
+        case_stats = {
+            "activeConditions":  len((ehr.get("conditions",  {}) or {}).get("active", []) or []),
+            "activeMedications": len((ehr.get("medications", {}) or {}).get("active", []) or []),
+            "labTrends":         len((lab.get("latest_labs")  or [])),
+            "criticalFlags":     len((lab.get("critical_flags") or [])),
+        }
+        doc = PatientCase(
+            id=sub.name,
+            person_id=int(ehr.get("person_id", 0)),
+            cutoff_date=datetime.fromisoformat(str(ehr.get("cutoff_date", "1970-01-01"))[:10]),
+            case_type=str(ehr.get("case_type", "ehr+lab")),
+            demographics=ehr.get("demographics", {}),
+            conditions=ehr.get("conditions", {}),
+            medications=ehr.get("medications", {}),
+            visits=ehr.get("visits", []),
+            comorbidity=ehr.get("comorbidity", {}),
+            risk_scores=ehr.get("risk_scores", {}),
+            labs=lab,
+            ground_truth=gt,
+            case_stats=case_stats,
+            assembled_at=datetime.utcnow(),
+            pipeline_version="gold-3.4",
+        )
+        await PatientCase.find_one(PatientCase.id == sub.name).upsert(
+            {"$set": doc.model_dump(by_alias=True, exclude={"_id"})},
+            on_insert=doc,
+        )
+        count += 1
+    return count
+
+
 async def main_async(args: argparse.Namespace) -> int:
     gold = args.gold_dir
     patient_runs = walk_mas_results(gold)
@@ -149,6 +198,7 @@ async def main_async(args: argparse.Namespace) -> int:
 
     await init_db()
     report["agent_runs_inserted"] = await migrate_patient_runs(gold)
+    report["patient_cases_inserted"] = await migrate_patient_cases(gold)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))
