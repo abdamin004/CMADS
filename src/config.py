@@ -11,6 +11,7 @@ Usage:
 """
 
 import os
+import threading
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -18,12 +19,47 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 
+# ── Per-thread config overrides ─────────────────────────────────────────
+# Background: the doctor console's runtime journey spawns one thread per
+# patient. Each run can pick its own model / memory / canonicalizer
+# settings. Mutating os.environ would race when two patients run in
+# parallel (the second run's env mutation clobbers the first's mid-flight).
+# Solution: a threading.local dict keyed by env-var name; _env consults
+# it first, then falls back to os.environ. Setting overrides on one
+# thread does not affect any other thread, and they evaporate when the
+# thread exits.
+_thread_overrides = threading.local()
+
+
+def set_thread_overrides(overrides: dict[str, str]) -> None:
+    """Set per-thread config overrides for the current thread. Any key set
+    here takes precedence over os.environ when ``cfg`` reads it. Pass an
+    empty dict (or call ``clear_thread_overrides``) to drop them."""
+    _thread_overrides.values = dict(overrides)
+
+
+def clear_thread_overrides() -> None:
+    """Drop all per-thread config overrides for the current thread."""
+    if hasattr(_thread_overrides, "values"):
+        _thread_overrides.values = {}
+
+
 def _env(key: str, default: str) -> str:
-    """Read env var at access time (not import time) for testability."""
+    """Read env var at access time (not import time) for testability.
+
+    Per-thread overrides registered via ``set_thread_overrides`` take
+    precedence over the process-wide environment, so two pipeline
+    threads can disagree on (e.g.) LLM_MODEL without racing."""
+    overrides = getattr(_thread_overrides, "values", None)
+    if overrides and key in overrides:
+        return overrides[key]
     return os.environ.get(key, default)
 
 
 def _env_int(key: str, default: int) -> int:
+    overrides = getattr(_thread_overrides, "values", None)
+    if overrides and key in overrides:
+        return int(overrides[key])
     return int(os.environ.get(key, str(default)))
 
 
@@ -50,7 +86,10 @@ class Config:
     # ── Ollama (local) ──────────────────────────────────────
     @property
     def OLLAMA_URL(self) -> str:
-        return _env("OLLAMA_URL", "http://localhost:11434")
+        # 127.0.0.1 (not localhost) — on macOS, "localhost" can resolve to
+        # ::1 (IPv6), which sometimes hits a different Ollama daemon than
+        # the IPv4 one the user is actually running.
+        return _env("OLLAMA_URL", "http://127.0.0.1:11434")
 
     @property
     def OLLAMA_CONTEXT_WINDOW(self) -> int:
@@ -98,6 +137,15 @@ class Config:
     @property
     def DUCKDB_PATH(self) -> Path:
         return Path(_env("DUCKDB_PATH", "data/clinical.duckdb"))
+
+    # ── Clinical canonicalizer (refiner post-processing) ───
+    @property
+    def CANONICALIZER_ENABLED(self) -> bool:
+        """Promote terminal-stage diagnoses (e.g. ESRD) when EHR evidence
+        supports them but the LLM ranked an upstream less-specific entry.
+        Evidence-gated; never fabricates a diagnosis without EHR support.
+        Toggle off for A/B comparisons."""
+        return _env("CANONICALIZER_ENABLED", "true").lower() in ("1", "true", "yes", "on")
 
     # ── Multi-Level Memory ──────────────────────────────────
     @property

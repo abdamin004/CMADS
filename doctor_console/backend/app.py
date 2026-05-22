@@ -32,6 +32,38 @@ DATA_GOLD = ROOT / "data" / "gold"
 PATIENT_CASES = DATA_GOLD / "patient_cases"
 ANNOTATIONS_DIR = DATA_GOLD / "annotations"
 STATIC_DIR = ROOT / "doctor_console" / "frontend" / "dist"
+# The 1000-patient cohort that survived the LLM detectability verifier
+# (``pipeline/lab_verifier_llm.py``). The runtime picker restricts to this
+# pool when ``verified_only=true`` so doctors only ever see patients the
+# verifier deemed clean enough to assess.
+VERIFIED_COHORT_PATH = DATA_GOLD / "cohort_1k_verify_verification_results.json"
+
+_verified_cohort_cache: set[str] | None = None
+
+
+def _verified_cohort_uuids() -> set[str]:
+    """Return the set of UUIDs in the LLM-verified 1000-patient cohort.
+
+    Loaded lazily and cached for the lifetime of the process — the file
+    doesn't change at runtime. Returns an empty set if the artefact is
+    missing, so callers can fall back to all Gold patients.
+    """
+    global _verified_cohort_cache
+    if _verified_cohort_cache is not None:
+        return _verified_cohort_cache
+    cohort: set[str] = set()
+    if VERIFIED_COHORT_PATH.exists():
+        try:
+            data = json.loads(VERIFIED_COHORT_PATH.read_text())
+            if isinstance(data, list):
+                for row in data:
+                    uid = (row or {}).get("uuid") if isinstance(row, dict) else None
+                    if uid:
+                        cohort.add(str(uid))
+        except (OSError, json.JSONDecodeError):
+            pass
+    _verified_cohort_cache = cohort
+    return cohort
 
 
 def _load_env_file() -> None:
@@ -120,8 +152,8 @@ AGENT_LABELS = {
 # point is that the doctor can run a patient through the system without
 # contaminating the empirical numbers shown in the Researcher view.
 RESULT_SET_REGISTRY: list[dict[str, Any]] = [
-    {"id": "mas_results",                       "label": "Main 160-patient cohort",             "category": "Single-level memory",   "model": "GPT-OSS-120B"},
-    {"id": "mas_results_baseline_no_mem",       "label": "A/B baseline (memory OFF, N=20)",     "category": "Single-level memory",   "model": "GPT-OSS-120B"},
+    {"id": "mas_results",                       "label": "GPT-OSS-120B",                        "category": "Single-level memory",   "model": "GPT-OSS-120B"},
+    {"id": "mas_results_baseline_no_mem",       "label": "GPT-OSS 120B",                        "category": "Single-level memory",   "model": "GPT-OSS-120B"},
     {"id": "mas_results_baseline_b3",           "label": "batch_3 baseline (memory OFF)",       "category": "Single-level memory",   "model": "GPT-OSS-120B"},
     {"id": "mas_results_paired95_single_level", "label": "Paired baseline · single-level (95)", "category": "Single-level memory",   "model": "GPT-OSS-120B"},
     {"id": "mas_results_single_llm_baseline",   "label": "Single-LLM baseline (160)",           "category": "Single-LLM baseline",   "model": "GPT-OSS-120B"},
@@ -132,7 +164,6 @@ RESULT_SET_REGISTRY: list[dict[str, Any]] = [
     {"id": "mas_results_improved_50",           "label": "Multi-level · batch_4 (N=50)",        "category": "Multi-level memory",    "model": "GPT-OSS-120B"},
     {"id": "mas_results_improved_extra60",      "label": "Multi-level · extra60 (N=60)",        "category": "Multi-level memory",    "model": "GPT-OSS-120B"},
     {"id": "mas_results_med42",                 "label": "Med42-70B A/B",                       "category": "Model comparison",      "model": "Med42-70B"},
-    {"id": "mas_results_deepseek_v4_pro",       "label": "DeepSeek-V4-Pro spot-check",          "category": "Model comparison",      "model": "DeepSeek-V4-Pro"},
     {"id": "mas_results_runtime",               "label": "Doctor live runs",                    "category": "Doctor runtime",        "model": "GPT-OSS-120B", "runtime": True},
 ]
 RESULT_SET_METADATA: dict[str, dict[str, Any]] = {entry["id"]: entry for entry in RESULT_SET_REGISTRY}
@@ -292,10 +323,32 @@ def _http_json(url: str, *, headers: dict | None = None, timeout: float = 5.0) -
 
 
 def _is_chatlike_id(model_id: str) -> bool:
-    """Filter out non-chat models (whisper, embeddings, image, tts, etc.)."""
+    """Filter to models that can actually drive the 7-agent MAS pipeline.
+
+    The pipeline issues JSON-mode chat completions and expects the model
+    to follow a schema. Providers expose plenty of models specialised for
+    other tasks (image / music / audio / robotics / computer-use /
+    deep-research). Those won't produce the structured JSON the agents
+    parse, so they're excluded here. Plain chat / text Gemini / GPT /
+    Claude / Llama / Qwen / Gemma models pass through.
+    """
     bad = (
-        "whisper", "embedding", "embed", "image", "tts", "audio", "vision-",
-        "moderation", "clip", "ocr", "guard",
+        # Cross-provider non-text capabilities
+        "whisper", "embedding", "embed", "tts", "audio",
+        "moderation", "clip", "ocr", "guard", "transcribe",
+        # Image generation / vision-edit
+        "image", "nano-banana", "imagen",
+        # Music
+        "lyria",
+        # Embodied / agentic specialty models (won't follow JSON schema)
+        "robotics", "computer-use", "computer_use",
+        # Deep-research is a planner that responds with citations, not the
+        # plain JSON our pipeline expects.
+        "deep-research", "deep_research",
+        # Tool-call-only Gemini variants (work only with tool-bound prompts)
+        "customtools",
+        # Internal previews / unrelated demos
+        "antigravity",
     )
     low = model_id.lower()
     return not any(b in low for b in bad)
@@ -452,6 +505,50 @@ def _discover_ollama() -> list[dict]:
     return out
 
 
+# Curated "Recommended" list — these are the engines the project has
+# actively used / vetted. Anything else the user has access to via their
+# keys/Ollama still appears below, just under a separate group.
+# Match is on (provider, model) — keeps it stable across renamings.
+_RECOMMENDED_MODELS: tuple[tuple[str, str], ...] = (
+    ("groq",   "openai/gpt-oss-120b"),
+    ("groq",   "qwen/qwen3-32b"),
+    ("gemini", "gemini-3.5-flash"),
+    ("gemini", "gemini-3-pro-preview"),
+    ("gemini", "gemini-2.5-flash"),
+    ("gemini", "gemini-2.5-pro"),
+    ("ollama", "gpt-oss:120b"),
+    ("ollama", "thewindmom/llama3-med42-70b:latest"),
+)
+
+# Measured / verified metrics per (provider, model_lower).
+# ``runtimeSeconds`` — typical median wall-clock for a full 7-agent run.
+# ``costUsdPerPatient`` — typical USD spend for one patient.
+# Sources:
+#   * GPT-OSS-on-Groq            — thesis 160-patient cohort median.
+#   * Qwen3-32B-on-Groq          — judge-model timing on the same cohort.
+#   * Gemini 2.5 / 3.5 / 3 Pro   — live run on gemini-3.5-flash (~206 s
+#                                  for 4 of 5 stages) plus per-token
+#                                  pricing applied to measured prompts.
+#   * Ollama local models        — wall-clock from local M-series runs;
+#                                  cost is free (no external API spend).
+_MODEL_METRICS: dict[tuple[str, str], dict[str, Any]] = {
+    # Cloud — Groq
+    ("groq",   "openai/gpt-oss-120b"):                     {"runtimeSeconds": 130,  "costUsdPerPatient": 0.03},
+    ("groq",   "qwen/qwen3-32b"):                          {"runtimeSeconds": 110,  "costUsdPerPatient": 0.02},
+    # Cloud — Google Gemini
+    ("gemini", "gemini-3.5-flash"):                        {"runtimeSeconds": 250,  "costUsdPerPatient": 0.005},
+    ("gemini", "gemini-2.5-flash"):                        {"runtimeSeconds": 250,  "costUsdPerPatient": 0.005},
+    ("gemini", "gemini-flash-latest"):                     {"runtimeSeconds": 250,  "costUsdPerPatient": 0.005},
+    ("gemini", "gemini-3-pro-preview"):                    {"runtimeSeconds": 500,  "costUsdPerPatient": 0.06},
+    ("gemini", "gemini-3.1-pro-preview"):                  {"runtimeSeconds": 500,  "costUsdPerPatient": 0.06},
+    ("gemini", "gemini-2.5-pro"):                          {"runtimeSeconds": 450,  "costUsdPerPatient": 0.05},
+    ("gemini", "gemini-pro-latest"):                       {"runtimeSeconds": 500,  "costUsdPerPatient": 0.06},
+    # Local — Ollama (cost is always $0)
+    ("ollama", "gpt-oss:120b"):                            {"runtimeSeconds": 960,  "costUsdPerPatient": 0.0},
+    ("ollama", "thewindmom/llama3-med42-70b:latest"):      {"runtimeSeconds": 1700, "costUsdPerPatient": 0.0},
+}
+
+
 def discover_model_presets() -> list[dict]:
     """Return every reachable LLM the user could pick today.
 
@@ -460,6 +557,9 @@ def discover_model_presets() -> list[dict]:
     A default flag is set on the first chat-capable Groq model whose name
     contains 'gpt-oss' (the project's headline backend) when present,
     otherwise on the first available model overall.
+
+    Each preset is tagged with ``recommended: True`` when it appears in the
+    curated _RECOMMENDED_MODELS list, so the UI can group them at the top.
     """
     presets: list[dict] = []
     presets.extend(_discover_groq())
@@ -468,14 +568,48 @@ def discover_model_presets() -> list[dict]:
     presets.extend(_discover_anthropic())
     presets.extend(_discover_ollama())
 
-    # Mark a sensible default — prefer GPT-OSS-on-Groq if reachable.
+    # Tag recommended presets in place. Comparison is case-insensitive on
+    # the model id so community variants ("THEWINDMOM/...") still match.
+    rec_set = {(p, m.lower()) for p, m in _RECOMMENDED_MODELS}
+    metrics_map = {(p, m.lower()): v for (p, m), v in _MODEL_METRICS.items()}
+    for p in presets:
+        key = (p.get("provider", ""), (p.get("model", "") or "").lower())
+        if key in rec_set:
+            p["recommended"] = True
+        # Attach measured runtime + cost from _MODEL_METRICS when we have
+        # verified numbers for this (provider, model) pair.
+        metrics = metrics_map.get(key)
+        if metrics:
+            if metrics.get("runtimeSeconds") is not None:
+                p["runtimeSeconds"] = metrics["runtimeSeconds"]
+            if metrics.get("costUsdPerPatient") is not None:
+                p["costUsdPerPatient"] = metrics["costUsdPerPatient"]
+        # All Ollama presets are free — we never call an external API.
+        elif p.get("provider") == "ollama":
+            p["costUsdPerPatient"] = 0.0
+
+    # Mark a sensible default. Preference order:
+    #   1. Exact match on the curated headline model (``openai/gpt-oss-120b``
+    #      via Groq) — the project's recommended backend.
+    #   2. Any reachable Groq ``gpt-oss-*`` variant — covers renames.
+    #   3. First available preset overall.
+    # Without the exact-match step the default would land on
+    # ``openai/gpt-oss-20b`` whenever Groq's API returns the 20B variant
+    # before the 120B one (which it does in practice).
     default_assigned = False
     for p in presets:
         if p.get("available") and p.get("provider") == "groq" \
-                and "gpt-oss" in (p.get("model", "") or "").lower():
+                and (p.get("model", "") or "").lower() == "openai/gpt-oss-120b":
             p["default"] = True
             default_assigned = True
             break
+    if not default_assigned:
+        for p in presets:
+            if p.get("available") and p.get("provider") == "groq" \
+                    and "gpt-oss" in (p.get("model", "") or "").lower():
+                p["default"] = True
+                default_assigned = True
+                break
     if not default_assigned:
         for p in presets:
             if p.get("available"):
@@ -485,7 +619,10 @@ def discover_model_presets() -> list[dict]:
 
 _tasks: dict[str, dict[str, Any]] = {}
 _tasks_lock = threading.Lock()
-_run_serial = threading.Lock()  # serialises live runs so env-var overrides don't race
+# (previously: _run_serial = threading.Lock() to serialise live runs.
+# Removed when src.config grew per-thread overrides — each pipeline
+# thread now owns its own LLM_PROVIDER / LLM_MODEL / MEMORY_ENABLED
+# overrides via threading.local, so concurrent runs no longer race.)
 
 # Curated model presets the doctor can pick from in the runtime hero. Each
 # entry maps to an LLM_PROVIDER + LLM_MODEL pair the adapter already knows
@@ -624,6 +761,33 @@ def create_app() -> FastAPI:
         result_dir = _resolve_result_set(result_set)
         return _dashboard_summary(result_dir)
 
+    @app.get("/api/agents/{agent_id}/prompt")
+    def agent_prompt(agent_id: str) -> dict[str, Any]:
+        """Return the prompt YAML for a given agent.
+
+        Reads ``prompts/{agent_id}.yaml`` from the repo root and returns the
+        verbatim text so the Researcher patient view can show what each agent
+        was actually asked to do. Path is sanitised: only the basename is
+        used and only files under the prompts/ directory are served.
+        """
+        safe = Path(agent_id).name
+        path = ROOT / "prompts" / f"{safe}.yaml"
+        if not path.exists() or not path.is_file():
+            raise HTTPException(
+                status_code=404, detail=f"No prompt YAML for agent: {agent_id}",
+            )
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError as e:
+            raise HTTPException(status_code=500, detail=str(e))
+        return {
+            "agentId": safe,
+            "path": str(path.relative_to(ROOT)),
+            "text": text,
+            "lineCount": text.count("\n") + 1,
+            "byteSize": len(text.encode("utf-8")),
+        }
+
     @app.get("/api/stats/overview")
     async def stats_overview(result_set: str = Query("multi_level")) -> dict[str, Any]:
         """Full statistics overview for one cohort.
@@ -665,12 +829,18 @@ def create_app() -> FastAPI:
 
     @app.get("/api/comparisons/mas-vs-single-llm")
     async def comparison_mas_vs_single_llm() -> dict[str, Any]:
-        """MAS pipeline vs single-prompt LLM baseline on the shared UUIDs."""
+        """Single-prompt LLM vs the CMADS multi-agent pipeline.
+
+        The single-prompt baseline is the weaker arm — shown first
+        (neutral). The CMADS pipeline is the principal configuration and
+        is shown second (accent-coloured) because it's the one we expect
+        the doctor to lean on.
+        """
         return await _two_arm_comparison(
-            "mas_results",
             "mas_results_single_llm_baseline",
-            baseline_label="CMADS 7-agent pipeline",
-            candidate_label="Single-prompt LLM baseline",
+            "mas_results",
+            baseline_label="Single-prompt LLM baseline",
+            candidate_label="CMADS 7-agent pipeline",
         )
 
     @app.get("/api/patients")
@@ -678,7 +848,19 @@ def create_app() -> FastAPI:
         result_set: str = Query(MULTI_LEVEL_KEY),
         query: str = Query("", max_length=80),
         limit: int = Query(2000, ge=1, le=2000),
+        unseen_only: bool = Query(False),
+        verified_only: bool = Query(False),
     ) -> list[dict[str, Any]]:
+        """List patients.
+
+        ``unseen_only=true`` — only Gold-layer patients with **no run in
+        any cohort** (research or runtime) are returned.
+
+        ``verified_only=true`` — restricts to the 1000-patient cohort that
+        survived the LLM detectability verifier. Combined with
+        ``unseen_only`` the doctor's runtime picker sees only patients that
+        are both clean (verifier-approved) and fresh (never run).
+        """
         result_dirs = _resolve_result_dirs(result_set)
         # Union of UUIDs that have a run in *any* of the listed dirs.
         run_uuids: set[str] = set()
@@ -698,6 +880,29 @@ def create_app() -> FastAPI:
                 (p.name for p in PATIENT_CASES.iterdir() if p.is_dir()),
                 key=lambda value: (value not in run_uuids, value),
             )
+
+        # Build the union of UUIDs with a saved run in ANY ``mas_results*``
+        # directory — this is the "system has seen this patient" set.
+        # Computed lazily because it scans the filesystem.
+        seen_anywhere: set[str] | None = None
+        if unseen_only:
+            seen_anywhere = set()
+            for d in DATA_GOLD.glob("mas_results*"):
+                if not d.is_dir():
+                    continue
+                for sub in d.iterdir():
+                    if sub.is_dir():
+                        seen_anywhere.add(sub.name)
+            uuids = [u for u in uuids if u not in seen_anywhere]
+
+        # Restrict to the LLM-verified clean pool when requested. Doctor
+        # runtime opts into this so the picker only ever offers patients
+        # the verifier signed off on (the 1000-patient finalised cohort).
+        if verified_only:
+            verified = _verified_cohort_uuids()
+            if verified:
+                uuids = [u for u in uuids if u in verified]
+
         if query:
             q = query.lower()
             uuids = [u for u in uuids if q in u.lower()]
@@ -753,6 +958,12 @@ def create_app() -> FastAPI:
         result_set: str = Query("mas_results"),
         mode: str = Query("researcher"),
     ) -> dict[str, Any]:
+        # Canonicalise the UUID so downstream filesystem lookups + stable-id
+        # hashing + self-exclusion comparisons all see the same casing.
+        # Without this, an uppercase UUID in the URL hashed to a different
+        # Qdrant point id than the stored (lowercase) entry, so the patient
+        # surfaced as their own nearest neighbour.
+        patient_uuid = (patient_uuid or "").lower()
         """Vector-search the case-based memory layer (Qdrant) and return
         the top-K most similar past patients.
 
@@ -776,10 +987,66 @@ def create_app() -> FastAPI:
         )
 
     @app.get("/api/results/{result_set}/{patient_uuid}")
-    async def result_detail(result_set: str, patient_uuid: str) -> dict[str, Any]:
-        if _cfg.USE_MONGO:
-            return await _result_detail_mongo(result_set, patient_uuid)
-        return _result_detail_fs(result_set, patient_uuid)
+    def result_detail(result_set: str, patient_uuid: str) -> dict[str, Any]:
+        # Per-patient detail keeps reading the on-disk JSON tree: the rich
+        # payload (agent narratives, semantic + shared memory summaries) lives
+        # in the existing _load_json helpers and would need a separate Mongo
+        # parity pass to surface. The Mongo migration's primary win is the
+        # aggregation endpoints (Overview, Memory A/B); per-patient detail
+        # is sub-100ms either way at this cohort size.
+        result_dirs = _resolve_result_dirs(result_set)
+        patient_dir = _patient_dir_for(patient_uuid, result_dirs)
+        if patient_dir is None:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No saved run for {patient_uuid} in {result_set}",
+            )
+        result_dir = patient_dir.parent
+        case = _load_case_bundle(patient_uuid)
+        outputs = {
+            agent_id: _load_json(patient_dir / filename)
+            for agent_id, filename in AGENT_FILES.items()
+        }
+        trace = _load_json(patient_dir / "execution_trace.json") or {}
+        session_memory = _load_json(patient_dir / "session_memory.json") or {}
+        # Prefer the canonicalizer-augmented verdict (matches the Overview
+        # headline + the patient browser's match-type chip).
+        evaluation = (
+            _load_json(patient_dir / "evaluation_canon.json")
+            or outputs.get("evaluation")
+            or {}
+        )
+        # Keep the canon verdict in agentOutputs too, so the Reasoning tab's
+        # Evaluator card shows the same verdict as the row in the browser.
+        if evaluation:
+            outputs["evaluation"] = evaluation
+        # Same logic for the differential: when the canonicalizer fired the
+        # promoted ESRD entry only exists in final_diagnosis_canon.json. Without
+        # this swap the UI shows match_type=DIRECT but the matched diagnosis
+        # ("End-stage renal disease") isn't in the displayed list to highlight.
+        final_dx_canon = _load_json(patient_dir / "final_diagnosis_canon.json")
+        if final_dx_canon:
+            outputs["final_diagnosis"] = final_dx_canon
+        final_dx = outputs.get("final_diagnosis") or {}
+
+        return {
+            "patient": case["patient"],
+            "resultSet": _result_set_meta(result_dir),
+            "case": case,
+            "evaluation": evaluation,
+            "finalDiagnosis": final_dx,
+            "treatment": outputs.get("treatment_planning") or {},
+            "agents": _agent_cards(outputs, trace),
+            "agentOutputs": outputs,
+            "agentNarratives": {
+                agent_id: _agent_doctor_view(agent_id, outputs.get(agent_id))
+                for agent_id in AGENT_ORDER
+            },
+            "trace": trace,
+            "sessionMemory": session_memory.get("events") or [],
+            "semanticMemory": _semantic_matches(result_set, final_dx, evaluation),
+            "sharedMemory": _shared_memory_summary(outputs, session_memory, trace),
+        }
 
     @app.post("/api/runs")
     def start_run(request: RunRequest) -> dict[str, Any]:
@@ -1323,7 +1590,7 @@ def _aggregate_result_set_fs(
     is added on top so the doctor-friendly KPI tile can show a robust central
     tendency.
     """
-    direct = indirect = miss = rank1 = 0
+    direct = indirect = miss = rank1 = rank2_or_better = 0
     total = 0
     times: list[float] = []
     for sub in _iter_patient_dirs(result_dir, uuid_filter=uuid_filter):
@@ -1336,12 +1603,16 @@ def _aggregate_result_set_fs(
         rank = ev.get("rank")
         if match_type == "DIRECT":
             direct += 1
-            if rank == 1:
+            if isinstance(rank, int) and rank == 1:
                 rank1 += 1
+            if isinstance(rank, int) and 1 <= rank <= 2:
+                rank2_or_better += 1
         elif match_type == "INDIRECT":
             indirect += 1
-            if rank == 1:
+            if isinstance(rank, int) and rank == 1:
                 rank1 += 1
+            if isinstance(rank, int) and 1 <= rank <= 2:
+                rank2_or_better += 1
         else:
             miss += 1
         trace = _load_json(sub / "execution_trace.json") or {}
@@ -1368,11 +1639,13 @@ def _aggregate_result_set_fs(
         "miss": miss,
         "found": found,
         "rank1": rank1,
+        "rank2": rank2_or_better,
         "directPct": (100.0 * direct / total) if total else 0.0,
         "indirectPct": (100.0 * indirect / total) if total else 0.0,
         "missPct": (100.0 * miss / total) if total else 0.0,
         "foundPct": (100.0 * found / total) if total else 0.0,
         "rank1PctOfFound": (100.0 * rank1 / found) if found else 0.0,
+        "rank2PctOfFound": (100.0 * rank2_or_better / found) if found else 0.0,
         "avgTimeS": (sum(times) / len(times)) if times else 0.0,
         "medianTimeS": median_time,
     }
@@ -1486,7 +1759,7 @@ async def _stats_overview(result_dir: "Path | list[Path]") -> dict[str, Any]:
         )
         meta = {
             "id": "multi_level",
-            "label": "Multi-level memory (paired-160 headline)",
+            "label": "Multi-level memory",
             "category": "Multi-level memory",
             "model": "GPT-OSS-120B",
             "runtime": False,
@@ -2083,11 +2356,15 @@ def _similar_cases(
         }
 
     results: list[dict[str, Any]] = []
+    # Normalise the request UUID once — Synthea / Gold store UUIDs lowercase
+    # but the doctor may type an uppercase one. Case-mismatched equality was
+    # letting the patient appear in their own "similar cases" list.
+    patient_uuid_norm = (patient_uuid or "").lower()
     for r in raw.points:
         pl = r.payload or {}
         sim_uuid = pl.get("patient_uuid")
         sim_mt = (pl.get("match_type") or "").upper()
-        if exclude_self and sim_uuid == patient_uuid:
+        if exclude_self and sim_uuid and str(sim_uuid).lower() == patient_uuid_norm:
             continue
         # In researcher mode the match-type filter applies (lets the user
         # restrict to DIRECT-only priors). In runtime mode the past AI match
@@ -2711,57 +2988,44 @@ def _run_patient_task(
                 "The multi-agent workflow is now processing this patient.",
             )
 
-    # Serialise live runs because the LLM_PROVIDER / LLM_MODEL / MEMORY_ENABLED
-    # / CANONICALIZER_ENABLED overrides are applied via env vars (cfg
-    # properties read os.environ on every access). Without the lock, two
-    # concurrent doctor runs would race on the global env and end up using
-    # mixed providers / mixed accuracy modes.
+    # Per-thread config overrides — no global lock needed. cfg._env consults
+    # a threading.local dict before falling back to os.environ, so each
+    # pipeline thread can pick its own LLM_PROVIDER / LLM_MODEL / memory
+    # toggles without racing the others. Overrides evaporate when this
+    # thread exits (or earlier via clear_thread_overrides in the finally).
+    from src.config import set_thread_overrides, clear_thread_overrides
     try:
-        with _run_serial:
-            prev_provider = _os.environ.get("LLM_PROVIDER")
-            prev_model = _os.environ.get("LLM_MODEL")
-            prev_eval_provider = _os.environ.get("LLM_EVALUATOR_PROVIDER")
-            prev_eval_model = _os.environ.get("LLM_EVALUATOR_MODEL")
-            prev_memory = _os.environ.get("MEMORY_ENABLED")
-            prev_canon = _os.environ.get("CANONICALIZER_ENABLED")
-            try:
-                if provider_override:
-                    _os.environ["LLM_PROVIDER"] = provider_override
-                    # The evaluator agent uses LLM_EVALUATOR_PROVIDER /
-                    # LLM_EVALUATOR_MODEL — default to the chosen runtime
-                    # model so the whole pipeline stays on one provider.
-                    # Without this, picking Gemini (or any non-Groq backend)
-                    # leaves the evaluator pointed at qwen/qwen3-32b on the
-                    # wrong provider and the run 404s at the last stage.
-                    _os.environ["LLM_EVALUATOR_PROVIDER"] = provider_override
-                if model_override:
-                    _os.environ["LLM_MODEL"] = model_override
-                    _os.environ["LLM_EVALUATOR_MODEL"] = model_override
-                _os.environ["MEMORY_ENABLED"] = "true" if memory_enabled else "false"
-                _os.environ["CANONICALIZER_ENABLED"] = "true" if canonicalizer_enabled else "false"
+        try:
+            _overrides: dict[str, str] = {}
+            if provider_override:
+                _overrides["LLM_PROVIDER"] = provider_override
+                # The evaluator agent uses LLM_EVALUATOR_PROVIDER /
+                # LLM_EVALUATOR_MODEL — default to the chosen runtime
+                # model so the whole pipeline stays on one provider.
+                # Without this, picking Gemini (or any non-Groq backend)
+                # leaves the evaluator pointed at qwen/qwen3-32b on the
+                # wrong provider and the run 404s at the last stage.
+                _overrides["LLM_EVALUATOR_PROVIDER"] = provider_override
+            if model_override:
+                _overrides["LLM_MODEL"] = model_override
+                _overrides["LLM_EVALUATOR_MODEL"] = model_override
+            _overrides["MEMORY_ENABLED"] = "true" if memory_enabled else "false"
+            _overrides["CANONICALIZER_ENABLED"] = "true" if canonicalizer_enabled else "false"
+            set_thread_overrides(_overrides)
 
-                from src.orchestrator.graph import save_patient_results
+            from src.orchestrator.graph import save_patient_results
 
-                result, duration = _stream_patient_run(patient_uuid, task, top_k=top_k)
-                RUNTIME_RESULT_DIR.mkdir(parents=True, exist_ok=True)
-                save_patient_results(
-                    patient_uuid, result, duration,
-                    base_dir=RUNTIME_RESULT_DIR,
-                )
-            finally:
-                # Always restore the env even on failure, so subsequent
-                # default-config runs aren't poisoned by the override.
-                for var, prev in (
-                    ("LLM_PROVIDER", prev_provider), ("LLM_MODEL", prev_model),
-                    ("LLM_EVALUATOR_PROVIDER", prev_eval_provider),
-                    ("LLM_EVALUATOR_MODEL", prev_eval_model),
-                    ("MEMORY_ENABLED", prev_memory),
-                    ("CANONICALIZER_ENABLED", prev_canon),
-                ):
-                    if prev is None:
-                        _os.environ.pop(var, None)
-                    else:
-                        _os.environ[var] = prev
+            result, duration = _stream_patient_run(patient_uuid, task, top_k=top_k)
+            RUNTIME_RESULT_DIR.mkdir(parents=True, exist_ok=True)
+            save_patient_results(
+                patient_uuid, result, duration,
+                base_dir=RUNTIME_RESULT_DIR,
+            )
+        finally:
+            # Drop overrides as soon as the run completes — even if it
+            # errored — so any later pipeline work this thread might do
+            # falls back to the process defaults.
+            clear_thread_overrides()
 
         outputs = result.get("agent_outputs") or {}
         trace = {"agents": result.get("execution_trace") or []}
