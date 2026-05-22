@@ -90,3 +90,28 @@ async def test_agent_envelope_partial_update(mongo_db):
     assert after.agents["ehr_analyst"]["output"]["a"] == 1
     assert after.agents["lab_interpreter"]["output"]["b"] == 2
     assert after.agents["final_diagnosis"]["output"]["c"] == 3
+
+
+@pytest.mark.asyncio
+async def test_init_db_initialises_all_collections():
+    """init_db() should bind all four collections to Beanie."""
+    from motor.motor_asyncio import AsyncIOMotorClient
+    from src.config import cfg
+    from src.db.mongo import init_db
+    from src.db.documents import PatientCase, AgentRun, SemanticMemoryEntry, DerivedArtefact
+
+    test_db = f"cmads_test_init_{__import__('uuid').uuid4().hex[:6]}"
+    client = AsyncIOMotorClient(cfg.MONGO_URI)
+    try:
+        await init_db(client[test_db])
+        # If init succeeded, we can insert + retrieve from all 4 collections.
+        from datetime import datetime
+        await PatientCase(id="x", person_id=1, cutoff_date=datetime.utcnow(),
+                          case_type="ehr+lab", demographics={}, conditions={},
+                          medications={}, visits=[], comorbidity={}, risk_scores={},
+                          labs={}, ground_truth={}, case_stats={},
+                          assembled_at=datetime.utcnow(), pipeline_version="t").insert()
+        assert await PatientCase.get("x") is not None
+    finally:
+        await client.drop_database(test_db)
+        client.close()
