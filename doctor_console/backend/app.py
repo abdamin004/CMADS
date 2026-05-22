@@ -1034,22 +1034,32 @@ async def _aggregate_result_set_mongo(
         # Deduplicate UUIDs across the union (multi_level joins 3 dirs).
         {"$group": {"_id": "$patient_uuid", "doc": {"$first": "$$ROOT"}}},
         {"$replaceRoot": {"newRoot": "$doc"}},
+        # Materialise canonical (canon-preferring) evaluation fields so the
+        # downstream $cond stages stay readable. evaluation_canon.json holds
+        # the terminal-renal canonicalizer's corrected verdicts; when it is
+        # absent (most cohorts) we fall back to the LLM's original output.
+        {"$set": {
+            "_mt":   {"$ifNull": ["$agents.evaluation.output_canon.match_type",
+                                   "$agents.evaluation.output.match_type"]},
+            "_rank": {"$ifNull": ["$agents.evaluation.output_canon.rank",
+                                   "$agents.evaluation.output.rank"]},
+        }},
         {"$group": {
             "_id": None,
             "n":        {"$sum": 1},
-            "direct":   {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "DIRECT"]},   1, 0]}},
-            "indirect": {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "INDIRECT"]}, 1, 0]}},
-            "miss":     {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "MISS"]},     1, 0]}},
+            "direct":   {"$sum": {"$cond": [{"$eq": ["$_mt", "DIRECT"]},   1, 0]}},
+            "indirect": {"$sum": {"$cond": [{"$eq": ["$_mt", "INDIRECT"]}, 1, 0]}},
+            "miss":     {"$sum": {"$cond": [{"$eq": ["$_mt", "MISS"]},     1, 0]}},
             "rank1":    {"$sum": {"$cond": [
                 {"$and": [
-                    {"$in": ["$agents.evaluation.output.match_type", ["DIRECT", "INDIRECT"]]},
-                    {"$eq": ["$agents.evaluation.output.rank", 1]},
+                    {"$in": ["$_mt", ["DIRECT", "INDIRECT"]]},
+                    {"$eq": ["$_rank", 1]},
                 ]},
                 1, 0]}},
             "rank2":    {"$sum": {"$cond": [
                 {"$and": [
-                    {"$in": ["$agents.evaluation.output.match_type", ["DIRECT", "INDIRECT"]]},
-                    {"$in": ["$agents.evaluation.output.rank", [1, 2]]},
+                    {"$in": ["$_mt", ["DIRECT", "INDIRECT"]]},
+                    {"$in": ["$_rank", [1, 2]]},
                 ]},
                 1, 0]}},
             "duration_total": {"$sum": "$duration_s"},
@@ -1093,13 +1103,20 @@ async def _rank_distribution_mongo(
         {"$match": match},
         {"$group": {"_id": "$patient_uuid", "doc": {"$first": "$$ROOT"}}},
         {"$replaceRoot": {"newRoot": "$doc"}},
+        # Canon-preferring coalesce — see _aggregate_result_set_mongo for context.
+        {"$set": {
+            "_mt":   {"$ifNull": ["$agents.evaluation.output_canon.match_type",
+                                   "$agents.evaluation.output.match_type"]},
+            "_rank": {"$ifNull": ["$agents.evaluation.output_canon.rank",
+                                   "$agents.evaluation.output.rank"]},
+        }},
         {"$project": {
             "bucket": {"$switch": {"branches": [
-                {"case": {"$eq": ["$agents.evaluation.output.match_type", "MISS"]}, "then": "miss"},
-                {"case": {"$eq": ["$agents.evaluation.output.rank", 1]}, "then": "1"},
-                {"case": {"$eq": ["$agents.evaluation.output.rank", 2]}, "then": "2"},
-                {"case": {"$eq": ["$agents.evaluation.output.rank", 3]}, "then": "3"},
-                {"case": {"$in": ["$agents.evaluation.output.rank", [4, 5]]}, "then": "4-5"},
+                {"case": {"$eq": ["$_mt", "MISS"]}, "then": "miss"},
+                {"case": {"$eq": ["$_rank", 1]}, "then": "1"},
+                {"case": {"$eq": ["$_rank", 2]}, "then": "2"},
+                {"case": {"$eq": ["$_rank", 3]}, "then": "3"},
+                {"case": {"$in": ["$_rank", [4, 5]]}, "then": "4-5"},
             ], "default": "miss"}},
         }},
         {"$group": {"_id": "$bucket", "count": {"$sum": 1}}},
@@ -1125,13 +1142,20 @@ async def _per_disease_breakdown_mongo(
         {"$lookup": {"from": "patient_cases", "localField": "patient_uuid",
                      "foreignField": "_id", "as": "case"}},
         {"$addFields": {"case": {"$arrayElemAt": ["$case", 0]}}},
+        # Canon-preferring coalesce — see _aggregate_result_set_mongo for context.
+        {"$set": {
+            "_mt":   {"$ifNull": ["$agents.evaluation.output_canon.match_type",
+                                   "$agents.evaluation.output.match_type"]},
+            "_rank": {"$ifNull": ["$agents.evaluation.output_canon.rank",
+                                   "$agents.evaluation.output.rank"]},
+        }},
         {"$group": {
             "_id": "$case.ground_truth.target_condition.name",
             "n":        {"$sum": 1},
-            "direct":   {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "DIRECT"]},   1, 0]}},
-            "indirect": {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "INDIRECT"]}, 1, 0]}},
-            "miss":     {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "MISS"]},     1, 0]}},
-            "ranks":    {"$push": "$agents.evaluation.output.rank"},
+            "direct":   {"$sum": {"$cond": [{"$eq": ["$_mt", "DIRECT"]},   1, 0]}},
+            "indirect": {"$sum": {"$cond": [{"$eq": ["$_mt", "INDIRECT"]}, 1, 0]}},
+            "miss":     {"$sum": {"$cond": [{"$eq": ["$_mt", "MISS"]},     1, 0]}},
+            "ranks":    {"$push": "$_rank"},
         }},
     ]
     rows = await AgentRun.aggregate(pipeline).to_list()
@@ -1165,8 +1189,12 @@ async def _top_diagnoses_mongo(
         {"$match": match},
         {"$group": {"_id": "$patient_uuid", "doc": {"$first": "$$ROOT"}}},
         {"$replaceRoot": {"newRoot": "$doc"}},
-        {"$group": {"_id": "$agents.final_diagnosis.output.primary_diagnosis",
-                    "count": {"$sum": 1}}},
+        # Canon-preferring primary_diagnosis — see _aggregate_result_set_mongo for context.
+        {"$set": {"_dx": {"$ifNull": [
+            "$agents.final_diagnosis.output_canon.primary_diagnosis",
+            "$agents.final_diagnosis.output.primary_diagnosis",
+        ]}}},
+        {"$group": {"_id": "$_dx", "count": {"$sum": 1}}},
         {"$sort": {"count": -1}},
         {"$limit": top},
     ]
