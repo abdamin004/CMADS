@@ -15,3 +15,22 @@ services:
       timeout: 3s
       retries: 5
     restart: unless-stopped
+
+  mongo-express:
+    # Web GUI for browsing the cmads / agent_runs / patient_cases collections.
+    # On a fresh machine this points at the cmads-mongo service above; on a
+    # dev box where 27017 is already taken by another Mongo container, we
+    # reach the host's loopback via host.docker.internal so mongo-express
+    # still works without a port reshuffle.
+    image: mongo-express:1
+    container_name: cmads-mongo-express
+    ports:
+      - "127.0.0.1:8091:8081"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://host.docker.internal:27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_BASICAUTH: "false"            # disable basic-auth on loopback dev
+      ME_CONFIG_OPTIONS_NO_DELETE: "false"
+    restart: unless-stopped
