@@ -16,11 +16,15 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any, Literal
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+
+from src.config import cfg as _cfg
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -559,8 +563,17 @@ class AnnotationPayload(BaseModel):
     reviewer: str = ""  # free-form, e.g. "AM"
 
 
+@asynccontextmanager
+async def _lifespan(app: FastAPI):
+    if _cfg.USE_MONGO:
+        from src.db.mongo import init_db
+        await init_db()
+    yield
+
+
 def create_app() -> FastAPI:
-    app = FastAPI(title="CMADS Doctor Console API", version="0.1.0")
+    app = FastAPI(title="CMADS Doctor Console API", version="0.1.0",
+                  lifespan=_lifespan)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -612,7 +625,7 @@ def create_app() -> FastAPI:
         return _dashboard_summary(result_dir)
 
     @app.get("/api/stats/overview")
-    def stats_overview(result_set: str = Query("multi_level")) -> dict[str, Any]:
+    async def stats_overview(result_set: str = Query("multi_level")) -> dict[str, Any]:
         """Full statistics overview for one cohort.
 
         Returns KPI aggregates, rank distribution, per-disease breakdown,
@@ -624,36 +637,36 @@ def create_app() -> FastAPI:
         """
         dirs = _resolve_result_dirs(result_set)
         result_dir = dirs if len(dirs) > 1 else dirs[0]
-        return _stats_overview(result_dir)
+        return await _stats_overview(result_dir)
 
     @app.get("/api/stats/cohort-comparison")
-    def stats_cohort_comparison(include_runtime: bool = Query(False)) -> dict[str, Any]:
+    async def stats_cohort_comparison(include_runtime: bool = Query(False)) -> dict[str, Any]:
         """One-row-per-cohort comparison table for the Researcher overview."""
-        return {"rows": _cohort_comparison_rows(include_runtime=include_runtime)}
+        return {"rows": await _cohort_comparison_rows(include_runtime=include_runtime)}
 
     @app.get("/api/comparisons/memory-ab")
-    def comparison_memory_ab() -> dict[str, Any]:
+    async def comparison_memory_ab() -> dict[str, Any]:
         """Paired-160 memory A/B with exact McNemar.
 
         Reads the precomputed artefact from ``data/gold/paired_160_mcnemar.json``
         (produced by ``scripts/paired_160_mcnemar.py``).
         """
-        return _memory_ab_comparison()
+        return await _memory_ab_comparison()
 
     @app.get("/api/comparisons/model")
-    def comparison_model(
+    async def comparison_model(
         baseline: str = Query("mas_results"),
         candidate: str = Query("mas_results_med42"),
     ) -> dict[str, Any]:
         """Head-to-head between two LLM backends on the intersection of UUIDs."""
         if _is_runtime_only(baseline) or _is_runtime_only(candidate):
             raise HTTPException(400, "Runtime cohorts cannot appear in research comparisons.")
-        return _two_arm_comparison(baseline, candidate)
+        return await _two_arm_comparison(baseline, candidate)
 
     @app.get("/api/comparisons/mas-vs-single-llm")
-    def comparison_mas_vs_single_llm() -> dict[str, Any]:
+    async def comparison_mas_vs_single_llm() -> dict[str, Any]:
         """MAS pipeline vs single-prompt LLM baseline on the shared UUIDs."""
-        return _two_arm_comparison(
+        return await _two_arm_comparison(
             "mas_results",
             "mas_results_single_llm_baseline",
             baseline_label="CMADS 7-agent pipeline",
@@ -661,7 +674,7 @@ def create_app() -> FastAPI:
         )
 
     @app.get("/api/patients")
-    def patients(
+    async def patients(
         result_set: str = Query(MULTI_LEVEL_KEY),
         query: str = Query("", max_length=80),
         limit: int = Query(2000, ge=1, le=2000),
@@ -692,7 +705,7 @@ def create_app() -> FastAPI:
         for patient_uuid in uuids[:limit]:
             patient_dir = _patient_dir_for(patient_uuid, result_dirs)
             host_dir = patient_dir.parent if patient_dir is not None else result_dirs[0]
-            out.append(_patient_list_item(patient_uuid, host_dir))
+            out.append(await _patient_list_item(patient_uuid, host_dir))
         return out
 
     @app.get("/api/patients/{patient_uuid}/case")
@@ -763,43 +776,10 @@ def create_app() -> FastAPI:
         )
 
     @app.get("/api/results/{result_set}/{patient_uuid}")
-    def result_detail(result_set: str, patient_uuid: str) -> dict[str, Any]:
-        result_dirs = _resolve_result_dirs(result_set)
-        patient_dir = _patient_dir_for(patient_uuid, result_dirs)
-        if patient_dir is None:
-            raise HTTPException(
-                status_code=404,
-                detail=f"No saved run for {patient_uuid} in {result_set}",
-            )
-        result_dir = patient_dir.parent
-        case = _load_case_bundle(patient_uuid)
-        outputs = {
-            agent_id: _load_json(patient_dir / filename)
-            for agent_id, filename in AGENT_FILES.items()
-        }
-        trace = _load_json(patient_dir / "execution_trace.json") or {}
-        session_memory = _load_json(patient_dir / "session_memory.json") or {}
-        evaluation = outputs.get("evaluation") or {}
-        final_dx = outputs.get("final_diagnosis") or {}
-
-        return {
-            "patient": case["patient"],
-            "resultSet": _result_set_meta(result_dir),
-            "case": case,
-            "evaluation": evaluation,
-            "finalDiagnosis": final_dx,
-            "treatment": outputs.get("treatment_planning") or {},
-            "agents": _agent_cards(outputs, trace),
-            "agentOutputs": outputs,
-            "agentNarratives": {
-                agent_id: _agent_doctor_view(agent_id, outputs.get(agent_id))
-                for agent_id in AGENT_ORDER
-            },
-            "trace": trace,
-            "sessionMemory": session_memory.get("events") or [],
-            "semanticMemory": _semantic_matches(result_set, final_dx, evaluation),
-            "sharedMemory": _shared_memory_summary(outputs, session_memory, trace),
-        }
+    async def result_detail(result_set: str, patient_uuid: str) -> dict[str, Any]:
+        if _cfg.USE_MONGO:
+            return await _result_detail_mongo(result_set, patient_uuid)
+        return _result_detail_fs(result_set, patient_uuid)
 
     @app.post("/api/runs")
     def start_run(request: RunRequest) -> dict[str, Any]:
@@ -1249,7 +1229,63 @@ async def _result_detail_mongo(result_set: str, patient_uuid: str) -> dict[str, 
     }
 
 
-def _aggregate_result_set(
+# ---------------------------------------------------------------------------
+# Dispatcher wrappers — delegate to Mongo or filesystem based on cfg.USE_MONGO
+# ---------------------------------------------------------------------------
+
+async def _aggregate_result_set(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+) -> dict[str, Any]:
+    if _cfg.USE_MONGO:
+        ids = [p.name if hasattr(p, "name") else str(p)
+               for p in (result_dir if isinstance(result_dir, list) else [result_dir])]
+        return await _aggregate_result_set_mongo(ids, uuid_filter)
+    return _aggregate_result_set_fs(result_dir, uuid_filter)
+
+
+async def _rank_distribution(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+) -> list[dict[str, Any]]:
+    if _cfg.USE_MONGO:
+        ids = [p.name if hasattr(p, "name") else str(p)
+               for p in (result_dir if isinstance(result_dir, list) else [result_dir])]
+        return await _rank_distribution_mongo(ids, uuid_filter)
+    return _rank_distribution_fs(result_dir, uuid_filter)
+
+
+async def _per_disease_breakdown(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+) -> list[dict[str, Any]]:
+    if _cfg.USE_MONGO:
+        ids = [p.name if hasattr(p, "name") else str(p)
+               for p in (result_dir if isinstance(result_dir, list) else [result_dir])]
+        return await _per_disease_breakdown_mongo(ids, uuid_filter)
+    return _per_disease_breakdown_fs(result_dir, uuid_filter)
+
+
+async def _top_diagnoses(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None" = None,
+    top: int = 8,
+) -> list[dict[str, Any]]:
+    if _cfg.USE_MONGO:
+        ids = [p.name if hasattr(p, "name") else str(p)
+               for p in (result_dir if isinstance(result_dir, list) else [result_dir])]
+        return await _top_diagnoses_mongo(ids, uuid_filter, top)
+    return _top_diagnoses_fs(result_dir, uuid_filter, top)
+
+
+async def _patient_list_item(patient_uuid: str, result_dir: "Path") -> dict[str, Any]:
+    if _cfg.USE_MONGO:
+        result_set = result_dir.name if hasattr(result_dir, "name") else str(result_dir)
+        return await _patient_list_item_mongo(result_set, patient_uuid)
+    return _patient_list_item_fs(patient_uuid, result_dir)
+
+
+def _aggregate_result_set_fs(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
 ) -> dict[str, Any]:
@@ -1314,7 +1350,7 @@ def _aggregate_result_set(
     }
 
 
-def _rank_distribution(
+def _rank_distribution_fs(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
 ) -> list[dict[str, Any]]:
@@ -1342,7 +1378,7 @@ def _rank_distribution(
     return [{"label": k, "count": v} for k, v in buckets.items()]
 
 
-def _per_disease_breakdown(
+def _per_disease_breakdown_fs(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
 ) -> list[dict[str, Any]]:
@@ -1392,7 +1428,7 @@ def _per_disease_breakdown(
     return sorted(rows, key=lambda r: -r["n"])
 
 
-def _top_diagnoses(
+def _top_diagnoses_fs(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
     top: int = 8,
@@ -1410,7 +1446,7 @@ def _top_diagnoses(
     ]
 
 
-def _stats_overview(result_dir: "Path | list[Path]") -> dict[str, Any]:
+async def _stats_overview(result_dir: "Path | list[Path]") -> dict[str, Any]:
     """Full statistics overview for one cohort. Drives the Researcher landing view."""
     if isinstance(result_dir, list):
         # Virtual cohort (multi-dir union, e.g. ``multi_level``). Synthesise a
@@ -1433,14 +1469,14 @@ def _stats_overview(result_dir: "Path | list[Path]") -> dict[str, Any]:
         meta = _result_set_meta(result_dir)
     return {
         "resultSet": meta,
-        "aggregates": _aggregate_result_set(result_dir),
-        "rankDistribution": _rank_distribution(result_dir),
-        "perDisease": _per_disease_breakdown(result_dir),
-        "topDiagnoses": _top_diagnoses(result_dir),
+        "aggregates": await _aggregate_result_set(result_dir),
+        "rankDistribution": await _rank_distribution(result_dir),
+        "perDisease": await _per_disease_breakdown(result_dir),
+        "topDiagnoses": await _top_diagnoses(result_dir),
     }
 
 
-def _cohort_comparison_rows(include_runtime: bool = False) -> list[dict[str, Any]]:
+async def _cohort_comparison_rows(include_runtime: bool = False) -> list[dict[str, Any]]:
     """One row per registered cohort: id + metadata + aggregate stats.
 
     Runtime-only cohorts (doctor live runs) are excluded by default — they are
@@ -1453,7 +1489,7 @@ def _cohort_comparison_rows(include_runtime: bool = False) -> list[dict[str, Any
         path = DATA_GOLD / entry["id"]
         if not path.exists() or not path.is_dir():
             continue
-        agg = _aggregate_result_set(path)
+        agg = await _aggregate_result_set(path)
         if agg["n"] == 0:
             continue
         rows.append({
@@ -1485,7 +1521,7 @@ def _intersect_uuids(*dirs: Path) -> set[str]:
     return out
 
 
-def _two_arm_comparison(
+async def _two_arm_comparison(
     baseline_id: str,
     candidate_id: str,
     *,
@@ -1517,10 +1553,10 @@ def _two_arm_comparison(
         candidate_filter = None
         n_shared = len(_intersect_uuids(baseline_dir, candidate_dir))
 
-    baseline_agg = _aggregate_result_set(baseline_dir, uuid_filter=baseline_filter)
-    candidate_agg = _aggregate_result_set(candidate_dir, uuid_filter=candidate_filter)
-    baseline_disease = _per_disease_breakdown(baseline_dir, uuid_filter=baseline_filter)
-    candidate_disease = _per_disease_breakdown(candidate_dir, uuid_filter=candidate_filter)
+    baseline_agg = await _aggregate_result_set(baseline_dir, uuid_filter=baseline_filter)
+    candidate_agg = await _aggregate_result_set(candidate_dir, uuid_filter=candidate_filter)
+    baseline_disease = await _per_disease_breakdown(baseline_dir, uuid_filter=baseline_filter)
+    candidate_disease = await _per_disease_breakdown(candidate_dir, uuid_filter=candidate_filter)
 
     # Discordant patients: paired UUIDs where one arm matched (DIRECT or
     # INDIRECT) and the other missed. Only meaningful when paired.
@@ -1564,7 +1600,7 @@ def _two_arm_comparison(
     }
 
 
-def _memory_ab_comparison() -> dict[str, Any]:
+async def _memory_ab_comparison() -> dict[str, Any]:
     """Paired-160 memory A/B with exact McNemar + Found rates.
 
     Prefers the precomputed artefact at
@@ -1648,12 +1684,12 @@ def _memory_ab_comparison() -> dict[str, Any]:
     ) if (DATA_GOLD / d).exists()]
     on_full_dirs = [DATA_GOLD / d for d in MULTI_LEVEL_RESULT_DIRS if (DATA_GOLD / d).exists()]
 
-    off_aggregates = _aggregate_result_set(off_full_dirs, uuid_filter=pair_set)
-    on_aggregates  = _aggregate_result_set(on_full_dirs,  uuid_filter=pair_set)
-    off_rank_dist  = _rank_distribution(off_full_dirs, uuid_filter=pair_set)
-    on_rank_dist   = _rank_distribution(on_full_dirs,  uuid_filter=pair_set)
-    off_per_disease = _per_disease_breakdown(off_full_dirs, uuid_filter=pair_set)
-    on_per_disease  = _per_disease_breakdown(on_full_dirs,  uuid_filter=pair_set)
+    off_aggregates = await _aggregate_result_set(off_full_dirs, uuid_filter=pair_set)
+    on_aggregates  = await _aggregate_result_set(on_full_dirs,  uuid_filter=pair_set)
+    off_rank_dist  = await _rank_distribution(off_full_dirs, uuid_filter=pair_set)
+    on_rank_dist   = await _rank_distribution(on_full_dirs,  uuid_filter=pair_set)
+    off_per_disease = await _per_disease_breakdown(off_full_dirs, uuid_filter=pair_set)
+    on_per_disease  = await _per_disease_breakdown(on_full_dirs,  uuid_filter=pair_set)
 
     return {
         "label": "Multi-level memory A/B (paired-160)",
@@ -1775,7 +1811,7 @@ def _ratio(num: int, den: int) -> float:
     return round(num / den, 3)
 
 
-def _patient_list_item(patient_uuid: str, result_dir: Path) -> dict[str, Any]:
+def _patient_list_item_fs(patient_uuid: str, result_dir: Path) -> dict[str, Any]:
     case = _load_case_bundle(patient_uuid)
     # Prefer evaluation_canon.json so the browser row's match-type chip shows
     # the post-refiner re-judged verdict (matches the Overview headline).
@@ -1799,6 +1835,46 @@ def _patient_list_item(patient_uuid: str, result_dir: Path) -> dict[str, Any]:
         "durationS": trace.get("duration_s"),
         "reviewed": bool(annotation and annotation.get("reviewed")),
         "agreement": (annotation or {}).get("agreement"),
+    }
+
+
+def _result_detail_fs(result_set: str, patient_uuid: str) -> dict[str, Any]:
+    """Filesystem-backed implementation of the result detail endpoint."""
+    result_dirs = _resolve_result_dirs(result_set)
+    patient_dir = _patient_dir_for(patient_uuid, result_dirs)
+    if patient_dir is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No saved run for {patient_uuid} in {result_set}",
+        )
+    result_dir = patient_dir.parent
+    case = _load_case_bundle(patient_uuid)
+    outputs = {
+        agent_id: _load_json(patient_dir / filename)
+        for agent_id, filename in AGENT_FILES.items()
+    }
+    trace = _load_json(patient_dir / "execution_trace.json") or {}
+    session_memory = _load_json(patient_dir / "session_memory.json") or {}
+    evaluation = outputs.get("evaluation") or {}
+    final_dx = outputs.get("final_diagnosis") or {}
+
+    return {
+        "patient": case["patient"],
+        "resultSet": _result_set_meta(result_dir),
+        "case": case,
+        "evaluation": evaluation,
+        "finalDiagnosis": final_dx,
+        "treatment": outputs.get("treatment_planning") or {},
+        "agents": _agent_cards(outputs, trace),
+        "agentOutputs": outputs,
+        "agentNarratives": {
+            agent_id: _agent_doctor_view(agent_id, outputs.get(agent_id))
+            for agent_id in AGENT_ORDER
+        },
+        "trace": trace,
+        "sessionMemory": session_memory.get("events") or [],
+        "semanticMemory": _semantic_matches(result_set, final_dx, evaluation),
+        "sharedMemory": _shared_memory_summary(outputs, session_memory, trace),
     }
 
 
