@@ -82,7 +82,7 @@ class DerivedArtefact(Document):
     """Catch-all for derived JSON (paired_160_mcnemar, sensitivity
     summaries, cohort_summary:<result_set>, ...). Schema §5.4."""
     id: str = Field(alias="_id")
-    payload: dict[str, Any]
+    payload: dict[str, Any] | list[Any]
     produced_by: str
     produced_at: datetime
     source_cohort: str | None = None
