@@ -393,6 +393,28 @@ class BaseAgent:
                 update["session_memory"] = memory_events
             if memory_summary:
                 update["session_summary"] = memory_summary
+
+            # Mongo write path (additive — state write above is unchanged)
+            from src.config import cfg
+            if cfg.USE_MONGO:
+                import asyncio as _asyncio
+                _patient_uuid = (
+                    (state.get("patient_context") or {})
+                    .get("ehr_case", {})
+                    .get("patient_uuid", "unknown")
+                )
+                _envelope = {
+                    "status": trace_entry["status"],
+                    "output": output_dict,
+                    "duration_ms": trace_entry["execution_ms"],
+                }
+                _asyncio.run(write_agent_envelope_to_mongo(
+                    result_set=cfg.MAS_RESULTS_DIR.name,
+                    patient_uuid=_patient_uuid,
+                    agent_id=self.agent_id,
+                    envelope=_envelope,
+                ))
+
             return update
 
         except SkipAgentException as e:
@@ -448,3 +470,29 @@ class BaseAgent:
             result["primary_diagnosis"] = top.get("name", "")
             result["primary_probability"] = top.get("probability", 0.0)
         return result
+
+
+async def write_agent_envelope_to_mongo(
+    *,
+    result_set: str,
+    patient_uuid: str,
+    agent_id: str,
+    envelope: dict,
+) -> None:
+    """Atomic per-agent upsert into AgentRun. Called from BaseAgent.__call__
+    after the agent emits its envelope, when USE_MONGO is set."""
+    from datetime import datetime
+    from src.db.mongo import init_db
+    from src.db.documents import AgentRun
+
+    await init_db()
+    await AgentRun.find_one(
+        AgentRun.result_set == result_set, AgentRun.patient_uuid == patient_uuid,
+    ).upsert(
+        {"$set": {f"agents.{agent_id}": envelope}},
+        on_insert=AgentRun(
+            result_set=result_set, patient_uuid=patient_uuid,
+            started_at=datetime.utcnow(),
+            agents={agent_id: envelope},
+        ),
+    )
