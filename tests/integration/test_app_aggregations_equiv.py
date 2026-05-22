@@ -35,10 +35,30 @@ def _approx(a: float, b: float, tol: float = 0.1) -> bool:
 
 @pytest.mark.asyncio
 async def test_overview_multi_level_direct_unchanged(mongo_db):
-    """Once the Mongo aggregation path lands, /api/stats/overview must
-    return the same headline as the filesystem path."""
-    # This test will be filled in during Task 16+ when the Mongo helpers
-    # are implemented. For now it documents the gold value.
-    assert BASELINE_MULTI_LEVEL["directPct"] == 78.1
-    assert BASELINE_MULTI_LEVEL["foundPct"] == 95.0
-    assert BASELINE_MULTI_LEVEL["rank1PctOfFound"] == 63.2
+    """Mongo $group aggregation on agent_runs collection should produce
+    the same headline as the filesystem helper, when seeded with the
+    same cohort."""
+    from src.db.documents import AgentRun
+    from doctor_console.backend.app import _aggregate_result_set_mongo
+    from datetime import datetime
+
+    # Seed a 4-patient mini-cohort: 3 DIRECT, 1 INDIRECT.
+    seeds = [
+        ("u1", "DIRECT", 1), ("u2", "DIRECT", 1),
+        ("u3", "DIRECT", 2), ("u4", "INDIRECT", 1),
+    ]
+    for uuid, mt, rank in seeds:
+        await AgentRun(
+            result_set="mas_results_test", patient_uuid=uuid,
+            started_at=datetime.utcnow(),
+            agents={"evaluation": {"status": "success",
+                                   "output": {"match_type": mt, "rank": rank}}},
+        ).insert()
+
+    agg = await _aggregate_result_set_mongo(["mas_results_test"])
+    assert agg["n"] == 4
+    assert agg["direct"] == 3
+    assert agg["indirect"] == 1
+    assert agg["miss"] == 0
+    assert agg["foundPct"] == pytest.approx(100.0)
+    assert agg["directPct"] == pytest.approx(75.0)

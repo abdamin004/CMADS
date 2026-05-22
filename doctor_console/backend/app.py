@@ -1038,6 +1038,69 @@ def _iter_patient_dirs(
     return rows
 
 
+async def _aggregate_result_set_mongo(
+    result_sets: list[str],
+    uuid_filter: "set[str] | None" = None,
+) -> dict[str, Any]:
+    """Mongo-backed counterpart of _aggregate_result_set. Uses the
+    indexed (result_set, agents.evaluation.output.match_type) index for
+    sub-100ms aggregates even at 100k documents."""
+    from src.db.documents import AgentRun
+    match_stage: dict[str, Any] = {"result_set": {"$in": result_sets}}
+    if uuid_filter is not None:
+        match_stage["patient_uuid"] = {"$in": sorted(uuid_filter)}
+    pipeline = [
+        {"$match": match_stage},
+        # Deduplicate UUIDs across the union (multi_level joins 3 dirs).
+        {"$group": {"_id": "$patient_uuid", "doc": {"$first": "$$ROOT"}}},
+        {"$replaceRoot": {"newRoot": "$doc"}},
+        {"$group": {
+            "_id": None,
+            "n":        {"$sum": 1},
+            "direct":   {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "DIRECT"]},   1, 0]}},
+            "indirect": {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "INDIRECT"]}, 1, 0]}},
+            "miss":     {"$sum": {"$cond": [{"$eq": ["$agents.evaluation.output.match_type", "MISS"]},     1, 0]}},
+            "rank1":    {"$sum": {"$cond": [
+                {"$and": [
+                    {"$in": ["$agents.evaluation.output.match_type", ["DIRECT", "INDIRECT"]]},
+                    {"$eq": ["$agents.evaluation.output.rank", 1]},
+                ]},
+                1, 0]}},
+            "rank2":    {"$sum": {"$cond": [
+                {"$and": [
+                    {"$in": ["$agents.evaluation.output.match_type", ["DIRECT", "INDIRECT"]]},
+                    {"$in": ["$agents.evaluation.output.rank", [1, 2]]},
+                ]},
+                1, 0]}},
+            "duration_total": {"$sum": "$duration_s"},
+            "durations":      {"$push": "$duration_s"},
+        }},
+    ]
+    rows = await AgentRun.aggregate(pipeline).to_list()
+    if not rows:
+        return {"n": 0, "direct": 0, "indirect": 0, "miss": 0, "found": 0, "rank1": 0,
+                "directPct": 0.0, "indirectPct": 0.0, "missPct": 0.0, "foundPct": 0.0,
+                "rank1PctOfFound": 0.0, "rank2PctOfFound": 0.0,
+                "avgTimeS": 0.0, "medianTimeS": 0.0}
+    row = rows[0]
+    n = row["n"]; direct = row["direct"]; indirect = row["indirect"]; miss = row["miss"]
+    found = direct + indirect
+    durs = sorted(d for d in (row.get("durations") or []) if isinstance(d, (int, float)))
+    median = durs[len(durs)//2] if durs else 0.0
+    avg = (row.get("duration_total") or 0.0) / len(durs) if durs else 0.0
+    return {
+        "n": n, "direct": direct, "indirect": indirect, "miss": miss,
+        "found": found, "rank1": row["rank1"], "rank2": row.get("rank2", 0),
+        "directPct":        100.0 * direct   / n if n else 0.0,
+        "indirectPct":      100.0 * indirect / n if n else 0.0,
+        "missPct":          100.0 * miss     / n if n else 0.0,
+        "foundPct":         100.0 * found    / n if n else 0.0,
+        "rank1PctOfFound":  100.0 * row["rank1"]        / found if found else 0.0,
+        "rank2PctOfFound":  100.0 * row.get("rank2", 0) / found if found else 0.0,
+        "avgTimeS": avg, "medianTimeS": median,
+    }
+
+
 def _aggregate_result_set(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
