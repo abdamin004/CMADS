@@ -165,6 +165,19 @@ OPENAI_API_KEY=sk-...
 
 ---
 
+## Storage
+
+CMADS uses two persistence layers:
+
+| Layer | Where | What |
+|---|---|---|
+| **Cold (immutable inputs)** | DuckDB at `data/clinical.duckdb`, Synthea FHIR JSON at `data/bronze/`, Qdrant volumes | OMOP CDM Silver tables, raw FHIR bundles, BioLORD embeddings, NICE guideline vectors |
+| **Hot (run outputs)** | MongoDB (`docker compose up -d mongo`) — collections `patient_cases`, `agent_runs`, `semantic_memory`, `derived_artefacts` | Gold patient cases, per-agent run outputs, execution traces, evaluation verdicts, derived artefacts (`paired_160_mcnemar`, sensitivity summaries, cohort summaries) |
+
+The `USE_MONGO=true` flag (in `.env`) gates the runtime read/write path. With it off, the system reads/writes the original on-disk `data/gold/mas_results*/` tree as a fallback during the 30-day soak window.
+
+---
+
 ## Make commands
 
 | Command | What it does |
