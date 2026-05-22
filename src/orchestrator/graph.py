@@ -186,6 +186,26 @@ def save_patient_results(patient_uuid: str, result: dict, duration_s: float):
             }, indent=2, default=str)
         )
 
+    # Mongo write path (additive — filesystem writes above are unchanged)
+    if cfg.USE_MONGO:
+        import asyncio as _asyncio
+        _trace_entries = [
+            {
+                "agent_id": t.get("agent_id"),
+                "status": t.get("status"),
+                "execution_ms": t.get("execution_ms"),
+                "error": t.get("error"),
+            }
+            for t in trace
+        ]
+        _asyncio.run(finalise_run_to_mongo(
+            result_set=MAS_RESULTS_DIR.name,
+            patient_uuid=patient_uuid,
+            trace=_trace_entries,
+            session_memory=session_memory,
+            duration_s=duration_s,
+        ))
+
 
 def run_single_patient(patient_uuid: str, pipeline=None, save: bool = True) -> dict:
     """Run the pipeline for a single patient.
@@ -230,6 +250,36 @@ def run_single_patient(patient_uuid: str, pipeline=None, save: bool = True) -> d
         save_patient_results(patient_uuid, result, duration)
 
     return result
+
+
+async def finalise_run_to_mongo(
+    *, result_set: str, patient_uuid: str,
+    trace: list[dict], session_memory: list[dict],
+    duration_s: float | None,
+) -> None:
+    """End-of-run writer for the trace + session memory + duration. Called
+    by run_single_patient() after the graph completes when USE_MONGO is set."""
+    from datetime import datetime
+    from src.db.mongo import init_db
+    from src.db.documents import AgentRun
+
+    await init_db()
+    await AgentRun.find_one(
+        AgentRun.result_set == result_set, AgentRun.patient_uuid == patient_uuid,
+    ).upsert(
+        {"$set": {
+            "execution_trace": trace,
+            "session_memory":  session_memory,
+            "finished_at":     datetime.utcnow(),
+            "duration_s":      duration_s,
+        }},
+        on_insert=AgentRun(
+            result_set=result_set, patient_uuid=patient_uuid,
+            started_at=datetime.utcnow(),
+            execution_trace=trace, session_memory=session_memory,
+            duration_s=duration_s,
+        ),
+    )
 
 
 def run_cohort(cohort_file: str, max_patients: int | None = None,
