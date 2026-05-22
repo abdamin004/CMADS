@@ -62,3 +62,31 @@ async def test_agent_run_compound_lookup(mongo_db):
     # By patient_uuid alone (cross-cohort lookup)
     cross = await AgentRun.find(AgentRun.patient_uuid == "uuid-1").to_list()
     assert len(cross) == 1
+
+
+@pytest.mark.asyncio
+async def test_agent_envelope_partial_update(mongo_db):
+    """Each agent should be able to write only its own slot without
+    touching siblings. This is the atomicity guarantee the design depends on."""
+    from src.db.documents import AgentRun
+    from datetime import datetime
+
+    await AgentRun(
+        result_set="r1",
+        patient_uuid="u1",
+        started_at=datetime.utcnow(),
+        agents={
+            "ehr_analyst":     {"status": "success", "output": {"a": 1}},
+            "lab_interpreter": {"status": "success", "output": {"b": 2}},
+        },
+    ).insert()
+
+    # Refiner writes ONLY its envelope. Sibling agents must survive.
+    await AgentRun.find_one(
+        AgentRun.result_set == "r1", AgentRun.patient_uuid == "u1",
+    ).update({"$set": {"agents.final_diagnosis": {"status": "success", "output": {"c": 3}}}})
+
+    after = await AgentRun.find_one(AgentRun.result_set == "r1", AgentRun.patient_uuid == "u1")
+    assert after.agents["ehr_analyst"]["output"]["a"] == 1
+    assert after.agents["lab_interpreter"]["output"]["b"] == 2
+    assert after.agents["final_diagnosis"]["output"]["c"] == 3
