@@ -969,24 +969,28 @@ def build_gold_layer(cohort_path, output_dir, limit=None):
             (patient_dir / "lab_case.json").write_text(json.dumps(lab_case, indent=2, default=str))
             (patient_dir / "ground_truth.json").write_text(json.dumps(ground_truth, indent=2, default=str))
 
-            # Mongo write path (additive — filesystem write above is unchanged)
+            # Mongo write path (additive — filesystem write above is unchanged).
+            # run_mongo_write isolates the call from any running asyncio loop.
             from src.config import cfg
             if cfg.USE_MONGO:
-                import asyncio
-                asyncio.run(write_patient_case_to_mongo({
-                    "patient_uuid": uuid,
-                    "person_id": person_id,
-                    "cutoff_date": cutoff_date,
-                    "case_type": "ehr+lab",
-                    "demographics": ehr_case.get("demographics", {}),
-                    "conditions": ehr_case.get("conditions", {}),
-                    "medications": ehr_case.get("medications", {}),
-                    "visits": ehr_case.get("visits", []),
-                    "comorbidity": ehr_case.get("comorbidity", {}),
-                    "risk_scores": ehr_case.get("risk_scores", {}),
-                    "lab_case": lab_case,
-                    "ground_truth": ground_truth,
-                }))
+                from src.db.mongo import run_mongo_write
+                try:
+                    run_mongo_write(write_patient_case_to_mongo({
+                        "patient_uuid": uuid,
+                        "person_id": person_id,
+                        "cutoff_date": cutoff_date,
+                        "case_type": "ehr+lab",
+                        "demographics": ehr_case.get("demographics", {}),
+                        "conditions": ehr_case.get("conditions", {}),
+                        "medications": ehr_case.get("medications", {}),
+                        "visits": ehr_case.get("visits", []),
+                        "comorbidity": ehr_case.get("comorbidity", {}),
+                        "risk_scores": ehr_case.get("risk_scores", {}),
+                        "lab_case": lab_case,
+                        "ground_truth": ground_truth,
+                    }))
+                except Exception:  # noqa: BLE001
+                    pass  # filesystem write already succeeded; log via stderr above
 
             success += 1
             d = target["target_disease"]

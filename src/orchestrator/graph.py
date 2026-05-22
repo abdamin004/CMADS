@@ -12,6 +12,9 @@ import json
 import time
 from pathlib import Path
 
+import structlog
+logger = structlog.get_logger(__name__)
+
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 
@@ -198,13 +201,18 @@ def save_patient_results(patient_uuid: str, result: dict, duration_s: float):
             }
             for t in trace
         ]
-        _asyncio.run(finalise_run_to_mongo(
-            result_set=MAS_RESULTS_DIR.name,
-            patient_uuid=patient_uuid,
-            trace=_trace_entries,
-            session_memory=session_memory,
-            duration_s=duration_s,
-        ))
+        from src.db.mongo import run_mongo_write
+        try:
+            run_mongo_write(finalise_run_to_mongo(
+                result_set=MAS_RESULTS_DIR.name,
+                patient_uuid=patient_uuid,
+                trace=_trace_entries,
+                session_memory=session_memory,
+                duration_s=duration_s,
+            ))
+        except Exception as _e:  # noqa: BLE001
+            logger.warning("mongo_finalise_failed",
+                           patient=patient_uuid[:11], error=str(_e)[:200])
 
 
 def run_single_patient(patient_uuid: str, pipeline=None, save: bool = True) -> dict:

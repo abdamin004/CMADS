@@ -394,10 +394,13 @@ class BaseAgent:
             if memory_summary:
                 update["session_summary"] = memory_summary
 
-            # Mongo write path (additive — state write above is unchanged)
+            # Mongo write path (additive — state write above is unchanged).
+            # Use the run_mongo_write bridge so the write survives being
+            # called from inside LangGraph's async executor (asyncio.run
+            # would raise RuntimeError there and silently drop the write).
             from src.config import cfg
             if cfg.USE_MONGO:
-                import asyncio as _asyncio
+                from src.db.mongo import run_mongo_write
                 _patient_uuid = (
                     (state.get("patient_context") or {})
                     .get("ehr_case", {})
@@ -408,12 +411,18 @@ class BaseAgent:
                     "output": output_dict,
                     "duration_ms": trace_entry["execution_ms"],
                 }
-                _asyncio.run(write_agent_envelope_to_mongo(
-                    result_set=cfg.MAS_RESULTS_DIR.name,
-                    patient_uuid=_patient_uuid,
-                    agent_id=self.agent_id,
-                    envelope=_envelope,
-                ))
+                try:
+                    run_mongo_write(write_agent_envelope_to_mongo(
+                        result_set=cfg.MAS_RESULTS_DIR.name,
+                        patient_uuid=_patient_uuid,
+                        agent_id=self.agent_id,
+                        envelope=_envelope,
+                    ))
+                except Exception as _e:  # noqa: BLE001 — log + continue
+                    logger.warning("mongo_write_failed",
+                                   agent_id=self.agent_id,
+                                   patient=_patient_uuid[:11],
+                                   error=str(_e)[:200])
 
             return update
 

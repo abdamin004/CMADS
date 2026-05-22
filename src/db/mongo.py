@@ -63,3 +63,27 @@ def get_sync_db() -> Any:
     if _client is None:
         asyncio.get_event_loop_policy().new_event_loop().run_until_complete(init_db())
     return _client[cfg.MONGO_DB]
+
+
+def run_mongo_write(coro) -> Any:
+    """Synchronous bridge for fire-and-forget Mongo writes from inside
+    sync code paths (BaseAgent.__call__, pipeline/gold.py, etc.) that
+    may or may not already sit inside a running event loop.
+
+    ``asyncio.run`` raises ``RuntimeError`` when there is already a
+    running event loop on the current thread — which happens whenever
+    LangGraph's executor invokes a node from an async context. That
+    error was being swallowed by the agent's broad exception handler,
+    so Mongo writes silently dropped during live patient runs.
+
+    This helper always creates a fresh isolated event loop, runs the
+    coroutine to completion on it, and closes it cleanly. It works in
+    both contexts: top-level scripts (no loop) and threads spawned by
+    the FastAPI runtime (may have a loop already). The cost is one
+    short-lived loop per call; the benefit is the writes actually land.
+    """
+    loop = asyncio.new_event_loop()
+    try:
+        return loop.run_until_complete(coro)
+    finally:
+        loop.close()
