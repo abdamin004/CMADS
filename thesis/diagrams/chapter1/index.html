@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMADS Chapter 1 — Patient Journey</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #5f6d7a;
+      --page: #f7fafc;
+      --panel: #ffffff;
+      --line: #bcc8d4;
+    }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--page);
+      font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+    }
+    #root { display: grid; gap: 48px; padding: 0; }
+    svg.diagram { display: block; overflow: visible; background: var(--page); }
+    .title       { font-size: 44px; font-weight: 800; fill: var(--ink); }
+    .subtitle    { font-size: 23px; fill: var(--muted); }
+    .section     { font-size: 26px; font-weight: 800; fill: var(--ink); }
+    .box-title   { font-size: 24px; font-weight: 800; fill: var(--ink); }
+    .box-body    { font-size: 20px; fill: var(--muted); }
+    .small       { font-size: 17px; fill: var(--muted); }
+    .label       { font-size: 17px; font-weight: 800; fill: var(--muted); }
+    .stage-num   { font-size: 14px; font-weight: 800; letter-spacing: 1px; }
+    .mono        { font-family: "JetBrains Mono", Menlo, Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <main id="root"></main>
+
+  <script>
+    const NS = "http://www.w3.org/2000/svg";
+
+    const C = {
+      ink: "#17212b",
+      muted: "#5f6d7a",
+      page: "#f7fafc",
+      panel: "#ffffff",
+      panelAlt: "#fbfdff",
+      line: "#bcc8d4",
+      lineDark: "#8a98a8",
+      blue:   "#286f9e", blueSoft:   "#e7f2fb",
+      cyan:   "#2aa3b5", cyanSoft:   "#e6f7fa",
+      teal:   "#168b83", tealSoft:   "#e5f4f2",
+      green:  "#2f8f5b", greenSoft:  "#e8f5ec",
+      amber:  "#d89418", amberSoft:  "#fff2d8",
+      violet: "#675bb5", violetSoft: "#efedfb",
+      violetMist: "#f5f4fc",
+      red:    "#c84f4f", redSoft:    "#fbecec",
+      slate:  "#324150", slateSoft:  "#eef3f7"
+    };
+
+    const FIGURES = {
+      patient_journey: { width: 1800, height: 1360, draw: drawPatientJourney }
+    };
+
+    function el(name, attrs = {}, children = []) {
+      const node = document.createElementNS(NS, name);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (v === undefined || v === null) continue;
+        node.setAttribute(k, String(v));
+      }
+      for (const child of children) node.appendChild(child);
+      return node;
+    }
+    function append(svg, node) { svg.appendChild(node); return node; }
+    function normalizeTextAttrs(attrs = {}) {
+      const styleKeys = ["fill", "font-size", "font-weight", "font-style", "font-family", "letter-spacing", "text-anchor"];
+      const clean = { ...attrs };
+      const style = [];
+      for (const k of styleKeys) {
+        if (clean[k] !== undefined) { style.push(`${k}: ${clean[k]}`); delete clean[k]; }
+      }
+      if (clean.style) style.unshift(clean.style);
+      if (style.length) clean.style = style.join("; ");
+      return clean;
+    }
+    function text(svg, x, y, value, className = "small", attrs = {}) {
+      const node = el("text", { x, y, class: className, ...normalizeTextAttrs(attrs) });
+      node.textContent = value;
+      return append(svg, node);
+    }
+    function lines(svg, x, y, values, className = "box-body", gap = 28, attrs = {}) {
+      const node = el("text", { x, y, class: className, ...normalizeTextAttrs(attrs) });
+      values.forEach((v, i) => {
+        const t = el("tspan", { x, dy: i === 0 ? 0 : gap });
+        t.textContent = v;
+        node.appendChild(t);
+      });
+      return append(svg, node);
+    }
+    function title(svg, heading, subheading, opts = {}) {
+      const x = opts.x || 72, y = opts.y || 76;
+      text(svg, x, y, heading, "title");
+      text(svg, x + 2, y + 40, subheading, "subtitle");
+    }
+    function defs(svg, prefix) {
+      const defsNode = el("defs");
+      for (const [name, color] of Object.entries({
+        dark: C.slate, blue: C.blue, cyan: C.cyan, teal: C.teal,
+        green: C.green, amber: C.amber, violet: C.violet, red: C.red, muted: C.lineDark
+      })) {
+        const marker = el("marker", {
+          id: `${prefix}-arrow-${name}`,
+          viewBox: "0 0 10 10", refX: 9, refY: 5,
+          markerWidth: 8, markerHeight: 8, orient: "auto"
+        });
+        marker.appendChild(el("path", {
+          d: "M 1 1.2 Q 9.2 5 1 8.8 Q 3.4 5 1 1.2 Z",
+          fill: color, stroke: color, "stroke-linejoin": "round"
+        }));
+        defsNode.appendChild(marker);
+      }
+      const shadow = el("filter", { id: `${prefix}-shadow`, x: "-8%", y: "-12%", width: "116%", height: "128%" });
+      shadow.appendChild(el("feDropShadow", {
+        dx: 0, dy: 4, stdDeviation: 5, "flood-color": "#17212b", "flood-opacity": 0.13
+      }));
+      defsNode.appendChild(shadow);
+      svg.appendChild(defsNode);
+    }
+    function colorOf(key) { return C[key] || key || C.slate; }
+    function softOf(key)  { return C[`${key}Soft`] || C.slateSoft; }
+    function route(svg, d, key = "dark", opts = {}) {
+      return append(svg, el("path", {
+        d, fill: "none", stroke: colorOf(key),
+        "stroke-width": opts.width || 3,
+        "stroke-linecap": "round", "stroke-linejoin": "round",
+        "marker-end": opts.noArrow ? null : `url(#${svg.dataset.prefix}-arrow-${key})`,
+        ...(opts.dash ? { "stroke-dasharray": opts.dash } : {})
+      }));
+    }
+    function arrow(svg, x1, y1, x2, y2, key = "dark", opts = {}) {
+      return append(svg, el("line", {
+        x1, y1, x2, y2, stroke: colorOf(key),
+        "stroke-width": opts.width || 3, "stroke-linecap": "round",
+        "marker-end": `url(#${svg.dataset.prefix}-arrow-${key})`,
+        ...(opts.dash ? { "stroke-dasharray": opts.dash } : {})
+      }));
+    }
+    function pill(svg, x, y, value, key = "dark", width = 160, opts = {}) {
+      const h = opts.compact ? 32 : 38;
+      append(svg, el("rect", {
+        x, y, width, height: h, rx: h / 2,
+        fill: opts.fill || softOf(key), stroke: opts.stroke || colorOf(key), "stroke-width": opts.strokeWidth || 1.5
+      }));
+      text(svg, x + width / 2, y + (opts.compact ? 22 : 25), value, "label", {
+        fill: opts.textFill || colorOf(key), "text-anchor": "middle",
+        "font-size": opts.compact ? 14 : 16
+      });
+    }
+
+    function drawPatientJourney(svg) {
+      defs(svg, "pj");
+
+      // ===== Header =====
+      title(svg,
+        "The Patient Journey — Where CMADS Assists the Doctor",
+        "CMADS activates at diagnosis & treatment planning. The doctor stays in the loop at every step.",
+        { x: 72, y: 76 });
+
+      // ===== Row 1 — Clinical workflow (6 detailed stage cards) =====
+      // Descriptions are trimmed so the longest line stays under ~28
+      // characters and never clips at the right edge of the card.
+      const stages = [
+        {
+          num: "01",
+          name: "Presentation",
+          desc: [
+            "Patient arrives at clinic",
+            "with symptoms; nurse logs",
+            "vitals and chief complaint."
+          ],
+          color: "slate"
+        },
+        {
+          num: "02",
+          name: "Clinical assessment",
+          desc: [
+            "Doctor takes history,",
+            "performs physical exam,",
+            "and notes red flags."
+          ],
+          color: "slate"
+        },
+        {
+          num: "03",
+          name: "Investigations",
+          desc: [
+            "Doctor orders labs and",
+            "imaging. Structured data",
+            "accumulates in the EHR."
+          ],
+          color: "blue"
+        },
+        {
+          num: "04",
+          name: "Diagnosis",
+          desc: [
+            "Doctor synthesises chart,",
+            "exam, and labs into a",
+            "working differential."
+          ],
+          color: "violet",
+          assisted: true
+        },
+        {
+          num: "05",
+          name: "Treatment plan",
+          desc: [
+            "Doctor designs a plan:",
+            "meds, procedures, referrals,",
+            "and follow-up monitoring."
+          ],
+          color: "violet",
+          assisted: true
+        },
+        {
+          num: "06",
+          name: "Follow-up",
+          desc: [
+            "Patient monitored over time:",
+            "labs and response tracked,",
+            "plan adjusted as needed."
+          ],
+          color: "slate"
+        }
+      ];
+
+      text(svg, 72, 168, "1 · Clinical workflow", "section",
+        { "font-size": 22, fill: C.ink });
+
+      const rowY = 200;
+      // Cards widened (text never clips at right edge) and taller (the
+      // "ASSISTED BY CMADS" badge no longer crowds the description).
+      const cardW = 254, cardH = 258;
+      const startX = 72, endX = 1728;
+      const gap = (endX - startX - stages.length * cardW) / (stages.length - 1);
+
+      // Through-arrow rail underneath
+      const railY = rowY + cardH + 28;
+      append(svg, el("line", {
+        x1: startX + 28, y1: railY,
+        x2: endX - 28,   y2: railY,
+        stroke: C.line, "stroke-width": 2,
+        "stroke-dasharray": "1 6", "stroke-linecap": "round"
+      }));
+      text(svg, startX + 16, railY - 8, "time →", "small",
+        { "font-size": 14, fill: C.muted, "letter-spacing": "1.5px" });
+
+      // Highlight band behind the CMADS-assisted stages 04 (index 3) – 05 (index 4)
+      const bandX1 = startX + 3 * (cardW + gap) - 14;
+      const bandX2 = startX + 4 * (cardW + gap) + cardW + 14;
+      const bandY = rowY - 34;
+      const bandH = cardH + 90;
+      append(svg, el("rect", {
+        x: bandX1, y: bandY,
+        width: bandX2 - bandX1, height: bandH, rx: 18,
+        fill: C.violetMist, stroke: C.violet, "stroke-width": 1.5,
+        "stroke-dasharray": "6 6", opacity: 0.95
+      }));
+      // Pill anchored ABOVE the band, fully off the dashed border
+      const bandLabelW = 360;
+      const bandPillX = (bandX1 + bandX2) / 2 - bandLabelW / 2;
+      const bandPillY = bandY - 18;
+      append(svg, el("rect", {
+        x: bandPillX - 4, y: bandPillY - 4,
+        width: bandLabelW + 8, height: 32 + 8, rx: 22,
+        fill: C.page
+      }));
+      pill(svg, bandPillX, bandPillY,
+        "CMADS DECISION SUPPORT ZONE", "violet", bandLabelW, { compact: true });
+
+      // Render the stage cards
+      stages.forEach((s, i) => {
+        const x = startX + i * (cardW + gap);
+        const y = rowY;
+        const accent = colorOf(s.color);
+        const soft = s.assisted ? softOf(s.color) : C.panel;
+
+        append(svg, el("rect", {
+          x, y, width: cardW, height: cardH, rx: 14,
+          fill: soft, stroke: accent,
+          "stroke-width": s.assisted ? 2.5 : 1.8,
+          filter: `url(#pj-shadow)`
+        }));
+        append(svg, el("rect", { x, y, width: cardW, height: 6, rx: 3, fill: accent }));
+
+        // Stage number
+        text(svg, x + 20, y + 34, s.num, "stage-num",
+          { "font-size": 14, "font-weight": 800,
+            fill: accent, "letter-spacing": "1.4px" });
+
+        // Stage name
+        text(svg, x + 20, y + 72, s.name, "box-title",
+          { "font-size": 22, fill: C.ink });
+
+        // Underline accent
+        append(svg, el("line", {
+          x1: x + 20, y1: y + 88, x2: x + 60, y2: y + 88,
+          stroke: accent, "stroke-width": 3, "stroke-linecap": "round"
+        }));
+
+        // Description (3 lines)
+        lines(svg, x + 20, y + 122, s.desc, "box-body", 25,
+          { "font-size": 17, fill: C.muted });
+
+        // "Assisted by CMADS" badge if applicable
+        if (s.assisted) {
+          pill(svg, x + 20, y + cardH - 44, "ASSISTED BY CMADS",
+            "violet", cardW - 40, { compact: true });
+        }
+
+        // Arrow to next stage — slate ink and slightly thicker than
+        // the previous muted hairline so the workflow direction reads
+        // at a glance.
+        if (i < stages.length - 1) {
+          const ax = x + cardW + 8;
+          const ay = y + cardH / 2;
+          arrow(svg, ax, ay, ax + gap - 14, ay, "dark", { width: 3.2 });
+        }
+      });
+
+      // ===== Connection band — true data flow =====
+      // (a) Data flows DOWN from "Investigations" (stage 3) into CMADS
+      // (b) Suggestions flow UP from CMADS into "Diagnosis" (4) and "Treatment plan" (5)
+      const panelY = rowY + cardH + 100;
+
+      const dataX = startX + 2 * (cardW + gap) + cardW / 2;       // stage 3 centre
+      const sugg4X = startX + 3 * (cardW + gap) + cardW / 2;      // stage 4 centre
+      const sugg5X = startX + 4 * (cardW + gap) + cardW / 2;      // stage 5 centre
+
+      // (a) Downward "data" arrow from stage 3 (Investigations) to CMADS.
+      //     The pill sits CENTRED on the arrow line (with a backing mask
+      //     so the line is hidden behind the pill body) — matches the
+      //     "ranked suggestions" pill on the right.
+      const arrowTopY = rowY + cardH + 6;
+      const arrowBotY = panelY + 6;
+      route(svg,
+        `M ${dataX} ${arrowTopY} L ${dataX} ${arrowBotY}`,
+        "blue", { width: 3 }
+      );
+      const dataPillW = 132;
+      const dataPillY = (arrowTopY + arrowBotY) / 2 - 16;
+      // Backing rectangle to mask the blue arrow where the pill sits.
+      append(svg, el("rect", {
+        x: dataX - dataPillW / 2 - 6, y: dataPillY - 4,
+        width: dataPillW + 12, height: 40, rx: 20,
+        fill: C.page
+      }));
+      append(svg, el("rect", {
+        x: dataX - dataPillW / 2, y: dataPillY,
+        width: dataPillW, height: 32, rx: 16,
+        fill: C.blueSoft, stroke: C.blue, "stroke-width": 1.5
+      }));
+      text(svg, dataX, dataPillY + 22, "patient data", "label",
+        { fill: C.blue, "text-anchor": "middle", "font-size": 14 });
+
+      // (b) Two upward "suggestions" arrows from CMADS into stages 4 & 5.
+      //     The shared pill sits between the two arrows, vertically centred,
+      //     ON TOP of the dashed band (full opaque background so it doesn't
+      //     visually merge with the dashed border).
+      [sugg4X, sugg5X].forEach((sx) => {
+        route(svg,
+          `M ${sx} ${arrowBotY} L ${sx} ${arrowTopY}`,
+          "violet", { width: 3 }
+        );
+      });
+      const lblCx = (sugg4X + sugg5X) / 2;
+      const sugPillW = 200;
+      const sugPillY = (arrowTopY + arrowBotY) / 2 - 16;
+      // Backing rectangle to mask the dashed band where the pill sits
+      append(svg, el("rect", {
+        x: lblCx - sugPillW / 2 - 6, y: sugPillY - 4,
+        width: sugPillW + 12, height: 40, rx: 20,
+        fill: C.violetMist
+      }));
+      append(svg, el("rect", {
+        x: lblCx - sugPillW / 2, y: sugPillY,
+        width: sugPillW, height: 32, rx: 16,
+        fill: C.violetSoft, stroke: C.violet, "stroke-width": 1.5
+      }));
+      text(svg, lblCx, sugPillY + 22, "ranked suggestions",
+        "label", { fill: C.violet, "text-anchor": "middle", "font-size": 14 });
+
+      // ===== Row 2 — CMADS panel =====
+      text(svg, 72, panelY + 32,
+        "2 · CMADS — Multi-agent decision support (assistant, not replacement)",
+        "section", { "font-size": 22, fill: C.ink });
+
+      const cmadsY = panelY + 56;
+      const cmadsH = 520;
+      const cmadsX = 72, cmadsW = endX - cmadsX;
+
+      append(svg, el("rect", {
+        x: cmadsX, y: cmadsY,
+        width: cmadsW, height: cmadsH, rx: 18,
+        fill: C.violetSoft, stroke: C.violet, "stroke-width": 2.5,
+        filter: `url(#pj-shadow)`
+      }));
+      append(svg, el("rect", {
+        x: cmadsX, y: cmadsY, width: cmadsW, height: 9, rx: 5, fill: C.violet
+      }));
+
+      // Left block: description
+      const descX = cmadsX + 28;
+      const descY = cmadsY + 50;
+      pill(svg, descX, descY, "AI ASSISTANT — NOT A REPLACEMENT",
+        "violet", 350, { compact: true });
+      text(svg, descX, descY + 70,
+        "Clinical Multi-Agent Decisioning System",
+        "box-title", { "font-size": 28, fill: C.ink });
+
+      lines(svg, descX, descY + 110, [
+        "CMADS activates once the patient's structured chart and labs",
+        "are available. Seven specialised AI agents read the same",
+        "Gold-layer data, reason in coordination through an adaptive",
+        "critique loop, retrieve relevant NICE clinical guideline",
+        "passages, and surface a ranked top-5 differential plus a",
+        "guideline-grounded treatment plan.",
+        "",
+        "CMADS never orders tests, prescribes, writes to the EHR,",
+        "or communicates with the patient."
+      ], "box-body", 26, { "font-size": 18, fill: "#36424f" });
+
+      // Right block: 4-step mini-flow
+      const flowX = cmadsX + 920;
+      const flowW = cmadsW - 920 - 28;
+      const flowY = cmadsY + 50;
+
+      text(svg, flowX, flowY + 18, "How CMADS works", "box-title",
+        { "font-size": 22, fill: C.ink });
+
+      const steps = [
+        { key: "blue",   num: "1", title: "READ",     desc: "Gold-layer EHR + Lab JSON" },
+        { key: "amber",  num: "2", title: "REASON",   desc: "7 agents + adversarial reviewer" },
+        { key: "teal",   num: "3", title: "RETRIEVE", desc: "NICE guidelines from vector store" },
+        { key: "violet", num: "4", title: "SURFACE",  desc: "Doctor Console — doctor reviews" }
+      ];
+
+      const stepStartY = flowY + 40;
+      const stepH = 72;
+      const stepGap = 8;
+      steps.forEach((s, i) => {
+        const x = flowX;
+        const y = stepStartY + i * (stepH + stepGap);
+        const accent = colorOf(s.key);
+
+        // box
+        append(svg, el("rect", {
+          x, y, width: flowW, height: stepH, rx: 12,
+          fill: C.panel, stroke: accent, "stroke-width": 2
+        }));
+        append(svg, el("rect", { x, y, width: 9, height: stepH, rx: 4, fill: accent }));
+
+        // numbered circle
+        append(svg, el("circle", {
+          cx: x + 40, cy: y + stepH / 2, r: 22,
+          fill: softOf(s.key), stroke: accent, "stroke-width": 2
+        }));
+        text(svg, x + 40, y + stepH / 2 + 8, s.num, "box-title",
+          { "font-size": 22, fill: accent, "text-anchor": "middle" });
+
+        // title + desc
+        text(svg, x + 78, y + 30, s.title, "box-title",
+          { "font-size": 18, fill: C.ink, "letter-spacing": "0.6px" });
+        text(svg, x + 78, y + 56, s.desc, "small",
+          { "font-size": 16, fill: C.muted });
+
+        // arrow down to next step
+        if (i < steps.length - 1) {
+          const ax = x + flowW / 2;
+          const ay = y + stepH + 2;
+          arrow(svg, ax, ay, ax, ay + stepGap - 2, "dark", { width: 2.2 });
+        }
+      });
+
+      // ===== Doctor-review banner inside the CMADS panel (bottom strip) =====
+      const bannerH = 56;
+      const bannerY = cmadsY + cmadsH - bannerH - 22;
+      const bannerX = cmadsX + 28;
+      const bannerW = cmadsW - 56;
+      append(svg, el("rect", {
+        x: bannerX, y: bannerY, width: bannerW, height: bannerH, rx: 14,
+        fill: C.tealSoft, stroke: C.teal, "stroke-width": 1.8
+      }));
+      append(svg, el("rect", {
+        x: bannerX, y: bannerY, width: 9, height: bannerH, rx: 5, fill: C.teal
+      }));
+      text(svg, bannerX + 30, bannerY + bannerH / 2 + 8,
+        "Doctor review gate  —  every suggestion must be accepted, modified, or overridden before it can affect care.",
+        "box-title",
+        { "font-size": 18, fill: C.teal });
+
+      // ===== Bottom footer — reading guide =====
+      const footerY = cmadsY + cmadsH + 60;
+      const legendItems = [
+        { color: "slate",  label: "Standard clinical step",
+                          desc: "Doctor + patient, no AI involvement" },
+        { color: "blue",   label: "Data accumulation",
+                          desc: "Structured EHR + lab data, where CMADS reads from" },
+        { color: "violet", label: "CMADS-assisted step",
+                          desc: "Doctor receives AI suggestions, makes the final call" },
+        { color: "teal",   label: "Human review gate",
+                          desc: "Every CMADS output passes through the doctor" }
+      ];
+      text(svg, 72, footerY, "Reading the diagram", "section",
+        { "font-size": 22, fill: C.ink });
+
+      const lgCols = 4;
+      const lgW = (endX - startX) / lgCols;
+      legendItems.forEach((it, i) => {
+        const lx = startX + i * lgW;
+        const ly = footerY + 30;
+        append(svg, el("rect", {
+          x: lx, y: ly - 14, width: 22, height: 22, rx: 5,
+          fill: softOf(it.color), stroke: colorOf(it.color), "stroke-width": 2
+        }));
+        text(svg, lx + 36, ly + 4, it.label, "box-title",
+          { "font-size": 17, fill: C.ink });
+        text(svg, lx + 36, ly + 26, it.desc, "small",
+          { "font-size": 14, fill: C.muted });
+      });
+    }
+
+    function getFigureName() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("figure");
+    }
+    function clearRoot(root) {
+      while (root.firstChild) root.removeChild(root.firstChild);
+    }
+    function render() {
+      const root = document.getElementById("root");
+      clearRoot(root);
+      const requested = getFigureName();
+      const names = requested ? [requested] : Object.keys(FIGURES);
+      names.forEach((name, i) => {
+        const fig = FIGURES[name];
+        if (!fig) return;
+        const svg = document.createElementNS(NS, "svg");
+        svg.setAttribute("class", "diagram");
+        svg.setAttribute("viewBox", `0 0 ${fig.width} ${fig.height}`);
+        svg.setAttribute("width", fig.width);
+        svg.setAttribute("height", fig.height);
+        svg.dataset.prefix = `${name}-${i}`;
+        root.appendChild(svg);
+        fig.draw(svg);
+      });
+    }
+    render();
+  </script>
+</body>
+</html>
