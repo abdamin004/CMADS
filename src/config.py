@@ -128,6 +128,22 @@ class Config:
         """Number of similar past patients the Diagnostic agent recalls."""
         return _env_int("MEMORY_CASE_TOP_K", 3)
 
+    # ── MongoDB storage ─────────────────────────────────────
+    @property
+    def MONGO_URI(self) -> str:
+        return _env("MONGO_URI", "mongodb://localhost:27017")
+
+    @property
+    def MONGO_DB(self) -> str:
+        return _env("MONGO_DB", "cmads")
+
+    @property
+    def USE_MONGO(self) -> bool:
+        """Master flag for the filesystem→Mongo migration. When false,
+        the runtime reads and writes the on-disk JSON tree as before.
+        See docs/superpowers/specs/2026-05-22-mongodb-migration-design.md."""
+        return _env("USE_MONGO", "false").lower() in ("1", "true", "yes", "on")
+
     @property
     def MEMORY_CASE_MIN_SCORE(self) -> float:
         """Minimum cosine similarity for a past case to be used as a prior.

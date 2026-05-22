@@ -18,6 +18,10 @@ make run-patient UUID=<patient-uuid>               # run MAS pipeline on one pat
 make run-batch BATCH=data/gold/batches/batch_1.json [MAX=5]  # run on a cohort
 make dashboard                                     # Streamlit eval dashboard (port 8503)
 make setup-qdrant                                  # one-time: load NICE guidelines into Qdrant
+docker compose up -d mongo                         # start local MongoDB (port 27017)
+docker compose down mongo                          # stop it
+python scripts/migrate_filesystem_to_mongo.py --dry-run     # show what would migrate
+python scripts/migrate_filesystem_to_mongo.py --verify-all  # full backfill + SHA-256 verify
 make evaluate                                      # run LLM-as-judge evaluator
 make test            # all tests
 make test-mas        # MAS pipeline tests only
