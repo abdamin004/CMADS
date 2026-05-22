@@ -92,7 +92,7 @@ def load_patient_run(gold_dir: Path, result_set: str, patient_uuid: str) -> dict
 
 from datetime import datetime
 from src.db.mongo import init_db
-from src.db.documents import AgentRun, PatientCase
+from src.db.documents import AgentRun, PatientCase, SemanticMemoryEntry, DerivedArtefact
 
 
 async def migrate_patient_runs(gold_dir: Path) -> int:
@@ -174,6 +174,53 @@ async def migrate_patient_cases(gold_dir: Path) -> int:
     return count
 
 
+async def migrate_semantic_memory(gold_dir: Path) -> int:
+    path = gold_dir / "memory" / "semantic_memory.json"
+    if not path.exists():
+        return 0
+    data = json.loads(path.read_text())
+    count = 0
+    for disease, payload in data.items():
+        doc = SemanticMemoryEntry(
+            id=disease,
+            counts=payload.get("counts", {}),
+            rank1_when_found=payload.get("rank1_when_found", 0),
+            evidence_patterns=payload.get("evidence_patterns", []),
+            updated_at=datetime.utcnow(),
+        )
+        await SemanticMemoryEntry.find_one(SemanticMemoryEntry.id == disease).upsert(
+            {"$set": doc.model_dump(by_alias=True, exclude={"_id"})},
+            on_insert=doc,
+        )
+        count += 1
+    return count
+
+
+async def migrate_derived_artefacts(gold_dir: Path) -> int:
+    """Pick up any top-level data/gold/*.json that isn't directly handled
+    by the other migrators (e.g. paired_160_mcnemar.json, sensitivity
+    summaries). Skips known-internal helpers like migration_progress.json."""
+    SKIP = {"migration_progress.json", "migration_report.json"}
+    count = 0
+    for p in sorted(gold_dir.glob("*.json")):
+        if p.name in SKIP:
+            continue
+        payload = json.loads(p.read_text())
+        key = p.stem
+        doc = DerivedArtefact(
+            id=key,
+            payload=payload,
+            produced_by="scripts/migrate_filesystem_to_mongo.py",
+            produced_at=datetime.utcnow(),
+        )
+        await DerivedArtefact.find_one(DerivedArtefact.id == key).upsert(
+            {"$set": doc.model_dump(by_alias=True, exclude={"_id"})},
+            on_insert=doc,
+        )
+        count += 1
+    return count
+
+
 async def main_async(args: argparse.Namespace) -> int:
     gold = args.gold_dir
     patient_runs = walk_mas_results(gold)
@@ -199,6 +246,8 @@ async def main_async(args: argparse.Namespace) -> int:
     await init_db()
     report["agent_runs_inserted"] = await migrate_patient_runs(gold)
     report["patient_cases_inserted"] = await migrate_patient_cases(gold)
+    report["semantic_memory_inserted"] = await migrate_semantic_memory(gold)
+    report["derived_artefacts_inserted"] = await migrate_derived_artefacts(gold)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))

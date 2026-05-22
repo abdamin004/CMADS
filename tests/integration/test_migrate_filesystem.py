@@ -119,3 +119,31 @@ async def test_migrate_patient_cases(tmp_path, mongo_db):
     assert doc.person_id == 42
     assert doc.demographics["age"] == 60
     assert doc.ground_truth["target_condition"]["name"] == "Diabetes mellitus type 2"
+
+
+@pytest.mark.asyncio
+async def test_migrate_semantic_and_derived(tmp_path, mongo_db):
+    from src.db.documents import SemanticMemoryEntry, DerivedArtefact
+    from scripts.migrate_filesystem_to_mongo import (
+        migrate_semantic_memory, migrate_derived_artefacts,
+    )
+
+    (tmp_path / "memory").mkdir(parents=True)
+    (tmp_path / "memory" / "semantic_memory.json").write_text(json.dumps({
+        "End-stage renal disease (disorder)": {
+            "counts": {"direct": 5, "indirect": 1, "miss": 0},
+            "rank1_when_found": 4,
+        },
+        "Ischemic heart disease (disorder)": {
+            "counts": {"direct": 3, "indirect": 2, "miss": 1},
+        },
+    }))
+    (tmp_path / "paired_160_mcnemar.json").write_text(json.dumps({"n": 160}))
+
+    n_sm = await migrate_semantic_memory(tmp_path)
+    n_da = await migrate_derived_artefacts(tmp_path)
+    assert n_sm == 2 and n_da == 1
+    sm = await SemanticMemoryEntry.get("End-stage renal disease (disorder)")
+    assert sm.counts == {"direct": 5, "indirect": 1, "miss": 0}
+    da = await DerivedArtefact.get("paired_160_mcnemar")
+    assert da.payload == {"n": 160}
