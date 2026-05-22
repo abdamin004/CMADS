@@ -18,7 +18,7 @@ class PatientCase(Document):
     demographics: dict[str, Any]
     conditions: dict[str, Any]
     medications: dict[str, Any]
-    visits: list[dict[str, Any]]
+    visits: dict[str, Any] | list[dict[str, Any]]
     comorbidity: dict[str, Any]
     risk_scores: dict[str, Any]
     labs: dict[str, Any]
