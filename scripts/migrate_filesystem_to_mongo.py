@@ -90,6 +90,41 @@ def load_patient_run(gold_dir: Path, result_set: str, patient_uuid: str) -> dict
     }
 
 
+from datetime import datetime
+from src.db.mongo import init_db
+from src.db.documents import AgentRun
+
+
+async def migrate_patient_runs(gold_dir: Path) -> int:
+    """Read every patient run from gold_dir/mas_results* and upsert into
+    the agent_runs collection. Returns the number of documents written.
+    Idempotent: re-running over the same input replaces the same docs."""
+    runs = walk_mas_results(gold_dir)
+    count = 0
+    for result_set, patient_uuid in runs:
+        payload = load_patient_run(gold_dir, result_set, patient_uuid)
+        await AgentRun.find_one(
+            AgentRun.result_set == result_set,
+            AgentRun.patient_uuid == patient_uuid,
+        ).upsert(
+            {"$set": {
+                "agents":          payload["agents"],
+                "execution_trace": payload["execution_trace"],
+                "session_memory":  payload["session_memory"],
+            }},
+            on_insert=AgentRun(
+                result_set=result_set,
+                patient_uuid=patient_uuid,
+                started_at=datetime.utcnow(),
+                agents=payload["agents"],
+                execution_trace=payload["execution_trace"],
+                session_memory=payload["session_memory"],
+            ),
+        )
+        count += 1
+    return count
+
+
 async def main_async(args: argparse.Namespace) -> int:
     gold = args.gold_dir
     patient_runs = walk_mas_results(gold)
@@ -98,7 +133,7 @@ async def main_async(args: argparse.Namespace) -> int:
     semantic_path = gold / "memory" / "semantic_memory.json"
     derived = [p.name for p in gold.glob("*.json")] if gold.exists() else []
 
-    report = {
+    report: dict = {
         "dry_run": args.dry_run,
         "agent_runs_seen": len(patient_runs),
         "patient_cases_seen": len(patient_cases),
@@ -112,7 +147,12 @@ async def main_async(args: argparse.Namespace) -> int:
         print(json.dumps(report, indent=2))
         return 0
 
-    raise NotImplementedError("Real migration implemented in Task 11+.")
+    await init_db()
+    report["agent_runs_inserted"] = await migrate_patient_runs(gold)
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(report, indent=2))
+    print(json.dumps(report, indent=2))
+    return 0
 
 
 def main() -> int:

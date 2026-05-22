@@ -8,6 +8,10 @@ import subprocess
 import sys
 import json
 from pathlib import Path
+import pytest
+import pytest_asyncio
+
+pytest_plugins = ["tests.integration.conftest_mongo"]
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = ROOT / "scripts" / "migrate_filesystem_to_mongo.py"
@@ -64,3 +68,26 @@ def test_dry_run_emits_report_without_touching_mongo(tmp_path):
     assert data["dry_run"] is True
     assert data["agent_runs_seen"] == 2
     # Mongo should be untouched — easy to assert by spotcheck of dry-run flag.
+
+
+@pytest.mark.asyncio
+async def test_real_migration_inserts_agent_runs(tmp_path, mongo_db):
+    """A non-dry-run pass should insert an AgentRun document per patient."""
+    from src.db.documents import AgentRun
+    from scripts.migrate_filesystem_to_mongo import migrate_patient_runs
+
+    cohort = tmp_path / "mas_results"
+    (cohort / "u1").mkdir(parents=True)
+    (cohort / "u1" / "evaluation.json").write_text(
+        json.dumps({"match_type": "DIRECT", "rank": 1})
+    )
+    (cohort / "u1" / "execution_trace.json").write_text(json.dumps([]))
+
+    count = await migrate_patient_runs(tmp_path)
+    assert count == 1
+    doc = await AgentRun.find_one(
+        AgentRun.result_set == "mas_results",
+        AgentRun.patient_uuid == "u1",
+    )
+    assert doc is not None
+    assert doc.agents["evaluation"]["output"]["match_type"] == "DIRECT"
