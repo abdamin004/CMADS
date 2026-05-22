@@ -23,3 +23,21 @@ def test_dry_run_help_works():
     assert "--dry-run" in proc.stdout
     assert "--verify" in proc.stdout
     assert "--workers" in proc.stdout
+
+
+def test_walk_mas_results_finds_expected_directories(tmp_path):
+    """walk_mas_results yields one (result_set, patient_uuid) per UUID dir."""
+    from scripts.migrate_filesystem_to_mongo import walk_mas_results
+    # Synthesise a tiny on-disk layout
+    (tmp_path / "mas_results" / "uuid-a").mkdir(parents=True)
+    (tmp_path / "mas_results" / "uuid-b").mkdir(parents=True)
+    (tmp_path / "mas_results_improved_50" / "uuid-c").mkdir(parents=True)
+    (tmp_path / "mas_results" / "uuid-a" / "evaluation.json").write_text("{}")
+    (tmp_path / "mas_results" / "uuid-b" / "evaluation.json").write_text("{}")
+    (tmp_path / "mas_results_improved_50" / "uuid-c" / "evaluation.json").write_text("{}")
+    found = sorted(walk_mas_results(tmp_path))
+    assert found == [
+        ("mas_results", "uuid-a"),
+        ("mas_results", "uuid-b"),
+        ("mas_results_improved_50", "uuid-c"),
+    ]

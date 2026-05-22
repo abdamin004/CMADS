@@ -36,6 +36,60 @@ def build_argparser() -> argparse.ArgumentParser:
     return ap
 
 
+def walk_mas_results(gold_dir: Path) -> list[tuple[str, str]]:
+    """Yield (result_set, patient_uuid) for every patient directory under
+    gold_dir/mas_results*. Filters out non-directories and patient dirs
+    without at least one evaluation artefact."""
+    out: list[tuple[str, str]] = []
+    for cohort in sorted(gold_dir.glob("mas_results*")):
+        if not cohort.is_dir():
+            continue
+        for sub in sorted(cohort.iterdir()):
+            if not sub.is_dir():
+                continue
+            if (sub / "evaluation.json").exists() or (sub / "evaluation_canon.json").exists():
+                out.append((cohort.name, sub.name))
+    return out
+
+
+AGENT_FILES = {
+    "ehr_analyst":          "ehr_analyst.json",
+    "lab_interpreter":      "lab_interpreter.json",
+    "diagnostic_reasoning": "diagnostic_reasoning.json",
+    "clinical_reviewer":    "clinical_reviewer.json",
+    "final_diagnosis":      "final_diagnosis.json",
+    "evaluation":           "evaluation.json",
+    "treatment_planning":   "treatment_planning.json",
+}
+
+
+def load_patient_run(gold_dir: Path, result_set: str, patient_uuid: str) -> dict:
+    """Read all on-disk JSON for one patient run and assemble the
+    AgentRun document payload (no insert; pure read side)."""
+    pdir = gold_dir / result_set / patient_uuid
+    agents: dict[str, dict] = {}
+    for agent_id, fname in AGENT_FILES.items():
+        f = pdir / fname
+        if f.exists():
+            agents[agent_id] = {"status": "success", "output": json.loads(f.read_text())}
+    # Embed canon variants where present.
+    for agent_id, canon_name in (("evaluation", "evaluation_canon.json"),
+                                  ("final_diagnosis", "final_diagnosis_canon.json")):
+        cf = pdir / canon_name
+        if cf.exists():
+            agents.setdefault(agent_id, {"status": "success", "output": None})
+            agents[agent_id]["output_canon"] = json.loads(cf.read_text())
+    trace = json.loads((pdir / "execution_trace.json").read_text()) if (pdir / "execution_trace.json").exists() else []
+    session = json.loads((pdir / "session_memory.json").read_text()) if (pdir / "session_memory.json").exists() else []
+    return {
+        "result_set": result_set,
+        "patient_uuid": patient_uuid,
+        "agents": agents,
+        "execution_trace": trace if isinstance(trace, list) else [trace],
+        "session_memory": session if isinstance(session, list) else [session],
+    }
+
+
 async def main_async(args: argparse.Namespace) -> int:
     raise NotImplementedError("Implemented in subsequent tasks.")
 
