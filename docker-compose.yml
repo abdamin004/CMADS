@@ -1,0 +1,17 @@
+# docker-compose.yml
+# Local-only development services for CMADS.
+# Bind to loopback explicitly — no auth, never expose to the public network.
+services:
+  mongo:
+    image: mongo:7
+    container_name: cmads-mongo
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ping:1}).ok"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
