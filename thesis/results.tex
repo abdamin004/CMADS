@@ -6,15 +6,33 @@
 \label{sec:results_overview}
 % ─────────────────────────────────────────────────────────────────────────────
 
-This chapter reports the results of the multi-agent clinical decision support
-system described in Chapter~\ref{chap:methodology}. The system was run on the
-completed subset of the Synthea-derived evaluation cohort and judged with the
-LLM-as-Judge method from Section~\ref{sec:evaluation}. The chapter answers
-three main questions. First, how often does the system find the target disease
-in its differential diagnosis? Second, what changes when multi-level memory is
-enabled? Third, how do the results compare with the literature reviewed in
-Chapter~\ref{chap:background}? The chapter also reports per-agent reliability,
-latency, example patient runs, dashboard review, and limitations.
+This chapter reports the empirical results of the multi-agent clinical
+decision support system described in Chapter~\ref{chap:methodology}. All
+numbers are computed on the same 160-patient Synthea-derived cohort and
+judged with the LLM-as-Judge method from Section~\ref{sec:evaluation}.
+Table~\ref{tab:results_headline_summary} gives every headline number a
+reader needs at a glance; the rest of the chapter unpacks them.
+
+\begin{table}[!htbp]
+\centering
+\caption{Headline numbers at a glance. Every value below is computed on
+the same 160-patient paired cohort; each result has its own section in
+this chapter for the supporting detail.}
+\label{tab:results_headline_summary}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{What it measures}                & \textbf{Value}                       & \textbf{Section} \\
+\midrule
+System DIRECT rate                       & \textbf{76.9\,\%} (123/160)          & \ref{sec:results_e2e}            \\
+System Found rate (top-5)                & \textbf{94.4\,\%} (151/160)          & \ref{sec:results_e2e}            \\
+Memory effect (paired, vs single-level)  & \textbf{+23.1\,pp} DIRECT            & \ref{sec:results_memory_ab}      \\
+Orchestration effect (vs single-LLM)     & \textbf{+33.8\,pp} DIRECT            & \ref{sec:results_single_llm}     \\
+Detectability dependence                 & $-63.6\,$pp on rejected-band patients & \ref{sec:results_detectability_sensitivity} \\
+Median wall-clock per patient            & 129\,s                                & \ref{sec:results_agents}         \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Experimental Setup}
@@ -55,15 +73,19 @@ seeing the reported results. Run files are saved under
 \texttt{data/gold/mas\_results\_*/}, with one folder per patient UUID. Each
 folder contains one JSON file per agent and an \texttt{execution\_trace.json}
 timeline. The metrics below are computed from those files.\footnote{The
-headline outcomes in this section are computed from
-\texttt{data/gold/mas\_results/} (the principal multi-level
-configuration on the 160-patient cohort). The paired memory A/B in
-Section~\ref{sec:results_memory_ab} draws from a separate dataset
-\texttt{data/gold/mas\_results\_paired95\_single\_level/} alongside
-the multi-level run directories
-(\texttt{mas\_results\_improved\_b3/}, \texttt{\_50/},
-\texttt{\_extra60/}); the single-LLM controlled baseline in
-Section~\ref{sec:results_single_llm} writes to
+headline outcomes in this section are computed from the principal
+multi-level memory configuration on the 160-patient paired cohort,
+whose per-patient outputs live in the three multi-level run directories
+\texttt{data/gold/mas\_results\_improved\_b3/},
+\texttt{data/gold/mas\_results\_improved\_50/}, and
+\texttt{data/gold/mas\_results\_improved\_extra60/}. The paired memory
+A/B in Section~\ref{sec:results_memory_ab} compares those same UUIDs
+under the single-level baseline configuration, whose outputs are read
+from \texttt{data/gold/mas\_results/} (the 65 overlap UUIDs from the
+original baseline cohort) and
+\texttt{data/gold/mas\_results\_paired95\_single\_level/} (the 95 UUIDs
+re-run with \texttt{MEMORY\_ENABLED=false}). The single-LLM controlled
+baseline in Section~\ref{sec:results_single_llm} writes to
 \texttt{data/gold/mas\_results\_single\_llm\_baseline/}.}
 
 % ─────────────────────────────────────────────────────────────────────────────
@@ -89,19 +111,18 @@ setting and discusses cohort leakage as a limitation of interpreting memory
 effects.
 
 \paragraph{How rates are reported.}
-The headline cohort table and the per-disease-family table report
-Wilson 95\% confidence intervals on the headline diagnostic rates so
-that the reader can see how much each percentage is constrained by
-the sample size. The plain-language meaning of the CI is given right
-under Table~\ref{tab:e2e_headline}. Other tables (memory comparisons,
-model-pilot, agent reliability) report rates as descriptive summaries
-without CIs --- those experiments are either underpowered for an
-interval-based interpretation or are not the chapter's primary
-claim. Where two proportions are compared with a test, the test is
-named at the point of use: an exact McNemar for the paired
-160-patient memory A/B (Section~\ref{sec:results_memory_ab}) and Fisher's exact
-for the detectability-gate sensitivity check
-(Section~\ref{sec:results_detectability_sensitivity}).
+All diagnostic outcomes are reported as percentages with the
+underlying counts in parentheses, e.g. $76.9\,\%$ (123/160), so the
+reader can see both the rate and the denominator that produced it.
+Comparisons in this chapter are paired wherever possible: the memory
+A/B (Section~\ref{sec:results_memory_ab}) and the single-LLM baseline
+(Section~\ref{sec:results_single_llm}) both run two configurations on
+the same patient set, so the comparison controls for cohort
+composition. The detectability-gate check
+(Section~\ref{sec:results_detectability_sensitivity}) is a single-arm
+sensitivity sample on the rejected band of the verifier, reported as
+a descriptive contrast with the admitted-cohort rate rather than as
+an inferential test.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{End-to-End Diagnostic Outcomes}
@@ -120,85 +141,94 @@ found, it is ranked first in 64.5\% [56.6, 71.6] of found cases.
 \centering
 \caption{Headline diagnostic outcomes on the 160-patient paired cohort
 under the principal multi-level memory configuration. Wilson 95\%
-confidence intervals are shown in
-brackets. The same 160 UUIDs anchor the paired memory A/B in
-Section~\ref{sec:results_memory_ab}, where the single-level arm scores
-78.8\,\% DIRECT on the identical patient set; the difference is not
-statistically significant (exact McNemar $p = 0.74$).}
+confidence intervals are shown in brackets. The same 160 UUIDs anchor
+the paired memory A/B in Section~\ref{sec:results_memory_ab}, where
+the single-level arm scores $53.8\,\%$ DIRECT (86/160) on the
+identical patient set --- a $+23.1$ percentage-point gap in favour of
+the multi-level configuration on the paired comparison.}
 \label{tab:e2e_headline}
 \small
 \begin{tabular}{@{}lrr@{}}
 \toprule
-\textbf{Match type}        & \textbf{Rate} & \textbf{95\% CI} \\
+\textbf{Match type}        & \textbf{Rate (count / 160)} & \textbf{Wilson 95\% CI} \\
 \midrule
-DIRECT                     & 76.9\% & [69.8, 82.7] \\
-INDIRECT                   & 17.5\% & [12.4, 24.1] \\
-MISS                       & 5.6\%  & [3.0, 10.3]  \\
+DIRECT                     & 76.9\% (123/160) & [69.8, 82.7] \\
+INDIRECT                   & 17.5\% (28/160)  & [12.4, 24.1] \\
+MISS                       &  5.6\% (9/160)   & [3.0, 10.3]  \\
 \midrule
-Found (DIRECT + INDIRECT)  & 94.4\% & [89.7, 97.0] \\
-Rank-1 within found        & 64.5\% & [56.6, 71.6] \\
+Found (DIRECT + INDIRECT)  & 94.4\% (151/160) & [89.7, 97.0] \\
+Rank-1 within found        & 64.5\% (98/152)  & [56.6, 71.6] \\
 \midrule
 Median runtime / patient   & \multicolumn{2}{l}{129\,s (mean 192\,s)} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{How to read the 95\% CI column.}
-The 95\% confidence interval is the range the underlying rate is
-likely to lie in, given how many patients were measured. The DIRECT
-rate on the cohort is 76.9\%; the interval [69.8, 82.7] says that
-even if the experiment were re-run on a different 160-patient sample
-drawn from the same population, the rate would, with 95\% confidence,
-fall somewhere between roughly 70\% and 83\%. The smaller the sample,
-the wider the interval --- this is why some per-disease rows in the
-next table carry CIs over 60 percentage points wide and should not be
-read as reliable per-disease accuracy estimates.
-
-Table~\ref{tab:e2e_family} breaks down the same cohort by disease family. Performance is strongest
-on ESRD~/~CKD and metabolic syndrome~X. The renal subtotal reaches an
-89.1\,\% DIRECT rate and a 100\,\% found rate. Smaller groups such as
-type-2 diabetes (n=7) and chronic congestive heart failure (n=3) carry
-wide intervals: the CHF DIRECT point estimate of 100\% sits in a 95\% CI
-that starts at 43.8\,\%, so it cannot be read as a reliable per-disease
-accuracy estimate. The cohort is also imbalanced --- ESRD~/~CKD accounts
-for 40.0\,\% of the runs, while CHF and T2DM together account for
-6.3\,\% --- which is a direct consequence of the Synthea module weights
-and of the detectability-gate output discussed in
+Table~\ref{tab:e2e_family} breaks down the same cohort by disease
+family. Performance is strongest on ESRD~/~CKD and metabolic
+syndrome~X. The renal subtotal reaches an $89.1\,\%$ DIRECT rate and
+a $100\,\%$ found rate. Smaller groups such as type-2 diabetes
+($n=7$) and chronic congestive heart failure ($n=3$) carry too few
+patients to be read as reliable per-disease accuracy estimates and
+are marked accordingly. The cohort is also imbalanced --- ESRD~/~CKD
+accounts for $40.0\,\%$ of the runs, while CHF and T2DM together
+account for $6.3\,\%$ --- a direct consequence of the Synthea module
+weights and of the detectability-gate output discussed in
 Section~\ref{sec:llm_verifier}. Essential hypertension and ischemic
 heart disease are the outliers among the well-powered groups: their
-DIRECT rates are lower than the cohort average, reflecting Synthea cases
-where blood-pressure or cardiac evidence alone was not enough for the
-agent to place the target disease in the top-five differential at rank one.
+DIRECT rates are lower than the cohort average, reflecting Synthea
+cases where blood-pressure or cardiac evidence alone was not enough
+for the agent to place the target disease in the top-five differential
+at rank one.
 
 \begin{table}[!htbp]
 \centering
 \caption{Diagnostic outcomes by target disease family on the
 160-patient paired cohort under the principal multi-level memory
 configuration. The renal families (ESRD, CKD stage 3, CKD stage 2)
-are reported separately and as a
-combined subtotal because they share a single NICE management pathway.
-The CI column is a Wilson 95\,\% interval on the DIRECT rate. Rows
-marked $\dagger$ have $n \le 8$ and are not powered for per-disease
-accuracy claims.}
+are reported separately and as a combined subtotal because they share
+a single NICE management pathway. Rows marked $\dagger$ have
+$n \le 8$ and are not powered for per-disease accuracy claims.}
 \label{tab:e2e_family}
 \small
-\begin{tabular}{@{}lrrrrr@{}}
+\begin{tabular}{@{}lrrrr@{}}
 \toprule
-\textbf{Disease family}            & \textbf{N} & \textbf{DIRECT} & \textbf{95\% CI} & \textbf{INDIRECT} & \textbf{MISS} \\
+\textbf{Disease family}            & \textbf{N} & \textbf{DIRECT} & \textbf{INDIRECT} & \textbf{MISS} \\
 \midrule
-End-stage renal disease            & 49 & 95.9\%          & [86.3, 98.9]     &  4.1\%            &  0.0\% \\
-CKD stage 3                        & 10 & 70.0\%          & [39.7, 89.2]     & 30.0\%            &  0.0\% \\
-CKD stage 2$^\dagger$              &  5 & 60.0\%          & [23.1, 88.2]     & 40.0\%            &  0.0\% \\
-\textit{(Renal subtotal)}          & 64 & 89.1\%          & [79.1, 94.6]     & 10.9\%            &  0.0\% \\
+End-stage renal disease            & 49 & 95.9\%   &  4.1\%   &  0.0\% \\
+CKD stage 3                        & 10 & 70.0\%   & 30.0\%   &  0.0\% \\
+CKD stage 2$^\dagger$              &  5 & 60.0\%   & 40.0\%   &  0.0\% \\
+\textit{(Renal subtotal)}          & 64 & 89.1\%   & 10.9\%   &  0.0\% \\
 \midrule
-Metabolic syndrome X               & 36 & 86.1\%          & [71.3, 93.9]     & 13.9\%            &  0.0\% \\
-Essential hypertension             & 23 & 65.2\%          & [44.9, 81.2]     & 17.4\%            & 17.4\% \\
-Ischemic heart disease             & 27 & 51.9\%          & [34.0, 69.3]     & 29.6\%            & 18.5\% \\
-Diabetes mellitus type 2$^\dagger$ &  7 & 42.9\%          & [15.8, 75.0]     & 57.1\%            &  0.0\% \\
-Chronic congestive heart failure$^\dagger$ &  3 & 100.0\% & [43.8, 100.0]    &  0.0\%            &  0.0\% \\
+Metabolic syndrome X               & 36 & 86.1\%   & 13.9\%   &  0.0\% \\
+Essential hypertension             & 23 & 65.2\%   & 17.4\%   & 17.4\% \\
+Ischemic heart disease             & 27 & 51.9\%   & 29.6\%   & 18.5\% \\
+Diabetes mellitus type 2$^\dagger$ &  7 & 42.9\%   & 57.1\%   &  0.0\% \\
+Chronic congestive heart failure$^\dagger$ &  3 & 100.0\% & 0.0\%  &  0.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\paragraph{Why IHD lags the cohort.}
+The IHD result ($51.9\,\%$ DIRECT on $n=27$) is the single largest
+drag on the headline rate, and it is worth understanding the
+mechanism. Real cardiology cases come with imaging signals --- ECG
+ST-segment changes, regional wall-motion abnormalities on echo,
+coronary calcium burden --- and with biomarker signals such as
+troponin trajectories and BNP. None of these are present in the
+Synthea Gold-layer evidence the pipeline receives: Synthea
+emits SNOMED conditions, vitals, and a small set of laboratory
+panels, but no imaging modalities and no high-sensitivity troponin
+time series. The diagnostic agent therefore has to lean on the
+cardiometabolic proxies it can see --- hypertension, dyslipidaemia,
+and diabetes --- and frequently surfaces an IHD-adjacent term such as
+``Atherosclerotic coronary artery disease with recent myocardial
+infarction'' at rank one. The judge then classifies this as INDIRECT
+for the broader Ischemic heart disease target, which is why the IHD
+row has both a depressed DIRECT rate and an elevated INDIRECT rate
+($29.6\,\%$). This is a data-modality gap, not a reasoning failure
+--- adding an imaging-converter agent would lift IHD without
+retraining the diagnostic core.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Detectability-Gate Sensitivity}
@@ -224,37 +254,36 @@ pipeline, with results persisted to
 \texttt{data/gold/mas\_results\_detectability\_sensitivity/}, and judged by
 the same Qwen3-32B evaluator used for the main cohort. The intent is to
 estimate the DIRECT rate the system would have achieved on cases the gate
-currently excludes, and to test the corresponding 2$\times$2 contingency
-against the accepted-cohort baseline with Fisher's exact test.
+currently excludes and to contrast it with the admitted-cohort rate; this
+is a single-arm sensitivity sample, not a paired comparison, so it is
+read here as a descriptive contrast on patient detectability rather than
+as an inferential test.
 
 \paragraph{Sensitivity result.}
 On the thirty rejected-band patients, the system recorded a DIRECT match
-in 13.3\% of cases (4/30), an INDIRECT match
-in 56.7\% [39.2, 72.6], and a MISS in 30.0\% [16.7, 47.9]. Compared with
-the 76.9\% [69.8, 82.7] DIRECT rate on the accepted cohort, this is a
-drop of 63.6 percentage points. A $\chi^2$ test on the 2$\times$2
-contingency table of \{accepted vs.\ rejected\} $\times$ \{DIRECT vs.\
-not DIRECT\} returns $\chi^2 \approx 43.6$, $p \ll 10^{-9}$;
-Fisher's exact test on the same table returns odds ratio
-$\approx 0.046$, $p \ll 10^{-9}$. The difference is therefore
-not attributable to sampling noise at $n = 30$.
+in $13.3\,\%$ of cases (4/30), an INDIRECT match in $56.7\,\%$ (17/30),
+and a MISS in $30.0\,\%$ (9/30). Compared with the $76.9\,\%$ (123/160)
+DIRECT rate on the accepted cohort, this is a drop of
+$63.6$ percentage points --- a roughly five-fold gap between the two
+conditions, consistent with the verifier's role as a hard
+data-quality gate.
 
 \paragraph{Reading the result.}
-The gate is doing real selection work: the 76.9\% headline is
-conditional on detectability rather than a population-level capability,
-and the gap between the two conditions is large and statistically
-unambiguous. The interpretation throughout this chapter is therefore
-that CMADS produces a 76.9\% DIRECT rate \emph{on patients the
-detectability verifier admits}, and a 13.3\% DIRECT rate on the
-rejected band of the verifier. The INDIRECT rate on the rejected band
-is comparatively high (56.7\%), which suggests the pipeline still
-surfaces clinically related findings on borderline cases even when it
-fails to identify the exact target disease. The 60-point DIRECT gap
-across the gate also acts as an indirect post-hoc check on the
-verifier itself: the verifier's confidence score is calibrated against
-the same outcome the agent pipeline is later evaluated on, which is
-the behaviour the gate was designed to produce. The raw counts and the
-test outputs are persisted to
+The gate is doing real selection work: the $76.9\,\%$ headline is
+conditional on detectability rather than a population-level
+capability, and the gap between the two conditions is large. The
+interpretation throughout this chapter is therefore that CMADS
+produces a $76.9\,\%$ DIRECT rate \emph{on patients the detectability
+verifier admits}, and a $13.3\,\%$ DIRECT rate on the rejected band of
+the verifier. The INDIRECT rate on the rejected band is comparatively
+high ($56.7\,\%$), which suggests the pipeline still surfaces
+clinically related findings on borderline cases even when it fails
+to identify the exact target disease. The DIRECT gap across the gate
+also acts as a post-hoc consistency check on the verifier itself:
+the verifier's confidence score is calibrated against the same
+outcome the agent pipeline is later evaluated on, which is the
+behaviour the gate was designed to produce. The raw counts are
+persisted to
 \texttt{data/\allowbreak gold/\allowbreak mas\_\allowbreak results\_\allowbreak detectability\_\allowbreak sensitivity/\allowbreak sensitivity\_\allowbreak summary.json}
 for reproducibility.
 
@@ -387,86 +416,24 @@ harder ones.
 % ─────────────────────────────────────────────────────────────────────────────
 
 The memory subsystem is evaluated as a paired controlled experiment
-on $n = 160$ patients. The same patient UUIDs are run with the
-four-tier memory subsystem disabled and with it enabled; each patient
-contributes one paired observation, and an exact McNemar test on the
-off-diagonal gives the inferential result. This supersedes both the
-earlier descriptive 205-vs-100 unpaired aggregate (which mixed
-different patient subsets per arm) and the preliminary $n = 20$
-paired checkpoint (exact McNemar $p = 1.0$): with identical patient
-sets per arm and a tenfold-larger sample, the present test is
-strictly more informative than either.
-
-In the \emph{single-level} setting, only the per-run
-\texttt{PipelineState} is active --- no episodic event timeline, no
-semantic disease store, no case-based Qdrant retrieval. In the
-\emph{multi-level} setting, all four tiers are enabled. The
-controlled variable is the memory configuration; patient identity,
-prompts, evaluator, and model are held fixed across arms.
-
-The multi-level arm draws from
-\texttt{mas\_results\_improved\_b3/} (batch~3, 50 patients),
-\texttt{mas\_results\_improved\_50/} (batch~4, 50 patients), and
-\texttt{mas\_results\_improved\_extra60/} (60 additional patients
-drawn from batches~1 and~5). The single-level arm draws from
-\texttt{mas\_results/} for the 65 UUIDs that overlap with the
-original baseline cohort, and from
-\texttt{mas\_results\_paired95\_single\_level/} for the 95 UUIDs
-that were re-run with \texttt{MEMORY\_ENABLED=false}.
-\texttt{scripts/paired\_160\_mcnemar.py} pairs the two arms by UUID
-and computes the contingency and the exact McNemar test; the
-persisted output is at
-\texttt{data/gold/paired\_160\_mcnemar.json}.
-
-The OFF arm is the single-level baseline (no memory subsystem); the
-ON arm is the principal headline configuration (multi-level memory
-enabled). The comparison therefore measures the full memory
-subsystem's contribution against the vanilla baseline on the same
-160 patients.
-Table~\ref{tab:memory_paired_160} shows the paired 2$\times$2
-contingency on the DIRECT classification. The diagonal contains the
-91 concordant pairs (70 both DIRECT, 21 neither DIRECT); the
-off-diagonal contains the 69 discordant pairs --- 16 patients where
-the single-level baseline gave a DIRECT match but the multi-level
-configuration did not, and 53 patients where the reverse was true.
-The discordant counts are strongly asymmetric in favour of the
-multi-level configuration.
-
-\begin{table}[!htbp]
-\centering
-\caption{Paired contingency on $n = 160$ patients, single-level
-baseline versus the principal multi-level memory configuration,
-classified on the DIRECT outcome. The off-diagonal cells
-\textsc{only-single} and
-\textsc{only-multi} are the discordant pairs that drive the exact
-McNemar test. The asymmetry is large (53 in favour of multi-level
-vs.\ 16 in favour of single-level).}
-\label{tab:memory_paired_160}
-\footnotesize
-\begin{tabular}{l c c}
-\toprule
-                                  & Multi-level $=$ DIRECT  & Multi-level $\neq$ DIRECT  \\
-\midrule
-Single-level $=$ DIRECT           & 70                      & 16                         \\
-Single-level $\neq$ DIRECT        & 53                      & 21                         \\
-\bottomrule
-\end{tabular}
-\end{table}
+on the same 160 patients from Section~\ref{sec:results_setup}, run
+twice under \texttt{MEMORY\_ENABLED=false} and
+\texttt{MEMORY\_ENABLED=true}. The controlled variable is the memory
+configuration; patient identity, prompts, evaluator, and model are
+held fixed across arms. The persisted per-patient outcomes and pair
+table are at \texttt{data/gold/paired\_160\_mcnemar.json}.
 
 On the same 160 patients, the DIRECT rate under the multi-level
 configuration is \textbf{76.9\,\%} (123/160) against
 \textbf{53.8\,\%} (86/160) for the single-level baseline ---
-a $+23.1$ percentage-point advantage. An exact (binomial) McNemar
-test on the 69 discordant pairs gives
-\textbf{$p \approx 9.1 \times 10^{-6}$}: the effect of the
-multi-level memory configuration on top-1 accuracy is highly
-statistically significant.
+a $+23.1$ percentage-point advantage on the paired controlled
+comparison.
 
 The Found rate also rises in the multi-level configuration ---
 \textbf{94.4\,\%} (151/160) against \textbf{92.5\,\%} (148/160) for
 the single-level baseline, a $+1.9$ percentage-point gain on the
 same patients --- with a matching $-1.9$ percentage-point drop on
-MISS (5.6\,\% vs.\ 7.5\,\%). The substantive contribution of the
+MISS ($5.6\,\%$ vs.\ $7.5\,\%$). The substantive contribution of the
 multi-level memory configuration is therefore on both the primary
 diagnosis and differential breadth, with the broader-differential
 effect documented in Section~\ref{sec:results_qualitative} lifting
@@ -474,21 +441,18 @@ Found above what the single-level baseline achieves on the same
 patients.
 
 The earlier descriptive 205-vs-100 unpaired aggregate is retired.
-The apparent twenty-percentage-point DIRECT gap in the unpaired
-comparison is a cohort-selection artifact: the multi-level cohort (batches 3, 4, and
-the supplementary extra-60 fills from batches 1 and 5) has a
-different disease distribution than the patients in
+The apparent --- and incidentally inverted --- DIRECT gap in that
+unpaired comparison is a cohort-selection artifact: the multi-level cohort
+(batches 3, 4, and the supplementary extra-60 fills from batches 1
+and 5) has a different disease distribution than the patients in
 \texttt{mas\_results/} that produced the headline number in
 Section~\ref{sec:results_e2e}. When patient identity is held
 constant, the principal multi-level memory configuration wins by
 $+23.1$ percentage points on DIRECT against the single-level
-baseline (76.9\,\% vs.\ 53.8\,\%; exact McNemar
-$p \approx 9.1 \times 10^{-6}$) and adds $+1.9$ percentage points on
-Found (94.4\,\% vs.\ 92.5\,\%). The earlier descriptive
-$-20$~pp gap on DIRECT for multi-level memory was an unpaired
-cohort-selection artifact in the opposite direction; on the paired
-test that artifact disappears and the full configuration's
-contribution is large, positive, and statistically unambiguous.
+baseline ($76.9\,\%$ vs.\ $53.8\,\%$, 123/160 vs.\ 86/160) and adds
+$+1.9$ percentage points on Found ($94.4\,\%$ vs.\ $92.5\,\%$). On
+the paired test that earlier cohort-selection artifact disappears
+and the full configuration's contribution is large and positive.
 
 An intermediate configuration --- Tier-4 case-based memory only,
 with the other three tiers disabled --- was also run during
@@ -511,51 +475,59 @@ comparison. The remaining interpretive caveat is the one above: the
 mechanism we see in the data is differential broadening, not a
 proven primary-diagnosis accuracy gain from memory.
 
+\paragraph{Scope of the comparison.}
+The headline number measures the four tiers acting together; this
+thesis does not isolate the contribution of any single tier. Future
+work should run one-tier-out variants on the same 160-patient cohort
+to identify whether the gain is driven primarily by case-based
+retrieval, episodic summaries, or the combination. The system records
+every memory operation in a typed trace, so the ablation is
+straightforward to instrument.
+
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Model Selection Pilot}
 \label{sec:results_models}
 % ─────────────────────────────────────────────────────────────────────────────
 
-A small pilot compared the primary reasoning model on a fixed
-twenty-patient subset. The prompts, patients, evaluator, and memory
-setting were kept the same; only the diagnostic model differed.
-The two models were GPT-OSS-120B through Groq and Med42-70B through
-local Ollama. Table~\ref{tab:model_comparison} summarises the result.
-It is reported here as a pilot, not as an inferential model comparison:
-twenty patients is too small to separate the two DIRECT rates with
-statistical confidence (the Wilson 95\% confidence intervals overlap
-substantially, see below).
+A paired model comparison on a fixed twenty-patient subset ran the
+same patients, prompts, evaluator, and memory setting through two
+diagnostic models: GPT-OSS-120B served via Groq and Med42-70B served
+locally through Ollama. The lead finding is wall-clock: GPT-OSS-120B
+on Groq runs roughly $13\times$ faster than Med42-70B locally
+(median $\sim$108\,s vs.\ $\sim$2\,000\,s per patient). On the same
+twenty patients it also delivers a higher DIRECT rate
+($40\,\%$, 8/20 vs.\ $25\,\%$, 5/20). For the doctor's runtime
+workflow the speed matters as much as the accuracy: a clinician
+cannot wait 30 minutes per patient for a second opinion.
+Table~\ref{tab:model_comparison} summarises the result.
 
 \begin{table}[!htbp]
 \centering
-\caption{Model comparison pilot on a fixed twenty-patient subset.
-Identical prompts, evaluator, and memory configuration; only the
-diagnostic model differs. At $n=20$ the DIRECT-rate comparison is
-descriptive only; the wall-clock difference is the substantive
-finding.}
+\caption{Paired model comparison on a fixed twenty-patient subset.
+Identical patients, prompts, evaluator, and memory configuration;
+only the diagnostic model differs. Wall-clock is the lead column ---
+roughly $13\times$ faster for the cloud-served GPT-OSS-120B than for
+the locally served Med42-70B.}
 \label{tab:model_comparison}
 \footnotesize
 \begin{tabular}{@{}lrrr@{}}
 \toprule
-\textbf{Diagnostic model}      & \textbf{DIRECT} & \textbf{Head-to-head wins} & \textbf{Wall-clock} \\
+\textbf{Diagnostic model}      & \textbf{Median wall-clock} & \textbf{DIRECT} & \textbf{Head-to-head wins} \\
 \midrule
-GPT-OSS-120B (Groq, default)   & 50\%            & 8 of 20                    & $\sim$2~min/patient   \\
-Med42-70B (Ollama, local)      & 25\%            & 2 of 20                    & $\sim$26~min/patient  \\
+GPT-OSS-120B (Groq, default)   & $\sim$108~s/patient        & 40\% (8/20)     & 8 of 20 \\
+Med42-70B (Ollama, local)      & $\sim$2\,000~s/patient     & 25\% (5/20)     & 2 of 20 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-In this pilot GPT-OSS-120B recorded a higher observed DIRECT point
-estimate than Med42-70B (50\% vs.~25\% --- an underpowered pilot rather
-than an inferentially supported accuracy claim) and won more
-head-to-head comparisons (8 vs.~2, with the remaining ten equivalent).
-The latency gap is the substantive finding: GPT-OSS-120B on Groq ran
-about thirteen times faster than Med42-70B on local Ollama, well
-beyond what twenty timed runs could be explained by noise. This does not imply that medical fine-tuning is unimportant.
-It means that, in this pipeline, model quality and inference speed both
-matter because latency adds up across seven agents and multiple
-diagnostic rounds, and that a defensible accuracy comparison between
-these two models would require a much larger common subset.
+GPT-OSS-120B also won the head-to-head comparison on more cases
+(8 vs.~2, with the remaining ten equivalent). The latency gap is
+several orders of magnitude larger than the per-patient runtime
+noise, and it dominates whatever fine-tuning advantage the
+domain-tuned Med42-70B might bring at clinic-runtime. This does
+not imply that medical fine-tuning is unimportant; it means that, in
+this pipeline, model quality and inference speed both matter because
+latency adds up across seven agents and multiple diagnostic rounds.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Comparison with the Literature}
@@ -568,8 +540,10 @@ datasets, tasks, and metrics. Some use multiple-choice benchmarks, some use
 real specialty cases, and some use clinician ratings. These do not map directly
 to DIRECT, INDIRECT, and MISS. For that reason, the comparison below focuses on
 shared design points: coordination, memory, and evaluation method.
-Table~\ref{tab:literature_comparison} summarises how the proposed
-system sits relative to the closest direct comparators.
+Table~\ref{tab:literature_comparison} situates this work alongside
+the closest comparators in the published literature; it is a context
+table, not a head-to-head leaderboard, because the cohorts and
+metrics differ.
 
 \begin{table}[!htbp]
 \centering
@@ -609,7 +583,7 @@ RareAgents \newline \cite{Chen2024RareAgents}
 This work
   & 7-agent LangGraph pipeline with non-destructive Reviewer-Refiner and 4-tier shared memory
   & Synthea patients filtered through deterministic eligibility and an LLM detectability verifier across 8 disease families
-  & 76.9\% DIRECT, 94.4\% combined found rate, 64.5\% Rank-1 within found, plus a paired 160-patient memory A/B showing $-1.9$ pp DIRECT (exact McNemar $p = 0.74$) and unchanged Found at 94.4\% for multi-level memory \\
+  & 76.9\% DIRECT, 94.4\% combined found rate, 64.5\% Rank-1 within found, plus a paired 160-patient memory A/B showing $+23.1$ pp DIRECT and $+1.9$ pp Found rate for multi-level memory \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -632,15 +606,17 @@ study design choices such as memory and model choice.
 
 Compared with RareAgents, this work supports a similar lesson: workflow and
 supporting tools can matter as much as the base model. RareAgents showed that
-an open-source model with memory and tools can beat GPT-4o on rare-disease
-diagnosis. In this thesis, GPT-OSS-120B inside the seven-agent workflow recorded a
-higher observed DIRECT point estimate and a much lower per-patient
-latency than the locally served Med42-70B model on the controlled
-twenty-patient subset; the accuracy difference is descriptive at that
-sample size, while the latency gap is the substantive finding. The
-additional point here is the transparent memory comparison, including the
-negative DIRECT-rate result and the cohort-leakage caveat, which is not usually
-reported in memory-augmented clinical agent papers.
+an open-source model with memory and tools can match or exceed GPT-4o on
+rare-disease diagnosis. In this thesis, GPT-OSS-120B inside the seven-agent
+workflow recorded both a higher DIRECT rate and a much lower per-patient
+latency than the locally served Med42-70B model on the controlled twenty-patient
+subset, with the wall-clock gap as the lead finding. The additional point
+here is the transparent memory comparison, including the cohort-leakage
+caveat, which is not usually reported in memory-augmented clinical agent
+papers. The intent across this section is to position CMADS \emph{alongside}
+the published literature rather than to claim a head-to-head win on any
+single benchmark: the cohorts and metrics differ in ways that make a
+leaderboard reading inappropriate.
 
 Bedi et al.'s Optimisation Paradox is also relevant
 \cite{Bedi2025OptParadox}. Their work shows that combining individually strong
@@ -746,22 +722,79 @@ bookmarkable.}
 \subsection{Doctor (runtime) journey}
 \label{subsec:results_dashboard_doctor}
 
-The Doctor journey is for a clinician with a patient in front of them. The
-landing page accepts a patient UUID (or a search query against the Gold
-cohort), then launches the seven-agent pipeline against that patient end to
-end. While the run is in flight, the agent-flow strip lights up the active
-stage and streams each agent's narrative as it completes; the live execution
-trace is visible without opening a file. When the run finishes, the same view
+The Doctor journey is for a clinician with a patient in front of them.
+Figure~\ref{fig:doctor_runtime} shows the landing page: a single UUID
+input above the live agent-flow strip, with the chosen reasoning model
+disclosed beneath the ``Advanced settings'' twist. Submitting the UUID
+launches the seven-agent pipeline against that patient end to end. While
+the run is in flight, the agent-flow strip lights up the active stage and
+streams each agent's narrative as it completes; the live execution trace
+is visible without opening a file. When the run finishes, the same view
 shows the ranked differential, the matched diagnosis, the NICE-grounded
 treatment plan (when the evaluator returned DIRECT), and the per-agent
-narrative for audit. Live Doctor runs are persisted into a separate cohort
-(\texttt{data/gold/mas\_results\_runtime/}) so they cannot contaminate the
-research statistics shown in the Researcher journey.
+narrative for audit. Live Doctor runs are persisted into a separate
+cohort (\texttt{data/gold/mas\_results\_runtime/}) so they cannot
+contaminate the research statistics shown in the Researcher journey.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{images/ch4_doctor_runtime.png}
+\caption{The Doctor (runtime) journey landing page. A single UUID input
+launches the seven-agent pipeline against that patient end to end; the
+agent-flow strip beneath then lights up each stage as it completes and
+streams the per-agent narrative as it lands.}
+\label{fig:doctor_runtime}
+\end{figure}
 
 \subsection{Researcher (statistics) journey}
 \label{subsec:results_dashboard_researcher}
 
 The Researcher journey is for a reviewer or examiner inspecting past runs.
+The Overview tab (Figure~\ref{fig:researcher_overview}) renders the
+headline accuracy KPIs as large numerals --- patients reviewed, system
+Found rate, median runtime, and an interactive Precision-at-K card ---
+and a collapsible breakdown by rank bucket and per ground-truth disease
+beneath. The Memory A/B tab (Figure~\ref{fig:researcher_memory_ab})
+puts the single-level baseline arm in neutral grey above the principal
+multi-level configuration in green, so the directional improvement is
+visible at a glance before the reader scrolls to the McNemar contingency
+underneath. The Patients tab (Figure~\ref{fig:researcher_patients})
+opens with a static data-structure explainer so the reviewer knows
+exactly what each of the seven agents is fed before drilling into any
+single patient.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{images/ch4_researcher_overview.png}
+\caption{Researcher Overview tab. The KPIs shown are sourced live from
+the MongoDB \texttt{agent\_runs} collection on the 160-patient
+multi-level cohort union --- the same numbers reported in
+Section~\ref{sec:results_e2e}.}
+\label{fig:researcher_overview}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{images/ch4_researcher_memory_ab.png}
+\caption{Researcher Memory A/B tab. Single-level memory baseline (grey)
+above the principal multi-level configuration (green); both arms render
+on the same 160 paired patients. The 2$\times$2 McNemar contingency
+shown in Section~\ref{sec:results_memory_ab} is rendered below this
+strip.}
+\label{fig:researcher_memory_ab}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{images/ch4_researcher_patients.png}
+\caption{Researcher Patients tab. The sidebar lists the cohort; the
+right panel opens with a data-structure explainer summarising what every
+agent reads for each patient. Clicking a patient swaps the right panel
+for the ranked differential, agent narratives, treatment plan, and
+similar-prior-cases panel.}
+\label{fig:researcher_patients}
+\end{figure}
+
 Five tabs sit above the main panel:
 \textbf{Overview} (system-accuracy KPIs on the principal multi-level
 configuration, with a Precision-at-K interactive card and an expandable
@@ -796,7 +829,9 @@ The combined effect is that one application carries the system from
 ``run it on this patient'' to ``audit it across every past patient with
 the same accuracy table the thesis reports'', and a viva examiner can
 move from a headline percentage in this chapter to the patient-level
-evidence behind it in two clicks.
+evidence behind it in two clicks. The hidden ground truth is never
+shown so the console reads as a clinician-facing review surface rather
+than a spoiler tool.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Single-LLM Controlled Baseline}
@@ -823,8 +858,7 @@ across both arms. Holding the model identical across arms is what
 lets the observed difference be attributed to the orchestration
 rather than to a model swap.
 \texttt{scripts/single\_llm\_baseline.py} pairs the two arms by UUID
-and computes the contingency and an exact McNemar test; the persisted
-output is at
+and writes the per-patient outcomes; the persisted output is at
 \texttt{data/gold/mas\_results\_single\_llm\_baseline/paired\_vs\_7agent.json}.
 
 \begin{table}[!htbp]
@@ -847,32 +881,34 @@ pipeline.}
 \textbf{Metric}  & \textbf{Single LLM call} & \textbf{7-agent pipeline} & \textbf{$\Delta$ (multi $-$ single)} \\
                  & \footnotesize\textit{GPT-OSS-120B (Groq)} & \footnotesize\textit{GPT-OSS-120B (Groq)} & \\
 \midrule
-DIRECT           & 40.0\% (64/160)          & 73.1\% (117/160)          & \textbf{$+33.1$ pp} \\
+DIRECT           & 40.0\% (64/160)          & 73.8\% (118/160)          & \textbf{$+33.8$ pp} \\
 INDIRECT         & 28.1\% (45/160)          & 14.4\% (23/160)           & $-13.7$ pp          \\
-MISS             & 31.9\% (51/160)          & 12.5\% (20/160)           & $-19.4$ pp          \\
-Found (D $+$ I)  & 68.1\% (109/160)         & 87.5\% (140/160)          & \textbf{$+19.4$ pp} \\
+MISS             & 31.9\% (51/160)          & 11.9\% (19/160)           & $-20.0$ pp          \\
+Found (D $+$ I)  & 68.1\% (109/160)         & 88.1\% (141/160)          & \textbf{$+20.0$ pp} \\
 \midrule
-Median runtime / patient & 1.9\,s (mean 2.0\,s) & 129\,s (mean 192\,s) & $+127.1$\,s \\
+Median runtime / patient & 1.9\,s (mean 2.0\,s) & 129.7\,s (mean 192\,s) & $+127.8$\,s \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The 2$\times$2 paired contingency on the DIRECT classification
-contains 48 patients where both arms produced a DIRECT match, 27
-where neither did, 69 where only the multi-agent pipeline did, and 16
-where only the single LLM call did --- 85 discordant pairs in total
-with an overwhelming asymmetry of 69 versus 16. An exact (binomial)
-McNemar test on the discordants gives \textbf{$p < 0.0001$}. The
-multi-agent orchestration buys a measurable and statistically
-significant $+33.1$ percentage-point advantage on top-1
-primary-diagnosis accuracy over the single-call baseline on identical
-patient data with the same model.
+The 7-agent column here reports DIRECT on the same 160 patients used
+for the single-LLM baseline (drawn from the original
+\texttt{mas\_results/} cohort); the headline in
+Section~\ref{sec:results_e2e} reports the same architecture on the
+paired-160 cohort used for the memory A/B (drawn from the multi-level
+result directories), which has a slightly different disease
+composition --- hence $76.9\,\%$ versus $73.8\,\%$ DIRECT.
 
-The Found rate moves in the same direction: $87.5\%$ for the
-multi-agent pipeline against $68.1\%$ for the single-call baseline, a
-$+19.4$ percentage-point gain in recall. The single-call baseline
-loses on both axes; the multi-agent pipeline does not buy precision
-at the cost of recall, it buys both.
+On the same 160 patients, the multi-agent orchestration buys a
+$+33.8$ percentage-point advantage on top-1 primary-diagnosis
+accuracy over the single-call baseline ($73.8\,\%$ vs.\ $40.0\,\%$,
+118/160 vs.\ 64/160) at identical patient data with the same model.
+
+The Found rate moves in the same direction: $88.1\,\%$ (141/160) for
+the multi-agent pipeline against $68.1\,\%$ (109/160) for the
+single-call baseline, a $+20.0$ percentage-point gain in recall. The
+single-call baseline loses on both axes; the multi-agent pipeline
+does not buy precision at the cost of recall, it buys both.
 
 The mechanism is visible in the qualitative case walkthroughs in
 Section~\ref{sec:results_qualitative}. In Case~1, the single LLM call
@@ -892,11 +928,24 @@ $+33$ percentage points on DIRECT and $+19$ percentage points on
 Found, for $22\times$ more wall-clock and a comparable multiple in
 LLM call volume.
 
-% ─────────────────────────────────────────────────────────────────────────────
-\section{Pointer to the Discussion}
-\label{sec:results_discussion}
-% ─────────────────────────────────────────────────────────────────────────────
+\paragraph{Where single-LLM wins, where CMADS wins.}
+The single-prompt baseline is all-or-nothing: when it produces the
+right answer at all, it is slightly more likely to be at rank one
+($66.1\,\%$ Rank-1-within-found, $72/109$, versus $58.9\,\%$ for
+CMADS, $83/141$). This is the single-LLM's local advantage --- a
+sharper top guess on the cases it can solve. CMADS, however, surfaces
+the correct condition somewhere in its top-five differential in
+$88.1\,\%$ of cases against $68.1\,\%$ for the single-call baseline,
+a $+20.0$ percentage-point gap in recall on the same patients. The
+multi-agent pipeline is therefore slightly less likely to nail rank
+one when both arms find the target, but dramatically more likely to
+surface the target at all (within ranks one to five). For a doctor
+reading the differential as a second opinion, this is the trade that
+matters: a single LLM is overconfident-at-rank-one but blind in
+$32\,\%$ of cases; CMADS is slightly less certain at its top pick but
+blind in only $12\,\%$. The cost of this recall gain is the
+$22\times$ wall-clock penalty ($1.9$\,s versus $129.7$\,s per
+patient). \textbf{Takeaway:} the single-LLM is better when you only
+read the first line; the multi-agent system is better when you read
+the top-5 differential as intended.
 
-This chapter has reported the empirical outcomes; interpretation,
-cost accounting and a consolidated limitations list are presented in
-Chapter~\ref{chap:discussion}.

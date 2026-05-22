@@ -30,9 +30,11 @@ reasoning process, not only produce a final answer.
 
 Large language models (LLMs) have renewed interest in this problem because they
 can read long clinical text, summarise evidence, and explain a line of reasoning
-in natural language. Recent studies show strong results on medical
-question-answering tasks and controlled clinical benchmarks
-\cite{Abbasian2024openCHA,Tang2024MedAgents}. However, benchmark performance
+in natural language, sitting within the broader convergence of human and
+artificial intelligence in medicine described by
+Topol~\cite{Topol2019HighPerformance}. Recent studies show strong results on
+medical question-answering tasks and controlled clinical benchmarks
+\cite{Abbasian2024openCHA,Tang2024MedAgents,Kim2024MDAgents}. However, benchmark performance
 does not automatically translate into a safe clinical workflow. A single LLM
 call is still a monolithic process: the same model reads all inputs, forms the
 diagnosis, and presents the result without an independent reviewer inside the
@@ -199,15 +201,6 @@ and audit, rather than a polished but unverifiable answer from a single
 black-box model?
 \end{quote}
 
-Two related topics are outside the main scope: defending the system against a
-compromised agent \cite{Chen2025MedSentry}, and fully measuring the trade-off
-between safety constraints and diagnostic accuracy \cite{Kim2025TAO,Chen2025MedSentry}.
-Iterative EHR error recovery, as in EHRFlow's Debugger-agent
-loop~\cite{Wu2024EHRFlow}, is a related design pattern that this thesis adopts
-in spirit through the Reviewer-Refiner step rather than as a separately
-evaluated dimension. They are discussed again as future work in
-Chapter~\ref{chap:conclusion}.
-
 % -----------------------------------------------------------------------------
 \section{Aim and Research Question}
 \label{sec:aim}
@@ -323,12 +316,22 @@ claim final clinical performance.
 \textbf{English-only reasoning.} The prompts, retrieved guidelines, and
 dashboard text are in English. Non-English clinical text is outside the scope.
 
+\textbf{Related topics outside scope.} Two adjacent problem areas are
+not evaluated empirically in this thesis: defending the system against
+a compromised agent~\cite{Chen2025MedSentry}, and fully measuring the
+trade-off between safety constraints and diagnostic accuracy
+\cite{Kim2025TAO,Chen2025MedSentry}. Iterative EHR error recovery, as
+in EHRFlow's Debugger-agent loop~\cite{Wu2024EHRFlow}, is a related
+design pattern that this thesis adopts in spirit through the
+Reviewer-Refiner step rather than as a separately evaluated dimension.
+Both are revisited as future work in Chapter~\ref{chap:conclusion}.
+
 % -----------------------------------------------------------------------------
 \section{Thesis Outline}
 \label{sec:outline}
 % -----------------------------------------------------------------------------
 
-This thesis is divided into five chapters.
+This thesis is divided into six chapters.
 
 \textbf{Chapter~\ref{chap:background}: Background} reviews multi-agent LLM work
 in clinical AI. It groups the literature by topic, including foundation
@@ -348,7 +351,12 @@ results, per-agent reliability, adaptive reasoning behaviour, memory comparison,
 model comparison, literature comparison, qualitative case walkthroughs, and the
 doctor-facing dashboard.
 
-\textbf{Chapter~5: Conclusion and Future Work} summarises the thesis
+\textbf{Chapter~5: Discussion} interprets the empirical results: how the
+headline outcomes fit the design intent, how the memory and orchestration
+comparisons should be read, the token and cost accounting, and a consolidated
+limitations list.
+
+\textbf{Chapter~6: Conclusion and Future Work} summarises the thesis
 contributions, explains the limits of the current prototype, and outlines future
 steps such as real EHR testing, broader disease coverage, prospective clinical
 review, and larger memory-controlled experiments.

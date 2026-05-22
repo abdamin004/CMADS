@@ -519,32 +519,32 @@
         {
           y: 165, h: 125, key: "teal", badge: "S1",
           title: "Parallel context extraction",
-          body: ["EHR Analyst and Lab Interpreter run concurrently", "reducers merge both outputs safely"],
-          agents: ["EHR Analyst", "Lab Interpreter"]
+          body: ["EHR Analyst Agent and Lab Interpreter Agent run concurrently", "reducers merge both outputs safely"],
+          agents: ["EHR Analyst Agent", "Lab Interpreter Agent"]
         },
         {
           y: 325, h: 150, key: "blue", badge: "S2",
           title: "Diagnostic reasoning loop",
           body: ["adaptive critique loop when no prior is found", "anti-anchoring split when Tier-4 recall is strong"],
-          agents: ["Diagnostic Reasoning"]
+          agents: ["Diagnostic Reasoning Agent"]
         },
         {
           y: 520, h: 125, key: "red", badge: "S3",
           title: "Adversarial clinical review",
           body: ["independent evidence check challenges anchoring", "unsupported claims and missed severe findings"],
-          agents: ["Clinical Reviewer"]
+          agents: ["Clinical Reviewer Agent"]
         },
         {
           y: 685, h: 125, key: "violet", badge: "S4",
           title: "Diagnostic refinement",
           body: ["reviewer flags are reconciled into one", "clinician-readable final differential"],
-          agents: ["Diagnostic Refiner"]
+          agents: ["Diagnostic Refiner Agent"]
         },
         {
           y: 850, h: 125, key: "amber", badge: "S5",
           title: "LLM-as-Judge evaluation",
           body: ["Qwen3-32B compares top-five differential", "against hidden Synthea ground truth"],
-          agents: ["LLM Evaluator"]
+          agents: ["LLM Evaluator Agent"]
         }
       ];
 
@@ -700,7 +700,7 @@
     }
 
     function drawEhrFlow(svg) {
-      drawLinearAgent(svg, "EHR Analyst Flow",
+      drawLinearAgent(svg, "EHR Analyst Agent",
         "A structured three-call sequence turns longitudinal EHR evidence into a provenance-aware clinical summary.",
         {
           color: "teal",
@@ -718,7 +718,7 @@
     }
 
     function drawLabFlow(svg) {
-      drawLinearAgent(svg, "Lab Interpreter Flow",
+      drawLinearAgent(svg, "Lab Interpreter Agent",
         "Laboratory observations are normalised, interpreted by pattern, severity-ranked, and checked before downstream diagnosis.",
         {
           color: "blue",
@@ -788,7 +788,7 @@
     }
 
     function drawReviewerFlow(svg) {
-      title(svg, "Clinical Reviewer Flow",
+      title(svg, "Clinical Reviewer Agent",
             "The reviewer is intentionally adversarial: it reconstructs the case independently and writes critique without overwriting diagnosis.");
 
       panel(svg, 95, 175, 1610, 330, "Independent review pass", "red", { fill: C.panel, shadow: true });
@@ -814,11 +814,11 @@
     }
 
     function drawRefinerFlow(svg) {
-      title(svg, "Diagnostic Refiner Flow",
+      title(svg, "Diagnostic Refiner Agent",
             "The refiner merges the diagnostic answer and reviewer critique into one final differential with explicit conflict handling.");
 
-      box(svg, 105, 205, 360, 120, "Diagnostic Reasoning", ["ranked candidates", "confidence + evidence"], "blue", { fill: C.blueSoft });
-      box(svg, 105, 385, 360, 120, "Clinical Reviewer", ["verified / refuted / uncertain", "missed alternatives"], "red", { fill: C.redSoft });
+      box(svg, 105, 205, 360, 120, "Diagnostic Reasoning Agent", ["ranked candidates", "confidence + evidence"], "blue", { fill: C.blueSoft });
+      box(svg, 105, 385, 360, 120, "Clinical Reviewer Agent", ["verified / refuted / uncertain", "missed alternatives"], "red", { fill: C.redSoft });
       panel(svg, 610, 255, 505, 210, "Merge policy", "violet", { fill: C.violetSoft, stroke: C.violet, shadow: true });
       tinyCard(svg, 650, 325, 200, 70, "Agree", "clean terminology", "green");
       tinyCard(svg, 875, 325, 200, 70, "Disagree", "verified up, refuted down", "red");
@@ -1039,9 +1039,16 @@
             { name: "pytest", fill: C.green },
             { name: "pytest-asyncio", fill: C.blue, nameSize: "16px" },
             { name: "ruff", fill: C.amber },
-            { name: "Make", fill: C.slate },
-            { name: "Tectonic", fill: C.red },
-            { name: "LaTeX", fill: C.violet }
+            { name: "Make", fill: C.slate }
+          ]
+        },
+        {
+          label: ["Dev Tooling", "and CI/CD"],
+          color: C.amber,
+          items: [
+            { name: "Git", fill: C.red },
+            { name: "GitHub Actions", fill: C.slate, nameSize: "16px" },
+            { name: "Claude Code", fill: C.violet }
           ]
         }
       ];

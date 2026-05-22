@@ -241,12 +241,12 @@
   note    = {arXiv:2401.05654}
 }
 
-@article{Schmidgall2024AgentClinic,
-  author  = {Samuel Schmidgall and Rojin Ziaei and Carl Harris and Eduardo Reis and Jeffrey Jopling and Michael Moor},
-  title   = {{AgentClinic}: A Multimodal Agent Benchmark to Evaluate {AI} in Simulated Clinical Environments},
-  journal = {arXiv preprint},
-  year    = {2024},
-  note    = {arXiv:2405.07960}
+@inproceedings{Schmidgall2024AgentClinic,
+  author    = {Samuel Schmidgall and Rojin Ziaei and Carl Harris and Eduardo Reis and Jeffrey Jopling and Michael Moor},
+  title     = {{AgentClinic}: A Multimodal Agent Benchmark to Evaluate {AI} in Simulated Clinical Environments},
+  booktitle = {Advances in Neural Information Processing Systems 37 (NeurIPS 2024), Datasets and Benchmarks Track},
+  year      = {2024},
+  note      = {arXiv:2405.07960}
 }
 
 @inproceedings{Rahman2025SyntheaNN,
@@ -256,4 +256,146 @@
   publisher = {ACM},
   year      = {2025},
   doi       = {10.1145/3784929.3784939}
+}
+
+% Foundational reference for the LLM-as-Judge evaluation protocol used in
+% Chapter~3 (DIRECT/INDIRECT/MISS adjudication by a separate judge model).
+@inproceedings{Zheng2023JudgeLLM,
+  author    = {Lianmin Zheng and Wei-Lin Chiang and Ying Sheng and Siyuan Zhuang and Zhanghao Wu and Yonghao Zhuang and Zi Lin and Zhuohan Li and Dacheng Li and Eric P. Xing and Hao Zhang and Joseph E. Gonzalez and Ion Stoica},
+  title     = {Judging {LLM}-as-a-Judge with {MT}-Bench and Chatbot Arena},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023), Datasets and Benchmarks Track},
+  year      = {2023},
+  note      = {arXiv:2306.05685}
+}
+
+% Original RAG formulation; motivates the Treatment Planning agent's
+% NICE-passage retrieval over Qdrant before guideline-grounded generation.
+@inproceedings{Lewis2020RAG,
+  author    = {Patrick Lewis and Ethan Perez and Aleksandra Piktus and Fabio Petroni and Vladimir Karpukhin and Naman Goyal and Heinrich K{\"u}ttler and Mike Lewis and Wen-tau Yih and Tim Rockt{\"a}schel and Sebastian Riedel and Douwe Kiela},
+  title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+  booktitle = {Advances in Neural Information Processing Systems 33 (NeurIPS 2020)},
+  year      = {2020},
+  note      = {arXiv:2005.11401}
+}
+
+% Synthea generator paper -- the rule-based synthetic-EHR source that
+% provides every patient record and every ground-truth label in this thesis.
+@article{Walonoski2018Synthea,
+  author    = {Jason Walonoski and Mark Kramer and Joseph Nichols and Andre Quina and Chris Moesel and Dylan Hall and Carlton Duffett and Kudakwashe Dube and Thomas Gallagher and Scott McLachlan},
+  title     = {Synthea: An approach, method, and software mechanism for generating synthetic patients and the synthetic electronic health care record},
+  journal   = {Journal of the American Medical Informatics Association (JAMIA)},
+  volume    = {25},
+  number    = {3},
+  pages     = {230--238},
+  year      = {2018},
+  doi       = {10.1093/jamia/ocx079}
+}
+
+% OHDSI / OMOP CDM rationale -- motivates the Silver layer of the medallion
+% pipeline, which normalises Synthea FHIR resources to OMOP v5.4.
+@article{Hripcsak2015OHDSI,
+  author    = {George Hripcsak and Jon D. Duke and Nigam H. Shah and Christian G. Reich and Vojtech Huser and Martijn J. Schuemie and Marc A. Suchard and Rae Woong Park and Ian Chi Kei Wong and Peter R. Rijnbeek and Johan van der Lei and Nicole Pratt and G. Niklas Norén and Yu-Chuan Li and Paul E. Stang and David Madigan and Patrick B. Ryan},
+  title     = {Observational Health Data Sciences and Informatics ({OHDSI}): Opportunities for Observational Researchers},
+  journal   = {Studies in Health Technology and Informatics},
+  volume    = {216},
+  pages     = {574--578},
+  year      = {2015}
+}
+
+% OMOP Common Data Model v5.4 specification (project documentation) --
+% canonical reference for the Silver-layer schema produced by dbt-core.
+@misc{OMOPCDMv54,
+  author       = {{Observational Health Data Sciences and Informatics ({OHDSI})}},
+  title        = {{OMOP} Common Data Model, version 5.4 -- Specification},
+  year         = {2024},
+  howpublished = {\url{https://ohdsi.github.io/CommonDataModel/cdm54.html}},
+  note         = {Accessed 2026}
+}
+
+% LangGraph framework (LangChain) -- the StateGraph orchestrator that runs
+% the seven-agent pipeline in Chapter~3.
+@misc{LangGraph2024,
+  author       = {{LangChain}},
+  title        = {{LangGraph}: Building stateful, multi-actor applications with {LLMs}},
+  year         = {2024},
+  howpublished = {\url{https://langchain-ai.github.io/langgraph/}},
+  note         = {Accessed 2026}
+}
+
+% Sentence-BERT -- foundational dense-retrieval encoder; cited where
+% BioLORD-2023 (a sentence-encoder derivative) is used for vector retrieval.
+@inproceedings{Reimers2019SentenceBERT,
+  author    = {Nils Reimers and Iryna Gurevych},
+  title     = {{Sentence-BERT}: Sentence Embeddings using Siamese {BERT}-Networks},
+  booktitle = {Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP 2019)},
+  pages     = {3982--3992},
+  year      = {2019},
+  doi       = {10.18653/v1/D19-1410}
+}
+
+% Chain-of-thought prompting -- foundational reasoning pattern that underlies
+% the Diagnostic Reasoning agent's per-round critique chain.
+@inproceedings{Wei2022CoT,
+  author    = {Jason Wei and Xuezhi Wang and Dale Schuurmans and Maarten Bosma and Brian Ichter and Fei Xia and Ed H. Chi and Quoc V. Le and Denny Zhou},
+  title     = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
+  year      = {2022},
+  note      = {arXiv:2201.11903}
+}
+
+% ReAct -- reasoning + acting pattern; the parent template for agents that
+% interleave reasoning steps with tool/retrieval calls, as the Diagnostic
+% and Treatment agents do here.
+@inproceedings{Yao2023ReAct,
+  author    = {Shunyu Yao and Jeffrey Zhao and Dian Yu and Nan Du and Izhak Shafran and Karthik Narasimhan and Yuan Cao},
+  title     = {{ReAct}: Synergizing Reasoning and Acting in Language Models},
+  booktitle = {Proceedings of the 11th International Conference on Learning Representations (ICLR 2023)},
+  year      = {2023},
+  note      = {arXiv:2210.03629}
+}
+
+% Self-consistency -- the multi-sample reasoning baseline that MAC and other
+% reviewed multi-agent works compare against; relevant background for the
+% non-destructive Reviewer-Refiner pattern.
+@inproceedings{Wang2023SelfConsistency,
+  author    = {Xuezhi Wang and Jason Wei and Dale Schuurmans and Quoc Le and Ed Chi and Sharan Narang and Aakanksha Chowdhery and Denny Zhou},
+  title     = {Self-Consistency Improves Chain of Thought Reasoning in Language Models},
+  booktitle = {Proceedings of the 11th International Conference on Learning Representations (ICLR 2023)},
+  year      = {2023},
+  note      = {arXiv:2203.11171}
+}
+
+% Qdrant vector database -- the search engine that hosts both the patient_cases
+% (Tier 4 memory) and nice_guidelines collections used by the Treatment agent.
+@misc{Qdrant2024,
+  author       = {{Qdrant}},
+  title        = {{Qdrant}: Open-Source Vector Search Engine},
+  year         = {2024},
+  howpublished = {\url{https://qdrant.tech/documentation/}},
+  note         = {Accessed 2026}
+}
+
+% NICE clinical guidelines -- the corpus retrieved by the Treatment Planning
+% agent at Stage 6 (e.g.~NG106 heart failure, NG136 hypertension, NG181 statins).
+@misc{NICEGuidelines,
+  author       = {{National Institute for Health and Care Excellence ({NICE})}},
+  title        = {{NICE} guidance and advice},
+  year         = {2024},
+  howpublished = {\url{https://www.nice.org.uk/guidance}},
+  note         = {Accessed 2026}
+}
+
+% Topol 2019 -- the foundational peer-reviewed framing of AI-augmented
+% medicine in a top medical journal. Cited from the preprint-caveat
+% paragraph in the literature search strategy and used as the
+% framing reference for AI in medicine across the thesis.
+@article{Topol2019HighPerformance,
+  author  = {Topol, Eric J.},
+  title   = {High-performance medicine: the convergence of human and artificial intelligence},
+  journal = {Nature Medicine},
+  volume  = {25},
+  number  = {1},
+  pages   = {44--56},
+  year    = {2019},
+  doi     = {10.1038/s41591-018-0300-7}
 }

@@ -17,44 +17,12 @@ evaluation.
 \label{subsec:foundational}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Four early systems shaped the field. They introduced role-based agents,
-discussion loops, final synthesis, and supervisor-style review. These ideas are
-reused in many later systems, including the system built in this thesis.
-Table~\ref{tab:tracker_foundational} summarises the papers before the discussion.
-
-\begin{table}[!htbp]
-\centering
-\caption{Literature Tracker: Foundational Multi-Agent Frameworks}
-\label{tab:tracker_foundational}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{p{2.2cm} p{2.5cm} p{2.2cm} p{3.2cm} p{3.0cm}}
-\toprule
-\textbf{Paper} & \textbf{Architecture Type} & \textbf{Evaluation Scope} & \textbf{Key Finding} & \textbf{Thesis Relevance} \\
-\midrule
-MedAgents~\cite{Tang2024MedAgents}
-  & Role-play + iterative discussion
-  & 9 benchmarks (zero-shot)
-  & 77\% errors from knowledge gaps
-  & Early MAS example; knowledge-pooling justification \\[3pt]
-openCHA~\cite{Abbasian2024openCHA}
-  & Three-layer orchestrator with external sources
-  & 2 demos + 4 use cases
-  & 92\% ChatDiet effectiveness; outperformed GPT-4
-  & Task Planner + Executor architecture precedent \\[3pt]
-AI Hospital~\cite{Fan2024AIHospital}
-  & 4-role simulation with Chief Physician
-  & MVME benchmark; multi-turn
-  & Dispute resolution structurally necessary
-  & Proves conflict resolution is required \\[3pt]
-MAC~\cite{MAC2025npj}
-  & MDT with Supervisor
-  & 302 rare disease cases
-  & 4 doctors + supervisor optimal; beats Self-Consistency
-  & Structured discussion more efficient than sampling \\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
+Four early systems shaped the field. They introduced role-based
+agents, discussion loops, final synthesis, and supervisor-style
+review. These ideas are reused in many later systems, including the
+system built in this thesis; per-paper rows for these four systems
+appear in the comparative summary in
+Section~\ref{subsec:summary_table}.
 
 MedAgents by Tang et al. is one of the main starting points for this area
 \cite{Tang2024MedAgents}. It uses role-assigned medical agents that first analyse
@@ -88,8 +56,11 @@ The MAC framework by Shen et al. models diagnosis as a group consultation
 \cite{MAC2025npj}. Doctor agents discuss, critique, and refine their answers
 under a Supervisor agent. On 302 rare-disease cases, the best setup was four
 Doctor agents and one Supervisor. Adding too many agents made the discussion
-redundant. MAC also performed better than Self-Consistency, even though
-Self-Consistency used more model calls. This is useful evidence that organised
+redundant. MAC also performed better than the Self-Consistency baseline of
+Wang et al.~\cite{Wang2023SelfConsistency} --- which improves chain-of-thought
+reasoning by sampling multiple reasoning paths and majority-voting the answer
+--- even though Self-Consistency used more model calls. This is useful
+evidence that organised
 discussion can be better than simply sampling many independent answers.
 
 \FloatBarrier
@@ -98,50 +69,12 @@ discussion can be better than simply sampling many independent answers.
 \label{subsec:coordination}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The first group of papers shows the value of multiple agents, but many of those
-systems use a fixed structure for every case. The next group focuses on how
-agents should be coordinated. This includes adaptive routing, escalation,
-workflow decomposition, and dynamic loops. Table~\ref{tab:tracker_coordination}
-summarises the papers in this group.
-
-\begin{table}[!htbp]
-\centering
-\caption{Literature Tracker: Agent Coordination Architectures}
-\label{tab:tracker_coordination}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{p{2.2cm} p{2.5cm} p{2.2cm} p{3.2cm} p{3.0cm}}
-\toprule
-\textbf{Paper} & \textbf{Architecture Type} & \textbf{Evaluation Scope} & \textbf{Key Finding} & \textbf{Thesis Relevance} \\
-\midrule
-MDAgents~\cite{Kim2024MDAgents}
-  & Adaptive complexity routing
-  & 10 benchmarks; GPT-4 + Gemini
-  & Best on 7/10; $+$4.2\% over fixed
-  & Core orchestration precedent \\[3pt]
-TAO~\cite{Kim2025TAO}
-  & 3-tier safety hierarchy
-  & 5 safety benchmarks
-  & Reduced harmfulness; outperformed MDAgents on safety
-  & Tiered escalation precedent \\[3pt]
-Opt.\ Paradox~\cite{Bedi2025OptParadox}
-  & Best-of-Breed vs.\ homogeneous
-  & 2{,}400 MIMIC-CDM cases
-  & Coordination $>$ component quality; 13.87\% hallucination
-  & Defines the exact gap this thesis addresses \\[3pt]
-Barra et al.~\cite{Barra2025Agentic}
-  & 7-agent n8n pipeline; 5 patterns
-  & 50 test runs
-  & 70--80\% time reduction
-  & Direct workflow design precedent \\[3pt]
-DynamiCare~\cite{Shang2025DynamiCare}
-  & Dynamic multi-round with Patient Agent
-  & MIMIC-Patient benchmark
-  & Dynamic outperforms single-pass
-  & First iterative adaptive loop model \\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
+The first group of papers shows the value of multiple agents, but
+many of those systems use a fixed structure for every case. The next
+group focuses on how agents should be coordinated --- adaptive
+routing, escalation, workflow decomposition, and dynamic loops ---
+and is summarised together with the rest of the reviewed literature
+in Section~\ref{subsec:summary_table}.
 
 MDAgents by Kim et al. is important because it does not use the same agent setup
 for every query \cite{Kim2024MDAgents}. It first classifies the case as low,
@@ -199,45 +132,12 @@ MIMIC-Patient benchmark for dynamic agent-based clinical decision-making.
 \label{subsec:deliberation}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Coordination decides which agents run and in what order. A separate question is
-what the system should do when agents disagree. The papers in this group study
-debate, dissent, and bias reduction. They are important because a clinical MAS
-should not simply accept the first answer without challenge.
-Table~\ref{tab:tracker_deliberation} gives an overview.
-
-\begin{table}[!htbp]
-\centering
-\caption{Literature Tracker: Inter-Agent Deliberation and Conflict Resolution}
-\label{tab:tracker_deliberation}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{p{2.2cm} p{2.5cm} p{2.2cm} p{3.2cm} p{3.0cm}}
-\toprule
-\textbf{Paper} & \textbf{Architecture Type} & \textbf{Evaluation Scope} & \textbf{Key Finding} & \textbf{Thesis Relevance} \\
-\midrule
-MDTeamGPT \newline \cite{Chen2025MDTeamGPT}
-  & 4-phase MDT with self-evolution
-  & MedQA + MedMCQA; GPT-4
-  & Debate $>$ consensus; varied views drive quality
-  & Debate workflow design precedent \\[3pt]
-Layered Debate \newline \cite{Zhao2025LayeredDebate}
-  & 3-layer debate with Judge Agent
-  & Similar-disease disambiguation
-  & Layer~2 adversarial exchange is highest-value component
-  & Judge agent precedent \\[3pt]
-Catfish Agent \newline \cite{Wang2025Catfish}
-  & Dissent injection agent
-  & 12 benchmarks (9 QA + 3 VQA)
-  & Silent agreement = systematic failure; Catfish beats GPT-4o
-  & Complexity-aware dissent precedent \\[3pt]
-Ke et al. \newline \cite{Ke2024CognitiveBias}
-  & 3-role bias mitigation system
-  & 10 clinical vignettes
-  & MAS reduces cognitive biases; safety intervention
-  & Critical evaluator agent precedent \\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
+Coordination decides which agents run and in what order. A separate
+question is what the system should do when agents disagree. The
+papers in this group study debate, dissent, and bias reduction; they
+matter because a clinical MAS should not simply accept the first
+answer without challenge. Per-paper rows are included in the
+comparative summary in Section~\ref{subsec:summary_table}.
 
 MDTeamGPT by Chen et al. models a multidisciplinary team consultation
 \cite{Chen2025MDTeamGPT}. The workflow has four phases: assign roles, let agents
@@ -252,7 +152,8 @@ Layered Debate by Zhao et al. focuses on diseases that look similar
 initial diagnoses. The second layer makes them cross-examine each other. The
 third layer uses a Judge Agent to read the debate and make the final decision.
 The system performed better than single-agent, standard multi-agent, and
-chain-of-thought baselines. For this thesis, the useful idea is that review
+chain-of-thought~\cite{Wei2022CoT} baselines. For this thesis, the useful
+idea is that review
 should examine the reasoning path, not only the final diagnosis.
 
 Wang et al. identify a common failure called \textit{silent agreement}

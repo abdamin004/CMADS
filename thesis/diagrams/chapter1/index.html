@@ -58,7 +58,7 @@
     };
 
     const FIGURES = {
-      patient_journey: { width: 1800, height: 1360, draw: drawPatientJourney }
+      patient_journey: { width: 1800, height: 1160, draw: drawPatientJourney }
     };
 
     function el(name, attrs = {}, children = []) {
@@ -233,10 +233,12 @@
         }
       ];
 
-      text(svg, 72, 168, "1 · Clinical workflow", "section",
-        { "font-size": 22, fill: C.ink });
-
-      const rowY = 200;
+      // ``rowY`` is the top of the stage-card row. It must sit far enough
+      // below the title/subtitle that the "CMADS DECISION SUPPORT ZONE"
+      // pill — which is rendered at ``rowY - 52`` (above the band) — has
+      // clear vertical space and does not punch through the subtitle text
+      // ("…at every step"). 200 leaves ~30 px breathing room.
+      const rowY = 210;
       // Cards widened (text never clips at right edge) and taller (the
       // "ASSISTED BY CMADS" badge no longer crowds the description).
       const cardW = 254, cardH = 258;
@@ -336,197 +338,105 @@
       const sugg4X = startX + 3 * (cardW + gap) + cardW / 2;      // stage 4 centre
       const sugg5X = startX + 4 * (cardW + gap) + cardW / 2;      // stage 5 centre
 
-      // (a) Downward "data" arrow from stage 3 (Investigations) to CMADS.
-      //     The pill sits CENTRED on the arrow line (with a backing mask
-      //     so the line is hidden behind the pill body) — matches the
-      //     "ranked suggestions" pill on the right.
+      // (a) Downward "patient data" arrow from stage 3 (Investigations).
+      //     Drawn as a heavier, slightly curved path so it reads as a flow
+      //     rather than a divider, with a pill label centred mid-line.
       const arrowTopY = rowY + cardH + 6;
       const arrowBotY = panelY + 6;
+      const midY = (arrowTopY + arrowBotY) / 2;
       route(svg,
-        `M ${dataX} ${arrowTopY} L ${dataX} ${arrowBotY}`,
-        "blue", { width: 3 }
+        `M ${dataX} ${arrowTopY}
+         C ${dataX} ${arrowTopY + 32}, ${dataX} ${arrowBotY - 32}, ${dataX} ${arrowBotY}`,
+        "blue", { width: 5 }
       );
-      const dataPillW = 132;
-      const dataPillY = (arrowTopY + arrowBotY) / 2 - 16;
-      // Backing rectangle to mask the blue arrow where the pill sits.
+      const dataPillW = 156;
+      const dataPillY = midY - 18;
       append(svg, el("rect", {
         x: dataX - dataPillW / 2 - 6, y: dataPillY - 4,
-        width: dataPillW + 12, height: 40, rx: 20,
+        width: dataPillW + 12, height: 44, rx: 22,
         fill: C.page
       }));
       append(svg, el("rect", {
         x: dataX - dataPillW / 2, y: dataPillY,
-        width: dataPillW, height: 32, rx: 16,
-        fill: C.blueSoft, stroke: C.blue, "stroke-width": 1.5
+        width: dataPillW, height: 36, rx: 18,
+        fill: C.blueSoft, stroke: C.blue, "stroke-width": 2.2
       }));
-      text(svg, dataX, dataPillY + 22, "patient data", "label",
-        { fill: C.blue, "text-anchor": "middle", "font-size": 14 });
+      text(svg, dataX, dataPillY + 24, "patient data", "label",
+        { fill: C.blue, "text-anchor": "middle", "font-size": 16, "font-weight": 800 });
 
-      // (b) Two upward "suggestions" arrows from CMADS into stages 4 & 5.
-      //     The shared pill sits between the two arrows, vertically centred,
-      //     ON TOP of the dashed band (full opaque background so it doesn't
-      //     visually merge with the dashed border).
+      // (b) Two upward "ranked suggestions" arrows back into stages 4 & 5.
+      //     Same heavier style + curve for visual symmetry.
       [sugg4X, sugg5X].forEach((sx) => {
         route(svg,
-          `M ${sx} ${arrowBotY} L ${sx} ${arrowTopY}`,
-          "violet", { width: 3 }
+          `M ${sx} ${arrowBotY}
+           C ${sx} ${arrowBotY - 32}, ${sx} ${arrowTopY + 32}, ${sx} ${arrowTopY}`,
+          "violet", { width: 5 }
         );
       });
       const lblCx = (sugg4X + sugg5X) / 2;
-      const sugPillW = 200;
-      const sugPillY = (arrowTopY + arrowBotY) / 2 - 16;
-      // Backing rectangle to mask the dashed band where the pill sits
+      const sugPillW = 220;
+      const sugPillY = midY - 18;
       append(svg, el("rect", {
         x: lblCx - sugPillW / 2 - 6, y: sugPillY - 4,
-        width: sugPillW + 12, height: 40, rx: 20,
+        width: sugPillW + 12, height: 44, rx: 22,
         fill: C.violetMist
       }));
       append(svg, el("rect", {
         x: lblCx - sugPillW / 2, y: sugPillY,
-        width: sugPillW, height: 32, rx: 16,
-        fill: C.violetSoft, stroke: C.violet, "stroke-width": 1.5
+        width: sugPillW, height: 36, rx: 18,
+        fill: C.violetSoft, stroke: C.violet, "stroke-width": 2.2
       }));
-      text(svg, lblCx, sugPillY + 22, "ranked suggestions",
-        "label", { fill: C.violet, "text-anchor": "middle", "font-size": 14 });
+      text(svg, lblCx, sugPillY + 24, "ranked suggestions",
+        "label", { fill: C.violet, "text-anchor": "middle", "font-size": 16, "font-weight": 800 });
 
-      // ===== Row 2 — CMADS panel =====
-      text(svg, 72, panelY + 32,
-        "2 · CMADS — Multi-agent decision support (assistant, not replacement)",
-        "section", { "font-size": 22, fill: C.ink });
-
-      const cmadsY = panelY + 56;
-      const cmadsH = 520;
+      // ===== Row 2 — CMADS rendered as a single labelled box =====
+      // The four pieces of content stack vertically with deliberate
+      // padding so the pill never overlaps the CMADS title:
+      //   pill (32 high)  →  title (56)  →  subtitle (22)  →  tagline (16)
       const cmadsX = 72, cmadsW = endX - cmadsX;
+      const cmadsY = panelY;
+      const padTop = 28;
+      const pillH = 32, pillGap = 28;
+      const titleH = 56, titleGap = 20;
+      const subH = 22, subGap = 14;
+      const tagH = 16, padBot = 30;
+      const cmadsH = padTop + pillH + pillGap + titleH + titleGap + subH + subGap + tagH + padBot;
 
       append(svg, el("rect", {
         x: cmadsX, y: cmadsY,
         width: cmadsW, height: cmadsH, rx: 18,
-        fill: C.violetSoft, stroke: C.violet, "stroke-width": 2.5,
+        fill: C.violetSoft, stroke: C.violet, "stroke-width": 3,
         filter: `url(#pj-shadow)`
       }));
       append(svg, el("rect", {
         x: cmadsX, y: cmadsY, width: cmadsW, height: 9, rx: 5, fill: C.violet
       }));
 
-      // Left block: description
-      const descX = cmadsX + 28;
-      const descY = cmadsY + 50;
-      pill(svg, descX, descY, "AI ASSISTANT — NOT A REPLACEMENT",
-        "violet", 350, { compact: true });
-      text(svg, descX, descY + 70,
+      const cmadsCx = cmadsX + cmadsW / 2;
+      let yCursor = cmadsY + padTop;
+
+      // 1. Pill — sits at the top, comfortably above the title.
+      const pillW = 420;
+      pill(svg, cmadsCx - pillW / 2, yCursor,
+        "AI ASSISTANT  —  NOT FULLY AUTONOMOUS", "violet", pillW, { compact: true });
+      yCursor += pillH + pillGap;
+
+      // 2. CMADS big title — baseline sits ``titleH`` below yCursor.
+      text(svg, cmadsCx, yCursor + titleH - 12, "CMADS",
+        "box-title", { "font-size": 56, fill: C.violet, "text-anchor": "middle",
+                       "font-weight": 800, "letter-spacing": "2px" });
+      yCursor += titleH + titleGap;
+
+      // 3. Subtitle — the long form of CMADS.
+      text(svg, cmadsCx, yCursor + subH - 4,
         "Clinical Multi-Agent Decisioning System",
-        "box-title", { "font-size": 28, fill: C.ink });
+        "box-body", { "font-size": 22, fill: C.ink, "text-anchor": "middle" });
+      yCursor += subH + subGap;
 
-      lines(svg, descX, descY + 110, [
-        "CMADS activates once the patient's structured chart and labs",
-        "are available. Seven specialised AI agents read the same",
-        "Gold-layer data, reason in coordination through an adaptive",
-        "critique loop, retrieve relevant NICE clinical guideline",
-        "passages, and surface a ranked top-5 differential plus a",
-        "guideline-grounded treatment plan.",
-        "",
-        "CMADS never orders tests, prescribes, writes to the EHR,",
-        "or communicates with the patient."
-      ], "box-body", 26, { "font-size": 18, fill: "#36424f" });
-
-      // Right block: 4-step mini-flow
-      const flowX = cmadsX + 920;
-      const flowW = cmadsW - 920 - 28;
-      const flowY = cmadsY + 50;
-
-      text(svg, flowX, flowY + 18, "How CMADS works", "box-title",
-        { "font-size": 22, fill: C.ink });
-
-      const steps = [
-        { key: "blue",   num: "1", title: "READ",     desc: "Gold-layer EHR + Lab JSON" },
-        { key: "amber",  num: "2", title: "REASON",   desc: "7 agents + adversarial reviewer" },
-        { key: "teal",   num: "3", title: "RETRIEVE", desc: "NICE guidelines from vector store" },
-        { key: "violet", num: "4", title: "SURFACE",  desc: "Doctor Console — doctor reviews" }
-      ];
-
-      const stepStartY = flowY + 40;
-      const stepH = 72;
-      const stepGap = 8;
-      steps.forEach((s, i) => {
-        const x = flowX;
-        const y = stepStartY + i * (stepH + stepGap);
-        const accent = colorOf(s.key);
-
-        // box
-        append(svg, el("rect", {
-          x, y, width: flowW, height: stepH, rx: 12,
-          fill: C.panel, stroke: accent, "stroke-width": 2
-        }));
-        append(svg, el("rect", { x, y, width: 9, height: stepH, rx: 4, fill: accent }));
-
-        // numbered circle
-        append(svg, el("circle", {
-          cx: x + 40, cy: y + stepH / 2, r: 22,
-          fill: softOf(s.key), stroke: accent, "stroke-width": 2
-        }));
-        text(svg, x + 40, y + stepH / 2 + 8, s.num, "box-title",
-          { "font-size": 22, fill: accent, "text-anchor": "middle" });
-
-        // title + desc
-        text(svg, x + 78, y + 30, s.title, "box-title",
-          { "font-size": 18, fill: C.ink, "letter-spacing": "0.6px" });
-        text(svg, x + 78, y + 56, s.desc, "small",
-          { "font-size": 16, fill: C.muted });
-
-        // arrow down to next step
-        if (i < steps.length - 1) {
-          const ax = x + flowW / 2;
-          const ay = y + stepH + 2;
-          arrow(svg, ax, ay, ax, ay + stepGap - 2, "dark", { width: 2.2 });
-        }
-      });
-
-      // ===== Doctor-review banner inside the CMADS panel (bottom strip) =====
-      const bannerH = 56;
-      const bannerY = cmadsY + cmadsH - bannerH - 22;
-      const bannerX = cmadsX + 28;
-      const bannerW = cmadsW - 56;
-      append(svg, el("rect", {
-        x: bannerX, y: bannerY, width: bannerW, height: bannerH, rx: 14,
-        fill: C.tealSoft, stroke: C.teal, "stroke-width": 1.8
-      }));
-      append(svg, el("rect", {
-        x: bannerX, y: bannerY, width: 9, height: bannerH, rx: 5, fill: C.teal
-      }));
-      text(svg, bannerX + 30, bannerY + bannerH / 2 + 8,
-        "Doctor review gate  —  every suggestion must be accepted, modified, or overridden before it can affect care.",
-        "box-title",
-        { "font-size": 18, fill: C.teal });
-
-      // ===== Bottom footer — reading guide =====
-      const footerY = cmadsY + cmadsH + 60;
-      const legendItems = [
-        { color: "slate",  label: "Standard clinical step",
-                          desc: "Doctor + patient, no AI involvement" },
-        { color: "blue",   label: "Data accumulation",
-                          desc: "Structured EHR + lab data, where CMADS reads from" },
-        { color: "violet", label: "CMADS-assisted step",
-                          desc: "Doctor receives AI suggestions, makes the final call" },
-        { color: "teal",   label: "Human review gate",
-                          desc: "Every CMADS output passes through the doctor" }
-      ];
-      text(svg, 72, footerY, "Reading the diagram", "section",
-        { "font-size": 22, fill: C.ink });
-
-      const lgCols = 4;
-      const lgW = (endX - startX) / lgCols;
-      legendItems.forEach((it, i) => {
-        const lx = startX + i * lgW;
-        const ly = footerY + 30;
-        append(svg, el("rect", {
-          x: lx, y: ly - 14, width: 22, height: 22, rx: 5,
-          fill: softOf(it.color), stroke: colorOf(it.color), "stroke-width": 2
-        }));
-        text(svg, lx + 36, ly + 4, it.label, "box-title",
-          { "font-size": 17, fill: C.ink });
-        text(svg, lx + 36, ly + 26, it.desc, "small",
-          { "font-size": 14, fill: C.muted });
-      });
+      // 4. Capability tagline — one-line summary of what the system does.
+      text(svg, cmadsCx, yCursor + tagH - 2,
+        "Reads Gold-layer chart + labs  ·  7 agents  ·  NICE-grounded plan  ·  Doctor in the loop",
+        "small", { "font-size": 16, fill: C.muted, "text-anchor": "middle" });
     }
 
     function getFigureName() {

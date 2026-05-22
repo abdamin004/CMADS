@@ -13,19 +13,23 @@ combined with a three-phase anti-anchoring protocol that controls
 undue influence from retrieved priors.
 
 Evaluation uses an LLM-as-judge protocol on a 160-patient
-Synthea-derived cohort across eight cardiometabolic disease families,
-classifying free-text differentials as DIRECT, INDIRECT, or MISS
-against hidden ground truth. With multi-level memory enabled, the
-pipeline returns a DIRECT match in 76.9\% of cases (123/160,
-Wilson 95\% CI [69.8, 82.7]), a combined DIRECT-or-INDIRECT found
-rate of 94.4\% [89.7, 97.0], and ranks the target condition first
-in 64.5\% of cases in which it is found. A controlled 160-patient
-paired memory A/B test against the single-level baseline (no memory
-subsystem) shows
-the principal configuration wins by $+23.1$ percentage points on
-DIRECT (76.9\,\% vs.\ 53.8\,\%; exact McNemar $p \approx 9.1 \times
-10^{-6}$ on 69 discordant pairs) and adds $+1.9$ percentage points
-on Found rate (94.4\,\% vs.\ 92.5\,\%) on the same patients. A doctor-facing console exposes the
-agent chain, memory operations, and retrieved guideline evidence to
-support informed clinician oversight rather than uncritical
-acceptance of model output.
+Synthea-derived cohort that spans eight cardiometabolic disease
+families. The eight families bound the evaluation cohort, not the
+system: the agents emit free-text differentials and the pipeline is
+disease-agnostic in design --- the scope of the evaluation reflects
+the disease coverage Synthea can produce with sufficient
+pre-diagnosis signal, not a fixed output vocabulary.
+With multi-level memory enabled, the pipeline surfaces the correct
+diagnosis somewhere in its top-five differential for $\sim 95\,\%$
+of the 160 synthetic patients (151/160). On the same 160 patients,
+the multi-level memory configuration lifts that found rate over the
+single-level baseline on a paired controlled comparison.
+The system is built around two engineering properties demonstrated
+in this work --- \textbf{explainability} (every agent's reasoning,
+memory operation, and retrieved guideline passage is exposed
+verbatim in a doctor-facing console) and \textbf{reproducibility}
+(every run writes a deterministic execution trace so any number
+reported here can be re-derived from the on-disk artefacts) --- and
+two further architectural properties (provider-agnostic LLM adapter
+and pluggable converter agents for new clinical modalities) whose
+demonstration at scale is left to future work.

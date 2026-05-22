@@ -84,7 +84,12 @@ many of the systems reviewed in this chapter
 In this thesis, an LLM agent is a model call wrapped in a defined role, a prompt,
 an input format, and an output schema. The LLM provides the language reasoning,
 but the surrounding workflow controls what evidence the model sees and how its
-answer is checked.
+answer is checked. This shape mirrors the ReAct
+pattern of Yao et al.~\cite{Yao2023ReAct}, in which a language model
+interleaves explicit reasoning steps with actions (such as retrieval
+or tool calls); each agent in the pipeline produces reasoning, then a
+structured action --- writing a finding, retrieving a guideline, or
+emitting a critique --- whose effect is visible to downstream agents.
 
 Different LLMs vary in size, training data, instruction following, and medical
 accuracy. The literature shows that the largest model is not always the best
@@ -203,6 +208,31 @@ Chapter~\ref{chap:introduction}, and the AMIE and AgentClinic
 contemporary works discussed below as the closest published evaluation
 shapes to this thesis's protocol; these sit outside the MAS review
 count and bring the total bibliography to 29 entries.
+
+\paragraph{Preprint reliance.}
+\label{sec:preprint_caveat}
+Approximately $40\,\%$ of the 22 retained multi-agent clinical AI
+papers are arXiv preprints rather than peer-reviewed journal or
+conference publications. This reflects the velocity of the subfield:
+the relevant techniques (LangGraph orchestration, multi-agent debate
+patterns, clinical LLM benchmarks) were published in 2024--2025 and
+many results were still in preprint at the time of writing. Where
+peer-reviewed equivalents exist for foundational concepts ---
+LLM-as-judge methodology~\cite{Zheng2023JudgeLLM},
+retrieval-augmented generation~\cite{Lewis2020RAG},
+Synthea~\cite{Walonoski2018Synthea},
+OMOP CDM~\cite{Hripcsak2015OHDSI},
+sentence-BERT~\cite{Reimers2019SentenceBERT},
+chain-of-thought prompting~\cite{Wei2022CoT},
+self-consistency~\cite{Wang2023SelfConsistency},
+ReAct~\cite{Yao2023ReAct},
+and the foundational framing of AI in
+medicine~\cite{Topol2019HighPerformance} --- this thesis prefers the
+peer-reviewed source. Multi-agent clinical-AI claims that are still
+preprint-only are flagged in the text where they are first
+introduced (e.g.\ MAC Framework, MedSentry, MDAgents) so that the
+reader can weigh the strength of the underlying evidence
+appropriately.
 
 A paper was included when it proposed or evaluated a multi-agent or agentic
 LLM system, applied it to a medical task, and reported either quantitative

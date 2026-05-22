@@ -75,7 +75,8 @@ ground-truth JSON files consumed by the multi-agent system.}
 
 \subsection{Synthea Generation}
 The patient records are produced by \textit{Synthea}, an open-source
-rule-based patient simulator from MITRE. Synthea uses state-machine disease
+rule-based patient simulator from MITRE \cite{Walonoski2018Synthea}.
+Synthea uses state-machine disease
 models informed by public health data and exports records in FHIR R4 format.
 It was chosen for two reasons. First, it gives a ground-truth label for the
 conditions it creates, which is needed for the LLM-as-Judge evaluation in
@@ -97,6 +98,23 @@ roughly 240 disease-positive candidates with sufficient pre-diagnosis
 evidence; the LLM-based detectability gate
 (Section~\ref{sec:llm_verifier}) then further restricted the cohort to
 160 patients with \texttt{VERDICT~=~YES} and \texttt{CONFIDENCE~$\geq$~80}.
+
+\paragraph{Scope of the eight families.}
+The eight disease families above are the scope of the evaluation
+\emph{cohort}, not of the system. The pipeline is disease-agnostic by
+design: the agents read free-text chart and lab content, emit
+free-text differentials, and the LLM judge scores any candidate
+phrasing against any ground-truth diagnosis. The eight families
+were chosen because Synthea's generation module produces longitudinal
+records with consistent pre-diagnosis signal for these cardiometabolic
+conditions; rarer presentations (e.g.\ malignancies, autoimmune
+diseases, paediatric and obstetric cases) either do not appear in
+Synthea or appear without enough pre-diagnosis evidence for the
+detectability gate to admit them. Extending the cohort to a new
+disease family is a data-availability question --- supply Gold-layer
+patients carrying that family's typical evidence pattern --- not a
+re-architecture: the agents, prompts, memory subsystem, and judge
+require no changes.
 The remaining patients were saved for audit but not run through the
 agent pipeline; a subset of the immediately rejected band (confidence
 60--79) is used in the detectability-gate sensitivity analysis reported
@@ -169,10 +187,12 @@ be re-derived from the original Synthea output without re-running
 the generator.
 
 \paragraph{Silver.} Converts the FHIR resources to OMOP Common Data
-Model v5.4 using \texttt{dbt-core} on top of DuckDB. OMOP normalises
-codes (RxNorm for drugs, SNOMED for conditions, and LOINC for labs),
-so the rest of the pipeline operates on a stable vocabulary
-regardless of source format.
+Model v5.4 \cite{OMOPCDMv54} using \texttt{dbt-core} on top of DuckDB.
+The OMOP CDM is the canonical schema curated by the OHDSI
+collaborative \cite{Hripcsak2015OHDSI} for observational health
+research; it normalises codes (RxNorm for drugs, SNOMED for
+conditions, and LOINC for labs), so the rest of the pipeline operates
+on a stable vocabulary regardless of source format.
 
 \paragraph{Silver\textsuperscript{+}.} Adds clinically derived
 features on top of OMOP: lab trends (increasing, decreasing, stable),
@@ -249,12 +269,79 @@ LLM Evaluator (Stage~5) only \\
 \end{table}
 
 \FloatBarrier
+
+\paragraph{What the system reads per patient.}
+Table~\ref{tab:patient_inputs} unpacks the structured fields that
+together make up each patient case. The same six categories are
+surfaced verbatim in the doctor console's \emph{Patient Overview}
+panel so a clinician can audit exactly what the agents read for any
+given consultation. The agents never see free-text notes, images, or
+identifiers; everything the pipeline reasons over is in the structured
+fields below.
+
+\begin{table}[ht]
+\centering
+\caption{Per-patient structured inputs the agents read, mirrored
+verbatim in the doctor console's Patient Overview.}
+\label{tab:patient_inputs}
+\footnotesize
+\begin{tabular}{@{}p{30mm}p{55mm}p{55mm}@{}}
+\toprule
+\textbf{Field} & \textbf{What it contains} & \textbf{Why the system reads it} \\
+\midrule
+Demographics &
+Age, sex, race, ethnicity. &
+Baseline epidemiological priors; conditioning of clinical-decision
+rules such as blood-pressure thresholds and weight-based dosing. \\
+
+Active conditions &
+The patient's open problem list with SNOMED codes and onset dates,
+target excluded. &
+The chronological disease progression (e.g.\
+CKD-1 \(\to\) CKD-3 \(\to\) ESRD) is the single strongest signal for
+the Diagnostic Reasoning agent. \\
+
+Medications &
+Active drug list organised by class, with start dates and
+drug-condition links. &
+Lets the system infer ongoing management (e.g.\ metformin \(\to\)
+diabetes management; RAAS-inhibitor \(\to\) renal/cardiac), check
+contraindications, and flag drug-drug interactions in the
+treatment plan. \\
+
+Recent vitals &
+Last few BP, HR, weight, and SpO\(_2\) readings before the cutoff
+date. &
+Vitals carry the acute layer of the picture (uncontrolled
+hypertension, decompensated heart failure) that the chronic
+condition list alone can miss. \\
+
+Latest labs &
+Most recent values before cutoff for the key analytes
+(eGFR, HbA1c, lipid panel, electrolytes, troponin, etc.)\ with
+units and dates. &
+Read verbatim by the Lab Interpreter agent; the structured form
+allows automatic abnormal-range classification without parsing
+free-text reports. \\
+
+Critical flags &
+Pre-computed Silver-plus flags such as
+\texttt{eGFR < 60 mL/min/1.73 m\(^2\) \(\to\) CKD}, or
+\texttt{HbA1c > 6.5\% \(\to\) diabetes}. &
+Surface high-priority abnormalities directly so the diagnostic agents
+do not have to re-derive them from raw labs. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Multi-Agent System}
 \label{sec:mas_framework}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The multi-agent pipeline is run with \textit{LangGraph}. Each agent is a node
+The multi-agent pipeline is run with \textit{LangGraph}~\cite{LangGraph2024}.
+Each agent is a node
 in a \texttt{StateGraph}, and edges define the order of execution. A shared
 \texttt{PipelineState} dictionary moves through the graph and carries patient
 data, agent outputs, traces, and memory fields. LangGraph was chosen because
@@ -365,14 +452,17 @@ The five stages of the blueprint are as follows.
   Pydantic v2 object and applies JSON repair rules for common formatting
   failures.
   \item The \textbf{Output Gate} applies final validation before writing to
-  shared memory. For example, the Diagnostic Reasoning gate rejects a
-  differential with fewer than three diagnoses. The Treatment Planning
-  gate is, at the level of code, a Pydantic schema validator: it enforces
-  that a structured plan is returned and that downstream fields parse
-  correctly. The grounding requirement --- that medications and
-  procedures cite the retrieved NICE passages --- is enforced
-  prompt-side by the Treatment Planning prompt, not by a post-hoc
-  retrieval-support check; a programmatic support check is identified
+  shared memory. For example, the Diagnostic Reasoning gate requires a
+  non-empty differential and is paired with a prompt that instructs the
+  agent to return at least three candidates --- the Pydantic schema
+  does not enforce a minimum above one, but the agent's prompt and the
+  downstream Reviewer-Refiner stages assume a populated top-five
+  list. The Treatment Planning gate is, at the level of code, a Pydantic
+  schema validator: it enforces that a structured plan is returned and
+  that downstream fields parse correctly. The grounding requirement ---
+  that medications and procedures cite the retrieved NICE passages ---
+  is enforced prompt-side by the Treatment Planning prompt, not by a
+  post-hoc retrieval-support check; a programmatic support check is identified
   as future work in Chapter~\ref{chap:conclusion}.
 \end{enumerate}
 
@@ -734,10 +824,13 @@ entries as lightweight priors.
 % ── Tier 4 ───────────────────────────────────────────────────────────────────
 \paragraph{Tier 4 --- Case-based memory.}
 \label{sec:tier4}
-Tier~4 stores prior patient cases in Qdrant. After a completed run, the system
+Tier~4 stores prior patient cases in Qdrant \cite{Qdrant2024}. After a
+completed run, the system
 builds a short clinical text from demographics, active conditions, medications,
 and abnormal labs. This text is encoded into a vector using
-BioLORD-2023 \cite{Remy2023BioLORD} and stored in the
+BioLORD-2023 \cite{Remy2023BioLORD} --- a biomedical Sentence-BERT
+variant \cite{Reimers2019SentenceBERT} fine-tuned on clinical
+knowledge-graph signals --- and stored in the
 \texttt{patient\_cases} Qdrant collection.
 The payload stores the matched diagnosis, match type, rank, confidence, and
 evidence patterns. At the start of a new case, the Diagnostic Reasoning agent
@@ -808,13 +901,20 @@ node is implemented in \texttt{src/agents/memory\_consolidator.py}.
 \label{sec:rag}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Two pieces of the pipeline retrieve from Qdrant at inference time. The
+Retrieval-Augmented Generation \cite{Lewis2020RAG} combines a learned
+retriever over an external document store with a generative model
+that conditions on the retrieved passages; in this pipeline it is the
+mechanism that lets the Treatment Planning agent ground its
+recommendations in NICE guideline text rather than relying on
+parametric knowledge alone. Two pieces of the pipeline retrieve from
+Qdrant at inference time. The
 Diagnostic Reasoning agent draws on Tier-4 case-based memory (described
 in Section~\ref{sec:multilevel_memory}) --- past patient cases this
 system has previously processed, used as priors for the differential
 diagnosis. The Treatment Planning agent draws on the
 \emph{external knowledge} corpus described in this section: NICE
-clinical practice guideline documents authored outside the system.
+clinical practice guideline documents \cite{NICEGuidelines}
+authored outside the system.
 This separation is deliberate. Diagnosis must be based on the current
 patient's evidence and on similarity to past patients only; published
 guidelines are kept out of the diagnostic path so that the agents do
@@ -908,7 +1008,11 @@ name, and date of first diagnosis. Only the Stage~5 evaluator reads this file.
 Reasoning agents never receive it.
 
 \subsection{LLM-as-Judge Methodology}
-The LLM Evaluator receives the target disease and the top five diagnoses from
+The evaluation here follows the LLM-as-a-judge protocol of Zheng et
+al.~\cite{Zheng2023JudgeLLM}, in which a strong external model
+adjudicates the output of another model against a reference using a
+fixed rubric. The LLM Evaluator receives the target disease and the
+top five diagnoses from
 the final differential. It classifies each candidate as DIRECT, INDIRECT, or
 MISS using a fixed rubric, then selects the best match and reports its
 rank. Temperature is fixed at zero. The response uses a five-line structured
@@ -952,16 +1056,15 @@ agent-level reliability and latency statistics.
   numerator = DIRECT (and INDIRECT) cases ranked first. This is the
   rank metric reported in Chapter~\ref{chap:results}; it replaces a
   legacy ``Top-1 direct rate over all patients'' framing.
-  \item \textbf{Wilson 95\% confidence intervals} --- a Wilson score
-  interval is computed for the diagnostic-outcome rates above,
-  implemented in \texttt{scripts/compute\_cis.py}.
   \item \textbf{Memory comparison metrics} --- the controlled
-  160-patient paired cohort (Section~\ref{sec:results_memory_ab}) uses
-  the paired exact-McNemar test on the DIRECT/non-DIRECT off-diagonal.
-  Per memory setting we also report DIRECT, INDIRECT, MISS, Found, and
-  Rank-1-within-found rates over the same patients.
-  \item \textbf{Detectability-gate sensitivity} --- a Fisher's exact
-  test on the accepted-cohort versus rejected-band 2$\times$2 table
+  160-patient paired cohort (Section~\ref{sec:results_memory_ab})
+  compares DIRECT, INDIRECT, MISS, Found, and Rank-1-within-found
+  rates between the single-level and multi-level memory configurations
+  on the same patients.
+  \item \textbf{Detectability-gate sensitivity} --- a descriptive
+  comparison of DIRECT, INDIRECT, and MISS rates on the
+  detectability-admitted cohort against an independent sample drawn
+  from the rejected band of the verifier
   (Section~\ref{sec:results_detectability_sensitivity}).
   \item \textbf{Agent success rate} --- per-agent, the proportion of
   patients for which the agent terminated without error.
@@ -1025,8 +1128,13 @@ Memory \& RAG   & Qdrant                 & \texttt{patient\_cases} + \texttt{nic
                 & sentence-transformers  & Embedding runtime \\
                 & BioLORD-2023           & Biomedical sentence encoder \\
 \midrule
+Storage (hot)   & MongoDB 7              & Per-run agent outputs (\texttt{agent\_runs}), Gold cases (\texttt{patient\_cases}), Tier-3 semantic memory (\texttt{semantic\_memory}), derived artefacts (\texttt{derived\_artefacts}) \\
+                & Beanie ODM             & Pydantic-v2-native async Mongo driver (read path) \\
+                & PyMongo                & Sync driver used by the agent write path (thread-safe) \\
+\midrule
 Frontend        & React + Vite + FastAPI & Doctor-facing console (single application; hosts both the Doctor runtime and Researcher statistics journeys) \\
                 & DuckDB (read-only)     & Encounter and demographic lookup \\
+                & mongo-express          & Optional browser GUI for inspecting the four collections (\texttt{:8091}) \\
 \midrule
 Build \& tests  & pytest                 & Unit and integration test suite \\
                 & ruff                   & Lint and format \\
@@ -1043,6 +1151,87 @@ paths, output directory, and checkpoint location, are stored in configuration
 files or environment variables. A central \texttt{Config} class reads them at
 process start. This allows the same Gold JSON inputs and LangGraph pipeline to
 be rerun without changing the code.
+
+\subsection{Storage layer and scalability}
+\label{sec:methodology_storage}
+
+The system uses two persistence layers with different roles. The
+\emph{cold} layer is the read-only ground-truth pile: Synthea FHIR
+bundles in \texttt{data/bronze/}, the OMOP CDM Silver tables in the
+DuckDB file \texttt{data/clinical.duckdb}, and the Qdrant vector
+collections that hold the NICE guideline embeddings and the Tier-4
+case-based memory. These do not change during agent runs and are not
+the throughput bottleneck. The \emph{hot} layer is MongoDB~7, holding
+four collections that grow with every patient run: \texttt{agent\_runs}
+(one document per \texttt{(result\_set, patient\_uuid)} pair, with one
+field per agent envelope), \texttt{patient\_cases} (the Gold-layer
+inputs, one document per patient), \texttt{semantic\_memory} (one
+document per disease with running counts), and \texttt{derived\_artefacts}
+(per-cohort McNemar tables, sensitivity summaries, and similar
+analysis outputs).
+
+The choice of MongoDB is motivated by the read pattern of the
+Researcher journey rather than by the write throughput of patient
+runs. Every visit to the Overview, Memory A/B, Model, or
+MAS-vs-single-LLM tab is one or more aggregations across the
+160-patient principal cohort (or the wider union of all completed
+runs); on the original on-disk JSON layout each page rendered roughly
+$\sim$5 thousand file reads, so latency grew linearly with cohort
+size. With the four-collection schema and an indexed compound key on
+\texttt{(result\_set, patient\_uuid)}, the same KPI tiles are computed
+in a single \texttt{\$group} aggregation that completes in tens of
+milliseconds. The migration also makes the system ready for
+real-EHR replication: the same agent code paths now accept any number
+of \texttt{result\_set}s without changing the read code, and the
+addition of a sharded MongoDB deployment is a deployment change rather
+than a code change.
+
+\paragraph{Write path.}
+Agent envelopes are written to Mongo from inside
+\texttt{BaseAgent.\_\_call\_\_} using the synchronous PyMongo driver. The
+pipeline runs synchronously inside worker threads dispatched by the
+runtime, and Motor (the async driver) is event-loop-bound, so the
+sync path is the only one that completes reliably from any thread.
+The filesystem JSON write that has always existed remains untouched
+during a 30-day soak window controlled by the \texttt{USE\_MONGO}
+configuration flag: with the flag off the system falls straight back
+to the on-disk tree, which is the documented rollback artefact.
+
+\paragraph{Read path.}
+The FastAPI backend at \texttt{doctor\_console/backend/app.py} owns
+the read path. The aggregation helpers
+(\texttt{\_aggregate\_result\_set\_mongo},
+\texttt{\_rank\_distribution\_mongo},
+\texttt{\_per\_disease\_breakdown\_mongo},
+\texttt{\_top\_diagnoses\_mongo}) issue Mongo aggregation pipelines
+that coalesce the canon-augmented verdict
+(\texttt{agents.evaluation.output\_canon}) over the original
+(\texttt{agents.evaluation.output}) via \texttt{\$ifNull}, so the
+headline numbers in the Researcher Overview match the corrected
+verdicts reported in Section~\ref{sec:results_e2e} without a separate
+post-processing pass. The per-patient detail endpoint
+(\texttt{/api/results/...}) keeps reading from disk because it needs
+the rich agent narrative and shared-memory summary that only the
+filesystem layout currently materialises.
+
+\paragraph{API.}
+The doctor console talks to the backend over a small REST surface
+served by FastAPI: \texttt{/api/stats/overview} for the headline
+KPIs, \texttt{/api/comparisons/memory-ab},
+\texttt{/api/comparisons/model}, and
+\texttt{/api/comparisons/mas-vs-single-llm} for the three
+comparison tabs, \texttt{/api/patients} for the cohort sidebar,
+\texttt{/api/results/\{result\_set\}/\{patient\_uuid\}} for the
+per-patient drill-down, and a small streaming pair
+(\texttt{POST /api/runs}, \texttt{GET /api/runs/\{task\_id\}/stream})
+for the Doctor (runtime) journey. The streaming endpoint pushes the
+agent-flow state via Server-Sent Events so the runtime view can
+``light up'' the active stage and stream each agent's narrative as it
+completes, without polling. FastAPI's lifespan handler binds Beanie
+to the configured database at startup when
+\texttt{USE\_MONGO} is enabled; with it disabled the same handlers
+fall back to filesystem-scanning helpers, preserving the rollback
+contract.
 
 \subsection*{Code availability}
 The full implementation --- data pipeline, agent prompts, LangGraph workflow,

@@ -14,16 +14,27 @@ thesis builds in Chapter~\ref{chap:methodology}.
 
 The conceptual taxonomy used for the memory design in this thesis is drawn
 from the Cognitive Architecture for Language Agents (CoALA) family of work.
-CoALA distinguishes four memory categories. \emph{Working} memory holds the
-state of the current task --- the prompt, the intermediate outputs, the
-scratchpad. \emph{Episodic} memory is an append-only timeline of events from
-prior runs, useful for replaying what happened in a particular case.
-\emph{Semantic} memory stores summarised, condition-level aggregates --- for
-example, the typical evidence patterns that supported a confirmed match for a
-given disease across many runs. \emph{Case-based} memory stores prior
-patients as searchable records that can be retrieved by similarity to the
-current patient. The thesis instantiates all four tiers in
-Section~\ref{sec:shared_memory}.
+CoALA distinguishes four memory categories --- \emph{working}, \emph{episodic},
+\emph{semantic}, and \emph{procedural}~\cite{Sumers2024CoALA} --- and is a
+categorisation framework rather than an empirical claim that every tier
+adds value on every task. The thesis adopts the first three categories
+directly and substitutes \emph{case-based} memory for the procedural tier:
+procedural memory in CoALA encodes reusable skills or routines, which has no
+clean analogue in a fixed seven-agent clinical pipeline whose orchestration
+is wired in code, whereas a case-based store of prior patients retrieved by
+clinical similarity has a direct analogue in how clinicians draw on past
+cases at the bedside. With that substitution made: \emph{Working} memory
+holds the state of the current task --- the prompt, the intermediate
+outputs, the scratchpad. \emph{Episodic} memory is an append-only timeline
+of events from prior runs, useful for replaying what happened in a
+particular case. \emph{Semantic} memory stores summarised, condition-level
+aggregates --- for example, the typical evidence patterns that supported a
+confirmed match for a given disease across many runs. \emph{Case-based}
+memory stores prior patients as searchable records that can be retrieved by
+similarity to the current patient. The thesis instantiates all four tiers in
+Section~\ref{sec:shared_memory}; a per-tier ablation that would isolate the
+contribution of each tier separately is identified as future work in
+Chapter~\ref{chap:conclusion}.
 
 Three papers from the broader review intersect this design. RareAgents
 combines persistent memory with tool use and shows that an open-source
@@ -53,68 +64,13 @@ headline accuracy number.
 \label{subsec:domain}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The previous sections focused on general design ideas. The papers in this group
-look at systems built for specific clinical domains, including cardiology,
-inpatient pathways, pharmacovigilance, emergency triage, and rare-disease
-diagnosis. They are useful because they show how multi-agent ideas behave when
-applied to real or realistic clinical tasks. Table~\ref{tab:tracker_domain} gives
-an overview.
-
-\begin{table}[!htbp]
-\centering
-\caption{Literature Tracker: Domain-Specific Clinical Workflow Deployment}
-\label{tab:tracker_domain}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{p{2.0cm} p{2.5cm} p{2.3cm} p{2.3cm} p{3.0cm} p{2.0cm}}
-\toprule
-\textbf{Paper} & \textbf{Domain} & \textbf{Architecture Type} & \textbf{Evaluation Scope} & \textbf{Key Result} & \textbf{Thesis Relevance} \\
-\midrule
-ZODIAC \newline \cite{Zhou2024ZODIAC}
-  & Cardiology
-  & 5-agent with human review
-  & Real patient data; 8 metrics
-  & Cardiologist-level on 7/8 metrics
-  & SaMD compliance framing \\[3pt]
-MAP \newline \cite{Chen2025MAP}
-  & Inpatient pathway
-  & 5-stage pathway agents
-  & MAP-Bench; 4 departments
-  & $+$23\% workflow adherence
-  & Full pathway automation \\[3pt]
-ClinicalLab \newline \cite{Yan2024ClinicalLab}
-  & 11 departments
-  & Coordinator + Chief Physician
-  & 1{,}500 real cases
-  & Within 5\% of senior physicians; 4.1/5 satisfaction
-  & Broadest real-world deployment \\[3pt]
-MALADE \newline \cite{Choi2024MALADE}
-  & Pharmaco\-vigilance
-  & 4-agent RAG pipeline
-  & OMOP benchmark
-  & $-$64\% hallucinations with RAG
-  & RAG + dynamic routing precedent \\[3pt]
-CDR-Agent \newline \cite{Xiang2025CDRAgent}
-  & Decision rules
-  & 4-stage pipeline
-  & 500 UCSF notes; 12 CDRs
-  & 94.2\% rule selection; 91\% clinician-acceptable
-  & Deferral as safety mechanism \\[3pt]
-TriageAgent \newline \cite{Lu2024TriageAgent}
-  & Emergency triage
-  & 5-stage with confidence scoring
-  & GPT-3.5-turbo
-  & $+$5.55\% over MedAgents
-  & Confidence-aware stopping \\[3pt]
-RareAgents \newline \cite{Chen2024RareAgents}
-  & Rare disease
-  & MDT + memory + tools
-  & RareBench + MIMIC-IV-Ext-Rare
-  & Beats GPT-4o; $-$41\% hallucinations
-  & Architecture beats model scale \\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
+The previous sections focused on general design ideas. The papers in
+this group look at systems built for specific clinical domains,
+including cardiology, inpatient pathways, pharmacovigilance,
+emergency triage, and rare-disease diagnosis. They are useful because
+they show how multi-agent ideas behave when applied to real or
+realistic clinical tasks; per-paper rows are included in the
+comparative summary in Section~\ref{subsec:summary_table}.
 
 ZODIAC by Zhou et al. applies multi-agent design to cardiology
 \cite{Zhou2024ZODIAC}. It uses five agents for cardiac data extraction,
@@ -175,34 +131,12 @@ model size alone.
 \label{subsec:safety}
 % ─────────────────────────────────────────────────────────────────────────────
 
-The domain papers show promising accuracy, but accuracy alone is not enough for a
-clinical system. The system also has to be safe, reliable, and able to recover
-from errors. Only a small number of reviewed papers focus directly on these
-issues. Table~\ref{tab:tracker_safety} summarises the two most relevant papers.
-
-\begin{table}[!htbp]
-\centering
-\caption{Literature Tracker: Safety, Robustness, and Evaluation}
-\label{tab:tracker_safety}
-\begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{p{2.2cm} p{2.5cm} p{2.2cm} p{3.2cm} p{3.0cm}}
-\toprule
-\textbf{Paper} & \textbf{Architecture Type} & \textbf{Evaluation Scope} & \textbf{Key Finding} & \textbf{Thesis Relevance} \\
-\midrule
-MedSentry~\cite{Chen2025MedSentry}
-  & 4 topologies tested under adversarial injection
-  & 5{,}000 adversarial prompts; 25 topics
-  & Centralised most vulnerable; decentralised most resilient
-  & Topology determines safety \\[3pt]
-EHRFlow~\cite{Wu2024EHRFlow}
-  & 4-agent iterative pipeline with Debugger
-  & Real EHR data; cohort/trend/prediction tasks
-  & Debugger prevents error propagation; higher task completion
-  & Error-recovery loop adopted in this thesis \\
-\bottomrule
-\end{tabular}
-\end{adjustbox}
-\end{table}
+The domain papers show promising accuracy, but accuracy alone is not
+enough for a clinical system. The system also has to be safe,
+reliable, and able to recover from errors. Only a small number of
+reviewed papers focus directly on these issues; the two most relevant
+appear as rows in the comparative summary in
+Section~\ref{subsec:summary_table} and are discussed below.
 
 MedSentry by Chen et al. studies adversarial safety in clinical multi-agent
 systems \cite{Chen2025MedSentry}. The authors tested centralised, decentralised,
