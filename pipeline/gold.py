@@ -969,6 +969,25 @@ def build_gold_layer(cohort_path, output_dir, limit=None):
             (patient_dir / "lab_case.json").write_text(json.dumps(lab_case, indent=2, default=str))
             (patient_dir / "ground_truth.json").write_text(json.dumps(ground_truth, indent=2, default=str))
 
+            # Mongo write path (additive — filesystem write above is unchanged)
+            from src.config import cfg
+            if cfg.USE_MONGO:
+                import asyncio
+                asyncio.run(write_patient_case_to_mongo({
+                    "patient_uuid": uuid,
+                    "person_id": person_id,
+                    "cutoff_date": cutoff_date,
+                    "case_type": "ehr+lab",
+                    "demographics": ehr_case.get("demographics", {}),
+                    "conditions": ehr_case.get("conditions", {}),
+                    "medications": ehr_case.get("medications", {}),
+                    "visits": ehr_case.get("visits", []),
+                    "comorbidity": ehr_case.get("comorbidity", {}),
+                    "risk_scores": ehr_case.get("risk_scores", {}),
+                    "lab_case": lab_case,
+                    "ground_truth": ground_truth,
+                }))
+
             success += 1
             d = target["target_disease"]
             disease_counts[d] = disease_counts.get(d, 0) + 1
@@ -1057,6 +1076,44 @@ def main():
         return
 
     build_gold_layer(cohort_path, Path(args.output), args.limit)
+
+
+async def write_patient_case_to_mongo(payload: dict) -> None:
+    """Write one Gold case to the PatientCase collection. Called from
+    build_gold_layer() when USE_MONGO is set; the filesystem write path
+    remains the default until the cutover."""
+    from datetime import datetime
+    from src.db.mongo import init_db
+    from src.db.documents import PatientCase
+
+    await init_db()
+    case_stats = {
+        "activeConditions":  len((payload.get("conditions",  {}) or {}).get("active", []) or []),
+        "activeMedications": len((payload.get("medications", {}) or {}).get("active", []) or []),
+        "labTrends":         len((payload.get("lab_case", {}) or {}).get("latest_labs", []) or []),
+        "criticalFlags":     len((payload.get("lab_case", {}) or {}).get("critical_flags", []) or []),
+    }
+    doc = PatientCase(
+        id=str(payload["patient_uuid"]),
+        person_id=int(payload.get("person_id", 0)),
+        cutoff_date=datetime.fromisoformat(str(payload.get("cutoff_date", "1970-01-01"))[:10]),
+        case_type=str(payload.get("case_type", "ehr+lab")),
+        demographics=payload.get("demographics", {}),
+        conditions=payload.get("conditions", {}),
+        medications=payload.get("medications", {}),
+        visits=payload.get("visits", []),
+        comorbidity=payload.get("comorbidity", {}),
+        risk_scores=payload.get("risk_scores", {}),
+        labs=payload.get("lab_case", {}),
+        ground_truth=payload.get("ground_truth", {}),
+        case_stats=case_stats,
+        assembled_at=datetime.utcnow(),
+        pipeline_version="gold-3.4",
+    )
+    await PatientCase.find_one(PatientCase.id == doc.id).upsert(
+        {"$set": doc.model_dump(by_alias=True, exclude={"_id"})},
+        on_insert=doc,
+    )
 
 
 if __name__ == "__main__":
