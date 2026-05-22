@@ -111,6 +111,17 @@ class SemanticMemory:
         Re-running the same patient is idempotent in spirit (it adds another
         observation, which is correct: each run is one episode).
         """
+        from src.config import cfg
+        if cfg.USE_MONGO:
+            import asyncio
+            from src.memory.semantic import consolidate_to_mongo
+            asyncio.run(consolidate_to_mongo(
+                disease,
+                match_type=match_type,
+                at_rank_1=(rank_when_found == 1),
+            ))
+            return self._load().get(disease) or SemanticInsight(disease=disease, runs_observed=0)
+
         with _LOCK:
             store = self._load()
             existing = store.get(disease)
