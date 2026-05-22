@@ -197,7 +197,7 @@ Five files change in the existing codebase:
    )
    ```
 
-3. **`src/orchestrator/graph.py`** — the end-of-run `execution_trace.json` + `session_memory.json` writes become one `$set` on the same `AgentRun` document. The cohort-level `run_summary.json` becomes a `$inc` on a `cohort_summary` doc in `derived_artefacts`.
+3. **`src/orchestrator/graph.py`** — the end-of-run `execution_trace.json` + `session_memory.json` writes become one `$set` on the same `AgentRun` document. The cohort-level `run_summary.json` becomes one `DerivedArtefact` per `result_set`, keyed `_id = "cohort_summary:<result_set>"`, with `payload` carrying the run counters and `produced_by = "src/orchestrator/graph.py"`. Updates are atomic via `find_one_and_update({_id: ...}, {"$inc": {"payload.runs": 1, ...}}, upsert=True)`.
 
 4. **`pipeline/gold.py`** — the three-file Gold write (`ehr_case.json`, `lab_case.json`, `ground_truth.json`) becomes one `PatientCase.find_one_and_replace({_id: uuid}, doc, upsert=True)`.
 
