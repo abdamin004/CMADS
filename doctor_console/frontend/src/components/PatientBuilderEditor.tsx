@@ -7,10 +7,10 @@ import { MedicationsForm }  from "./tester/MedicationsForm";
 import { LabsForm }         from "./tester/LabsForm";
 import { SmartImportModal } from "./SmartImportModal";
 import { PreviewMergeModal } from "./PreviewMergeModal";
-import { AdvancedSettings } from "./runtime/AdvancedSettings";
+import { AdvancedSettings, buildPrecisionRows } from "./runtime/AdvancedSettings";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
-import { getModelPresets } from "../api";
-import type { ExtractResponse, ModelPreset, TestPatientPayload } from "../types";
+import { getModelPresets, getStatsOverview } from "../api";
+import type { ExtractResponse, ModelPreset, RankBucket, TestPatientPayload } from "../types";
 
 // "Visits summary" intentionally NOT in the editor navigator: visit counts
 // are low signal for the agents' diagnostic reasoning and high friction for
@@ -74,6 +74,25 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
     const modelLabel = selectedPreset?.label ?? "default model";
     return `${modelLabel} · Top ${adv.topK}`;
   }, [selectedPreset, adv.topK]);
+
+  // Cohort-wide rank distribution (same data RuntimeHero shows). For a
+  // custom patient there is no target disease, so we use the overall
+  // mas_results precision — "across the whole cohort, X% of the time the
+  // right diagnosis was in the top K". Lets the Top-K picker render the
+  // same trust signal as the Known-patient flow.
+  const [precision, setPrecision] = useState<{ buckets: RankBucket[]; n: number } | null>(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getStatsOverview("multi_level");
+        setPrecision({ buckets: data.rankDistribution, n: data.aggregates.n });
+      } catch { setPrecision(null); }
+    })();
+  }, []);
+  const precisionRows = useMemo(
+    () => precision ? buildPrecisionRows(precision.buckets, precision.n) : [],
+    [precision],
+  );
 
   function patch<K extends keyof TestPatientPayload>(k: K, v: TestPatientPayload[K]) {
     onChange({ ...payload, [k]: v });
@@ -169,7 +188,12 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
             <span className="runtime-solo__advanced-label">Advanced settings</span>
             <span className="runtime-solo__advanced-current mono">{advancedSummary}</span>
           </summary>
-          <AdvancedSettings value={adv} onChange={setAdv} />
+          <AdvancedSettings
+            value={adv}
+            onChange={setAdv}
+            precisionRows={precisionRows}
+            precisionN={precision?.n}
+          />
         </details>
       </div>
 
