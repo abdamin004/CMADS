@@ -520,18 +520,31 @@ export function PatientPicker({ onTemplate }: Props) {
                 <span className="text-xs">{displayGender ?? "?"}</span>
               </div>
               <div className="min-w-0 flex-1">
-                <div className="truncate font-mono text-xs text-slate-500">
-                  {selected.uuid}
-                </div>
-                {/* Ground-truth disease + demographics on the SAME line so the
-                    target condition reads as part of the patient header rather
-                    than a stranded badge. */}
-                <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
-                  {preview?.ground_truth?.target_condition?.name && (
-                    <span className="inline-flex items-center rounded-full border border-emerald-600/40 bg-emerald-600/15 px-2.5 py-0.5 font-medium text-emerald-300">
+                {/* Ground-truth disease gets its own prominent line right
+                    next to the age/gender avatar — it's the most clinically
+                    important fact about this patient, not a footnote. */}
+                {preview?.ground_truth?.target_condition?.name && (
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+                      Target diagnosis
+                    </span>
+                  </div>
+                )}
+                {preview?.ground_truth?.target_condition?.name ? (
+                  <div className="mt-0.5">
+                    <span className="inline-flex items-center rounded-md border border-emerald-600/50 bg-emerald-600/15 px-3 py-1 text-sm font-medium text-emerald-200">
                       {preview.ground_truth.target_condition.name}
                     </span>
-                  )}
+                  </div>
+                ) : (
+                  <div className="truncate font-mono text-xs text-slate-500">
+                    {selected.uuid}
+                  </div>
+                )}
+                {/* Secondary demographics (BMI / race / location) + UUID
+                    line below the headline. UUID is moved down when the
+                    target diagnosis is present so the disease leads. */}
+                <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-slate-400">
                   {preview?.demographics?.bmi != null && (
                     <span>BMI {preview.demographics.bmi}</span>
                   )}
@@ -555,6 +568,11 @@ export function PatientPicker({ onTemplate }: Props) {
                     return null;
                   })()}
                 </div>
+                {preview?.ground_truth?.target_condition?.name && (
+                  <div className="mt-1 truncate font-mono text-[10px] text-slate-600">
+                    {selected.uuid}
+                  </div>
+                )}
               </div>
             </div>
 
