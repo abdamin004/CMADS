@@ -1283,6 +1283,32 @@ def create_app() -> FastAPI:
             })
         return rows
 
+    @app.get("/api/tests/cohort/disease-counts")
+    def tester_cohort_disease_counts() -> dict[str, int]:
+        """Return per-disease patient counts for the 8 thesis disease groups so
+        the PatientPicker can render counts next to each pill without making 8
+        separate browse calls."""
+        from src.db.mongo import _coll
+        THESIS_DISEASES = [
+            "Ischemic heart disease",
+            "Chronic congestive heart failure",
+            "Essential hypertension",
+            "Diabetes mellitus type 2",
+            "End-stage renal disease",
+            "Chronic kidney disease stage 3",
+            "Chronic kidney disease stage 2",
+            "Metabolic syndrome X",
+        ]
+        counts: dict[str, int] = {}
+        for d in THESIS_DISEASES:
+            n = _coll("patient_cases").count_documents({
+                "ground_truth.target_condition.name": {
+                    "$in": [d, f"{d} (disorder)"]
+                }
+            })
+            counts[d] = n
+        return counts
+
     @app.get("/api/tests/cohort/{uuid}")
     def tester_cohort_template(uuid: str) -> dict[str, Any]:
         """Load a single cohort patient as a clone-template payload. The

@@ -212,6 +212,10 @@ export function getVocabulary(
   return request<VocabularyItem[]>(`/api/tests/vocabulary?${params}`);
 }
 
+export function getDiseaseCounts(): Promise<Record<string, number>> {
+  return request<Record<string, number>>("/api/tests/cohort/disease-counts");
+}
+
 export function browseCohort(filters: {
   disease?: string;
   age_min?: number;
