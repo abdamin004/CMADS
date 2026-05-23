@@ -1220,10 +1220,18 @@ details.data-explainer[open] > summary.data-explainer__head {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.7rem;
   margin-top: 0.8rem;
-  /* Cards in a row anchor to the top — without this, mixed-height cells
-     can let CSS grid centre shorter cards vertically and the title rows
-     drift out of alignment with their siblings. */
-  align-items: start;
+  /* Cards stretch to the tallest sibling so the row reads as a row of
+     equal panels. Title alignment is enforced by evidence-title's
+     min-height and the flex direction inside each card. */
+  align-items: stretch;
+}
+/* Each card lays out its contents as a flex column so the title pins
+   to the top of the panel and the list flows underneath. The "+N more"
+   line drops naturally to the bottom of any shorter card. */
+.evidence-card,
+.evidence-card--interactive {
+  display: flex;
+  flex-direction: column;
 }
 .evidence-card {
   min-width: 0;
@@ -1263,7 +1271,6 @@ details.data-explainer[open] > summary.data-explainer__head {
    the full unsliced list. Renders as <button> so keyboard + screen
    readers treat it as a control. */
 .evidence-card--interactive {
-  display: block;
   width: 100%;
   text-align: left;
   cursor: pointer;
