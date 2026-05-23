@@ -10,7 +10,7 @@ import { useUrlState } from "./useUrlState";
  * Shareable links with ?mode=runtime or ?mode=researcher still take the
  * user directly to that mode.
  */
-export type Mode = "runtime" | "researcher" | "tester";
+export type Mode = "runtime" | "researcher";
 
 export function useMode(): {
   mode: Mode | undefined;
@@ -41,7 +41,7 @@ export function useMode(): {
   }, [setUrlMode]);
 
   const mode: Mode | undefined =
-    urlMode === "runtime" || urlMode === "researcher" || urlMode === "tester"
+    urlMode === "runtime" || urlMode === "researcher"
       ? urlMode
       : undefined;
 

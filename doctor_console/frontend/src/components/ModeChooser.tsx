@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Activity, FlaskConical, HeartHandshake, Stethoscope } from "lucide-react";
+import { Activity, HeartHandshake, Stethoscope } from "lucide-react";
 import type { Mode } from "../useMode";
 
 type Props = {
@@ -95,34 +95,6 @@ export function ModeChooser({ onChoose }: Props) {
           <span className="mode-chooser__card-cta">Show me what it can do →</span>
         </motion.button>
 
-        <motion.button
-          type="button"
-          className="mode-chooser__card mode-chooser__card--tester"
-          onClick={() => onChoose("tester")}
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.28, ease: [0.23, 1, 0.32, 1] }}
-          whileHover={{ y: -4 }}
-          whileTap={{ scale: 0.985 }}
-        >
-          <div className="mode-chooser__card-head">
-            <div className="mode-chooser__card-icon">
-              <FlaskConical size={28} strokeWidth={1.4} />
-            </div>
-            <span className="mode-chooser__card-eyebrow mono">build &amp; run</span>
-          </div>
-          <h2 className="mode-chooser__card-title">Tester.</h2>
-          <p className="mode-chooser__card-body">
-            Build your own patient and watch CMADS reason about them in seconds.
-            Compose demographics, conditions, labs, and medications from scratch
-            or clone a real Synthea patient as a template.
-          </p>
-          <ul className="mode-chooser__card-points">
-            <li><FlaskConical size={14} strokeWidth={1.6} /> Build patients from scratch or from the cohort</li>
-            <li><Activity size={14} strokeWidth={1.6} /> Watch the pipeline reason about them live</li>
-          </ul>
-          <span className="mode-chooser__card-cta">Build a patient →</span>
-        </motion.button>
       </div>
 
       <motion.section

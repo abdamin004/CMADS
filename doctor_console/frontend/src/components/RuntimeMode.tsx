@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, Cloud, HardDrive, Home, Stethoscope } from "lucide-react";
-import { getPatientCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
+import { AlertCircle, Cloud, FlaskConical, HardDrive, Home } from "lucide-react";
+import { getPatientCase, getResult, getRun, listTestPatients, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
 import { RuntimeResultView } from "./RuntimeResultView";
 import { RuntimeRunningView } from "./RuntimeRunningView";
+import { TesterJourney } from "./TesterJourney";
 import type { Mode } from "../useMode";
+
+type DoctorTab = "known" | "build";
+type TesterView = "splash" | "picker" | "editor" | "my-tests";
 
 type Props = {
   mode: Mode;
@@ -51,6 +55,21 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   const [activeAgentId, setActiveAgentId] = useState<string>("ehr_analyst");
   const [error, setError] = useState<string | null>(null);
 
+  // Doctor landing tab: "Known patient" (UUID flow) vs "Build / clone" (Tester body)
+  const [doctorTab, setDoctorTab] = useState<DoctorTab>("known");
+  // Pass-through initial view request into the embedded TesterJourney sub-router.
+  // testerViewKey increments each time we want TesterJourney to re-apply the view
+  // even if the view name didn't change (e.g. clicking "My test patients" twice).
+  const [testerView, setTesterView] = useState<TesterView | undefined>(undefined);
+  const [testerViewKey, setTesterViewKey] = useState(0);
+  // Test patient count shown in the Doctor header link
+  const [testCount, setTestCount] = useState(0);
+
+  // Refresh test-patient count when landing tab is shown, and on initial mount.
+  useEffect(() => {
+    listTestPatients().then(rs => setTestCount(rs.length)).catch(() => {});
+  }, [doctorTab]);
+
   // Reset to the hero.
   const reset = useCallback(() => {
     setPhase("idle");
@@ -60,10 +79,47 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     setActiveAgentId("ehr_analyst");
     setError(null);
     setStoredTaskId(null);
+    setDoctorTab("known");
+    setTesterView(undefined);
+    setTesterViewKey(0);
+  }, []);
+
+  // Called by the embedded Tester body when it starts a run.
+  // We're already in mode=runtime, so no setMode call needed.
+  const handleTesterRunStarted = useCallback((taskId: string) => {
+    setStoredTaskId(taskId);
+    // Trigger the mount-effect path: set the stored key, then force a
+    // re-read by bumping the task via getRun.
+    (async () => {
+      try {
+        const t = await getRun(taskId);
+        setTask(t);
+        void getPatientCase(t.patientUuid).then((b) => setCaseBundle(b)).catch(() => {});
+        if (t.status === "running" || t.status === "queued") {
+          setPhase("running");
+        } else if (t.status === "completed") {
+          try {
+            const detail = await getResult(t.resultSet, t.patientUuid);
+            setResult(detail);
+            setPhase("completed");
+          } catch { /* fall through */ }
+        } else if (t.status === "error") {
+          setError(t.error || "Pipeline failed");
+          setPhase("error");
+        }
+      } catch {
+        setError("Could not load test run");
+        setPhase("error");
+      }
+    })();
   }, []);
 
   // Kick off a run.
-  const handleRun = useCallback(async (uuid: string, preset: ModelPreset) => {
+  const handleRun = useCallback(async (
+    uuid: string,
+    preset: ModelPreset,
+    topK: number,
+  ) => {
     setError(null);
     setResult(undefined);
     setCaseBundle(undefined);
@@ -75,7 +131,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
       .then((bundle) => setCaseBundle(bundle))
       .catch(() => { /* non-fatal — the running view simply omits the data panel */ });
     try {
-      const fresh = await startRun(uuid, { presetId: preset.id });
+      const fresh = await startRun(uuid, { presetId: preset.id, topK });
       setTask(fresh);
       setStoredTaskId(fresh.taskId);
     } catch (err) {
@@ -175,6 +231,22 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
           <span className="mono">a second opinion in real time</span>
         </button>
         <div className="mode-ribbon__trust">
+          {/* My test patients link — only shown on the idle landing */}
+          {phase === "idle" && (
+            <button
+              type="button"
+              className="doctor-header__test-link mono"
+              onClick={() => {
+                setDoctorTab("build");
+                setTesterView("my-tests");
+                setTesterViewKey((k) => k + 1);
+              }}
+            >
+              <FlaskConical size={13} strokeWidth={1.7} />
+              My test patients
+              {testCount > 0 && <span className="doctor-header__test-badge">{testCount}</span>}
+            </button>
+          )}
           {task?.modelOverride?.label ? (
             <span className="runtime-shell__model-pill">
               {task.modelOverride.location === "local" ? (
@@ -192,7 +264,39 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
 
       <main className="runtime-shell__main">
         {phase === "idle" ? (
-          <RuntimeHero onRun={handleRun} />
+          <>
+            {/* Segmented control: Known patient | Build / clone */}
+            <div className="doctor-tab__bar">
+              <button
+                type="button"
+                className={`doctor-tab__btn${doctorTab === "known" ? " is-active" : ""}`}
+                onClick={() => setDoctorTab("known")}
+              >
+                Known patient
+              </button>
+              <button
+                type="button"
+                className={`doctor-tab__btn${doctorTab === "build" ? " is-active" : ""}`}
+                onClick={() => setDoctorTab("build")}
+              >
+                Build / clone a patient
+              </button>
+            </div>
+
+            {doctorTab === "known" ? (
+              <RuntimeHero onRun={handleRun} />
+            ) : (
+              <div className="doctor-tab__body">
+                <TesterJourney
+                  key={testerViewKey}
+                  chrome="inline"
+                  initialView={testerView}
+                  onBack={() => setDoctorTab("known")}
+                  onRunStarted={handleTesterRunStarted}
+                />
+              </div>
+            )}
+          </>
         ) : null}
 
         {phase === "running" ? (

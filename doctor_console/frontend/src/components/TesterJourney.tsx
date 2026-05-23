@@ -21,14 +21,28 @@ type View = "splash" | "picker" | "editor" | "my-tests";
 interface Props {
   onBack:        () => void;
   onRunStarted:  (taskId: string) => void;
+  /** When "inline" the component skips its own header (back arrow + title +
+   *  my-test-patients link) and renders only the body sub-router. The parent
+   *  is responsible for placing those controls in its own chrome.
+   *  Defaults to "full" (standalone TesterJourney header). */
+  chrome?:       "full" | "inline";
+  /** When chrome="inline" the parent can imperatively request a sub-view
+   *  (e.g. deep-link from the "My test patients" link in the Doctor header). */
+  initialView?:  View;
 }
 
-export function TesterJourney({ onBack, onRunStarted }: Props) {
-  const [view, setView]         = useState<View>("splash");
+export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialView }: Props) {
+  const [view, setView]         = useState<View>(initialView ?? "splash");
   const [payload, setPayload]   = useState<TestPatientPayload>(EMPTY);
   const [editingUuid, setEditingUuid] = useState<string | null>(null);
   const [saving, setSaving]     = useState(false);
   const [testCount, setTestCount] = useState(0);
+
+  // Allow the parent to flip the view from outside (e.g. deep-link from the
+  // Doctor header's "My test patients" link).
+  useEffect(() => {
+    if (initialView) setView(initialView);
+  }, [initialView]);
 
   useEffect(() => { listTestPatients().then(rs => setTestCount(rs.length)); }, [view]);
 
@@ -68,18 +82,26 @@ export function TesterJourney({ onBack, onRunStarted }: Props) {
     setView("editor");
   }
 
+  // When chrome="inline" we render only the body; the wrapping <div> has no
+  // fixed height so the parent's layout dictates the available space.
+  const wrapClass = chrome === "inline"
+    ? "flex flex-col text-slate-100"
+    : "flex h-screen flex-col bg-slate-950 text-slate-100";
+
   return (
-    <div className="flex h-screen flex-col bg-slate-950 text-slate-100">
-      <header className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
-        <div className="flex items-center gap-3">
-          <button onClick={onBack} className="text-slate-400 hover:text-slate-100">←</button>
-          <h1 className="text-lg font-medium">Tester (build &amp; run)</h1>
-        </div>
-        <button onClick={() => setView("my-tests")}
-          className="text-sm text-emerald-300 hover:text-emerald-200">
-          My test patients ({testCount})
-        </button>
-      </header>
+    <div className={wrapClass}>
+      {chrome === "full" && (
+        <header className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
+          <div className="flex items-center gap-3">
+            <button onClick={onBack} className="text-slate-400 hover:text-slate-100">←</button>
+            <h1 className="text-lg font-medium">Tester (build &amp; run)</h1>
+          </div>
+          <button onClick={() => setView("my-tests")}
+            className="text-sm text-emerald-300 hover:text-emerald-200">
+            My test patients ({testCount})
+          </button>
+        </header>
+      )}
 
       {view === "splash" && (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
