@@ -750,6 +750,39 @@ class AnnotationPayload(BaseModel):
 _vocab_cache: dict[str, list[dict]] | None = None
 _vocab_lock = threading.Lock()
 
+# The Tester journey only shows the LLM-detectability-verified cohort
+# (cohort_verified.json — 270 UUIDs the verifier returned YES on).
+# Surfacing the full 3,348-patient raw pile would let the clinician
+# clone a patient whose target disease isn't actually detectable from
+# the case data, which defeats the test-runner's purpose.
+_verified_uuids_cache: set[str] | None = None
+_verified_uuids_lock = threading.Lock()
+
+
+def _get_verified_uuids() -> set[str]:
+    """Lazily load + cache the LLM-verifier YES-cohort UUIDs from the
+    derived_artefacts collection (where cohort_verified is mirrored
+    by the migrate script). Falls back to the on-disk file if the
+    Mongo artefact is absent."""
+    global _verified_uuids_cache
+    if _verified_uuids_cache is not None:
+        return _verified_uuids_cache
+    with _verified_uuids_lock:
+        if _verified_uuids_cache is None:
+            from src.db.mongo import _coll
+            doc = _coll("derived_artefacts").find_one({"_id": "cohort_verified"})
+            uuids: list[str]
+            if doc and isinstance(doc.get("payload"), list):
+                uuids = [str(u) for u in doc["payload"]]
+            else:
+                # Fallback: read the on-disk file used by the data pipeline
+                import json as _json
+                from pathlib import Path as _Path
+                p = _Path("data/gold/cohort_verified.json")
+                uuids = _json.loads(p.read_text()) if p.exists() else []
+            _verified_uuids_cache = set(uuids)
+    return _verified_uuids_cache
+
 
 def _new_test_uuid() -> str:
     """Generate a ``ttest-<hex>`` id for TestPatient documents."""
@@ -1249,9 +1282,18 @@ def create_app() -> FastAPI:
     ) -> list[dict[str, Any]]:
         """Faceted browse of patient_cases for the Tester journey's
         clone-from-cohort flow. Returns summary rows; full payload via
-        /api/tests/cohort/{uuid}."""
+        /api/tests/cohort/{uuid}.
+
+        Restricted to the LLM-detectability-verified cohort
+        (cohort_verified — 270 UUIDs). The raw patient_cases pile has
+        ~3.3 k docs but only this subset is what the agents were
+        actually trained against; surfacing the rest invites the
+        clinician to clone a patient whose target disease isn't
+        detectable from the case data."""
         from src.db.mongo import _coll
-        q: dict[str, Any] = {}
+        q: dict[str, Any] = {
+            "_id": {"$in": sorted(_get_verified_uuids())},
+        }
         if disease:
             # Mongo stores disease names with the "(disorder)" SNOMED suffix
             # (e.g. "Ischemic heart disease (disorder)"); the friendly picker
@@ -1299,14 +1341,19 @@ def create_app() -> FastAPI:
             "Chronic kidney disease stage 2",
             "Metabolic syndrome X",
         ]
+        # Restrict counts to the LLM-verified cohort (see tester_cohort_browse).
+        verified = sorted(_get_verified_uuids())
         counts: dict[str, int] = {}
         for d in THESIS_DISEASES:
             n = _coll("patient_cases").count_documents({
+                "_id": {"$in": verified},
                 "ground_truth.target_condition.name": {
                     "$in": [d, f"{d} (disorder)"]
                 }
             })
             counts[d] = n
+        # Expose the total too so the UI can show "N of 270 verified"
+        counts["__verified_total__"] = len(verified)
         return counts
 
     @app.get("/api/tests/cohort/{uuid}")
