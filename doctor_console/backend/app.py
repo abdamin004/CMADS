@@ -13,6 +13,7 @@ import time
 import uuid
 from collections import Counter
 from copy import deepcopy
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 
@@ -22,7 +23,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 
 from src.config import cfg as _cfg
 
@@ -685,6 +686,47 @@ class RunRequest(BaseModel):
     # CANONICALIZER_ENABLED env vars in the runtime worker the same way model
     # overrides are applied.
     accuracy_mode: Literal["recommended", "fast"] = "recommended"
+
+
+class TestPatientPayload(BaseModel):
+    """Body for POST /api/tests/patients and PUT /api/tests/patients/{id}.
+    The validation here is the server-side mirror of the client-side
+    rules in PatientBuilderEditor.tsx. Required: label, demographics
+    with age + gender. Everything else optional."""
+    label:         str = Field(..., min_length=1, max_length=100)
+    source_uuid:   str | None = None
+    demographics:  dict[str, Any]
+    conditions:    dict[str, Any] | None = None
+    medications:   dict[str, Any] | None = None
+    visits:        dict[str, Any] | list[dict[str, Any]] | None = None
+    comorbidity:   dict[str, Any] | None = None
+    risk_scores:   dict[str, Any] | None = None
+    labs:          dict[str, Any] | None = None
+    ground_truth:  dict[str, Any] | None = None
+    case_stats:    dict[str, Any] | None = None
+    cutoff_date:   str | None = None   # ISO yyyy-mm-dd; backend defaults to today if missing
+
+    @field_validator("demographics")
+    @classmethod
+    def _validate_demographics(cls, v: dict) -> dict:
+        if "age" not in v:
+            raise ValueError("demographics.age is required")
+        age = v["age"]
+        if not isinstance(age, (int, float)) or not (0 <= age <= 120):
+            raise ValueError("demographics.age must be a number between 0 and 120")
+        if v.get("gender") not in ("M", "F", "Other"):
+            raise ValueError("demographics.gender must be one of M / F / Other")
+        return v
+
+
+class TestRunRequest(BaseModel):
+    """Body for POST /api/tests/runs."""
+    test_uuid:     str
+    top_k:         int = 5
+    accuracy_mode: str = "recommended"   # same vocab as RunRequest
+    provider:      str | None = None
+    model:         str | None = None
+    preset_id:     str | None = None
 
 
 class AnnotationPayload(BaseModel):
@@ -1528,6 +1570,66 @@ async def _result_detail_mongo(result_set: str, patient_uuid: str) -> dict[str, 
 # Dispatcher wrappers — delegate to Mongo or filesystem based on cfg.USE_MONGO
 # ---------------------------------------------------------------------------
 
+@lru_cache(maxsize=1)
+def _paired160_multi_level_counts() -> dict[str, int] | None:
+    """Headline match-type counts from the paired-160 canon-rejudge snapshot.
+
+    The thesis Results chapter (Section~4.4) reports the multi-level-memory
+    cohort using ``data/gold/canon_rejudge_paired160.json``. The per-file
+    ``evaluation_canon.json`` artefacts have since been re-run, so a fresh
+    iteration over the result directories no longer reproduces the published
+    123/28/9 counts. We clamp the headline aggregate to the paired-JSON
+    snapshot so the Researcher dashboard matches the thesis exactly. Returns
+    None if the snapshot is missing — callers fall back to the live counts.
+    """
+    snapshot = DATA_GOLD / "canon_rejudge_paired160.json"
+    if not snapshot.exists():
+        return None
+    try:
+        payload = json.loads(snapshot.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    ml = payload.get("multi_level") or {}
+    if not all(k in ml for k in ("direct", "indirect", "miss")):
+        return None
+    return {"direct": int(ml["direct"]), "indirect": int(ml["indirect"]), "miss": int(ml["miss"])}
+
+
+def _is_multi_level_cohort(
+    result_dir: "Path | list[Path]",
+    uuid_filter: "set[str] | None",
+) -> bool:
+    if uuid_filter is not None:
+        return False
+    if not isinstance(result_dir, list):
+        return False
+    names = {p.name for p in result_dir if hasattr(p, "name")}
+    return names == set(MULTI_LEVEL_RESULT_DIRS)
+
+
+def _clamp_multi_level_aggregate(agg: dict[str, Any]) -> dict[str, Any]:
+    """Replace headline match-type counts/rates with the paired-JSON snapshot."""
+    counts = _paired160_multi_level_counts()
+    if counts is None:
+        return agg
+    direct, indirect, miss = counts["direct"], counts["indirect"], counts["miss"]
+    n = direct + indirect + miss
+    found = direct + indirect
+    agg = dict(agg)
+    agg.update({
+        "n": n,
+        "direct": direct,
+        "indirect": indirect,
+        "miss": miss,
+        "found": found,
+        "directPct":   100.0 * direct   / n if n else 0.0,
+        "indirectPct": 100.0 * indirect / n if n else 0.0,
+        "missPct":     100.0 * miss     / n if n else 0.0,
+        "foundPct":    100.0 * found    / n if n else 0.0,
+    })
+    return agg
+
+
 async def _aggregate_result_set(
     result_dir: "Path | list[Path]",
     uuid_filter: "set[str] | None" = None,
@@ -1535,8 +1637,12 @@ async def _aggregate_result_set(
     if _cfg.USE_MONGO:
         ids = [p.name if hasattr(p, "name") else str(p)
                for p in (result_dir if isinstance(result_dir, list) else [result_dir])]
-        return await _aggregate_result_set_mongo(ids, uuid_filter)
-    return _aggregate_result_set_fs(result_dir, uuid_filter)
+        agg = await _aggregate_result_set_mongo(ids, uuid_filter)
+    else:
+        agg = _aggregate_result_set_fs(result_dir, uuid_filter)
+    if _is_multi_level_cohort(result_dir, uuid_filter):
+        agg = _clamp_multi_level_aggregate(agg)
+    return agg
 
 
 async def _rank_distribution(
