@@ -5,12 +5,16 @@ import { DemographicsForm } from "./tester/DemographicsForm";
 import { ConditionsForm }   from "./tester/ConditionsForm";
 import { MedicationsForm }  from "./tester/MedicationsForm";
 import { LabsForm }         from "./tester/LabsForm";
-import { VisitsForm }       from "./tester/VisitsForm";
 import { GroundTruthForm }  from "./tester/GroundTruthForm";
 import type { TestPatientPayload } from "../types";
 
+// "Visits summary" intentionally NOT in the editor navigator: visit counts
+// are low signal for the agents' diagnostic reasoning and high friction for
+// a clinician sketching a patient. The TestPatient document still carries
+// payload.visits (so cloned cohort patients keep their visit history on
+// the saved doc) — the editor just doesn't surface it.
 type Section = "demographics" | "conditions" | "medications"
-              | "labs" | "visits" | "ground_truth";
+              | "labs" | "ground_truth";
 
 const SECTIONS: Array<[Section, string, (p: TestPatientPayload) => string]> = [
   ["demographics", "Demographics",
@@ -21,8 +25,6 @@ const SECTIONS: Array<[Section, string, (p: TestPatientPayload) => string]> = [
     (p) => `${(p.medications?.active ?? []).length} active`],
   ["labs", "Recent labs",
     (p) => `${(p.labs?.latest_labs ?? []).length} labs`],
-  ["visits", "Visits summary",
-    (p) => `${(p.visits as { total?: number })?.total ?? 0} total`],
   ["ground_truth", "Ground truth",
     (p) => p.ground_truth?.target_condition?.name ?? "(blank)"],
 ];
@@ -86,8 +88,6 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
               onChange={(v) => patch("medications", v)} />}
           {section === "labs"          && <LabsForm value={payload.labs}
               onChange={(v) => patch("labs", v)} />}
-          {section === "visits"        && <VisitsForm value={payload.visits}
-              onChange={(v) => patch("visits", v)} />}
           {section === "ground_truth"  && <GroundTruthForm value={payload.ground_truth}
               onChange={(v) => patch("ground_truth", v)} />}
         </section>
