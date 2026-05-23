@@ -1,12 +1,19 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { springSnappy } from "../lib/motion";
+
+export type TabApi = {
+  /** Switch the tab strip programmatically — used for "see full
+   *  differential" buttons or clickable cards that jump elsewhere. */
+  setActive: (id: string) => void;
+};
 
 export type TabDef = {
   id: string;
   label: string;
   hint?: string;
   badge?: string | number;
-  render: () => ReactNode;
+  render: (api: TabApi) => ReactNode;
 };
 
 type Props = {
@@ -48,6 +55,29 @@ export function PatientDetailTabs({ tabs, defaultActive }: Props) {
     setActive(id);
   };
 
+  // Keyboard navigation per WAI-ARIA tabs pattern: Left/Right move and
+  // activate, Home/End jump to first/last. We use roving tabindex on the
+  // <button> elements via tabIndex below.
+  const handleTabKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(e.key)) return;
+    e.preventDefault();
+    const ids = tabs.map((t) => t.id);
+    const idx = ids.indexOf(active);
+    let next: number;
+    if (e.key === "ArrowRight")      next = (idx + 1) % ids.length;
+    else if (e.key === "ArrowLeft")  next = (idx - 1 + ids.length) % ids.length;
+    else if (e.key === "Home")       next = 0;
+    else                              next = ids.length - 1;
+    handleSelect(ids[next]);
+    // Move focus to the newly-active tab so the user can keep pressing arrows.
+    requestAnimationFrame(() => {
+      const root = stripRef.current;
+      if (!root) return;
+      const btn = root.querySelector<HTMLButtonElement>(`[data-tab-id="${ids[next]}"]`);
+      btn?.focus();
+    });
+  };
+
   return (
     <section className="patient-tabs" ref={stripRef}>
       <div
@@ -55,6 +85,7 @@ export function PatientDetailTabs({ tabs, defaultActive }: Props) {
         role="tablist"
         aria-label="Patient detail sections"
         data-demo-anchor="patient-tabs"
+        onKeyDown={handleTabKey}
       >
         {tabs.map((t) => {
           const isActive = t.id === active;
@@ -64,6 +95,9 @@ export function PatientDetailTabs({ tabs, defaultActive }: Props) {
               type="button"
               role="tab"
               aria-selected={isActive}
+              aria-controls={`patient-tab-panel-${t.id}`}
+              id={`patient-tab-${t.id}`}
+              tabIndex={isActive ? 0 : -1}
               data-active={isActive ? "true" : undefined}
               data-tab-id={t.id}
               data-demo-anchor={`tab-${t.id}`}
@@ -78,7 +112,7 @@ export function PatientDetailTabs({ tabs, defaultActive }: Props) {
                 <motion.span
                   className="patient-tabs__indicator"
                   layoutId="patientTabsIndicator"
-                  transition={{ type: "spring", stiffness: 420, damping: 38 }}
+                  transition={springSnappy}
                 />
               ) : null}
             </button>
@@ -93,6 +127,10 @@ export function PatientDetailTabs({ tabs, defaultActive }: Props) {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={active}
+          role="tabpanel"
+          id={`patient-tab-panel-${active}`}
+          aria-labelledby={`patient-tab-${active}`}
+          tabIndex={0}
           className="patient-tabs__body"
           data-demo-anchor={`tab-body-${active}`}
           initial={{ opacity: 0 }}
@@ -100,7 +138,7 @@ export function PatientDetailTabs({ tabs, defaultActive }: Props) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.18, ease: "easeOut" }}
         >
-          {activeTab?.render()}
+          {activeTab?.render({ setActive: handleSelect })}
         </motion.div>
       </AnimatePresence>
     </section>

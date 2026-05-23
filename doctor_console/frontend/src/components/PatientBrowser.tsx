@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { Activity, ChevronLeft, Filter, Play, RefreshCw, Search } from "lucide-react";
 import type { PatientListItem, RunTask } from "../types";
+import { matchGlyph } from "../lib/matchType";
+import { useUrlState } from "../useUrlState";
 
 type Props = {
   patients: PatientListItem[];
@@ -12,7 +14,9 @@ type Props = {
   onQueryChange: (query: string) => void;
   onSelectPatient: (uuid: string) => void;
   onRefresh: () => void;
-  onRun: () => void;
+  /** Optional — only Doctor (runtime) mode passes a handler; researcher mode
+   *  hides the run button since researchers never trigger live patient runs. */
+  onRun?: () => void;
   onCollapseChange?: (collapsed: boolean) => void;
   onGoOverview?: () => void;
 };
@@ -39,13 +43,32 @@ export function PatientBrowser({
   onCollapseChange,
   onGoOverview,
 }: Props) {
-  const [matchFilters, setMatchFilters] = useState<Set<MatchKey>>(
-    new Set(["DIRECT", "INDIRECT", "MISS", "NORUN"]),
-  );
-  const [genderFilter, setGenderFilter] = useState<"" | "M" | "F">("");
-  const [ageMin, setAgeMin] = useState<string>("");
-  const [ageMax, setAgeMax] = useState<string>("");
+  // Doctor (runtime) mode shows the "Run" button — in that mode the browser
+  // defaults to NO-RUN patients only so the doctor picks from cases the
+  // system hasn't seen yet. Researcher mode defaults to all match types.
+  const isRuntime = Boolean(onRun);
+  const defaultMatchKey = isRuntime ? "NORUN" : "DIRECT,INDIRECT,MISS,NORUN";
+
+  // Filter state is mirrored into the URL so PatientBrowser deep-links
+  // survive a refresh and the user can share a filtered view by URL.
+  // Keys: mt=DIRECT,INDIRECT  g=M|F  ageMin=  ageMax=
+  const [matchParam, setMatchParam] = useUrlState("mt", defaultMatchKey, { replace: true });
+  const [genderFilter, setGenderFilterRaw] = useUrlState("g", "", { replace: true });
+  const [ageMin, setAgeMin] = useUrlState("ageMin", "", { replace: true });
+  const [ageMax, setAgeMax] = useUrlState("ageMax", "", { replace: true });
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+
+  // Adapt URL string ↔ Set<MatchKey> at the boundaries; the rest of the
+  // component continues to think in terms of a Set.
+  const matchFilters: Set<MatchKey> = useMemo(() => {
+    const valid: MatchKey[] = ["DIRECT", "INDIRECT", "MISS", "NORUN"];
+    const keys = matchParam.split(",").map((s) => s.trim().toUpperCase() as MatchKey).filter((k) => valid.includes(k));
+    return new Set(keys);
+  }, [matchParam]);
+  const setMatchFilters = (next: Set<MatchKey>) => {
+    setMatchParam(Array.from(next).join(","));
+  };
+  const setGenderFilter = (g: "" | "M" | "F") => setGenderFilterRaw(g);
 
   const filtered = useMemo(() => {
     return patients.filter((p) => {
@@ -64,16 +87,20 @@ export function PatientBrowser({
   const canRun = Boolean(selectedUuid) && runTask?.status !== "running" && runTask?.status !== "queued";
 
   const toggleMatch = (k: MatchKey) => {
-    setMatchFilters((prev) => {
-      const next = new Set(prev);
-      if (next.has(k)) next.delete(k);
-      else next.add(k);
-      return next;
-    });
+    const next = new Set(matchFilters);
+    if (next.has(k)) next.delete(k);
+    else next.add(k);
+    setMatchFilters(next);
   };
 
+  // A match filter is "active" only when it deviates from the mode-default
+  // (Doctor → NORUN only; Researcher → all four). Otherwise the filter dot
+  // would always be lit in Doctor mode just because we default-filter to NORUN.
+  const defaultMatchSize = isRuntime ? 1 : 4;
+  const matchFilterIsActive = matchFilters.size !== defaultMatchSize
+    || (isRuntime && !matchFilters.has("NORUN"));
   const activeFilterCount =
-    (matchFilters.size < 4 ? 1 : 0) +
+    (matchFilterIsActive ? 1 : 0) +
     (genderFilter ? 1 : 0) +
     (ageMin ? 1 : 0) +
     (ageMax ? 1 : 0);
@@ -86,8 +113,9 @@ export function PatientBrowser({
           className="icon-button"
           onClick={() => onCollapseChange?.(false)}
           title="Open patient roster"
+          aria-label="Open patient roster"
         >
-          <Activity size={18} />
+          <Activity size={18} aria-hidden />
         </button>
       </aside>
     );
@@ -112,12 +140,12 @@ export function PatientBrowser({
         {onCollapseChange ? (
           <button
             type="button"
-            className="icon-button"
+            className="icon-button icon-button--sm"
             onClick={() => onCollapseChange(true)}
             title="Hide patient roster"
-            style={{ minHeight: 32, width: 32 }}
+            aria-label="Hide patient roster"
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={16} aria-hidden />
           </button>
         ) : null}
       </div>
@@ -137,17 +165,27 @@ export function PatientBrowser({
           type="button"
           onClick={() => setFilterPanelOpen((s) => !s)}
           title="Toggle filters"
+          aria-label={activeFilterCount ? `Filters (${activeFilterCount} active)` : "Toggle filters"}
+          aria-expanded={filterPanelOpen}
         >
-          <Filter size={15} />
-          {activeFilterCount ? <span className="filter-dot" /> : null}
+          <Filter size={15} aria-hidden />
+          {activeFilterCount ? <span className="filter-dot" aria-hidden /> : null}
         </button>
-        <button className="icon-button" type="button" onClick={onRefresh} title="Refresh">
-          <RefreshCw size={16} />
+        <button
+          className="icon-button"
+          type="button"
+          onClick={onRefresh}
+          title="Refresh patient list"
+          aria-label="Refresh patient list"
+        >
+          <RefreshCw size={16} aria-hidden />
         </button>
-        <button className="run-button" type="button" onClick={onRun} disabled={!canRun}>
-          <Play size={15} />
-          Run
-        </button>
+        {onRun ? (
+          <button className="run-button" type="button" onClick={onRun} disabled={!canRun}>
+            <Play size={15} />
+            Run
+          </button>
+        ) : null}
       </div>
 
       {filterPanelOpen ? (
@@ -213,7 +251,9 @@ export function PatientBrowser({
               className="ghost-button"
               style={{ marginTop: "0.4rem", justifyContent: "flex-start" }}
               onClick={() => {
-                setMatchFilters(new Set(["DIRECT", "INDIRECT", "MISS", "NORUN"]));
+                setMatchFilters(
+                  new Set(isRuntime ? ["NORUN"] : ["DIRECT", "INDIRECT", "MISS", "NORUN"]),
+                );
                 setGenderFilter("");
                 setAgeMin("");
                 setAgeMax("");
@@ -267,9 +307,17 @@ export function PatientBrowser({
                 </span>
               ) : null}
             </span>
-            <span className={`match-pill match-${(patient.matchType || "none").toLowerCase()}`}>
-              {patient.hasRun ? patient.matchType || "run" : "no run"}
-            </span>
+            {(() => {
+              const mt = patient.hasRun ? (patient.matchType || "") : "NORUN";
+              const cls = patient.hasRun ? (mt.toLowerCase() || "none") : "none";
+              const Glyph = matchGlyph(mt);
+              return (
+                <span className={`match-pill match-${cls}`}>
+                  <Glyph size={11} strokeWidth={2} aria-hidden />
+                  {patient.hasRun ? patient.matchType || "run" : "no run"}
+                </span>
+              );
+            })()}
           </button>
         ))}
         {!loading && filtered.length === 0 ? (

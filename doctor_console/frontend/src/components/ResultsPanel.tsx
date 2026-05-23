@@ -2,13 +2,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ClipboardCheck,
-  ShieldCheck,
-  Stethoscope,
   ChevronRight,
   Quote,
-  CircleDot,
 } from "lucide-react";
 import type { PatientResult } from "../types";
+import { matchGlyph } from "../lib/matchType";
+import { MetricTile } from "./ui/MetricTile";
 
 type Props = {
   result?: PatientResult;
@@ -23,8 +22,23 @@ export function ResultsPanel({ result }: Props) {
 
   const matchType = String(result.evaluation.match_type || "").toUpperCase();
   const matchedDiagnosis = String(result.evaluation.matched_diagnosis || "");
-  const matchRank = Number(result.evaluation.match_rank ?? 0);
-  const evalReason = String(result.evaluation.eval_reason || "");
+  // The evaluator emits ``rank`` in evaluation.json (string "1", "2" …).
+  // The old code read ``match_rank`` which doesn't exist, so the rank-based
+  // fallback never fired and DIRECT/INDIRECT patients showed no matched row
+  // whenever the LLM rephrased the diagnosis between the differential and
+  // the judge — accept both field names + coerce to a number.
+  const matchRank = Number(
+    result.evaluation.rank ?? result.evaluation.match_rank ?? 0,
+  );
+  const evalReason = String(
+    result.evaluation.eval_reason || result.evaluation.reason || "",
+  );
+  // Show the panel-level "matched to: …" banner for any DIRECT/INDIRECT
+  // verdict so the doctor always sees which diagnosis the system credits
+  // — even when no row in the visible top-5 string-matches the judge's
+  // exact wording. This is the authoritative read.
+  const showMatchBanner =
+    (matchType === "DIRECT" || matchType === "INDIRECT") && !!matchedDiagnosis;
 
   return (
     <section className="panel">
@@ -33,28 +47,51 @@ export function ResultsPanel({ result }: Props) {
           <h2>Differential diagnosis</h2>
           <p>The final ranked top-5 after Reviewer-Refiner, judged against the hidden ground truth.</p>
         </div>
-        <span className={`match-pill match-${(matchType || "none").toLowerCase()}`}>
-          {matchType || "not evaluated"}
-        </span>
+        {(() => {
+          const Glyph = matchGlyph(matchType);
+          return (
+            <span className={`match-pill match-${(matchType || "none").toLowerCase()}`}>
+              <Glyph size={12} strokeWidth={2} aria-hidden />
+              {matchType || "not evaluated"}
+            </span>
+          );
+        })()}
       </div>
 
-      <div className="result-summary">
-        <div className="result-card">
-          <Stethoscope size={20} />
-          <span>Final primary</span>
-          <strong>{String(result.finalDiagnosis.primary_diagnosis || "No final diagnosis")}</strong>
-        </div>
-        <div className="result-card">
-          <ShieldCheck size={20} />
-          <span>Evaluator match</span>
-          <strong>{matchedDiagnosis || "None"}</strong>
-        </div>
-        <div className="result-card">
-          <ClipboardCheck size={20} />
-          <span>Ground truth</span>
-          <strong>{result.patient.targetCondition || "Not available"}</strong>
-        </div>
+      <div className="result-summary result-summary--single">
+        <MetricTile
+          variant="result"
+          icon={<ClipboardCheck size={20} aria-hidden />}
+          label="Ground truth"
+          value={result.patient.targetCondition || "Not available"}
+        />
       </div>
+
+      {/* Authoritative match banner — shown whenever the judge returned
+          DIRECT or INDIRECT, so the doctor always sees the matched
+          diagnosis even if no row below string-matches exactly. */}
+      {showMatchBanner ? (
+        <div className={`match-banner match-${matchType.toLowerCase()}`}>
+          <span className="match-banner__tag">
+            {(() => {
+              const Glyph = matchGlyph(matchType);
+              return <Glyph size={12} strokeWidth={2} aria-hidden />;
+            })()}
+            {matchType === "DIRECT" ? "DIRECT MATCH" : "INDIRECT MATCH"}
+          </span>
+          <span className="match-banner__body">
+            <strong>{matchedDiagnosis}</strong>
+            {matchRank ? (
+              <span className="match-banner__rank mono">
+                · ranked #{matchRank} in the differential
+              </span>
+            ) : null}
+          </span>
+          {evalReason ? (
+            <span className="match-banner__reason">{evalReason}</span>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="differential-full">
         <h3>Ranked differential</h3>
@@ -114,10 +151,29 @@ function DiagnosisRow({
     : [];
   const reasoning = String(dx.reasoning || "").trim();
 
+  // Per-row match detection. The differential agents and the LLM judge
+  // often rephrase the same diagnosis (e.g. "Atherosclerotic CAD with
+  // recent MI" vs "Coronary artery disease"). Use a tolerant matcher:
+  //   1. exact equality, OR
+  //   2. case-insensitive substring either way (judge text contains the
+  //      row name, or vice versa), OR
+  //   3. row rank == evaluator rank.
+  // Last branch alone is sufficient when ``rank`` lines up, so DIRECT /
+  // INDIRECT patients always have a highlighted row.
+  const norm = (s: string) =>
+    s.toLowerCase().replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim();
+  const normName = norm(name);
+  const normMatched = norm(matchedDiagnosis);
   const isMatch =
-    !!matchedDiagnosis &&
-    (name === matchedDiagnosis ||
-      (matchType && (matchType === "DIRECT" || matchType === "INDIRECT") && rank === matchRank));
+    (matchType === "DIRECT" || matchType === "INDIRECT") &&
+    (
+      (!!matchedDiagnosis && (
+        normName === normMatched
+        || (normMatched.length > 6 && normName.includes(normMatched))
+        || (normName.length > 6 && normMatched.includes(normName))
+      ))
+      || (matchRank > 0 && rank === matchRank)
+    );
 
   const hasDetail = evidence.length > 0 || reasoning.length > 0;
   const [open, setOpen] = useState(false);
@@ -141,7 +197,10 @@ function DiagnosisRow({
           <span className="dx-row__name">{name}</span>
           {isMatch ? (
             <span className={`dx-row__match-tag match-${matchType.toLowerCase()}`}>
-              <CircleDot size={11} />
+              {(() => {
+                const Glyph = matchGlyph(matchType);
+                return <Glyph size={11} strokeWidth={2} aria-hidden />;
+              })()}
               {matchType === "DIRECT" ? "DIRECT MATCH" : "INDIRECT MATCH"}
             </span>
           ) : null}

@@ -93,11 +93,19 @@ disease, and metabolic syndrome X. A patient was kept only if there were
 at least three encounters and five laboratory observations before the
 target diagnosis date. This gives the agents enough earlier evidence to
 reason from while keeping the target diagnosis itself hidden. From the
-1{,}000 generated patients, the deterministic eligibility filter retained
-roughly 240 disease-positive candidates with sufficient pre-diagnosis
-evidence; the LLM-based detectability gate
-(Section~\ref{sec:llm_verifier}) then further restricted the cohort to
-160 patients with \texttt{VERDICT~=~YES} and \texttt{CONFIDENCE~$\geq$~80}.
+1{,}000 patients carried forward into the verification stage, the
+LLM-based detectability gate
+(Section~\ref{sec:llm_verifier}) returned \texttt{VERDICT~=~YES}
+for 428 cases and a confidence score from 0 to 100 for each; the
+$\geq 80$~confidence threshold restricts the verified cohort to
+\textbf{270 patients}, persisted as
+\texttt{data/gold/cohort\_verified.json}. The principal paired
+evaluation reported in Chapter~\ref{chap:results} draws a balanced
+160-patient subset from this verified cohort to support the paired
+multi-level memory A/B; the remaining patients stay available for
+the detectability sensitivity analysis and the single-LLM controlled
+baseline reported in Sections~\ref{sec:results_detectability_sensitivity}
+and~\ref{sec:results_single_llm} respectively.
 
 \paragraph{Scope of the eight families.}
 The eight disease families above are the scope of the evaluation
@@ -135,7 +143,7 @@ the multi-agent pipeline. The verifier
 (\texttt{pipeline/lab\_verifier\_llm.py}) builds a short clinical
 summary --- demographics, conditions, medications, risk scores, recent
 labs, critical flags, vital signs --- and asks the four questions in
-Box~\ref{box:verifier} using the Synthea target disease as the
+Table~\ref{tab:verifier} using the Synthea target disease as the
 reference. It returns four fields: \texttt{VERDICT} (YES or NO),
 \texttt{CONFIDENCE} from 0 to 100, an \texttt{EVIDENCE} list, and a
 short \texttt{REASONING} sentence. Only patients with
@@ -153,7 +161,7 @@ measures how much of the headline DIRECT rate depends on this gate.
 \begin{table}[!htbp]
 \centering
 \caption{Detectability-verifier prompt structure.}
-\label{box:verifier}
+\label{tab:verifier}
 \footnotesize
 \begin{tabular}{@{}p{34mm}p{100mm}@{}}
 \toprule
@@ -271,68 +279,27 @@ LLM Evaluator (Stage~5) only \\
 \FloatBarrier
 
 \paragraph{What the system reads per patient.}
-Table~\ref{tab:patient_inputs} unpacks the structured fields that
-together make up each patient case. The same six categories are
-surfaced verbatim in the doctor console's \emph{Patient Overview}
-panel so a clinician can audit exactly what the agents read for any
-given consultation. The agents never see free-text notes, images, or
-identifiers; everything the pipeline reasons over is in the structured
-fields below.
-
-\begin{table}[ht]
-\centering
-\caption{Per-patient structured inputs the agents read, mirrored
-verbatim in the doctor console's Patient Overview.}
-\label{tab:patient_inputs}
-\footnotesize
-\begin{tabular}{@{}p{30mm}p{55mm}p{55mm}@{}}
-\toprule
-\textbf{Field} & \textbf{What it contains} & \textbf{Why the system reads it} \\
-\midrule
-Demographics &
-Age, sex, race, ethnicity. &
-Baseline epidemiological priors; conditioning of clinical-decision
-rules such as blood-pressure thresholds and weight-based dosing. \\
-
-Active conditions &
-The patient's open problem list with SNOMED codes and onset dates,
-target excluded. &
-The chronological disease progression (e.g.\
-CKD-1 \(\to\) CKD-3 \(\to\) ESRD) is the single strongest signal for
-the Diagnostic Reasoning agent. \\
-
-Medications &
-Active drug list organised by class, with start dates and
-drug-condition links. &
-Lets the system infer ongoing management (e.g.\ metformin \(\to\)
-diabetes management; RAAS-inhibitor \(\to\) renal/cardiac), check
-contraindications, and flag drug-drug interactions in the
-treatment plan. \\
-
-Recent vitals &
-Last few BP, HR, weight, and SpO\(_2\) readings before the cutoff
-date. &
-Vitals carry the acute layer of the picture (uncontrolled
-hypertension, decompensated heart failure) that the chronic
-condition list alone can miss. \\
-
-Latest labs &
-Most recent values before cutoff for the key analytes
-(eGFR, HbA1c, lipid panel, electrolytes, troponin, etc.)\ with
-units and dates. &
-Read verbatim by the Lab Interpreter agent; the structured form
-allows automatic abnormal-range classification without parsing
-free-text reports. \\
-
-Critical flags &
-Pre-computed Silver-plus flags such as
-\texttt{eGFR < 60 mL/min/1.73 m\(^2\) \(\to\) CKD}, or
-\texttt{HbA1c > 6.5\% \(\to\) diabetes}. &
-Surface high-priority abnormalities directly so the diagnostic agents
-do not have to re-derive them from raw labs. \\
-\bottomrule
-\end{tabular}
-\end{table}
+Every patient case is structured --- the agents never see free-text
+notes, images, or identifiers. The case file splits into two groups.
+The \textbf{chart-as-recorded} fields, ingested verbatim from Synthea
+/ FHIR, are demographics (age, sex, race, ethnicity), the open problem
+list with SNOMED codes and onset dates (target excluded), the active
+medication list with class, dose, and start date, the most recent
+vitals (BP, HR, weight, SpO$_2$) before the cutoff date, and the
+latest values for the key analytes (eGFR, HbA1c, lipid panel,
+electrolytes, troponin, etc.)\ with units and dates. The
+\textbf{derived} features, computed during Silver+ / Gold-layer
+assembly so the diagnostic agents do not re-derive them at inference
+time, are critical flags (e.g.\ \texttt{eGFR < 60 $\to$ CKD};
+\texttt{HbA1c > 6.5\% $\to$ diabetes}), drug-condition links anchoring
+each medication to a plausible indication, Boolean comorbidity flags
+(\texttt{has\_dm}, \texttt{has\_htn}, \texttt{has\_ckd},
+\texttt{has\_ihd}, \texttt{has\_chf}, \texttt{has\_obesity}), and
+standard risk scores where the data permits (ASCVD 10-year,
+CHA$_2$DS$_2$-VASc, eGFR~CKD-EPI). The same categories are surfaced
+verbatim in the doctor console's \emph{Patient Overview} panel so a
+clinician can audit exactly what the agents read for any given
+consultation.
 
 \FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
@@ -861,35 +828,11 @@ already written by Stages~1--6.
 \label{sec:memory_access}
 % ─────────────────────────────────────────────────────────────────────────────
 
-Table~\ref{tab:memory_access} shows which agents read and write each memory
-tier. The key rule is unchanged: an agent writes only to its own output slot
-and to append-only event channels. Cross-session writes are limited to the
-Stage~7 consolidation node.
-
-\begin{table}[!htbp]
-\centering
-\caption{Multi-level memory access pattern. R = reads, W = writes (to
-own slot for \textsc{tier 2}, append for \textsc{tier 3}/\textsc{tier 4}).
-The Treatment agent additionally reads the external NICE-guideline
-knowledge base, which is not classified as memory.}
-\label{tab:memory_access}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lcccc@{}}
-\toprule
-\textbf{Agent} & \textbf{Tier 1 Working} & \textbf{Tier 2 Episodic} & \textbf{Tier 3 Semantic} & \textbf{Tier 4 Case-based} \\
-\midrule
-EHR Analyst              & --   & W            & --  & -- \\
-Lab Interpreter          & --   & W            & --  & -- \\
-Diagnostic Reasoning     & RW   & R~/~W        & --  & R \\
-Clinical Reviewer        & --   & R~(critique) & --  & -- \\
-Diagnostic Refiner       & --   & R~/~W        & R   & -- \\
-LLM Evaluator            & --   & W            & --  & -- \\
-Treatment Planning       & --   & W            & R   & -- \\
-Memory Consolidation~(S7)& --   & W            & W   & W \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
+The per-agent access pattern is summarised on
+Figure~\ref{fig:multilevel_memory}: an agent writes only to its own
+output slot and to append-only event channels, and cross-session
+writes (Tier~3 and Tier~4) are limited to the Stage~7 consolidation
+node.
 
 The memory code lives in \texttt{src/memory/}, with one module per tier and a
 shared \texttt{MemoryManager} in \texttt{manager.py}. The Stage~7 consolidation
@@ -984,9 +927,71 @@ adapter logs a structured warning when a single LLM call exceeds 120
 seconds but does not, by itself, cancel the call. Per-agent execution is
 bounded by an outer 300-second budget that wraps the entire agent
 invocation (Input Gate~$\to$~Output Gate) and that the orchestrator uses
-to abort a stalled agent without aborting the patient run. LangSmith
-tracing is enabled so prompts, responses, and intermediate errors can be
-inspected later.
+to abort a stalled agent without aborting the patient run.
+
+\FloatBarrier
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Observability and Trace Inspection}
+\label{sec:observability}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Observability in a multi-agent clinical system has two distinct
+audiences. The engineer rebuilding or extending the pipeline needs to
+see every prompt, every retry, and every JSON-parsing failure in
+context. The clinician or examiner reviewing a single patient run
+needs to see what each agent received, what it returned, and which
+hypothesis the Refiner kept against the Reviewer's verified, refuted,
+and uncertain flags. CMADS handles these audiences with the same
+data, surfaced through two complementary layers --- a local-first
+layer that always runs and an external developer-platform layer that
+augments it during development and debugging.
+
+\paragraph{Layer 1 --- local persistence (always on).}
+Every patient run writes a structured trail to disk and to MongoDB
+without any external service. The orchestrator appends one entry per
+agent invocation to the \texttt{execution\_trace} reducer channel
+(Section~\ref{sec:pipeline_state}): agent identifier, start and end
+timestamps, wall-clock duration, terminal status (\texttt{success},
+\texttt{partial}, \texttt{error}, or \texttt{skipped}), and a
+truncated error string when the agent raised. The per-agent JSON
+output written under the patient's result-set directory (and into the
+Mongo \texttt{agent\_runs} document) is the corresponding payload.
+Together these two artefacts answer ``what happened on this patient,
+in what order, for how long, and to what success state'' for every
+historical run without re-executing it. The Python
+\texttt{structlog}-based JSON-lines logger emits a parallel
+per-process log stream so a live or post-mortem investigation of
+ad-hoc behaviour (timeouts, JSON-mode fallbacks, repair-pass
+activations) can be done from the terminal.
+
+\paragraph{Layer 2 --- LangSmith trace platform (optional, EU-hosted).}
+When the operator sets the \texttt{LANGSMITH\_API\_KEY} environment
+variable, the LLM adapter auto-enables LangSmith
+tracing~\cite{LangSmith2024} against the EU endpoint
+(\url{https://eu.api.smith.langchain.com}) under the project
+\texttt{cmads-clinical-pipeline}. The trace captures every LLM
+invocation issued by every agent (including the diagnostic loop's
+multiple rounds and the Reviewer's adversarial pass), the full prompt
+text, the raw model response before any JSON-repair work, latency,
+token usage where the provider reports it, and any retried call that
+exited via the \texttt{json\_validate\_failed} branch. Failures
+propagate as exception breadcrumbs attached to the parent span, so
+the trace tree shows where in the seven-agent topology a fault
+originated rather than only that the patient run aborted. LangSmith
+tracing is auto-instrumented through the LangChain integration and
+therefore does not require code changes inside each agent.
+
+The two layers are deliberately redundant. The local layer is the
+authoritative record for thesis reproducibility and for regulatory
+traceability (see Section~\ref{sec:discussion_regulation}), survives
+without any external dependency, and is what the doctor-facing
+console reads. The LangSmith layer is the developer's microscope ---
+useful when an agent's structured output looks wrong and the question
+is what the model actually returned before
+\texttt{BaseAgent.\_extract\_json\_from\_response} repaired it. The
+operator can disable Layer~2 entirely by leaving the API key unset;
+no run on the empirical 160-patient cohort depends on LangSmith being
+reachable.
 
 \FloatBarrier
 % ─────────────────────────────────────────────────────────────────────────────
@@ -1083,7 +1088,7 @@ and local Ollama runs. GPT-OSS-120B and Qwen3-32B were served through Groq.
 Qdrant was used as a managed cloud vector store. Synthea is the only patient
 data generator, and its FHIR R4 output passes through the medallion data lake
 before the agents run. Figure~\ref{fig:tech_stack} groups the technology stack
-by layer, and Table~\ref{tab:software_stack} lists the stack in more detail.
+by layer.
 
 \begin{figure}[!htbp]
 \centering
@@ -1092,59 +1097,14 @@ by layer, and Table~\ref{tab:software_stack} lists the stack in more detail.
 the sole data source; LangGraph orchestrates the agent graph; the multi-tier
 shared memory is realised through PipelineState plus a Qdrant-backed
 case-based store; treatment retrieval uses BioLORD-2023 embeddings over
-Qdrant. The provider-agnostic LLM adapter routes calls to Groq by default,
-with OpenAI, Anthropic, Gemini, and Ollama as drop-in alternatives.}
+Qdrant. Per-run agent outputs and execution traces are persisted to
+MongoDB~7 (accessed via Beanie ODM on the read path and PyMongo on the
+write path; mongo-express provides a browser GUI on \texttt{:8091} for
+inspection). The provider-agnostic LLM adapter routes calls to Groq by
+default, with OpenAI, Anthropic, Gemini, and Ollama as drop-in
+alternatives.}
 \label{fig:tech_stack}
 \end{figure}
-
-\begin{table}[!htbp]
-\centering
-\caption{Technology stack used by the implemented system, organised by layer.}
-\label{tab:software_stack}
-\footnotesize
-\begin{tabular}{@{}p{30mm}p{42mm}p{60mm}@{}}
-\toprule
-\textbf{Layer} & \textbf{Technology} & \textbf{Role in CMADS} \\
-\midrule
-Data generation & Synthea (Java) & Rule-based synthetic patient generator \\
-                & FHIR R4 & Bundle format for ingested resources \\
-\midrule
-Data lake       & Python + PyArrow & Bronze ingestion to Parquet \\
-                & dbt-core         & Silver transform to OMOP CDM v5.4 \\
-                & DuckDB           & Embedded analytical warehouse \\
-                & Python (Gold)    & Per-patient case JSON assembly \\
-\midrule
-Orchestration   & LangGraph \texttt{StateGraph} & Typed graph with reducers and parallel fan-out \\
-                & Pydantic v2     & Agent output schema validation \\
-                & PyYAML          & Prompt template loader \\
-                & structlog       & JSON-lines structured logs \\
-\midrule
-LLM inference   & Groq · GPT-OSS-120B & Primary reasoning model (default) \\
-                & Groq · Qwen3-32B    & LLM-as-judge evaluator and detectability verifier \\
-                & Provider adapter    & OpenAI / Anthropic / Gemini / Ollama swap-in \\
-                & LangSmith           & Optional call tracing (EU endpoint) \\
-\midrule
-Memory \& RAG   & Qdrant                 & \texttt{patient\_cases} + \texttt{nice\_guidelines} \\
-                & sentence-transformers  & Embedding runtime \\
-                & BioLORD-2023           & Biomedical sentence encoder \\
-\midrule
-Storage (hot)   & MongoDB 7              & Per-run agent outputs (\texttt{agent\_runs}), Gold cases (\texttt{patient\_cases}), Tier-3 semantic memory (\texttt{semantic\_memory}), derived artefacts (\texttt{derived\_artefacts}) \\
-                & Beanie ODM             & Pydantic-v2-native async Mongo driver (read path) \\
-                & PyMongo                & Sync driver used by the agent write path (thread-safe) \\
-\midrule
-Frontend        & React + Vite + FastAPI & Doctor-facing console (single application; hosts both the Doctor runtime and Researcher statistics journeys) \\
-                & DuckDB (read-only)     & Encounter and demographic lookup \\
-                & mongo-express          & Optional browser GUI for inspecting the four collections (\texttt{:8091}) \\
-\midrule
-Build \& tests  & pytest                 & Unit and integration test suite \\
-                & ruff                   & Lint and format \\
-                & Makefile               & Single-command workflows \\
-\midrule
-Dev tooling \&  & Git + GitHub Actions   & Version control and CI/CD \\
-CI/CD           & Claude Code            & AI pair programmer for development \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 Environment-specific settings, such as model name, Ollama endpoint, prompt
 paths, output directory, and checkpoint location, are stored in configuration
@@ -1233,6 +1193,17 @@ to the configured database at startup when
 fall back to filesystem-scanning helpers, preserving the rollback
 contract.
 
+\paragraph{Patient builder.}
+The Doctor journey also exposes a \emph{Build / clone a patient} tab so
+the clinician can author their own case from scratch (demographics,
+conditions, medications, vitals, recent labs) or clone an existing
+Gold-layer patient as a starting point and edit any field before
+running the pipeline. A Smart Import flow inside the Recent labs tab
+extracts structured lab values from pasted text or a free-form report,
+so an arbitrary lab panel can be entered without retyping each numeric
+result. Builder runs are written to a separate \texttt{mas\_results\_test}
+result set so ad-hoc cases never contaminate the research statistics.
+
 \subsection*{Code availability}
 The full implementation --- data pipeline, agent prompts, LangGraph workflow,
 shared-memory subsystem, evaluator, and React doctor console --- is published
@@ -1270,11 +1241,12 @@ Doctor (runtime) journey for interactive review.
        Qdrant, while INDIRECT or MISS outcomes produce a structured skip result
 \STATE \textbf{Stage 7:} invoke Memory Consolidation; when enabled, update
        Tier~3 semantic memory and eligible Tier~4 patient cases
-\STATE Persist \texttt{agent\_outputs}, \texttt{execution\_trace}, and per-agent
-       JSON files to \texttt{data/gold/mas\_results/<patient\_uuid>/}
+\STATE Persist \texttt{agent\_outputs} and \texttt{execution\_trace} to MongoDB
+       (one document per agent stage, keyed by \texttt{patient\_uuid})
 \end{algorithmic}
 \end{algorithm}
 
-After each patient, the system saves all agent outputs, the execution trace,
-and the evaluation result. These files can be reopened in the doctor console
-(Researcher journey) or analysed later without rerunning the agents.
+After each patient, the system writes all agent outputs, the execution trace,
+and the evaluation result to MongoDB. These records can be reopened in the
+doctor console (Researcher journey) or analysed later without rerunning the
+agents.

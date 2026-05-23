@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, RotateCw } from "lucide-react";
 import { getMemoryAbComparison } from "../api";
 import type { MemoryAbComparison } from "../types";
 import { ArmSection, ComparisonPanel } from "./ComparisonShared";
@@ -44,7 +44,16 @@ export function MemoryAbTab(_props: Props) {
     );
   }
   if (error) {
-    return <div className="alert"><AlertCircle size={16} /> {error}</div>;
+    return (
+      <div className="alert alert--with-action" role="alert" aria-live="polite">
+        <AlertCircle size={16} aria-hidden />
+        <span>{error}</span>
+        <button type="button" className="alert__action" onClick={() => void load()} disabled={loading}>
+          <RotateCw size={13} strokeWidth={1.8} aria-hidden />
+          Retry
+        </button>
+      </div>
+    );
   }
   if (!data || !data.nPaired) {
     return (

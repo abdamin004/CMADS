@@ -524,7 +524,10 @@ export function PatientPicker({ onTemplate }: Props) {
         )}
         {selected && (
           <div className="space-y-5">
-            {/* Avatar + identity block */}
+            {/* Avatar + identity block + top-right template CTA. The CTA sits
+                beside the patient identity rather than as a full-width
+                button at the bottom of the panel so it's reachable without
+                scrolling on patients with long condition lists. */}
             <div className="flex items-start gap-4">
               <div
                 className={`flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-full text-center ${genderColors(displayGender)}`}
@@ -589,6 +592,18 @@ export function PatientPicker({ onTemplate }: Props) {
                   </div>
                 )}
               </div>
+              {/* Top-right CTA — same intent as the former full-width
+                  bottom button, but kept in view while the user scrolls
+                  through the conditions/labs list. */}
+              <button
+                onClick={useTemplate}
+                disabled={!preview || previewLoading}
+                className="shrink-0 inline-flex items-center gap-1 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white
+                           transition-colors hover:bg-emerald-500 focus-visible:outline-none
+                           focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:opacity-40"
+              >
+                Use as template →
+              </button>
             </div>
 
             {previewLoading && (
@@ -669,17 +684,6 @@ export function PatientPicker({ onTemplate }: Props) {
                 )}
               </>
             )}
-
-            {/* CTA */}
-            <button
-              onClick={useTemplate}
-              disabled={!preview || previewLoading}
-              className="w-full rounded-md bg-emerald-600 px-3 py-2.5 text-sm font-medium text-white
-                         transition-colors hover:bg-emerald-500 focus-visible:outline-none
-                         focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:opacity-40"
-            >
-              Use as template →
-            </button>
           </div>
         )}
       </section>

@@ -10,6 +10,7 @@ import { Disclosure } from "./Disclosure";
 import { PatientEvidence } from "./PatientEvidence";
 import { cancelRun, type CaseBundle } from "../api";
 import type { AgentCard, AgentNarrative, PatientResult, RunTask } from "../types";
+import { easeOut } from "../lib/motion";
 
 type Props = {
   task: RunTask | null;
@@ -79,6 +80,12 @@ export function RuntimeRunningView({
   const [showConfirm, setShowConfirm] = useState(false);
   const [stopping, setStopping] = useState(false);
   const stopBtnRef = useRef<HTMLDivElement>(null);
+  // Refs for focus management inside the confirm modal so keyboard users can
+  // tab between the two buttons without escaping the dialog and the focus
+  // returns to the trigger button on close.
+  const stopTriggerRef = useRef<HTMLButtonElement>(null);
+  const cancelDismissRef = useRef<HTMLButtonElement>(null);
+  const cancelConfirmRef = useRef<HTMLButtonElement>(null);
 
   const handleStopClick = () => setShowConfirm(true);
   const handleConfirmCancel = async () => {
@@ -93,6 +100,26 @@ export function RuntimeRunningView({
     // Keep "stopping…" until the SSE delivers the cancelled status
   };
   const handleDismissConfirm = () => setShowConfirm(false);
+
+  // When the confirm modal opens: park focus on the safer "Keep running"
+  // button. When it closes: send focus back to the Stop trigger so keyboard
+  // users don't lose their place.
+  useEffect(() => {
+    if (showConfirm) {
+      // Wait a tick so the modal is mounted and focusable.
+      const id = window.requestAnimationFrame(() => {
+        cancelDismissRef.current?.focus();
+      });
+      return () => window.cancelAnimationFrame(id);
+    } else {
+      // Only refocus the trigger if it's still in the DOM (the running view
+      // can unmount on completion before the modal closes naturally).
+      const trigger = stopTriggerRef.current;
+      if (trigger && document.contains(trigger)) {
+        trigger.focus({ preventScroll: true });
+      }
+    }
+  }, [showConfirm]);
 
   // Reset stopping indicator once cancelled status lands
   const taskStatus = task?.status;
@@ -110,10 +137,36 @@ export function RuntimeRunningView({
     return () => window.clearTimeout(t);
   }, [taskStatus, onReset]);
 
-  // Escape closes the confirmation modal.
+  // Escape closes the confirmation modal. Tab cycles between the two action
+  // buttons so focus never escapes to the page underneath (basic focus trap;
+  // the dialog only has 2 focusables, so a manual wrap is simpler than
+  // pulling in focus-trap-react).
   useEffect(() => {
     if (!showConfirm) return;
-    function onKey(e: KeyboardEvent) { if (e.key === "Escape") setShowConfirm(false); }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setShowConfirm(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const dismiss = cancelDismissRef.current;
+      const confirm = cancelConfirmRef.current;
+      if (!dismiss || !confirm) return;
+      const active = document.activeElement;
+      // Forward tab from "Stop" → wrap back to "Keep running".
+      if (!e.shiftKey && active === confirm) {
+        e.preventDefault();
+        dismiss.focus();
+      } else if (e.shiftKey && active === dismiss) {
+        e.preventDefault();
+        confirm.focus();
+      } else if (active !== dismiss && active !== confirm) {
+        // Focus drifted outside the modal — pull it back.
+        e.preventDefault();
+        dismiss.focus();
+      }
+    }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [showConfirm]);
@@ -202,7 +255,7 @@ export function RuntimeRunningView({
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+            transition={{ duration: 0.35, ease: easeOut }}
           >
             <Octagon size={15} strokeWidth={1.7} className="simple-run__cancelled-icon" />
             <span>
@@ -230,7 +283,7 @@ export function RuntimeRunningView({
               className="simple-run__hero-pulse"
               initial={{ scale: 0.6, opacity: 0.0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: 0.4, ease: easeOut }}
               aria-hidden
             />
             {activeStage ? <activeStage.Icon size={22} strokeWidth={1.5} /> : null}
@@ -246,7 +299,7 @@ export function RuntimeRunningView({
               key={activeStage?.id}
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.36, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: 0.36, ease: easeOut }}
             >
               {activeStage?.label ?? "Working…"}
             </motion.h2>
@@ -254,7 +307,7 @@ export function RuntimeRunningView({
               key={activeStage?.id + "-body"}
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.42, delay: 0.06, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: 0.42, delay: 0.06, ease: easeOut }}
             >
               {activeStage?.body}
             </motion.p>
@@ -264,11 +317,14 @@ export function RuntimeRunningView({
           {isRunning && (
             <div className="simple-run__stop-wrap" ref={stopBtnRef}>
               <button
+                ref={stopTriggerRef}
                 type="button"
                 className={`simple-run__stop-btn${stopping ? " simple-run__stop-btn--stopping" : ""}`}
                 onClick={handleStopClick}
                 disabled={stopping}
                 title="Stop the pipeline run"
+                aria-haspopup="dialog"
+                aria-expanded={showConfirm}
               >
                 {stopping ? (
                   <>
@@ -291,7 +347,7 @@ export function RuntimeRunningView({
             <motion.div
               className="simple-run__progress-fill"
               animate={{ width: `${progressPct}%` }}
-              transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: 0.55, ease: easeOut }}
             />
             <div className="simple-run__progress-shimmer" aria-hidden />
           </div>
@@ -368,33 +424,37 @@ export function RuntimeRunningView({
             <motion.div
               key="stop-modal"
               role="dialog"
-              aria-label="Stop the pipeline run?"
+              aria-modal="true"
+              aria-labelledby="stop-modal-title"
+              aria-describedby="stop-modal-desc"
               className="fixed left-1/2 top-1/2 z-50 w-full max-w-sm -translate-x-1/2 -translate-y-1/2 rounded-xl border border-slate-800 bg-slate-900 p-5 shadow-2xl shadow-black/60"
               initial={{ opacity: 0, scale: 0.94, y: -8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: -8 }}
-              transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: 0.18, ease: easeOut }}
             >
               <div className="mb-3 flex items-center gap-2">
-                <Octagon size={16} strokeWidth={1.8} className="text-amber-400" />
-                <h2 className="text-base font-medium text-slate-100">Stop the run?</h2>
+                <Octagon size={16} strokeWidth={1.8} className="text-amber-400" aria-hidden />
+                <h2 id="stop-modal-title" className="text-base font-medium text-slate-100">Stop the run?</h2>
               </div>
-              <p className="mb-4 text-sm text-slate-400 leading-relaxed">
+              <p id="stop-modal-desc" className="mb-4 text-sm text-slate-400 leading-relaxed">
                 The current agent will finish its turn, then the pipeline will
                 halt. You'll be returned to the home screen.
               </p>
               <div className="flex justify-end gap-2">
                 <button
+                  ref={cancelDismissRef}
                   type="button"
                   onClick={handleDismissConfirm}
-                  className="rounded-md border border-slate-700 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-800 transition-colors"
+                  className="rounded-md border border-slate-700 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500 transition-colors"
                 >
                   Keep running
                 </button>
                 <button
+                  ref={cancelConfirmRef}
                   type="button"
                   onClick={handleConfirmCancel}
-                  className="rounded-md bg-amber-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+                  className="rounded-md bg-amber-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 transition-colors"
                 >
                   Stop
                 </button>
@@ -407,13 +467,13 @@ export function RuntimeRunningView({
       <div className="simple-run__dive">
         <Disclosure
           title={
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-              <Wrench size={14} strokeWidth={1.7} />
+            <span className="simple-run__dive-title">
+              <Wrench size={14} strokeWidth={1.7} aria-hidden />
               <span>Want to see exactly how it's thinking?</span>
               <span className="simple-run__dive-tag mono">EXPLAINABILITY</span>
             </span>
           }
-          hint="Opens the full agent-by-agent reasoning view — useful if you'd like to follow each step in detail."
+          hint="Opens the full agent-by-agent reasoning view, useful if you'd like to follow each step in detail."
         >
           <div className="simple-run__detail">
             <AgentFlow
@@ -422,7 +482,7 @@ export function RuntimeRunningView({
               onSelectAgent={onSelectAgent}
               activeAgentId={task?.activeAgentId}
             />
-            <div className="content-grid single-column" style={{ marginTop: "1.25rem" }}>
+            <div className="content-grid single-column simple-run__inspector-wrap">
               <AgentInspector agent={selectedAgent} narrative={selectedNarrative} />
             </div>
           </div>

@@ -7,6 +7,7 @@ import { getModelPresets, getPatients, getStatsOverview } from "../api";
 import type { ModelPreset, PatientListItem } from "../types";
 import { AdvancedSettings, buildPrecisionRows } from "./runtime/AdvancedSettings";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
+import { easeOut } from "../lib/motion";
 
 type Props = {
   onRun: (
@@ -115,9 +116,13 @@ export function RuntimeHero({ onRun }: Props) {
   );
 
   // Compact summary string shown inside the Advanced <summary> element.
+  // Doctor-friendly: leads with the human-readable purpose ("top N suggestions"),
+  // not the raw `Top N` label, and demotes the model name to a "via" suffix so
+  // it reads like a sentence instead of a slug.
   const advancedSummary = useMemo(() => {
     const modelLabel = selectedPreset?.label ?? "default model";
-    return `${modelLabel} · Top ${adv.topK}`;
+    const suggestions = `top ${adv.topK} suggestion${adv.topK === 1 ? "" : "s"}`;
+    return `${suggestions} · via ${modelLabel}`;
   }, [selectedPreset, adv.topK]);
 
   return (
@@ -125,7 +130,7 @@ export function RuntimeHero({ onRun }: Props) {
       className="runtime-solo"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+      transition={{ duration: 0.5, ease: easeOut }}
     >
       <div className="runtime-solo__inner">
         <div className="runtime-solo__brand">
@@ -188,7 +193,7 @@ export function RuntimeHero({ onRun }: Props) {
                       <span className="runtime-solo__suggest-meta inline-flex items-center gap-2">
                         {s.targetCondition && (
                           <span
-                            className="inline-flex items-center rounded-full border border-emerald-700/50 bg-emerald-900/30 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-300"
+                            className="runtime-solo__suggest-truth"
                             title="Synthea ground-truth diagnosis"
                           >
                             {s.targetCondition}

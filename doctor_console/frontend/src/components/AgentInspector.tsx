@@ -8,9 +8,15 @@ type Props = {
   narrative?: AgentNarrative;
   /** Raw persisted output for this agent (result.agentOutputs[agent.id]). */
   rawOutput?: unknown;
+  /** Kept for API compatibility with PatientExplorer. The Reasoning tab
+   *  no longer renders the prompt template — prompts live inside each
+   *  agent's expanded card in the AgentsBoard ("Meet the crew") on the
+   *  Patients-tab landing, separate from per-patient agent narratives. */
+  mode?: "researcher" | "runtime";
 };
 
-export function AgentInspector({ agent, narrative, rawOutput }: Props) {
+export function AgentInspector({ agent, narrative, rawOutput, mode: _mode }: Props) {
+  void _mode;
   if (!agent) {
     return (
       <section className="panel">

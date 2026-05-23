@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Activity, HeartHandshake, Stethoscope } from "lucide-react";
 import type { Mode } from "../useMode";
+import { easeOut } from "../lib/motion";
 
 type Props = {
   onChoose: (mode: Mode) => void;
@@ -24,7 +25,7 @@ export function ModeChooser({ onChoose }: Props) {
         className="mode-chooser__brand"
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+        transition={{ duration: 0.5, ease: easeOut }}
       >
         <div className="mode-chooser__eyebrow mono">
           CMADS · A clinical second opinion
@@ -38,7 +39,7 @@ export function ModeChooser({ onChoose }: Props) {
           onClick={() => onChoose("runtime")}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08, ease: [0.23, 1, 0.32, 1] }}
+          transition={{ duration: 0.55, delay: 0.08, ease: easeOut }}
           whileHover={{ y: -4 }}
           whileTap={{ scale: 0.985 }}
         >
@@ -52,7 +53,7 @@ export function ModeChooser({ onChoose }: Props) {
           <p className="mode-chooser__card-body">
             Bring up a patient and a careful second opinion will walk through
             their chart and lab work with you. You'll see what looks most likely,
-            what's worth checking next, and a management plan to consider —
+            what's worth checking next, and a management plan to consider:
             always there for you to take, change, or set aside.
           </p>
           <ul className="mode-chooser__card-points">
@@ -68,7 +69,7 @@ export function ModeChooser({ onChoose }: Props) {
           onClick={() => onChoose("researcher")}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.18, ease: [0.23, 1, 0.32, 1] }}
+          transition={{ duration: 0.55, delay: 0.18, ease: easeOut }}
           whileHover={{ y: -4 }}
           whileTap={{ scale: 0.985 }}
         >
@@ -101,7 +102,7 @@ export function ModeChooser({ onChoose }: Props) {
         className="mode-chooser__howto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, delay: 0.28, ease: [0.23, 1, 0.32, 1] }}
+        transition={{ duration: 0.55, delay: 0.28, ease: easeOut }}
       >
         <div className="mode-chooser__howto-head">
           <span className="mode-chooser__howto-eyebrow mono">How to use the system</span>
@@ -123,7 +124,7 @@ export function ModeChooser({ onChoose }: Props) {
             <div>
               <strong>Switch to Assist me</strong> once it has earned your
               confidence. Bring up a new patient and the system will walk through
-              the chart and lab work with you — every decision stays yours.
+              the chart and lab work with you, with every decision still yours.
             </div>
           </li>
         </ol>

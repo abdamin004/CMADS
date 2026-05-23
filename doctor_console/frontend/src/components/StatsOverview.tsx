@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, RotateCw } from "lucide-react";
 import { getStatsOverview } from "../api";
 import type { StatsOverview as StatsOverviewT } from "../types";
 import { cascade, cascadeItem, cascadeListContainer, cascadeRow } from "../lib/motion";
@@ -51,24 +51,23 @@ export function StatsOverview({ onOpenPatient: _onOpenPatient }: Props) {
 
   const kpis = useMemo(() => {
     if (!aggregates) return [];
+    const directShare = aggregates.n ? (100 * aggregates.direct) / aggregates.n : 0;
     return [
       {
         label: "Patients reviewed",
         value: String(aggregates.n),
-      },
-      {
-        label: "DIRECT rate",
-        value: `${aggregates.directPct.toFixed(1)}%`,
-        tone: "success" as const,
+        secondary: `cohort · ${MAIN_COHORT}`,
       },
       {
         label: "System found rate",
         value: `${aggregates.foundPct.toFixed(1)}%`,
         tone: "success" as const,
+        secondary: `direct ${directShare.toFixed(0)}%`,
       },
       {
         label: "Median runtime",
         value: aggregates.medianTimeS ? `${Math.round(aggregates.medianTimeS)}s` : "—",
+        secondary: "per patient · end-to-end",
       },
     ];
   }, [aggregates]);
@@ -98,9 +97,25 @@ export function StatsOverview({ onOpenPatient: _onOpenPatient }: Props) {
       </motion.section>
 
       {error ? (
-        <motion.div variants={cascadeItem} className="alert">
-          <AlertCircle size={16} />
+        <motion.div
+          variants={cascadeItem}
+          className="alert alert--with-action"
+          role="alert"
+          aria-live="polite"
+        >
+          <AlertCircle size={16} aria-hidden />
           <span>{error}</span>
+          <button
+            type="button"
+            className="alert__action"
+            onClick={() => void load()}
+            disabled={loading}
+          >
+            {loading
+              ? <Loader2 size={13} strokeWidth={1.8} className="spin" aria-hidden />
+              : <RotateCw size={13} strokeWidth={1.8} aria-hidden />}
+            Retry
+          </button>
         </motion.div>
       ) : null}
 

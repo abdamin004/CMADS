@@ -34,6 +34,10 @@ export function RuntimeResultView({ result, onReset }: Props) {
   const differential = Array.isArray(finalDx.differential)
     ? (finalDx.differential as Record<string, unknown>[])
     : [];
+  // Actual K the doctor picked at run-time. We honour the length of the
+  // produced differential so the copy never lies — if the doctor asked
+  // for "Top 3" the labels read "top-3", "ranked top 3", etc.
+  const topK = differential.length || 5;
   const unresolved = Array.isArray(finalDx.unresolved_findings)
     ? (finalDx.unresolved_findings as unknown[]).map(String)
     : [];
@@ -60,9 +64,10 @@ export function RuntimeResultView({ result, onReset }: Props) {
     {
       id: "differential",
       label: "Differential",
-      hint: "What CMADS thinks this patient has — ranked top-5.",
+      hint: `What CMADS thinks this patient has — ranked top-${topK}.`,
       render: () => (
         <DifferentialPanel
+          topK={topK}
           primary={primary}
           differential={differential}
           unresolved={unresolved}
@@ -73,7 +78,7 @@ export function RuntimeResultView({ result, onReset }: Props) {
     {
       id: "treatment",
       label: "Treatment",
-      hint: "NICE-grounded plan, when a known disease is identified.",
+      hint: "A starting plan when the system is confident about the diagnosis.",
       render: () => (
         <TreatmentPanel hasPlan={hasTreatment} result={result} treatmentObj={treatmentObj} />
       ),
@@ -122,7 +127,10 @@ function RuntimeResultHeader({
           {patient.age ?? "?"} year old {patient.gender ?? "patient"}
           {patient.race ? `, ${patient.race}` : ""}
         </h1>
-        <p>Primary diagnosis: <strong>{primary}</strong> · Data cutoff: {patient.cutoffDate || "not recorded"}</p>
+        {/* Primary diagnosis is intentionally NOT shown — doctor reads the
+            full ranked differential in the dedicated tab. Cutoff date stays
+            so the doctor knows when the chart snapshot was taken. */}
+        <p>Data cutoff: {patient.cutoffDate || "not recorded"}</p>
       </div>
       <button type="button" className="ghost-button" onClick={onReset}>
         <RotateCw size={14} />
@@ -135,12 +143,13 @@ function RuntimeResultHeader({
 /* ─── Differential tab body ─────────────────────────────────────────── */
 
 function DifferentialPanel({
-  primary, differential, unresolved, workup,
+  primary, differential, unresolved, workup, topK,
 }: {
   primary: string;
   differential: Record<string, unknown>[];
   unresolved: string[];
   workup: string[];
+  topK: number;
 }) {
   return (
     <div className="runtime-tab-body">
@@ -152,22 +161,16 @@ function DifferentialPanel({
             </div>
             <h2>What CMADS thinks this patient has</h2>
             <p>
-              Ranked top-5 from the Diagnostic Refiner — the agent that merges
-              the diagnostic reasoner's output with the adversarial reviewer's
-              challenges. Use it as a structured second opinion.
+              The top {topK} most likely diagnoses, ranked. Read it as a
+              structured second opinion — keep what fits, set aside what
+              doesn't.
             </p>
           </div>
         </header>
 
-        <motion.div
-          className="differential-hero__primary"
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-        >
-          <div className="differential-hero__primary-eyebrow mono">Primary diagnosis</div>
-          <div className="differential-hero__primary-name">{primary}</div>
-        </motion.div>
+        {/* Primary diagnosis hero banner removed in the doctor view — the
+            full ranked differential below is the second-opinion surface;
+            we don't want to over-emphasise the model's #1 pick. */}
 
         {differential.length === 0 ? (
           <div className="empty-state">No differential produced.</div>
@@ -178,7 +181,7 @@ function DifferentialPanel({
             animate="visible"
             variants={cascadeListContainer}
           >
-            {differential.slice(0, 5).map((dx, i) => (
+            {differential.slice(0, topK).map((dx, i) => (
               <DiagnosisRow key={`${String(dx.name)}-${i}`} dx={dx} index={i} />
             ))}
           </motion.ol>
@@ -209,11 +212,10 @@ function TreatmentPanel({
             <div className="eyebrow">
               <Pill size={11} strokeWidth={2} /> Treatment plan
             </div>
-            <h2>NICE-grounded management proposal</h2>
+            <h2>A management plan you can lean on</h2>
             <p>
-              Retrieved from the NICE guideline vector store. Review and adapt
-              before applying — every suggestion is yours to accept, modify,
-              or override.
+              Start it, change it, or set it aside — every suggestion is yours
+              to keep or override.
             </p>
           </div>
         </div>

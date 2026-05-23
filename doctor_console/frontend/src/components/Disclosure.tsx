@@ -1,6 +1,5 @@
 import { useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 type Props = {
   /** Title shown in the summary row. */
@@ -48,7 +47,7 @@ export function Disclosure({
         <ChevronDown
           size={15}
           className="disclosure__chevron"
-          style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)" }}
+          aria-hidden
         />
         <span className="disclosure__title">{title}</span>
         {badge !== undefined && badge !== "" && badge !== 0 ? (
@@ -58,20 +57,13 @@ export function Disclosure({
       {!open && hint ? (
         <div className="disclosure__hint">{hint}</div>
       ) : null}
-      <AnimatePresence initial={false}>
-        {open ? (
-          <motion.div
-            key="content"
-            className="disclosure__content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: [0.22, 0.65, 0.3, 0.96] }}
-          >
-            <div className="disclosure__body">{children}</div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {/* The expand/collapse uses the CSS grid-template-rows 0fr→1fr trick
+          (driven by [data-open]) instead of animating `height: auto`. That
+          keeps the animation off the layout properties Framer Motion was
+          previously reflowing on each frame. */}
+      <div className="disclosure__content" aria-hidden={!open}>
+        <div className="disclosure__body">{children}</div>
+      </div>
     </div>
   );
 }

@@ -106,3 +106,46 @@ export const pageEnter: Transition = {
   duration: 0.45,
   ease: easeOut,
 };
+
+// ─── Spring presets ───────────────────────────────────────────────
+// Two named springs replace inline {stiffness, damping} magic numbers
+// scattered through PatientDetailTabs, AgentFlow, ResearcherMode, etc.
+// Snappy is for crisp UI feedback (tab indicators, toggle states).
+// Gentle is for content rises / drawer slides where overshoot would
+// feel jittery.
+export const springSnappy: Transition = {
+  type: "spring",
+  stiffness: 420,
+  damping: 38,
+};
+
+export const springGentle: Transition = {
+  type: "spring",
+  stiffness: 240,
+  damping: 32,
+};
+
+// ─── Named durations ──────────────────────────────────────────────
+// Mirror the --dur-* tokens declared in styles.css so CSS and JS
+// motion share the same vocabulary. Use these instead of inline
+// 0.18 / 0.2 / 0.28 / 0.32 / 0.4 numbers in component motion props.
+export const durPress   = 0.14;  // matches --dur-press
+export const durHover   = 0.16;  // matches --dur-hover
+export const durPopover = 0.18;  // matches --dur-popover
+export const durPanel   = 0.24;  // matches --dur-panel
+export const durStage   = 0.36;  // longer beat for stage/hero transitions
+
+// ─── Stage transitions ────────────────────────────────────────────
+// The RuntimeRunningView hero / stage-chip animations use these so
+// every stage-flip reads with the same rhythm regardless of which
+// component owns the motion. Easing matches the --ease-out token.
+export const stageTransition: Transition = {
+  duration: durStage,
+  ease: easeOut,
+};
+
+export const heroBodyTransition: Transition = {
+  duration: 0.42,
+  delay: 0.06,
+  ease: easeOut,
+};

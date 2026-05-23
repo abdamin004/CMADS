@@ -22,12 +22,14 @@ export function ArmSection({
   rankDist?: RankBucket[];
   perDisease?: PerDiseaseRow[];
 }) {
+  // DIRECT and INDIRECT are intentionally NOT shown as standalone tiles —
+  // they live in the comparison table below where the deltas are colour-coded.
+  // The arm-level KPI strip keeps only the headline (Found), the quality
+  // floor (MISS), and the precision-within-found number.
   const kpis = agg ? [
-    { label: "DIRECT",
-      value: `${agg.directPct.toFixed(1)}%`,
+    { label: "Found",
+      value: `${agg.foundPct.toFixed(1)}%`,
       tone: (tone === "primary" ? "success" : undefined) as "success" | undefined },
-    { label: "Found",            value: `${agg.foundPct.toFixed(1)}%` },
-    { label: "INDIRECT",         value: `${agg.indirectPct.toFixed(1)}%` },
     { label: "MISS",
       value: `${agg.missPct.toFixed(1)}%`,
       tone: (agg.missPct > 10 ? "critical" : undefined) as "critical" | undefined },
@@ -57,36 +59,37 @@ export function ArmSection({
         </motion.section>
       ) : null}
 
-      <div className="arm-collapsibles">
-        {rankDist ? (
-          <details className="arm-collapsible">
-            <summary>
-              <span>Rank distribution</span>
-              <span className="arm-collapsible__hint mono">
-                where the target lands in the differential
-              </span>
-              <span className="arm-collapsible__toggle" aria-hidden="true">▾</span>
-            </summary>
-            <div className="arm-collapsible__body">
-              <RankHistogram buckets={rankDist} />
-            </div>
-          </details>
-        ) : null}
-        {perDisease ? (
-          <details className="arm-collapsible">
-            <summary>
-              <span>Per ground-truth disease</span>
-              <span className="arm-collapsible__hint mono">
-                accuracy broken down by target condition
-              </span>
-              <span className="arm-collapsible__toggle" aria-hidden="true">▾</span>
-            </summary>
-            <div className="arm-collapsible__body">
-              <PerDiseaseTable rows={perDisease} />
-            </div>
-          </details>
-        ) : null}
-      </div>
+      {(rankDist || perDisease) ? (
+        <details className="arm-collapsible">
+          <summary>
+            <span>Breakdowns</span>
+            <span className="arm-collapsible__hint mono">
+              rank distribution &middot; per ground-truth disease
+            </span>
+            <span className="arm-collapsible__toggle" aria-hidden="true">▾</span>
+          </summary>
+          <div className="arm-collapsible__body arm-collapsible__stack">
+            {rankDist ? (
+              <div className="arm-collapsible__section">
+                <div className="arm-collapsible__section-head">
+                  <strong>Rank distribution</strong>
+                  <span className="mono">where the target lands in the differential</span>
+                </div>
+                <RankHistogram buckets={rankDist} />
+              </div>
+            ) : null}
+            {perDisease ? (
+              <div className="arm-collapsible__section">
+                <div className="arm-collapsible__section-head">
+                  <strong>Per ground-truth disease</strong>
+                  <span className="mono">accuracy broken down by target condition</span>
+                </div>
+                <PerDiseaseTable rows={perDisease} />
+              </div>
+            ) : null}
+          </div>
+        </details>
+      ) : null}
     </section>
   );
 }
@@ -100,11 +103,17 @@ export function ComparisonPanel({
   onLabel: string;
   title?: string;
 }) {
+  // Row order is doctor-readable: the headline (Found) leads, then the
+  // top-1 quality split (DIRECT/INDIRECT), then the rank-precision metrics
+  // (Rank-1, Rank-2 within found), then the failure modes (MISS / runtime).
+  // INDIRECT and MISS are "lower-is-better" — colour logic flips via
+  // `goodIfUp`.
   const rows: Array<{ label: string; left: number; right: number; goodIfUp: boolean }> = [
-    { label: "DIRECT",              left: offAgg.directPct,        right: onAgg.directPct,         goodIfUp: true  },
     { label: "Found (D + I)",       left: offAgg.foundPct,         right: onAgg.foundPct,          goodIfUp: true  },
-    { label: "Rank-1 within found", left: offAgg.rank1PctOfFound,  right: onAgg.rank1PctOfFound,   goodIfUp: true  },
+    { label: "DIRECT",              left: offAgg.directPct,        right: onAgg.directPct,         goodIfUp: true  },
     { label: "INDIRECT",            left: offAgg.indirectPct,      right: onAgg.indirectPct,       goodIfUp: false },
+    { label: "Rank-1 within found", left: offAgg.rank1PctOfFound,  right: onAgg.rank1PctOfFound,   goodIfUp: true  },
+    { label: "Rank-2 within found", left: offAgg.rank2PctOfFound ?? 0, right: onAgg.rank2PctOfFound ?? 0, goodIfUp: true  },
     { label: "MISS",                left: offAgg.missPct,          right: onAgg.missPct,           goodIfUp: false },
     { label: "Median runtime",      left: offAgg.medianTimeS,      right: onAgg.medianTimeS,       goodIfUp: false },
   ];

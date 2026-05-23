@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, Cloud, HardDrive, History, Home } from "lucide-react";
+import { AlertCircle, ArrowLeft, Cloud, HardDrive, History, Home, RotateCw } from "lucide-react";
 import { getPatientCase, getTestPatientAsCase, getResult, getRun, listTestPatients, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
@@ -68,6 +68,11 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   const [caseBundle, setCaseBundle] = useState<CaseBundle | undefined>();
   const [activeAgentId, setActiveAgentId] = useState<string>("ehr_analyst");
   const [error, setError] = useState<string | null>(null);
+  // Remember the last Known-patient run params so the error screen can offer
+  // "Try this patient again" without forcing the doctor to re-type the UUID.
+  // Tester runs aren't retryable here (they're owned by TesterJourney's own
+  // run-start callback), so this stays null for those.
+  const lastRunRef = useRef<{ uuid: string; preset: ModelPreset; topK: number } | null>(null);
 
   // Doctor landing tab: "Known patient" (UUID flow) vs "Build / clone" (Tester body)
   const [doctorTab, setDoctorTab] = useState<DoctorTab>("known");
@@ -144,6 +149,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     setCaseBundle(undefined);
     setActiveAgentId("ehr_analyst");
     setPhase("running");
+    lastRunRef.current = { uuid, preset, topK };
     // Fetch the patient case immediately so the doctor can see the data
     // the system is reading while the run is in progress.
     // `uuid` here is always a Gold-layer UUID from the Known-patient flow.
@@ -159,6 +165,16 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
       setPhase("error");
     }
   }, []);
+
+  // Retry the last Known-patient run. Returns false when no run is on record
+  // (e.g. error happened before lastRunRef was populated, or this was a
+  // Tester-launched run) so the UI can hide the Retry CTA.
+  const handleRetry = useCallback(() => {
+    const last = lastRunRef.current;
+    if (!last) return false;
+    void handleRun(last.uuid, last.preset, last.topK);
+    return true;
+  }, [handleRun]);
 
   // On mount: if we left a previous run in flight (or completed and didn't
   // reset), restore it so the doctor sees the same state when they return.
@@ -353,18 +369,52 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         {phase === "error" ? (
           <motion.section
             className="panel runtime-shell__error"
+            role="alert"
+            aria-live="assertive"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
             <div className="runtime-shell__error-head">
-              <AlertCircle size={20} strokeWidth={1.7} />
-              <h2>The pipeline failed for this run</h2>
+              <AlertCircle size={20} strokeWidth={1.7} aria-hidden />
+              <h2>The pipeline didn't finish</h2>
             </div>
-            <p>{error ?? "An unexpected error occurred."}</p>
-            <button type="button" className="runtime-solo__cta" onClick={reset}>
-              Try another patient
-            </button>
+            <p className="runtime-shell__error-body">
+              {error ?? "Something went wrong before this run could complete."}
+              {task?.patientUuid ? (
+                <>
+                  {" "}
+                  <span className="mono runtime-shell__error-uuid">
+                    Patient {task.patientUuid.slice(0, 8)}…
+                  </span>
+                </>
+              ) : null}
+            </p>
+            <p className="runtime-shell__error-hint">
+              Transient failures (model timeouts, network blips) usually clear on a second attempt.
+              If it keeps failing, try a smaller model preset or a different patient.
+            </p>
+            <div className="runtime-shell__error-actions">
+              {lastRunRef.current ? (
+                <button
+                  type="button"
+                  className="runtime-solo__cta runtime-shell__error-cta--primary"
+                  onClick={handleRetry}
+                  autoFocus
+                >
+                  <RotateCw size={14} strokeWidth={1.8} aria-hidden />
+                  Try this patient again
+                </button>
+              ) : null}
+              <button
+                type="button"
+                className="runtime-shell__error-cta--secondary"
+                onClick={reset}
+              >
+                <ArrowLeft size={14} strokeWidth={1.8} aria-hidden />
+                Back to start
+              </button>
+            </div>
           </motion.section>
         ) : null}
       </main>
