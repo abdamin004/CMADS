@@ -9,38 +9,6 @@ interface Props {
   onNew:   () => void;
 }
 
-/** Status pill for the latest completed run. */
-function MatchPill({ matchType }: { matchType?: string | null }) {
-  if (!matchType) return null;
-  const upper = matchType.toUpperCase();
-  if (upper === "DIRECT") {
-    return (
-      <span className="inline-flex items-center rounded-sm border border-emerald-400 bg-emerald-600/20 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-emerald-300">
-        DIRECT
-      </span>
-    );
-  }
-  if (upper === "INDIRECT") {
-    return (
-      <span className="inline-flex items-center rounded-sm border border-amber-400 bg-amber-600/20 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-amber-300">
-        INDIRECT
-      </span>
-    );
-  }
-  if (upper === "MISS") {
-    return (
-      <span className="inline-flex items-center rounded-sm border border-rose-400 bg-rose-600/20 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-rose-300">
-        MISS
-      </span>
-    );
-  }
-  return (
-    <span className="inline-flex items-center rounded-sm border border-slate-700 bg-slate-800 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-slate-500">
-      —
-    </span>
-  );
-}
-
 export function MyTestPatientsList({ onEdit, onRun, onNew }: Props) {
   const [rows, setRows] = useState<TestPatientSummary[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
@@ -106,14 +74,12 @@ export function MyTestPatientsList({ onEdit, onRun, onNew }: Props) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-slate-100 font-medium truncate">{r.label}</span>
-                <MatchPill matchType={r.latest_match_type} />
               </div>
               <div className="mt-0.5 text-xs text-slate-500">
                 created {relative(r.created_at)}
                 {" · "}
                 {r.run_count} run{r.run_count === 1 ? "" : "s"}
                 {r.last_run_at && ` · last run ${relative(r.last_run_at)}`}
-                {r.source_uuid && ` · cloned from ${r.source_uuid.slice(0,11)}`}
               </div>
             </div>
             {/* Action cluster — visible at reduced opacity, full on hover */}
