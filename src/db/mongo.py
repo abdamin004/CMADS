@@ -248,3 +248,53 @@ def get_test_patient_sync(test_uuid: str) -> dict | None:
 def delete_test_patient_sync(test_uuid: str) -> None:
     """Remove the TestPatient doc. Does NOT touch agent_runs."""
     _coll("test_patients").delete_one({"_id": test_uuid})
+
+
+# ── Vocabulary extractor for the Tester journey autocomplete ──────────
+
+def build_vocabularies(patient_case_docs: list[dict]) -> dict[str, list[dict]]:
+    """Walk a list of patient_cases-shaped dicts and produce three
+    deduped sorted lists. Pass it the output of
+    list(_coll("patient_cases").find({}, {projection}))."""
+    cond_set: set[tuple[str, str | None]] = set()
+    med_set:  set[tuple[str, str | None]] = set()
+    lab_set:  set[str] = set()
+
+    for doc in patient_case_docs:
+        for c in (doc.get("conditions",  {}) or {}).get("active", []) or []:
+            label = c.get("condition")
+            if label:
+                cond_set.add((label, c.get("code")))
+        for m in (doc.get("medications", {}) or {}).get("active", []) or []:
+            label = m.get("medication")
+            if label:
+                med_set.add((label, m.get("rx_code")))
+        for lab in (doc.get("labs", {}) or {}).get("latest_labs", []) or []:
+            name = lab.get("test_name")
+            if name:
+                lab_set.add(name)
+
+    return {
+        "condition":  [{"label": l, "code": c} for l, c in sorted(cond_set)],
+        "medication": [{"label": l, "code": c} for l, c in sorted(med_set)],
+        "lab":        [{"label": l, "code": None} for l in sorted(lab_set)],
+    }
+
+
+def filter_vocabulary(vocab: list[dict], q: str, limit: int = 20) -> list[dict]:
+    """Filter a single-category vocab list. Empty `q` returns the first
+    `limit` items unchanged (already alphabetical from build_vocabularies).
+    Otherwise: case-insensitive; prefix matches ranked before substring
+    matches; up to `limit` items returned."""
+    if not q:
+        return vocab[:limit]
+    q_lower = q.lower()
+    prefix:   list[dict] = []
+    contains: list[dict] = []
+    for item in vocab:
+        lbl = (item.get("label") or "").lower()
+        if lbl.startswith(q_lower):
+            prefix.append(item)
+        elif q_lower in lbl:
+            contains.append(item)
+    return (prefix + contains)[:limit]
