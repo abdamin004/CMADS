@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, Cloud, HardDrive, Home } from "lucide-react";
-import { getPatientCase, getTestPatientAsCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
+import { AlertCircle, Cloud, HardDrive, History, Home } from "lucide-react";
+import { getPatientCase, getTestPatientAsCase, getResult, getRun, listTestPatients, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
@@ -76,6 +76,18 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   // even if the view name didn't change.
   const [testerView, setTesterView] = useState<TesterView | undefined>(undefined);
   const [testerViewKey, setTesterViewKey] = useState(0);
+  // Count of saved test patients — drives the "My test patients (N)" link
+  // in the Build/clone tab chrome. Refresh whenever the Doctor tab toggles
+  // back to "build" or a test run finishes (cheap call).
+  const [testCount, setTestCount] = useState<number>(0);
+  useEffect(() => {
+    if (doctorTab !== "build") return;
+    listTestPatients().then((rs) => setTestCount(rs.length)).catch(() => {});
+  }, [doctorTab, phase]);
+  const openMyTests = useCallback(() => {
+    setTesterView("my-tests");
+    setTesterViewKey((k) => k + 1);
+  }, []);
 
   // Reset to the hero.
   const reset = useCallback(() => {
@@ -273,21 +285,35 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
                   <span className="doctor-tab__narrative-suffix">with a patient you build</span>
                 )}
               </div>
-              <div className="doctor-tab__tabs">
-                <button
-                  type="button"
-                  className={`doctor-tab__btn${doctorTab === "known" ? " is-active" : ""}`}
-                  onClick={() => setDoctorTab("known")}
-                >
-                  Known patient
-                </button>
-                <button
-                  type="button"
-                  className={`doctor-tab__btn${doctorTab === "build" ? " is-active" : ""}`}
-                  onClick={() => setDoctorTab("build")}
-                >
-                  Build / clone a patient
-                </button>
+              <div className="doctor-tab__row">
+                <div className="doctor-tab__tabs">
+                  <button
+                    type="button"
+                    className={`doctor-tab__btn${doctorTab === "known" ? " is-active" : ""}`}
+                    onClick={() => setDoctorTab("known")}
+                  >
+                    Known patient
+                  </button>
+                  <button
+                    type="button"
+                    className={`doctor-tab__btn${doctorTab === "build" ? " is-active" : ""}`}
+                    onClick={() => setDoctorTab("build")}
+                  >
+                    Build / clone a patient
+                  </button>
+                </div>
+                {doctorTab === "build" && (
+                  <button
+                    type="button"
+                    onClick={openMyTests}
+                    className="doctor-tab__my-tests"
+                    title="Past test patients you've saved or run"
+                  >
+                    <History size={14} strokeWidth={1.7} />
+                    My test patients
+                    <span className="doctor-tab__my-tests-count">{testCount}</span>
+                  </button>
+                )}
               </div>
             </div>
 
