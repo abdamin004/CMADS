@@ -100,6 +100,24 @@ export function RuntimeRunningView({
     if (taskStatus === "cancelled") setStopping(false);
   }, [taskStatus]);
 
+  // Auto-redirect to the home screen once cancellation lands. The user
+  // explicitly asked for this: "when stopped it should redirect me
+  // automatically to the home page". A short 1.2s pause lets them read
+  // the "Pipeline cancelled" banner before transitioning.
+  useEffect(() => {
+    if (taskStatus !== "cancelled" || !onReset) return;
+    const t = window.setTimeout(() => { onReset(); }, 1200);
+    return () => window.clearTimeout(t);
+  }, [taskStatus, onReset]);
+
+  // Escape closes the confirmation modal.
+  useEffect(() => {
+    if (!showConfirm) return;
+    function onKey(e: KeyboardEvent) { if (e.key === "Escape") setShowConfirm(false); }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showConfirm]);
+
   const isCancelled = task?.status === "cancelled";
   const isRunning   = task?.status === "running" || task?.status === "queued";
 
@@ -265,38 +283,6 @@ export function RuntimeRunningView({
                 )}
               </button>
 
-              {/* Inline confirmation popover */}
-              <AnimatePresence>
-                {showConfirm && (
-                  <motion.div
-                    className="simple-run__stop-popover"
-                    initial={{ opacity: 0, scale: 0.92, y: -4 }}
-                    animate={{ opacity: 1, scale: 1,    y: 0  }}
-                    exit={{    opacity: 0, scale: 0.92, y: -4 }}
-                    transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                  >
-                    <p className="simple-run__stop-popover-msg">
-                      Stop the run? The current agent will finish, then the pipeline will halt.
-                    </p>
-                    <div className="simple-run__stop-popover-actions">
-                      <button
-                        type="button"
-                        className="simple-run__stop-popover-dismiss"
-                        onClick={handleDismissConfirm}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="simple-run__stop-popover-confirm"
-                        onClick={handleConfirmCancel}
-                      >
-                        Stop
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           )}
         </div>
@@ -364,6 +350,59 @@ export function RuntimeRunningView({
           </section>
         ) : null}
       </div>
+
+      {/* Stop-run confirmation modal — rendered at the component root with
+          position: fixed so no ancestor overflow can clip it off-screen.
+          Was previously a popover anchored to the Stop button via absolute
+          positioning, which the user reported as appearing off-screen. */}
+      <AnimatePresence>
+        {showConfirm && (
+          <>
+            <motion.div
+              key="stop-backdrop"
+              className="fixed inset-0 z-50 bg-slate-950/70"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={handleDismissConfirm}
+            />
+            <motion.div
+              key="stop-modal"
+              role="dialog"
+              aria-label="Stop the pipeline run?"
+              className="fixed left-1/2 top-1/2 z-50 w-full max-w-sm -translate-x-1/2 -translate-y-1/2 rounded-xl border border-slate-800 bg-slate-900 p-5 shadow-2xl shadow-black/60"
+              initial={{ opacity: 0, scale: 0.94, y: -8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: -8 }}
+              transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
+            >
+              <div className="mb-3 flex items-center gap-2">
+                <Octagon size={16} strokeWidth={1.8} className="text-amber-400" />
+                <h2 className="text-base font-medium text-slate-100">Stop the run?</h2>
+              </div>
+              <p className="mb-4 text-sm text-slate-400 leading-relaxed">
+                The current agent will finish its turn, then the pipeline will
+                halt. You'll be returned to the home screen.
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={handleDismissConfirm}
+                  className="rounded-md border border-slate-700 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-800 transition-colors"
+                >
+                  Keep running
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmCancel}
+                  className="rounded-md bg-amber-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+                >
+                  Stop
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <div className="simple-run__dive">
         <Disclosure
