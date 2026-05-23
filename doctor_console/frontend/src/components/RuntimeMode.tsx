@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, Cloud, FlaskConical, HardDrive, Home } from "lucide-react";
-import { getPatientCase, getTestPatientAsCase, getResult, getRun, listTestPatients, startRun, subscribeRun, type CaseBundle } from "../api";
+import { AlertCircle, Cloud, HardDrive, Home } from "lucide-react";
+import { getPatientCase, getTestPatientAsCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
@@ -73,16 +73,9 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   const [doctorTab, setDoctorTab] = useState<DoctorTab>("known");
   // Pass-through initial view request into the embedded TesterJourney sub-router.
   // testerViewKey increments each time we want TesterJourney to re-apply the view
-  // even if the view name didn't change (e.g. clicking "My test patients" twice).
+  // even if the view name didn't change.
   const [testerView, setTesterView] = useState<TesterView | undefined>(undefined);
   const [testerViewKey, setTesterViewKey] = useState(0);
-  // Test patient count shown in the Doctor header link
-  const [testCount, setTestCount] = useState(0);
-
-  // Refresh test-patient count when landing tab is shown, and on initial mount.
-  useEffect(() => {
-    listTestPatients().then(rs => setTestCount(rs.length)).catch(() => {});
-  }, [doctorTab]);
 
   // Reset to the hero.
   const reset = useCallback(() => {
@@ -252,22 +245,6 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
           <strong>Your assistant</strong>
         </button>
         <div className="mode-ribbon__trust">
-          {/* My test patients link — only shown on the idle landing */}
-          {phase === "idle" && (
-            <button
-              type="button"
-              className="doctor-header__test-link mono"
-              onClick={() => {
-                setDoctorTab("build");
-                setTesterView("my-tests");
-                setTesterViewKey((k) => k + 1);
-              }}
-            >
-              <FlaskConical size={13} strokeWidth={1.7} />
-              My test patients
-              {testCount > 0 && <span className="doctor-header__test-badge">{testCount}</span>}
-            </button>
-          )}
           {task?.modelOverride?.label ? (
             <span className="runtime-shell__model-pill">
               {task.modelOverride.location === "local" ? (
