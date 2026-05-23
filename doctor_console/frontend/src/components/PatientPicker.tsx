@@ -274,7 +274,7 @@ export function PatientPicker({ onTemplate }: Props) {
       age_min: ageRange[0],
       age_max: ageRange[1],
       gender: gender || undefined,
-      limit: 50,
+      limit: 500,
     })
       .then((r) => {
         setRows(r);

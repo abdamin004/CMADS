@@ -1313,7 +1313,7 @@ def create_app() -> FastAPI:
         age_min:  int | None = Query(None, ge=0, le=120),
         age_max:  int | None = Query(None, ge=0, le=120),
         gender:   str | None = Query(None, pattern="^(M|F|Other)$"),
-        limit:    int = Query(50, ge=1, le=200),
+        limit:    int = Query(500, ge=1, le=1000),
     ) -> list[dict[str, Any]]:
         """Faceted browse of patient_cases for the Tester journey's
         clone-from-cohort flow. Returns summary rows; full payload via
