@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { FlaskConical } from "lucide-react";
+import { FlaskConical, Sparkles } from "lucide-react";
 import { VocabularyCombobox } from "../VocabularyCombobox";
 import type { TestPatientPayload, VocabularyItem } from "../../types";
 
 interface Props {
   value: TestPatientPayload["labs"];
   onChange: (next: TestPatientPayload["labs"]) => void;
+  /** Opens the Smart Import modal (paste / file / image → labs). Optional —
+   *  when absent the button is hidden (e.g. in unit-test contexts). */
+  onSmartImport?: () => void;
 }
 
 /**
@@ -22,7 +25,7 @@ const UNITS = [
   "K/µL", "M/µL", "fL", "pg",
 ];
 
-export function LabsForm({ value, onChange }: Props) {
+export function LabsForm({ value, onChange, onSmartImport }: Props) {
   const rows = value?.latest_labs ?? [];
   const [unitMode, setUnitMode] = useState<Record<number, "select" | "free">>({});
 
@@ -39,7 +42,22 @@ export function LabsForm({ value, onChange }: Props) {
 
   return (
     <div className="space-y-4">
-      <VocabularyCombobox kind="lab" placeholder="Add a lab test…" onPick={add} />
+      <div className="flex items-center gap-2">
+        <div className="flex-1">
+          <VocabularyCombobox kind="lab" placeholder="Add a lab test…" onPick={add} />
+        </div>
+        {onSmartImport && (
+          <button
+            type="button"
+            onClick={onSmartImport}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-emerald-700/60 bg-emerald-900/20 px-3 py-2 text-xs font-medium text-emerald-300 hover:bg-emerald-800/30 hover:border-emerald-600 transition-colors"
+            title="Paste a chart note, drop a PDF, or upload a photo of a lab slip"
+          >
+            <Sparkles size={14} strokeWidth={1.8} />
+            Smart import
+          </button>
+        )}
+      </div>
       {rows.length === 0 && (
         <div className="flex items-center gap-3 rounded-md border border-dashed border-slate-700 px-4 py-3 text-sm text-slate-500">
           <FlaskConical size={20} strokeWidth={1.4} className="shrink-0 text-slate-600" />
