@@ -19,9 +19,10 @@ from src.db.documents import (
     AgentRun,
     SemanticMemoryEntry,
     DerivedArtefact,
+    TestPatient,
 )
 
-_DOCUMENT_MODELS = [PatientCase, AgentRun, SemanticMemoryEntry, DerivedArtefact]
+_DOCUMENT_MODELS = [PatientCase, AgentRun, SemanticMemoryEntry, DerivedArtefact, TestPatient]
 _client: AsyncIOMotorClient | None = None
 
 

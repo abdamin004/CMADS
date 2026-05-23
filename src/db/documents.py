@@ -89,3 +89,41 @@ class DerivedArtefact(Document):
 
     class Settings:
         name = "derived_artefacts"
+
+
+class TestPatient(Document):
+    """Custom patient built (or cloned) by the clinician in the Tester
+    journey. Schema mirrors PatientCase plus authorship + lifecycle
+    metadata. Lives in its own collection so research aggregations
+    never see it.
+
+    See docs/superpowers/specs/2026-05-23-tester-patient-builder-design.md
+    """
+    id: str = Field(alias="_id")          # test_uuid (uuid4 hex, "ttest-" prefix)
+    label: str
+    source_uuid: str | None = None        # cohort uuid if cloned; None for scratch
+    created_at: datetime
+    updated_at: datetime
+    last_run_at: datetime | None = None
+    run_count: int = 0
+
+    # PatientCase mirror — same field names + shapes so load_patient_case
+    # can consume a TestPatient with one extra branch and no schema xlate.
+    person_id: int = 0
+    cutoff_date: datetime
+    case_type: str = "ehr+lab"
+    demographics: dict[str, Any]
+    conditions: dict[str, Any] = Field(default_factory=dict)
+    medications: dict[str, Any] = Field(default_factory=dict)
+    visits: dict[str, Any] | list[dict[str, Any]] = Field(default_factory=dict)
+    comorbidity: dict[str, Any] = Field(default_factory=dict)
+    risk_scores: dict[str, Any] = Field(default_factory=dict)
+    labs: dict[str, Any] = Field(default_factory=dict)
+    ground_truth: dict[str, Any] = Field(default_factory=dict)
+    case_stats: dict[str, Any] = Field(default_factory=dict)
+    assembled_at: datetime
+    pipeline_version: str = "tester-1.0"
+
+    class Settings:
+        name = "test_patients"
+        indexes = ["created_at", "last_run_at"]

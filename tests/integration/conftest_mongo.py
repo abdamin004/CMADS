@@ -7,7 +7,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 
 from src.config import cfg
-from src.db.documents import PatientCase, AgentRun, SemanticMemoryEntry, DerivedArtefact
+from src.db.documents import PatientCase, AgentRun, SemanticMemoryEntry, DerivedArtefact, TestPatient
 
 @pytest_asyncio.fixture
 async def mongo_db():
@@ -16,7 +16,7 @@ async def mongo_db():
     client = AsyncIOMotorClient(cfg.MONGO_URI)
     await init_beanie(
         database=client[db_name],
-        document_models=[PatientCase, AgentRun, SemanticMemoryEntry, DerivedArtefact],
+        document_models=[PatientCase, AgentRun, SemanticMemoryEntry, DerivedArtefact, TestPatient],
     )
     yield client[db_name]
     await client.drop_database(db_name)
