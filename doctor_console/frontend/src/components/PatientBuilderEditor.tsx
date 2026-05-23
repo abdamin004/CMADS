@@ -188,12 +188,18 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
             <span className="runtime-solo__advanced-label">Advanced settings</span>
             <span className="runtime-solo__advanced-current mono">{advancedSummary}</span>
           </summary>
-          <AdvancedSettings
-            value={adv}
-            onChange={setAdv}
-            precisionRows={precisionRows}
-            precisionN={precision?.n}
-          />
+          {/* Scroll wrapper is required here (not in RuntimeHero) because
+              PatientBuilderEditor lives inside an overflow-hidden flex chain
+              — without it the model list gets clipped by the ancestor and the
+              user can't reach the non-recommended models. */}
+          <div className="overflow-y-auto" style={{ maxHeight: "55vh" }}>
+            <AdvancedSettings
+              value={adv}
+              onChange={setAdv}
+              precisionRows={precisionRows}
+              precisionN={precision?.n}
+            />
+          </div>
         </details>
       </div>
 
