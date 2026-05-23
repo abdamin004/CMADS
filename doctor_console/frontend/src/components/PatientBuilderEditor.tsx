@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Check, ChevronRight, ChevronDown } from "lucide-react";
+import { Loader2, Check, ChevronRight, Settings2, X } from "lucide-react";
 import { DemographicsForm } from "./tester/DemographicsForm";
 import { ConditionsForm }   from "./tester/ConditionsForm";
 import { MedicationsForm }  from "./tester/MedicationsForm";
@@ -94,6 +94,16 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
     [precision],
   );
 
+  // Escape closes the Advanced settings drawer.
+  useEffect(() => {
+    if (!advancedOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setAdvancedOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [advancedOpen]);
+
   function patch<K extends keyof TestPatientPayload>(k: K, v: TestPatientPayload[K]) {
     onChange({ ...payload, [k]: v });
     setDirty(true);
@@ -178,33 +188,22 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           </AnimatePresence>
         </section>
       </div>
-      {/* Advanced settings disclosure — same markup + classes as RuntimeHero so
-          the Known and Build/clone paths render identically. */}
-      <div className="patient-builder__advanced-bar px-6 lg:px-10 py-3">
-        <details
-          className="runtime-solo__advanced"
-          open={advancedOpen}
-          onToggle={(e) => setAdvancedOpen((e.target as HTMLDetailsElement).open)}
+      {/* Advanced settings trigger — opens a slide-over panel rather than an
+          inline disclosure. The settings (model picker + Top-K + precision
+          callout) need real estate that a dropdown can't give them without
+          covering the form below or scrolling awkwardly. */}
+      <div className="patient-builder__advanced-bar flex items-center justify-between gap-3 px-6 lg:px-10 py-3">
+        <button
+          type="button"
+          onClick={() => setAdvancedOpen(true)}
+          className="inline-flex items-center gap-2 rounded-md border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-slate-200 hover:bg-slate-800 hover:border-slate-600 transition-colors"
         >
-          <summary className="runtime-solo__advanced-summary">
-            <ChevronDown size={14} strokeWidth={1.9} className="runtime-solo__advanced-caret" />
-            <span className="runtime-solo__advanced-label">Advanced settings</span>
-            <span className="runtime-solo__advanced-current mono">{advancedSummary}</span>
-          </summary>
-          {/* Scroll wrapper is required here (not in RuntimeHero) because
-              PatientBuilderEditor lives inside an overflow-hidden flex chain
-              — without it the model list gets clipped by the ancestor and the
-              user can't reach the non-recommended models. Capped well below
-              the viewport so the Save action bar below it stays in view. */}
-          <div className="overflow-y-auto" style={{ maxHeight: "32vh" }}>
-            <AdvancedSettings
-              value={adv}
-              onChange={setAdv}
-              precisionRows={precisionRows}
-              precisionN={precision?.n}
-            />
-          </div>
-        </details>
+          <Settings2 size={14} strokeWidth={1.7} />
+          Advanced settings
+        </button>
+        <span className="mono text-xs text-slate-500 truncate" title={advancedSummary}>
+          {advancedSummary}
+        </span>
       </div>
 
       {/* BOTTOM action bar */}
@@ -269,6 +268,68 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           </AnimatePresence>
         </button>
       </div>
+
+      {/* Advanced settings slide-over panel. Opens from the right with a
+          fixed width on desktop / full-width on small screens; backdrop dims
+          the page so the user knows where they are. Close via the X button,
+          the backdrop click, or Escape. */}
+      <AnimatePresence>
+        {advancedOpen && (
+          <>
+            <motion.div
+              key="adv-backdrop"
+              className="fixed inset-0 z-40 bg-slate-950/60"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setAdvancedOpen(false)}
+            />
+            <motion.aside
+              key="adv-drawer"
+              role="dialog"
+              aria-label="Advanced settings"
+              className="fixed inset-y-0 right-0 z-50 flex w-full max-w-xl flex-col border-l border-slate-800 bg-slate-950 shadow-2xl shadow-black/60"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+            >
+              <header className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
+                <div className="flex items-center gap-2">
+                  <Settings2 size={16} strokeWidth={1.7} className="text-emerald-400" />
+                  <h2 className="text-base font-medium text-slate-100">Advanced settings</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setAdvancedOpen(false)}
+                  aria-label="Close advanced settings"
+                  className="rounded-md p-1.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+                >
+                  <X size={16} strokeWidth={1.8} />
+                </button>
+              </header>
+              <div className="flex-1 overflow-y-auto px-5 py-4">
+                <AdvancedSettings
+                  value={adv}
+                  onChange={setAdv}
+                  precisionRows={precisionRows}
+                  precisionN={precision?.n}
+                />
+              </div>
+              <footer className="border-t border-slate-800 px-5 py-3">
+                <button
+                  type="button"
+                  onClick={() => setAdvancedOpen(false)}
+                  className="w-full rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 transition-colors"
+                >
+                  Done
+                </button>
+              </footer>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Smart Import modals — triggered from the Recent labs tab.
           The user can paste text, drop a PDF/FHIR JSON, or snap a photo of
