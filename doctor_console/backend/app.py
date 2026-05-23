@@ -1253,7 +1253,16 @@ def create_app() -> FastAPI:
         from src.db.mongo import _coll
         q: dict[str, Any] = {}
         if disease:
-            q["ground_truth.target_condition.name"] = disease
+            # Mongo stores disease names with the "(disorder)" SNOMED suffix
+            # (e.g. "Ischemic heart disease (disorder)"); the friendly picker
+            # in PatientPicker.tsx omits it. Match either form so the picker
+            # and the data stay decoupled.
+            if "(disorder)" in disease:
+                q["ground_truth.target_condition.name"] = disease
+            else:
+                q["ground_truth.target_condition.name"] = {
+                    "$in": [disease, f"{disease} (disorder)"]
+                }
         if age_min is not None or age_max is not None:
             age_q: dict[str, Any] = {}
             if age_min is not None: age_q["$gte"] = age_min
