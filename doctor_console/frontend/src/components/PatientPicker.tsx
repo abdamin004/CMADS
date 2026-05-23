@@ -318,9 +318,9 @@ export function PatientPicker({ onTemplate }: Props) {
   };
 
   return (
-    <div className="flex h-full flex-col gap-4 p-4 lg:flex-row">
+    <div className="flex h-full flex-col gap-6 px-6 lg:px-10 py-6 lg:flex-row">
       {/* ────────────────────────────── LEFT: facets ──────────────────────── */}
-      <aside className="picker-aside shrink-0 space-y-0 border-b border-slate-800 pb-3 lg:w-60 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-3">
+      <aside className="picker-aside shrink-0 space-y-0 border-b border-slate-800 pb-3 lg:w-60 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-4">
 
         {/* A. Active filter chips */}
         <ActiveFilterChips

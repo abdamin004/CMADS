@@ -7583,12 +7583,22 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   gap: 24px;
   overflow-y: auto;
 }
-/* When the Build/clone tab is active the main must NOT scroll — the editor
-   owns its own internal scroll. Keep padding/gap identical to the default
-   so the tab-bar and header chrome do NOT shift position when toggling tabs.
-   The editor body stretches to fill the remaining flex space via doctor-tab__body. */
+/* Build/clone tab: the editor and picker are full-bleed workspaces — drop the
+   chrome's max-width cap, the vertical gap, and the bottom padding so they
+   visually attach to the tab-strip above instead of floating as a centered
+   widget on a dark margin. Side gutters shrink so the patient list / nav /
+   forms get the breathing room a wide monitor offers. */
 .runtime-shell__main--build {
   overflow: hidden;
+  max-width: none;
+  padding: 28px 0 0;
+  gap: 0;
+}
+/* The tab bar keeps its own side padding so the narrative + tabs don't
+   slam into the viewport edge when the parent's gutter is removed. */
+.runtime-shell__main--build .doctor-tab__bar {
+  padding-left: 32px;
+  padding-right: 32px;
 }
 .runtime-shell__model-pill {
   display: inline-flex;
