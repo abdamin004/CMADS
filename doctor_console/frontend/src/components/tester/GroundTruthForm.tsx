@@ -55,7 +55,7 @@ export function GroundTruthForm({ value, onChange }: Props) {
 
       {mode === "dropdown" && (
         <select
-          className="block w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="block w-full rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           value={isThesis ? name : ""}
           onChange={(e) => set(e.target.value)}
         >
@@ -66,7 +66,7 @@ export function GroundTruthForm({ value, onChange }: Props) {
       {mode === "other" && (
         <input
           type="text"
-          className="block w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="block w-full rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           placeholder="Disease name (free text)"
           value={!isThesis ? name : ""}
           onChange={(e) => set(e.target.value)}

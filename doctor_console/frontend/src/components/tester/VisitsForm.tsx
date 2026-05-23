@@ -21,7 +21,7 @@ export function VisitsForm({ value, onChange }: Props) {
           <span className="text-xs uppercase tracking-wide text-slate-400">{label}</span>
           <input type="number" min={0} value={v[k] ?? ""}
             onChange={(e) => set(k, Number(e.target.value))}
-            className="mt-1 block w-32 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100" />
+            className="mt-1 block w-32 rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm text-slate-100" />
         </label>
       ))}
     </div>

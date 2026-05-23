@@ -70,7 +70,7 @@ export function LabsForm({ value, onChange, onSmartImport }: Props) {
             unitMode[i] === "free" || (r.unit !== "" && r.unit != null && !UNITS.includes(r.unit ?? ""));
           return (
             <li key={i}
-                className="rounded-md border border-slate-700 bg-slate-900 px-3 py-3 text-sm">
+                className="rounded-md border border-slate-700 bg-transparent px-3 py-3 text-sm">
               {/* Heading row: test name + delete */}
               <div className="mb-2 flex items-start gap-2">
                 <span className="flex-1 break-words text-slate-100">
@@ -86,7 +86,7 @@ export function LabsForm({ value, onChange, onSmartImport }: Props) {
                   <span className="text-xs uppercase tracking-wide text-slate-500">value</span>
                   <input
                     type="text" inputMode="decimal"
-                    className="w-32 rounded bg-slate-800 px-2 py-1 text-slate-100"
+                    className="w-32 rounded border border-slate-700 bg-transparent px-2 py-1 text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     placeholder="e.g. 9.4"
                     value={r.value ?? ""}
                     onChange={(e) => setRow(i, { value: e.target.value })} />
@@ -97,7 +97,7 @@ export function LabsForm({ value, onChange, onSmartImport }: Props) {
                     <div className="flex items-center gap-1">
                       <input
                         type="text"
-                        className="w-40 rounded bg-slate-800 px-2 py-1 text-slate-100"
+                        className="w-40 rounded border border-slate-700 bg-transparent px-2 py-1 text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                         placeholder="e.g. mg/dL"
                         value={r.unit ?? ""}
                         onChange={(e) => setRow(i, { unit: e.target.value })} />

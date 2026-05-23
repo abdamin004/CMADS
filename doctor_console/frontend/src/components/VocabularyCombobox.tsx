@@ -65,7 +65,7 @@ export function VocabularyCombobox({ kind, placeholder, onPick }: Props) {
   return (
     <div className="relative">
       <input
-        className={`w-full rounded-md border bg-slate-900 px-3 py-2 text-sm
+        className={`w-full rounded-md border bg-transparent px-3 py-2 text-sm
                    text-slate-100 placeholder-slate-500
                    focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500
                    transition-colors

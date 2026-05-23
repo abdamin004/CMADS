@@ -27,7 +27,7 @@ export function MedicationsForm({ value, onChange }: Props) {
       ) : (
         <ul className="space-y-2">
           {active.map((m, i) => (
-            <li key={i} className="flex items-center gap-2 rounded-md border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm">
+            <li key={i} className="flex items-center gap-2 rounded-md border border-slate-700 bg-transparent px-3 py-1.5 text-sm">
               <span className="flex-1">{m.medication}</span>
               {m.rx_code && <span className="text-xs text-slate-500">{m.rx_code}</span>}
               <button onClick={() => remove(i)}
