@@ -295,6 +295,27 @@ export function deleteTestPatient(testUuid: string, withRuns = false):
 export async function getTestPatientAsCase(testUuid: string): Promise<CaseBundle> {
   const doc = await getTestPatient(testUuid);
   const demographics = doc.demographics as Record<string, unknown> | undefined;
+  // PatientEvidence (the runtime renderer) keys lab rows on Synthea's
+  // {lab_name, value, units, date} shape. TestPatient docs store the
+  // canonical {test_name, value, unit, …} shape. Without this remap,
+  // every lab in a custom-patient run shows "Lab" (the fallback string)
+  // because lab_name is missing — exactly what the bug report describes.
+  const rawLabs = (doc.labs ?? {}) as Record<string, unknown>;
+  const rawRows = (rawLabs.latest_labs as unknown[] | undefined) ?? [];
+  const labCase: Record<string, unknown> = {
+    ...rawLabs,
+    latest_labs: rawRows.map((row) => {
+      const r = (row ?? {}) as Record<string, unknown>;
+      return {
+        lab_name: r.test_name ?? r.lab_name ?? "",
+        value:    r.value     ?? "",
+        units:    r.unit      ?? r.units    ?? "",
+        date:     r.date      ?? "",
+        reference_range: r.reference_range,
+        flag:     r.flag,
+      };
+    }),
+  };
   return {
     patient: {
       uuid: doc._id,
@@ -319,7 +340,7 @@ export async function getTestPatientAsCase(testUuid: string): Promise<CaseBundle
       comorbidity:  (doc as unknown as Record<string, unknown>).comorbidity,
       risk_scores:  (doc as unknown as Record<string, unknown>).risk_scores,
     },
-    labCase:     (doc.labs ?? {}) as Record<string, unknown>,
+    labCase,
     groundTruth: (doc.ground_truth ?? {}) as Record<string, unknown>,
     caseStats: {
       activeConditions:
