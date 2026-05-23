@@ -1220,6 +1220,10 @@ details.data-explainer[open] > summary.data-explainer__head {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.7rem;
   margin-top: 0.8rem;
+  /* Cards in a row anchor to the top — without this, mixed-height cells
+     can let CSS grid centre shorter cards vertically and the title rows
+     drift out of alignment with their siblings. */
+  align-items: start;
 }
 .evidence-card {
   min-width: 0;
@@ -1231,6 +1235,10 @@ details.data-explainer[open] > summary.data-explainer__head {
 .evidence-title {
   display: flex; align-items: center; gap: 0.5rem;
   margin-bottom: 0.6rem;
+  /* Hold the title row to a stable height so the four cards' titles
+     baseline-align even when the icon's intrinsic glyph differs or the
+     count chip is absent (empty categories). */
+  min-height: 22px;
 }
 .evidence-title svg { color: var(--accent); }
 .evidence-title h3 {
@@ -1260,7 +1268,13 @@ details.data-explainer[open] > summary.data-explainer__head {
   text-align: left;
   cursor: pointer;
   color: inherit;
+  /* Reset button user-agent styles so the card renders identically to its
+     non-interactive sibling — same padding (inherited from .evidence-card),
+     same line metrics, no centred text, no inset focus ring. */
   font: inherit;
+  line-height: inherit;
+  vertical-align: top;
+  margin: 0;
   background: var(--bg-elevated);
   transition:
     border-color var(--dur-hover) var(--ease-out),
