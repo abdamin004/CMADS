@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { VocabularyCombobox } from "../VocabularyCombobox";
 import type { TestPatientPayload, VocabularyItem } from "../../types";
 
@@ -6,8 +7,24 @@ interface Props {
   onChange: (next: TestPatientPayload["labs"]) => void;
 }
 
+/**
+ * Common clinical units the agents will recognise.
+ * Curated to the ones actually used across the Synthea cohort's
+ * latest_labs entries; "Other…" falls through to free-text entry.
+ * The agents interpret value + unit together — the clinician does not
+ * need to mark high/low, the system decides from the reference range.
+ */
+const UNITS = [
+  "mg/dL", "g/dL", "%", "mmol/L", "mEq/L",
+  "IU/L", "U/L", "ng/mL", "pg/mL", "µg/dL",
+  "mIU/L", "µIU/mL", "mL/min/1.73 m²", "mm Hg", "bpm",
+  "K/µL", "M/µL", "fL", "pg",
+];
+
 export function LabsForm({ value, onChange }: Props) {
   const rows = value?.latest_labs ?? [];
+  const [unitMode, setUnitMode] = useState<Record<number, "select" | "free">>({});
+
   function setRow(i: number, patch: Partial<(typeof rows)[number]>) {
     onChange({ latest_labs: rows.map((r, j) => j === i ? { ...r, ...patch } : r) });
   }
@@ -16,34 +33,86 @@ export function LabsForm({ value, onChange }: Props) {
   }
   function remove(i: number) {
     onChange({ latest_labs: rows.filter((_, j) => j !== i) });
+    setUnitMode((m) => { const n = { ...m }; delete n[i]; return n; });
   }
+
   return (
     <div className="space-y-4">
       <VocabularyCombobox kind="lab" placeholder="Add a lab test…" onPick={add} />
-      <ul className="space-y-2">
-        {rows.map((r, i) => (
-          <li key={i} className="flex gap-2 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm">
-            <span className="flex-[2] text-slate-200">{r.test_name}</span>
-            <input className="flex-1 rounded bg-slate-800 px-2 py-1 text-slate-100"
-              placeholder="value" value={r.value ?? ""}
-              onChange={(e) => setRow(i, { value: e.target.value })} />
-            <input className="flex-1 rounded bg-slate-800 px-2 py-1 text-slate-100"
-              placeholder="unit" value={r.unit ?? ""}
-              onChange={(e) => setRow(i, { unit: e.target.value })} />
-            <select className="rounded bg-slate-800 px-2 py-1 text-slate-100"
-              value={r.flag ?? ""}
-              onChange={(e) => setRow(i, { flag: e.target.value })}>
-              <option value="">—</option>
-              <option value="H">H (high)</option>
-              <option value="L">L (low)</option>
-              <option value="HH">HH</option>
-              <option value="LL">LL</option>
-            </select>
-            <button onClick={() => remove(i)}
-              className="text-slate-500 hover:text-rose-400">×</button>
-          </li>
-        ))}
+      <ul className="space-y-3">
+        {rows.map((r, i) => {
+          const useFreeUnit =
+            unitMode[i] === "free" || (r.unit !== "" && r.unit != null && !UNITS.includes(r.unit ?? ""));
+          return (
+            <li key={i}
+                className="rounded-md border border-slate-700 bg-slate-900 px-3 py-3 text-sm">
+              {/* Heading row: test name + delete */}
+              <div className="mb-2 flex items-start gap-2">
+                <span className="flex-1 break-words text-slate-100">
+                  {r.test_name || <span className="italic text-slate-500">Unnamed lab</span>}
+                </span>
+                <button onClick={() => remove(i)}
+                  aria-label="Remove lab"
+                  className="text-slate-500 hover:text-rose-400">×</button>
+              </div>
+              {/* Inputs row: value + unit */}
+              <div className="flex flex-wrap items-center gap-2">
+                <label className="flex items-center gap-2">
+                  <span className="text-xs uppercase tracking-wide text-slate-500">value</span>
+                  <input
+                    type="text" inputMode="decimal"
+                    className="w-32 rounded bg-slate-800 px-2 py-1 text-slate-100"
+                    placeholder="e.g. 9.4"
+                    value={r.value ?? ""}
+                    onChange={(e) => setRow(i, { value: e.target.value })} />
+                </label>
+                <label className="flex items-center gap-2">
+                  <span className="text-xs uppercase tracking-wide text-slate-500">unit</span>
+                  {useFreeUnit ? (
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="text"
+                        className="w-40 rounded bg-slate-800 px-2 py-1 text-slate-100"
+                        placeholder="e.g. mg/dL"
+                        value={r.unit ?? ""}
+                        onChange={(e) => setRow(i, { unit: e.target.value })} />
+                      <button type="button"
+                        onClick={() => { setRow(i, { unit: "" });
+                                         setUnitMode((m) => ({ ...m, [i]: "select" })); }}
+                        className="text-xs text-slate-500 underline hover:text-slate-300">
+                        pick from list
+                      </button>
+                    </div>
+                  ) : (
+                    <select
+                      className="w-40 rounded bg-slate-800 px-2 py-1 text-slate-100"
+                      value={r.unit ?? ""}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (v === "__other__") {
+                          setUnitMode((m) => ({ ...m, [i]: "free" }));
+                          setRow(i, { unit: "" });
+                        } else {
+                          setRow(i, { unit: v });
+                        }
+                      }}>
+                      <option value="">— pick a unit —</option>
+                      {UNITS.map((u) => <option key={u} value={u}>{u}</option>)}
+                      <option value="__other__">Other (type your own)…</option>
+                    </select>
+                  )}
+                </label>
+              </div>
+            </li>
+          );
+        })}
       </ul>
+      {rows.length > 0 && (
+        <p className="text-xs text-slate-500">
+          The agents read each value together with its unit and decide if it's out
+          of range. You don't need to flag high or low yourself.
+        </p>
+      )}
     </div>
   );
 }
