@@ -7760,6 +7760,45 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   color: color-mix(in oklab, var(--success) 95%, var(--ink));
 }
 
+/* ── Generic segmented control — shared by GroundTruthForm and any future
+   two-or-three-option picker. Visual sibling of doctor-tab__bar. ── */
+
+.segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.segmented__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+.segmented__btn:hover:not(.segmented__btn--active) {
+  color: var(--ink);
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+.segmented__btn--active {
+  background: color-mix(in oklab, var(--success) 14%, var(--surface-2));
+  border-color: color-mix(in oklab, var(--success) 30%, transparent);
+  color: color-mix(in oklab, var(--success) 80%, var(--ink));
+  font-weight: 600;
+}
+
 /* ── Doctor header: "My test patients (N)" link in mode-ribbon trust area ── */
 
 .doctor-header__test-link {

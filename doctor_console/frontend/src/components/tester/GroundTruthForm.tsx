@@ -17,6 +17,12 @@ interface Props {
   onChange: (next: TestPatientPayload["ground_truth"]) => void;
 }
 
+const MODES = [
+  { key: "dropdown" as const, label: "Thesis disease" },
+  { key: "other"    as const, label: "Other (free text)" },
+  { key: "blank"    as const, label: "Leave blank" },
+];
+
 export function GroundTruthForm({ value, onChange }: Props) {
   const name = value?.target_condition?.name ?? "";
   const isThesis = THESIS_DISEASES.includes(name);
@@ -31,30 +37,40 @@ export function GroundTruthForm({ value, onChange }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        {(["dropdown","other","blank"] as const).map(m => (
-          <button key={m}
-            onClick={() => { setMode(m); if (m==="blank") set(""); }}
-            className={`rounded-md px-3 py-1 text-xs uppercase tracking-wide
-                       ${mode === m ? "bg-emerald-600 text-white" : "bg-slate-800 text-slate-300"}`}>
-            {m === "dropdown" ? "Thesis disease" : m === "other" ? "Other (free text)" : "Leave blank"}
+      {/* Segmented control — same visual family as doctor-tab__bar */}
+      <div className="segmented" role="group" aria-label="Ground truth mode">
+        {MODES.map((m) => (
+          <button
+            key={m.key}
+            type="button"
+            role="radio"
+            aria-checked={mode === m.key}
+            onClick={() => { setMode(m.key); if (m.key === "blank") set(""); }}
+            className={`segmented__btn${mode === m.key ? " segmented__btn--active" : ""}`}
+          >
+            {m.label}
           </button>
         ))}
       </div>
+
       {mode === "dropdown" && (
-        <select className="block w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+        <select
+          className="block w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           value={isThesis ? name : ""}
-          onChange={(e) => set(e.target.value)}>
+          onChange={(e) => set(e.target.value)}
+        >
           <option value="">— pick one —</option>
           {THESIS_DISEASES.map(d => <option key={d} value={d}>{d}</option>)}
         </select>
       )}
       {mode === "other" && (
-        <input type="text"
-          className="block w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+        <input
+          type="text"
+          className="block w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           placeholder="Disease name (free text)"
           value={!isThesis ? name : ""}
-          onChange={(e) => set(e.target.value)} />
+          onChange={(e) => set(e.target.value)}
+        />
       )}
       {mode === "blank" && (
         <p className="text-sm text-slate-400">
