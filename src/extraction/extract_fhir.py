@@ -11,6 +11,15 @@ from typing import Any
 
 import structlog
 
+from src.extraction.guards import (
+    assert_json_depth,
+    MAX_FHIR_RESOURCES,
+    validate_labs,
+    validate_conditions,
+    validate_medications,
+    sanitize_demographics,
+)
+
 logger = structlog.get_logger(__name__)
 
 MAX_FHIR_BYTES = 5 * 1024 * 1024  # 5 MB cap
@@ -118,6 +127,9 @@ def extract_fhir(content: bytes, filename: str = "uploaded.json") -> dict[str, A
     except json.JSONDecodeError as e:
         raise ValueError(f"not valid JSON: {e}")
 
+    # JSON-depth cap — defends against deeply nested JSON DoS.
+    assert_json_depth(data)
+
     # Normalise to a list of resources
     if isinstance(data, dict) and data.get("resourceType") == "Bundle":
         resources = [(e.get("resource") or {}) for e in (data.get("entry") or [])]
@@ -127,6 +139,11 @@ def extract_fhir(content: bytes, filename: str = "uploaded.json") -> dict[str, A
         resources = data
     else:
         raise ValueError("not a recognised FHIR shape (need Bundle, resource, or list)")
+
+    if len(resources) > MAX_FHIR_RESOURCES:
+        raise ValueError(
+            f"FHIR bundle has {len(resources)} resources (max {MAX_FHIR_RESOURCES})"
+        )
 
     extracted: dict[str, Any] = {
         "label":         f"FHIR import — {filename}",
@@ -174,6 +191,14 @@ def extract_fhir(content: bytes, filename: str = "uploaded.json") -> dict[str, A
     )
     if n_extracted == 0:
         raise ValueError("no usable FHIR resources found in the file")
+
+    # Apply output guardrails: row caps + length caps + sanitization.
+    extracted["demographics"] = (
+        sanitize_demographics(extracted["demographics"]) or extracted["demographics"]
+    )
+    extracted["conditions"]["active"]  = validate_conditions(extracted["conditions"]["active"])
+    extracted["medications"]["active"] = validate_medications(extracted["medications"]["active"])
+    extracted["labs"]["latest_labs"]   = validate_labs(extracted["labs"]["latest_labs"])
 
     return {
         "extracted":         extracted,

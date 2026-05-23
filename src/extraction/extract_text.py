@@ -13,6 +13,12 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 from src.config import cfg
 from src.llm.adapter import get_llm, invoke_with_retry
+from src.extraction.guards import (
+    validate_labs,
+    validate_conditions,
+    validate_medications,
+    sanitize_demographics,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -178,6 +184,23 @@ def extract_text(text: str) -> dict[str, Any]:
                 _strip_confidence(item, f"{path}[{i}]")
 
     _strip_confidence(extracted)
+
+    # Output guardrails: validate + cap each section before handing off.
+    # Invalid rows are silently dropped (LLM occasionally emits garbage; one
+    # bad row should not nuke the whole extraction).
+    if isinstance(extracted.get("demographics"), dict):
+        clean_demo = sanitize_demographics(extracted["demographics"])
+        if clean_demo:
+            extracted["demographics"] = clean_demo
+    if isinstance(extracted.get("conditions"), dict):
+        rows = extracted["conditions"].get("active") or []
+        extracted["conditions"]["active"] = validate_conditions(rows)
+    if isinstance(extracted.get("medications"), dict):
+        rows = extracted["medications"].get("active") or []
+        extracted["medications"]["active"] = validate_medications(rows)
+    if isinstance(extracted.get("labs"), dict):
+        rows = extracted["labs"].get("latest_labs") or []
+        extracted["labs"]["latest_labs"] = validate_labs(rows)
 
     try:
         snap_suggestions = _snap_to_vocabulary(extracted)

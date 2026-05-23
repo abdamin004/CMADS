@@ -10,6 +10,7 @@ from typing import Any
 
 import structlog
 from src.extraction.extract_text import extract_text, MAX_TEXT_BYTES
+from src.extraction.guards import assert_pdf_signature, assert_pdf_page_count
 
 logger = structlog.get_logger(__name__)
 
@@ -21,12 +22,16 @@ def extract_pdf(content: bytes, filename: str = "uploaded.pdf") -> dict[str, Any
     extraction as the text path. Returns the canonical extractor dict."""
     if len(content) > MAX_PDF_BYTES:
         raise ValueError(f"PDF exceeds {MAX_PDF_BYTES} bytes ({len(content)})")
+    # Magic-byte sniff — defeats .pdf-renamed-malware uploads.
+    assert_pdf_signature(content)
     try:
         import pdfplumber
     except ImportError as e:
         raise RuntimeError(
             "pdfplumber not installed. Run: pip install pdfplumber"
         ) from e
+    # Page-count cap — defeats PDF bombs (massive page count, no useful text).
+    assert_pdf_page_count(content)
 
     text_parts: list[str] = []
     with pdfplumber.open(io.BytesIO(content)) as pdf:

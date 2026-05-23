@@ -23,6 +23,11 @@ import structlog
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from src.llm.adapter import get_llm, invoke_with_retry
+from src.extraction.guards import (
+    assert_image_signature,
+    assert_image_dimensions,
+    validate_labs,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -90,6 +95,11 @@ def extract_image_labs(content: bytes, filename: str = "uploaded.png",
         raise ValueError("image content is empty")
     if len(content) > MAX_IMAGE_BYTES:
         raise ValueError(f"image exceeds {MAX_IMAGE_BYTES} bytes ({len(content)})")
+    # Magic-byte sniff: reject if the file content doesn't match the claimed
+    # MIME (defeats Content-Type spoofing — a .exe with mime=image/png).
+    assert_image_signature(content, mime)
+    # Decompression-bomb defence: header-only Pillow read.
+    assert_image_dimensions(content)
 
     # Encode the image as a data URL.  LangChain Google GenAI accepts
     # `image_url` content parts via the OpenAI-compatible message shape.
@@ -142,19 +152,9 @@ def extract_image_labs(content: bytes, filename: str = "uploaded.png",
     reason = parsed.get("_reason") or ""
 
     # Reshape into the canonical TestPatientPayload-style envelope:
-    # everything empty except labs.latest_labs.
-    latest_labs: list[dict[str, Any]] = []
-    for row in labs_in:
-        if not isinstance(row, dict):
-            continue
-        name = (row.get("test_name") or "").strip()
-        if not name:
-            continue
-        latest_labs.append({
-            "test_name": name,
-            "value":     str(row.get("value") or "").strip(),
-            "unit":      str(row.get("unit")  or "").strip(),
-        })
+    # everything empty except labs.latest_labs. Each row passes through
+    # Pydantic validation; malformed rows are dropped, not raised.
+    latest_labs = validate_labs(labs_in)
 
     warnings: list[str] = []
     if not latest_labs:
