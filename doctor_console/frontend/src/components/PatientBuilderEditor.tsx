@@ -40,18 +40,34 @@ interface Props {
 export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAndRun, saving }: Props) {
   const [section, setSection] = useState<Section>("demographics");
   const [justSaved, setJustSaved] = useState(false);
+  // Track whether user has unsaved changes (any field touched)
+  const [dirty, setDirty] = useState(false);
 
   function patch<K extends keyof TestPatientPayload>(k: K, v: TestPatientPayload[K]) {
     onChange({ ...payload, [k]: v });
+    setDirty(true);
+  }
+
+  function handleLabelChange(e: React.ChangeEvent<HTMLInputElement>) {
+    onChange({ ...payload, label: e.target.value });
+    setDirty(true);
+  }
+
+  async function handleSaveDraft() {
+    await onSaveDraft();
+    setDirty(false);
   }
 
   async function handleSaveAndRun() {
     await onSaveAndRun();
-    // Brief "Pipeline started ✓" confirmation — visible for ~1 s before the
+    setDirty(false);
+    // Brief "Pipeline started ✓" confirmation — visible for ~600ms before the
     // parent transitions to the running view.
     setJustSaved(true);
-    setTimeout(() => setJustSaved(false), 1200);
+    setTimeout(() => setJustSaved(false), 600);
   }
+
+  const canSave = !!payload.label && !saving;
 
   return (
     <div className="flex h-full flex-col">
@@ -59,10 +75,10 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
         {/* LEFT: navigator */}
         <aside className="w-64 shrink-0 space-y-1 border-r border-slate-800 pr-3">
           <input type="text"
-            className="mb-3 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+            className="mb-3 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
             placeholder="Label (required)"
             value={payload.label}
-            onChange={(e) => onChange({ ...payload, label: e.target.value })} />
+            onChange={handleLabelChange} />
           {SECTIONS.map(([key, title, summary]) => {
             const isActive = section === key;
             return (
@@ -72,8 +88,8 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
                 aria-current={isActive ? "page" : undefined}
                 className={`builder-nav__btn${isActive ? " builder-nav__btn--active" : ""}`}
               >
-                <div className={`builder-nav__btn-row`}>
-                  <div className={`builder-nav__btn-title`}>{title}</div>
+                <div className="builder-nav__btn-row">
+                  <div className="builder-nav__btn-title">{title}</div>
                   {isActive && (
                     <ChevronRight size={13} strokeWidth={2.2} className="builder-nav__btn-chevron" />
                   )}
@@ -85,28 +101,56 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
             );
           })}
         </aside>
-        {/* RIGHT: focused section */}
+        {/* RIGHT: focused section — animated on section switch */}
         <section className="flex-1 overflow-y-auto pr-2">
-          {section === "demographics"  && <DemographicsForm value={payload.demographics}
-              onChange={(v) => patch("demographics", v)} />}
-          {section === "conditions"    && <ConditionsForm value={payload.conditions}
-              onChange={(v) => patch("conditions", v)} />}
-          {section === "medications"   && <MedicationsForm value={payload.medications}
-              onChange={(v) => patch("medications", v)} />}
-          {section === "labs"          && <LabsForm value={payload.labs}
-              onChange={(v) => patch("labs", v)} />}
-          {section === "ground_truth"  && <GroundTruthForm value={payload.ground_truth}
-              onChange={(v) => patch("ground_truth", v)} />}
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={section}
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+            >
+              {section === "demographics"  && <DemographicsForm value={payload.demographics}
+                  onChange={(v) => patch("demographics", v)} />}
+              {section === "conditions"    && <ConditionsForm value={payload.conditions}
+                  onChange={(v) => patch("conditions", v)} />}
+              {section === "medications"   && <MedicationsForm value={payload.medications}
+                  onChange={(v) => patch("medications", v)} />}
+              {section === "labs"          && <LabsForm value={payload.labs}
+                  onChange={(v) => patch("labs", v)} />}
+              {section === "ground_truth"  && <GroundTruthForm value={payload.ground_truth}
+                  onChange={(v) => patch("ground_truth", v)} />}
+            </motion.div>
+          </AnimatePresence>
         </section>
       </div>
       {/* BOTTOM action bar */}
       <div className="flex items-center justify-end gap-3 border-t border-slate-800 bg-slate-950 px-4 py-3">
-        <button onClick={onSaveDraft} disabled={saving || !payload.label}
-          className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 disabled:opacity-40">
-          Save draft
-        </button>
-        <button onClick={handleSaveAndRun} disabled={saving || !payload.label}
-          className="inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-40">
+        {/* Save for later */}
+        <div className="relative inline-flex items-center gap-2">
+          {/* Unsaved-changes dot — pulses when dirty and label is set */}
+          {dirty && payload.label && (
+            <motion.span
+              className="absolute -left-4 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-emerald-400"
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            />
+          )}
+          <button onClick={handleSaveDraft} disabled={!canSave}
+            className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:border-slate-600 transition-colors disabled:opacity-40">
+            Save for later
+          </button>
+        </div>
+        {/* Save & run pipeline */}
+        <button
+          onClick={handleSaveAndRun}
+          disabled={!canSave}
+          className="inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white
+                     hover:bg-emerald-500 hover:shadow-lg hover:shadow-emerald-600/20
+                     focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:outline-none
+                     transition-all disabled:opacity-40"
+        >
           <AnimatePresence mode="wait" initial={false}>
             {saving ? (
               <motion.span
