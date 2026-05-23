@@ -394,6 +394,25 @@ export interface TestPatientSummary {
   latest_match_type?: string | null;
 }
 
+export interface SnapSuggestion {
+  from: string;
+  to: string;
+  score: number;
+}
+
+export interface ExtractResponse {
+  extracted: TestPatientPayload | Record<string, never>;
+  warnings: string[];
+  snap_suggestions: {
+    conditions: SnapSuggestion[];
+    medications: SnapSuggestion[];
+    labs:        SnapSuggestion[];
+  };
+  confidences?: Record<string, number>;
+  model_used?: string;
+  duration_ms?: number;
+}
+
 export interface TestPatientDoc extends TestPatientPayload {
   _id: string;
   created_at: string;

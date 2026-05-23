@@ -1,8 +1,9 @@
 import type {
   Annotation, CohortBrowseRow, CohortComparisonResponse, ComparisonResult,
-  DashboardSummary, MemoryAbComparison, ModelPreset, PatientListItem,
-  PatientResult, ResultSet, RunTask, SimilarCasesResponse, StatsOverview,
-  TestPatientDoc, TestPatientPayload, TestPatientSummary, VocabularyItem,
+  DashboardSummary, ExtractResponse, MemoryAbComparison, ModelPreset,
+  PatientListItem, PatientResult, ResultSet, RunTask, SimilarCasesResponse,
+  StatsOverview, TestPatientDoc, TestPatientPayload, TestPatientSummary,
+  VocabularyItem,
 } from "./types";
 
 const jsonHeaders = { "Content-Type": "application/json" };
@@ -330,6 +331,14 @@ export async function getTestPatientAsCase(testUuid: string): Promise<CaseBundle
       criticalFlags: 0,
     },
   };
+}
+
+export function extractText(text: string): Promise<ExtractResponse> {
+  return request<ExtractResponse>("/api/tests/extract", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ kind: "text", text }),
+  });
 }
 
 export function startTestRun(testUuid: string, opts: {

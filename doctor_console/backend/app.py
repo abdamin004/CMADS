@@ -736,6 +736,16 @@ class TestRunRequest(BaseModel):
     preset_id:     str | None = None
 
 
+class ExtractRequest(BaseModel):
+    """Body for POST /api/tests/extract.
+
+    Phase 1: kind="text" only. Phase 2 adds "file" (PDF / FHIR JSON);
+    Phase 3 adds "image" (vision model). Unsupported kinds return 415."""
+    kind: str  # "text" | "file" | "image"
+    text: str | None = None
+    # file + image fields come in later phases
+
+
 class AnnotationPayload(BaseModel):
     """Doctor-supplied review of an agent run.
 
@@ -1578,6 +1588,82 @@ def create_app() -> FastAPI:
         )
         thread.start()
         return _tasks[task_id]
+
+    # ── Smart Import endpoint ─────────────────────────────────────────
+
+    @app.post("/api/tests/extract")
+    async def tester_extract(request: ExtractRequest) -> dict[str, Any]:
+        """Smart Import: extract a TestPatientPayload-shape from raw input.
+
+        Phase 1 supports kind="text" only. Phase 2 will add "file" (PDF /
+        FHIR JSON); Phase 3 will add "image" (vision-capable Groq preset).
+        Returns 415 for unsupported kinds in the meantime."""
+        if request.kind == "text":
+            if not request.text:
+                raise HTTPException(
+                    status_code=422, detail="text is required when kind=text"
+                )
+            try:
+                from src.extraction import extract_text
+                import asyncio as _asyncio
+                result = await _asyncio.to_thread(extract_text, request.text)
+            except ValueError as e:
+                msg = str(e)
+                if "exceeds" in msg:
+                    raise HTTPException(status_code=413, detail=msg)
+                raise HTTPException(status_code=422, detail=msg)
+            except Exception as e:  # noqa: BLE001
+                logger.warning("extract_text_failed", error=str(e)[:300])
+                raise HTTPException(
+                    status_code=503, detail=f"Extraction failed: {e}"
+                )
+            # Log to extraction_log (Mongo, ttl 90 days)
+            _log_extraction(request.kind, request.text, None, None, result)
+            return result
+        elif request.kind in ("file", "image"):
+            raise HTTPException(
+                status_code=415,
+                detail=(
+                    f"kind='{request.kind}' is coming in a future phase. "
+                    "Use kind='text' for now."
+                ),
+            )
+        else:
+            raise HTTPException(
+                status_code=400, detail=f"Unknown kind: {request.kind}"
+            )
+
+    def _log_extraction(
+        kind: str,
+        raw_input: str | None,
+        file_name: str | None,
+        file_mime: str | None,
+        result: dict,
+    ) -> None:
+        """Best-effort write to the extraction_log collection with TTL."""
+        try:
+            from src.db.mongo import _coll
+            from datetime import timedelta
+            import uuid as _uuid_pkg2
+            now = datetime.utcnow()
+            _coll("extraction_log").insert_one(
+                {
+                    "_id":              _uuid_pkg2.uuid4().hex,
+                    "created_at":       now,
+                    "kind":             kind,
+                    "raw_input":        (raw_input[:8192] if raw_input else None),
+                    "file_name":        file_name,
+                    "file_mime":        file_mime,
+                    "extracted":        result.get("extracted") or {},
+                    "warnings":         result.get("warnings") or [],
+                    "snap_suggestions": result.get("snap_suggestions") or {},
+                    "model_used":       result.get("model_used") or "",
+                    "duration_ms":      result.get("duration_ms") or 0,
+                    "expires_at":       now + timedelta(days=90),
+                }
+            )
+        except Exception as e:  # noqa: BLE001
+            logger.warning("extraction_log_write_failed", error=str(e)[:200])
 
     if STATIC_DIR.exists():
         app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"), name="assets")

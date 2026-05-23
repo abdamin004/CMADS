@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Filter, Pencil, FlaskConical, ClipboardList, ChevronLeft } from "lucide-react";
+import {
+  Filter, Pencil, FlaskConical, ClipboardList, ChevronLeft, Sparkles,
+  FileText, FileUp, Image as ImageIcon,
+} from "lucide-react";
 import { PatientPicker }         from "./PatientPicker";
 import { PatientBuilderEditor }  from "./PatientBuilderEditor";
 import { MyTestPatientsList }    from "./MyTestPatientsList";
+import { SmartImportModal }      from "./SmartImportModal";
+import { PreviewMergeModal }     from "./PreviewMergeModal";
 import { createTestPatient, getTestPatient, listTestPatients,
          startTestRun, updateTestPatient } from "../api";
-import type { TestPatientPayload } from "../types";
+import type { ExtractResponse, TestPatientPayload } from "../types";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
 
 // Shared Framer Motion variants for sub-view cross-fades — mirrors App.tsx
@@ -48,6 +53,11 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
   const [editingUuid, setEditingUuid] = useState<string | null>(null);
   const [saving, setSaving]     = useState(false);
   const [testCount, setTestCount] = useState(0);
+
+  // Smart Import modal state
+  const [showSmartImport, setShowSmartImport] = useState(false);
+  const [extractResult, setExtractResult]     = useState<ExtractResponse | null>(null);
+  const [showPreview, setShowPreview]         = useState(false);
 
   // Allow the parent to flip the view from outside (e.g. deep-link from the
   // Doctor header's "My test patients" link).
@@ -133,7 +143,7 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
                 Build a test patient.
               </h2>
             </div>
-            <div className="flex gap-6" style={{ maxWidth: 840 }}>
+            <div className="flex gap-6" style={{ maxWidth: 1260 }}>
 
               {/* Card 1 — Start from cohort */}
               <button
@@ -185,9 +195,68 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
                 </ul>
                 <span className="mode-chooser__card-cta" style={{ color: "var(--violet)" }}>Open the editor →</span>
               </button>
+
+              {/* Card 3 — Smart import */}
+              <button
+                type="button"
+                onClick={() => setShowSmartImport(true)}
+                className="tester-splash__card tester-splash__card--import"
+              >
+                <div className="mode-chooser__card-head">
+                  <div className="mode-chooser__card-icon" style={{ color: "var(--spark)", borderColor: "var(--spark)", background: "var(--spark-soft)" }}>
+                    <Sparkles size={28} strokeWidth={1.4} />
+                  </div>
+                  <span className="mode-chooser__card-eyebrow mono">Paste or upload</span>
+                </div>
+                <h3 className="mode-chooser__card-title">Smart import.</h3>
+                <p className="mode-chooser__card-body">
+                  Paste a chart note, drop a PDF, or snap a photo — I'll extract
+                  the patient for you.
+                </p>
+                <ul className="mode-chooser__card-points">
+                  <li><FileText size={14} strokeWidth={1.6} /> Free-text · paste anything clinical</li>
+                  <li><FileUp size={14} strokeWidth={1.6} /> PDF + FHIR JSON · coming soon</li>
+                  <li><ImageIcon size={14} strokeWidth={1.6} /> Photo of a lab slip · coming soon</li>
+                </ul>
+                <span className="mode-chooser__card-cta" style={{ color: "var(--spark)" }}>Try smart import →</span>
+              </button>
             </div>
           </motion.div>
         )}
+
+        {/* Smart Import modal — rendered outside AnimatePresence so it
+            overlays everything and survives view transitions */}
+        <AnimatePresence>
+          {showSmartImport && (
+            <SmartImportModal
+              key="smart-import-modal"
+              onClose={() => setShowSmartImport(false)}
+              onExtract={(r) => {
+                setExtractResult(r);
+                setShowSmartImport(false);
+                setShowPreview(true);
+              }}
+            />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {showPreview && extractResult && (
+            <PreviewMergeModal
+              key="preview-merge-modal"
+              result={extractResult}
+              current={payload}
+              onCancel={() => { setShowPreview(false); setExtractResult(null); }}
+              onMerge={(merged) => {
+                setPayload(merged);
+                setEditingUuid(null);
+                setShowPreview(false);
+                setExtractResult(null);
+                setView("editor");
+              }}
+            />
+          )}
+        </AnimatePresence>
 
         {view === "picker" && (
           <motion.div
