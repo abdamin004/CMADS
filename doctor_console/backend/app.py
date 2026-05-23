@@ -742,6 +742,29 @@ class AnnotationPayload(BaseModel):
     reviewer: str = ""  # free-form, e.g. "AM"
 
 
+# ── Tester journey: vocabulary cache + endpoint ──────────────────────
+
+_vocab_cache: dict[str, list[dict]] | None = None
+_vocab_lock = threading.Lock()
+
+
+def _get_vocab() -> dict[str, list[dict]]:
+    """Build the autocomplete vocabulary on first call, then cache for
+    process lifetime. Walks every doc in patient_cases — runs once per
+    backend process, takes <1s on the 3348-doc cohort."""
+    global _vocab_cache
+    if _vocab_cache is not None:
+        return _vocab_cache
+    with _vocab_lock:
+        if _vocab_cache is None:
+            from src.db.mongo import build_vocabularies, _coll
+            cursor = _coll("patient_cases").find(
+                {}, {"conditions": 1, "medications": 1, "labs": 1},
+            )
+            _vocab_cache = build_vocabularies(list(cursor))
+    return _vocab_cache
+
+
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     if _cfg.USE_MONGO:
@@ -1197,6 +1220,16 @@ def create_app() -> FastAPI:
                 time.sleep(1)
 
         return StreamingResponse(events(), media_type="text/event-stream")
+
+    @app.get("/api/tests/vocabulary")
+    def tester_vocabulary(
+        kind: str = Query(..., regex="^(condition|medication|lab)$"),
+        q: str = Query(""),
+    ) -> list[dict[str, Any]]:
+        """Autocomplete dictionary for the Tester journey forms."""
+        from src.db.mongo import filter_vocabulary
+        vocab = _get_vocab().get(kind, [])
+        return filter_vocabulary(vocab, q, limit=20)
 
     if STATIC_DIR.exists():
         app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"), name="assets")
