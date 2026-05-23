@@ -132,42 +132,26 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           </AnimatePresence>
         </section>
       </div>
-      {/* Advanced settings disclosure — sits above the action bar */}
-      <div className="border-t border-slate-800 bg-slate-950">
-        <button
-          type="button"
-          className="flex w-full items-center gap-2 px-4 py-2 text-xs text-slate-400 hover:text-slate-200 transition-colors"
-          onClick={() => setAdvancedOpen((o) => !o)}
-          aria-expanded={advancedOpen}
+      {/* Advanced settings disclosure — sits above the action bar, expands downward */}
+      <div className="border-t border-slate-800 bg-slate-950 px-4 py-2">
+        <details
+          className="runtime-solo__advanced"
+          open={advancedOpen}
+          onToggle={(e) => setAdvancedOpen((e.target as HTMLDetailsElement).open)}
         >
-          <ChevronDown
-            size={13}
-            strokeWidth={2}
-            className={`transition-transform duration-200${advancedOpen ? " rotate-180" : ""}`}
-          />
-          <span className="mono">Advanced settings</span>
-          {!advancedOpen && adv.presetId && (
-            <span className="ml-1 text-slate-500 mono">
-              · {adv.presetId} · Top {adv.topK} · {adv.accuracyMode === "recommended" ? "multi-level" : "baseline"}
-            </span>
-          )}
-        </button>
-        <AnimatePresence initial={false}>
-          {advancedOpen && (
-            <motion.div
-              key="adv"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="overflow-hidden"
-            >
-              <div className="px-4 pb-3">
-                <AdvancedSettings value={adv} onChange={setAdv} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          <summary className="runtime-solo__advanced-summary">
+            <ChevronDown size={14} strokeWidth={1.9} className="runtime-solo__advanced-caret" />
+            <span className="runtime-solo__advanced-label">Advanced settings</span>
+            {!advancedOpen && adv.presetId && (
+              <span className="runtime-solo__advanced-current mono">
+                {adv.presetId} · Top {adv.topK} · {adv.accuracyMode === "recommended" ? "multi-level" : "baseline"}
+              </span>
+            )}
+          </summary>
+          <div className="overflow-y-auto" style={{ maxHeight: "55vh" }}>
+            <AdvancedSettings value={adv} onChange={setAdv} />
+          </div>
+        </details>
       </div>
 
       {/* BOTTOM action bar */}
