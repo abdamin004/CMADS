@@ -1372,6 +1372,67 @@ def create_app() -> FastAPI:
             })
         return {"deleted": True}
 
+    @app.post("/api/tests/runs")
+    def tester_start_run(request: TestRunRequest) -> dict[str, Any]:
+        """Start a pipeline run against a TestPatient. Reuses the existing
+        _tasks store + SSE stream + _run_patient_task worker, but writes
+        output to result_set=mas_results_test so it doesn't pollute
+        research statistics."""
+        from src.db.mongo import get_test_patient_sync
+        if get_test_patient_sync(request.test_uuid) is None:
+            raise HTTPException(status_code=404,
+                                detail=f"Unknown test_uuid: {request.test_uuid}")
+
+        # Resolve model preset (reuses the same logic as the Doctor /api/runs path).
+        resolved_provider, resolved_model = request.provider, request.model
+        if request.preset_id:
+            preset = next((p for p in discover_model_presets()
+                           if p.get("id") == request.preset_id), None)
+            if not preset or not preset.get("available", False):
+                raise HTTPException(status_code=400,
+                                    detail=f"Engine '{request.preset_id}' is unavailable")
+            resolved_provider, resolved_model = preset["provider"], preset["model"]
+
+        accuracy_mode  = request.accuracy_mode or "recommended"
+        memory_enabled = accuracy_mode == "recommended"
+        canonicalizer_enabled = accuracy_mode == "recommended"
+
+        task_id = str(uuid.uuid4())
+        _tasks[task_id] = {
+            "taskId":          task_id,
+            "patientUuid":     request.test_uuid,
+            "topK":            max(1, min(int(request.top_k or 5), 10)),
+            "accuracyMode":    accuracy_mode,
+            "status":          "queued",
+            "startedAt":       None,
+            "finishedAt":      None,
+            "error":           None,
+            "resultSet":       "mas_results_test",
+            "activeAgentId":   None,
+            "agents":          _initial_run_agents(),
+            "agentNarratives": {},
+            "modelOverride":   None,
+            "events": [{
+                "timestamp": time.time(),
+                "agentId":   None,
+                "title":     "Test run queued",
+                "message":   (
+                    f"Tester pipeline launching with "
+                    f"{resolved_model or 'default model'}."
+                ),
+            }],
+        }
+        thread = threading.Thread(
+            target=_run_patient_task,
+            args=(task_id, request.test_uuid, resolved_provider, resolved_model,
+                  max(1, min(int(request.top_k or 5), 10)),
+                  memory_enabled, canonicalizer_enabled,
+                  "mas_results_test"),
+            daemon=True,
+        )
+        thread.start()
+        return _tasks[task_id]
+
     if STATIC_DIR.exists():
         app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"), name="assets")
 
@@ -3248,6 +3309,7 @@ def _run_patient_task(
     top_k: int = 5,
     memory_enabled: bool = True,
     canonicalizer_enabled: bool = True,
+    result_set: str = "mas_results",        # new — Tester runs pass "mas_results_test"
 ) -> None:
     import os as _os
 
@@ -3291,16 +3353,34 @@ def _run_patient_task(
                 _overrides["LLM_EVALUATOR_MODEL"] = model_override
             _overrides["MEMORY_ENABLED"] = "true" if memory_enabled else "false"
             _overrides["CANONICALIZER_ENABLED"] = "true" if canonicalizer_enabled else "false"
+            # Per-run result_set override (Tester journey writes to
+            # mas_results_test). Reuses the existing thread-local override
+            # machinery so concurrent Doctor + Tester runs don't race on
+            # MAS_RESULTS_DIR.
+            if result_set != "mas_results":
+                from pathlib import Path as _Path
+                _overrides["MAS_RESULTS_DIR"] = str(_Path("data/gold") / result_set)
             set_thread_overrides(_overrides)
 
             from src.orchestrator.graph import save_patient_results
+            from pathlib import Path as _Path
 
             result, duration = _stream_patient_run(patient_uuid, task, top_k=top_k)
-            RUNTIME_RESULT_DIR.mkdir(parents=True, exist_ok=True)
+            # Route result output: Tester runs go to data/gold/mas_results_test;
+            # Doctor runtime runs go to the existing RUNTIME_RESULT_DIR.
+            if result_set != "mas_results":
+                base_dir = _Path("data/gold") / result_set
+            else:
+                base_dir = RUNTIME_RESULT_DIR
+            base_dir.mkdir(parents=True, exist_ok=True)
             save_patient_results(
                 patient_uuid, result, duration,
-                base_dir=RUNTIME_RESULT_DIR,
+                base_dir=base_dir,
             )
+            # Stamp last_run_at + increment run_count for test patients.
+            if result_set == "mas_results_test":
+                from src.db.mongo import stamp_test_run_sync
+                stamp_test_run_sync(patient_uuid)
         finally:
             # Drop overrides as soon as the run completes — even if it
             # errored — so any later pipeline work this thread might do

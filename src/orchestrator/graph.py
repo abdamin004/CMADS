@@ -117,6 +117,15 @@ def load_patient_case(patient_uuid: str) -> dict:
         FileNotFoundError: If ehr_case.json or lab_case.json is missing.
         json.JSONDecodeError: If either file contains invalid JSON.
     """
+    # Tester-journey branch: when USE_MONGO and the uuid matches a
+    # test_patients doc, build the PipelineState from Mongo. Same
+    # PipelineState shape the agents expect — they see no difference.
+    if cfg.USE_MONGO:
+        from src.db.mongo import get_test_patient_sync
+        test_doc = get_test_patient_sync(patient_uuid)
+        if test_doc is not None:
+            return _build_pipeline_state_from_test_doc(test_doc)
+
     patient_dir = GOLD_DIR / patient_uuid
     ehr_path = patient_dir / "ehr_case.json"
     lab_path = patient_dir / "lab_case.json"
@@ -391,3 +400,34 @@ def run_cohort(cohort_file: str, max_patients: int | None = None,
         )
 
     return results
+
+
+def _build_pipeline_state_from_test_doc(test_doc: dict) -> dict:
+    """Assemble a PipelineState-shaped dict from a TestPatient Mongo doc.
+
+    Mirrors the on-disk loader's output exactly — the agents must not
+    see a difference between a cohort patient and a test patient.
+    The on-disk loader returns {"ehr_case": <full ehr_case.json contents>,
+    "lab_case": <full lab_case.json contents>}, so we replicate that shape.
+    """
+    cutoff = test_doc.get("cutoff_date")
+    if hasattr(cutoff, "isoformat"):
+        cutoff = cutoff.isoformat()
+
+    ehr_case = {
+        "patient_uuid": test_doc["_id"],
+        "person_id":    test_doc.get("person_id", 0),
+        "cutoff_date":  cutoff,
+        "case_type":    test_doc.get("case_type", "ehr+lab"),
+        "demographics": test_doc.get("demographics", {}),
+        "conditions":   test_doc.get("conditions", {}),
+        "medications":  test_doc.get("medications", {}),
+        "visits":       test_doc.get("visits", {}),
+        "comorbidity":  test_doc.get("comorbidity", {}),
+        "risk_scores":  test_doc.get("risk_scores", {}),
+    }
+    return {
+        "ehr_case":    ehr_case,
+        "lab_case":    test_doc.get("labs", {}),
+        "ground_truth": test_doc.get("ground_truth", {}),
+    }

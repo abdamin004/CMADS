@@ -183,3 +183,23 @@ def test_delete_test_patient(client):
     assert r.status_code == 200
     r = client.get(f"/api/tests/patients/{test_uuid}")
     assert r.status_code == 404
+
+
+def test_post_test_run_starts_task(client):
+    """POST /api/tests/runs starts a worker task and returns its id."""
+    created = client.post("/api/tests/patients", json={
+        "label":"runme", "demographics":{"age":60,"gender":"F"},
+        "labs":{"latest_labs":[]},
+    }).json()
+
+    r = client.post("/api/tests/runs", json={"test_uuid": created["test_uuid"]})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["status"] in ("queued", "running")
+    assert body["resultSet"] == "mas_results_test"
+    assert body["taskId"]
+
+
+def test_post_test_run_404_when_uuid_unknown(client):
+    r = client.post("/api/tests/runs", json={"test_uuid": "ttest-nope"})
+    assert r.status_code == 404
