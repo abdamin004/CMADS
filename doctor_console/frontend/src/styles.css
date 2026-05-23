@@ -7578,11 +7578,10 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   overflow-y: auto;
 }
 /* When the Build/clone tab is active the main must NOT scroll — the editor
-   owns its own internal scroll. Strip padding/gap and let it be a pure
-   flex pass-through so the two-pane editor fills the entire viewport. */
+   owns its own internal scroll. Keep padding/gap identical to the default
+   so the tab-bar and header chrome do NOT shift position when toggling tabs.
+   The editor body stretches to fill the remaining flex space via doctor-tab__body. */
 .runtime-shell__main--build {
-  padding: 0;
-  gap: 0;
   overflow: hidden;
 }
 .runtime-shell__model-pill {
