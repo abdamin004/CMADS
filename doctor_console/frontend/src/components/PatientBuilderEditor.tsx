@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Loader2, Check } from "lucide-react";
 import { DemographicsForm } from "./tester/DemographicsForm";
 import { ConditionsForm }   from "./tester/ConditionsForm";
 import { MedicationsForm }  from "./tester/MedicationsForm";
@@ -35,9 +37,18 @@ interface Props {
 
 export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAndRun, saving }: Props) {
   const [section, setSection] = useState<Section>("demographics");
+  const [justSaved, setJustSaved] = useState(false);
 
   function patch<K extends keyof TestPatientPayload>(k: K, v: TestPatientPayload[K]) {
     onChange({ ...payload, [k]: v });
+  }
+
+  async function handleSaveAndRun() {
+    await onSaveAndRun();
+    // Brief "Pipeline started ✓" confirmation — visible for ~1 s before the
+    // parent transitions to the running view.
+    setJustSaved(true);
+    setTimeout(() => setJustSaved(false), 1200);
   }
 
   return (
@@ -50,15 +61,20 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
             placeholder="Label (required)"
             value={payload.label}
             onChange={(e) => onChange({ ...payload, label: e.target.value })} />
-          {SECTIONS.map(([key, title, summary]) => (
-            <button key={key} onClick={() => setSection(key)}
-              className={`block w-full rounded-md px-3 py-2 text-left text-sm
-                         ${section === key ? "bg-emerald-600/20 text-emerald-200"
-                                           : "text-slate-300 hover:bg-slate-800"}`}>
-              <div className="font-medium">{title}</div>
-              <div className="mt-0.5 truncate text-xs text-slate-500">{summary(payload)}</div>
-            </button>
-          ))}
+          {SECTIONS.map(([key, title, summary]) => {
+            const isActive = section === key;
+            return (
+              <button
+                key={key}
+                onClick={() => setSection(key)}
+                aria-current={isActive ? "page" : undefined}
+                className={`builder-nav__btn${isActive ? " builder-nav__btn--active" : ""}`}
+              >
+                <div className="font-medium">{title}</div>
+                <div className="mt-0.5 line-clamp-2 text-xs text-slate-500">{summary(payload)}</div>
+              </button>
+            );
+          })}
         </aside>
         {/* RIGHT: focused section */}
         <section className="flex-1 overflow-y-auto pr-2">
@@ -82,9 +98,45 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 disabled:opacity-40">
           Save draft
         </button>
-        <button onClick={onSaveAndRun} disabled={saving || !payload.label}
-          className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-40">
-          {saving ? "Saving…" : "Save & run pipeline →"}
+        <button onClick={handleSaveAndRun} disabled={saving || !payload.label}
+          className="inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-40">
+          <AnimatePresence mode="wait" initial={false}>
+            {saving ? (
+              <motion.span
+                key="saving"
+                className="inline-flex items-center gap-2"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <motion.span
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                  className="inline-flex"
+                >
+                  <Loader2 size={14} strokeWidth={2} />
+                </motion.span>
+                Saving…
+              </motion.span>
+            ) : justSaved ? (
+              <motion.span
+                key="saved"
+                className="inline-flex items-center gap-2"
+                initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Check size={14} strokeWidth={2.5} />
+                Pipeline started
+              </motion.span>
+            ) : (
+              <motion.span
+                key="idle"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                Save &amp; run pipeline →
+              </motion.span>
+            )}
+          </AnimatePresence>
         </button>
       </div>
     </div>
