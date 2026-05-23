@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FlaskConical } from "lucide-react";
 import { VocabularyCombobox } from "../VocabularyCombobox";
 import type { TestPatientPayload, VocabularyItem } from "../../types";
 
@@ -39,6 +40,12 @@ export function LabsForm({ value, onChange }: Props) {
   return (
     <div className="space-y-4">
       <VocabularyCombobox kind="lab" placeholder="Add a lab test…" onPick={add} />
+      {rows.length === 0 && (
+        <div className="flex items-center gap-3 rounded-md border border-dashed border-slate-700 px-4 py-3 text-sm text-slate-500">
+          <FlaskConical size={20} strokeWidth={1.4} className="shrink-0 text-slate-600" />
+          <span>No labs added yet. Type above to add the first.</span>
+        </div>
+      )}
       <ul className="space-y-3">
         {rows.map((r, i) => {
           const useFreeUnit =
