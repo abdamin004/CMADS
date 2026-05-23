@@ -355,6 +355,13 @@ export function extractFile(file: File): Promise<ExtractResponse> {
   });
 }
 
+export function extractImage(image: File): Promise<ExtractResponse> {
+  const fd = new FormData();
+  fd.append("kind", "image");
+  fd.append("file", image);
+  return request<ExtractResponse>("/api/tests/extract", { method: "POST", body: fd });
+}
+
 export function startTestRun(testUuid: string, opts: {
   topK?: number; accuracyMode?: "recommended" | "fast"; presetId?: string;
 } = {}): Promise<RunTask> {

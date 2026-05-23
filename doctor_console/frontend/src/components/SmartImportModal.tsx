@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -8,7 +8,7 @@ import {
   FileUp,
   Image as ImageIcon,
 } from "lucide-react";
-import { extractText, extractFile } from "../api";
+import { extractText, extractFile, extractImage } from "../api";
 import type { ExtractResponse } from "../types";
 
 interface Props {
@@ -18,10 +18,11 @@ interface Props {
 
 type Tab = "text" | "file" | "image";
 
-function FileDropZone({ accept, onFile, file }: {
+function FileDropZone({ accept, onFile, file, hint }: {
   accept: string;
   onFile: (f: File | null) => void;
   file: File | null;
+  hint?: string;
 }) {
   const [dragOver, setDragOver] = useState(false);
   function pickFromList(files: FileList | null) {
@@ -43,7 +44,7 @@ function FileDropZone({ accept, onFile, file }: {
           ? <><span className="font-medium">{file.name}</span> <span className="text-slate-500">· {(file.size / 1024).toFixed(1)} KB</span></>
           : "Drop a file here or click to browse"}
       </div>
-      <div className="text-xs text-slate-500">.pdf · .json (FHIR)</div>
+      {hint && <div className="text-xs text-slate-500">{hint}</div>}
       <input type="file" accept={accept} className="hidden"
              onChange={(e) => pickFromList(e.target.files)} />
     </label>
@@ -51,15 +52,27 @@ function FileDropZone({ accept, onFile, file }: {
 }
 
 export function SmartImportModal({ onClose, onExtract }: Props) {
-  const [tab, setTab]     = useState<Tab>("text");
-  const [text, setText]   = useState("");
-  const [file, setFile]   = useState<File | null>(null);
-  const [busy, setBusy]   = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [tab, setTab]               = useState<Tab>("text");
+  const [text, setText]             = useState("");
+  const [file, setFile]             = useState<File | null>(null);
+  const [imageFile, setImageFile]   = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [busy, setBusy]             = useState(false);
+  const [error, setError]           = useState<string | null>(null);
+
+  useEffect(() => {
+    if (imageFile) {
+      const url = URL.createObjectURL(imageFile);
+      setImagePreview(url);
+      return () => URL.revokeObjectURL(url);
+    }
+    setImagePreview(null);
+  }, [imageFile]);
 
   const canRun =
-    ((tab === "text" && text.trim().length > 0) ||
-     (tab === "file" && file !== null))
+    ((tab === "text"  && text.trim().length > 0) ||
+     (tab === "file"  && file !== null) ||
+     (tab === "image" && imageFile !== null))
     && !busy;
 
   async function runExtract() {
@@ -72,6 +85,8 @@ export function SmartImportModal({ onClose, onExtract }: Props) {
         result = await extractText(text);
       } else if (tab === "file" && file) {
         result = await extractFile(file);
+      } else if (tab === "image" && imageFile) {
+        result = await extractImage(imageFile);
       } else {
         return;
       }
@@ -139,9 +154,8 @@ export function SmartImportModal({ onClose, onExtract }: Props) {
             <button
               role="tab"
               aria-selected={tab === "image"}
-              disabled
-              className="segmented__btn opacity-40 cursor-not-allowed"
-              title="Coming in Phase 3"
+              onClick={() => setTab("image")}
+              className={`segmented__btn${tab === "image" ? " segmented__btn--active" : ""}`}
             >
               <ImageIcon size={14} />
               Image
@@ -183,10 +197,50 @@ export function SmartImportModal({ onClose, onExtract }: Props) {
                 accept=".pdf,.json,application/pdf,application/json,application/fhir+json"
                 onFile={(f) => setFile(f)}
                 file={file}
+                hint=".pdf · .json (FHIR)"
               />
               <p className="text-xs text-slate-500">
                 PDFs are parsed with pdfplumber; FHIR JSON is parsed structurally without an LLM call.
                 5 MB cap.
+              </p>
+            </div>
+          )}
+
+          {tab === "image" && (
+            <div className="space-y-3">
+              <label className="block text-xs uppercase tracking-wide text-slate-400">
+                Snap a photo or drop an image of a lab slip
+              </label>
+              {!imageFile ? (
+                <FileDropZone
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  onFile={setImageFile}
+                  file={null}
+                  hint=".png · .jpg · .webp"
+                />
+              ) : (
+                <div className="rounded-md border border-slate-700 bg-slate-950 p-3">
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-sm text-slate-200">{imageFile.name}</span>
+                    <button
+                      onClick={() => setImageFile(null)}
+                      className="text-xs text-slate-500 underline hover:text-rose-400"
+                    >
+                      Pick a different image
+                    </button>
+                  </div>
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="max-h-72 w-full rounded object-contain bg-slate-900"
+                    />
+                  )}
+                </div>
+              )}
+              <p className="text-xs text-slate-500">
+                Lab rows are extracted via Gemini 2.5 Flash. We only pull labs from
+                images — demographics and conditions stay in the editor. 10 MB cap.
               </p>
             </div>
           )}

@@ -1635,10 +1635,29 @@ def create_app() -> FastAPI:
                     )
 
             elif kind == "image":
-                raise HTTPException(
-                    status_code=415,
-                    detail="kind='image' is coming in Phase 3. Use kind='text' or kind='file' for now.",
-                )
+                if file is None:
+                    raise HTTPException(status_code=422, detail="image file is required when kind=image")
+                raw = await file.read()
+                mime = (file.content_type or "image/png").lower()
+                name = file.filename or "image.png"
+                if not mime.startswith("image/"):
+                    raise HTTPException(
+                        status_code=415,
+                        detail=f"Unsupported image type: {mime}. Use PNG / JPEG / WEBP.",
+                    )
+                from src.extraction import extract_image_labs
+                try:
+                    result = await _asyncio.to_thread(extract_image_labs, raw, name, mime)
+                except ValueError as e:
+                    msg = str(e)
+                    if "exceeds" in msg:
+                        raise HTTPException(status_code=413, detail=msg)
+                    raise HTTPException(status_code=422, detail=msg)
+                except RuntimeError as e:
+                    # No Gemini configured / GOOGLE_API_KEY missing
+                    raise HTTPException(status_code=503, detail=str(e))
+                _log_extraction("image", None, name, mime, result)
+                return result
             else:
                 raise HTTPException(status_code=400, detail=f"Unknown kind: {kind}")
 
