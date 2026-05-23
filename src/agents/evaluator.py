@@ -28,11 +28,29 @@ def evaluate_node(state: dict) -> dict:
     ehr_case = ctx.get("ehr_case", {})
     patient_uuid = ehr_case.get("patient_uuid", "")
 
-    final = agent_outputs.get("final_diagnosis") or agent_outputs.get("diagnostic_reasoning") or {}
-    differential = final.get("differential", [])
+    # --- Early skip for test runs (no ground truth) ---
+    # Tester-journey patients have no ground truth file and no target condition
+    # in patient_context. Skip the evaluator entirely so no LLM cost is
+    # incurred and the trace shows status=skipped rather than error.
+    # Treatment Planning also gracefully skips on non-DIRECT, so this is safe.
+    gt_in_ctx = (ctx.get("ground_truth") or {})
+    target_from_ctx = (gt_in_ctx.get("target_condition") or {}).get("name")
 
-    # Load ground truth
     gt_path = cfg.GOLD_DIR / patient_uuid / "ground_truth.json"
+
+    if not target_from_ctx and not gt_path.exists():
+        logger.info("evaluator_skipped_no_gt", patient=patient_uuid[:12])
+        return {
+            "agent_outputs": {"evaluation": {
+                "found": "NO", "match_type": "SKIPPED", "rank": 0,
+                "matched_diagnosis": "NONE",
+                "reason": "No ground truth — evaluator skipped (test run)",
+            }},
+            "execution_trace": [{"agent_id": "evaluation", "status": "skipped",
+                                  "execution_ms": 0, "error": None}],
+        }
+
+    # Load ground truth from file (Gold-layer / known-patient runs)
     if not gt_path.exists():
         logger.warning("evaluator_no_gt", patient=patient_uuid[:12])
         return {
@@ -46,6 +64,9 @@ def evaluate_node(state: dict) -> dict:
 
     gt = json.loads(gt_path.read_text())
     target = gt["target_condition"]["name"]
+
+    final = agent_outputs.get("final_diagnosis") or agent_outputs.get("diagnostic_reasoning") or {}
+    differential = final.get("differential", [])
 
     if not differential:
         return {
