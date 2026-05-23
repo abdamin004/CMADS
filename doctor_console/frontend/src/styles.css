@@ -9872,3 +9872,72 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   user-select: none;
 }
 
+/* ── Patient builder editor — themed to match the rest of the runtime so the
+   Build/clone tab does not visually jump out of the design language. The
+   Tailwind slate-* / emerald-* baseline is overridden here with the shared
+   CSS variables so background, borders, and the primary action all read as
+   the same surface as the splash and the runtime review surface. */
+/* The editor is presented as a single elevated card so the user reads
+   the navigator, section body, advanced settings, and action bar as
+   ONE sheet on the page — not as a floating editor over a separate
+   dark void with a lighter "footer" pinned to the bottom. */
+.patient-builder-shell {
+  background: var(--bg);
+}
+.patient-builder {
+  background: var(--bg-elevated);
+  color: var(--ink);
+}
+.patient-builder__body {
+  background: var(--bg-elevated);
+}
+.patient-builder__nav {
+  border-right: 1px solid var(--border);
+}
+.patient-builder__label-input {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+.patient-builder__label-input::placeholder {
+  color: var(--ink-faint);
+}
+.patient-builder__label-input:focus {
+  border-color: var(--success);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 50%, transparent);
+}
+.patient-builder__advanced-bar {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+}
+.patient-builder__actions {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+}
+.patient-builder__btn--ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+}
+.patient-builder__btn--ghost:hover:not(:disabled) {
+  background: var(--surface);
+  border-color: color-mix(in oklab, var(--border) 60%, var(--ink) 10%);
+  color: var(--ink);
+}
+.patient-builder__btn--primary {
+  background: var(--success);
+  color: #fff;
+  border: 1px solid transparent;
+}
+.patient-builder__btn--primary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--success) 88%, white 12%);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--success) 30%, transparent);
+}
+.patient-builder__btn--primary:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px color-mix(in oklab, var(--success) 70%, transparent);
+}
+.patient-builder__dirty-dot {
+  background: var(--success);
+}
+

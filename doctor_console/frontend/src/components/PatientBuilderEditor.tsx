@@ -121,12 +121,16 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
   const canSave = !!payload.label && !saving;
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex flex-1 gap-4 overflow-hidden p-4">
+    // Outer page chrome — gives the editor card breathing room on the
+    // darker page background so it reads as a single sheet rather than a
+    // floating fragment.
+    <div className="patient-builder-shell flex h-full justify-center p-4 lg:p-6">
+    <div className="patient-builder flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-xl border border-slate-800 shadow-xl shadow-black/30">
+      <div className="patient-builder__body flex flex-1 min-h-0 gap-4 overflow-hidden p-4">
         {/* LEFT: navigator */}
-        <aside className="w-64 shrink-0 space-y-1 border-r border-slate-800 pr-3">
+        <aside className="patient-builder__nav w-64 shrink-0 space-y-1 pr-3">
           <input type="text"
-            className="mb-3 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            className="patient-builder__label-input mb-3 w-full rounded-md px-3 py-2 text-sm focus:outline-none"
             placeholder="Label (required)"
             value={payload.label}
             onChange={handleLabelChange} />
@@ -177,7 +181,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
       </div>
       {/* Advanced settings disclosure — same markup + classes as RuntimeHero so
           the Known and Build/clone paths render identically. */}
-      <div className="border-t border-slate-800 bg-slate-950 px-4 py-2">
+      <div className="patient-builder__advanced-bar px-4 py-2">
         <details
           className="runtime-solo__advanced"
           open={advancedOpen}
@@ -191,8 +195,9 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           {/* Scroll wrapper is required here (not in RuntimeHero) because
               PatientBuilderEditor lives inside an overflow-hidden flex chain
               — without it the model list gets clipped by the ancestor and the
-              user can't reach the non-recommended models. */}
-          <div className="overflow-y-auto" style={{ maxHeight: "55vh" }}>
+              user can't reach the non-recommended models. Capped well below
+              the viewport so the Save action bar below it stays in view. */}
+          <div className="overflow-y-auto" style={{ maxHeight: "32vh" }}>
             <AdvancedSettings
               value={adv}
               onChange={setAdv}
@@ -204,19 +209,19 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
       </div>
 
       {/* BOTTOM action bar */}
-      <div className="flex items-center justify-end gap-3 border-t border-slate-800 bg-slate-950 px-4 py-3">
+      <div className="patient-builder__actions flex items-center justify-end gap-3 px-4 py-3">
         {/* Save for later */}
         <div className="relative inline-flex items-center gap-2">
           {/* Unsaved-changes dot — pulses when dirty and label is set */}
           {dirty && payload.label && (
             <motion.span
-              className="absolute -left-4 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-emerald-400"
+              className="patient-builder__dirty-dot absolute -left-4 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full"
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             />
           )}
           <button onClick={handleSaveDraft} disabled={!canSave}
-            className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:border-slate-600 transition-colors disabled:opacity-40">
+            className="patient-builder__btn patient-builder__btn--ghost rounded-md px-3 py-2 text-sm transition-colors disabled:opacity-40">
             Save for later
           </button>
         </div>
@@ -224,10 +229,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
         <button
           onClick={handleSaveAndRun}
           disabled={!canSave}
-          className="inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white
-                     hover:bg-emerald-500 hover:shadow-lg hover:shadow-emerald-600/20
-                     focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 focus-visible:outline-none
-                     transition-all disabled:opacity-40"
+          className="patient-builder__btn patient-builder__btn--primary inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all disabled:opacity-40 focus-visible:outline-none"
         >
           <AnimatePresence mode="wait" initial={false}>
             {saving ? (
@@ -302,6 +304,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           />
         )}
       </AnimatePresence>
+    </div>
     </div>
   );
 }
