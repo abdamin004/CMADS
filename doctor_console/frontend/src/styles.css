@@ -1251,6 +1251,64 @@ details.data-explainer[open] > summary.data-explainer__head {
 .evidence-row strong { font-size: 0.82rem; color: var(--ink); }
 .evidence-row span { font-size: 0.74rem; color: var(--ink-muted); display: block; margin-top: 0.2rem; }
 
+/* Interactive evidence card — pressable, opens a slide-over drawer with
+   the full unsliced list. Renders as <button> so keyboard + screen
+   readers treat it as a control. */
+.evidence-card--interactive {
+  display: block;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  background: var(--bg-elevated);
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background    var(--dur-hover) var(--ease-out),
+    transform     var(--dur-press) var(--ease-out);
+}
+.evidence-card--interactive:hover {
+  border-color: color-mix(in oklab, var(--border) 50%, var(--accent) 30%);
+  background: color-mix(in oklab, var(--bg-elevated) 85%, var(--accent) 6%);
+}
+.evidence-card--interactive:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.evidence-card--interactive:active {
+  transform: translateY(0.5px);
+}
+/* Count badge + chevron — sits in the card title row, on the right */
+.evidence-card__count {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.evidence-card__chev {
+  opacity: 0.75;
+  transition: transform var(--dur-hover) var(--ease-out);
+}
+.evidence-card--interactive:hover .evidence-card__chev {
+  transform: translateX(2px);
+}
+/* "+N more — click to view all" footer line on partially-shown cards */
+.evidence-card__more {
+  margin-top: 0.55rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border);
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+
 /* ── Agent flow (xyflow) ───────────────────────────────────────── */
 
 .flow-shell {
