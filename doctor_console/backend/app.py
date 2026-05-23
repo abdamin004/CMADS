@@ -36,21 +36,24 @@ DATA_GOLD = ROOT / "data" / "gold"
 PATIENT_CASES = DATA_GOLD / "patient_cases"
 ANNOTATIONS_DIR = DATA_GOLD / "annotations"
 STATIC_DIR = ROOT / "doctor_console" / "frontend" / "dist"
-# The 1000-patient cohort that survived the LLM detectability verifier
-# (``pipeline/lab_verifier_llm.py``). The runtime picker restricts to this
-# pool when ``verified_only=true`` so doctors only ever see patients the
-# verifier deemed clean enough to assess.
-VERIFIED_COHORT_PATH = DATA_GOLD / "cohort_1k_verify_verification_results.json"
+# The 270-patient YES cohort from the LLM detectability verifier
+# (``data/gold/cohort_verified.json`` — a plain JSON list of UUID strings).
+# The runtime picker restricts to this pool when ``verified_only=true`` so
+# doctors only ever see patients the verifier deemed clean enough to assess.
+# NOTE: _get_verified_uuids() (line ~762) serves the same data for the Tester
+# PatientPicker. Both functions read the same file. TODO: unify into one helper.
+VERIFIED_COHORT_PATH = DATA_GOLD / "cohort_verified.json"
 
 _verified_cohort_cache: set[str] | None = None
 
 
 def _verified_cohort_uuids() -> set[str]:
-    """Return the set of UUIDs in the LLM-verified 1000-patient cohort.
+    """Return the set of UUIDs in the LLM-verified 270-patient YES cohort.
 
-    Loaded lazily and cached for the lifetime of the process — the file
-    doesn't change at runtime. Returns an empty set if the artefact is
-    missing, so callers can fall back to all Gold patients.
+    Reads ``data/gold/cohort_verified.json`` — a plain JSON list of UUID
+    strings (all verifier YES verdicts). Loaded lazily and cached for the
+    lifetime of the process. Returns an empty set if the artefact is missing,
+    so callers fall back to all Gold patients.
     """
     global _verified_cohort_cache
     if _verified_cohort_cache is not None:
@@ -60,10 +63,11 @@ def _verified_cohort_uuids() -> set[str]:
         try:
             data = json.loads(VERIFIED_COHORT_PATH.read_text())
             if isinstance(data, list):
-                for row in data:
-                    uid = (row or {}).get("uuid") if isinstance(row, dict) else None
+                for item in data:
+                    # cohort_verified.json is a plain list of UUID strings
+                    uid = str(item) if isinstance(item, str) else None
                     if uid:
-                        cohort.add(str(uid))
+                        cohort.add(uid)
         except (OSError, json.JSONDecodeError):
             pass
     _verified_cohort_cache = cohort
