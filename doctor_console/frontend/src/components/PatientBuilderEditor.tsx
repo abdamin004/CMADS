@@ -150,7 +150,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           <span className="mono">Advanced settings</span>
           {!advancedOpen && adv.presetId && (
             <span className="ml-1 text-slate-500 mono">
-              · {adv.presetId} · Top {adv.topK}
+              · {adv.presetId} · Top {adv.topK} · {adv.accuracyMode === "recommended" ? "multi-level" : "baseline"}
             </span>
           )}
         </button>

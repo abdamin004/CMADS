@@ -275,7 +275,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         <ModeSwitcher mode={mode} onChange={onModeChange} />
       </div>
 
-      <main className="runtime-shell__main">
+      <main className={`runtime-shell__main${phase === "idle" && doctorTab === "build" ? " runtime-shell__main--build" : ""}`}>
         {phase === "idle" ? (
           <>
             {/* Header narrative + segmented control woven together */}

@@ -7560,12 +7560,14 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
 /* ── Runtime shell (no sidebar) ── */
 
 .runtime-shell {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 .runtime-shell__main {
   flex: 1;
+  min-height: 0;
   padding: 28px 3vw 80px;
   max-width: 1680px;
   margin: 0 auto;
@@ -7573,6 +7575,15 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  overflow-y: auto;
+}
+/* When the Build/clone tab is active the main must NOT scroll — the editor
+   owns its own internal scroll. Strip padding/gap and let it be a pure
+   flex pass-through so the two-pane editor fills the entire viewport. */
+.runtime-shell__main--build {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
 }
 .runtime-shell__model-pill {
   display: inline-flex;
@@ -7682,6 +7693,26 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* ── Tester inline back-link (Back to choices) ── */
+.tester-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-out),
+              transform var(--dur-hover) var(--ease-out);
+  flex-shrink: 0;
+}
+.tester-back-link:hover {
+  color: var(--ink-soft);
+  transform: translateX(-2px);
 }
 
 /* ── PatientBuilderEditor section navigator ── */

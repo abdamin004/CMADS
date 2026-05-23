@@ -125,6 +125,48 @@ export function AdvancedSettings({ value, onChange, precisionRows, precisionN }:
 
   return (
     <div className="runtime-solo__advanced-body">
+      {/* ── System accuracy / memory mode ── */}
+      <div className="runtime-solo__adv-section">
+        <div className="runtime-solo__label mono">System accuracy</div>
+        <div className="runtime-solo__accuracy-cards" role="radiogroup" aria-label="System accuracy mode">
+          {(
+            [
+              {
+                id: "recommended" as const,
+                title: "Multi-level memory",
+                pill: "recommended",
+                pillMuted: false,
+                desc: "Full seven-agent pipeline — EHR analyst, lab interpreter, diagnostic loop, adversarial reviewer, refiner, and treatment planner. Best accuracy; ~2 min per patient.",
+              },
+              {
+                id: "fast" as const,
+                title: "Baseline (fast)",
+                pill: "faster",
+                pillMuted: true,
+                desc: "Single-LLM pass — skips the multi-agent loop. Lower precision but noticeably quicker. Good for iterating on a patient sketch.",
+              },
+            ] as const
+          ).map((opt) => (
+            <button
+              key={opt.id}
+              type="button"
+              role="radio"
+              aria-checked={value.accuracyMode === opt.id}
+              className={`runtime-solo__accuracy-card${value.accuracyMode === opt.id ? " is-active" : ""}`}
+              onClick={() => onChange({ ...value, accuracyMode: opt.id })}
+            >
+              <div className="runtime-solo__accuracy-head">
+                {opt.title}
+                <span className={`runtime-solo__accuracy-pill${opt.pillMuted ? " runtime-solo__accuracy-pill--muted" : ""}`}>
+                  {opt.pill}
+                </span>
+              </div>
+              <div className="runtime-solo__accuracy-desc">{opt.desc}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ── Top-K picker ── */}
       <div className="runtime-solo__adv-section">
         <div className="runtime-solo__label mono">

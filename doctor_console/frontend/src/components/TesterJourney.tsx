@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Filter, Pencil, FlaskConical, ClipboardList } from "lucide-react";
+import { Filter, Pencil, FlaskConical, ClipboardList, ChevronLeft } from "lucide-react";
 import { PatientPicker }         from "./PatientPicker";
 import { PatientBuilderEditor }  from "./PatientBuilderEditor";
 import { MyTestPatientsList }    from "./MyTestPatientsList";
@@ -97,10 +97,10 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
     setView("editor");
   }
 
-  // When chrome="inline" we render only the body; the wrapping <div> has no
-  // fixed height so the parent's layout dictates the available space.
+  // When chrome="inline" we render only the body; the parent's layout
+  // dictates the available space — use h-full so the flex chain propagates.
   const wrapClass = chrome === "inline"
-    ? "flex flex-col text-slate-100"
+    ? "flex h-full flex-col text-slate-100"
     : "flex h-screen flex-col bg-slate-950 text-slate-100";
 
   return (
@@ -195,9 +195,21 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
             variants={VIEW_VARIANTS}
             initial="initial" animate="animate" exit="exit"
             transition={VIEW_TRANSITION}
-            className="flex-1 overflow-hidden"
+            className="flex-1 flex flex-col overflow-hidden"
           >
-            <PatientPicker onTemplate={(p) => { setPayload({ ...EMPTY, ...p }); setView("editor"); }} />
+            {chrome === "inline" && (
+              <button
+                type="button"
+                onClick={() => setView("splash")}
+                className="tester-back-link"
+              >
+                <ChevronLeft size={14} strokeWidth={2} />
+                Back to choices
+              </button>
+            )}
+            <div className="flex-1 overflow-hidden">
+              <PatientPicker onTemplate={(p) => { setPayload({ ...EMPTY, ...p }); setView("editor"); }} />
+            </div>
           </motion.div>
         )}
 
@@ -207,15 +219,27 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
             variants={VIEW_VARIANTS}
             initial="initial" animate="animate" exit="exit"
             transition={VIEW_TRANSITION}
-            className="flex-1 overflow-hidden"
+            className="flex-1 flex flex-col overflow-hidden"
           >
-            <PatientBuilderEditor
-              payload={payload}
-              onChange={setPayload}
-              onSaveDraft={saveOnly}
-              onSaveAndRun={(opts) => saveAndRun(opts)}
-              saving={saving}
-            />
+            {chrome === "inline" && (
+              <button
+                type="button"
+                onClick={() => setView("splash")}
+                className="tester-back-link"
+              >
+                <ChevronLeft size={14} strokeWidth={2} />
+                Back to choices
+              </button>
+            )}
+            <div className="flex-1 overflow-hidden">
+              <PatientBuilderEditor
+                payload={payload}
+                onChange={setPayload}
+                onSaveDraft={saveOnly}
+                onSaveAndRun={(opts) => saveAndRun(opts)}
+                saving={saving}
+              />
+            </div>
           </motion.div>
         )}
 
@@ -225,13 +249,25 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
             variants={VIEW_VARIANTS}
             initial="initial" animate="animate" exit="exit"
             transition={VIEW_TRANSITION}
-            className="flex-1 overflow-y-auto"
+            className="flex-1 flex flex-col overflow-hidden"
           >
-            <MyTestPatientsList
-              onEdit={startEdit}
-              onRun={onRunStarted}
-              onNew={() => { setPayload(EMPTY); setEditingUuid(null); setView("editor"); }}
-            />
+            {chrome === "inline" && (
+              <button
+                type="button"
+                onClick={() => setView("splash")}
+                className="tester-back-link"
+              >
+                <ChevronLeft size={14} strokeWidth={2} />
+                Back to choices
+              </button>
+            )}
+            <div className="flex-1 overflow-y-auto">
+              <MyTestPatientsList
+                onEdit={startEdit}
+                onRun={onRunStarted}
+                onNew={() => { setPayload(EMPTY); setEditingUuid(null); setView("editor"); }}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
