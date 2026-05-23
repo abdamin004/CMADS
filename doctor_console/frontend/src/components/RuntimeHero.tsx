@@ -185,8 +185,18 @@ export function RuntimeHero({ onRun }: Props) {
                       onMouseDown={() => { setValue(s.uuid); setOpen(false); inputRef.current?.blur(); }}
                     >
                       <span className="mono">{s.uuid}</span>
-                      <span className="runtime-solo__suggest-meta">
-                        {s.age ? `${s.age} yo` : ""} {s.gender ?? ""}
+                      <span className="runtime-solo__suggest-meta inline-flex items-center gap-2">
+                        {s.targetCondition && (
+                          <span
+                            className="inline-flex items-center rounded-full border border-emerald-700/50 bg-emerald-900/30 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-300"
+                            title="Synthea ground-truth diagnosis"
+                          >
+                            {s.targetCondition}
+                          </span>
+                        )}
+                        <span>
+                          {s.age ? `${s.age} yo` : ""} {s.gender ?? ""}
+                        </span>
                       </span>
                     </button>
                   ))}

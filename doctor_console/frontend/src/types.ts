@@ -147,6 +147,9 @@ export type PatientListItem = {
   hasRun: boolean;
   matchType?: string;
   primaryDiagnosis?: string;
+  /** Synthea-assigned ground-truth target disease (what the patient
+   *  actually has, independent of any agent output). */
+  targetCondition?: string;
   durationS?: number;
   reviewed?: boolean;
   agreement?: "agree" | "disagree" | "uncertain" | null;

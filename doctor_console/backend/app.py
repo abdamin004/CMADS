@@ -2030,6 +2030,10 @@ async def _patient_list_item_mongo(result_set: str, patient_uuid: str) -> dict[s
         final_dx = fd_envelope.get("output_canon") or fd_envelope.get("output") or {}
     else:
         final_dx = {}
+    gt = (case.ground_truth if case else {}) or {}
+    target = (gt.get("target_condition") or {}).get("name")
+    if target:
+        target = target.replace(" (disorder)", "").replace(" (finding)", "").strip()
     return {
         "uuid": patient_uuid,
         "age":    (case.demographics if case else {}).get("age"),
@@ -2038,6 +2042,7 @@ async def _patient_list_item_mongo(result_set: str, patient_uuid: str) -> dict[s
         "hasRun": run is not None,
         "matchType":        evaluation.get("match_type"),
         "primaryDiagnosis": final_dx.get("primary_diagnosis"),
+        "targetCondition":  target,
         "durationS":        run.duration_s if run else None,
     }
 
@@ -2737,6 +2742,10 @@ def _patient_list_item_fs(patient_uuid: str, result_dir: Path) -> dict[str, Any]
     trace = _load_json(result_dir / patient_uuid / "execution_trace.json") or {}
     annotation_path = ANNOTATIONS_DIR / f"{patient_uuid}.json"
     annotation = _load_json(annotation_path) if annotation_path.exists() else None
+    gt = _load_json(PATIENT_CASES / patient_uuid / "ground_truth.json") or {}
+    target = (gt.get("target_condition") or {}).get("name")
+    if target:
+        target = target.replace(" (disorder)", "").replace(" (finding)", "").strip()
     return {
         "uuid": patient_uuid,
         "age": case["patient"].get("age"),
@@ -2745,6 +2754,7 @@ def _patient_list_item_fs(patient_uuid: str, result_dir: Path) -> dict[str, Any]
         "hasRun": (result_dir / patient_uuid).exists(),
         "matchType": evaluation.get("match_type"),
         "primaryDiagnosis": final_dx.get("primary_diagnosis") or evaluation.get("primary_diagnosis"),
+        "targetCondition": target,
         "durationS": trace.get("duration_s"),
         "reviewed": bool(annotation and annotation.get("reviewed")),
         "agreement": (annotation or {}).get("agreement"),
