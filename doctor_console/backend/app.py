@@ -22,7 +22,7 @@ _uuid_pkg = uuid
 
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -1592,46 +1592,66 @@ def create_app() -> FastAPI:
     # ── Smart Import endpoint ─────────────────────────────────────────
 
     @app.post("/api/tests/extract")
-    async def tester_extract(request: ExtractRequest) -> dict[str, Any]:
-        """Smart Import: extract a TestPatientPayload-shape from raw input.
+    async def tester_extract(
+        kind: str = Form(...),
+        text: str | None = Form(None),
+        file: UploadFile | None = File(None),
+    ) -> dict[str, Any]:
+        """Smart Import dispatch:
+           - kind=text  + text=...                  → LLM extract from prose
+           - kind=file  + file=upload (.pdf/.json)  → PDF or FHIR JSON extract
+           - kind=image + ...                       → coming in Phase 3
+        """
+        import asyncio as _asyncio
+        from src.extraction import extract_text, extract_pdf, extract_fhir
 
-        Phase 1 supports kind="text" only. Phase 2 will add "file" (PDF /
-        FHIR JSON); Phase 3 will add "image" (vision-capable Groq preset).
-        Returns 415 for unsupported kinds in the meantime."""
-        if request.kind == "text":
-            if not request.text:
+        try:
+            if kind == "text":
+                if not text or not text.strip():
+                    raise HTTPException(status_code=422, detail="text is required when kind=text")
+                result = await _asyncio.to_thread(extract_text, text)
+                _log_extraction("text", text, None, None, result)
+                return result
+
+            elif kind == "file":
+                if file is None:
+                    raise HTTPException(status_code=422, detail="file is required when kind=file")
+                raw = await file.read()
+                mime = (file.content_type or "").lower()
+                name = file.filename or "upload"
+                lower = name.lower()
+                if lower.endswith(".pdf") or "pdf" in mime:
+                    result = await _asyncio.to_thread(extract_pdf, raw, name)
+                    _log_extraction("file", None, name, "application/pdf", result)
+                    return result
+                elif lower.endswith(".json") or "json" in mime:
+                    result = await _asyncio.to_thread(extract_fhir, raw, name)
+                    _log_extraction("file", None, name, "application/fhir+json", result)
+                    return result
+                else:
+                    raise HTTPException(
+                        status_code=415,
+                        detail=f"Unsupported file type. Use .pdf or .json (got {mime or name})",
+                    )
+
+            elif kind == "image":
                 raise HTTPException(
-                    status_code=422, detail="text is required when kind=text"
+                    status_code=415,
+                    detail="kind='image' is coming in Phase 3. Use kind='text' or kind='file' for now.",
                 )
-            try:
-                from src.extraction import extract_text
-                import asyncio as _asyncio
-                result = await _asyncio.to_thread(extract_text, request.text)
-            except ValueError as e:
-                msg = str(e)
-                if "exceeds" in msg:
-                    raise HTTPException(status_code=413, detail=msg)
-                raise HTTPException(status_code=422, detail=msg)
-            except Exception as e:  # noqa: BLE001
-                logger.warning("extract_text_failed", error=str(e)[:300])
-                raise HTTPException(
-                    status_code=503, detail=f"Extraction failed: {e}"
-                )
-            # Log to extraction_log (Mongo, ttl 90 days)
-            _log_extraction(request.kind, request.text, None, None, result)
-            return result
-        elif request.kind in ("file", "image"):
-            raise HTTPException(
-                status_code=415,
-                detail=(
-                    f"kind='{request.kind}' is coming in a future phase. "
-                    "Use kind='text' for now."
-                ),
-            )
-        else:
-            raise HTTPException(
-                status_code=400, detail=f"Unknown kind: {request.kind}"
-            )
+            else:
+                raise HTTPException(status_code=400, detail=f"Unknown kind: {kind}")
+
+        except ValueError as e:
+            msg = str(e)
+            if "exceeds" in msg:
+                raise HTTPException(status_code=413, detail=msg)
+            raise HTTPException(status_code=422, detail=msg)
+        except HTTPException:
+            raise
+        except Exception as e:  # noqa: BLE001
+            logger.warning("extract_failed", error=str(e)[:300])
+            raise HTTPException(status_code=503, detail=f"Extraction failed: {e}")
 
     def _log_extraction(
         kind: str,

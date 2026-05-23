@@ -8,7 +8,7 @@ import {
   FileUp,
   Image as ImageIcon,
 } from "lucide-react";
-import { extractText } from "../api";
+import { extractText, extractFile } from "../api";
 import type { ExtractResponse } from "../types";
 
 interface Props {
@@ -18,20 +18,63 @@ interface Props {
 
 type Tab = "text" | "file" | "image";
 
+function FileDropZone({ accept, onFile, file }: {
+  accept: string;
+  onFile: (f: File | null) => void;
+  file: File | null;
+}) {
+  const [dragOver, setDragOver] = useState(false);
+  function pickFromList(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    onFile(files[0]);
+  }
+  return (
+    <label
+      onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+      onDragLeave={() => setDragOver(false)}
+      onDrop={(e) => { e.preventDefault(); setDragOver(false); pickFromList(e.dataTransfer.files); }}
+      className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed px-6 py-10 text-center transition
+                 ${dragOver ? "border-emerald-500 bg-emerald-600/5"
+                            : "border-slate-700 hover:border-slate-600 bg-slate-950"}`}
+    >
+      <FileUp size={28} className="text-slate-500" />
+      <div className="text-sm text-slate-200">
+        {file
+          ? <><span className="font-medium">{file.name}</span> <span className="text-slate-500">· {(file.size / 1024).toFixed(1)} KB</span></>
+          : "Drop a file here or click to browse"}
+      </div>
+      <div className="text-xs text-slate-500">.pdf · .json (FHIR)</div>
+      <input type="file" accept={accept} className="hidden"
+             onChange={(e) => pickFromList(e.target.files)} />
+    </label>
+  );
+}
+
 export function SmartImportModal({ onClose, onExtract }: Props) {
   const [tab, setTab]     = useState<Tab>("text");
   const [text, setText]   = useState("");
+  const [file, setFile]   = useState<File | null>(null);
   const [busy, setBusy]   = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const canRun = tab === "text" && text.trim().length > 0 && !busy;
+  const canRun =
+    ((tab === "text" && text.trim().length > 0) ||
+     (tab === "file" && file !== null))
+    && !busy;
 
   async function runExtract() {
     if (!canRun) return;
     setBusy(true);
     setError(null);
     try {
-      const result = await extractText(text);
+      let result: ExtractResponse;
+      if (tab === "text") {
+        result = await extractText(text);
+      } else if (tab === "file" && file) {
+        result = await extractFile(file);
+      } else {
+        return;
+      }
       onExtract(result);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Extraction failed");
@@ -87,9 +130,8 @@ export function SmartImportModal({ onClose, onExtract }: Props) {
             <button
               role="tab"
               aria-selected={tab === "file"}
-              disabled
-              className="segmented__btn opacity-40 cursor-not-allowed"
-              title="Coming in Phase 2"
+              onClick={() => setTab("file")}
+              className={`segmented__btn${tab === "file" ? " segmented__btn--active" : ""}`}
             >
               <FileUp size={14} />
               Upload file
@@ -129,6 +171,23 @@ export function SmartImportModal({ onClose, onExtract }: Props) {
                 <span>{text.length.toLocaleString()} chars</span>
                 <span>Cap: 32 kB</span>
               </div>
+            </div>
+          )}
+
+          {tab === "file" && (
+            <div className="space-y-3">
+              <label className="block text-xs uppercase tracking-wide text-slate-400">
+                Drop a PDF or FHIR JSON file
+              </label>
+              <FileDropZone
+                accept=".pdf,.json,application/pdf,application/json,application/fhir+json"
+                onFile={(f) => setFile(f)}
+                file={file}
+              />
+              <p className="text-xs text-slate-500">
+                PDFs are parsed with pdfplumber; FHIR JSON is parsed structurally without an LLM call.
+                5 MB cap.
+              </p>
             </div>
           )}
         </div>

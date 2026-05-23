@@ -334,10 +334,24 @@ export async function getTestPatientAsCase(testUuid: string): Promise<CaseBundle
 }
 
 export function extractText(text: string): Promise<ExtractResponse> {
+  const fd = new FormData();
+  fd.append("kind", "text");
+  fd.append("text", text);
   return request<ExtractResponse>("/api/tests/extract", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ kind: "text", text }),
+    // Do NOT set Content-Type here — the browser sets it with the multipart
+    // boundary automatically when body is a FormData instance.
+    body: fd,
+  });
+}
+
+export function extractFile(file: File): Promise<ExtractResponse> {
+  const fd = new FormData();
+  fd.append("kind", "file");
+  fd.append("file", file);
+  return request<ExtractResponse>("/api/tests/extract", {
+    method: "POST",
+    body: fd,
   });
 }
 

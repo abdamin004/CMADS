@@ -12,5 +12,7 @@ Phase 3 adds extract_image. They all return the same dict shape so the
 backend endpoint stays a single function with a dispatch on `kind`.
 """
 from src.extraction.extract_text import extract_text
+from src.extraction.extract_pdf import extract_pdf
+from src.extraction.extract_fhir import extract_fhir
 
-__all__ = ["extract_text"]
+__all__ = ["extract_text", "extract_pdf", "extract_fhir"]
