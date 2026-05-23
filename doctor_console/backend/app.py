@@ -2649,6 +2649,11 @@ def _now_iso() -> str:
 def _load_case_bundle(patient_uuid: str) -> dict[str, Any]:
     patient_dir = PATIENT_CASES / patient_uuid
     if not patient_dir.exists():
+        # Test patients (Tester journey) live in Mongo, not on disk.
+        # Fall through to test_patients before declaring the uuid unknown.
+        test_doc = _load_case_from_test_patient(patient_uuid)
+        if test_doc is not None:
+            return test_doc
         raise HTTPException(status_code=404, detail=f"Unknown patient: {patient_uuid}")
     ehr = _load_json(patient_dir / "ehr_case.json") or {}
     lab = _load_json(patient_dir / "lab_case.json") or {}
@@ -2674,6 +2679,73 @@ def _load_case_bundle(patient_uuid: str) -> dict[str, Any]:
             "labTrends": len(lab.get("lab_trends") or []),
             "criticalFlags": _count_critical_flags(lab.get("critical_flags")),
             "recentVitals": len(lab.get("recent_vitals") or []),
+        },
+    }
+
+
+def _load_case_from_test_patient(test_uuid: str) -> dict[str, Any] | None:
+    """Shape a TestPatient Mongo doc into the same CaseBundle the
+    on-disk loader returns, so result_detail / similar-cases work
+    for test runs without a 404.
+
+    Returns None when no test patient with that uuid exists (so the
+    caller can decide to 404 or fall through to another lookup).
+
+    The labs are re-shaped from the canonical {test_name, value, unit}
+    back to Synthea's {lab_name, value, units} because the patient
+    panel renderer (PatientEvidence.tsx) keys on Synthea's names."""
+    from src.db.mongo import get_test_patient_sync
+    doc = get_test_patient_sync(test_uuid)
+    if not doc:
+        return None
+    demo = doc.get("demographics") or {}
+    labs_in = (doc.get("labs") or {}).get("latest_labs") or []
+    # Map canonical → Synthea-shape so the existing UI keeps working
+    latest_labs: list[dict[str, Any]] = []
+    for lab in labs_in:
+        if not isinstance(lab, dict):
+            continue
+        latest_labs.append({
+            "lab_name": lab.get("test_name") or lab.get("lab_name") or "",
+            "value":    lab.get("value"),
+            "units":    lab.get("unit") or lab.get("units") or "",
+            "date":     lab.get("date") or "",
+        })
+    lab_case = dict(doc.get("labs") or {})
+    lab_case["latest_labs"] = latest_labs
+    ground_truth = doc.get("ground_truth") or {}
+    target = (ground_truth.get("target_condition") or {}).get("name")
+    cutoff = doc.get("cutoff_date")
+    if hasattr(cutoff, "isoformat"):
+        cutoff = cutoff.isoformat()
+    return {
+        "patient": {
+            "uuid": doc.get("_id") or test_uuid,
+            "age": demo.get("age"),
+            "gender": demo.get("gender") or demo.get("sex"),
+            "race": demo.get("race"),
+            "ethnicity": demo.get("ethnicity"),
+            "cutoffDate": cutoff,
+            "targetCondition": target,
+        },
+        "ehrCase": {
+            "patient_uuid": doc.get("_id"),
+            "cutoff_date":  cutoff,
+            "demographics": demo,
+            "conditions":   doc.get("conditions") or {},
+            "medications":  doc.get("medications") or {},
+            "visits":       doc.get("visits") or {},
+            "comorbidity":  doc.get("comorbidity") or {},
+            "risk_scores":  doc.get("risk_scores") or {},
+        },
+        "labCase": lab_case,
+        "groundTruth": ground_truth,
+        "caseStats": {
+            "activeConditions":  _count_active(doc.get("conditions")),
+            "activeMedications": _count_active(doc.get("medications")),
+            "labTrends":         len(latest_labs),
+            "criticalFlags":     0,
+            "recentVitals":      0,
         },
     }
 
