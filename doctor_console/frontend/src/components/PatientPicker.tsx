@@ -43,9 +43,9 @@ export function PatientPicker({ onTemplate }: Props) {
   }
 
   return (
-    <div className="flex h-full gap-4 p-4">
+    <div className="flex h-full flex-col gap-4 p-4 lg:flex-row">
       {/* LEFT: facets */}
-      <aside className="w-60 shrink-0 space-y-5 border-r border-slate-800 pr-3 text-sm">
+      <aside className="shrink-0 space-y-5 border-b border-slate-800 pb-3 text-sm lg:w-56 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-3">
         <div>
           <div className="mb-2 text-xs uppercase tracking-wide text-slate-400">Disease</div>
           {DISEASES.map(d => (
@@ -88,7 +88,7 @@ export function PatientPicker({ onTemplate }: Props) {
         </div>
       </aside>
       {/* MIDDLE: list */}
-      <section className="w-80 shrink-0 overflow-y-auto border-r border-slate-800 pr-2">
+      <section className="shrink-0 overflow-y-auto border-b border-slate-800 pb-2 lg:w-80 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-2">
         <div className="mb-2 text-xs text-slate-400">
           {loading ? "Loading…" : `${rows.length} patient${rows.length === 1 ? "" : "s"}`}
         </div>
