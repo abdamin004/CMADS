@@ -13,9 +13,12 @@ import time
 import uuid
 from collections import Counter
 from copy import deepcopy
+from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
+
+_uuid_pkg = uuid
 
 from contextlib import asynccontextmanager
 
@@ -748,6 +751,11 @@ _vocab_cache: dict[str, list[dict]] | None = None
 _vocab_lock = threading.Lock()
 
 
+def _new_test_uuid() -> str:
+    """Generate a ``ttest-<hex>`` id for TestPatient documents."""
+    return f"ttest-{_uuid_pkg.uuid4().hex[:16]}"
+
+
 def _get_vocab() -> dict[str, list[dict]]:
     """Build the autocomplete vocabulary on first call, then cache for
     process lifetime. Walks every doc in patient_cases — runs once per
@@ -1230,6 +1238,139 @@ def create_app() -> FastAPI:
         from src.db.mongo import filter_vocabulary
         vocab = _get_vocab().get(kind, [])
         return filter_vocabulary(vocab, q, limit=20)
+
+    @app.get("/api/tests/cohort")
+    def tester_cohort_browse(
+        disease:  str | None = Query(None),
+        age_min:  int | None = Query(None, ge=0, le=120),
+        age_max:  int | None = Query(None, ge=0, le=120),
+        gender:   str | None = Query(None, pattern="^(M|F|Other)$"),
+        limit:    int = Query(50, ge=1, le=200),
+    ) -> list[dict[str, Any]]:
+        """Faceted browse of patient_cases for the Tester journey's
+        clone-from-cohort flow. Returns summary rows; full payload via
+        /api/tests/cohort/{uuid}."""
+        from src.db.mongo import _coll
+        q: dict[str, Any] = {}
+        if disease:
+            q["ground_truth.target_condition.name"] = disease
+        if age_min is not None or age_max is not None:
+            age_q: dict[str, Any] = {}
+            if age_min is not None: age_q["$gte"] = age_min
+            if age_max is not None: age_q["$lte"] = age_max
+            q["demographics.age"] = age_q
+        if gender:
+            q["demographics.gender"] = gender
+
+        rows: list[dict[str, Any]] = []
+        for d in _coll("patient_cases").find(q).limit(limit):
+            active_count = len(((d.get("conditions") or {}).get("active") or []))
+            rows.append({
+                "uuid":          d["_id"],
+                "age":           (d.get("demographics") or {}).get("age"),
+                "gender":        (d.get("demographics") or {}).get("gender"),
+                "disease":       ((d.get("ground_truth") or {}).get("target_condition") or {}).get("name"),
+                "active_count":  active_count,
+            })
+        return rows
+
+    @app.get("/api/tests/cohort/{uuid}")
+    def tester_cohort_template(uuid: str) -> dict[str, Any]:
+        """Load a single cohort patient as a clone-template payload. The
+        response is shaped like a TestPatientPayload (no _id, no
+        created_at) with source_uuid set so the frontend's POST can record
+        the lineage."""
+        from src.db.mongo import _coll
+        d = _coll("patient_cases").find_one({"_id": uuid})
+        if not d:
+            raise HTTPException(status_code=404, detail=f"Unknown cohort uuid: {uuid}")
+        keep = {"demographics", "conditions", "medications", "visits",
+                "comorbidity", "risk_scores", "labs", "ground_truth",
+                "case_stats", "cutoff_date", "case_type"}
+        out = {k: d[k] for k in keep if k in d}
+        if isinstance(out.get("cutoff_date"), datetime):
+            out["cutoff_date"] = out["cutoff_date"].date().isoformat()
+        out["source_uuid"] = uuid
+        out["label"] = f"Clone of {uuid[:11]}"
+        return out
+
+    @app.post("/api/tests/patients")
+    def tester_create_patient(payload: TestPatientPayload) -> dict[str, Any]:
+        """Create a new TestPatient. Generates a ``ttest-`` uuid, stamps
+        created_at + updated_at. Returns the summary {test_uuid, label,
+        created_at} so the frontend can immediately POST /api/tests/runs."""
+        from src.db.mongo import write_test_patient_sync, get_test_patient_sync
+
+        test_uuid = _new_test_uuid()
+        doc = payload.model_dump(exclude_unset=False)
+        doc["_id"] = test_uuid
+        if not doc.get("cutoff_date"):
+            doc["cutoff_date"] = datetime.utcnow().date().isoformat()
+        for k in ("conditions", "medications", "visits", "comorbidity",
+                  "risk_scores", "labs", "ground_truth", "case_stats"):
+            if doc.get(k) is None:
+                doc[k] = {}
+        write_test_patient_sync(doc)
+        created = get_test_patient_sync(test_uuid)
+        return {
+            "test_uuid":  test_uuid,
+            "label":      created["label"],
+            "created_at": created["created_at"],
+        }
+
+    @app.get("/api/tests/patients")
+    def tester_list_patients(q: str | None = Query(None)) -> list[dict[str, Any]]:
+        """List all test patients as summaries, newest first."""
+        from src.db.mongo import _coll
+        query: dict[str, Any] = {}
+        if q:
+            query["label"] = {"$regex": q, "$options": "i"}
+        rows: list[dict[str, Any]] = []
+        for d in _coll("test_patients").find(query).sort("created_at", -1):
+            rows.append({
+                "test_uuid":     d["_id"],
+                "label":         d.get("label"),
+                "created_at":    d.get("created_at"),
+                "updated_at":    d.get("updated_at"),
+                "last_run_at":   d.get("last_run_at"),
+                "run_count":     d.get("run_count", 0),
+                "source_uuid":   d.get("source_uuid"),
+            })
+        return rows
+
+    @app.get("/api/tests/patients/{test_uuid}")
+    def tester_get_patient(test_uuid: str) -> dict[str, Any]:
+        from src.db.mongo import get_test_patient_sync
+        d = get_test_patient_sync(test_uuid)
+        if not d:
+            raise HTTPException(status_code=404, detail=f"Unknown test_uuid: {test_uuid}")
+        return d
+
+    @app.put("/api/tests/patients/{test_uuid}")
+    def tester_update_patient(test_uuid: str, payload: TestPatientPayload) -> dict[str, Any]:
+        from src.db.mongo import update_test_patient_sync, get_test_patient_sync
+        existing = get_test_patient_sync(test_uuid)
+        if not existing:
+            raise HTTPException(status_code=404, detail=f"Unknown test_uuid: {test_uuid}")
+        patch = payload.model_dump(exclude_unset=False)
+        for k in ("conditions", "medications", "visits", "comorbidity",
+                  "risk_scores", "labs", "ground_truth", "case_stats"):
+            if patch.get(k) is None:
+                patch[k] = {}
+        update_test_patient_sync(test_uuid, patch)
+        return get_test_patient_sync(test_uuid)
+
+    @app.delete("/api/tests/patients/{test_uuid}")
+    def tester_delete_patient(test_uuid: str,
+                              with_runs: bool = Query(False)) -> dict[str, Any]:
+        from src.db.mongo import delete_test_patient_sync, _coll
+        delete_test_patient_sync(test_uuid)
+        if with_runs:
+            _coll("agent_runs").delete_many({
+                "patient_uuid": test_uuid,
+                "result_set":   "mas_results_test",
+            })
+        return {"deleted": True}
 
     if STATIC_DIR.exists():
         app.mount("/assets", StaticFiles(directory=STATIC_DIR / "assets"), name="assets")
