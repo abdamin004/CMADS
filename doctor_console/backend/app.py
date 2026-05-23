@@ -1201,6 +1201,7 @@ def create_app() -> FastAPI:
             "topK": requested_top_k,
             "accuracyMode": accuracy_mode,
             "status": "queued",
+            "cancelled": False,
             "startedAt": None,
             "finishedAt": None,
             "error": None,
@@ -1256,11 +1257,31 @@ def create_app() -> FastAPI:
                 if payload != last_payload:
                     yield f"data: {payload}\n\n"
                     last_payload = payload
-                if task.get("status") in {"completed", "error"}:
+                if task.get("status") in {"completed", "error", "cancelled"}:
                     return
                 time.sleep(1)
 
         return StreamingResponse(events(), media_type="text/event-stream")
+
+    @app.post("/api/runs/{task_id}/cancel")
+    def cancel_run(task_id: str) -> dict[str, Any]:
+        """Mark a running task as cancelled. The worker thread polls this flag
+        between agent steps and stops the pipeline gracefully. The current
+        in-flight LLM call (if any) finishes first, then no further agents are
+        dispatched."""
+        task = _tasks.get(task_id)
+        if not task:
+            raise HTTPException(status_code=404, detail="Unknown task")
+        if task.get("status") not in {"queued", "running"}:
+            return {"cancelled": False, "reason": "Task is not running"}
+        with _tasks_lock:
+            task["cancelled"] = True
+            _append_task_event(
+                task,
+                "Cancel requested",
+                "Waiting for the current agent to finish before stopping.",
+            )
+        return {"cancelled": True}
 
     @app.get("/api/tests/vocabulary")
     def tester_vocabulary(
@@ -1524,6 +1545,7 @@ def create_app() -> FastAPI:
             "topK":            max(1, min(int(request.top_k or 5), 10)),
             "accuracyMode":    accuracy_mode,
             "status":          "queued",
+            "cancelled":       False,
             "startedAt":       None,
             "finishedAt":      None,
             "error":           None,
@@ -3425,6 +3447,10 @@ def _merge_stream_update(state: dict[str, Any], update: dict[str, Any]) -> None:
             state[key] = value
 
 
+class RunCancelled(Exception):
+    """Raised inside _stream_patient_run when the task's cancelled flag is set."""
+
+
 def _stream_patient_run(
     patient_uuid: str,
     task: dict[str, Any],
@@ -3458,6 +3484,13 @@ def _stream_patient_run(
         config={"configurable": {"thread_id": f"doctor_console_{patient_uuid}_{uuid.uuid4()}"}},
         stream_mode="updates",
     ):
+        # Check for cancellation between agent steps. The current in-flight LLM
+        # call has already completed when we reach this point — the next agent
+        # dispatch simply never happens. This is the correct shape: we can't
+        # interrupt a running LLM call cleanly, but we can refuse to start the
+        # next one.
+        if task.get("cancelled"):
+            raise RunCancelled()
         if not isinstance(chunk, dict):
             continue
         for node_id, node_update in chunk.items():
@@ -3575,8 +3608,8 @@ def _run_patient_task(
                 stamp_test_run_sync(patient_uuid)
         finally:
             # Drop overrides as soon as the run completes — even if it
-            # errored — so any later pipeline work this thread might do
-            # falls back to the process defaults.
+            # errored or was cancelled — so any later pipeline work this
+            # thread might do falls back to the process defaults.
             clear_thread_overrides()
 
         outputs = result.get("agent_outputs") or {}
@@ -3591,6 +3624,15 @@ def _run_patient_task(
             task["agents"] = _agent_cards(outputs, trace)
             task["activeAgentId"] = "final_diagnosis"
             _append_task_event(task, "Run completed", "The final diagnosis and downstream outputs are ready.")
+    except RunCancelled:
+        with _tasks_lock:
+            task["status"] = "cancelled"
+            _append_task_event(
+                task,
+                "Run cancelled",
+                "The clinician stopped the pipeline before all agents finished. "
+                "Outputs from agents that completed are preserved.",
+            )
     except Exception as exc:  # noqa: BLE001
         with _tasks_lock:
             task["status"] = "error"
