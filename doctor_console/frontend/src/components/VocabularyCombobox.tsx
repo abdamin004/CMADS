@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AlertTriangle } from "lucide-react";
 import { getVocabulary } from "../api";
 import type { VocabularyItem } from "../types";
 
@@ -64,9 +65,13 @@ export function VocabularyCombobox({ kind, placeholder, onPick }: Props) {
   return (
     <div className="relative">
       <input
-        className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm
-                   text-slate-100 placeholder-slate-500 focus:border-emerald-500
-                   focus:outline-none focus:ring-1 focus:ring-emerald-500"
+        className={`w-full rounded-md border bg-slate-900 px-3 py-2 text-sm
+                   text-slate-100 placeholder-slate-500
+                   focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500
+                   transition-colors
+                   ${dropdownVisible
+                     ? "border-emerald-500 ring-1 ring-emerald-500"
+                     : "border-slate-700"}`}
         placeholder={placeholder || "Type to search…"}
         value={q}
         onFocus={() => setOpen(true)}
@@ -96,15 +101,19 @@ export function VocabularyCombobox({ kind, placeholder, onPick }: Props) {
               key={`${it.label}-${it.code ?? "-"}`}
               role="option"
               aria-selected={i === highlight}
-              className={`cursor-pointer px-3 py-1.5 text-sm
+              className={`flex cursor-pointer items-center px-3 py-1.5 text-sm
                           ${i === highlight ? "bg-emerald-600/20 text-emerald-200"
                                             : "text-slate-200 hover:bg-slate-800"}`}
               onMouseDown={(e) => { e.preventDefault(); onPick(it);
                                     setQ(""); setOpen(false); setHighlight(0); }}
             >
-              <span>{it.label}</span>
+              <span className="flex-1">{it.label}</span>
               {it.code && (
                 <span className="ml-2 text-xs text-slate-500">{it.code}</span>
+              )}
+              {/* Chevron hint for the highlighted item — "this is what Enter commits" */}
+              {i === highlight && (
+                <span className="ml-2 text-xs text-emerald-300" aria-hidden>›</span>
               )}
             </li>
           ))}
@@ -121,14 +130,18 @@ export function VocabularyCombobox({ kind, placeholder, onPick }: Props) {
             <li
               role="option"
               aria-selected={highlight === items.length}
-              className={`cursor-pointer border-t border-slate-700 px-3 py-1.5 text-sm
+              className={`flex cursor-pointer items-center gap-2 border-t border-slate-700 px-3 py-1.5 text-sm
                           ${highlight === items.length ? "bg-amber-600/20 text-amber-200"
                                                        : "text-amber-300 hover:bg-slate-800"}`}
               onMouseDown={(e) => { e.preventDefault();
                                     onPick({ label: q, code: null });
                                     setQ(""); setOpen(false); setHighlight(0); }}
             >
-              <span className="mr-2">⚠</span>Use anyway: <span className="italic">{q}</span>
+              <AlertTriangle size={14} strokeWidth={1.8} className="shrink-0 text-amber-400" />
+              <span>Use anyway: <span className="italic">{q}</span></span>
+              {highlight === items.length && (
+                <span className="ml-auto text-xs text-amber-300" aria-hidden>›</span>
+              )}
             </li>
           )}
         </ul>
