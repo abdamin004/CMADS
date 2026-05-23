@@ -1329,21 +1329,37 @@ def create_app() -> FastAPI:
 
     @app.get("/api/tests/patients")
     def tester_list_patients(q: str | None = Query(None)) -> list[dict[str, Any]]:
-        """List all test patients as summaries, newest first."""
+        """List all test patients as summaries, newest first.
+        Includes latest_match_type from evaluation.json in mas_results_test
+        (DIRECT / INDIRECT / MISS), or None when no run has completed.
+        """
         from src.db.mongo import _coll
+        _test_results_dir = Path("data/gold/mas_results_test")
         query: dict[str, Any] = {}
         if q:
             query["label"] = {"$regex": q, "$options": "i"}
         rows: list[dict[str, Any]] = []
         for d in _coll("test_patients").find(query).sort("created_at", -1):
+            test_uuid = d["_id"]
+            # Best-effort: read evaluation.json from the test-run output dir.
+            latest_match_type: str | None = None
+            try:
+                eval_path = _test_results_dir / test_uuid / "evaluation.json"
+                if eval_path.exists():
+                    import json as _json
+                    ev = _json.loads(eval_path.read_text())
+                    latest_match_type = ev.get("match_type") or ev.get("output", {}).get("match_type")
+            except Exception:
+                pass
             rows.append({
-                "test_uuid":     d["_id"],
-                "label":         d.get("label"),
-                "created_at":    d.get("created_at"),
-                "updated_at":    d.get("updated_at"),
-                "last_run_at":   d.get("last_run_at"),
-                "run_count":     d.get("run_count", 0),
-                "source_uuid":   d.get("source_uuid"),
+                "test_uuid":          test_uuid,
+                "label":              d.get("label"),
+                "created_at":         d.get("created_at"),
+                "updated_at":         d.get("updated_at"),
+                "last_run_at":        d.get("last_run_at"),
+                "run_count":          d.get("run_count", 0),
+                "source_uuid":        d.get("source_uuid"),
+                "latest_match_type":  latest_match_type,
             })
         return rows
 

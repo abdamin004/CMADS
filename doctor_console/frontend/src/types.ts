@@ -390,6 +390,8 @@ export interface TestPatientSummary {
   last_run_at?: string | null;
   run_count: number;
   source_uuid?: string | null;
+  /** DIRECT / INDIRECT / MISS from the most recent completed test run, or null. */
+  latest_match_type?: string | null;
 }
 
 export interface TestPatientDoc extends TestPatientPayload {

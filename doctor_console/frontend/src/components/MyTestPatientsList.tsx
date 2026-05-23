@@ -9,6 +9,38 @@ interface Props {
   onNew:   () => void;
 }
 
+/** Status pill for the latest completed run. */
+function MatchPill({ matchType }: { matchType?: string | null }) {
+  if (!matchType) return null;
+  const upper = matchType.toUpperCase();
+  if (upper === "DIRECT") {
+    return (
+      <span className="inline-flex items-center rounded-sm border border-emerald-400 bg-emerald-600/20 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-emerald-300">
+        DIRECT
+      </span>
+    );
+  }
+  if (upper === "INDIRECT") {
+    return (
+      <span className="inline-flex items-center rounded-sm border border-amber-400 bg-amber-600/20 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-amber-300">
+        INDIRECT
+      </span>
+    );
+  }
+  if (upper === "MISS") {
+    return (
+      <span className="inline-flex items-center rounded-sm border border-rose-400 bg-rose-600/20 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-rose-300">
+        MISS
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center rounded-sm border border-slate-700 bg-slate-800 px-1.5 py-0.5 font-mono text-[0.62rem] font-medium uppercase tracking-widest text-slate-500">
+      —
+    </span>
+  );
+}
+
 export function MyTestPatientsList({ onEdit, onRun, onNew }: Props) {
   const [rows, setRows] = useState<TestPatientSummary[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
@@ -45,7 +77,7 @@ export function MyTestPatientsList({ onEdit, onRun, onNew }: Props) {
         <h2 className="text-lg font-medium text-slate-100">My test patients</h2>
         {rows.length > 0 && (
           <button onClick={onNew}
-            className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500">
+            className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-500 transition-colors">
             + New from scratch
           </button>
         )}
@@ -60,32 +92,51 @@ export function MyTestPatientsList({ onEdit, onRun, onNew }: Props) {
             </p>
           </div>
           <button onClick={onNew}
-            className="mt-1 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500">
+            className="mt-1 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 transition-colors">
             + New from scratch
           </button>
         </div>
       )}
       <ul className="divide-y divide-slate-800">
         {rows.map(r => (
-          <li key={r.test_uuid} className="flex items-center gap-4 py-3 text-sm">
-            <div className="flex-1">
-              <div className="text-slate-100">{r.label}</div>
-              <div className="text-xs text-slate-500">
-                created {relative(r.created_at)} · {r.run_count} run{r.run_count === 1 ? "" : "s"}
+          <li
+            key={r.test_uuid}
+            className="group flex items-center gap-4 rounded-md px-2 py-3 text-sm transition-colors hover:bg-slate-900/60"
+          >
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-slate-100 font-medium truncate">{r.label}</span>
+                <MatchPill matchType={r.latest_match_type} />
+              </div>
+              <div className="mt-0.5 text-xs text-slate-500">
+                created {relative(r.created_at)}
+                {" · "}
+                {r.run_count} run{r.run_count === 1 ? "" : "s"}
                 {r.last_run_at && ` · last run ${relative(r.last_run_at)}`}
                 {r.source_uuid && ` · cloned from ${r.source_uuid.slice(0,11)}`}
               </div>
             </div>
-            <button onClick={() => rerun(r.test_uuid)} disabled={busy === r.test_uuid}
-              className="rounded-md bg-emerald-600 px-3 py-1 text-xs text-white hover:bg-emerald-500 disabled:opacity-40">
-              {r.last_run_at ? "Re-run" : "Run"}
-            </button>
-            <button onClick={() => onEdit(r.test_uuid)}
-              className="rounded-md border border-slate-700 px-3 py-1 text-xs text-slate-300 hover:bg-slate-800">
-              Edit
-            </button>
-            <button onClick={() => remove(r.test_uuid)}
-              className="text-slate-500 hover:text-rose-400">×</button>
+            {/* Action cluster — visible at reduced opacity, full on hover */}
+            <div className="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={() => rerun(r.test_uuid)}
+                disabled={busy === r.test_uuid}
+                className="rounded-md bg-emerald-600 px-3 py-1 text-xs text-white hover:bg-emerald-500 disabled:opacity-40 transition-colors"
+              >
+                {r.last_run_at ? "Re-run" : "Run"}
+              </button>
+              <button
+                onClick={() => onEdit(r.test_uuid)}
+                className="rounded-md border border-slate-700 px-3 py-1 text-xs text-slate-300 hover:bg-slate-800 transition-colors"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => remove(r.test_uuid)}
+                aria-label="Delete test patient"
+                className="px-1 text-slate-500 hover:text-rose-400 transition-colors"
+              >×</button>
+            </div>
           </li>
         ))}
       </ul>
