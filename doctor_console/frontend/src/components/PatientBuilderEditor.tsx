@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Check } from "lucide-react";
+import { Loader2, Check, ChevronRight } from "lucide-react";
 import { DemographicsForm } from "./tester/DemographicsForm";
 import { ConditionsForm }   from "./tester/ConditionsForm";
 import { MedicationsForm }  from "./tester/MedicationsForm";
@@ -72,8 +72,15 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
                 aria-current={isActive ? "page" : undefined}
                 className={`builder-nav__btn${isActive ? " builder-nav__btn--active" : ""}`}
               >
-                <div className="font-medium">{title}</div>
-                <div className="mt-0.5 line-clamp-2 text-xs text-slate-500">{summary(payload)}</div>
+                <div className={`builder-nav__btn-row`}>
+                  <div className={`builder-nav__btn-title`}>{title}</div>
+                  {isActive && (
+                    <ChevronRight size={13} strokeWidth={2.2} className="builder-nav__btn-chevron" />
+                  )}
+                </div>
+                <div className={`mt-0.5 line-clamp-2 text-xs builder-nav__btn-summary${isActive ? " builder-nav__btn-summary--active" : ""}`}>
+                  {summary(payload)}
+                </div>
               </button>
             );
           })}

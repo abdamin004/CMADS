@@ -7689,7 +7689,7 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   position: relative;
   display: block;
   width: 100%;
-  padding: 8px 12px 8px 16px;
+  padding: 8px 10px 8px 16px;
   border-radius: 6px;
   border: 1px solid transparent;
   background: transparent;
@@ -7701,11 +7701,44 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
     background var(--dur-hover) var(--ease-out),
     color var(--dur-hover) var(--ease-out),
     border-color var(--dur-hover) var(--ease-out);
+  /* hover rail hint — slate-700 */
+  overflow: hidden;
+}
+.builder-nav__btn::before {
+  content: "";
+  position: absolute;
+  top: 6px; bottom: 6px; left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: transparent;
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.builder-nav__btn:hover::before {
+  background: #334155; /* slate-700 hint */
 }
 .builder-nav__btn:hover {
   background: var(--surface);
   color: var(--ink);
   border-color: var(--border);
+}
+.builder-nav__btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.builder-nav__btn-title {
+  font-weight: 500; /* slightly heavier than the default */
+}
+.builder-nav__btn-chevron {
+  color: color-mix(in oklab, var(--success) 70%, var(--ink));
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.builder-nav__btn-summary {
+  color: var(--ink-muted);
+}
+.builder-nav__btn-summary--active {
+  color: color-mix(in oklab, var(--success) 60%, transparent);
 }
 .builder-nav__btn--active {
   background: color-mix(in oklab, var(--success) 12%, transparent);
@@ -7714,6 +7747,13 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   /* 2 px emerald rail on the left edge */
   box-shadow: inset 2px 0 0 var(--success);
   padding-left: 14px;          /* compensate the inset shadow width */
+  font-weight: 500;
+}
+.builder-nav__btn--active::before {
+  background: transparent; /* active state uses box-shadow rail instead */
+}
+.builder-nav__btn--active .builder-nav__btn-title {
+  font-weight: 600;
 }
 .builder-nav__btn--active:hover {
   background: color-mix(in oklab, var(--success) 18%, transparent);
