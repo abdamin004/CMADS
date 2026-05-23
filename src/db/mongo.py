@@ -182,3 +182,69 @@ def semantic_inc_sync(disease: str, *, match_type: str, at_rank_1: bool) -> None
         {"$inc": inc, "$set": {"updated_at": datetime.utcnow()}},
         upsert=True,
     )
+
+
+# ── Tester-journey sync helpers ────────────────────────────────────
+
+def write_test_patient_sync(payload: dict) -> None:
+    """Upsert a TestPatient document. Stamps created_at on insert,
+    updated_at on every write. Defaults run_count=0, last_run_at=None.
+    The caller supplies `_id` (test_uuid)."""
+    from datetime import datetime
+    now = datetime.utcnow()
+    doc = dict(payload)  # copy so we don't mutate the caller's dict
+    doc["updated_at"] = now
+    doc.setdefault("run_count", 0)
+    doc.setdefault("last_run_at", None)
+    doc.setdefault("assembled_at", now)
+    doc.setdefault("pipeline_version", "tester-1.0")
+    # cutoff_date arrives as a string from the REST layer; normalise to dt
+    if isinstance(doc.get("cutoff_date"), str):
+        doc["cutoff_date"] = datetime.fromisoformat(doc["cutoff_date"][:10])
+    # created_at must NOT appear in $set — it belongs only in $setOnInsert
+    # so that re-upserts don't overwrite it.
+    doc.pop("created_at", None)
+    _coll("test_patients").update_one(
+        {"_id": doc["_id"]},
+        {"$set": doc, "$setOnInsert": {"created_at": now}},
+        upsert=True,
+    )
+
+
+def update_test_patient_sync(test_uuid: str, patch: dict) -> None:
+    """Apply a partial update to a TestPatient. Advances updated_at.
+    Does NOT touch created_at, last_run_at, run_count, or source_uuid."""
+    from datetime import datetime
+    patch = {k: v for k, v in patch.items()
+             if k not in {"_id", "created_at", "last_run_at",
+                          "run_count", "source_uuid"}}
+    patch["updated_at"] = datetime.utcnow()
+    if isinstance(patch.get("cutoff_date"), str):
+        patch["cutoff_date"] = datetime.fromisoformat(patch["cutoff_date"][:10])
+    _coll("test_patients").update_one(
+        {"_id": test_uuid},
+        {"$set": patch},
+    )
+
+
+def stamp_test_run_sync(test_uuid: str) -> None:
+    """Called by the worker thread after a test run finishes.
+    Sets last_run_at to now and increments run_count by 1."""
+    from datetime import datetime
+    _coll("test_patients").update_one(
+        {"_id": test_uuid},
+        {
+            "$set": {"last_run_at": datetime.utcnow()},
+            "$inc": {"run_count": 1},
+        },
+    )
+
+
+def get_test_patient_sync(test_uuid: str) -> dict | None:
+    """Read a single TestPatient as a plain dict (None if missing)."""
+    return _coll("test_patients").find_one({"_id": test_uuid})
+
+
+def delete_test_patient_sync(test_uuid: str) -> None:
+    """Remove the TestPatient doc. Does NOT touch agent_runs."""
+    _coll("test_patients").delete_one({"_id": test_uuid})
