@@ -107,3 +107,79 @@ def test_cohort_template_returns_clone_payload(client, mongo_db):
     assert body["ground_truth"]["target_condition"]["name"] == "Diabetes mellitus type 2"
     # Not a real TestPatient yet — no _id, no created_at
     assert "_id" not in body and "created_at" not in body
+
+
+def test_post_test_patient_creates_doc(client):
+    payload = {
+        "label": "70F sketch",
+        "demographics": {"age": 70, "gender": "F"},
+        "labs": {"latest_labs": []},
+    }
+    r = client.post("/api/tests/patients", json=payload)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["label"] == "70F sketch"
+    assert body["test_uuid"].startswith("ttest-")
+    assert body["created_at"] is not None
+
+
+def test_post_validates_required_fields(client):
+    r = client.post("/api/tests/patients", json={"demographics":{"age":70,"gender":"F"}})
+    assert r.status_code == 422  # missing label
+
+    r = client.post("/api/tests/patients", json={"label":"x","demographics":{"gender":"F"}})
+    assert r.status_code == 422  # missing age
+
+
+def test_get_test_patient_returns_full_doc(client):
+    created = client.post("/api/tests/patients", json={
+        "label": "g-test",
+        "demographics": {"age": 60, "gender": "M"},
+    }).json()
+    test_uuid = created["test_uuid"]
+
+    r = client.get(f"/api/tests/patients/{test_uuid}")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["_id"] == test_uuid
+    assert body["label"] == "g-test"
+    assert body["run_count"] == 0
+    assert body["last_run_at"] is None
+
+
+def test_put_test_patient_updates_label(client):
+    created = client.post("/api/tests/patients", json={
+        "label": "old",
+        "demographics": {"age": 60, "gender": "M"},
+    }).json()
+    test_uuid = created["test_uuid"]
+
+    r = client.put(f"/api/tests/patients/{test_uuid}", json={
+        "label": "new",
+        "demographics": {"age": 60, "gender": "M"},
+    })
+    assert r.status_code == 200
+    assert r.json()["label"] == "new"
+
+
+def test_list_test_patients_returns_summaries(client):
+    client.post("/api/tests/patients", json={"label":"a","demographics":{"age":60,"gender":"M"}})
+    client.post("/api/tests/patients", json={"label":"b","demographics":{"age":60,"gender":"F"}})
+    r = client.get("/api/tests/patients")
+    assert r.status_code == 200
+    rows = r.json()
+    labels = [row["label"] for row in rows]
+    assert "a" in labels and "b" in labels
+    assert all("test_uuid" in row and "created_at" in row for row in rows)
+
+
+def test_delete_test_patient(client):
+    created = client.post("/api/tests/patients", json={
+        "label": "del", "demographics": {"age": 60, "gender": "M"},
+    }).json()
+    test_uuid = created["test_uuid"]
+
+    r = client.delete(f"/api/tests/patients/{test_uuid}")
+    assert r.status_code == 200
+    r = client.get(f"/api/tests/patients/{test_uuid}")
+    assert r.status_code == 404
