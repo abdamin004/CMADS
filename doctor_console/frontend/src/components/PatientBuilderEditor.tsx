@@ -121,12 +121,11 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
   const canSave = !!payload.label && !saving;
 
   return (
-    // Outer page chrome — gives the editor card breathing room on the
-    // darker page background so it reads as a single sheet rather than a
-    // floating fragment.
-    <div className="patient-builder-shell flex h-full justify-center p-4 lg:p-6">
-    <div className="patient-builder flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-xl border border-slate-800 shadow-xl shadow-black/30">
-      <div className="patient-builder__body flex flex-1 min-h-0 gap-4 overflow-hidden p-4">
+    // The editor is the workspace, not a widget — it inherits the page's
+    // surface, fills the available width, and uses only whitespace + faint
+    // hairlines for structure. No rounded card, no shadow, no max-width.
+    <div className="patient-builder flex h-full flex-col">
+      <div className="patient-builder__body flex flex-1 min-h-0 gap-8 overflow-hidden px-6 lg:px-10 py-6">
         {/* LEFT: navigator */}
         <aside className="patient-builder__nav w-64 shrink-0 space-y-1 pr-3">
           <input type="text"
@@ -181,7 +180,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
       </div>
       {/* Advanced settings disclosure — same markup + classes as RuntimeHero so
           the Known and Build/clone paths render identically. */}
-      <div className="patient-builder__advanced-bar px-4 py-2">
+      <div className="patient-builder__advanced-bar px-6 lg:px-10 py-3">
         <details
           className="runtime-solo__advanced"
           open={advancedOpen}
@@ -209,7 +208,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
       </div>
 
       {/* BOTTOM action bar */}
-      <div className="patient-builder__actions flex items-center justify-end gap-3 px-4 py-3">
+      <div className="patient-builder__actions flex items-center justify-end gap-3 px-6 lg:px-10 py-3">
         {/* Save for later */}
         <div className="relative inline-flex items-center gap-2">
           {/* Unsaved-changes dot — pulses when dirty and label is set */}
@@ -304,7 +303,6 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           />
         )}
       </AnimatePresence>
-    </div>
     </div>
   );
 }
