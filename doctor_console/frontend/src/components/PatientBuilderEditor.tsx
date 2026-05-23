@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Check, ChevronRight } from "lucide-react";
+import { Loader2, Check, ChevronRight, ChevronDown } from "lucide-react";
 import { DemographicsForm } from "./tester/DemographicsForm";
 import { ConditionsForm }   from "./tester/ConditionsForm";
 import { MedicationsForm }  from "./tester/MedicationsForm";
 import { LabsForm }         from "./tester/LabsForm";
 import { GroundTruthForm }  from "./tester/GroundTruthForm";
+import { AdvancedSettings } from "./runtime/AdvancedSettings";
+import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
 import type { TestPatientPayload } from "../types";
 
 // "Visits summary" intentionally NOT in the editor navigator: visit counts
@@ -30,11 +32,11 @@ const SECTIONS: Array<[Section, string, (p: TestPatientPayload) => string]> = [
 ];
 
 interface Props {
-  payload:     TestPatientPayload;
-  onChange:    (p: TestPatientPayload) => void;
-  onSaveDraft: () => void;
-  onSaveAndRun: () => void;
-  saving?:     boolean;
+  payload:      TestPatientPayload;
+  onChange:     (p: TestPatientPayload) => void;
+  onSaveDraft:  () => void;
+  onSaveAndRun: (opts?: AdvancedSettingsValue) => void;
+  saving?:      boolean;
 }
 
 export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAndRun, saving }: Props) {
@@ -42,6 +44,13 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
   const [justSaved, setJustSaved] = useState(false);
   // Track whether user has unsaved changes (any field touched)
   const [dirty, setDirty] = useState(false);
+  // Advanced run settings (model preset + top-K + accuracy mode)
+  const [adv, setAdv] = useState<AdvancedSettingsValue>({
+    presetId:     "",
+    topK:         5,
+    accuracyMode: "recommended",
+  });
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   function patch<K extends keyof TestPatientPayload>(k: K, v: TestPatientPayload[K]) {
     onChange({ ...payload, [k]: v });
@@ -59,7 +68,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
   }
 
   async function handleSaveAndRun() {
-    await onSaveAndRun();
+    await onSaveAndRun(adv);
     setDirty(false);
     // Brief "Pipeline started ✓" confirmation — visible for ~600ms before the
     // parent transitions to the running view.
@@ -125,6 +134,44 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           </AnimatePresence>
         </section>
       </div>
+      {/* Advanced settings disclosure — sits above the action bar */}
+      <div className="border-t border-slate-800 bg-slate-950">
+        <button
+          type="button"
+          className="flex w-full items-center gap-2 px-4 py-2 text-xs text-slate-400 hover:text-slate-200 transition-colors"
+          onClick={() => setAdvancedOpen((o) => !o)}
+          aria-expanded={advancedOpen}
+        >
+          <ChevronDown
+            size={13}
+            strokeWidth={2}
+            className={`transition-transform duration-200${advancedOpen ? " rotate-180" : ""}`}
+          />
+          <span className="mono">Advanced settings</span>
+          {!advancedOpen && adv.presetId && (
+            <span className="ml-1 text-slate-500 mono">
+              · {adv.presetId} · Top {adv.topK}
+            </span>
+          )}
+        </button>
+        <AnimatePresence initial={false}>
+          {advancedOpen && (
+            <motion.div
+              key="adv"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="overflow-hidden"
+            >
+              <div className="px-4 pb-3">
+                <AdvancedSettings value={adv} onChange={setAdv} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
       {/* BOTTOM action bar */}
       <div className="flex items-center justify-end gap-3 border-t border-slate-800 bg-slate-950 px-4 py-3">
         {/* Save for later */}

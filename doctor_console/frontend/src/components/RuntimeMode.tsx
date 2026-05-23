@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AlertCircle, Cloud, FlaskConical, HardDrive, Home } from "lucide-react";
-import { getPatientCase, getResult, getRun, listTestPatients, startRun, subscribeRun, type CaseBundle } from "../api";
+import { getPatientCase, getTestPatientAsCase, getResult, getRun, listTestPatients, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
@@ -34,6 +34,20 @@ function setStoredTaskId(taskId: string | null) {
     if (taskId) window.localStorage.setItem(RUN_STORAGE_KEY, taskId);
     else        window.localStorage.removeItem(RUN_STORAGE_KEY);
   } catch { /* ignore */ }
+}
+
+/**
+ * Fetch the CaseBundle appropriate for the task's result-set.
+ * Tester runs store results in "mas_results_test" and their patient UUID is a
+ * synthetic `ttest-…` id that doesn't exist in the Gold patient_cases
+ * directory — so we reconstruct the bundle from the TestPatient document
+ * instead of calling the normal /api/patients/{uuid}/case endpoint.
+ */
+function fetchCaseFor(t: RunTask): Promise<CaseBundle> {
+  if (t.resultSet === "mas_results_test") {
+    return getTestPatientAsCase(t.patientUuid);
+  }
+  return getPatientCase(t.patientUuid);
 }
 
 /**
@@ -94,7 +108,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
       try {
         const t = await getRun(taskId);
         setTask(t);
-        void getPatientCase(t.patientUuid).then((b) => setCaseBundle(b)).catch(() => {});
+        void fetchCaseFor(t).then((b) => setCaseBundle(b)).catch(() => {});
         if (t.status === "running" || t.status === "queued") {
           setPhase("running");
         } else if (t.status === "completed") {
@@ -127,6 +141,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     setPhase("running");
     // Fetch the patient case immediately so the doctor can see the data
     // the system is reading while the run is in progress.
+    // `uuid` here is always a Gold-layer UUID from the Known-patient flow.
     void getPatientCase(uuid)
       .then((bundle) => setCaseBundle(bundle))
       .catch(() => { /* non-fatal — the running view simply omits the data panel */ });
@@ -151,7 +166,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         const t = await getRun(tid);
         if (cancelled) return;
         setTask(t);
-        void getPatientCase(t.patientUuid).then((b) => !cancelled && setCaseBundle(b)).catch(() => {});
+        void fetchCaseFor(t).then((b) => !cancelled && setCaseBundle(b)).catch(() => {});
         if (t.status === "running" || t.status === "queued") {
           setPhase("running");
         } else if (t.status === "completed") {

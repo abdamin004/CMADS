@@ -272,6 +272,53 @@ export function deleteTestPatient(testUuid: string, withRuns = false):
   );
 }
 
+/**
+ * Build a CaseBundle from a TestPatientDoc so that the RuntimeRunningView
+ * can render the same patient-context panel for Tester runs that it shows
+ * for Known-patient runs.  The shapes are equivalent; we just re-map field
+ * names to match what CaseBundle / PatientResult["patient"] expect.
+ */
+export async function getTestPatientAsCase(testUuid: string): Promise<CaseBundle> {
+  const doc = await getTestPatient(testUuid);
+  const demographics = doc.demographics as Record<string, unknown> | undefined;
+  return {
+    patient: {
+      uuid: doc._id,
+      age:  demographics?.age  as number  | undefined,
+      gender: demographics?.gender as string | undefined,
+      race:   demographics?.race   as string | undefined,
+      ethnicity: demographics?.ethnicity as string | undefined,
+      cutoffDate: doc.cutoff_date,
+      targetCondition: (doc.ground_truth as Record<string, unknown> | undefined)
+        ?.target_condition
+        ? ((doc.ground_truth as Record<string, Record<string, unknown>>)
+            .target_condition?.name as string | undefined)
+        : undefined,
+    },
+    ehrCase: {
+      patient_uuid: doc._id,
+      cutoff_date:  doc.cutoff_date,
+      demographics: doc.demographics,
+      conditions:   doc.conditions,
+      medications:  doc.medications,
+      visits:       doc.visits,
+      comorbidity:  (doc as unknown as Record<string, unknown>).comorbidity,
+      risk_scores:  (doc as unknown as Record<string, unknown>).risk_scores,
+    },
+    labCase:     (doc.labs ?? {}) as Record<string, unknown>,
+    groundTruth: (doc.ground_truth ?? {}) as Record<string, unknown>,
+    caseStats: {
+      activeConditions:
+        ((doc.conditions as { active?: unknown[] } | undefined)?.active ?? []).length,
+      activeMedications:
+        ((doc.medications as { active?: unknown[] } | undefined)?.active ?? []).length,
+      labTrends:
+        ((doc.labs as { latest_labs?: unknown[] } | undefined)?.latest_labs ?? []).length,
+      criticalFlags: 0,
+    },
+  };
+}
+
 export function startTestRun(testUuid: string, opts: {
   topK?: number; accuracyMode?: "recommended" | "fast"; presetId?: string;
 } = {}): Promise<RunTask> {

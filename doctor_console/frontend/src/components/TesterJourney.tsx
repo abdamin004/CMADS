@@ -7,6 +7,7 @@ import { MyTestPatientsList }    from "./MyTestPatientsList";
 import { createTestPatient, getTestPatient, listTestPatients,
          startTestRun, updateTestPatient } from "../api";
 import type { TestPatientPayload } from "../types";
+import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
 
 // Shared Framer Motion variants for sub-view cross-fades — mirrors App.tsx
 const VIEW_VARIANTS = {
@@ -69,10 +70,14 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
     } finally { setSaving(false); }
   }
 
-  async function saveAndRun() {
+  async function saveAndRun(opts?: AdvancedSettingsValue) {
     const uuid = await saveOnly();
     if (!uuid) return;
-    const task = await startTestRun(uuid);
+    const task = await startTestRun(uuid, {
+      topK:         opts?.topK,
+      accuracyMode: opts?.accuracyMode,
+      presetId:     opts?.presetId || undefined,
+    });
     onRunStarted(task.taskId);
   }
 
@@ -208,7 +213,7 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
               payload={payload}
               onChange={setPayload}
               onSaveDraft={saveOnly}
-              onSaveAndRun={saveAndRun}
+              onSaveAndRun={(opts) => saveAndRun(opts)}
               saving={saving}
             />
           </motion.div>
