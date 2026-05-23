@@ -269,7 +269,7 @@ export type PatientResult = {
 export type RunTask = {
   taskId: string;
   patientUuid: string;
-  status: "queued" | "running" | "completed" | "error";
+  status: "queued" | "running" | "completed" | "error" | "cancelled";
   startedAt?: number;
   finishedAt?: number;
   error?: string | null;

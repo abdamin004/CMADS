@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Brain, CheckCircle2, ClipboardList, ChevronDown, Pill,
-  ShieldAlert, Sparkles, Wrench,
+  Brain, CheckCircle2, ClipboardList, Pill,
+  ShieldAlert, Sparkles, Wrench, Octagon, Loader2, ArrowLeft,
 } from "lucide-react";
 import { AgentFlow } from "./AgentFlow";
 import { AgentInspector } from "./AgentInspector";
 import { Disclosure } from "./Disclosure";
 import { PatientEvidence } from "./PatientEvidence";
-import type { CaseBundle } from "../api";
+import { cancelRun, type CaseBundle } from "../api";
 import type { AgentCard, AgentNarrative, PatientResult, RunTask } from "../types";
 
 type Props = {
@@ -22,6 +22,8 @@ type Props = {
   /** Gold-layer case bundle — shown alongside the progress so the doctor
    *  sees what data the system is reading while it works. */
   caseBundle?: CaseBundle;
+  /** Called when the user wants to go back to the start after cancellation. */
+  onReset?: () => void;
 };
 
 type StageDef = {
@@ -71,8 +73,36 @@ const STAGES: StageDef[] = [
  * single explicit "Want to see how it's thinking?" disclosure.
  */
 export function RuntimeRunningView({
-  task, workflowAgents, activeAgentId, onSelectAgent, selectedAgent, selectedNarrative, caseBundle,
+  task, workflowAgents, activeAgentId, onSelectAgent, selectedAgent, selectedNarrative, caseBundle, onReset,
 }: Props) {
+  // ── Cancel state ────────────────────────────────────────────────
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [stopping, setStopping] = useState(false);
+  const stopBtnRef = useRef<HTMLDivElement>(null);
+
+  const handleStopClick = () => setShowConfirm(true);
+  const handleConfirmCancel = async () => {
+    if (!task?.taskId) return;
+    setShowConfirm(false);
+    setStopping(true);
+    try {
+      await cancelRun(task.taskId);
+    } catch {
+      // Best-effort — the SSE will eventually reflect the real status.
+    }
+    // Keep "stopping…" until the SSE delivers the cancelled status
+  };
+  const handleDismissConfirm = () => setShowConfirm(false);
+
+  // Reset stopping indicator once cancelled status lands
+  const taskStatus = task?.status;
+  useEffect(() => {
+    if (taskStatus === "cancelled") setStopping(false);
+  }, [taskStatus]);
+
+  const isCancelled = task?.status === "cancelled";
+  const isRunning   = task?.status === "running" || task?.status === "queued";
+
   // Build a partial PatientResult-shaped object so the existing
   // PatientEvidence renderer can be reused with no schema changes.
   const partialResult: PatientResult | undefined = useMemo(() => {
@@ -146,6 +176,34 @@ export function RuntimeRunningView({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
+      {/* ── Cancelled banner ───────────────────────────────────── */}
+      <AnimatePresence>
+        {isCancelled && (
+          <motion.div
+            className="simple-run__cancelled-banner"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <Octagon size={15} strokeWidth={1.7} className="simple-run__cancelled-icon" />
+            <span>
+              Run stopped before completion. Agents that finished are saved; the rest are not.
+            </span>
+            {onReset && (
+              <button
+                type="button"
+                className="simple-run__cancelled-back"
+                onClick={onReset}
+              >
+                <ArrowLeft size={13} strokeWidth={1.8} />
+                Back to start
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <section className="panel simple-run__hero">
         <div className="simple-run__hero-row">
           <div className="simple-run__hero-icon">
@@ -183,6 +241,64 @@ export function RuntimeRunningView({
               {activeStage?.body}
             </motion.p>
           </div>
+
+          {/* ── Stop run button ──────────────────────────────────── */}
+          {isRunning && (
+            <div className="simple-run__stop-wrap" ref={stopBtnRef}>
+              <button
+                type="button"
+                className={`simple-run__stop-btn${stopping ? " simple-run__stop-btn--stopping" : ""}`}
+                onClick={handleStopClick}
+                disabled={stopping}
+                title="Stop the pipeline run"
+              >
+                {stopping ? (
+                  <>
+                    <Loader2 size={14} strokeWidth={1.8} className="simple-run__stop-spinner" />
+                    <span>Stopping…</span>
+                  </>
+                ) : (
+                  <>
+                    <Octagon size={14} strokeWidth={1.8} />
+                    <span>Stop run</span>
+                  </>
+                )}
+              </button>
+
+              {/* Inline confirmation popover */}
+              <AnimatePresence>
+                {showConfirm && (
+                  <motion.div
+                    className="simple-run__stop-popover"
+                    initial={{ opacity: 0, scale: 0.92, y: -4 }}
+                    animate={{ opacity: 1, scale: 1,    y: 0  }}
+                    exit={{    opacity: 0, scale: 0.92, y: -4 }}
+                    transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+                  >
+                    <p className="simple-run__stop-popover-msg">
+                      Stop the run? The current agent will finish, then the pipeline will halt.
+                    </p>
+                    <div className="simple-run__stop-popover-actions">
+                      <button
+                        type="button"
+                        className="simple-run__stop-popover-dismiss"
+                        onClick={handleDismissConfirm}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        className="simple-run__stop-popover-confirm"
+                        onClick={handleConfirmCancel}
+                      >
+                        Stop
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
         <div className="simple-run__progress">
           <div className="simple-run__progress-track">

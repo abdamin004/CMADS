@@ -19,7 +19,7 @@ type Props = {
   onHome: () => void;
 };
 
-type Phase = "idle" | "running" | "completed" | "error";
+type Phase = "idle" | "running" | "completed" | "error" | "cancelled";
 
 // Persist the active task across mode switches / home navigations so the
 // doctor can pop back into the runtime view and find the run still running
@@ -169,6 +169,9 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         void fetchCaseFor(t).then((b) => !cancelled && setCaseBundle(b)).catch(() => {});
         if (t.status === "running" || t.status === "queued") {
           setPhase("running");
+        } else if (t.status === "cancelled") {
+          // Show the cancelled banner inline in the running view.
+          setPhase("running");
         } else if (t.status === "completed") {
           try {
             const detail = await getResult(t.resultSet, t.patientUuid);
@@ -218,6 +221,11 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         if (incoming.status === "error") {
           setError(incoming.error || "Pipeline failed");
           setPhase("error");
+        }
+        if (incoming.status === "cancelled") {
+          // Stay on "running" phase so the RuntimeRunningView can render
+          // the cancelled banner inline — the view already handles this
+          // via task.status === "cancelled".  No phase flip needed.
         }
       },
       (msg) => {
@@ -331,6 +339,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
             activeAgentId={safeActiveId}
             onSelectAgent={setActiveAgentId}
             caseBundle={caseBundle}
+            onReset={reset}
           />
         ) : null}
 

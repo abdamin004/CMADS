@@ -8820,6 +8820,139 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   margin-left: 6px;
 }
 
+/* ── Stop run button ──────────────────────────────────────────── */
+.simple-run__hero-row {
+  position: relative; /* anchor for the stop-wrap / popover */
+}
+.simple-run__stop-wrap {
+  position: relative;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-left: auto;
+  margin-top: 2px;
+}
+.simple-run__stop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border: 1px solid var(--amber, #d97706);
+  background: transparent;
+  color: var(--amber, #d97706);
+  transition: background 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+.simple-run__stop-btn:hover:not(:disabled) {
+  background: color-mix(in sRGB, var(--amber, #d97706) 10%, transparent);
+}
+.simple-run__stop-btn:disabled,
+.simple-run__stop-btn--stopping {
+  opacity: 0.55;
+  cursor: default;
+}
+.simple-run__stop-spinner {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Confirmation popover */
+.simple-run__stop-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  min-width: 240px;
+  max-width: 300px;
+  background: var(--surface, #1a1a2e);
+  border: 1px solid var(--border, rgba(255,255,255,0.10));
+  border-radius: 8px;
+  padding: 12px 14px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+.simple-run__stop-popover-msg {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-muted, rgba(255,255,255,0.72));
+  margin: 0 0 10px;
+}
+.simple-run__stop-popover-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.simple-run__stop-popover-dismiss,
+.simple-run__stop-popover-confirm {
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, opacity 0.12s;
+}
+.simple-run__stop-popover-dismiss {
+  border: 1px solid var(--border, rgba(255,255,255,0.10));
+  background: transparent;
+  color: var(--ink-muted, rgba(255,255,255,0.65));
+}
+.simple-run__stop-popover-dismiss:hover {
+  background: var(--surface-hover, rgba(255,255,255,0.06));
+}
+.simple-run__stop-popover-confirm {
+  border: 1px solid var(--amber, #d97706);
+  background: color-mix(in sRGB, var(--amber, #d97706) 15%, transparent);
+  color: var(--amber, #d97706);
+}
+.simple-run__stop-popover-confirm:hover {
+  background: color-mix(in sRGB, var(--amber, #d97706) 25%, transparent);
+}
+
+/* Cancelled banner */
+.simple-run__cancelled-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in sRGB, var(--amber, #d97706) 40%, transparent);
+  background: color-mix(in sRGB, var(--amber, #d97706) 8%, transparent);
+  color: var(--amber, #d97706);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.simple-run__cancelled-icon {
+  flex-shrink: 0;
+}
+.simple-run__cancelled-banner span {
+  flex: 1;
+}
+.simple-run__cancelled-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.76rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid color-mix(in sRGB, var(--amber, #d97706) 50%, transparent);
+  background: color-mix(in sRGB, var(--amber, #d97706) 10%, transparent);
+  color: var(--amber, #d97706);
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+.simple-run__cancelled-back:hover {
+  background: color-mix(in sRGB, var(--amber, #d97706) 20%, transparent);
+}
+
 /* ── Runtime result tab body (spacing between tab cards) ── */
 .runtime-tab-body {
   display: flex;

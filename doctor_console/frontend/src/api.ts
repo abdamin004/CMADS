@@ -164,6 +164,15 @@ export function getRun(taskId: string): Promise<RunTask> {
 
 export { getRun as getRunStatus };
 
+export function cancelRun(
+  taskId: string
+): Promise<{ cancelled: boolean; reason?: string }> {
+  return request<{ cancelled: boolean; reason?: string }>(
+    `/api/runs/${encodeURIComponent(taskId)}/cancel`,
+    { method: "POST" }
+  );
+}
+
 export function getAnnotation(patientUuid: string): Promise<Annotation> {
   return request<Annotation>(`/api/annotations/${patientUuid}`);
 }
@@ -354,13 +363,16 @@ export function subscribeRun(
     }
   };
 
+  const isTerminal = (status: string) =>
+    status === "completed" || status === "error" || status === "cancelled";
+
   const poll = async () => {
     if (cancelled) return;
     try {
       const task = await getRun(taskId);
       failuresInARow = 0;
       onTask(task);
-      if (task.status === "completed" || task.status === "error") {
+      if (isTerminal(task.status)) {
         stopPolling();
         return;
       }
@@ -382,7 +394,7 @@ export function subscribeRun(
     try {
       const task = JSON.parse(event.data) as RunTask;
       onTask(task);
-      if (task.status === "completed" || task.status === "error") {
+      if (isTerminal(task.status)) {
         source.close();
         stopPolling();
       }
