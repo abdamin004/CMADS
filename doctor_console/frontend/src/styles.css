@@ -6130,6 +6130,40 @@ details.agent-prompt:not([open]) .agent-prompt__toggle {
 }
 .mode-chooser__card--doctor     .mode-chooser__card-cta { color: var(--success); }
 .mode-chooser__card--researcher .mode-chooser__card-cta { color: var(--violet);  }
+
+/* ── Tester splash cards — mirror mode-chooser__card visual language ── */
+.tester-splash__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 36px 36px 32px;
+  flex: 1;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: linear-gradient(160deg, var(--surface) 0%, var(--bg-elevated) 100%);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-panel) var(--ease-out),
+    background var(--dur-panel) var(--ease-out),
+    box-shadow var(--dur-panel) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
+}
+.tester-splash__card:hover {
+  background: linear-gradient(160deg, var(--surface-2) 0%, var(--surface) 100%);
+  transform: translateY(-3px);
+}
+.tester-splash__card--cohort:hover {
+  border-color: var(--success);
+  box-shadow: 0 24px 60px rgba(78, 214, 139, 0.10);
+}
+.tester-splash__card--scratch:hover {
+  border-color: var(--violet);
+  box-shadow: 0 24px 60px rgba(183, 148, 246, 0.12);
+}
+
 .mode-chooser__foot {
   display: flex;
   justify-content: space-between;
@@ -7576,31 +7610,38 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   display: flex;
   gap: 4px;
   padding: 16px 32px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
 }
 .doctor-tab__btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--ink-soft);
+  padding: 7px 16px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: transparent;
+  color: var(--ink-muted);
   font-size: 0.86rem;
   cursor: pointer;
+  max-height: 36px;
   transition: background var(--dur-hover) var(--ease-out),
               border-color var(--dur-hover) var(--ease-out),
               color var(--dur-hover) var(--ease-out);
 }
 .doctor-tab__btn:hover {
-  border-color: var(--accent);
   color: var(--ink);
+  background: var(--surface);
 }
 .doctor-tab__btn.is-active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--bg);
+  background: color-mix(in oklab, var(--success) 12%, transparent);
+  border-color: color-mix(in oklab, var(--success) 35%, transparent);
+  color: color-mix(in oklab, var(--success) 85%, var(--ink));
   font-weight: 600;
+  /* Sit flush with the border-bottom of the bar */
+  margin-bottom: -1px;
+  border-bottom: 1px solid var(--bg-elevated);
 }
 /* Body area when the "Build / clone" tab is active — fills remaining space */
 .doctor-tab__body {
@@ -7609,6 +7650,42 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+/* ── PatientBuilderEditor section navigator ── */
+.builder-nav__btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 8px 12px 8px 16px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.builder-nav__btn:hover {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border);
+}
+.builder-nav__btn--active {
+  background: color-mix(in oklab, var(--success) 12%, transparent);
+  color: color-mix(in oklab, var(--success) 85%, var(--ink));
+  border-color: color-mix(in oklab, var(--success) 35%, transparent);
+  /* 2 px emerald rail on the left edge */
+  box-shadow: inset 2px 0 0 var(--success);
+  padding-left: 14px;          /* compensate the inset shadow width */
+}
+.builder-nav__btn--active:hover {
+  background: color-mix(in oklab, var(--success) 18%, transparent);
+  color: color-mix(in oklab, var(--success) 95%, var(--ink));
 }
 
 /* ── Doctor header: "My test patients (N)" link in mode-ribbon trust area ── */

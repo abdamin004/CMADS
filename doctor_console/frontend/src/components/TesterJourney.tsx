@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Filter, Pencil, FlaskConical, ClipboardList } from "lucide-react";
 import { PatientPicker }         from "./PatientPicker";
 import { PatientBuilderEditor }  from "./PatientBuilderEditor";
 import { MyTestPatientsList }    from "./MyTestPatientsList";
 import { createTestPatient, getTestPatient, listTestPatients,
          startTestRun, updateTestPatient } from "../api";
 import type { TestPatientPayload } from "../types";
+
+// Shared Framer Motion variants for sub-view cross-fades — mirrors App.tsx
+const VIEW_VARIANTS = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit:    { opacity: 0, y: -8 },
+};
+const VIEW_TRANSITION = { duration: 0.2, ease: "easeOut" as const };
 
 const EMPTY: TestPatientPayload = {
   label: "",
@@ -103,57 +113,123 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
         </header>
       )}
 
-      {view === "splash" && (
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
-          <h2 className="text-2xl text-slate-100">How would you like to start?</h2>
-          <div className="flex gap-4">
-            <button
-              onClick={() => { setPayload(EMPTY); setEditingUuid(null); setView("picker"); }}
-              className="rounded-lg border border-slate-700 bg-slate-900 px-6 py-8 text-left hover:border-emerald-600">
-              <div className="text-lg font-medium">Start from cohort</div>
-              <div className="mt-1 text-sm text-slate-400">
-                Filter the 3.3k Synthea patients by disease, age, and gender, preview, and clone one as a template.
-              </div>
-            </button>
-            <button
-              onClick={() => { setPayload(EMPTY); setEditingUuid(null); setView("editor"); }}
-              className="rounded-lg border border-slate-700 bg-slate-900 px-6 py-8 text-left hover:border-emerald-600">
-              <div className="text-lg font-medium">Start from scratch</div>
-              <div className="mt-1 text-sm text-slate-400">
-                Open an empty patient and fill in only the details that matter.
-              </div>
-            </button>
-          </div>
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {view === "splash" && (
+          <motion.div
+            key="splash"
+            variants={VIEW_VARIANTS}
+            initial="initial" animate="animate" exit="exit"
+            transition={VIEW_TRANSITION}
+            className="flex flex-1 flex-col items-center justify-center gap-8 p-8"
+          >
+            <div className="text-center">
+              <div className="mode-chooser__card-eyebrow mono mb-1">How would you like to start?</div>
+              <h2 className="text-3xl font-medium text-slate-100" style={{ fontFamily: "Fraunces, serif", letterSpacing: "-0.02em" }}>
+                Build a test patient.
+              </h2>
+            </div>
+            <div className="flex gap-6" style={{ maxWidth: 840 }}>
 
-      {view === "picker" && (
-        <div className="flex-1 overflow-hidden">
-          <PatientPicker onTemplate={(p) => { setPayload({ ...EMPTY, ...p }); setView("editor"); }} />
-        </div>
-      )}
+              {/* Card 1 — Start from cohort */}
+              <button
+                type="button"
+                onClick={() => { setPayload(EMPTY); setEditingUuid(null); setView("picker"); }}
+                className="tester-splash__card tester-splash__card--cohort"
+              >
+                <div className="mode-chooser__card-head">
+                  <div className="mode-chooser__card-icon" style={{ color: "var(--success)", borderColor: "var(--success)", background: "var(--success-soft)" }}>
+                    <Filter size={28} strokeWidth={1.4} />
+                  </div>
+                  <span className="mode-chooser__card-eyebrow mono">Familiar starting point</span>
+                </div>
+                <h3 className="mode-chooser__card-title">Clone a known patient.</h3>
+                <p className="mode-chooser__card-body">
+                  Filter the 3,348-patient Synthea cohort by disease, age, and
+                  gender. Preview, copy, edit — and run.
+                </p>
+                <ul className="mode-chooser__card-points">
+                  <li><FlaskConical size={14} strokeWidth={1.6} /> Faceted browse · Disease + Age + Gender</li>
+                  <li><Filter size={14} strokeWidth={1.6} /> Preview before you commit</li>
+                  <li><ClipboardList size={14} strokeWidth={1.6} /> See the ground-truth diagnosis as you go</li>
+                </ul>
+                <span className="mode-chooser__card-cta" style={{ color: "var(--success)" }}>Browse the cohort →</span>
+              </button>
 
-      {view === "editor" && (
-        <div className="flex-1 overflow-hidden">
-          <PatientBuilderEditor
-            payload={payload}
-            onChange={setPayload}
-            onSaveDraft={saveOnly}
-            onSaveAndRun={saveAndRun}
-            saving={saving}
-          />
-        </div>
-      )}
+              {/* Card 2 — Start from scratch */}
+              <button
+                type="button"
+                onClick={() => { setPayload(EMPTY); setEditingUuid(null); setView("editor"); }}
+                className="tester-splash__card tester-splash__card--scratch"
+              >
+                <div className="mode-chooser__card-head">
+                  <div className="mode-chooser__card-icon" style={{ color: "var(--violet)", borderColor: "var(--violet)", background: "var(--violet-soft)" }}>
+                    <Pencil size={28} strokeWidth={1.4} />
+                  </div>
+                  <span className="mode-chooser__card-eyebrow mono">Blank canvas</span>
+                </div>
+                <h3 className="mode-chooser__card-title">Sketch your own.</h3>
+                <p className="mode-chooser__card-body">
+                  Open an empty patient and fill in only the details that matter.
+                  Autocomplete pulls from the cohort vocabulary so the agents still
+                  recognise everything.
+                </p>
+                <ul className="mode-chooser__card-points">
+                  <li><Pencil size={14} strokeWidth={1.6} /> Two-pane editor · navigator on the left</li>
+                  <li><FlaskConical size={14} strokeWidth={1.6} /> Autocomplete · conditions, meds, labs</li>
+                  <li><ClipboardList size={14} strokeWidth={1.6} /> Save &amp; run in one click</li>
+                </ul>
+                <span className="mode-chooser__card-cta" style={{ color: "var(--violet)" }}>Open the editor →</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
 
-      {view === "my-tests" && (
-        <div className="flex-1 overflow-y-auto">
-          <MyTestPatientsList
-            onEdit={startEdit}
-            onRun={onRunStarted}
-            onNew={() => { setPayload(EMPTY); setEditingUuid(null); setView("editor"); }}
-          />
-        </div>
-      )}
+        {view === "picker" && (
+          <motion.div
+            key="picker"
+            variants={VIEW_VARIANTS}
+            initial="initial" animate="animate" exit="exit"
+            transition={VIEW_TRANSITION}
+            className="flex-1 overflow-hidden"
+          >
+            <PatientPicker onTemplate={(p) => { setPayload({ ...EMPTY, ...p }); setView("editor"); }} />
+          </motion.div>
+        )}
+
+        {view === "editor" && (
+          <motion.div
+            key="editor"
+            variants={VIEW_VARIANTS}
+            initial="initial" animate="animate" exit="exit"
+            transition={VIEW_TRANSITION}
+            className="flex-1 overflow-hidden"
+          >
+            <PatientBuilderEditor
+              payload={payload}
+              onChange={setPayload}
+              onSaveDraft={saveOnly}
+              onSaveAndRun={saveAndRun}
+              saving={saving}
+            />
+          </motion.div>
+        )}
+
+        {view === "my-tests" && (
+          <motion.div
+            key="my-tests"
+            variants={VIEW_VARIANTS}
+            initial="initial" animate="animate" exit="exit"
+            transition={VIEW_TRANSITION}
+            className="flex-1 overflow-y-auto"
+          >
+            <MyTestPatientsList
+              onEdit={startEdit}
+              onRun={onRunStarted}
+              onNew={() => { setPayload(EMPTY); setEditingUuid(null); setView("editor"); }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
