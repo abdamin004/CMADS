@@ -227,8 +227,6 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         <button type="button" className="mode-ribbon__brand mode-ribbon__brand--button" onClick={onHome} title="Back to home">
           <Home size={15} strokeWidth={1.7} />
           <strong>Your assistant</strong>
-          <span className="mono mode-ribbon__sep">·</span>
-          <span className="mono">a second opinion in real time</span>
         </button>
         <div className="mode-ribbon__trust">
           {/* My test patients link — only shown on the idle landing */}
@@ -265,22 +263,32 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
       <main className="runtime-shell__main">
         {phase === "idle" ? (
           <>
-            {/* Segmented control: Known patient | Build / clone */}
+            {/* Header narrative + segmented control woven together */}
             <div className="doctor-tab__bar">
-              <button
-                type="button"
-                className={`doctor-tab__btn${doctorTab === "known" ? " is-active" : ""}`}
-                onClick={() => setDoctorTab("known")}
-              >
-                Known patient
-              </button>
-              <button
-                type="button"
-                className={`doctor-tab__btn${doctorTab === "build" ? " is-active" : ""}`}
-                onClick={() => setDoctorTab("build")}
-              >
-                Build / clone a patient
-              </button>
+              <div className="doctor-tab__narrative">
+                <span className="doctor-tab__narrative-prefix">a second opinion</span>
+                {doctorTab === "known" ? (
+                  <span className="doctor-tab__narrative-suffix">with a known patient</span>
+                ) : (
+                  <span className="doctor-tab__narrative-suffix">with a patient you build</span>
+                )}
+              </div>
+              <div className="doctor-tab__tabs">
+                <button
+                  type="button"
+                  className={`doctor-tab__btn${doctorTab === "known" ? " is-active" : ""}`}
+                  onClick={() => setDoctorTab("known")}
+                >
+                  Known patient
+                </button>
+                <button
+                  type="button"
+                  className={`doctor-tab__btn${doctorTab === "build" ? " is-active" : ""}`}
+                  onClick={() => setDoctorTab("build")}
+                >
+                  Build / clone a patient
+                </button>
+              </div>
             </div>
 
             {doctorTab === "known" ? (
