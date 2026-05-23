@@ -1299,6 +1299,28 @@ def create_app() -> FastAPI:
         out = {k: d[k] for k in keep if k in d}
         if isinstance(out.get("cutoff_date"), datetime):
             out["cutoff_date"] = out["cutoff_date"].date().isoformat()
+        # Normalise Synthea's lab field names to the canonical shape the
+        # editor (LabsForm.tsx) and write path expect. Synthea emits
+        # {lab_name, value, units, ...}; we want {test_name, value, unit,
+        # reference_range, flag}. Without this the cloned patient lands
+        # in the editor with every lab labelled "Unnamed lab" and a blank
+        # unit dropdown.
+        labs = out.get("labs") or {}
+        rows_in = labs.get("latest_labs") or []
+        if isinstance(rows_in, list) and rows_in:
+            rows_out: list[dict[str, Any]] = []
+            for lab in rows_in:
+                if not isinstance(lab, dict):
+                    continue
+                value = lab.get("value")
+                rows_out.append({
+                    "test_name":       lab.get("test_name")       or lab.get("lab_name") or "",
+                    "value":           "" if value is None else str(value),
+                    "unit":            lab.get("unit")            or lab.get("units")    or "",
+                    "reference_range": lab.get("reference_range") or "",
+                    "flag":            lab.get("flag")            or "",
+                })
+            out["labs"] = {**labs, "latest_labs": rows_out}
         out["source_uuid"] = uuid
         out["label"] = f"Clone of {uuid[:11]}"
         return out
