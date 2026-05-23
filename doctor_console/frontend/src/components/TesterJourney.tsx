@@ -151,7 +151,7 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
                 </div>
                 <h3 className="mode-chooser__card-title">Clone a known patient.</h3>
                 <p className="mode-chooser__card-body">
-                  Filter the 3,348-patient Synthea cohort by disease, age, and
+                  Filter the 270-patient verified Synthea cohort by disease, age, and
                   gender. Preview, copy, edit — and run.
                 </p>
                 <ul className="mode-chooser__card-points">
