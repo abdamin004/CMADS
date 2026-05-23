@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Check, ChevronRight, ChevronDown } from "lucide-react";
 import { DemographicsForm } from "./tester/DemographicsForm";
 import { ConditionsForm }   from "./tester/ConditionsForm";
 import { MedicationsForm }  from "./tester/MedicationsForm";
 import { LabsForm }         from "./tester/LabsForm";
+import { SmartImportModal } from "./SmartImportModal";
+import { PreviewMergeModal } from "./PreviewMergeModal";
 import { AdvancedSettings } from "./runtime/AdvancedSettings";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
-import type { TestPatientPayload } from "../types";
+import { getModelPresets } from "../api";
+import type { ExtractResponse, ModelPreset, TestPatientPayload } from "../types";
 
 // "Visits summary" intentionally NOT in the editor navigator: visit counts
 // are low signal for the agents' diagnostic reasoning and high friction for
@@ -51,6 +54,26 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
     accuracyMode: "recommended",
   });
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  // Smart Import modal state — triggered from inside the Recent labs tab.
+  // The modal flow is: SmartImportModal (paste / file / image) → extract →
+  // PreviewMergeModal (per-row checkboxes) → merge into payload.
+  const [showSmartImport, setShowSmartImport] = useState(false);
+  const [extractResult,   setExtractResult]   = useState<ExtractResponse | null>(null);
+  const [showPreview,     setShowPreview]     = useState(false);
+  // Fetch preset list to resolve a friendly label for the summary string —
+  // identical pattern to RuntimeHero so the Known and Build/clone paths read
+  // the same way in the collapsed summary.
+  const [presets, setPresets] = useState<ModelPreset[]>([]);
+  useEffect(() => {
+    (async () => {
+      try { setPresets(await getModelPresets()); } catch { setPresets([]); }
+    })();
+  }, []);
+  const selectedPreset = presets.find((p) => p.id === adv.presetId);
+  const advancedSummary = useMemo(() => {
+    const modelLabel = selectedPreset?.label ?? "default model";
+    return `${modelLabel} · Top ${adv.topK}`;
+  }, [selectedPreset, adv.topK]);
 
   function patch<K extends keyof TestPatientPayload>(k: K, v: TestPatientPayload[K]) {
     onChange({ ...payload, [k]: v });
@@ -127,12 +150,14 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
               {section === "medications"   && <MedicationsForm value={payload.medications}
                   onChange={(v) => patch("medications", v)} />}
               {section === "labs"          && <LabsForm value={payload.labs}
-                  onChange={(v) => patch("labs", v)} />}
+                  onChange={(v) => patch("labs", v)}
+                  onSmartImport={() => setShowSmartImport(true)} />}
             </motion.div>
           </AnimatePresence>
         </section>
       </div>
-      {/* Advanced settings disclosure — sits above the action bar, expands downward */}
+      {/* Advanced settings disclosure — same markup + classes as RuntimeHero so
+          the Known and Build/clone paths render identically. */}
       <div className="border-t border-slate-800 bg-slate-950 px-4 py-2">
         <details
           className="runtime-solo__advanced"
@@ -142,15 +167,9 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           <summary className="runtime-solo__advanced-summary">
             <ChevronDown size={14} strokeWidth={1.9} className="runtime-solo__advanced-caret" />
             <span className="runtime-solo__advanced-label">Advanced settings</span>
-            {!advancedOpen && adv.presetId && (
-              <span className="runtime-solo__advanced-current mono">
-                {adv.presetId} · Top {adv.topK} · {adv.accuracyMode === "recommended" ? "multi-level" : "baseline"}
-              </span>
-            )}
+            <span className="runtime-solo__advanced-current mono">{advancedSummary}</span>
           </summary>
-          <div className="overflow-y-auto" style={{ maxHeight: "55vh" }}>
-            <AdvancedSettings value={adv} onChange={setAdv} />
-          </div>
+          <AdvancedSettings value={adv} onChange={setAdv} />
         </details>
       </div>
 
@@ -219,6 +238,40 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
           </AnimatePresence>
         </button>
       </div>
+
+      {/* Smart Import modals — triggered from the Recent labs tab.
+          The user can paste text, drop a PDF/FHIR JSON, or snap a photo of
+          a lab slip; results merge into the current payload via the
+          preview-with-checkboxes modal. */}
+      <AnimatePresence>
+        {showSmartImport && (
+          <SmartImportModal
+            key="smart-import-modal"
+            onClose={() => setShowSmartImport(false)}
+            onExtract={(r) => {
+              setExtractResult(r);
+              setShowSmartImport(false);
+              setShowPreview(true);
+            }}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showPreview && extractResult && (
+          <PreviewMergeModal
+            key="preview-merge-modal"
+            result={extractResult}
+            current={payload}
+            onCancel={() => { setShowPreview(false); setExtractResult(null); }}
+            onMerge={(merged) => {
+              onChange(merged);
+              setDirty(true);
+              setShowPreview(false);
+              setExtractResult(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
