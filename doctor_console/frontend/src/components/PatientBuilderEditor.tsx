@@ -5,7 +5,6 @@ import { DemographicsForm } from "./tester/DemographicsForm";
 import { ConditionsForm }   from "./tester/ConditionsForm";
 import { MedicationsForm }  from "./tester/MedicationsForm";
 import { LabsForm }         from "./tester/LabsForm";
-import { GroundTruthForm }  from "./tester/GroundTruthForm";
 import { AdvancedSettings } from "./runtime/AdvancedSettings";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
 import type { TestPatientPayload } from "../types";
@@ -15,8 +14,11 @@ import type { TestPatientPayload } from "../types";
 // a clinician sketching a patient. The TestPatient document still carries
 // payload.visits (so cloned cohort patients keep their visit history on
 // the saved doc) — the editor just doesn't surface it.
-type Section = "demographics" | "conditions" | "medications"
-              | "labs" | "ground_truth";
+// "Ground truth" is also intentionally NOT in the navigator: this editor is
+// for testing (second-opinion), not evaluation — there is no known target
+// disease. Cloned cohort patients still carry ground_truth in the saved doc
+// for the audit trail, but the clinician doesn't see or edit it here.
+type Section = "demographics" | "conditions" | "medications" | "labs";
 
 const SECTIONS: Array<[Section, string, (p: TestPatientPayload) => string]> = [
   ["demographics", "Demographics",
@@ -27,8 +29,6 @@ const SECTIONS: Array<[Section, string, (p: TestPatientPayload) => string]> = [
     (p) => `${(p.medications?.active ?? []).length} active`],
   ["labs", "Recent labs",
     (p) => `${(p.labs?.latest_labs ?? []).length} labs`],
-  ["ground_truth", "Ground truth",
-    (p) => p.ground_truth?.target_condition?.name ?? "(blank)"],
 ];
 
 interface Props {
@@ -128,8 +128,6 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
                   onChange={(v) => patch("medications", v)} />}
               {section === "labs"          && <LabsForm value={payload.labs}
                   onChange={(v) => patch("labs", v)} />}
-              {section === "ground_truth"  && <GroundTruthForm value={payload.ground_truth}
-                  onChange={(v) => patch("ground_truth", v)} />}
             </motion.div>
           </AnimatePresence>
         </section>
