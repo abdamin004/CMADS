@@ -2,18 +2,12 @@
  * AdvancedSettings — reusable model-preset + top-K panel.
  *
  * Used by:
- *   • RuntimeHero   (Known-patient flow, full-width disclosure)
- *   • PatientBuilderEditor  (Tester flow, embedded in the action bar)
+ *   • RuntimeHero          (Known-patient flow, full-width disclosure)
+ *   • PatientBuilderEditor (Tester flow, embedded in the action bar)
  *
  * The precision-signal rows (% of the time right answer was in top-K) are
  * optional: pass `precisionRows` from the parent if you want them; omit for
  * the compact Tester version.
- *
- * NOTE: ModelRow is also exported so RuntimeHero can keep using its own
- * local rendering until a future cleanup pass unifies both call-sites fully.
- * TODO: RuntimeHero still contains a full copy of this logic inline; once
- * both surfaces are verified stable, RuntimeHero should be refactored to
- * import from here instead.
  */
 
 import { useEffect, useState } from "react";
