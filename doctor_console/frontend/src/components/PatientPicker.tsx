@@ -177,9 +177,20 @@ export function PatientPicker({ onTemplate }: Props) {
                     {preview.demographics.race && (
                       <span>{preview.demographics.race}</span>
                     )}
-                    {preview.demographics.location && (
-                      <span>{preview.demographics.location}</span>
-                    )}
+                    {/* Synthea stores location as {city, state, zip, county};
+                        accept both that and a plain string. Render objects as
+                        React children would crash the whole app. */}
+                    {(() => {
+                      const loc = preview.demographics.location as unknown;
+                      if (!loc) return null;
+                      if (typeof loc === "string") return <span>{loc}</span>;
+                      if (typeof loc === "object") {
+                        const o = loc as Record<string, unknown>;
+                        const parts = [o.city, o.state].filter((x): x is string => typeof x === "string" && x.length > 0);
+                        return parts.length ? <span>{parts.join(", ")}</span> : null;
+                      }
+                      return null;
+                    })()}
                   </div>
                 )}
               </div>
@@ -216,21 +227,32 @@ export function PatientPicker({ onTemplate }: Props) {
                   </div>
                 )}
 
-                {/* ── Recent labs ── */}
+                {/* ── Recent labs ──
+                    The cohort's latest_labs entries use Synthea's field
+                    names ({lab_name, value, units}); the editor's own
+                    LabsForm uses the canonical ({test_name, value, unit}).
+                    Read both so the preview works for cohort data AND
+                    test patients the clinician built. */}
                 {(preview.labs?.latest_labs ?? []).length > 0 && (
                   <div>
                     <div className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500">
                       Recent labs
                     </div>
                     <div className="space-y-1">
-                      {(preview.labs!.latest_labs ?? []).slice(0, 5).map((lab, i) => (
-                        <div key={i} className="flex items-baseline justify-between rounded-md border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs">
-                          <span className="text-slate-300">{lab.test_name}</span>
-                          <span className="ml-2 font-mono text-slate-400 tabular-nums whitespace-nowrap">
-                            {lab.value ?? "—"}{lab.unit ? ` ${lab.unit}` : ""}
-                          </span>
-                        </div>
-                      ))}
+                      {(preview.labs!.latest_labs ?? []).slice(0, 5).map((lab, i) => {
+                        const labAny = lab as Record<string, unknown>;
+                        const name = (labAny.test_name as string) || (labAny.lab_name as string) || "—";
+                        const value = labAny.value;
+                        const unit = (labAny.unit as string) || (labAny.units as string) || "";
+                        return (
+                          <div key={i} className="flex items-baseline justify-between rounded-md border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs">
+                            <span className="text-slate-300">{name}</span>
+                            <span className="ml-2 font-mono text-slate-400 tabular-nums whitespace-nowrap">
+                              {value != null ? String(value) : "—"}{unit ? ` ${unit}` : ""}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
