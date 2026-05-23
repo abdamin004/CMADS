@@ -35,6 +35,21 @@ function isDefaultAge(range: [number, number]) {
   return range[0] === AGE_MIN && range[1] === AGE_MAX;
 }
 
+/**
+ * Strip the SNOMED qualifier suffix from a condition / diagnosis name so
+ * "Chronic kidney disease stage 4 (disorder)" reads as "Chronic kidney
+ * disease stage 4" in the UI. The suffixes are SNOMED's semantic-tag
+ * artifacts (disorder / finding / situation / procedure / observable
+ * entity / morphologic abnormality / qualifier value) and add no
+ * clinical signal at the patient picker level.
+ */
+function stripSnomedSuffix(s: string | null | undefined): string {
+  if (!s) return "";
+  return s
+    .replace(/\s*\((disorder|finding|situation|procedure|observable entity|morphologic abnormality|qualifier value|substance|body structure)\)\s*$/i, "")
+    .trim();
+}
+
 /* ─── DualRangeSlider ────────────────────────────────────────────────────── */
 // Two stacked <input type="range"> with CSS to create a real dual-thumb
 // track fill. The z-index trick ensures whichever thumb is closer to the
@@ -482,7 +497,7 @@ export function PatientPicker({ onTemplate }: Props) {
                   </span>
                   {row.disease && (
                     <span className="inline-flex items-center rounded-full border border-emerald-700/50 bg-emerald-900/30 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-300">
-                      {row.disease}
+                      {stripSnomedSuffix(row.disease)}
                     </span>
                   )}
                 </div>
@@ -532,8 +547,8 @@ export function PatientPicker({ onTemplate }: Props) {
                 )}
                 {preview?.ground_truth?.target_condition?.name ? (
                   <div className="mt-0.5">
-                    <span className="inline-flex items-center rounded-md border border-emerald-600/50 bg-emerald-600/15 px-3 py-1 text-sm font-medium text-emerald-200">
-                      {preview.ground_truth.target_condition.name}
+                    <span className="inline-flex items-center rounded-md border border-emerald-600/50 bg-emerald-600/15 px-3 py-1.5 text-base font-medium text-emerald-200">
+                      {stripSnomedSuffix(preview.ground_truth.target_condition.name)}
                     </span>
                   </div>
                 ) : (
@@ -585,65 +600,70 @@ export function PatientPicker({ onTemplate }: Props) {
 
             {preview && !previewLoading && (
               <>
-                {/* Top conditions */}
+                {/* Active conditions — full list, no slice cap. The preview
+                    pane is scrollable so a patient with 29 conditions can
+                    still show them all. Names have their SNOMED qualifier
+                    suffix stripped for legibility. */}
                 {(preview.conditions?.active ?? []).length > 0 && (
                   <div>
-                    <div className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500">
-                      Top conditions
+                    <div className="mb-2 flex items-baseline gap-2">
+                      <span className="text-sm font-medium uppercase tracking-wide text-slate-300">
+                        Active conditions
+                      </span>
+                      <span className="mono text-xs text-slate-500">
+                        {(preview.conditions!.active ?? []).length}
+                      </span>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
-                      {(preview.conditions!.active ?? [])
-                        .slice(0, 5)
-                        .map((c, i) => (
-                          <span
-                            key={i}
-                            className="inline-flex items-center rounded-md border border-slate-700 bg-slate-900 px-2 py-0.5 text-xs text-slate-300"
-                          >
-                            {c.condition}
-                          </span>
-                        ))}
-                      {(preview.conditions!.active ?? []).length > 5 && (
-                        <span className="inline-flex items-center rounded-md border border-slate-700/50 px-2 py-0.5 text-xs text-slate-500">
-                          +{(preview.conditions!.active ?? []).length - 5} more
+                      {(preview.conditions!.active ?? []).map((c, i) => (
+                        <span
+                          key={i}
+                          className="inline-flex items-center rounded-md border border-slate-700 bg-slate-900/60 px-2.5 py-1 text-sm text-slate-200"
+                        >
+                          {stripSnomedSuffix(c.condition)}
                         </span>
-                      )}
+                      ))}
                     </div>
                   </div>
                 )}
 
-                {/* Recent labs */}
+                {/* Recent labs — full list. Lab name + value/unit on a single
+                    row with consistent typography. */}
                 {(preview.labs?.latest_labs ?? []).length > 0 && (
                   <div>
-                    <div className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500">
-                      Recent labs
+                    <div className="mb-2 flex items-baseline gap-2">
+                      <span className="text-sm font-medium uppercase tracking-wide text-slate-300">
+                        Recent labs
+                      </span>
+                      <span className="mono text-xs text-slate-500">
+                        {(preview.labs!.latest_labs ?? []).length}
+                      </span>
                     </div>
-                    <div className="space-y-1">
-                      {(preview.labs!.latest_labs ?? [])
-                        .slice(0, 5)
-                        .map((lab, i) => {
-                          const labAny = lab as Record<string, unknown>;
-                          const name =
-                            (labAny.test_name as string) ||
-                            (labAny.lab_name as string) ||
-                            "—";
-                          const value = labAny.value;
-                          const unit =
-                            (labAny.unit as string) ||
-                            (labAny.units as string) ||
-                            "";
-                          return (
-                            <div
-                              key={i}
-                              className="flex items-baseline justify-between rounded-md border border-slate-800 bg-slate-900/60 px-3 py-1 text-xs"
-                            >
-                              <span className="text-slate-300">{name}</span>
-                              <span className="ml-2 whitespace-nowrap font-mono tabular-nums text-slate-400">
-                                {value != null ? String(value) : "—"}
-                                {unit ? ` ${unit}` : ""}
-                              </span>
-                            </div>
-                          );
-                        })}
+                    <div className="divide-y divide-slate-800 rounded-md border border-slate-800">
+                      {(preview.labs!.latest_labs ?? []).map((lab, i) => {
+                        const labAny = lab as Record<string, unknown>;
+                        const name =
+                          (labAny.test_name as string) ||
+                          (labAny.lab_name as string) ||
+                          "—";
+                        const value = labAny.value;
+                        const unit =
+                          (labAny.unit as string) ||
+                          (labAny.units as string) ||
+                          "";
+                        return (
+                          <div
+                            key={i}
+                            className="flex items-baseline justify-between gap-3 px-3 py-2 text-sm"
+                          >
+                            <span className="text-slate-200">{name}</span>
+                            <span className="whitespace-nowrap font-mono tabular-nums text-slate-400">
+                              {value != null ? String(value) : "—"}
+                              {unit ? <span className="ml-1 text-slate-500">{unit}</span> : null}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
