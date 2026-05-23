@@ -475,12 +475,14 @@ export function PatientPicker({ onTemplate }: Props) {
                 <div className="font-mono text-xs text-slate-500">
                   {row.uuid.slice(0, 11)}
                 </div>
-                <div className="font-medium">
-                  {row.age ?? "?"}
-                  <span className="ml-0.5">{row.gender ?? "?"}</span>
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                  <span className="font-medium">
+                    {row.age ?? "?"}
+                    <span className="ml-0.5">{row.gender ?? "?"}</span>
+                  </span>
                   {row.disease && (
-                    <span className="ml-2 text-xs text-slate-400">
-                      · {row.disease}
+                    <span className="inline-flex items-center rounded-full border border-emerald-700/50 bg-emerald-900/30 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-300">
+                      {row.disease}
                     </span>
                   )}
                 </div>
@@ -521,39 +523,38 @@ export function PatientPicker({ onTemplate }: Props) {
                 <div className="truncate font-mono text-xs text-slate-500">
                   {selected.uuid}
                 </div>
-                {preview?.ground_truth?.target_condition?.name && (
-                  <div className="mt-1">
-                    <span className="inline-flex items-center rounded-full border border-emerald-600/40 bg-emerald-600/15 px-2.5 py-0.5 text-xs font-medium text-emerald-300">
+                {/* Ground-truth disease + demographics on the SAME line so the
+                    target condition reads as part of the patient header rather
+                    than a stranded badge. */}
+                <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+                  {preview?.ground_truth?.target_condition?.name && (
+                    <span className="inline-flex items-center rounded-full border border-emerald-600/40 bg-emerald-600/15 px-2.5 py-0.5 font-medium text-emerald-300">
                       {preview.ground_truth.target_condition.name}
                     </span>
-                  </div>
-                )}
-                {preview?.demographics && (
-                  <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-slate-400">
-                    {preview.demographics.bmi != null && (
-                      <span>BMI {preview.demographics.bmi}</span>
-                    )}
-                    {preview.demographics.race && (
-                      <span>{preview.demographics.race}</span>
-                    )}
-                    {(() => {
-                      const loc = preview.demographics.location as unknown;
-                      if (!loc) return null;
-                      if (typeof loc === "string") return <span>{loc}</span>;
-                      if (typeof loc === "object") {
-                        const o = loc as Record<string, unknown>;
-                        const parts = [o.city, o.state].filter(
-                          (x): x is string =>
-                            typeof x === "string" && x.length > 0,
-                        );
-                        return parts.length ? (
-                          <span>{parts.join(", ")}</span>
-                        ) : null;
-                      }
-                      return null;
-                    })()}
-                  </div>
-                )}
+                  )}
+                  {preview?.demographics?.bmi != null && (
+                    <span>BMI {preview.demographics.bmi}</span>
+                  )}
+                  {preview?.demographics?.race && (
+                    <span>{preview.demographics.race}</span>
+                  )}
+                  {(() => {
+                    const loc = preview?.demographics?.location as unknown;
+                    if (!loc) return null;
+                    if (typeof loc === "string") return <span>{loc}</span>;
+                    if (typeof loc === "object") {
+                      const o = loc as Record<string, unknown>;
+                      const parts = [o.city, o.state].filter(
+                        (x): x is string =>
+                          typeof x === "string" && x.length > 0,
+                      );
+                      return parts.length ? (
+                        <span>{parts.join(", ")}</span>
+                      ) : null;
+                    }
+                    return null;
+                  })()}
+                </div>
               </div>
             </div>
 
