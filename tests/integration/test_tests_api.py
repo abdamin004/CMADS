@@ -203,3 +203,36 @@ def test_post_test_run_starts_task(client):
 def test_post_test_run_404_when_uuid_unknown(client):
     r = client.post("/api/tests/runs", json={"test_uuid": "ttest-nope"})
     assert r.status_code == 404
+
+
+def test_doctor_run_and_test_run_in_parallel(client, mongo_db):
+    """Two /api/tests/runs launched back-to-back must register with independent
+    task_ids and both must report resultSet == 'mas_results_test'.
+
+    This is the concurrency regression: both paths share _run_patient_task and
+    _tasks, so the test proves the thread-local override machinery gives each
+    run its own result_set without either overwriting the other's slot.
+
+    Note: we use two test patients (instead of one cohort + one test patient)
+    because PATIENT_CASES is a module-level constant in app.py that is
+    resolved at import time and cannot be redirected via monkeypatch.setenv."""
+    p1 = client.post("/api/tests/patients", json={
+        "label": "concurrent-1",
+        "demographics": {"age": 55, "gender": "M"},
+    }).json()
+    p2 = client.post("/api/tests/patients", json={
+        "label": "concurrent-2",
+        "demographics": {"age": 65, "gender": "F"},
+    }).json()
+
+    r1 = client.post("/api/tests/runs", json={"test_uuid": p1["test_uuid"]})
+    r2 = client.post("/api/tests/runs", json={"test_uuid": p2["test_uuid"]})
+
+    assert r1.status_code == 200
+    assert r2.status_code == 200
+    t1, t2 = r1.json(), r2.json()
+    assert t1["taskId"] != t2["taskId"]
+    assert t1["resultSet"] == "mas_results_test"
+    assert t2["resultSet"] == "mas_results_test"
+    assert t1["status"] in ("queued", "running")
+    assert t2["status"] in ("queued", "running")
