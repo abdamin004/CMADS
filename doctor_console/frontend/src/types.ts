@@ -56,11 +56,15 @@ export type CohortAggregates = {
   miss: number;
   found: number;
   rank1: number;
+  /** Patients where the matched diagnosis was at rank 1 OR rank 2. */
+  rank2?: number;
   directPct: number;
   indirectPct: number;
   missPct: number;
   foundPct: number;
   rank1PctOfFound: number;
+  /** Share of found cases whose match was at rank 1 OR rank 2 (cumulative top-2). */
+  rank2PctOfFound?: number;
   avgTimeS: number;
   medianTimeS: number;
 };
@@ -262,15 +266,6 @@ export type PatientResult = {
   };
 };
 
-/**
- * Per-run system-accuracy preset.
- * - "recommended" enables multi-level memory (principal headline
- *   configuration: 76.9% DIRECT).
- * - "fast" runs the single-level baseline — ~30 s faster per run
- *   but lower accuracy (53.8% DIRECT on the paired-160 cohort).
- */
-export type AccuracyMode = "recommended" | "fast";
-
 export type RunTask = {
   taskId: string;
   patientUuid: string;
@@ -284,7 +279,6 @@ export type RunTask = {
   agentNarratives?: Record<string, AgentNarrative>;
   events?: RunEvent[];
   modelOverride?: ModelOverrideEcho | null;
-  accuracyMode?: AccuracyMode;
 };
 
 export type ModelPreset = {
@@ -303,6 +297,8 @@ export type ModelPreset = {
   available?: boolean;
   /** Why the preset isn't available (missing API key, Ollama not running, etc.). */
   unavailableReason?: string | null;
+  /** Curated by the project — surfaced at the top of the picker. */
+  recommended?: boolean;
 };
 
 export type ModelOverrideEcho = {
@@ -351,3 +347,57 @@ export type SimilarCasesResponse = {
   error?: string | null;
   results: SimilarCase[];
 };
+
+// ── Tester journey ──────────────────────────────────────────────
+
+export interface VocabularyItem {
+  label: string;
+  code: string | null;
+}
+
+export interface CohortBrowseRow {
+  uuid: string;
+  age: number | null;
+  gender: string | null;
+  disease: string | null;
+  active_count: number;
+}
+
+export interface TestPatientPayload {
+  label: string;
+  source_uuid?: string | null;
+  demographics: { age: number; gender: string; race?: string; bmi?: number; location?: string };
+  conditions?:  { active?: Array<{ condition: string; code?: string; start_date?: string }> };
+  medications?: { active?: Array<{ medication: string; rx_code?: string; start_date?: string }> };
+  visits?:      { total?: number; emergency?: number; inpatient?: number;
+                  outpatient?: number; wellness?: number;
+                  first_visit?: string; last_visit?: string };
+  labs?:        { latest_labs?: Array<{ test_name: string; value?: string;
+                                         unit?: string; reference_range?: string;
+                                         flag?: string }> };
+  ground_truth?: { target_condition?: { name?: string } };
+  comorbidity?: Record<string, unknown>;
+  risk_scores?: Record<string, unknown>;
+  case_stats?:  Record<string, unknown>;
+  cutoff_date?: string;
+}
+
+export interface TestPatientSummary {
+  test_uuid: string;
+  label: string;
+  created_at: string;
+  updated_at?: string;
+  last_run_at?: string | null;
+  run_count: number;
+  source_uuid?: string | null;
+}
+
+export interface TestPatientDoc extends TestPatientPayload {
+  _id: string;
+  created_at: string;
+  updated_at: string;
+  last_run_at: string | null;
+  run_count: number;
+  assembled_at: string;
+  pipeline_version: string;
+}
