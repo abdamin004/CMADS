@@ -10645,6 +10645,2211 @@ button.builder-nav__btn--active:hover {
   background: var(--success);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Demographics form — editorial entry surface.
+   Serif numerals for age / BMI, live tonal pills for clinical context,
+   chip-group for race instead of native select, and a tonal scale bar
+   beneath BMI as fast at-a-glance feedback.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.demo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.demo-form__row {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: 28px 36px;
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .demo-form__row { grid-template-columns: 1fr; }
+}
+.demo-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.demo-form__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.demo-form__optional {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+  text-transform: lowercase;
+  font-style: italic;
+}
+
+/* Age — serif display numeral on a bottom-rule (no boxed input). */
+.demo-form__age {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 4px 0 6px;
+  border-bottom: 1px solid var(--border);
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+.demo-form__age:focus-within {
+  border-bottom-color: color-mix(in oklab, var(--success) 65%, var(--border));
+}
+.patient-builder .demo-form__age-input {
+  flex: 0 0 110px;
+  width: 110px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  padding: 2px 0;
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 36;
+  font-size: 2.4rem;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.patient-builder .demo-form__age-input::placeholder {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.patient-builder .demo-form__age-input:focus {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+}
+.demo-form__age-unit {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  margin-right: 6px;
+}
+
+/* Sex segmented — bolder, larger than the generic .segmented control. */
+.demo-seg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 55%, transparent);
+}
+.demo-seg__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 10px 8px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+.demo-seg__btn:hover {
+  background: color-mix(in oklab, var(--surface-2) 70%, transparent);
+  color: var(--ink-soft);
+}
+.demo-seg__btn.is-active {
+  background: color-mix(in oklab, var(--success) 18%, var(--surface));
+  color: color-mix(in oklab, var(--success) 92%, var(--ink));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--success) 55%, transparent);
+}
+.demo-seg__mark {
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.demo-seg__long {
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.78;
+  margin-top: 2px;
+}
+
+/* Race — pill chips; click-to-deselect for 'not specified'. */
+.demo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.demo-chip {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+.demo-chip:hover {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.demo-chip:active { transform: translateY(0.5px); }
+.demo-chip.is-active {
+  background: color-mix(in oklab, var(--success) 16%, transparent);
+  border-color: color-mix(in oklab, var(--success) 60%, transparent);
+  color: color-mix(in oklab, var(--success) 95%, var(--ink));
+}
+
+/* BMI — serif numeral input + computed-category pill + tonal scale bar. */
+.demo-form__bmi {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 520px;
+}
+.demo-form__bmi-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.patient-builder .demo-form__bmi-input {
+  width: 140px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24;
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.patient-builder .demo-form__bmi-input::placeholder {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.demo-form__bmi-unit {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+.demo-form__bmi-hint {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.demo-form__bmi-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 440px;
+}
+.demo-form__bmi-scale-track {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--border) 55%, transparent);
+  overflow: hidden;
+}
+.demo-form__bmi-mark {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: color-mix(in oklab, var(--bg) 80%, transparent);
+}
+.demo-form__bmi-scale-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: var(--ink-muted);
+  transition:
+    width var(--dur-panel) var(--ease-out),
+    background var(--dur-panel) var(--ease-out);
+}
+.demo-form__bmi-scale-fill--success  { background: var(--success);  }
+.demo-form__bmi-scale-fill--warning  { background: var(--warning);   }
+.demo-form__bmi-scale-fill--critical { background: var(--critical);  }
+.demo-form__bmi-scale-fill--accent   { background: var(--accent);    }
+.demo-form__bmi-scale-legend {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.demo-form__bmi-scale-legend > span:nth-child(2) { text-align: left;   padding-left: 4px; }
+.demo-form__bmi-scale-legend > span:nth-child(3) { text-align: center; }
+.demo-form__bmi-scale-legend > span:nth-child(4) { text-align: right;  }
+
+/* ── Tonal pills (life-stage, BMI category). One CSS modifier per tone
+   so adding a tone is a single line, not a colour rewrite. ── */
+.demo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 9px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.demo-pill::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.9;
+  box-shadow: 0 0 0 2px color-mix(in oklab, currentColor 25%, transparent);
+}
+.demo-pill--success  { color: var(--success);  background: var(--success-soft);  border-color: color-mix(in oklab, var(--success) 32%, transparent); }
+.demo-pill--warning  { color: var(--warning);  background: var(--warning-soft);  border-color: color-mix(in oklab, var(--warning) 32%, transparent); }
+.demo-pill--critical { color: var(--critical); background: var(--critical-soft); border-color: color-mix(in oklab, var(--critical) 32%, transparent); }
+.demo-pill--accent   { color: var(--accent);   background: var(--accent-soft);   border-color: color-mix(in oklab, var(--accent) 32%, transparent); }
+.demo-pill--violet   { color: var(--violet);   background: var(--violet-soft);   border-color: color-mix(in oklab, var(--violet) 32%, transparent); }
+.demo-pill--spark    { color: var(--spark);    background: var(--spark-soft);    border-color: color-mix(in oklab, var(--spark) 32%, transparent); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Conditions form — chip-shortcut quick-add, count header, motion list
+   with per-card SNOMED code badge + expandable onset row.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cond-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cond-form__suggest {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
+}
+.cond-form__suggest-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.cond-form__suggest-eyebrow svg { color: var(--spark); }
+.cond-form__suggest-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cond-suggest-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 9px;
+  border: 1px dashed color-mix(in oklab, var(--border-strong) 80%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+.cond-suggest-chip:hover {
+  background: color-mix(in oklab, var(--success) 10%, transparent);
+  border-style: solid;
+  border-color: color-mix(in oklab, var(--success) 55%, transparent);
+  color: color-mix(in oklab, var(--success) 88%, var(--ink));
+}
+.cond-suggest-chip:active { transform: translateY(0.5px); }
+.cond-suggest-chip svg { opacity: 0.7; }
+.cond-suggest-chip:hover svg { opacity: 1; }
+
+.cond-form__count-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 6px 0 0;
+  border-top: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
+  margin-top: 6px;
+}
+.cond-form__count {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.cond-form__count strong {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.15rem;
+  margin-right: 5px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.cond-form__clear {
+  background: transparent;
+  border: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+.cond-form__clear:hover { color: var(--critical); }
+
+.cond-form__empty {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 30%, transparent);
+}
+.cond-form__empty-mark {
+  width: 32px; height: 32px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 32% 30%,
+      color-mix(in oklab, var(--success) 75%, transparent) 0%,
+      color-mix(in oklab, var(--success) 22%, transparent) 55%,
+      transparent 72%);
+  flex-shrink: 0;
+  margin-top: 1px;
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 18%, transparent);
+}
+.cond-form__empty-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.005em;
+}
+.cond-form__empty-sub {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  max-width: 58ch;
+}
+
+.cond-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.cond-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--surface) 35%, transparent);
+  padding: 10px 12px;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out);
+  overflow: hidden;
+}
+.cond-card:hover {
+  border-color: var(--border-strong);
+  background: color-mix(in oklab, var(--surface) 55%, transparent);
+}
+.cond-card__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 28px;
+}
+.cond-card__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.cond-card__name {
+  font-size: 0.92rem;
+  color: var(--ink);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.003em;
+}
+.cond-card__code {
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--surface-2) 75%, transparent);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.cond-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.cond-card__meta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 0.74rem;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    opacity var(--dur-hover) var(--ease-out);
+  opacity: 0;
+}
+.cond-card:hover .cond-card__meta-btn,
+.cond-card:focus-within .cond-card__meta-btn,
+.cond-card__meta-btn.is-open,
+.cond-card__meta-btn.has-date { opacity: 1; }
+.cond-card__meta-btn:hover {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--ink-soft);
+}
+.cond-card__meta-btn.is-open {
+  background: color-mix(in oklab, var(--success) 12%, transparent);
+  border-color: color-mix(in oklab, var(--success) 42%, transparent);
+  color: color-mix(in oklab, var(--success) 88%, var(--ink));
+}
+.cond-card__meta-btn.has-date { color: var(--ink-muted); }
+
+.cond-card__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out);
+}
+.cond-card:hover .cond-card__remove,
+.cond-card:focus-within .cond-card__remove { opacity: 1; }
+.cond-card__remove:hover {
+  background: color-mix(in oklab, var(--critical) 14%, transparent);
+  color: var(--critical);
+}
+
+.cond-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+}
+.cond-card__meta-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.patient-builder .cond-card__date {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.patient-builder .cond-card__date:focus {
+  border-color: color-mix(in oklab, var(--success) 55%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 40%, transparent);
+  outline: none;
+}
+.cond-card__date::-webkit-calendar-picker-indicator {
+  filter: invert(0.65);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--dur-hover) var(--ease-out);
+}
+.cond-card__date:hover::-webkit-calendar-picker-indicator { opacity: 1; }
+.cond-card__meta-clear {
+  background: transparent;
+  border: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+.cond-card__meta-clear:hover { color: var(--ink-soft); }
+
+/* ── Body-system tinting + ancillary chips ──────────────────────────────
+   Every condition card gets a 2-px left-edge stripe coloured by the
+   inferred system, so a quick glance shows how the patient's burden is
+   distributed without reading every label. Tones map to the design
+   tokens (--critical / --warning / --accent / --spark / --violet) so
+   the system palette stays consistent with the lab worksheet flags. */
+.cond-card { position: relative; padding-left: 14px; }
+.cond-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: color-mix(in oklab, var(--ink-muted) 35%, transparent);
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.cond-card--critical::before { background: var(--critical); }
+.cond-card--warning::before  { background: var(--warning);  }
+.cond-card--accent::before   { background: var(--accent);   }
+.cond-card--spark::before    { background: var(--spark);    }
+.cond-card--violet::before   { background: var(--violet);   }
+.cond-card--muted::before    { background: color-mix(in oklab, var(--ink-muted) 35%, transparent); }
+
+/* Inline system tag — only shown in flat (un-grouped) mode so the same
+   information isn't echoed twice (the group header already names the
+   system when grouping is on). */
+.cond-card__system {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.cond-card__system--critical { color: var(--critical); background: color-mix(in oklab, var(--critical) 8%, transparent); border-color: color-mix(in oklab, var(--critical) 28%, transparent); }
+.cond-card__system--warning  { color: var(--warning);  background: color-mix(in oklab, var(--warning)  8%, transparent); border-color: color-mix(in oklab, var(--warning)  28%, transparent); }
+.cond-card__system--accent   { color: var(--accent);   background: color-mix(in oklab, var(--accent)   8%, transparent); border-color: color-mix(in oklab, var(--accent)   28%, transparent); }
+.cond-card__system--spark    { color: var(--spark);    background: color-mix(in oklab, var(--spark)    8%, transparent); border-color: color-mix(in oklab, var(--spark)    28%, transparent); }
+.cond-card__system--violet   { color: var(--violet);   background: color-mix(in oklab, var(--violet)   8%, transparent); border-color: color-mix(in oklab, var(--violet)   28%, transparent); }
+
+/* Chronicity badge — chronic / acute inferred from keywords. Surfaces
+   as a small icon-led pill so the eye lands on the rare acute marker
+   among a stack of chronic comorbidities. */
+.cond-card__acuity {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px 2px 5px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.cond-card__acuity--chronic {
+  color: var(--ink-muted);
+  background: color-mix(in oklab, var(--surface-2) 80%, transparent);
+  border-color: var(--border);
+}
+.cond-card__acuity--acute {
+  color: var(--critical);
+  background: var(--critical-soft);
+  border-color: color-mix(in oklab, var(--critical) 35%, transparent);
+}
+
+/* Inline system tally bar — segmented horizontal bar above the list
+   showing the distribution by body system when 2+ systems are present. */
+.cond-tally {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 25%, transparent);
+}
+.cond-tally__bar {
+  display: flex;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  gap: 1px;
+  background: color-mix(in oklab, var(--border) 60%, transparent);
+}
+.cond-tally__seg {
+  height: 100%;
+  background: var(--ink-muted);
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.cond-tally__seg--critical { background: var(--critical); }
+.cond-tally__seg--warning  { background: var(--warning);  }
+.cond-tally__seg--accent   { background: var(--accent);   }
+.cond-tally__seg--spark    { background: var(--spark);    }
+.cond-tally__seg--violet   { background: var(--violet);   }
+.cond-tally__seg--muted    { background: color-mix(in oklab, var(--ink-muted) 60%, transparent); }
+.cond-tally__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cond-tally__chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 8px 3px 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  border: 1px solid transparent;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.cond-tally__chip::before {
+  content: ""; width: 6px; height: 6px; border-radius: 999px;
+  background: currentColor; opacity: 0.9;
+  box-shadow: 0 0 0 2px color-mix(in oklab, currentColor 20%, transparent);
+}
+.cond-tally__chip--critical { color: var(--critical); background: color-mix(in oklab, var(--critical) 10%, transparent); border-color: color-mix(in oklab, var(--critical) 28%, transparent); }
+.cond-tally__chip--warning  { color: var(--warning);  background: color-mix(in oklab, var(--warning)  10%, transparent); border-color: color-mix(in oklab, var(--warning)  28%, transparent); }
+.cond-tally__chip--accent   { color: var(--accent);   background: color-mix(in oklab, var(--accent)   10%, transparent); border-color: color-mix(in oklab, var(--accent)   28%, transparent); }
+.cond-tally__chip--spark    { color: var(--spark);    background: color-mix(in oklab, var(--spark)    10%, transparent); border-color: color-mix(in oklab, var(--spark)    28%, transparent); }
+.cond-tally__chip--violet   { color: var(--violet);   background: color-mix(in oklab, var(--violet)   10%, transparent); border-color: color-mix(in oklab, var(--violet)   28%, transparent); }
+.cond-tally__chip--muted    { color: var(--ink-muted); background: color-mix(in oklab, var(--surface-2) 70%, transparent); border-color: var(--border); }
+.cond-tally__chip-count {
+  font-size: 0.65rem;
+  color: var(--ink-faint);
+  padding-left: 2px;
+}
+
+/* Grouped list — mini-section headers per body system. Headers only
+   render in the JSX when `useGrouping` is true (≥4 conditions). */
+.cond-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.cond-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cond-group__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 2px;
+}
+.cond-group__dot {
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: var(--ink-muted);
+  box-shadow: 0 0 0 3px color-mix(in oklab, currentColor 18%, transparent);
+}
+.cond-group__dot--critical { background: var(--critical); color: var(--critical); }
+.cond-group__dot--warning  { background: var(--warning);  color: var(--warning);  }
+.cond-group__dot--accent   { background: var(--accent);   color: var(--accent);   }
+.cond-group__dot--spark    { background: var(--spark);    color: var(--spark);    }
+.cond-group__dot--violet   { background: var(--violet);   color: var(--violet);   }
+.cond-group__dot--muted    { background: color-mix(in oklab, var(--ink-muted) 60%, transparent); color: var(--ink-muted); }
+.cond-group__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.cond-group__count {
+  font-size: 0.66rem;
+  color: var(--ink-faint);
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--surface-2) 60%, transparent);
+  margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   "My test patients" — past custom-patient runs (Researcher view).
+   Stat strip + toolbar + grid rows. Status taxonomy is shared across the
+   five color tokens (--success / --warning / --critical / --violet /
+   ink-muted) so adding a status is one token + four CSS lines.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.tests-view {
+  width: 100%;
+  padding: 18px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.tests-view__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.tests-view__heading { min-width: 0; }
+.tests-view__title {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 28;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.tests-view__sub {
+  margin-top: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.tests-view__cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 13px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in oklab, var(--success) 45%, var(--border));
+  background: var(--success-soft);
+  color: color-mix(in oklab, var(--success) 95%, var(--ink));
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.tests-view__cta:hover {
+  background: color-mix(in oklab, var(--success) 18%, transparent);
+  border-color: var(--success);
+}
+
+/* ── Stat strip ──────────────────────────────────────────────────────── */
+.tests-strip {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    linear-gradient(160deg,
+      var(--surface) 0%,
+      var(--bg-elevated) 100%);
+}
+.tests-strip__cell {
+  flex: 1;
+  padding: 10px 14px;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+.tests-strip__cell.is-last { border-right: 0; }
+.tests-strip__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.tests-strip__value {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 28;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--ink);
+}
+.tests-strip__value--violet  { color: var(--violet); }
+.tests-strip__value--success { color: var(--success); }
+.tests-strip__value--muted   { color: var(--ink-muted); }
+.tests-strip__hint {
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-muted);
+}
+
+/* ── Toolbar ─────────────────────────────────────────────────────────── */
+.tests-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.tests-search {
+  position: relative;
+  flex: 0 0 240px;
+}
+.tests-search__icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+.tests-search__input {
+  width: 100%;
+  padding: 7px 10px 7px 28px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+.tests-search__input::placeholder { color: var(--ink-faint); }
+.tests-search__input:focus {
+  border-color: color-mix(in oklab, var(--success) 55%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 35%, transparent);
+}
+
+.tests-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tests-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+.tests-chip:hover { color: var(--ink); border-color: var(--border-strong); }
+.tests-chip__dot {
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: var(--ink-muted);
+  flex-shrink: 0;
+}
+.tests-chip__dot--violet   { background: var(--violet); }
+.tests-chip__dot--success  { background: var(--success); }
+.tests-chip__dot--warning  { background: var(--warning); }
+.tests-chip__dot--critical { background: var(--critical); }
+.tests-chip__dot--muted    { background: var(--ink-muted); }
+.tests-chip__count {
+  font-size: 10px;
+  color: var(--ink-faint);
+  opacity: 0.85;
+}
+.tests-chip.is-active {
+  color: var(--ink);
+}
+.tests-chip--violet.is-active {
+  background: color-mix(in oklab, var(--violet) 14%, transparent);
+  border-color: var(--violet);
+  color: var(--violet);
+}
+.tests-chip--violet.is-active .tests-chip__count { color: var(--violet); }
+.tests-chip--success.is-active {
+  background: color-mix(in oklab, var(--success) 14%, transparent);
+  border-color: var(--success);
+  color: var(--success);
+}
+.tests-chip--success.is-active .tests-chip__count { color: var(--success); }
+.tests-chip--warning.is-active {
+  background: color-mix(in oklab, var(--warning) 14%, transparent);
+  border-color: var(--warning);
+  color: var(--warning);
+}
+.tests-chip--warning.is-active .tests-chip__count { color: var(--warning); }
+.tests-chip--critical.is-active {
+  background: color-mix(in oklab, var(--critical) 14%, transparent);
+  border-color: var(--critical);
+  color: var(--critical);
+}
+.tests-chip--critical.is-active .tests-chip__count { color: var(--critical); }
+.tests-chip--muted.is-active {
+  background: color-mix(in oklab, var(--ink-soft) 12%, transparent);
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+
+.tests-sort {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.tests-sort__label {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+.tests-sort__select {
+  padding: 5px 8px;
+  background: var(--bg);
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+.tests-sort__select:hover { border-color: var(--border-strong); }
+.tests-sort__select:focus {
+  border-color: color-mix(in oklab, var(--success) 55%, var(--border));
+}
+
+/* ── Row list ───────────────────────────────────────────────────────── */
+.tests-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+}
+.tests-list__none {
+  padding: 22px 16px;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.tests-row {
+  position: relative;
+  display: grid;
+  /* Actions column widened from 200px → 290px so the four action buttons
+     (View · Re-run · Edit · ×) fit on a single line. The View button is
+     only rendered for rows with last_run_at — but even when absent, the
+     wider lane keeps Re-run from compressing into a 2-line label. */
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr) 110px 290px;
+  gap: 14px;
+  align-items: center;
+  padding: 13px 16px 13px 18px;
+  border-bottom: 1px solid var(--surface-2);
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.tests-row.is-last { border-bottom: 0; }
+.tests-row:hover  { background: color-mix(in oklab, var(--surface) 45%, transparent); }
+.tests-row__accent {
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--ink-muted);
+}
+.tests-row__accent--violet   { background: var(--violet); }
+.tests-row__accent--success  { background: var(--success); }
+.tests-row__accent--warning  { background: var(--warning); }
+.tests-row__accent--critical { background: var(--critical); }
+.tests-row__accent--muted    { background: var(--ink-muted); }
+.tests-row--draft .tests-row__accent { opacity: 0.4; }
+
+.tests-row__meta { min-width: 0; }
+.tests-row__meta-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tests-row__label {
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.005em;
+  max-width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tests-row__meta-bottom {
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+.tests-row__when {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+.tests-row__never {
+  color: var(--ink-faint);
+}
+
+.tests-row__actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  align-items: center;
+}
+.tests-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+.tests-btn--primary {
+  background: var(--success);
+  color: var(--bg);
+  border: 1px solid var(--success);
+}
+.tests-btn--primary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--success) 88%, white 12%);
+}
+.tests-btn--primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.tests-btn--ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--border-strong);
+}
+.tests-btn--ghost:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+.tests-btn--danger { padding: 6px 8px; }
+.tests-btn--danger:hover {
+  color: var(--critical);
+  border-color: color-mix(in oklab, var(--critical) 50%, var(--border-strong));
+  background: color-mix(in oklab, var(--critical) 8%, transparent);
+}
+
+/* ── Status pill ────────────────────────────────────────────────────── */
+.tests-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.tests-pill__glyph { font-size: 10px; line-height: 1; }
+.tests-pill--muted    { color: var(--ink-soft); background: color-mix(in oklab, var(--ink-soft) 10%, transparent); border-color: color-mix(in oklab, var(--ink-soft) 30%, transparent); }
+.tests-pill--violet   { color: var(--violet);   background: var(--violet-soft);   border-color: color-mix(in oklab, var(--violet) 40%, transparent); }
+.tests-pill--success  { color: var(--success);  background: var(--success-soft);  border-color: color-mix(in oklab, var(--success) 40%, transparent); }
+.tests-pill--warning  { color: var(--warning);  background: var(--warning-soft);  border-color: color-mix(in oklab, var(--warning) 40%, transparent); }
+.tests-pill--critical { color: var(--critical); background: var(--critical-soft); border-color: color-mix(in oklab, var(--critical) 40%, transparent); }
+
+/* ── Outcome line ───────────────────────────────────────────────────── */
+.tests-outcome {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.tests-outcome--draft {
+  color: var(--ink-faint);
+  font-size: 12.5px;
+  font-style: italic;
+}
+.tests-outcome__top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tests-outcome__eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.tests-outcome__dx {
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tests-outcome__bar {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--ink) 7%, transparent);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.tests-outcome__bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 2px;
+  background: var(--ink-muted);
+  transition:
+    width var(--dur-panel) var(--ease-out),
+    background var(--dur-panel) var(--ease-out);
+}
+.tests-outcome__bar-fill--violet   { background: var(--violet); }
+.tests-outcome__bar-fill--success  { background: var(--success); }
+.tests-outcome__bar-fill--warning  { background: var(--warning); }
+.tests-outcome__bar-fill--critical { background: var(--critical); }
+.tests-outcome__bar-fill--muted    { background: var(--ink-muted); }
+.tests-outcome__pct {
+  font-size: 11px;
+  color: var(--ink);
+}
+.tests-outcome__pct--violet   { color: var(--violet); }
+.tests-outcome__pct--success  { color: var(--success); }
+.tests-outcome__pct--warning  { color: var(--warning); }
+.tests-outcome__pct--critical { color: var(--critical); }
+.tests-outcome__pct--muted    { color: var(--ink-muted); }
+.tests-outcome__bottom {
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+.tests-outcome__target {
+  color: var(--ink-soft);
+}
+.tests-outcome__verdict {
+  /* color set by --{tone} modifier on same span */
+}
+.tests-outcome__verdict--violet   { color: var(--violet); }
+.tests-outcome__verdict--success  { color: var(--success); }
+.tests-outcome__verdict--warning  { color: var(--warning); }
+.tests-outcome__verdict--critical { color: var(--critical); }
+.tests-outcome__set-target {
+  margin-left: 8px;
+  background: transparent;
+  border: none;
+  color: var(--violet);
+  cursor: pointer;
+  font-size: 10.5px;
+  font-family: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-style: dotted;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+.tests-outcome__set-target:hover {
+  color: color-mix(in oklab, var(--violet) 70%, white 30%);
+}
+
+/* ── Empty state ────────────────────────────────────────────────────── */
+.tests-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 48px 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--surface) 30%, transparent);
+  text-align: center;
+}
+.tests-empty__icon { color: var(--ink-faint); }
+.tests-empty__title {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.tests-empty__sub {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--ink-muted);
+  max-width: 48ch;
+  line-height: 1.55;
+}
+.tests-empty__cta { margin-top: 4px; }
+
+/* Narrow viewports — collapse the row to a 2-row stack so actions stay
+   reachable on smaller monitors. */
+@media (max-width: 980px) {
+  .tests-row {
+    grid-template-columns: minmax(0, 1fr) 130px;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "meta when"
+      "outcome outcome"
+      "actions actions";
+    gap: 10px;
+  }
+  .tests-row__meta    { grid-area: meta; }
+  .tests-row__when    { grid-area: when; text-align: right; }
+  .tests-outcome      { grid-area: outcome; }
+  .tests-row__actions { grid-area: actions; justify-content: flex-start; }
+  .tests-strip { flex-wrap: wrap; }
+  .tests-strip__cell { flex: 1 1 33%; }
+}
+
+/* ── Run-config modal — narrower than the merge modal and gets a
+   tighter footer.  Inherits merge-modal__* chrome so behavior stays
+   consistent across modals. ── */
+.run-config-modal { max-width: 640px; }
+.run-config-modal__error {
+  border-color: color-mix(in oklab, var(--critical) 40%, transparent);
+  background: var(--critical-soft);
+  color: var(--critical);
+}
+.run-config-modal__spinner {
+  animation: loader-spin 0.9s linear infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Smart import — unified upload drop zone.
+   One surface for PDF / FHIR JSON / image; the React layer classifies the
+   file and routes to /extract with the right `kind`. The chip row makes
+   the supported set visible at rest; the kind pill appears once a file
+   is chosen so the user sees how it will be routed.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.smart-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 36px 24px 28px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at 50% 0%,
+      color-mix(in oklab, var(--success) 8%, transparent) 0%,
+      transparent 65%),
+    color-mix(in oklab, var(--surface) 25%, transparent);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+.smart-drop:hover {
+  border-color: color-mix(in oklab, var(--success) 50%, var(--border-strong));
+  background:
+    radial-gradient(ellipse at 50% 0%,
+      color-mix(in oklab, var(--success) 14%, transparent) 0%,
+      transparent 70%),
+    color-mix(in oklab, var(--surface) 40%, transparent);
+}
+.smart-drop--over {
+  border-style: solid;
+  border-color: var(--success);
+  background:
+    radial-gradient(ellipse at 50% 50%,
+      color-mix(in oklab, var(--success) 22%, transparent) 0%,
+      transparent 75%),
+    color-mix(in oklab, var(--surface) 45%, transparent);
+  transform: scale(1.005);
+}
+.smart-drop--has-file {
+  border-style: solid;
+  border-color: color-mix(in oklab, var(--success) 38%, var(--border));
+}
+.smart-drop__icon {
+  color: color-mix(in oklab, var(--ink-muted) 80%, var(--success) 20%);
+  transition: color var(--dur-hover) var(--ease-out), transform var(--dur-hover) var(--ease-out);
+}
+.smart-drop:hover .smart-drop__icon,
+.smart-drop--over .smart-drop__icon {
+  color: var(--success);
+  transform: translateY(-1px);
+}
+.smart-drop__line {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 18;
+  font-size: 1rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.smart-drop__filename {
+  font-weight: 500;
+  word-break: break-all;
+}
+.smart-drop__filesize {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-left: 4px;
+  letter-spacing: 0.02em;
+}
+.smart-drop__browse {
+  color: var(--success);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.smart-drop__formats {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 4px;
+}
+.smart-drop__format-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--surface-2) 70%, transparent);
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+}
+.smart-drop--has-file .smart-drop__formats { display: none; }
+.smart-drop__kind {
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Labs form — dense clinical-worksheet layout.
+   Single row per lab: name + value + unit + flag + remove on one line,
+   with a faded mono reference-range hint under the name when known.
+   A 2-px left-edge tints the row red (↑ H) or blue (↓ L) for fast
+   sanity-scan; the agents do their own range logic, this is UX only.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.labs-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.labs-form__add {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+.labs-form__add-search { flex: 1; min-width: 0; }
+.labs-form__smart {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in oklab, var(--success) 45%, var(--border));
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--success) 8%, transparent);
+  color: color-mix(in oklab, var(--success) 92%, var(--ink));
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+.labs-form__smart:hover {
+  background: color-mix(in oklab, var(--success) 16%, transparent);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.labs-form__suggest {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
+}
+.labs-form__suggest-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.labs-form__suggest-eyebrow svg { color: var(--spark); }
+.labs-form__suggest-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.lab-suggest-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 9px;
+  border: 1px dashed color-mix(in oklab, var(--border-strong) 80%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+.lab-suggest-chip:hover {
+  background: color-mix(in oklab, var(--success) 10%, transparent);
+  border-style: solid;
+  border-color: color-mix(in oklab, var(--success) 55%, transparent);
+  color: color-mix(in oklab, var(--success) 88%, var(--ink));
+}
+.lab-suggest-chip:active { transform: translateY(0.5px); }
+
+.labs-form__count-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 6px 0 0;
+  border-top: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
+  margin-top: 6px;
+}
+.labs-form__count { font-size: 0.82rem; color: var(--ink-soft); }
+.labs-form__count strong {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.15rem;
+  margin-right: 5px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.labs-form__clear {
+  background: transparent;
+  border: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+.labs-form__clear:hover { color: var(--critical); }
+
+.labs-form__empty {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 30%, transparent);
+}
+.labs-form__empty-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--success) 14%, transparent);
+  color: var(--success);
+  flex-shrink: 0;
+  border: 1px solid color-mix(in oklab, var(--success) 30%, transparent);
+}
+.labs-form__empty-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: -0.005em;
+}
+.labs-form__empty-sub {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  max-width: 60ch;
+}
+
+/* List shell — single-bordered container with internal dividers so the
+   rows read as a worksheet, not a stack of cards. */
+.lab-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 22%, transparent);
+  overflow: hidden;
+}
+.lab-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 150px 56px 32px;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px 9px 14px;
+  border-top: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+  position: relative;
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.lab-list .lab-row:first-of-type { border-top: 0; }
+.lab-row:hover { background: color-mix(in oklab, var(--surface) 45%, transparent); }
+.lab-row::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: transparent;
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.lab-row--high::before { background: var(--critical); }
+.lab-row--low::before  { background: var(--accent); }
+.lab-row--high { background: color-mix(in oklab, var(--critical) 5%, transparent); }
+.lab-row--low  { background: color-mix(in oklab, var(--accent)   5%, transparent); }
+
+.lab-row__name {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.lab-row__name-text {
+  font-size: 0.88rem;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.003em;
+}
+.lab-row__name-empty {
+  font-style: italic;
+  color: var(--ink-faint);
+}
+.lab-row__range {
+  font-size: 0.66rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+.patient-builder .lab-row__value {
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  text-align: right;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+.patient-builder .lab-row__value:focus {
+  border-color: color-mix(in oklab, var(--success) 55%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 40%, transparent);
+  outline: none;
+}
+.patient-builder .lab-row__unit {
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.lab-row__unit-free {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.patient-builder .lab-row__unit-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+.lab-row__unit-toggle {
+  background: transparent;
+  border: 0;
+  padding: 2px 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+.lab-row__unit-toggle:hover { color: var(--ink-soft); }
+
+.lab-row__flag-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+}
+.lab-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border: 1px solid transparent;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.lab-flag--high {
+  color: var(--critical);
+  background: var(--critical-soft);
+  border-color: color-mix(in oklab, var(--critical) 38%, transparent);
+}
+.lab-flag--low {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: color-mix(in oklab, var(--accent) 38%, transparent);
+}
+
+.lab-row__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out);
+}
+.lab-row:hover .lab-row__remove,
+.lab-row:focus-within .lab-row__remove { opacity: 1; }
+.lab-row__remove:hover {
+  background: color-mix(in oklab, var(--critical) 14%, transparent);
+  color: var(--critical);
+}
+
+.labs-form__hint {
+  font-size: 0.74rem;
+  color: var(--ink-faint);
+  line-height: 1.55;
+  margin: 4px 0 0;
+}
+
+/* Narrow viewports: collapse the row to two stacked sub-rows
+   (name+flag / value+unit+remove) so the worksheet stays scannable. */
+@media (max-width: 720px) {
+  .lab-row {
+    grid-template-columns: minmax(0, 1fr) auto 32px;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "name flag remove"
+      "value unit unit";
+    gap: 6px 10px;
+  }
+  .lab-row__name      { grid-area: name;   }
+  .lab-row__value     { grid-area: value;  text-align: left; }
+  .lab-row__unit,
+  .lab-row__unit-free { grid-area: unit;   }
+  .lab-row__flag-slot { grid-area: flag;   justify-content: flex-end; }
+  .lab-row__remove    { grid-area: remove; opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Preview & merge modal — editable extracted fields.
+   Every value is editable in place; checkbox toggles include/skip; snap
+   suggestions replace the editable label with the cohort canonical name
+   (and the revert button swaps in when the user has edited the value).
+   ═══════════════════════════════════════════════════════════════════════════ */
+.merge-modal__backdrop {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  background: color-mix(in oklab, var(--bg) 70%, transparent);
+  backdrop-filter: blur(6px);
+}
+.merge-modal {
+  display: flex; flex-direction: column;
+  width: 100%;
+  max-width: 880px;
+  max-height: 90vh;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  box-shadow:
+    0 18px 60px color-mix(in oklab, #000 70%, transparent),
+    0 2px 8px  color-mix(in oklab, #000 40%, transparent);
+  overflow: hidden;
+}
+
+.merge-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px 18px;
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse at top right,
+      color-mix(in oklab, var(--success) 6%, transparent) 0%,
+      transparent 60%);
+}
+.merge-modal__heading { min-width: 0; }
+.merge-modal__eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+.merge-modal__eyebrow svg { color: var(--spark); }
+.merge-modal__title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 30;
+  font-size: 1.55rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.012em;
+}
+.merge-modal__sub {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.5;
+  max-width: 64ch;
+}
+.merge-modal__close {
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.merge-modal__close:hover {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+
+.merge-modal__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 18px 22px 22px;
+  display: flex; flex-direction: column;
+  gap: 18px;
+}
+
+.merge-modal__warn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid color-mix(in oklab, var(--warning) 35%, transparent);
+  border-radius: 8px;
+  background: var(--warning-soft);
+  color: var(--warning);
+  font-size: 0.84rem;
+}
+
+/* Section eyebrow with progress chip (e.g. "3 / 4") */
+.merge-section { display: flex; flex-direction: column; gap: 8px; }
+.merge-section__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 0 2px;
+}
+.merge-section__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 0;
+  font-weight: 500;
+}
+.merge-section__count {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  padding: 2px 8px;
+  background: color-mix(in oklab, var(--surface-2) 70%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.merge-section__count-sep { color: var(--ink-faint); }
+
+/* Generic editable row (demographics / conditions / medications) */
+.merge-list {
+  display: flex; flex-direction: column;
+  gap: 4px;
+  padding: 0; margin: 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 22%, transparent);
+  overflow: hidden;
+}
+.merge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-top: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.merge-list > .merge-row:first-child,
+.merge-list > li:first-child .merge-row { border-top: 0; }
+.merge-list > li:first-child { border-top: 0; }
+.merge-row:hover {
+  background: color-mix(in oklab, var(--surface) 45%, transparent);
+}
+.merge-row--off  { opacity: 0.5; }
+.merge-row--absent { opacity: 0.45; }
+
+.merge-row__check {
+  width: 16px; height: 16px;
+  accent-color: var(--success);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.merge-row__check:disabled { cursor: not-allowed; }
+
+.merge-row__demo-label {
+  flex: 0 0 80px;
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.merge-row__absent-text {
+  flex: 1;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* Inline editable inputs — render flush so the row reads as a single
+   line of text the user can tap to edit. Border only appears on focus
+   or while disabled is false (subtle hover underline). */
+.merge-row__input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 0.88rem;
+  color: var(--ink);
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.merge-row__input:not(:disabled):hover {
+  background: color-mix(in oklab, var(--surface-2) 50%, transparent);
+}
+.merge-row__input:focus {
+  background: var(--surface);
+  border-color: color-mix(in oklab, var(--success) 55%, var(--border));
+  outline: none;
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 35%, transparent);
+}
+.merge-row__input:disabled {
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+.merge-row__input--demo {
+  flex: 0 0 auto;
+  width: 180px;
+}
+.merge-row__input--demo.is-overwrite {
+  border-color: color-mix(in oklab, var(--warning) 40%, transparent);
+  background: color-mix(in oklab, var(--warning) 6%, transparent);
+}
+
+.merge-row__code {
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--surface-2) 75%, transparent);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.merge-row__was {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.merge-row__was.is-overwrite { color: var(--warning); }
+
+/* Snap-to button — applies the cohort canonical name in one click.
+   Sits between the editable input and the trash icon. */
+.merge-row__actions {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.merge-row__snap {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px;
+  border: 1px dashed color-mix(in oklab, var(--success) 45%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--success) 6%, transparent);
+  color: color-mix(in oklab, var(--success) 88%, var(--ink));
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.merge-row__snap:hover {
+  background: color-mix(in oklab, var(--success) 18%, transparent);
+  border-style: solid;
+  border-color: color-mix(in oklab, var(--success) 70%, transparent);
+}
+.merge-row__revert {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out);
+}
+.merge-row__revert:hover {
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+.merge-row__remove {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink-faint);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    background var(--dur-hover) var(--ease-out);
+}
+.merge-row:hover .merge-row__remove,
+.merge-lab-row:hover .merge-row__remove,
+.merge-row:focus-within .merge-row__remove,
+.merge-lab-row:focus-within .merge-row__remove { opacity: 1; }
+.merge-row__remove:hover {
+  background: color-mix(in oklab, var(--critical) 14%, transparent);
+  color: var(--critical);
+}
+
+/* ── Labs row — denser worksheet layout: name + value + unit on one line. ── */
+.merge-list--labs > li { border-top: 1px solid color-mix(in oklab, var(--border) 55%, transparent); }
+.merge-list--labs > li:first-child { border-top: 0; }
+.merge-lab-row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) 110px 120px auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  transition: background var(--dur-hover) var(--ease-out);
+}
+.merge-lab-row:hover {
+  background: color-mix(in oklab, var(--surface) 45%, transparent);
+}
+.merge-lab-row--off { opacity: 0.5; }
+.merge-lab-row__name  { flex: 1; }
+.merge-lab-row__value { text-align: right; }
+.merge-lab-row__unit  { }
+
+/* Footer */
+.merge-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse at bottom right,
+      color-mix(in oklab, var(--success) 5%, transparent) 0%,
+      transparent 60%);
+}
+.merge-modal__bulk {
+  display: flex; gap: 6px;
+}
+.merge-modal__bulk-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 0.74rem;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.merge-modal__bulk-btn:hover {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.merge-modal__primary {
+  display: flex; align-items: center; gap: 12px;
+}
+.merge-modal__counter {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-right: 4px;
+}
+.merge-modal__counter strong {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin-right: 2px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.merge-modal__cancel {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+.merge-modal__cancel:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+.merge-modal__merge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--success);
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    opacity var(--dur-hover) var(--ease-out);
+}
+.merge-modal__merge:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--success) 88%, white 12%);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--success) 30%, transparent);
+}
+.merge-modal__merge:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* Narrow viewports — collapse lab grid; always show remove icon. */
+@media (max-width: 720px) {
+  .merge-lab-row {
+    grid-template-columns: 16px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "check name actions"
+      "check value unit";
+    gap: 4px 10px;
+  }
+  .merge-row__check      { grid-area: check; align-self: start; margin-top: 6px; }
+  .merge-lab-row__name   { grid-area: name; }
+  .merge-lab-row__value  { grid-area: value; text-align: left; }
+  .merge-lab-row__unit   { grid-area: unit; }
+  .merge-lab-row .merge-row__actions { grid-area: actions; }
+  .merge-row__remove { opacity: 1; }
+}
+
 /* ── Researcher Patients-tab "Back to choices" link + sidebar-hidden grid ── */
 .app-shell--no-sidebar {
   grid-template-columns: 1fr;

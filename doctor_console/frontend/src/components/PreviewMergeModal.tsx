@@ -1,357 +1,371 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { X, Check, AlertTriangle } from "lucide-react";
+import {
+  X,
+  Check,
+  AlertTriangle,
+  RotateCcw,
+  Trash2,
+  Sparkles,
+} from "lucide-react";
 import type { ExtractResponse, SnapSuggestion, TestPatientPayload } from "../types";
 
 interface Props {
   result:   ExtractResponse;
-  current:  TestPatientPayload; // current editor payload (for conflict display)
+  current:  TestPatientPayload; // for diff display + base of merge
   onCancel: () => void;
   onMerge:  (merged: TestPatientPayload) => void;
 }
 
-type Toggles = {
-  demographics: { age?: boolean; gender?: boolean; race?: boolean; bmi?: boolean };
-  conditions:   boolean[];
-  medications:  boolean[];
-  labs:         boolean[];
+/*
+ * Editable state for the preview. Each extracted value is held with:
+ *   - `val`      — the user-editable string (numbers held as strings for
+ *                  uncontrolled-input parity, parsed at merge time)
+ *   - `checked`  — whether to include in the merge
+ *   - `present`  — was this field detected in the extraction at all?
+ *   - `original` — the raw extracted text, so we can show a revert button
+ *                  when the user has manually edited it
+ *
+ * Snap suggestions ("Hgb" → "Hemoglobin") are kept alongside each row and
+ * applied by writing the suggested label into the editable `val`. After
+ * the user accepts a snap, the row's `val` differs from `original`, so the
+ * revert button takes the place of the snap chip — one affordance at a
+ * time, no contradicting buttons.
+ */
+type DemoSpec = {
+  val:      string;
+  checked:  boolean;
+  present:  boolean;
+  original: string;
 };
-
-type Snaps = {
-  conditions:  Record<number, boolean>; // if true, replace 'from' with 'to'
-  medications: Record<number, boolean>;
-  labs:        Record<number, boolean>;
+type EditDemo = {
+  age:    DemoSpec;
+  gender: DemoSpec;
+  bmi:    DemoSpec;
+  race:   DemoSpec;
+};
+type EditCond = {
+  name:     string;
+  code?:    string;
+  checked:  boolean;
+  original: string;
+  snap?:    SnapSuggestion;
+};
+type EditMed = {
+  name:     string;
+  code?:    string;
+  checked:  boolean;
+  original: string;
+  snap?:    SnapSuggestion;
+};
+type EditLab = {
+  name:     string;
+  value:    string;
+  unit:     string;
+  checked:  boolean;
+  original: string;
+  snap?:    SnapSuggestion;
 };
 
 export function PreviewMergeModal({ result, current, onCancel, onMerge }: Props) {
   const ex = result.extracted as TestPatientPayload | undefined;
-
-  const demoEx   = (ex?.demographics ?? {}) as Record<string, unknown>;
-  const condsEx  = ex?.conditions?.active ?? [];
-  const medsEx   = ex?.medications?.active ?? [];
-  const labsEx   = ex?.labs?.latest_labs ?? [];
-
-  const [toggles, setToggles] = useState<Toggles>(() => ({
-    demographics: {
-      age:    demoEx.age != null,
-      gender: !!demoEx.gender,
-      race:   !!demoEx.race,
-      bmi:    demoEx.bmi != null,
-    },
-    conditions:  condsEx.map(() => true),
-    medications: medsEx.map(() => true),
-    labs:        labsEx.map(() => true),
-  }));
-
-  const [snaps, setSnaps] = useState<Snaps>({
-    conditions:  {},
-    medications: {},
-    labs:        {},
-  });
+  const demoEx  = (ex?.demographics ?? {}) as Record<string, unknown>;
+  const condsEx = ex?.conditions?.active ?? [];
+  const medsEx  = ex?.medications?.active ?? [];
+  const labsEx  = ex?.labs?.latest_labs ?? [];
 
   const condSnap = useMemo(
-    () =>
-      Object.fromEntries(
-        result.snap_suggestions.conditions.map((s) => [s.from.toLowerCase(), s])
-      ),
-    [result]
+    () => Object.fromEntries(result.snap_suggestions.conditions.map((s) => [s.from.toLowerCase(), s])),
+    [result],
   );
   const medSnap = useMemo(
-    () =>
-      Object.fromEntries(
-        result.snap_suggestions.medications.map((s) => [s.from.toLowerCase(), s])
-      ),
-    [result]
+    () => Object.fromEntries(result.snap_suggestions.medications.map((s) => [s.from.toLowerCase(), s])),
+    [result],
   );
   const labSnap = useMemo(
-    () =>
-      Object.fromEntries(
-        result.snap_suggestions.labs.map((s) => [s.from.toLowerCase(), s])
-      ),
-    [result]
+    () => Object.fromEntries(result.snap_suggestions.labs.map((s) => [s.from.toLowerCase(), s])),
+    [result],
   );
 
+  const [demo, setDemo] = useState<EditDemo>(() => {
+    const age    = demoEx.age    != null ? String(demoEx.age)    : "";
+    const gender = demoEx.gender != null ? String(demoEx.gender) : "";
+    const bmi    = demoEx.bmi    != null ? String(demoEx.bmi)    : "";
+    const race   = demoEx.race   != null ? String(demoEx.race)   : "";
+    return {
+      age:    { val: age,    checked: age    !== "", present: age    !== "", original: age    },
+      gender: { val: gender, checked: gender !== "", present: gender !== "", original: gender },
+      bmi:    { val: bmi,    checked: bmi    !== "", present: bmi    !== "", original: bmi    },
+      race:   { val: race,   checked: race   !== "", present: race   !== "", original: race   },
+    };
+  });
+
+  const [conds, setConds] = useState<EditCond[]>(() =>
+    condsEx.map((c) => ({
+      name: c.condition || "",
+      code: c.code,
+      checked: true,
+      original: c.condition || "",
+      snap: condSnap[(c.condition ?? "").toLowerCase()],
+    })),
+  );
+  const [meds, setMeds] = useState<EditMed[]>(() =>
+    medsEx.map((m) => ({
+      name: m.medication || "",
+      code: m.rx_code,
+      checked: true,
+      original: m.medication || "",
+      snap: medSnap[(m.medication ?? "").toLowerCase()],
+    })),
+  );
+  const [labs, setLabs] = useState<EditLab[]>(() =>
+    labsEx.map((l) => ({
+      name: l.test_name || "",
+      value: l.value ?? "",
+      unit: l.unit ?? "",
+      checked: true,
+      original: l.test_name || "",
+      snap: labSnap[(l.test_name ?? "").toLowerCase()],
+    })),
+  );
+
+  // Live counts — drives the footer chip + the merge-button label so the
+  // user always sees what's about to land in the editor.
+  const counts = useMemo(() => {
+    let d = 0;
+    if (demo.age.checked    && demo.age.val    !== "") d++;
+    if (demo.gender.checked && demo.gender.val !== "") d++;
+    if (demo.bmi.checked    && demo.bmi.val    !== "") d++;
+    if (demo.race.checked   && demo.race.val   !== "") d++;
+    return {
+      demo: d,
+      cond: conds.filter((c) => c.checked && c.name.trim() !== "").length,
+      med:  meds.filter((m) => m.checked && m.name.trim() !== "").length,
+      lab:  labs.filter((l) => l.checked && l.name.trim() !== "").length,
+    };
+  }, [demo, conds, meds, labs]);
+  const total = counts.demo + counts.cond + counts.med + counts.lab;
+
   function setAll(v: boolean) {
-    setToggles({
-      demographics: { age: v, gender: v, race: v, bmi: v },
-      conditions:   condsEx.map(() => v),
-      medications:  medsEx.map(() => v),
-      labs:         labsEx.map(() => v),
-    });
+    setDemo((d) => ({
+      age:    { ...d.age,    checked: v && d.age.present },
+      gender: { ...d.gender, checked: v && d.gender.present },
+      bmi:    { ...d.bmi,    checked: v && d.bmi.present },
+      race:   { ...d.race,   checked: v && d.race.present },
+    }));
+    setConds((xs) => xs.map((x) => ({ ...x, checked: v })));
+    setMeds((xs)  => xs.map((x) => ({ ...x, checked: v })));
+    setLabs((xs)  => xs.map((x) => ({ ...x, checked: v })));
   }
 
   function merge() {
     const next: TestPatientPayload = {
       ...current,
-      label:       current.label || ex?.label || "Smart-imported patient",
+      label: current.label || ex?.label || "Smart-imported patient",
       demographics: { ...current.demographics },
-      conditions:  { active: [...(current.conditions?.active  ?? [])] },
-      medications: { active: [...(current.medications?.active ?? [])] },
-      labs:        { latest_labs: [...(current.labs?.latest_labs ?? [])] },
+      conditions:   { active: [...(current.conditions?.active  ?? [])] },
+      medications:  { active: [...(current.medications?.active ?? [])] },
+      labs:         { latest_labs: [...(current.labs?.latest_labs ?? [])] },
     };
 
-    if (toggles.demographics.age    && demoEx.age    != null) next.demographics.age    = Number(demoEx.age);
-    if (toggles.demographics.gender && demoEx.gender)         next.demographics.gender = String(demoEx.gender);
-    if (toggles.demographics.race   && demoEx.race)           next.demographics.race   = String(demoEx.race);
-    if (toggles.demographics.bmi    && demoEx.bmi   != null)  next.demographics.bmi    = Number(demoEx.bmi);
+    if (demo.age.checked    && demo.age.val    !== "") next.demographics.age    = Number(demo.age.val);
+    if (demo.gender.checked && demo.gender.val !== "") next.demographics.gender = demo.gender.val;
+    if (demo.bmi.checked    && demo.bmi.val    !== "") next.demographics.bmi    = Number(demo.bmi.val);
+    if (demo.race.checked   && demo.race.val   !== "") next.demographics.race   = demo.race.val;
 
-    condsEx.forEach((c, i) => {
-      if (!toggles.conditions[i]) return;
-      const snapHit = condSnap[(c.condition ?? "").toLowerCase()];
-      const final   = snapHit && snaps.conditions[i] ? snapHit.to : c.condition;
-      next.conditions!.active!.push({ condition: final, code: c.code });
+    conds.forEach((c) => {
+      if (!c.checked || !c.name.trim()) return;
+      next.conditions!.active!.push({ condition: c.name.trim(), code: c.code });
     });
-
-    medsEx.forEach((m, i) => {
-      if (!toggles.medications[i]) return;
-      const snapHit = medSnap[(m.medication ?? "").toLowerCase()];
-      const final   = snapHit && snaps.medications[i] ? snapHit.to : m.medication;
-      next.medications!.active!.push({ medication: final, rx_code: m.rx_code });
+    meds.forEach((m) => {
+      if (!m.checked || !m.name.trim()) return;
+      next.medications!.active!.push({ medication: m.name.trim(), rx_code: m.code });
     });
-
-    labsEx.forEach((l, i) => {
-      if (!toggles.labs[i]) return;
-      const snapHit = labSnap[(l.test_name ?? "").toLowerCase()];
-      const final   = snapHit && snaps.labs[i] ? snapHit.to : l.test_name;
+    labs.forEach((l) => {
+      if (!l.checked || !l.name.trim()) return;
       next.labs!.latest_labs!.push({
-        test_name: final,
-        value:     l.value,
-        unit:      l.unit,
+        test_name: l.name.trim(),
+        value: l.value,
+        unit:  l.unit,
       });
     });
-
     onMerge(next);
   }
 
+  // Diff-friendly "was" values from the current editor payload — only
+  // shown when the user already had a value and the extracted value is
+  // different (i.e. the merge would actually overwrite something).
+  const wasAge    = current.demographics?.age    != null ? String(current.demographics.age)    : "";
+  const wasGender = current.demographics?.gender ?? "";
+  const wasBmi    = current.demographics?.bmi    != null ? String(current.demographics.bmi)    : "";
+  const wasRace   = current.demographics?.race   ?? "";
+
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.15 }}
+      className="merge-modal__backdrop"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}
+      onClick={(e) => { if (e.target === e.currentTarget) onCancel(); }}
     >
       <motion.div
-        className="flex max-h-[90vh] w-full max-w-3xl flex-col rounded-xl border border-slate-800 bg-slate-900 shadow-2xl"
+        className="merge-modal"
         initial={{ opacity: 0, y: 12, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.18, ease: "easeOut" }}
+        transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
       >
-        {/* Header */}
-        <header className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
-          <h2 className="text-lg font-medium text-slate-100">
-            Review extracted fields
-          </h2>
-          <button
-            onClick={onCancel}
-            className="text-slate-400 hover:text-slate-100 transition-colors"
-          >
-            <X size={18} />
+        <header className="merge-modal__header">
+          <div className="merge-modal__heading">
+            <div className="merge-modal__eyebrow">
+              <Sparkles size={11} strokeWidth={1.8} />
+              Smart import · review
+            </div>
+            <h2 className="merge-modal__title">Edit, then merge</h2>
+            <p className="merge-modal__sub">
+              Every field is editable. Uncheck a row to skip it. Snap shortcuts replace
+              free-text labels with the cohort canonical name.
+            </p>
+          </div>
+          <button onClick={onCancel} className="merge-modal__close" aria-label="Close review">
+            <X size={16} strokeWidth={1.6} />
           </button>
         </header>
 
-        {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+        <div className="merge-modal__body">
           {result.warnings.length > 0 && (
-            <div className="rounded-md border border-amber-700/40 bg-amber-900/20 px-3 py-2 text-sm text-amber-300">
-              <AlertTriangle size={14} className="mr-1 inline" />
-              {result.warnings.join(" · ")}
+            <div className="merge-modal__warn">
+              <AlertTriangle size={14} strokeWidth={1.8} />
+              <span>{result.warnings.join(" · ")}</span>
             </div>
           )}
 
-          {/* Demographics */}
-          <Section title="Demographics">
-            <Row
-              checked={toggles.demographics.age ?? false}
-              onChange={(v) =>
-                setToggles((t) => ({
-                  ...t,
-                  demographics: { ...t.demographics, age: v },
-                }))
-              }
-              disabled={demoEx.age == null}
-              label="Age"
-              value={demoEx.age != null ? String(demoEx.age) : "(not detected)"}
-              was={
-                current.demographics?.age != null
-                  ? `was: ${current.demographics.age}`
-                  : undefined
-              }
-            />
-            <Row
-              checked={toggles.demographics.gender ?? false}
-              onChange={(v) =>
-                setToggles((t) => ({
-                  ...t,
-                  demographics: { ...t.demographics, gender: v },
-                }))
-              }
-              disabled={!demoEx.gender}
-              label="Gender"
-              value={String(demoEx.gender ?? "(not detected)")}
-              was={
-                current.demographics?.gender
-                  ? `was: ${current.demographics.gender}`
-                  : undefined
-              }
-            />
-            <Row
-              checked={toggles.demographics.bmi ?? false}
-              onChange={(v) =>
-                setToggles((t) => ({
-                  ...t,
-                  demographics: { ...t.demographics, bmi: v },
-                }))
-              }
-              disabled={demoEx.bmi == null}
-              label="BMI"
-              value={demoEx.bmi != null ? String(demoEx.bmi) : "(not detected)"}
-            />
-          </Section>
+          {/* ── Demographics ─────────────────────────────────────────────── */}
+          <PreviewSection title="Demographics" count={counts.demo} total={4}>
+            <div className="merge-list">
+              <DemoRow label="Age"    spec={demo.age}    type="number"
+                       was={wasAge}
+                       onChange={(p) => setDemo((d) => ({ ...d, age:    { ...d.age,    ...p } }))} />
+              <DemoRow label="Gender" spec={demo.gender} type="text"
+                       was={wasGender}
+                       onChange={(p) => setDemo((d) => ({ ...d, gender: { ...d.gender, ...p } }))} />
+              <DemoRow label="BMI"    spec={demo.bmi}    type="number" step="0.1"
+                       was={wasBmi}
+                       onChange={(p) => setDemo((d) => ({ ...d, bmi:    { ...d.bmi,    ...p } }))} />
+              <DemoRow label="Race"   spec={demo.race}   type="text"
+                       was={wasRace}
+                       onChange={(p) => setDemo((d) => ({ ...d, race:   { ...d.race,   ...p } }))} />
+            </div>
+          </PreviewSection>
 
-          {condsEx.length > 0 && (
-            <Section title={`Active conditions (${condsEx.length})`}>
-              {condsEx.map((c, i) => {
-                const snapHit = condSnap[(c.condition ?? "").toLowerCase()];
-                return (
-                  <Row
-                    key={i}
-                    checked={toggles.conditions[i] ?? false}
-                    onChange={(v) =>
-                      setToggles((t) => {
-                        const arr = [...t.conditions];
-                        arr[i] = v;
-                        return { ...t, conditions: arr };
-                      })
-                    }
-                    label={c.condition || "(unknown)"}
-                    value={c.code ? `code ${c.code}` : ""}
-                    snap={
-                      snapHit
-                        ? {
-                            suggestion: snapHit,
-                            applied:    !!snaps.conditions[i],
-                            onToggle:   () =>
-                              setSnaps((s) => ({
-                                ...s,
-                                conditions: {
-                                  ...s.conditions,
-                                  [i]: !s.conditions[i],
-                                },
-                              })),
-                          }
-                        : undefined
-                    }
-                  />
-                );
-              })}
-            </Section>
+          {/* ── Conditions ───────────────────────────────────────────────── */}
+          {conds.length > 0 && (
+            <PreviewSection title="Conditions" count={counts.cond} total={conds.length}>
+              <ul className="merge-list">
+                {conds.map((c, i) => (
+                  <li key={i}
+                      className={`merge-row${!c.checked ? " merge-row--off" : ""}`}>
+                    <input type="checkbox" className="merge-row__check"
+                           checked={c.checked}
+                           onChange={(e) => setConds((xs) => xs.map((x, j) => j === i ? { ...x, checked: e.target.checked } : x))} />
+                    <input type="text" className="merge-row__input"
+                           value={c.name} disabled={!c.checked}
+                           onChange={(e) => setConds((xs) => xs.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
+                    {c.code && <span className="merge-row__code mono">{c.code}</span>}
+                    <RowAffordances
+                      hasSnap={!!c.snap && c.name === c.original}
+                      isEdited={c.name !== c.original}
+                      snap={c.snap}
+                      onSnap={()    => setConds((xs) => xs.map((x, j) => j === i ? { ...x, name: c.snap!.to } : x))}
+                      onRevert={() => setConds((xs) => xs.map((x, j) => j === i ? { ...x, name: x.original } : x))}
+                      onRemove={() => setConds((xs) => xs.filter((_, j) => j !== i))}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </PreviewSection>
           )}
 
-          {medsEx.length > 0 && (
-            <Section title={`Active medications (${medsEx.length})`}>
-              {medsEx.map((m, i) => {
-                const snapHit = medSnap[(m.medication ?? "").toLowerCase()];
-                return (
-                  <Row
-                    key={i}
-                    checked={toggles.medications[i] ?? false}
-                    onChange={(v) =>
-                      setToggles((t) => {
-                        const arr = [...t.medications];
-                        arr[i] = v;
-                        return { ...t, medications: arr };
-                      })
-                    }
-                    label={m.medication || "(unknown)"}
-                    value={m.rx_code ? `rx ${m.rx_code}` : ""}
-                    snap={
-                      snapHit
-                        ? {
-                            suggestion: snapHit,
-                            applied:    !!snaps.medications[i],
-                            onToggle:   () =>
-                              setSnaps((s) => ({
-                                ...s,
-                                medications: {
-                                  ...s.medications,
-                                  [i]: !s.medications[i],
-                                },
-                              })),
-                          }
-                        : undefined
-                    }
-                  />
-                );
-              })}
-            </Section>
+          {/* ── Medications ──────────────────────────────────────────────── */}
+          {meds.length > 0 && (
+            <PreviewSection title="Medications" count={counts.med} total={meds.length}>
+              <ul className="merge-list">
+                {meds.map((m, i) => (
+                  <li key={i}
+                      className={`merge-row${!m.checked ? " merge-row--off" : ""}`}>
+                    <input type="checkbox" className="merge-row__check"
+                           checked={m.checked}
+                           onChange={(e) => setMeds((xs) => xs.map((x, j) => j === i ? { ...x, checked: e.target.checked } : x))} />
+                    <input type="text" className="merge-row__input"
+                           value={m.name} disabled={!m.checked}
+                           onChange={(e) => setMeds((xs) => xs.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
+                    {m.code && <span className="merge-row__code mono">rx {m.code}</span>}
+                    <RowAffordances
+                      hasSnap={!!m.snap && m.name === m.original}
+                      isEdited={m.name !== m.original}
+                      snap={m.snap}
+                      onSnap={()    => setMeds((xs) => xs.map((x, j) => j === i ? { ...x, name: m.snap!.to } : x))}
+                      onRevert={() => setMeds((xs) => xs.map((x, j) => j === i ? { ...x, name: x.original } : x))}
+                      onRemove={() => setMeds((xs) => xs.filter((_, j) => j !== i))}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </PreviewSection>
           )}
 
-          {labsEx.length > 0 && (
-            <Section title={`Recent labs (${labsEx.length})`}>
-              {labsEx.map((l, i) => {
-                const snapHit = labSnap[(l.test_name ?? "").toLowerCase()];
-                return (
-                  <Row
-                    key={i}
-                    checked={toggles.labs[i] ?? false}
-                    onChange={(v) =>
-                      setToggles((t) => {
-                        const arr = [...t.labs];
-                        arr[i] = v;
-                        return { ...t, labs: arr };
-                      })
-                    }
-                    label={l.test_name || "(unknown)"}
-                    value={`${l.value ?? "—"}${l.unit ? " " + l.unit : ""}`}
-                    snap={
-                      snapHit
-                        ? {
-                            suggestion: snapHit,
-                            applied:    !!snaps.labs[i],
-                            onToggle:   () =>
-                              setSnaps((s) => ({
-                                ...s,
-                                labs: { ...s.labs, [i]: !s.labs[i] },
-                              })),
-                          }
-                        : undefined
-                    }
-                  />
-                );
-              })}
-            </Section>
+          {/* ── Labs (the star of this modal) ────────────────────────────── */}
+          {labs.length > 0 && (
+            <PreviewSection title="Recent labs" count={counts.lab} total={labs.length}>
+              <ul className="merge-list merge-list--labs">
+                {labs.map((l, i) => (
+                  <li key={i}
+                      className={`merge-lab-row${!l.checked ? " merge-lab-row--off" : ""}`}>
+                    <input type="checkbox" className="merge-row__check"
+                           checked={l.checked}
+                           onChange={(e) => setLabs((xs) => xs.map((x, j) => j === i ? { ...x, checked: e.target.checked } : x))} />
+                    <input type="text" className="merge-row__input merge-lab-row__name"
+                           value={l.name} disabled={!l.checked}
+                           aria-label={`Lab ${i + 1} name`}
+                           onChange={(e) => setLabs((xs) => xs.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} />
+                    <input type="text" inputMode="decimal"
+                           className="merge-row__input merge-lab-row__value mono"
+                           value={l.value} disabled={!l.checked}
+                           placeholder="—"
+                           aria-label={`Lab ${i + 1} value`}
+                           onChange={(e) => setLabs((xs) => xs.map((x, j) => j === i ? { ...x, value: e.target.value } : x))} />
+                    <input type="text"
+                           className="merge-row__input merge-lab-row__unit mono"
+                           value={l.unit} disabled={!l.checked}
+                           placeholder="unit"
+                           aria-label={`Lab ${i + 1} unit`}
+                           onChange={(e) => setLabs((xs) => xs.map((x, j) => j === i ? { ...x, unit: e.target.value } : x))} />
+                    <RowAffordances
+                      hasSnap={!!l.snap && l.name === l.original}
+                      isEdited={l.name !== l.original}
+                      snap={l.snap}
+                      onSnap={()    => setLabs((xs) => xs.map((x, j) => j === i ? { ...x, name: l.snap!.to } : x))}
+                      onRevert={() => setLabs((xs) => xs.map((x, j) => j === i ? { ...x, name: x.original } : x))}
+                      onRemove={() => setLabs((xs) => xs.filter((_, j) => j !== i))}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </PreviewSection>
           )}
         </div>
 
-        {/* Footer */}
-        <footer className="flex items-center justify-between border-t border-slate-800 px-5 py-3">
-          <div className="flex gap-2">
-            <button
-              onClick={() => setAll(false)}
-              className="rounded-md border border-slate-700 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-800 transition-colors"
-            >
-              Reject all
-            </button>
-            <button
-              onClick={() => setAll(true)}
-              className="rounded-md border border-slate-700 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-800 transition-colors"
-            >
-              Accept all
-            </button>
+        <footer className="merge-modal__footer">
+          <div className="merge-modal__bulk">
+            <button onClick={() => setAll(true)}  className="merge-modal__bulk-btn">Accept all</button>
+            <button onClick={() => setAll(false)} className="merge-modal__bulk-btn">Reject all</button>
           </div>
-          <div className="flex gap-3">
-            <button
-              onClick={onCancel}
-              className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={merge}
-              className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 transition-colors"
-            >
-              <Check size={14} />
-              Merge →
+          <div className="merge-modal__primary">
+            <span className="merge-modal__counter">
+              <strong>{total}</strong>{" "}
+              {total === 1 ? "field will merge" : "fields will merge"}
+            </span>
+            <button onClick={onCancel} className="merge-modal__cancel">Cancel</button>
+            <button onClick={merge} disabled={total === 0} className="merge-modal__merge">
+              <Check size={14} strokeWidth={2} />
+              Merge {total > 0 ? `${total} ` : ""}field{total === 1 ? "" : "s"} →
             </button>
           </div>
         </footer>
@@ -360,82 +374,104 @@ export function PreviewMergeModal({ result, current, onCancel, onMerge }: Props)
   );
 }
 
-function Section({
-  title,
-  children,
+/* ── Sub-components ──────────────────────────────────────────────────── */
+
+function PreviewSection({
+  title, count, total, children,
 }: {
   title: string;
+  count: number;
+  total: number;
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
-        {title}
-      </div>
-      <div className="space-y-1">{children}</div>
+    <section className="merge-section">
+      <header className="merge-section__head">
+        <h3 className="merge-section__title">{title}</h3>
+        <span className="merge-section__count mono">
+          {count}<span className="merge-section__count-sep"> / </span>{total}
+        </span>
+      </header>
+      {children}
+    </section>
+  );
+}
+
+function DemoRow({ label, spec, type, step, was, onChange }: {
+  label: string;
+  spec: DemoSpec;
+  type: "text" | "number";
+  step?: string;
+  was?: string;
+  onChange: (patch: Partial<DemoSpec>) => void;
+}) {
+  const willOverwrite = !!was && was !== spec.val && spec.checked && spec.val !== "";
+  return (
+    <div className={`merge-row${!spec.present ? " merge-row--absent" : ""}${!spec.checked && spec.present ? " merge-row--off" : ""}`}>
+      <input type="checkbox" className="merge-row__check"
+             disabled={!spec.present}
+             checked={spec.checked && spec.present}
+             onChange={(e) => onChange({ checked: e.target.checked })} />
+      <span className="merge-row__demo-label">{label}</span>
+      {spec.present ? (
+        <input
+          type={type}
+          step={step}
+          value={spec.val}
+          disabled={!spec.checked}
+          className={`merge-row__input merge-row__input--demo${willOverwrite ? " is-overwrite" : ""}`}
+          onChange={(e) => onChange({ val: e.target.value })}
+        />
+      ) : (
+        <span className="merge-row__absent-text">not detected</span>
+      )}
+      {was && (
+        <span className={`merge-row__was${willOverwrite ? " is-overwrite" : ""}`}>
+          was <span className="mono">{was}</span>
+        </span>
+      )}
+      {spec.present && spec.val !== spec.original && (
+        <button type="button" className="merge-row__revert"
+                title={`Revert to extracted (${spec.original})`}
+                onClick={() => onChange({ val: spec.original })}>
+          <RotateCcw size={11} strokeWidth={1.8} />
+        </button>
+      )}
     </div>
   );
 }
 
-interface RowProps {
-  checked:   boolean;
-  onChange:  (v: boolean) => void;
-  disabled?: boolean;
-  label:     string;
-  value:     string;
-  was?:      string;
-  snap?:     {
-    suggestion: SnapSuggestion;
-    applied:    boolean;
-    onToggle:   () => void;
-  };
-}
-
-function Row({ checked, onChange, disabled, label, value, was, snap }: RowProps) {
+function RowAffordances({
+  hasSnap, isEdited, snap, onSnap, onRevert, onRemove,
+}: {
+  hasSnap:  boolean;
+  isEdited: boolean;
+  snap?:    SnapSuggestion;
+  onSnap:   () => void;
+  onRevert: () => void;
+  onRemove: () => void;
+}) {
   return (
-    <label
-      className={`flex items-start gap-2 rounded-md px-2 py-1.5 text-sm${
-        disabled ? " opacity-50" : " hover:bg-slate-800/60 cursor-pointer"
-      }`}
-    >
-      <input
-        type="checkbox"
-        disabled={disabled}
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 accent-emerald-500"
-      />
-      <div className="flex-1">
-        <div className="flex items-baseline gap-2">
-          <span className="text-slate-100">{label}</span>
-          {value && (
-            <span className="font-mono text-xs text-slate-400">{value}</span>
-          )}
-          {was && (
-            <span className="ml-auto text-xs text-slate-500 italic">{was}</span>
-          )}
-        </div>
-        {snap && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              snap.onToggle();
-            }}
-            className={`mt-1 inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs transition-colors${
-              snap.applied
-                ? " bg-emerald-600/20 text-emerald-300 border border-emerald-600/40"
-                : " border border-slate-700 text-slate-400 hover:border-emerald-600/30 hover:text-slate-200"
-            }`}
-          >
-            {snap.applied ? "✓ snapped to: " : "snap to: "}
-            <span className="font-mono">{snap.suggestion.to}</span>
-            <span className="text-slate-600">
-              ({Math.round(snap.suggestion.score * 100)}%)
-            </span>
-          </button>
-        )}
-      </div>
-    </label>
+    <div className="merge-row__actions">
+      {hasSnap && snap && (
+        <button type="button" className="merge-row__snap"
+                onClick={onSnap}
+                title={`Cohort canonical: ${snap.to} (${Math.round(snap.score * 100)}% confidence)`}>
+          snap → <span className="mono">{snap.to}</span>
+        </button>
+      )}
+      {isEdited && (
+        <button type="button" className="merge-row__revert"
+                onClick={onRevert}
+                title="Revert to extracted text">
+          <RotateCcw size={11} strokeWidth={1.8} />
+        </button>
+      )}
+      <button type="button" className="merge-row__remove"
+              onClick={onRemove}
+              aria-label="Reject row">
+        <Trash2 size={12} strokeWidth={1.7} />
+      </button>
+    </div>
   );
 }

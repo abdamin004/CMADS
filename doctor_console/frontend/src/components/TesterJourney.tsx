@@ -42,19 +42,26 @@ interface Props {
   /** When chrome="inline" the parent can imperatively request a sub-view
    *  (e.g. deep-link from the "My test patients" link in the Doctor header). */
   initialView?:  View;
+  /** Suppress the per-subview "Back to choices" link. Set when the parent
+   *  owns the choice mechanism (e.g. the Researcher Patients dropdown is
+   *  what switches between picker/editor/my-tests, so an internal back link
+   *  to a now-unreachable splash would just confuse the user). */
+  hideBackLinks?: boolean;
 }
 
-export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialView }: Props) {
+export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialView, hideBackLinks = false }: Props) {
   const [view, setView]         = useState<View>(initialView ?? "splash");
   const [payload, setPayload]   = useState<TestPatientPayload>(EMPTY);
   const [editingUuid, setEditingUuid] = useState<string | null>(null);
   const [saving, setSaving]     = useState(false);
   const [testCount, setTestCount] = useState(0);
 
-  // Allow the parent to flip the view from outside (e.g. deep-link from the
-  // Doctor header's "My test patients" link).
+  // Allow the parent to flip the view from outside. Always sync (including
+  // when initialView becomes undefined → fall back to splash) so a parent
+  // that switches between sub-views by changing this prop alone works
+  // without remounting.
   useEffect(() => {
-    if (initialView) setView(initialView);
+    setView(initialView ?? "splash");
   }, [initialView]);
 
   useEffect(() => { listTestPatients().then(rs => setTestCount(rs.length)); }, [view]);
@@ -130,9 +137,8 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
             className="flex flex-1 flex-col items-center justify-center gap-8 p-8"
           >
             <div className="text-center">
-              <div className="mode-chooser__card-eyebrow mono mb-1">How would you like to start?</div>
               <h2 className="text-3xl font-medium text-slate-100" style={{ fontFamily: "Fraunces, serif", letterSpacing: "-0.02em" }}>
-                Build a test patient.
+                Build your own patient.
               </h2>
             </div>
             <div className="flex gap-6" style={{ maxWidth: 840 }}>
@@ -203,7 +209,7 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
             transition={VIEW_TRANSITION}
             className="flex-1 flex flex-col overflow-hidden"
           >
-            {chrome === "inline" && (
+            {chrome === "inline" && !hideBackLinks && (
               <button
                 type="button"
                 onClick={() => setView("splash")}
@@ -227,7 +233,7 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
             transition={VIEW_TRANSITION}
             className="flex-1 flex flex-col overflow-hidden"
           >
-            {chrome === "inline" && (
+            {chrome === "inline" && !hideBackLinks && (
               <button
                 type="button"
                 onClick={() => setView("splash")}
@@ -257,7 +263,7 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
             transition={VIEW_TRANSITION}
             className="flex-1 flex flex-col overflow-hidden"
           >
-            {chrome === "inline" && (
+            {chrome === "inline" && !hideBackLinks && (
               <button
                 type="button"
                 onClick={() => setView("splash")}
@@ -271,7 +277,14 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
               <MyTestPatientsList
                 onEdit={startEdit}
                 onRun={onRunStarted}
-                onNew={() => { setPayload(EMPTY); setEditingUuid(null); setView("editor"); }}
+                onNew={() => {
+                  // "+ New patient" should land on the chooser so the user
+                  // picks between cloning a cohort patient or sketching one
+                  // from scratch — not jump straight into the blank editor.
+                  setPayload(EMPTY);
+                  setEditingUuid(null);
+                  setView("splash");
+                }}
               />
             </div>
           </motion.div>

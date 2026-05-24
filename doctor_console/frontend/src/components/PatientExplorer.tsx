@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AlertCircle, PanelLeftOpen, RotateCw } from "lucide-react";
+import { AlertCircle, ArrowLeft, PanelLeftOpen, RotateCw } from "lucide-react";
 import { getPatients, getResult, getResultSets, startRun, subscribeRun } from "../api";
+import { TesterJourney } from "./TesterJourney";
 import type { AgentCard, PatientListItem, PatientResult, ResultSet, RunTask } from "../types";
 import { AgentFlow } from "./AgentFlow";
 import { AgentInspector } from "./AgentInspector";
@@ -59,6 +60,19 @@ export function PatientExplorer({ mode = "researcher", defaultResultSet, ribbon,
   const [result, setResult] = useState<PatientResult>();
   const [runTask, setRunTask] = useState<RunTask | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  // URL-backed view state for the Researcher Patients tab. Set by the
+  // dropdown in the Researcher menubar (see ResearcherMode.tsx). Defaults
+  // to "explore" so deep-links with no view param still land on the
+  // cohort roster.
+  //   "explore"   → cohort browser (sidebar + detail)
+  //   "create"    → TesterJourney splash → editor (cohort clone or scratch)
+  //   "my-tests"  → TesterJourney "my-tests" sub-view (past custom runs)
+  const [viewUrl, setViewUrl] = useUrlState("view", "");
+  const view: "explore" | "create" | "my-tests" = (() => {
+    if (viewUrl === "create") return "create";
+    if (viewUrl === "my-tests") return "my-tests";
+    return "explore";
+  })();
   const [loadingSets, setLoadingSets] = useState(true);
   const [loadingPatients, setLoadingPatients] = useState(false);
   const [loadingResult, setLoadingResult] = useState(false);
@@ -199,40 +213,48 @@ export function PatientExplorer({ mode = "researcher", defaultResultSet, ribbon,
     }
   }
 
+  // Sidebar visibility: only mount the cohort browser when the user is
+  // actually exploring. On the landing chooser and inside the create
+  // sub-flow it would either be empty (create) or visually conflict with
+  // the two-card chooser (landing).
+  const showSidebar = view === "explore";
+
   return (
     <div className="patient-explorer-frame">
       {ribbon}
-      <div className={`app-shell ${sidebarCollapsed ? "sidebar-is-collapsed" : ""}`}>
-      <PatientBrowser
-        patients={patients}
-        selectedUuid={selectedUuid}
-        query={query}
-        loading={loadingPatients || loadingSets}
-        runTask={runTask}
-        collapsed={sidebarCollapsed}
-        onCollapseChange={setSidebarCollapsed}
-        onGoOverview={() => {
-          setSelectedUuid(undefined);
-          setSidebarCollapsed(false);
-        }}
-        onQueryChange={setQuery}
-        onSelectPatient={(uuid) => {
-          setSelectedUuid(uuid);
-          setSelectedAgentId("final_diagnosis");
-          setSidebarCollapsed(true);
-        }}
-        onRefresh={() => {
-          void loadSets();
-          void loadPatients();
-          void loadResult();
-        }}
-        onRun={mode === "runtime" ? () => void handleRun() : undefined}
-      />
+      <div className={`app-shell${showSidebar && sidebarCollapsed ? " sidebar-is-collapsed" : ""}${showSidebar ? "" : " app-shell--no-sidebar"}`}>
+      {showSidebar ? (
+        <PatientBrowser
+          patients={patients}
+          selectedUuid={selectedUuid}
+          query={query}
+          loading={loadingPatients || loadingSets}
+          runTask={runTask}
+          collapsed={sidebarCollapsed}
+          onCollapseChange={setSidebarCollapsed}
+          onGoOverview={() => {
+            setSelectedUuid(undefined);
+            setSidebarCollapsed(false);
+          }}
+          onQueryChange={setQuery}
+          onSelectPatient={(uuid) => {
+            setSelectedUuid(uuid);
+            setSelectedAgentId("final_diagnosis");
+            setSidebarCollapsed(true);
+          }}
+          onRefresh={() => {
+            void loadSets();
+            void loadPatients();
+            void loadResult();
+          }}
+          onRun={mode === "runtime" ? () => void handleRun() : undefined}
+        />
+      ) : null}
 
       <main className="workspace">
         <header className="topbar">
           <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
-            {sidebarCollapsed ? (
+            {showSidebar && sidebarCollapsed ? (
               <button
                 className="icon-button icon-button--md"
                 type="button"
@@ -243,18 +265,38 @@ export function PatientExplorer({ mode = "researcher", defaultResultSet, ribbon,
                 <PanelLeftOpen size={16} aria-hidden />
               </button>
             ) : null}
-            <button
-              type="button"
-              onClick={() => setSelectedUuid(undefined)}
-              title="Return to overview"
-              style={{
-                background: "none", border: "none", padding: 0, margin: 0,
-                textAlign: "left", color: "inherit", cursor: "pointer", font: "inherit",
-              }}
-            >
-              <div className="eyebrow">Clinical Multi-Agent Decisioning</div>
-              <h1>{selectedUuid ? "Patient Review" : "Patient explorer"}</h1>
-            </button>
+            {mode === "researcher" && (view === "create" || view === "my-tests") ? (
+              <button
+                type="button"
+                onClick={() => setViewUrl("")}
+                className="patient-explorer__back-link"
+                title="Back to the cohort roster"
+              >
+                <ArrowLeft size={14} strokeWidth={1.8} />
+                Back to patients
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setSelectedUuid(undefined)}
+                title="Return to overview"
+                style={{
+                  background: "none", border: "none", padding: 0, margin: 0,
+                  textAlign: "left", color: "inherit", cursor: "pointer", font: "inherit",
+                }}
+              >
+                <div className="eyebrow">Clinical Multi-Agent Decisioning</div>
+                <h1>
+                  {selectedUuid
+                    ? "Patient Review"
+                    : view === "create"
+                    ? "Build a test patient"
+                    : view === "my-tests"
+                    ? "My test patients"
+                    : "Patient explorer"}
+                </h1>
+              </button>
+            )}
           </div>
         </header>
 
@@ -282,7 +324,23 @@ export function PatientExplorer({ mode = "researcher", defaultResultSet, ribbon,
 
         <RunTimeline task={runTask} />
 
-        {!selectedUuid ? (
+        {view === "create" || view === "my-tests" ? (
+          <div className="patient-explorer__create-shell">
+            <TesterJourney
+              chrome="inline"
+              hideBackLinks
+              initialView={view === "my-tests" ? "my-tests" : "splash"}
+              onBack={() => setViewUrl("")}
+              onRunStarted={() => {
+                // The run has been kicked off; return to the cohort
+                // roster and refresh the patient list so the new test
+                // patient appears once it lands.
+                setViewUrl("");
+                void loadPatients();
+              }}
+            />
+          </div>
+        ) : !selectedUuid ? (
           landingHero ? (
             landingHero({
               patients,
@@ -313,7 +371,7 @@ export function PatientExplorer({ mode = "researcher", defaultResultSet, ribbon,
 
         {loadingResult ? <div className="loading-bar">Loading clinical run...</div> : null}
 
-        {result ? (
+        {result && view === "explore" ? (
           <>
             <section className="patient-header panel" data-demo-anchor="patient-header">
               <div>

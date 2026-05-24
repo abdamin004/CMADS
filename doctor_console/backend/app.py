@@ -2928,8 +2928,15 @@ def _similar_cases(
       - ``runtime``: ground-truth target_condition from the neighbour's
         ground_truth.json (clinical reference, not an AI output).
     """
-    if not (PATIENT_CASES / patient_uuid).exists():
-        raise HTTPException(status_code=404, detail=f"Unknown patient: {patient_uuid}")
+    # NOTE: We deliberately do NOT short-circuit on
+    # `(PATIENT_CASES / patient_uuid).exists()` here. Test patients
+    # (Tester journey, UUIDs prefixed `ttest-`) live in Mongo, not on
+    # disk, so that check would 404 them away even though the rest of
+    # the lookup path (Qdrant retrieve → _load_case_bundle fallback)
+    # already knows how to handle them via _load_case_from_test_patient.
+    # If the patient genuinely doesn't exist anywhere, _load_case_bundle
+    # will raise the 404 itself, and the Qdrant-indexed path doesn't
+    # need a case bundle at all.
 
     try:
         from src.memory.case_based_memory import (

@@ -39,6 +39,13 @@ export function useUrlState(
     } else {
       window.history.pushState(null, "", newUrl);
     }
+    // Broadcast a popstate so every other useUrlState instance (and
+    // any other component subscribing to history changes) re-reads the
+    // URL. Without this, only the React component that owns *this*
+    // hook re-renders — sibling consumers of the same key (e.g. the
+    // ribbon and the explorer both reading "view") stay stale until
+    // the user navigates with back/forward.
+    window.dispatchEvent(new PopStateEvent("popstate"));
   }
 
   return [value, setValue];

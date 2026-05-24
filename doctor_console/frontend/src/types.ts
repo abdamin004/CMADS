@@ -393,8 +393,18 @@ export interface TestPatientSummary {
   last_run_at?: string | null;
   run_count: number;
   source_uuid?: string | null;
-  /** DIRECT / INDIRECT / MISS from the most recent completed test run, or null. */
-  latest_match_type?: string | null;
+  /** DIRECT / INDIRECT / MISS from the most recent completed test run; only
+   *  present when the patient declared a target_condition AND a run finished. */
+  latest_match_type?: "DIRECT" | "INDIRECT" | "MISS" | null;
+  /** Patient's declared ground_truth.target_condition.name — drives the
+   *  Exploratory vs. Evaluated distinction in the test-runs list. */
+  target_condition?: string | null;
+  /** final_diagnosis.differential[0].name from the most recent run. */
+  latest_primary_dx?: string | null;
+  /** final_diagnosis.differential[0].confidence (0–100). */
+  latest_primary_confidence?: number | null;
+  /** Wall-clock duration of the most recent run, in seconds. */
+  last_duration_s?: number | null;
 }
 
 export interface SnapSuggestion {

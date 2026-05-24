@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, ArrowLeft, Cloud, HardDrive, History, Home, RotateCw } from "lucide-react";
-import { getPatientCase, getTestPatientAsCase, getResult, getRun, listTestPatients, startRun, subscribeRun, type CaseBundle } from "../api";
+import { AlertCircle, ArrowLeft, Cloud, HardDrive, Home, RotateCw } from "lucide-react";
+import { getPatientCase, getTestPatientAsCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
 import { RuntimeResultView } from "./RuntimeResultView";
 import { RuntimeRunningView } from "./RuntimeRunningView";
-import { TesterJourney } from "./TesterJourney";
+import {
+  getRuntimeTask, setRuntimeTask,
+  getViewIntent,  setViewIntent,
+} from "../lib/runtimeHandoff";
 import type { Mode } from "../useMode";
-
-type DoctorTab = "known" | "build";
-type TesterView = "splash" | "picker" | "editor" | "my-tests";
 
 type Props = {
   mode: Mode;
@@ -21,20 +21,9 @@ type Props = {
 
 type Phase = "idle" | "running" | "completed" | "error" | "cancelled";
 
-// Persist the active task across mode switches / home navigations so the
-// doctor can pop back into the runtime view and find the run still running
-// (or its completed result).
-const RUN_STORAGE_KEY = "cmads.runtime.activeTaskId";
-function storedTaskId(): string | null {
-  try { return window.localStorage.getItem(RUN_STORAGE_KEY); }
-  catch { return null; }
-}
-function setStoredTaskId(taskId: string | null) {
-  try {
-    if (taskId) window.localStorage.setItem(RUN_STORAGE_KEY, taskId);
-    else        window.localStorage.removeItem(RUN_STORAGE_KEY);
-  } catch { /* ignore */ }
-}
+// Persistence of the active task across mode switches / home navigations
+// lives in lib/runtimeHandoff so other surfaces (the Researcher My-test-
+// patients list) can also push a task into this view.
 
 /**
  * Fetch the CaseBundle appropriate for the task's result-set.
@@ -74,26 +63,6 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   // run-start callback), so this stays null for those.
   const lastRunRef = useRef<{ uuid: string; preset: ModelPreset; topK: number } | null>(null);
 
-  // Doctor landing tab: "Known patient" (UUID flow) vs "Build / clone" (Tester body)
-  const [doctorTab, setDoctorTab] = useState<DoctorTab>("known");
-  // Pass-through initial view request into the embedded TesterJourney sub-router.
-  // testerViewKey increments each time we want TesterJourney to re-apply the view
-  // even if the view name didn't change.
-  const [testerView, setTesterView] = useState<TesterView | undefined>(undefined);
-  const [testerViewKey, setTesterViewKey] = useState(0);
-  // Count of saved test patients — drives the "My test patients (N)" link
-  // in the Build/clone tab chrome. Refresh whenever the Doctor tab toggles
-  // back to "build" or a test run finishes (cheap call).
-  const [testCount, setTestCount] = useState<number>(0);
-  useEffect(() => {
-    if (doctorTab !== "build") return;
-    listTestPatients().then((rs) => setTestCount(rs.length)).catch(() => {});
-  }, [doctorTab, phase]);
-  const openMyTests = useCallback(() => {
-    setTesterView("my-tests");
-    setTesterViewKey((k) => k + 1);
-  }, []);
-
   // Reset to the hero.
   const reset = useCallback(() => {
     setPhase("idle");
@@ -102,40 +71,10 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     setCaseBundle(undefined);
     setActiveAgentId("ehr_analyst");
     setError(null);
-    setStoredTaskId(null);
-    setDoctorTab("known");
-    setTesterView(undefined);
-    setTesterViewKey(0);
-  }, []);
-
-  // Called by the embedded Tester body when it starts a run.
-  // We're already in mode=runtime, so no setMode call needed.
-  const handleTesterRunStarted = useCallback((taskId: string) => {
-    setStoredTaskId(taskId);
-    // Trigger the mount-effect path: set the stored key, then force a
-    // re-read by bumping the task via getRun.
-    (async () => {
-      try {
-        const t = await getRun(taskId);
-        setTask(t);
-        void fetchCaseFor(t).then((b) => setCaseBundle(b)).catch(() => {});
-        if (t.status === "running" || t.status === "queued") {
-          setPhase("running");
-        } else if (t.status === "completed") {
-          try {
-            const detail = await getResult(t.resultSet, t.patientUuid);
-            setResult(detail);
-            setPhase("completed");
-          } catch { /* fall through */ }
-        } else if (t.status === "error") {
-          setError(t.error || "Pipeline failed");
-          setPhase("error");
-        }
-      } catch {
-        setError("Could not load test run");
-        setPhase("error");
-      }
-    })();
+    setRuntimeTask(null);
+    // Also clear any pending view-intent — Back from a past-run view should
+    // land at the hero, not re-load the same result on the next mount.
+    setViewIntent(null);
   }, []);
 
   // Kick off a run.
@@ -159,7 +98,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     try {
       const fresh = await startRun(uuid, { presetId: preset.id, topK });
       setTask(fresh);
-      setStoredTaskId(fresh.taskId);
+      setRuntimeTask(fresh.taskId);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setPhase("error");
@@ -176,10 +115,60 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     return true;
   }, [handleRun]);
 
-  // On mount: if we left a previous run in flight (or completed and didn't
-  // reset), restore it so the doctor sees the same state when they return.
+  // On mount: hydrate state from one of two sources, in priority order:
+  //
+  //   1. A view-intent stashed by another surface (handoffToRuntimeView from
+  //      the past-patients list) — load the completed result directly via
+  //      getResult and jump straight to phase="completed" with a synthetic
+  //      task. Used to *view* a past run without re-running it.
+  //
+  //   2. A previously-started task (stashed by handleRun above OR by
+  //      handoffToRuntimeRun from the past-patients list when a re-run was
+  //      kicked off) — fetch the task, subscribe to SSE if still in flight,
+  //      otherwise jump to completed/error/cancelled.
+  //
+  // The view-intent takes priority because the user explicitly asked to view
+  // a specific past run; any stale task in storage shouldn't override that.
   useEffect(() => {
-    const tid = storedTaskId();
+    const intent = getViewIntent();
+    if (intent) {
+      // Don't clear the intent yet — React StrictMode mounts twice in dev,
+      // and the first throwaway mount's setState gets discarded. We clear
+      // only AFTER the result has been set, so the second (real) mount can
+      // re-read the intent and re-fetch if the first effect was aborted.
+      let cancelled = false;
+      (async () => {
+        try {
+          const detail = await getResult(intent.resultSet, intent.patientUuid);
+          if (cancelled) return;
+          setResult(detail);
+          // Synthesize a minimal task for downstream components that read
+          // task.resultSet / task.patientUuid (e.g. the model pill in the
+          // ribbon, the chart fetch path).
+          setTask({
+            taskId:      `view-${intent.patientUuid}`,
+            patientUuid: intent.patientUuid,
+            status:      "completed",
+            resultSet:   intent.resultSet,
+            agents:      detail.agents ?? [],
+            agentNarratives: detail.agentNarratives ?? {},
+          });
+          setPhase("completed");
+          // Now safe to clear — the next mount (e.g. user clicks Home and
+          // re-enters Runtime) won't re-trigger the load.
+          setViewIntent(null);
+        } catch (err) {
+          if (!cancelled) {
+            setError(err instanceof Error ? err.message : "Couldn't load that past run.");
+            setPhase("error");
+            setViewIntent(null);
+          }
+        }
+      })();
+      return () => { cancelled = true; };
+    }
+
+    const tid = getRuntimeTask();
     if (!tid) return;
     let cancelled = false;
     (async () => {
@@ -209,7 +198,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         }
       } catch {
         // Task expired on the backend (server restarted, etc.) — wipe.
-        setStoredTaskId(null);
+        setRuntimeTask(null);
       }
     })();
     return () => { cancelled = true; };
@@ -288,66 +277,8 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         <ModeSwitcher mode={mode} onChange={onModeChange} />
       </div>
 
-      <main className={`runtime-shell__main${phase === "idle" && doctorTab === "build" ? " runtime-shell__main--build" : ""}`}>
-        {phase === "idle" ? (
-          <>
-            {/* Header narrative + segmented control woven together */}
-            <div className="doctor-tab__bar">
-              <div className="doctor-tab__narrative">
-                <span className="doctor-tab__narrative-prefix">a second opinion</span>
-                {doctorTab === "known" ? (
-                  <span className="doctor-tab__narrative-suffix">with a known patient</span>
-                ) : (
-                  <span className="doctor-tab__narrative-suffix">with a patient you build</span>
-                )}
-              </div>
-              <div className="doctor-tab__row">
-                <div className="doctor-tab__tabs">
-                  <button
-                    type="button"
-                    className={`doctor-tab__btn${doctorTab === "known" ? " is-active" : ""}`}
-                    onClick={() => setDoctorTab("known")}
-                  >
-                    Known patient
-                  </button>
-                  <button
-                    type="button"
-                    className={`doctor-tab__btn${doctorTab === "build" ? " is-active" : ""}`}
-                    onClick={() => setDoctorTab("build")}
-                  >
-                    Build / clone a patient
-                  </button>
-                </div>
-                {doctorTab === "build" && (
-                  <button
-                    type="button"
-                    onClick={openMyTests}
-                    className="doctor-tab__my-tests"
-                    title="Past test patients you've saved or run"
-                  >
-                    <History size={14} strokeWidth={1.7} />
-                    My test patients
-                    <span className="doctor-tab__my-tests-count">{testCount}</span>
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {doctorTab === "known" ? (
-              <RuntimeHero onRun={handleRun} />
-            ) : (
-              <div className="doctor-tab__body">
-                <TesterJourney
-                  key={testerViewKey}
-                  chrome="inline"
-                  initialView={testerView}
-                  onBack={() => setDoctorTab("known")}
-                  onRunStarted={handleTesterRunStarted}
-                />
-              </div>
-            )}
-          </>
-        ) : null}
+      <main className="runtime-shell__main">
+        {phase === "idle" ? <RuntimeHero onRun={handleRun} /> : null}
 
         {phase === "running" ? (
           <RuntimeRunningView
