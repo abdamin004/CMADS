@@ -1460,10 +1460,14 @@ def create_app() -> FastAPI:
     @app.get("/api/tests/patients")
     def tester_list_patients(q: str | None = Query(None)) -> list[dict[str, Any]]:
         """List all test patients as summaries, newest first.
-        Includes latest_match_type from evaluation.json in mas_results_test
-        (DIRECT / INDIRECT / MISS), or None when no run has completed.
+        Reads evaluation.json + final_diagnosis.json + execution_trace.json
+        from mas_results_test for the project-card fields the past-runs view
+        renders (top diagnosis, confidence, duration). Every read is best-
+        effort — a missing or malformed file drops just that field, not the
+        row.
         """
         from src.db.mongo import _coll
+        import json as _json
         _test_results_dir = Path("data/gold/mas_results_test")
         query: dict[str, Any] = {}
         if q:
@@ -1471,25 +1475,81 @@ def create_app() -> FastAPI:
         rows: list[dict[str, Any]] = []
         for d in _coll("test_patients").find(query).sort("created_at", -1):
             test_uuid = d["_id"]
-            # Best-effort: read evaluation.json from the test-run output dir.
+            run_dir  = _test_results_dir / test_uuid
+
             latest_match_type: str | None = None
             try:
-                eval_path = _test_results_dir / test_uuid / "evaluation.json"
+                eval_path = run_dir / "evaluation.json"
                 if eval_path.exists():
-                    import json as _json
                     ev = _json.loads(eval_path.read_text())
                     latest_match_type = ev.get("match_type") or ev.get("output", {}).get("match_type")
             except Exception:
                 pass
+
+            # Top diagnosis + confidence from final_diagnosis.json. The
+            # agent writes `probability` as a 0–1 float and `confidence`
+            # as a band label string ("high" / "moderate" / "low"), so the
+            # numeric path is `probability` first; `confidence` is only used
+            # as a numeric fallback when it happens to be numeric (some
+            # older runs). We normalise to a 0–100 percentage because that
+            # is what the frontend renders.
+            latest_primary_dx: str | None = None
+            latest_primary_confidence: float | None = None
+            try:
+                fd_path = run_dir / "final_diagnosis.json"
+                if fd_path.exists():
+                    fd = _json.loads(fd_path.read_text())
+                    diff = (
+                        fd.get("differential")
+                        or fd.get("output", {}).get("differential")
+                        or []
+                    )
+                    if diff:
+                        top = diff[0]
+                        latest_primary_dx = top.get("name") or top.get("diagnosis")
+                        raw = top.get("probability")
+                        if not isinstance(raw, (int, float)):
+                            cand = top.get("confidence")
+                            raw  = cand if isinstance(cand, (int, float)) else None
+                        if isinstance(raw, (int, float)):
+                            latest_primary_confidence = (
+                                float(raw) * 100 if raw <= 1 else float(raw)
+                            )
+            except Exception:
+                pass
+
+            # Wall-clock duration from execution_trace.json. Trace shape
+            # varies across runs — some store {total_duration_s}, some store
+            # a list of per-agent {duration_s} entries to sum, some nest
+            # the list under a `trace` key. Handle each shape best-effort.
+            last_duration_s: float | None = None
+            try:
+                tr_path = run_dir / "execution_trace.json"
+                if tr_path.exists():
+                    tr = _json.loads(tr_path.read_text())
+                    if isinstance(tr, dict):
+                        last_duration_s = tr.get("total_duration_s") or tr.get("duration_s")
+                        if last_duration_s is None and isinstance(tr.get("trace"), list):
+                            last_duration_s = sum(
+                                (t.get("duration_s") or 0) for t in tr["trace"]
+                            ) or None
+                    elif isinstance(tr, list):
+                        last_duration_s = sum((t.get("duration_s") or 0) for t in tr) or None
+            except Exception:
+                pass
+
             rows.append({
-                "test_uuid":          test_uuid,
-                "label":              d.get("label"),
-                "created_at":         d.get("created_at"),
-                "updated_at":         d.get("updated_at"),
-                "last_run_at":        d.get("last_run_at"),
-                "run_count":          d.get("run_count", 0),
-                "source_uuid":        d.get("source_uuid"),
-                "latest_match_type":  latest_match_type,
+                "test_uuid":                 test_uuid,
+                "label":                     d.get("label"),
+                "created_at":                d.get("created_at"),
+                "updated_at":                d.get("updated_at"),
+                "last_run_at":               d.get("last_run_at"),
+                "run_count":                 d.get("run_count", 0),
+                "source_uuid":               d.get("source_uuid"),
+                "latest_match_type":         latest_match_type,
+                "latest_primary_dx":         latest_primary_dx,
+                "latest_primary_confidence": latest_primary_confidence,
+                "last_duration_s":           last_duration_s,
             })
         return rows
 
