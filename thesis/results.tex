@@ -893,36 +893,24 @@ Cairo.}
 \label{subsec:results_dashboard_doctor}
 
 The Doctor journey is for a clinician with a patient in front of them.
-The entry view offers two ways in: a \emph{Known patient} tab takes a
-UUID and launches the seven-agent pipeline against an existing
-Gold-layer record, and a \emph{Build / clone a patient} tab opens a
-two-pane editor where the clinician can either sketch a case from
-scratch (age, sex, active conditions, medications, recent labs) or
-clone a verified cohort patient as a starting template and edit any
-field before running. The Recent-labs section of that editor includes
-a Smart Import affordance that extracts lab rows from pasted text, an
-uploaded PDF or FHIR JSON file, or a photo of a lab slip --- so a
-clinician with a paper report can populate the panel without manual
-typing. Both paths land on the same runtime view and persist into a
-separate cohort (\texttt{data/gold/mas\_results\_runtime/} for live
-Known runs, \texttt{data/gold/mas\_results\_test/} for builder runs)
-so neither flow can contaminate the research statistics shown in the
-Researcher journey. The active reasoning model is disclosed in the
-top-bar pill (here \emph{GPT-OSS-120B} served via Groq), and the
-\emph{Doctor\,/\,Researcher} toggle on the top-right switches journeys
-without leaving the application.
-
-When the run completes the doctor lands on the per-patient review
-surface shown in Figure~\ref{fig:doctor_runtime}: a compact patient
-header (age, sex, ethnicity, UUID, data cutoff) above five tabs ---
-\emph{Patient data}, \emph{Differential}, \emph{Treatment},
-\emph{Similar cases}, and \emph{Reasoning} (the explainability tab).
-The Differential tab shown opens with the ranked top-three primary
-hypotheses, each with a confidence percentage and colour-coded by
-rank (green at \#1, blue at \#2), followed by collapsible cards
-listing the \emph{unresolved findings} the agents flagged but could
-not explain and the \emph{suggested next steps} the system would
-order next.
+A single UUID input launches the seven-agent pipeline against that
+patient end to end, with the chosen reasoning model disclosed in the
+top-bar pill (here \emph{GPT-OSS-120B} served via Groq) and the
+\emph{Doctor / Researcher} toggle on the top-right for switching
+journeys without leaving the application. When the run completes the
+doctor lands on the per-patient review surface shown in
+Figure~\ref{fig:doctor_runtime}: a compact patient header (age, sex,
+ethnicity, UUID, data cutoff) above five tabs --- \emph{Patient
+data}, \emph{Differential}, \emph{Treatment}, \emph{Similar cases},
+and \emph{Reasoning} (the explainability tab). The Differential tab
+shown opens with the ranked top-three primary hypotheses, each with a
+confidence percentage and colour-coded by rank (green at \#1, blue at
+\#2), followed by collapsible cards listing the \emph{unresolved
+findings} the agents flagged but could not explain and the
+\emph{suggested next steps} the system would order next. Live Doctor
+runs are persisted into a separate cohort
+(\texttt{data/gold/mas\_results\_runtime/}) so they cannot contaminate
+the research statistics shown in the Researcher journey.
 
 \begin{figure}[!htbp]
 \centering
@@ -957,11 +945,17 @@ union (the same numbers reported in Section~\ref{sec:results_e2e}). The
 Memory A/B tab puts the single-level baseline arm in neutral grey above
 the principal multi-level configuration in green, so the directional
 improvement is visible at a glance before the reader scrolls to the
-McNemar contingency underneath. The Patients tab opens with a static
-data-structure explainer so the reviewer knows exactly what each of the
-seven agents is fed before drilling into any single patient; clicking a
-patient swaps the right panel for the ranked differential, agent
-narratives, treatment plan, and similar-prior-cases panel.
+McNemar contingency underneath. The Patients tab is itself a dropdown
+of three sub-views: \emph{Explore} (per-UUID drill-down into the
+verified cohort, prefaced by a static data-structure explainer so the
+reviewer knows exactly what each of the seven agents is fed),
+\emph{Create} (a two-pane editor that lets the reviewer sketch a test
+patient from scratch or clone a verified cohort patient as a starting
+template, then run the pipeline against it), and \emph{My test
+patients} (saved builder runs the reviewer can re-run or edit). Builder
+runs persist into a separate \texttt{mas\_results\_test} cohort that
+the Overview / Memory A/B / Model tabs never read from, so ad-hoc
+authored cases cannot contaminate the headline numbers.
 
 Five tabs sit above the main panel:
 \textbf{Overview} (system-accuracy KPIs on the principal multi-level

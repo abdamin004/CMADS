@@ -1194,19 +1194,20 @@ fall back to filesystem-scanning helpers, preserving the rollback
 contract.
 
 \paragraph{Patient builder.}
-The Doctor (\emph{Assist me}) journey hosts a second tab,
-\emph{Build / clone a patient}, that lets the clinician author a case
-from scratch (demographics, conditions, medications, vitals, recent
-labs) or clone a verified Gold-layer patient as a starting point and
-edit any field before running the pipeline. A \emph{Smart Import} flow
-inside the Recent labs tab extracts structured lab values from pasted
-text, an uploaded PDF or FHIR JSON file, or a photo of a lab slip
-(parsed with Gemini~2.5~Flash), so an arbitrary panel can be entered
-without retyping every numeric result. The builder lives entirely
-inside the Doctor journey --- the Researcher journey does not surface
-it. Builder runs are written to a separate
-\texttt{mas\_results\_test} cohort so ad-hoc cases never contaminate
-the research statistics shown to the reviewer.
+The Researcher journey's Patients tab is a dropdown of three
+sub-views: \emph{Explore} (per-UUID drill-down on the verified
+cohort), \emph{Create} (a two-pane editor for authoring a test
+patient from scratch or cloning a verified cohort patient as a
+starting point), and \emph{My test patients} (saved builder runs the
+reviewer can re-run or edit). The Create editor surfaces demographics,
+active conditions, medications, vitals, and recent labs; a
+\emph{Smart Import} flow inside the Recent labs section extracts
+structured lab values from pasted text, an uploaded PDF or FHIR JSON
+file, or a photo of a lab slip (parsed with Gemini~2.5~Flash) so an
+arbitrary panel can be entered without retyping every numeric result.
+Builder runs are written to a separate \texttt{mas\_results\_test}
+cohort and never reach the headline statistics on the Overview /
+Memory~A/B / Model-comparison tabs.
 
 \subsection*{Code availability}
 The full implementation --- data pipeline, agent prompts, LangGraph workflow,
