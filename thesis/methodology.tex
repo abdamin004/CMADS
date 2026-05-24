@@ -1194,15 +1194,19 @@ fall back to filesystem-scanning helpers, preserving the rollback
 contract.
 
 \paragraph{Patient builder.}
-The Doctor journey also exposes a \emph{Build / clone a patient} tab so
-the clinician can author their own case from scratch (demographics,
-conditions, medications, vitals, recent labs) or clone an existing
-Gold-layer patient as a starting point and edit any field before
-running the pipeline. A Smart Import flow inside the Recent labs tab
-extracts structured lab values from pasted text or a free-form report,
-so an arbitrary lab panel can be entered without retyping each numeric
-result. Builder runs are written to a separate \texttt{mas\_results\_test}
-result set so ad-hoc cases never contaminate the research statistics.
+The Doctor (\emph{Assist me}) journey hosts a second tab,
+\emph{Build / clone a patient}, that lets the clinician author a case
+from scratch (demographics, conditions, medications, vitals, recent
+labs) or clone a verified Gold-layer patient as a starting point and
+edit any field before running the pipeline. A \emph{Smart Import} flow
+inside the Recent labs tab extracts structured lab values from pasted
+text, an uploaded PDF or FHIR JSON file, or a photo of a lab slip
+(parsed with Gemini~2.5~Flash), so an arbitrary panel can be entered
+without retyping every numeric result. The builder lives entirely
+inside the Doctor journey --- the Researcher journey does not surface
+it. Builder runs are written to a separate
+\texttt{mas\_results\_test} cohort so ad-hoc cases never contaminate
+the research statistics shown to the reviewer.
 
 \subsection*{Code availability}
 The full implementation --- data pipeline, agent prompts, LangGraph workflow,

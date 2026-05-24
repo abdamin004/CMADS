@@ -29,7 +29,7 @@ System Found rate (top-5)                & \textbf{94.4\,\%} (151/160)          
 Memory effect (paired, vs single-level)  & \textbf{+23.1\,pp} DIRECT            & \ref{sec:results_memory_ab}      \\
 Orchestration effect (vs single-LLM)     & \textbf{+33.8\,pp} DIRECT            & \ref{sec:results_single_llm}     \\
 Detectability dependence                 & $-63.6\,$pp on rejected-band patients & \ref{sec:results_detectability_sensitivity} \\
-Median wall-clock per patient            & 129\,s                                & \ref{sec:results_agents}         \\
+Median wall-clock per patient            & 112\,s                                & \ref{sec:results_agents}         \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -135,7 +135,7 @@ enabled. The system returns a DIRECT match in 76.9\% of cases
 (123/160, Wilson 95\% CI [69.8, 82.7]), an INDIRECT match in 17.5\%
 [12.4, 24.1], and a MISS in 5.6\% [3.0, 10.3]. The combined found rate
 (DIRECT + INDIRECT) is 94.4\% [89.7, 97.0]. When the target disease is
-found, it is ranked first in 64.5\% [56.6, 71.6] of found cases.
+found, it is ranked first in 63.6\% [55.7, 70.8] of found cases.
 
 \begin{table}[!htbp]
 \centering
@@ -157,9 +157,9 @@ INDIRECT                   & 17.5\% (28/160)  & [12.4, 24.1] \\
 MISS                       &  5.6\% (9/160)   & [3.0, 10.3]  \\
 \midrule
 Found (DIRECT + INDIRECT)  & 94.4\% (151/160) & [89.7, 97.0] \\
-Rank-1 within found        & 64.5\% (98/152)  & [56.6, 71.6] \\
+Rank-1 within found        & 63.6\% (96/151)  & [55.7, 70.8] \\
 \midrule
-Median runtime / patient   & \multicolumn{2}{l}{129\,s (mean 192\,s)} \\
+Median runtime / patient   & \multicolumn{2}{l}{112\,s (mean 124\,s)} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -583,7 +583,7 @@ RareAgents \newline \cite{Chen2024RareAgents}
 This work
   & 7-agent LangGraph pipeline with non-destructive Reviewer-Refiner and 4-tier shared memory
   & Synthea patients filtered through deterministic eligibility and an LLM detectability verifier across 8 disease families
-  & 76.9\% DIRECT, 94.4\% combined found rate, 64.5\% Rank-1 within found, plus a paired 160-patient memory A/B showing $+23.1$ pp DIRECT and $+1.9$ pp Found rate for multi-level memory \\
+  & See headline cohort metrics in Section~\ref{sec:results_e2e}, paired memory A/B in Section~\ref{sec:results_memory_ab}, and single-LLM controlled baseline in Section~\ref{sec:results_single_llm} \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -618,11 +618,56 @@ the published literature rather than to claim a head-to-head win on any
 single benchmark: the cohorts and metrics differ in ways that make a
 leaderboard reading inappropriate.
 
-Bedi et al.'s Optimisation Paradox is also relevant
-\cite{Bedi2025OptParadox}. Their work shows that combining individually strong
-agents does not guarantee a strong clinical system. The results here support
-the same practical message: the workflow, handoffs, review step, and memory
-control are part of the system's performance, not secondary details.
+\subsection{Revisiting the Optimisation Paradox}
+\label{sec:results_paradox}
+
+Bedi et al.~\cite{Bedi2025OptParadox} report what they call the
+``Optimisation Paradox'' in clinical multi-agent LLM systems. On
+2{,}400 MIMIC-IV-CDM cases, their best single-agent configuration
+reached $67.7\,\%$ diagnostic accuracy and outperformed both their
+homogeneous and heterogeneous multi-agent variants on the same
+cases. Read literally, this suggests that more agents do not help
+and may hurt. The CMADS evaluation reported in
+Section~\ref{sec:results_single_llm} appears to contradict that
+result --- the seven-agent pipeline beats a single-prompt baseline
+by $+33.8$ percentage points on DIRECT ($73.8\,\%$ vs.\ $40.0\,\%$,
+118/160 vs.\ 64/160) on the same 160 patients with the same
+reasoning model.
+
+Three reconciliation points are worth stating. First, the baseline
+to which Bedi et al.\ compare is not the same baseline used here:
+their ``single agent'' was already a sophisticated chain-of-thought
+configuration with structured reasoning, while the CMADS comparison
+is against a deliberately simpler single-call baseline with no
+explicit chain-of-thought scaffolding. The CMADS lift therefore
+includes the contribution of any reasoning scaffolding, not only
+the contribution of multi-agent coordination. Second, the
+evaluation rubrics differ: Bedi et al.\ measure against the
+discharge diagnosis derived from real MIMIC notes with
+clinician-in-the-loop adjudication, whereas the CMADS evaluation
+measures against the Synthea ground-truth label using the
+three-label LLM-as-judge rubric documented in
+Section~\ref{sec:evaluation}. Two different operational definitions
+of ``correct'' will not produce comparable absolute accuracy
+numbers across studies. Third, and most importantly, the
+multi-agent variants Bedi et al.\ benchmarked lacked the
+specific orchestration patterns that drive the CMADS gain --- the
+non-destructive Reviewer-Refiner pattern reported in
+Section~\ref{sec:results_adaptive} (where the Reviewer never
+deletes a hypothesis but the Refiner re-merges with explicit
+verified/refuted/uncertain flags), and the four-tier memory
+subsystem reported in Section~\ref{sec:results_memory_ab} (where
+the case-based prior contributes the $+23.1$ percentage-point
+DIRECT lift on the paired comparison). On the present evidence the
+paradox is not refuted in general --- adding undifferentiated
+agents to a sophisticated reasoner may well still hurt, as Bedi et
+al.\ argue. What this thesis identifies is which specific
+orchestration patterns appear to escape it.
+
+\paragraph{Takeaway.} The Optimisation Paradox is reconciled rather
+than refuted: the CMADS gain is concentrated in two orchestration
+patterns (non-destructive Reviewer-Refiner, four-tier memory) that
+were not present in the multi-agent variants Bedi et al.\ tested.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Qualitative Case Walkthroughs}
@@ -690,148 +735,6 @@ a common weakness in the pipeline: known cardiovascular history can be treated
 as background context instead of being carried forward as an active diagnostic
 candidate.
 \par\endgroup
-
-% ─────────────────────────────────────────────────────────────────────────────
-\section{Doctor-Facing Dashboard}
-\label{sec:results_dashboard_review}
-% ─────────────────────────────────────────────────────────────────────────────
-
-The dashboard turns the saved per-agent JSON outputs into a form a clinician
-or research reviewer can inspect without opening files. It is a single React +
-Vite + FastAPI application served locally from \texttt{doctor\_console/};
-there is no separate research dashboard. On first load the application opens
-on a splash that asks the reviewer to pick one of two journeys
-(Figure~\ref{fig:doctor_console}): \emph{Doctor (runtime)} for a live patient
-run, or \emph{Researcher (statistics)} for cohort-level inspection of past
-runs. The choice is sticky in the URL so the two journeys can be bookmarked
-independently.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.98\textwidth]{images/ch4_doctor_console.png}
-\caption{The CMADS doctor console. The Researcher view shown here surfaces
-the headline system accuracy on the principal 160-patient cohort and a
-collapsible breakdown by rank and per ground-truth disease. The same
-application also hosts the Doctor (runtime) journey for live patient runs;
-the splash on first load asks the reviewer which journey to enter, and the
-selection is reflected in the URL so the two journeys are independently
-bookmarkable.}
-\label{fig:doctor_console}
-\end{figure}
-
-\subsection{Doctor (runtime) journey}
-\label{subsec:results_dashboard_doctor}
-
-The Doctor journey is for a clinician with a patient in front of them.
-Figure~\ref{fig:doctor_runtime} shows the landing page: a single UUID
-input above the live agent-flow strip, with the chosen reasoning model
-disclosed beneath the ``Advanced settings'' twist. Submitting the UUID
-launches the seven-agent pipeline against that patient end to end. While
-the run is in flight, the agent-flow strip lights up the active stage and
-streams each agent's narrative as it completes; the live execution trace
-is visible without opening a file. When the run finishes, the same view
-shows the ranked differential, the matched diagnosis, the NICE-grounded
-treatment plan (when the evaluator returned DIRECT), and the per-agent
-narrative for audit. Live Doctor runs are persisted into a separate
-cohort (\texttt{data/gold/mas\_results\_runtime/}) so they cannot
-contaminate the research statistics shown in the Researcher journey.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.85\textwidth]{images/ch4_doctor_runtime.png}
-\caption{The Doctor (runtime) journey landing page. A single UUID input
-launches the seven-agent pipeline against that patient end to end; the
-agent-flow strip beneath then lights up each stage as it completes and
-streams the per-agent narrative as it lands.}
-\label{fig:doctor_runtime}
-\end{figure}
-
-\subsection{Researcher (statistics) journey}
-\label{subsec:results_dashboard_researcher}
-
-The Researcher journey is for a reviewer or examiner inspecting past runs.
-The Overview tab (Figure~\ref{fig:researcher_overview}) renders the
-headline accuracy KPIs as large numerals --- patients reviewed, system
-Found rate, median runtime, and an interactive Precision-at-K card ---
-and a collapsible breakdown by rank bucket and per ground-truth disease
-beneath. The Memory A/B tab (Figure~\ref{fig:researcher_memory_ab})
-puts the single-level baseline arm in neutral grey above the principal
-multi-level configuration in green, so the directional improvement is
-visible at a glance before the reader scrolls to the McNemar contingency
-underneath. The Patients tab (Figure~\ref{fig:researcher_patients})
-opens with a static data-structure explainer so the reviewer knows
-exactly what each of the seven agents is fed before drilling into any
-single patient.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.95\textwidth]{images/ch4_researcher_overview.png}
-\caption{Researcher Overview tab. The KPIs shown are sourced live from
-the MongoDB \texttt{agent\_runs} collection on the 160-patient
-multi-level cohort union --- the same numbers reported in
-Section~\ref{sec:results_e2e}.}
-\label{fig:researcher_overview}
-\end{figure}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.95\textwidth]{images/ch4_researcher_memory_ab.png}
-\caption{Researcher Memory A/B tab. Single-level memory baseline (grey)
-above the principal multi-level configuration (green); both arms render
-on the same 160 paired patients. The 2$\times$2 McNemar contingency
-shown in Section~\ref{sec:results_memory_ab} is rendered below this
-strip.}
-\label{fig:researcher_memory_ab}
-\end{figure}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.95\textwidth]{images/ch4_researcher_patients.png}
-\caption{Researcher Patients tab. The sidebar lists the cohort; the
-right panel opens with a data-structure explainer summarising what every
-agent reads for each patient. Clicking a patient swaps the right panel
-for the ranked differential, agent narratives, treatment plan, and
-similar-prior-cases panel.}
-\label{fig:researcher_patients}
-\end{figure}
-
-Five tabs sit above the main panel:
-\textbf{Overview} (system-accuracy KPIs on the principal multi-level
-configuration, with a Precision-at-K interactive card and an expandable
-breakdown by rank and per-disease, all served from the multi-level cohort
-union of \texttt{mas\_results\_improved\_b3/\_50/\_extra60/});
-\textbf{Memory A/B} (single-level baseline versus the principal
-multi-level configuration on the same 160 paired patients --- per-arm KPI
-strips, side-by-side colour-coded delta table, and the 2$\times$2
-DIRECT-classification contingency that drives the exact McNemar test of
-Section~\ref{sec:results_memory_ab});
-\textbf{Model} (GPT-OSS 120B head-to-head against Med42 70B on the
-twenty-patient pilot of Section~\ref{sec:results_models});
-\textbf{MAS vs single-LLM} (the controlled-baseline comparison of
-Section~\ref{sec:results_single_llm});
-and \textbf{Patients}, the per-patient drill-down view that exposes the
-agent narrative, ranked differential, treatment plan, and the top-$K$
-similar prior cases from Tier-4 case-based memory for any selected
-patient.
-
-The five comparison tabs share one visual language: each surface opens
-with a one-sentence framing, then a side-by-side arm comparison with the
-baseline arm in neutral grey and the principal configuration in green to
-mark the recommended read, then the same coloured delta table format
-(green when the principal configuration wins on the metric's clinical
-direction, red when the baseline wins). The Patients tab additionally
-hosts the data-structure explainer (a static description of what the
-seven agents see for each patient) and the per-agent prompt-template
-viewer, so a reviewer can verify exactly what every agent was asked to do
-without leaving the dashboard.
-
-The combined effect is that one application carries the system from
-``run it on this patient'' to ``audit it across every past patient with
-the same accuracy table the thesis reports'', and a viva examiner can
-move from a headline percentage in this chapter to the patient-level
-evidence behind it in two clicks. The hidden ground truth is never
-shown so the console reads as a clinician-facing review surface rather
-than a spoiler tool.
 
 % ─────────────────────────────────────────────────────────────────────────────
 \section{Single-LLM Controlled Baseline}
@@ -948,4 +851,153 @@ $22\times$ wall-clock penalty ($1.9$\,s versus $129.7$\,s per
 patient). \textbf{Takeaway:} the single-LLM is better when you only
 read the first line; the multi-agent system is better when you read
 the top-5 differential as intended.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Doctor-Facing Dashboard}
+\label{sec:results_dashboard_review}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The dashboard turns the saved per-agent JSON outputs into a form a clinician
+or research reviewer can inspect without opening files. It is a single React +
+Vite + FastAPI application served locally from \texttt{doctor\_console/};
+there is no separate research dashboard. On first load the application opens
+on a splash that asks the reviewer to pick one of two journeys
+(Figure~\ref{fig:doctor_console}): \emph{Assist me} (Doctor runtime) for a
+live patient run, or \emph{Build trust} (Researcher statistics) for
+cohort-level inspection of past runs. The splash recommends the Build-trust
+path first --- read past patients the system has been evaluated on,
+\emph{then} use it on a new one --- and the choice is sticky in the URL so
+the two journeys can be bookmarked independently.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.98\textwidth]{images/ch4_doctor_console.png}
+\caption{The CMADS doctor console splash, headed
+\emph{CMADS\,$\cdot$\,A Clinical Second Opinion}. Two entry cards
+sit on a dark surface: \emph{Assist me} (green stethoscope icon,
+``when you have a patient in front of you'') with the call-to-action
+``Let's look at a patient'', and \emph{Build trust} (purple
+heart-stethoscope icon, ``before you lean on it'') with the
+``\textsc{start here}'' chip in the top-right corner and the
+call-to-action ``Show me what it can do''. A panel beneath the cards
+(\emph{Two ways in, and an order worth following}) spells out the
+recommended order --- (1)~start with Build trust to inspect past
+evaluated patients, (2)~switch to Assist me once the system has
+earned the clinician's confidence. The footer marks the application
+as the artefact of this bachelor thesis at the German University in
+Cairo.}
+\label{fig:doctor_console}
+\end{figure}
+
+\subsection{Doctor (runtime) journey}
+\label{subsec:results_dashboard_doctor}
+
+The Doctor journey is for a clinician with a patient in front of them.
+The entry view offers two ways in: a \emph{Known patient} tab takes a
+UUID and launches the seven-agent pipeline against an existing
+Gold-layer record, and a \emph{Build / clone a patient} tab opens a
+two-pane editor where the clinician can either sketch a case from
+scratch (age, sex, active conditions, medications, recent labs) or
+clone a verified cohort patient as a starting template and edit any
+field before running. The Recent-labs section of that editor includes
+a Smart Import affordance that extracts lab rows from pasted text, an
+uploaded PDF or FHIR JSON file, or a photo of a lab slip --- so a
+clinician with a paper report can populate the panel without manual
+typing. Both paths land on the same runtime view and persist into a
+separate cohort (\texttt{data/gold/mas\_results\_runtime/} for live
+Known runs, \texttt{data/gold/mas\_results\_test/} for builder runs)
+so neither flow can contaminate the research statistics shown in the
+Researcher journey. The active reasoning model is disclosed in the
+top-bar pill (here \emph{GPT-OSS-120B} served via Groq), and the
+\emph{Doctor\,/\,Researcher} toggle on the top-right switches journeys
+without leaving the application.
+
+When the run completes the doctor lands on the per-patient review
+surface shown in Figure~\ref{fig:doctor_runtime}: a compact patient
+header (age, sex, ethnicity, UUID, data cutoff) above five tabs ---
+\emph{Patient data}, \emph{Differential}, \emph{Treatment},
+\emph{Similar cases}, and \emph{Reasoning} (the explainability tab).
+The Differential tab shown opens with the ranked top-three primary
+hypotheses, each with a confidence percentage and colour-coded by
+rank (green at \#1, blue at \#2), followed by collapsible cards
+listing the \emph{unresolved findings} the agents flagged but could
+not explain and the \emph{suggested next steps} the system would
+order next.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{images/ch4_doctor_runtime.png}
+\caption{The Doctor (runtime) review surface after a completed run.
+The top bar shows the active reasoning model
+(\emph{GPT-OSS-120B}\,$\cdot$\,Groq) and a Doctor\,/\,Researcher
+toggle. Beneath it, the patient card carries the UUID, demographics
+(``48 year old M, white''), and the data cutoff, with a
+\emph{Run another patient} action on the right. The
+\emph{Differential} tab is open, listing the ranked top-three
+hypotheses with confidence: \#1 chronic iron-deficiency anemia
+($63\,\%$, green), \#2 reactive (secondary) thrombocytosis
+($28\,\%$, blue), and \#3 chronic periodontitis with systemic
+inflammatory sequelae ($9\,\%$). The two collapsible cards beneath
+the differential expose \emph{unresolved findings} (five items the
+agents could not explain away) and \emph{suggested next steps}
+(seven follow-up orders the system would queue).}
+\label{fig:doctor_runtime}
+\end{figure}
+
+\subsection{Researcher (statistics) journey}
+\label{subsec:results_dashboard_researcher}
+
+The Researcher journey is for a reviewer or examiner inspecting past runs.
+The Overview tab renders the headline accuracy KPIs as large numerals ---
+patients reviewed, system Found rate, median runtime, and an interactive
+Precision-at-K card --- and a collapsible breakdown by rank bucket and
+per ground-truth disease beneath, all sourced live from the MongoDB
+\texttt{agent\_runs} collection on the 160-patient multi-level cohort
+union (the same numbers reported in Section~\ref{sec:results_e2e}). The
+Memory A/B tab puts the single-level baseline arm in neutral grey above
+the principal multi-level configuration in green, so the directional
+improvement is visible at a glance before the reader scrolls to the
+McNemar contingency underneath. The Patients tab opens with a static
+data-structure explainer so the reviewer knows exactly what each of the
+seven agents is fed before drilling into any single patient; clicking a
+patient swaps the right panel for the ranked differential, agent
+narratives, treatment plan, and similar-prior-cases panel.
+
+Five tabs sit above the main panel:
+\textbf{Overview} (system-accuracy KPIs on the principal multi-level
+configuration, with a Precision-at-K interactive card and an expandable
+breakdown by rank and per-disease, all served from the multi-level cohort
+union of \texttt{mas\_results\_improved\_b3/\_50/\_extra60/});
+\textbf{Memory A/B} (single-level baseline versus the principal
+multi-level configuration on the same 160 paired patients --- per-arm KPI
+strips, side-by-side colour-coded delta table, and the 2$\times$2
+DIRECT-classification contingency that drives the exact McNemar test of
+Section~\ref{sec:results_memory_ab});
+\textbf{Model} (GPT-OSS 120B head-to-head against Med42 70B on the
+twenty-patient pilot of Section~\ref{sec:results_models});
+\textbf{MAS vs single-LLM} (the controlled-baseline comparison of
+Section~\ref{sec:results_single_llm});
+and \textbf{Patients}, the per-patient drill-down view that exposes the
+agent narrative, ranked differential, treatment plan, and the top-$K$
+similar prior cases from Tier-4 case-based memory for any selected
+patient.
+
+The five comparison tabs share one visual language: each surface opens
+with a one-sentence framing, then a side-by-side arm comparison with the
+baseline arm in neutral grey and the principal configuration in green to
+mark the recommended read, then the same coloured delta table format
+(green when the principal configuration wins on the metric's clinical
+direction, red when the baseline wins). The Patients tab additionally
+hosts the data-structure explainer (a static description of what the
+seven agents see for each patient) and the per-agent prompt-template
+viewer, so a reviewer can verify exactly what every agent was asked to do
+without leaving the dashboard.
+
+The combined effect is that one application carries the system from
+``run it on this patient'' to ``audit it across every past patient with
+the same accuracy table the thesis reports'', and a viva examiner can
+move from a headline percentage in this chapter to the patient-level
+evidence behind it in two clicks. The hidden ground truth is never
+shown so the console reads as a clinician-facing review surface rather
+than a spoiler tool.
 
