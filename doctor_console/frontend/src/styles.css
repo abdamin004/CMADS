@@ -8242,24 +8242,34 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
 .builder-nav__btn-summary--active {
   color: color-mix(in oklab, var(--success) 60%, transparent);
 }
-.builder-nav__btn--active {
-  background: color-mix(in oklab, var(--success) 12%, transparent);
+/* Higher specificity (.builder-nav__btn.builder-nav__btn--active) so this
+   rule can't be beaten by an upstream Tailwind utility or a stale cache
+   layering on top of it. */
+.builder-nav__btn.builder-nav__btn--active,
+button.builder-nav__btn--active {
+  /* Soft inline accent: a 2-px emerald rail + a whisper of accent fill,
+     no border outline. Reads as an active sidebar item rather than a
+     contained card sitting on the page. */
+  background: color-mix(in oklab, var(--success) 6%, transparent);
   color: color-mix(in oklab, var(--success) 85%, var(--ink));
-  border-color: color-mix(in oklab, var(--success) 35%, transparent);
-  /* 2 px emerald rail on the left edge */
+  border: 0;
+  outline: none;
   box-shadow: inset 2px 0 0 var(--success);
-  padding-left: 14px;          /* compensate the inset shadow width */
+  padding-left: 14px;
   font-weight: 500;
 }
-.builder-nav__btn--active::before {
-  background: transparent; /* active state uses box-shadow rail instead */
+.builder-nav__btn.builder-nav__btn--active::before {
+  background: transparent;
 }
-.builder-nav__btn--active .builder-nav__btn-title {
+.builder-nav__btn.builder-nav__btn--active .builder-nav__btn-title {
   font-weight: 600;
 }
-.builder-nav__btn--active:hover {
-  background: color-mix(in oklab, var(--success) 18%, transparent);
+.builder-nav__btn.builder-nav__btn--active:hover,
+button.builder-nav__btn--active:hover {
+  background: color-mix(in oklab, var(--success) 12%, transparent);
   color: color-mix(in oklab, var(--success) 95%, var(--ink));
+  border: 0;
+  outline: none;
 }
 
 /* ── Generic segmented control — shared by GroundTruthForm and any future
@@ -10398,26 +10408,208 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   /* No right-side divider — the navigator is part of the page workspace,
      not a sidebar pane. Whitespace separates it from the form area. */
 }
+/* Full-width inner — the editor IS the page, not a centered widget.
+   Uses generous side padding (set on the .patient-builder__inner
+   utility in the JSX) so the navigator and form section breathe even
+   when the viewport is wide. No max-width cap — the right rail
+   (.patient-builder__summary) absorbs the extra horizontal space on
+   large monitors and the form column stays at a readable line
+   measure via its own max-width below. */
+.patient-builder__inner {
+  width: 100%;
+}
+/* The form content stays at a comfortable line measure regardless of
+   how wide the section column gets — putting a label and an input on
+   a 1600px-wide line is bad form design. */
+.patient-builder__section-body {
+  max-width: 720px;
+}
+/* Right-rail summary card — a "live" patient snapshot. Shows what the
+   agents will see, updates as the user types. Renders only on lg+ so
+   narrow viewports keep the two-column nav + form layout. */
+.patient-builder__summary {
+  width: 320px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  display: none;
+}
+@media (min-width: 1280px) {
+  .patient-builder__summary {
+    display: block;
+  }
+}
+.patient-builder__summary-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 60%, transparent);
+  padding: 18px 18px 14px;
+}
+.patient-builder__summary-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+}
+.patient-builder__summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  font-size: 0.85rem;
+}
+.patient-builder__summary-row:first-of-type { border-top: 0; }
+.patient-builder__summary-row-label {
+  color: var(--ink-muted);
+}
+.patient-builder__summary-row-value {
+  color: var(--ink);
+  font-weight: 500;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 180px;
+}
+.patient-builder__summary-row-value--muted {
+  color: var(--ink-muted);
+  font-weight: 400;
+  font-style: italic;
+}
+.patient-builder__summary-hint {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+/* Section header — a serif title + a one-line sub. Frames each form
+   section as a designed page, not a panel of inputs. */
+.patient-builder__section-head {
+  margin: 0 0 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+}
+.patient-builder__section-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24;
+  font-size: 1.55rem;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  margin: 0;
+}
+.patient-builder__section-sub {
+  margin: 6px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  max-width: 64ch;
+}
+/* Inside the form, fields lay out on an auto-fit grid. Two columns on
+   wide viewports, one column on narrow ones — no fixed input widths in
+   the per-form components are needed for this to do the right thing. */
+.patient-builder__field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px 28px;
+}
+.patient-builder__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.patient-builder__field-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* Segmented control (Gender etc.) — themed against CSS variables instead
+   of raw emerald / slate, so it inherits the same accent system as the
+   rest of the editor. */
+.patient-builder__seg {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+.patient-builder__seg:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+.patient-builder__seg--active {
+  background: color-mix(in oklab, var(--success) 22%, transparent);
+  border: 1px solid color-mix(in oklab, var(--success) 55%, transparent);
+  color: color-mix(in oklab, var(--success) 90%, var(--ink));
+  cursor: default;
+}
+
+/* Hide the native browser spinner on number inputs — the white arrows
+   inside the BMI/Age fields are jarring on the dark surface. Keyboard
+   up/down still works via the input's default behaviour. */
+.patient-builder input[type="number"]::-webkit-inner-spin-button,
+.patient-builder input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.patient-builder input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Form inputs inside the builder — override the per-form Tailwind hard-coded
+   slate borders so every input picks up the page-level --border token and
+   reads as the same surface as the picker. Higher specificity than the
+   utility classes from the per-form files. */
+.patient-builder input,
+.patient-builder select,
+.patient-builder textarea,
 .patient-builder__label-input {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--ink);
-  transition: border-color var(--dur-hover) var(--ease-out);
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
 }
+.patient-builder input::placeholder,
+.patient-builder textarea::placeholder,
 .patient-builder__label-input::placeholder {
   color: var(--ink-faint);
 }
+.patient-builder input:focus,
+.patient-builder select:focus,
+.patient-builder textarea:focus,
 .patient-builder__label-input:focus {
-  border-color: var(--success);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 50%, transparent);
+  outline: none;
+  border-color: color-mix(in oklab, var(--success) 55%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--success) 40%, transparent);
 }
+/* The Advanced settings disclosure and the Save action bar sit at the
+   bottom of the editor. They're not floating footers — they're the next
+   block of content on the page. Use a hair-thin, low-opacity divider
+   instead of a hard hairline so the bar visually belongs to the page
+   underneath rather than a contained widget on top of it. */
 .patient-builder__advanced-bar {
   background: transparent;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
 }
 .patient-builder__actions {
   background: transparent;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
 }
 .patient-builder__btn--ghost {
   background: transparent;
@@ -10444,4 +10636,202 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
 .patient-builder__dirty-dot {
   background: var(--success);
 }
+
+/* ── Researcher Patients-tab "Back to choices" link + sidebar-hidden grid ── */
+.app-shell--no-sidebar {
+  grid-template-columns: 1fr;
+}
+.app-shell--no-sidebar > .workspace {
+  grid-column: 1 / -1;
+}
+.patient-explorer__back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-muted);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background var(--dur-hover) var(--ease-out),
+              color var(--dur-hover) var(--ease-out);
+}
+.patient-explorer__back-link:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+.patient-explorer__create-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Researcher ribbon — dropdown for Comparisons and Patients groups.
+   The trigger button reuses .researcher-tab so it inherits the existing
+   ribbon typography and the is-active accent. The menu is portalled to
+   document.body and positioned with fixed coordinates supplied by the
+   React component (via getBoundingClientRect) so it escapes any
+   ancestor's overflow — the ribbon clips its tab strip on overflow to
+   stay clean.
+   ───────────────────────────────────────────────────────────────────── */
+.ribbon-dd__trigger {
+  padding-right: 10px;
+}
+.ribbon-dd__caret {
+  margin-left: 2px;
+  color: var(--ink-muted);
+  transition: transform var(--dur-hover) var(--ease-out),
+              color var(--dur-hover) var(--ease-out);
+}
+.ribbon-dd__caret.is-open {
+  transform: rotate(180deg);
+  color: var(--ink-soft);
+}
+.ribbon-dd__trigger.is-active .ribbon-dd__caret {
+  color: var(--accent);
+}
+
+/* Backdrop scrim — sits between the page and the menu. Subtle dim + blur
+   so the open dropdown feels like a proper overlay surface instead of a
+   tag pinned on top of full-opacity content. Click-through dismiss is
+   already handled by the menu's mousedown listener. */
+.ribbon-dd__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(6, 9, 14, 0.42);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  pointer-events: none; /* mousedown still reaches the window listener */
+}
+
+/* Portalled menu — fixed positioning, lives above modals and ribbons. */
+.ribbon-dd__menu {
+  position: fixed;
+  z-index: 1001;
+  min-width: 300px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  background: color-mix(in oklab, var(--bg-elevated) 88%, transparent);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  backdrop-filter: saturate(140%) blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.55),
+    0 4px 14px rgba(0, 0, 0, 0.35),
+    0 0 0 1px color-mix(in oklab, var(--accent) 14%, transparent);
+  transform-origin: top left;
+}
+/* A faint accent hairline under the top edge — mirrors the same flourish
+   used on the home splash cards so the menus feel like part of the same
+   design system. */
+.ribbon-dd__menu-rule {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--accent) 70%, transparent) 30%,
+    color-mix(in oklab, var(--accent) 70%, transparent) 70%,
+    transparent
+  );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.ribbon-dd__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background 140ms var(--ease-out),
+    border-color 140ms var(--ease-out),
+    transform 140ms var(--ease-out);
+}
+.ribbon-dd__item.is-highlighted {
+  background: color-mix(in oklab, var(--accent) 10%, var(--surface));
+  border-color: color-mix(in oklab, var(--accent) 28%, var(--border));
+}
+.ribbon-dd__item.is-active {
+  background: color-mix(in oklab, var(--accent) 16%, transparent);
+  border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+}
+.ribbon-dd__item.is-active.is-highlighted {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  border-color: color-mix(in oklab, var(--accent) 55%, transparent);
+}
+.ribbon-dd__item:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 65%, transparent);
+}
+.ribbon-dd__item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 28%, transparent);
+  color: var(--accent);
+  flex-shrink: 0;
+  transition:
+    background 140ms var(--ease-out),
+    border-color 140ms var(--ease-out);
+}
+.ribbon-dd__item.is-highlighted .ribbon-dd__item-icon,
+.ribbon-dd__item.is-active .ribbon-dd__item-icon {
+  background: color-mix(in oklab, var(--accent) 24%, transparent);
+  border-color: color-mix(in oklab, var(--accent) 48%, transparent);
+}
+.ribbon-dd__item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ribbon-dd__item-label {
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ribbon-dd__item-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+}
+.ribbon-dd__item-hint {
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+  line-height: 1.4;
+}
+.ribbon-dd__item.is-active .ribbon-dd__item-label {
+  color: color-mix(in oklab, var(--accent) 25%, var(--ink));
+}
+
 

@@ -130,84 +130,168 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
 
   const canSave = !!payload.label && !saving;
 
-  return (
-    // The editor is the workspace, not a widget — it inherits the page's
-    // surface, fills the available width, and uses only whitespace + faint
-    // hairlines for structure. No rounded card, no shadow, no max-width.
-    <div className="patient-builder flex h-full flex-col">
-      <div className="patient-builder__body flex flex-1 min-h-0 gap-8 overflow-hidden px-6 lg:px-10 py-6">
-        {/* LEFT: navigator */}
-        <aside className="patient-builder__nav w-64 shrink-0 space-y-1 pr-3">
-          <input type="text"
-            className="patient-builder__label-input mb-3 w-full rounded-md px-3 py-2 text-sm focus:outline-none"
-            placeholder="Label (required)"
-            value={payload.label}
-            onChange={handleLabelChange} />
-          {SECTIONS.map(([key, title, summary]) => {
-            const isActive = section === key;
-            return (
-              <button
-                key={key}
-                onClick={() => setSection(key)}
-                aria-current={isActive ? "page" : undefined}
-                className={`builder-nav__btn${isActive ? " builder-nav__btn--active" : ""}`}
-              >
-                <div className="builder-nav__btn-row">
-                  <div className="builder-nav__btn-title">{title}</div>
-                  {isActive && (
-                    <ChevronRight size={13} strokeWidth={2.2} className="builder-nav__btn-chevron" />
-                  )}
-                </div>
-                <div className={`mt-0.5 line-clamp-2 text-xs builder-nav__btn-summary${isActive ? " builder-nav__btn-summary--active" : ""}`}>
-                  {summary(payload)}
-                </div>
-              </button>
-            );
-          })}
-        </aside>
-        {/* RIGHT: focused section — animated on section switch */}
-        <section className="flex-1 overflow-y-auto pr-2">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={section}
-              initial={{ opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-            >
-              {section === "demographics"  && <DemographicsForm value={payload.demographics}
-                  onChange={(v) => patch("demographics", v)} />}
-              {section === "conditions"    && <ConditionsForm value={payload.conditions}
-                  onChange={(v) => patch("conditions", v)} />}
-              {section === "medications"   && <MedicationsForm value={payload.medications}
-                  onChange={(v) => patch("medications", v)} />}
-              {section === "labs"          && <LabsForm value={payload.labs}
-                  onChange={(v) => patch("labs", v)}
-                  onSmartImport={() => setShowSmartImport(true)} />}
-            </motion.div>
-          </AnimatePresence>
-        </section>
-      </div>
-      {/* Advanced settings trigger — opens a slide-over panel rather than an
-          inline disclosure. The settings (model picker + Top-K + precision
-          callout) need real estate that a dropdown can't give them without
-          covering the form below or scrolling awkwardly. */}
-      <div className="patient-builder__advanced-bar flex items-center justify-between gap-3 px-6 lg:px-10 py-3">
-        <button
-          type="button"
-          onClick={() => setAdvancedOpen(true)}
-          className="inline-flex items-center gap-2 rounded-md border border-slate-700 bg-slate-900/60 px-3 py-2 text-sm text-slate-200 hover:bg-slate-800 hover:border-slate-600 transition-colors"
-        >
-          <Settings2 size={14} strokeWidth={1.7} />
-          Advanced settings
-        </button>
-        <span className="mono text-xs text-slate-500 truncate" title={advancedSummary}>
-          {advancedSummary}
-        </span>
-      </div>
+  // Section titles + sub-copy for the form header — same source of truth
+  // as the navigator labels (SECTIONS) so a change in one flows to the other.
+  const SECTION_HEAD: Record<Section, { title: string; sub: string }> = {
+    demographics: {
+      title: "Demographics",
+      sub: "Age, gender, and demographics. The seven-agent pipeline reads this as the patient's baseline.",
+    },
+    conditions: {
+      title: "Active conditions",
+      sub: "Diagnoses already known at the data-cutoff date. The diagnostic-reasoning agent uses these to constrain the differential.",
+    },
+    medications: {
+      title: "Active medications",
+      sub: "Drugs the patient is currently on. The pipeline cross-checks every proposed diagnosis against this list.",
+    },
+    labs: {
+      title: "Recent labs",
+      sub: "The lab interpreter agent reads these as its primary evidence. Paste a lab slip to import quickly.",
+    },
+  };
+  const head = SECTION_HEAD[section];
 
-      {/* BOTTOM action bar */}
-      <div className="patient-builder__actions flex items-center justify-end gap-3 px-6 lg:px-10 py-3">
+  return (
+    // The editor is a designed editing surface — centered to a comfortable
+    // max-width so it does not sprawl off the left of a wide viewport,
+    // and divided into three columns: navigator, form, and breathing
+    // room. Each form section opens with a serif heading + a one-line
+    // sub-copy so the page reads as the editor for this patient, not a
+    // floating panel of inputs.
+    <div className="patient-builder flex h-full flex-col">
+      <div className="patient-builder__body flex flex-1 min-h-0 overflow-hidden">
+        <div className="patient-builder__inner flex flex-1 min-h-0 gap-10 overflow-hidden px-10 lg:px-14 py-8">
+          {/* LEFT: navigator */}
+          <aside className="patient-builder__nav w-64 shrink-0 space-y-1">
+            <input type="text"
+              className="patient-builder__label-input mb-4 w-full rounded-md px-3 py-2 text-sm focus:outline-none"
+              placeholder="Label (required)"
+              value={payload.label}
+              onChange={handleLabelChange} />
+            {SECTIONS.map(([key, title, summary]) => {
+              const isActive = section === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => setSection(key)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`builder-nav__btn${isActive ? " builder-nav__btn--active" : ""}`}
+                >
+                  <div className="builder-nav__btn-row">
+                    <div className="builder-nav__btn-title">{title}</div>
+                    {isActive && (
+                      <ChevronRight size={13} strokeWidth={2.2} className="builder-nav__btn-chevron" />
+                    )}
+                  </div>
+                  <div className={`mt-0.5 line-clamp-2 text-xs builder-nav__btn-summary${isActive ? " builder-nav__btn-summary--active" : ""}`}>
+                    {summary(payload)}
+                  </div>
+                </button>
+              );
+            })}
+          </aside>
+          {/* CENTER: focused section — animated on section switch */}
+          <section className="patient-builder__section flex-1 min-w-0 overflow-y-auto">
+            <div className="patient-builder__section-body">
+              <header className="patient-builder__section-head">
+                <h2 className="patient-builder__section-title">{head.title}</h2>
+                <p className="patient-builder__section-sub">{head.sub}</p>
+              </header>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={section}
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -8 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                >
+                  {section === "demographics"  && <DemographicsForm value={payload.demographics}
+                      onChange={(v) => patch("demographics", v)} />}
+                  {section === "conditions"    && <ConditionsForm value={payload.conditions}
+                      onChange={(v) => patch("conditions", v)} />}
+                  {section === "medications"   && <MedicationsForm value={payload.medications}
+                      onChange={(v) => patch("medications", v)} />}
+                  {section === "labs"          && <LabsForm value={payload.labs}
+                      onChange={(v) => patch("labs", v)}
+                      onSmartImport={() => setShowSmartImport(true)} />}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </section>
+          {/* RIGHT RAIL: live patient summary — visible on wide viewports.
+              Gives the page a designed third region and shows the user
+              what the agents will read as they type. */}
+          <aside className="patient-builder__summary">
+            <div className="patient-builder__summary-card">
+              <div className="patient-builder__summary-eyebrow">Patient at a glance</div>
+              <div className="patient-builder__summary-row">
+                <span className="patient-builder__summary-row-label">Label</span>
+                <span className={`patient-builder__summary-row-value${!payload.label ? " patient-builder__summary-row-value--muted" : ""}`}>
+                  {payload.label || "(unnamed)"}
+                </span>
+              </div>
+              <div className="patient-builder__summary-row">
+                <span className="patient-builder__summary-row-label">Age · Gender</span>
+                <span className="patient-builder__summary-row-value">
+                  {payload.demographics?.age ?? "?"} · {payload.demographics?.gender ?? "?"}
+                </span>
+              </div>
+              {payload.demographics?.race && (
+                <div className="patient-builder__summary-row">
+                  <span className="patient-builder__summary-row-label">Race</span>
+                  <span className="patient-builder__summary-row-value">{payload.demographics.race}</span>
+                </div>
+              )}
+              {payload.demographics?.bmi != null && (
+                <div className="patient-builder__summary-row">
+                  <span className="patient-builder__summary-row-label">BMI</span>
+                  <span className="patient-builder__summary-row-value">{payload.demographics.bmi}</span>
+                </div>
+              )}
+              <div className="patient-builder__summary-row">
+                <span className="patient-builder__summary-row-label">Active conditions</span>
+                <span className="patient-builder__summary-row-value">
+                  {(payload.conditions?.active ?? []).length}
+                </span>
+              </div>
+              <div className="patient-builder__summary-row">
+                <span className="patient-builder__summary-row-label">Active medications</span>
+                <span className="patient-builder__summary-row-value">
+                  {(payload.medications?.active ?? []).length}
+                </span>
+              </div>
+              <div className="patient-builder__summary-row">
+                <span className="patient-builder__summary-row-label">Recent labs</span>
+                <span className="patient-builder__summary-row-value">
+                  {(payload.labs?.latest_labs ?? []).length}
+                </span>
+              </div>
+              <p className="patient-builder__summary-hint">
+                This is the snapshot the seven-agent pipeline will read when you
+                click <strong>Save &amp; run pipeline</strong>.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+      {/* BOTTOM action bar — combined: advanced settings trigger + save
+          actions in a single horizontal row, full editor width. */}
+      <div className="patient-builder__actions flex items-center justify-between gap-3 px-10 lg:px-14 py-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <button
+            type="button"
+            onClick={() => setAdvancedOpen(true)}
+            className="inline-flex items-center gap-2 rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm text-slate-200 hover:bg-slate-800/50 hover:border-slate-600 transition-colors"
+          >
+            <Settings2 size={14} strokeWidth={1.7} />
+            Advanced settings
+          </button>
+          <span className="mono text-xs text-slate-500 truncate" title={advancedSummary}>
+            {advancedSummary}
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
         {/* Save for later */}
         <div className="relative inline-flex items-center gap-2">
           {/* Unsaved-changes dot — pulses when dirty and label is set */}
@@ -267,6 +351,7 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
             )}
           </AnimatePresence>
         </button>
+        </div>
       </div>
 
       {/* Advanced settings slide-over panel. Opens from the right with a
