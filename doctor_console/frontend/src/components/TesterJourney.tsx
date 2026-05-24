@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Filter, Pencil, FlaskConical, ClipboardList, ChevronLeft,
+  Filter, Pencil, FlaskConical, ClipboardList, ChevronLeft, Loader2,
 } from "lucide-react";
 import { PatientPicker }         from "./PatientPicker";
 import { PatientBuilderEditor }  from "./PatientBuilderEditor";
 import { MyTestPatientsList }    from "./MyTestPatientsList";
-import { createTestPatient, getTestPatient, listTestPatients,
+import { RuntimeResultView }     from "./RuntimeResultView";
+import { createTestPatient, getResult, getTestPatient, listTestPatients,
          startTestRun, updateTestPatient } from "../api";
-import type { TestPatientPayload } from "../types";
+import type { PatientResult, TestPatientPayload } from "../types";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
 
 // Shared Framer Motion variants for sub-view cross-fades — mirrors App.tsx
@@ -29,7 +30,7 @@ const EMPTY: TestPatientPayload = {
   ground_truth: {},
 };
 
-type View = "splash" | "picker" | "editor" | "my-tests";
+type View = "splash" | "picker" | "editor" | "my-tests" | "view-run";
 
 interface Props {
   onBack:        () => void;
@@ -55,6 +56,14 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
   const [editingUuid, setEditingUuid] = useState<string | null>(null);
   const [saving, setSaving]     = useState(false);
   const [testCount, setTestCount] = useState(0);
+  // "view-run" sub-view state — the past-runs View button hands us a
+  // test_uuid; we fetch the saved result and render RuntimeResultView
+  // inline (still inside the Researcher chrome), with a back link that
+  // returns to the my-tests list.  Keeps the doctor-runtime workspace
+  // out of the picture so the user never loses the researcher tab.
+  const [viewingUuid, setViewingUuid] = useState<string | null>(null);
+  const [viewingResult, setViewingResult] = useState<PatientResult | null>(null);
+  const [viewingError, setViewingError]   = useState<string | null>(null);
 
   // Allow the parent to flip the view from outside. Always sync (including
   // when initialView becomes undefined → fall back to splash) so a parent
@@ -104,6 +113,30 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
     });
     setEditingUuid(uuid);
     setView("editor");
+  }
+
+  // View flow — open a past test-patient run inline in the Researcher tab.
+  // Uses the existing getResult endpoint with the test result-set.  The
+  // RuntimeResultView component is the same surface the Doctor sees after
+  // a live run, but here it's rendered inside our chrome with an obvious
+  // "Back to past patients" link so the user never leaves Researcher.
+  async function viewPastRun(uuid: string) {
+    setViewingUuid(uuid);
+    setViewingResult(null);
+    setViewingError(null);
+    setView("view-run");
+    try {
+      const detail = await getResult("mas_results_test", uuid);
+      setViewingResult(detail);
+    } catch (err) {
+      setViewingError(err instanceof Error ? err.message : "Couldn't load that run.");
+    }
+  }
+  function backToMyTests() {
+    setView("my-tests");
+    setViewingUuid(null);
+    setViewingResult(null);
+    setViewingError(null);
   }
 
   // When chrome="inline" we render only the body; the parent's layout
@@ -277,6 +310,7 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
               <MyTestPatientsList
                 onEdit={startEdit}
                 onRun={onRunStarted}
+                onView={viewPastRun}
                 onNew={() => {
                   // "+ New patient" should land on the chooser so the user
                   // picks between cloning a cohort patient or sketching one
@@ -286,6 +320,46 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
                   setView("splash");
                 }}
               />
+            </div>
+          </motion.div>
+        )}
+
+        {view === "view-run" && (
+          <motion.div
+            key="view-run"
+            variants={VIEW_VARIANTS}
+            initial="initial" animate="animate" exit="exit"
+            transition={VIEW_TRANSITION}
+            className="flex-1 flex flex-col overflow-hidden"
+          >
+            {/* Always-visible back link so the user can return to the
+                past-runs list in one click — same control as the other
+                inline sub-views, just hard-wired to my-tests instead of
+                splash. */}
+            <button
+              type="button"
+              onClick={backToMyTests}
+              className="tester-back-link"
+            >
+              <ChevronLeft size={14} strokeWidth={2} />
+              Back to past patients
+            </button>
+            <div className="flex-1 overflow-y-auto">
+              {viewingResult ? (
+                <RuntimeResultView
+                  result={viewingResult}
+                  onReset={backToMyTests}
+                />
+              ) : viewingError ? (
+                <div className="empty-state" role="alert">
+                  Couldn't load this run: {viewingError}
+                </div>
+              ) : (
+                <div className="empty-state" aria-live="polite">
+                  <Loader2 size={18} strokeWidth={1.7} className="inline animate-spin" />
+                  <span className="ml-2">Loading run {viewingUuid?.slice(0, 8)}…</span>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

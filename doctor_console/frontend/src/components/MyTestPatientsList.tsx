@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Eye, FlaskConical, Pencil, Play, Search, Trash2 } from "lucide-react";
 import { deleteTestPatient, listTestPatients } from "../api";
-import { handoffToRuntimeRun, handoffToRuntimeView } from "../lib/runtimeHandoff";
+import { handoffToRuntimeRun } from "../lib/runtimeHandoff";
 import { TestRunConfigModal } from "./TestRunConfigModal";
 import type { TestPatientSummary } from "../types";
 
@@ -21,6 +21,11 @@ interface Props {
    *  on its mount), but the parent can still react to the kick-off — e.g.
    *  reload its patient list before unmounting. */
   onRun:   (taskId: string) => void;
+  /** Open the most recent completed run for this test patient. The parent
+   *  decides where it renders (Researcher inline keeps the user on the
+   *  past-runs page; previous behaviour was a flip to the Doctor runtime
+   *  workspace, which lost the back link). */
+  onView:  (testUuid: string) => void;
   onNew:   () => void;
 }
 
@@ -46,7 +51,7 @@ function relative(iso?: string | null): string {
   return `${Math.round(s / (86400 * 7))}w ago`;
 }
 
-export function MyTestPatientsList({ onEdit, onRun, onNew }: Props) {
+export function MyTestPatientsList({ onEdit, onRun, onView, onNew }: Props) {
   const [rows, setRows]     = useState<TestPatientSummary[] | null>(null);
   const [filter, setFilter] = useState<FilterKey>("ALL");
   const [query, setQuery]   = useState("");
@@ -152,14 +157,7 @@ export function MyTestPatientsList({ onEdit, onRun, onNew }: Props) {
                 last={i === filtered.length - 1}
                 busy={runFor?.test_uuid === r.test_uuid}
                 onRun={() => setRunFor(r)}
-                onView={r.last_run_at
-                  ? () => handoffToRuntimeView({
-                      patientUuid: r.test_uuid,
-                      // Test patients always land in mas_results_test (see
-                      // RuntimeMode.fetchCaseFor for the matching read path).
-                      resultSet:   "mas_results_test",
-                    })
-                  : undefined}
+                onView={r.last_run_at ? () => onView(r.test_uuid) : undefined}
                 onEdit={() => onEdit(r.test_uuid)}
                 onRemove={() => remove(r.test_uuid)}
               />
