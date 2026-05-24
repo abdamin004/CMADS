@@ -219,60 +219,6 @@ export function PatientBuilderEditor({ payload, onChange, onSaveDraft, onSaveAnd
               </AnimatePresence>
             </div>
           </section>
-          {/* RIGHT RAIL: live patient summary — visible on wide viewports.
-              Gives the page a designed third region and shows the user
-              what the agents will read as they type. */}
-          <aside className="patient-builder__summary">
-            <div className="patient-builder__summary-card">
-              <div className="patient-builder__summary-eyebrow">Patient at a glance</div>
-              <div className="patient-builder__summary-row">
-                <span className="patient-builder__summary-row-label">Label</span>
-                <span className={`patient-builder__summary-row-value${!payload.label ? " patient-builder__summary-row-value--muted" : ""}`}>
-                  {payload.label || "(unnamed)"}
-                </span>
-              </div>
-              <div className="patient-builder__summary-row">
-                <span className="patient-builder__summary-row-label">Age · Gender</span>
-                <span className="patient-builder__summary-row-value">
-                  {payload.demographics?.age ?? "?"} · {payload.demographics?.gender ?? "?"}
-                </span>
-              </div>
-              {payload.demographics?.race && (
-                <div className="patient-builder__summary-row">
-                  <span className="patient-builder__summary-row-label">Race</span>
-                  <span className="patient-builder__summary-row-value">{payload.demographics.race}</span>
-                </div>
-              )}
-              {payload.demographics?.bmi != null && (
-                <div className="patient-builder__summary-row">
-                  <span className="patient-builder__summary-row-label">BMI</span>
-                  <span className="patient-builder__summary-row-value">{payload.demographics.bmi}</span>
-                </div>
-              )}
-              <div className="patient-builder__summary-row">
-                <span className="patient-builder__summary-row-label">Active conditions</span>
-                <span className="patient-builder__summary-row-value">
-                  {(payload.conditions?.active ?? []).length}
-                </span>
-              </div>
-              <div className="patient-builder__summary-row">
-                <span className="patient-builder__summary-row-label">Active medications</span>
-                <span className="patient-builder__summary-row-value">
-                  {(payload.medications?.active ?? []).length}
-                </span>
-              </div>
-              <div className="patient-builder__summary-row">
-                <span className="patient-builder__summary-row-label">Recent labs</span>
-                <span className="patient-builder__summary-row-value">
-                  {(payload.labs?.latest_labs ?? []).length}
-                </span>
-              </div>
-              <p className="patient-builder__summary-hint">
-                This is the snapshot the seven-agent pipeline will read when you
-                click <strong>Save &amp; run pipeline</strong>.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
       {/* BOTTOM action bar — combined: advanced settings trigger + save
