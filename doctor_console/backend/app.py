@@ -2995,7 +2995,25 @@ def _similar_cases(
         query_text = (stored[0].payload or {}).get("case_text", "")
         is_indexed = True
     else:
-        case = _load_case_bundle(patient_uuid)
+        # The patient isn't indexed in Qdrant yet (typical for a freshly-
+        # created test patient). Try to build a query from their on-disk
+        # / Mongo bundle, but degrade gracefully when the bundle can't be
+        # loaded — the panel should never red-banner 404 in this flow.
+        try:
+            case = _load_case_bundle(patient_uuid)
+        except HTTPException as exc:
+            return {
+                "patientUuid": patient_uuid,
+                "collection": PATIENT_COLLECTION,
+                "totalIndexed": info.points_count or 0,
+                "isPatientIndexed": False,
+                "queryText": "",
+                "error": (
+                    "Patient not indexed in the cohort yet. "
+                    f"Bundle lookup said: {exc.detail}"
+                ),
+                "results": [],
+            }
         ehr_summary = None
         lab_summary = None
         try:
