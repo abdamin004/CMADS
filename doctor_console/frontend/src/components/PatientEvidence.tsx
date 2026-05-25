@@ -1,4 +1,4 @@
-import { AlertTriangle, BookOpen, ChevronRight, FlaskConical, HeartPulse, Info, ListChecks, Pill, Stethoscope, TestTube2, FileJson, User, X } from "lucide-react";
+import { AlertTriangle, BookOpen, ChevronRight, FlaskConical, HeartPulse, Info, ListChecks, Pill, Stethoscope, TestTube2, User, X } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { PatientResult } from "../types";
@@ -18,8 +18,6 @@ export function PatientEvidence({ result }: Props) {
   const demo = readRecord(ehrCase.demographics) ?? {};
   const comorbidity = readRecord(ehrCase.comorbidity) ?? {};
   const riskScores = readRecord(ehrCase.risk_scores) ?? {};
-
-  const [showRawJson, setShowRawJson] = useState(false);
 
   // Maps an evidence category name → the full unsliced list to render in
   // the slide-over drawer. Each category card calls openDrawer with its
@@ -63,15 +61,6 @@ export function PatientEvidence({ result }: Props) {
             {criticalFlags.length} critical flag{criticalFlags.length === 1 ? "" : "s"}
           </p>
         </div>
-        <button
-          type="button"
-          className="json-toggle"
-          onClick={() => setShowRawJson((v) => !v)}
-          data-demo-anchor="patient-input-json-toggle"
-        >
-          <FileJson size={14} />
-          {showRawJson ? "Hide raw data" : "Show raw data"}
-        </button>
       </div>
 
       <div className="demographics-strip">
@@ -181,19 +170,6 @@ export function PatientEvidence({ result }: Props) {
           </>
         )}
       </AnimatePresence>
-
-      {showRawJson ? (
-        <div className="raw-json-grid" data-demo-anchor="patient-input-json">
-          <details open>
-            <summary><FileJson size={14} /> ehr_case.json</summary>
-            <pre className="raw-json">{JSON.stringify(ehrCase, null, 2)}</pre>
-          </details>
-          <details open>
-            <summary><FileJson size={14} /> lab_case.json</summary>
-            <pre className="raw-json">{JSON.stringify(labCase, null, 2)}</pre>
-          </details>
-        </div>
-      ) : null}
     </section>
     </>
   );
