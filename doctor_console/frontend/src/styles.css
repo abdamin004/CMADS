@@ -8687,7 +8687,7 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
 .doctor-tab__bar {
   display: flex;
   flex-direction: column;
-  padding: 20px 32px 0;
+  padding: 14px 32px 0;
   border-bottom: 1px solid var(--border);
   margin-bottom: 0;
   gap: 0;
@@ -10129,7 +10129,11 @@ button.builder-nav__btn--active:hover {
 .runtime-result {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  /* No flex gap — the head card and the tab bar both supply their own
+     vertical padding. The previous 22 px gap stacked on top of the tab
+     bar's own 20 px top padding to produce a visibly dead 42 px band
+     between the patient header and the tabs. */
+  gap: 0;
 }
 .runtime-result__head {
   padding: 26px 32px;
