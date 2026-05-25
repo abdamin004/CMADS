@@ -2,8 +2,8 @@ import type {
   Annotation, CohortBrowseRow, CohortComparisonResponse, ComparisonResult,
   DashboardSummary, ExtractResponse, MemoryAbComparison, ModelPreset,
   PatientListItem, PatientResult, ResultSet, RunTask, RuntimePastRunsResponse,
-  SimilarCasesResponse, StatsOverview, TestPatientDoc, TestPatientPayload,
-  TestPatientSummary, VocabularyItem,
+  RuntimeRunHistoryResponse, SimilarCasesResponse, StatsOverview,
+  TestPatientDoc, TestPatientPayload, TestPatientSummary, VocabularyItem,
 } from "./types";
 
 const jsonHeaders = { "Content-Type": "application/json" };
@@ -182,6 +182,31 @@ export function getRuntimePastRuns(
   const q = new URLSearchParams({ suggestion_limit: String(suggestionLimit) });
   return request<RuntimePastRunsResponse>(
     `/api/runtime/past-runs?${q.toString()}`,
+  );
+}
+
+/* ── Doctor runtime: per-patient archived runs ────────────────────────
+ * Each new pipeline run snapshots the prior artifacts under
+ * <uuid>/_history/<iso>/ before overwriting. The list endpoint returns
+ * the summary rows; openArchive returns a full PatientResult shaped
+ * exactly like getResult so the same result view can render it. */
+export function getRunHistory(
+  patientUuid: string,
+  resultSet: string = "mas_results_runtime",
+): Promise<RuntimeRunHistoryResponse> {
+  const q = new URLSearchParams({ result_set: resultSet });
+  return request<RuntimeRunHistoryResponse>(
+    `/api/runtime/runs/${encodeURIComponent(patientUuid)}/history?${q}`,
+  );
+}
+export function openRunArchive(
+  patientUuid: string,
+  archiveId: string,
+  resultSet: string = "mas_results_runtime",
+): Promise<PatientResult> {
+  const q = new URLSearchParams({ result_set: resultSet });
+  return request<PatientResult>(
+    `/api/runtime/runs/${encodeURIComponent(patientUuid)}/history/${encodeURIComponent(archiveId)}?${q}`,
   );
 }
 

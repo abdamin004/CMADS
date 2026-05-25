@@ -183,6 +183,31 @@ RESULT_SET_LABELS: dict[str, str] = {entry["id"]: entry["label"] for entry in RE
 RUNTIME_RESULT_SET = "mas_results_runtime"
 RUNTIME_RESULT_DIR = DATA_GOLD / RUNTIME_RESULT_SET
 
+
+def _archive_existing_run(base_dir: Path, patient_uuid: str) -> Path | None:
+    """Snapshot the previous run's files under <uuid>/_history/<iso>/
+    before they get overwritten. Returns the archive dir or None when
+    there was nothing to archive (first-ever run for this patient).
+    Files-only copy — the ``_history/`` sub-tree itself is skipped so
+    the archive doesn't recursively snowball over re-runs."""
+    patient_dir = base_dir / patient_uuid
+    if not patient_dir.is_dir():
+        return None
+    artifacts = [p for p in patient_dir.iterdir() if p.is_file()]
+    if not artifacts:
+        return None
+    from datetime import datetime, timezone
+    import shutil
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H-%M-%S")
+    archive_dir = patient_dir / "_history" / ts
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    for p in artifacts:
+        try:
+            shutil.copy2(p, archive_dir / p.name)
+        except OSError:
+            pass
+    return archive_dir
+
 # Map LLM provider → expected env var. Used by _with_availability() so the
 # UI only offers cloud engines whose API key is actually configured.
 _PROVIDER_ENV_KEY: dict[str, str] = {
@@ -1296,6 +1321,145 @@ def create_app() -> FastAPI:
                 "Waiting for the current agent to finish before stopping.",
             )
         return {"cancelled": True}
+
+    # ─── Per-patient run history (snapshots of overwritten runs) ─────────
+    # Each completed run is snapshotted into <uuid>/_history/<iso>/ before
+    # the new artifacts overwrite the top-level patient_dir, so the doctor
+    # can inspect every past read for the same patient. List + open-by-id
+    # endpoints below.
+
+    def _history_root(patient_uuid: str, result_set: str) -> Path:
+        return DATA_GOLD / result_set / patient_uuid / "_history"
+
+    def _project_history_summary(archive_dir: Path) -> dict[str, Any]:
+        """Extract top_dx + confidence + duration + ran_at from an archive
+        directory (same shape as runtime past-runs rows)."""
+        import json as _json
+        from datetime import datetime, timezone
+
+        top_dx: str | None = None
+        confidence: float | None = None
+        duration_s: float | None = None
+        try:
+            fd = _json.loads((archive_dir / "final_diagnosis.json").read_text())
+            diff = (
+                fd.get("differential")
+                or fd.get("output", {}).get("differential")
+                or []
+            )
+            if diff:
+                top = diff[0]
+                top_dx = top.get("name") or top.get("diagnosis")
+                raw = top.get("probability")
+                if not isinstance(raw, (int, float)):
+                    cand = top.get("confidence")
+                    raw = cand if isinstance(cand, (int, float)) else None
+                if isinstance(raw, (int, float)):
+                    confidence = (
+                        float(raw) * 100 if raw <= 1 else float(raw)
+                    )
+        except Exception:
+            pass
+        try:
+            tr = _json.loads((archive_dir / "execution_trace.json").read_text())
+            if isinstance(tr, dict):
+                duration_s = tr.get("total_duration_s") or tr.get("duration_s")
+                if duration_s is None and isinstance(tr.get("trace"), list):
+                    duration_s = sum(
+                        (t.get("duration_s") or 0) for t in tr["trace"]
+                    ) or None
+            elif isinstance(tr, list):
+                duration_s = sum((t.get("duration_s") or 0) for t in tr) or None
+        except Exception:
+            pass
+        # Prefer the directory mtime as ran_at; the iso-stamped name lives
+        # in archive_dir.name for stable IDs.
+        try:
+            ran_at = datetime.fromtimestamp(
+                archive_dir.stat().st_mtime, tz=timezone.utc
+            ).isoformat()
+        except Exception:
+            ran_at = None
+        return {
+            "archive_id": archive_dir.name,
+            "ran_at":     ran_at,
+            "top_dx":     top_dx,
+            "confidence": confidence,
+            "duration_s": duration_s,
+        }
+
+    @app.get("/api/runtime/runs/{patient_uuid}/history")
+    def runtime_run_history(
+        patient_uuid: str,
+        result_set: str = Query("mas_results_runtime"),
+    ) -> dict[str, Any]:
+        root = _history_root(patient_uuid, result_set)
+        if not root.exists():
+            return {"entries": []}
+        entries = []
+        for d in sorted(root.iterdir(), reverse=True):
+            if not d.is_dir(): continue
+            entries.append(_project_history_summary(d))
+        return {"entries": entries}
+
+    @app.get("/api/runtime/runs/{patient_uuid}/history/{archive_id}")
+    def runtime_run_history_open(
+        patient_uuid: str,
+        archive_id: str,
+        result_set: str = Query("mas_results_runtime"),
+    ) -> dict[str, Any]:
+        # Same shape as /api/results/<result_set>/<patient_uuid> but reads
+        # from an archived snapshot inside <uuid>/_history/<id>/ instead of
+        # the live patient_dir. The result is rendered identically in the
+        # frontend (RuntimeResultView).
+        archive_dir = _history_root(patient_uuid, result_set) / archive_id
+        if not archive_dir.exists() or not archive_dir.is_dir():
+            raise HTTPException(
+                status_code=404,
+                detail=f"No archived run {archive_id} for {patient_uuid}",
+            )
+        case = _load_case_bundle(patient_uuid)
+        outputs = {
+            agent_id: _load_json(archive_dir / filename)
+            for agent_id, filename in AGENT_FILES.items()
+        }
+        trace = _load_json(archive_dir / "execution_trace.json") or {}
+        session_memory = _load_json(archive_dir / "session_memory.json") or {}
+        evaluation = outputs.get("evaluation") or {}
+        final_dx = outputs.get("final_diagnosis") or {}
+        return {
+            "patient":        case["patient"],
+            "resultSet":      {
+                "id":           f"{result_set}_history",
+                "label":        f"{result_set} · archived read",
+                "category":     "history",
+                "model":        "",
+                "runtime":      False,
+                "path":         str(archive_dir.relative_to(ROOT)),
+                "patientCount": 1,
+            },
+            "case":             case,
+            "evaluation":       evaluation,
+            "finalDiagnosis":   final_dx,
+            "treatment":        outputs.get("treatment_planning") or {},
+            "agents":           _agent_cards(outputs, {"agents": trace.get("trace") or trace or []}),
+            "agentOutputs":     outputs,
+            "agentNarratives":  {
+                agent_id: _agent_doctor_view(agent_id, outputs.get(agent_id))
+                for agent_id in AGENT_ORDER
+                if outputs.get(agent_id)
+            },
+            "trace":            trace,
+            "sessionMemory":    session_memory if isinstance(session_memory, list) else [],
+            "semanticMemory":   [],
+            "sharedMemory": {
+                "patientContext":  case["patient"],
+                "agentOutputKeys": list(outputs.keys()),
+                "sessionEvents":   0,
+                "traceEntries":    0,
+                "notes":           [],
+            },
+        }
 
     # ─── Doctor-runtime past runs + verified-but-unevaluated suggestions ───
     # The Doctor mode needs a memory of what it has run before (so a run
@@ -4007,6 +4171,12 @@ def _run_patient_task(
             else:
                 base_dir = RUNTIME_RESULT_DIR
             base_dir.mkdir(parents=True, exist_ok=True)
+            # Snapshot the previous run (if any) into <uuid>/_history/<iso>/
+            # so the doctor can inspect every past read for this patient,
+            # not just the most recent one. The save below will overwrite
+            # the top-level patient_dir files; the archive preserves what
+            # was there a moment earlier.
+            _archive_existing_run(base_dir, patient_uuid)
             save_patient_results(
                 patient_uuid, result, duration,
                 base_dir=base_dir,

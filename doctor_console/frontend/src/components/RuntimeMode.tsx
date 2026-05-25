@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { AlertCircle, ArrowLeft, ClipboardList, Cloud, HardDrive, Home, RotateCw } from "lucide-react";
-import { getModelPresets, getPatientCase, getTestPatientAsCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
+import { getModelPresets, getPatientCase, getTestPatientAsCase, getResult, getRun, openRunArchive, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
@@ -270,21 +270,24 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     );
   }, [task?.taskId, task?.status]);
 
-  // View a saved past run without re-firing the pipeline. Loads the
-  // existing result from mas_results_runtime and jumps the phase straight
-  // to "completed" with a synthetic completed-task so RuntimeResultView
-  // renders the same way it does after a live run.
-  const viewPast = useCallback(async (uuid: string) => {
+  // View a saved past run without re-firing the pipeline. Loads either
+  // the live mas_results_runtime/<uuid> bundle, or — when archiveId is
+  // set — the snapshot under <uuid>/_history/<archiveId>/ that was
+  // captured before a previous re-run overwrote the live files. Same
+  // result-view shape either way.
+  const viewPast = useCallback(async (uuid: string, archiveId?: string) => {
     setError(null);
     setResult(undefined);
     setCaseBundle(undefined);
     setActiveAgentId("ehr_analyst");
     setPhase("running");  // brief "loading" — RuntimeRunningView with no task → empty
     try {
-      const detail = await getResult("mas_results_runtime", uuid);
+      const detail = archiveId
+        ? await openRunArchive(uuid, archiveId)
+        : await getResult("mas_results_runtime", uuid);
       setResult(detail);
       setTask({
-        taskId:          `view-${uuid}`,
+        taskId:          archiveId ? `view-${uuid}-${archiveId}` : `view-${uuid}`,
         patientUuid:     uuid,
         status:          "completed",
         resultSet:       "mas_results_runtime",

@@ -443,6 +443,18 @@ export interface RuntimePastRunsResponse {
   suggestion_pool:  number;
 }
 
+/* Per-patient run history — one entry per archived snapshot. */
+export interface RuntimeRunHistoryEntry {
+  archive_id:  string;       // ISO timestamp folder name, stable id
+  ran_at:      string | null;
+  top_dx:      string | null;
+  confidence:  number | null; // 0–100
+  duration_s:  number | null;
+}
+export interface RuntimeRunHistoryResponse {
+  entries: RuntimeRunHistoryEntry[];
+}
+
 export interface ExtractResponse {
   extracted: TestPatientPayload | Record<string, never>;
   warnings: string[];
