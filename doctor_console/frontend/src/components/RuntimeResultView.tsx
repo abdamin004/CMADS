@@ -16,10 +16,6 @@ import { TreatmentReview } from "./TreatmentReview";
 
 type Props = {
   result: PatientResult;
-  /** When the doctor re-runs a patient they already read, the prior
-   *  bundle is captured before the on-disk files are overwritten and
-   *  passed here so the comparison strip can render. */
-  previousResult?: PatientResult;
   onReset: () => void;
 };
 
@@ -32,7 +28,7 @@ type Props = {
  * its verdict still gates the treatment plan but it's not part of the
  * clinical narrative the doctor reads.
  */
-export function RuntimeResultView({ result, previousResult, onReset }: Props) {
+export function RuntimeResultView({ result, onReset }: Props) {
   const finalDx = result.finalDiagnosis as Record<string, unknown>;
   const primary = String(finalDx.primary_diagnosis ?? "Pending");
   const differential = Array.isArray(finalDx.differential)
@@ -111,92 +107,8 @@ export function RuntimeResultView({ result, previousResult, onReset }: Props) {
   return (
     <div className="runtime-result">
       <RuntimeResultHeader patient={result.patient} primary={primary} onReset={onReset} />
-      {previousResult ? <PreviousReadStrip current={result} previous={previousResult} /> : null}
       <PatientDetailTabs defaultActive="input" tabs={tabs} />
     </div>
-  );
-}
-
-/* ─── Previous-read comparison strip ────────────────────────────────────
- * Renders only when the doctor re-ran a patient they already had a read
- * on. Compares the current top-1 diagnosis + confidence against the
- * previous run side-by-side. Click "Show previous read" to expand a
- * disclosure with the previous top-K differential underneath the strip.
- */
-function PreviousReadStrip({
-  current, previous,
-}: {
-  current:  PatientResult;
-  previous: PatientResult;
-}) {
-  const [open, setOpen] = useState(false);
-  function topOf(r: PatientResult): { name: string; conf: number | null } {
-    const fd = (r.finalDiagnosis ?? {}) as Record<string, unknown>;
-    const diff = Array.isArray(fd.differential) ? (fd.differential as Record<string, unknown>[]) : [];
-    const top = diff[0] ?? {};
-    const name = String(top.name ?? top.diagnosis ?? "Pending");
-    const raw  = typeof top.probability === "number" ? top.probability
-               : typeof top.confidence  === "number" ? top.confidence
-               : null;
-    const conf = raw == null ? null : Math.round(raw > 1 ? raw : raw * 100);
-    return { name, conf };
-  }
-  const c = topOf(current);
-  const p = topOf(previous);
-  const changed = c.name.toLowerCase() !== p.name.toLowerCase();
-
-  const prevDiff: Record<string, unknown>[] =
-    Array.isArray((previous.finalDiagnosis as Record<string, unknown>).differential)
-      ? ((previous.finalDiagnosis as Record<string, unknown>).differential as Record<string, unknown>[])
-      : [];
-
-  return (
-    <section className={`prev-read${changed ? " prev-read--changed" : ""}`}>
-      <div className="prev-read__row">
-        <div className="prev-read__col">
-          <div className="prev-read__eyebrow mono">Previous read</div>
-          <div className="prev-read__dx">{p.name}</div>
-          {p.conf != null && <div className="prev-read__conf mono">{p.conf}%</div>}
-        </div>
-        <div className="prev-read__arrow" aria-hidden="true">→</div>
-        <div className="prev-read__col">
-          <div className="prev-read__eyebrow prev-read__eyebrow--current mono">This read</div>
-          <div className="prev-read__dx">{c.name}</div>
-          {c.conf != null && <div className="prev-read__conf prev-read__conf--current mono">{c.conf}%</div>}
-        </div>
-        <div className="prev-read__verdict">
-          {changed
-            ? <span className="prev-read__verdict-pill prev-read__verdict-pill--changed mono">read changed</span>
-            : <span className="prev-read__verdict-pill prev-read__verdict-pill--same mono">same top read</span>}
-        </div>
-        <button
-          type="button"
-          onClick={() => setOpen((s) => !s)}
-          className={`prev-read__toggle${open ? " is-open" : ""}`}
-        >
-          {open ? "Hide previous differential" : "Show previous differential"}
-          <ChevronDown size={12} strokeWidth={2} />
-        </button>
-      </div>
-      {open && prevDiff.length > 0 && (
-        <ol className="prev-read__list">
-          {prevDiff.slice(0, 5).map((dx, i) => {
-            const name = String(dx.name ?? dx.diagnosis ?? "—");
-            const raw  = typeof dx.probability === "number" ? dx.probability
-                       : typeof dx.confidence  === "number" ? dx.confidence
-                       : null;
-            const pct  = raw == null ? null : Math.round(raw > 1 ? raw : raw * 100);
-            return (
-              <li key={`${name}-${i}`} className="prev-read__list-item">
-                <span className="prev-read__list-rank mono">#{i + 1}</span>
-                <span className="prev-read__list-name">{name}</span>
-                {pct != null && <span className="prev-read__list-pct mono">{pct}%</span>}
-              </li>
-            );
-          })}
-        </ol>
-      )}
-    </section>
   );
 }
 

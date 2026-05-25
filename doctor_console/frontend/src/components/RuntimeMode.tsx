@@ -58,12 +58,6 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   const [caseBundle, setCaseBundle] = useState<CaseBundle | undefined>();
   const [activeAgentId, setActiveAgentId] = useState<string>("ehr_analyst");
   const [error, setError] = useState<string | null>(null);
-  // When the doctor re-runs a patient they already have a read on, we
-  // snapshot the existing mas_results_runtime/<uuid> bundle BEFORE the
-  // new run overwrites it on disk. The snapshot rides through the new
-  // run into RuntimeResultView so the doctor can compare the previous
-  // read against the current one without leaving the result screen.
-  const [previousResult, setPreviousResult] = useState<PatientResult | undefined>();
   // Remember the last Known-patient run params so the error screen can offer
   // "Try this patient again" without forcing the doctor to re-type the UUID.
   // Tester runs aren't retryable here (they're owned by TesterJourney's own
@@ -85,7 +79,6 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     setPhase("idle");
     setTask(null);
     setResult(undefined);
-    setPreviousResult(undefined);
     setCaseBundle(undefined);
     setActiveAgentId("ehr_analyst");
     setError(null);
@@ -107,13 +100,6 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     setActiveAgentId("ehr_analyst");
     setPhase("running");
     lastRunRef.current = { uuid, preset, topK };
-    // Snapshot any prior runtime read of this patient BEFORE the new
-    // pipeline overwrites the on-disk artifacts. 404 just means there
-    // is no prior read; clear stale state from a previous re-run.
-    setPreviousResult(undefined);
-    void getResult("mas_results_runtime", uuid)
-      .then((prev) => setPreviousResult(prev))
-      .catch(() => { /* first read of this patient — no prior */ });
     // Fetch the patient case immediately so the doctor can see the data
     // the system is reading while the run is in progress.
     // `uuid` here is always a Gold-layer UUID from the Known-patient flow.
@@ -369,11 +355,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         ) : null}
 
         {phase === "completed" && result ? (
-          <RuntimeResultView
-            result={result}
-            previousResult={previousResult}
-            onReset={reset}
-          />
+          <RuntimeResultView result={result} onReset={reset} />
         ) : null}
 
         {phase === "error" ? (
