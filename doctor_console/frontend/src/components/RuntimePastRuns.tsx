@@ -95,20 +95,18 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
             <ArrowLeft size={13} strokeWidth={1.8} />
             Back to hero
           </button>
-          <h2 className="rt-past__title">Doctor — past runs</h2>
+          <h2 className="rt-past__title">Your patients</h2>
           <p className="rt-past__sub">
-            Runs you have launched live land here under
-            <span className="mono"> mas_results_runtime/ </span>
-            and stay accessible after you reset. The suggestions below come
-            from the verified Synthea cohort minus the 160-patient evaluation
-            set — fresh material to try.
+            Patients you have reviewed before stay here so you can re-open a
+            read or run the pipeline again. The list below the runs has new
+            patients waiting for a first review.
           </p>
         </div>
         <div className="rt-past__search">
           <Search size={12} strokeWidth={1.8} className="rt-past__search-icon" />
           <input
             type="text"
-            placeholder="Search UUID, dx, or disease…"
+            placeholder="Search patient or diagnosis…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="rt-past__search-input"
@@ -120,27 +118,17 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
         <div className="rt-past__error" role="alert">{error}</div>
       )}
 
-      {data && (
-        <div className="rt-past__strip">
-          <span><strong>{data.runs.length}</strong> live runs on file</span>
-          <span className="rt-past__sep">·</span>
-          <span><strong>{data.evaluated_total}</strong> in the eval cohort</span>
-          <span className="rt-past__sep">·</span>
-          <span><strong>{data.suggestion_pool}</strong> verified patients fresh to try</span>
-        </div>
-      )}
-
       <section className="rt-past__section">
         <header className="rt-past__section-head">
-          <div className="rt-past__eyebrow mono">My runs</div>
-          <h3 className="rt-past__section-title">Previously run patients</h3>
+          <div className="rt-past__eyebrow mono">Reviewed</div>
+          <h3 className="rt-past__section-title">Patients you have read</h3>
         </header>
         {!data ? (
-          <div className="rt-past__empty">Loading runs…</div>
+          <div className="rt-past__empty">Loading…</div>
         ) : runs.length === 0 ? (
           <div className="rt-past__empty">
-            {q ? "No past runs match that filter." :
-              "No live runs yet. Run a patient from the hero and it will show up here."}
+            {q ? "No past reads match that search." :
+              "You haven't reviewed any patients yet. Start one from the hero or pick a new patient below."}
           </div>
         ) : (
           <ul className="rt-past__list">
@@ -168,7 +156,7 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
                   </div>
                   {r.ground_truth_disease && (
                     <div className="rt-past__row-gt mono">
-                      ground truth: {r.ground_truth_disease}
+                      known dx: {r.ground_truth_disease}
                     </div>
                   )}
                 </div>
@@ -207,23 +195,15 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
 
       <section className="rt-past__section">
         <header className="rt-past__section-head">
-          <div className="rt-past__eyebrow mono">Verified · not in eval</div>
-          <h3 className="rt-past__section-title">Try a fresh patient</h3>
-          {data && (
-            <p className="rt-past__section-sub">
-              Showing {suggestions.length} of {data.suggestion_pool} — all of
-              these survived the LLM detectability verifier and are absent from
-              the 160-patient evaluation cohort, so a doctor read here is genuinely
-              novel for the system.
-            </p>
-          )}
+          <div className="rt-past__eyebrow mono">New</div>
+          <h3 className="rt-past__section-title">Patients waiting for a first read</h3>
         </header>
         {!data ? (
-          <div className="rt-past__empty">Loading suggestions…</div>
+          <div className="rt-past__empty">Loading…</div>
         ) : suggestions.length === 0 ? (
           <div className="rt-past__empty">
-            {q ? "No verified patients match that filter."
-               : "The verified pool is exhausted — every verified patient has either been evaluated or run already."}
+            {q ? "No new patients match that search."
+               : "No new patients to review right now."}
           </div>
         ) : (
           <ul className="rt-past__list">
@@ -236,13 +216,13 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
                   </div>
                   {p.ground_truth_disease && (
                     <div className="rt-past__row-bottom">
-                      <span className="rt-past__eyebrow mono">ground truth</span>
+                      <span className="rt-past__eyebrow mono">known dx</span>
                       <span className="rt-past__row-dx">{p.ground_truth_disease}</span>
                     </div>
                   )}
                 </div>
                 <div className="rt-past__row-side">
-                  <div className="rt-past__row-when mono">never run</div>
+                  <div className="rt-past__row-when mono">not read yet</div>
                   <div className="rt-past__row-actions">
                     <button
                       type="button"
