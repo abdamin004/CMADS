@@ -413,6 +413,36 @@ export interface SnapSuggestion {
   score: number;
 }
 
+/* ── Doctor runtime: past runs + verified-but-unevaluated suggestions ── */
+
+export interface RuntimePastRun {
+  patient_uuid:         string;
+  top_dx:               string | null;
+  confidence:           number | null;   // 0–100
+  duration_s:           number | null;
+  ran_at:               string | null;   // ISO timestamp
+  age:                  number | null;
+  gender:               string | null;
+  race:                 string | null;
+  ground_truth_disease: string | null;
+}
+
+export interface RuntimePatientSuggestion {
+  patient_uuid:         string;
+  age:                  number | null;
+  gender:               string | null;
+  race:                 string | null;
+  ground_truth_disease: string | null;
+}
+
+export interface RuntimePastRunsResponse {
+  runs:             RuntimePastRun[];
+  suggestions:      RuntimePatientSuggestion[];
+  verified_total:   number;
+  evaluated_total:  number;
+  suggestion_pool:  number;
+}
+
 export interface ExtractResponse {
   extracted: TestPatientPayload | Record<string, never>;
   warnings: string[];

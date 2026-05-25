@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, ArrowLeft, Cloud, HardDrive, Home, RotateCw } from "lucide-react";
-import { getPatientCase, getTestPatientAsCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
+import { AlertCircle, ArrowLeft, ClipboardList, Cloud, HardDrive, Home, RotateCw } from "lucide-react";
+import { getModelPresets, getPatientCase, getTestPatientAsCase, getResult, getRun, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
+import { RuntimePastRuns } from "./RuntimePastRuns";
 import { RuntimeResultView } from "./RuntimeResultView";
 import { RuntimeRunningView } from "./RuntimeRunningView";
 import {
@@ -19,7 +20,7 @@ type Props = {
   onHome: () => void;
 };
 
-type Phase = "idle" | "running" | "completed" | "error" | "cancelled";
+type Phase = "idle" | "past-runs" | "running" | "completed" | "error" | "cancelled";
 
 // Persistence of the active task across mode switches / home navigations
 // lives in lib/runtimeHandoff so other surfaces (the Researcher My-test-
@@ -62,6 +63,16 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   // Tester runs aren't retryable here (they're owned by TesterJourney's own
   // run-start callback), so this stays null for those.
   const lastRunRef = useRef<{ uuid: string; preset: ModelPreset; topK: number } | null>(null);
+  // Cached default preset for the Past-Runs view's Run buttons. Pulled
+  // from the same /api/model-presets endpoint the hero uses; we keep one
+  // copy at this level so both surfaces stay in sync.
+  const [defaultPreset, setDefaultPreset] = useState<ModelPreset | undefined>(undefined);
+  useEffect(() => {
+    getModelPresets().then((list) => {
+      const usable = list.filter((p) => p.available !== false);
+      setDefaultPreset(usable.find((p) => p.default) ?? usable[0]);
+    }).catch(() => { /* hero still works; Past Runs falls back gracefully */ });
+  }, []);
 
   // Reset to the hero.
   const reset = useCallback(() => {
@@ -245,6 +256,34 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     );
   }, [task?.taskId, task?.status]);
 
+  // View a saved past run without re-firing the pipeline. Loads the
+  // existing result from mas_results_runtime and jumps the phase straight
+  // to "completed" with a synthetic completed-task so RuntimeResultView
+  // renders the same way it does after a live run.
+  const viewPast = useCallback(async (uuid: string) => {
+    setError(null);
+    setResult(undefined);
+    setCaseBundle(undefined);
+    setActiveAgentId("ehr_analyst");
+    setPhase("running");  // brief "loading" — RuntimeRunningView with no task → empty
+    try {
+      const detail = await getResult("mas_results_runtime", uuid);
+      setResult(detail);
+      setTask({
+        taskId:          `view-${uuid}`,
+        patientUuid:     uuid,
+        status:          "completed",
+        resultSet:       "mas_results_runtime",
+        agents:          detail.agents ?? [],
+        agentNarratives: detail.agentNarratives ?? {},
+      });
+      setPhase("completed");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Couldn't load that run.");
+      setPhase("error");
+    }
+  }, []);
+
   // Doctor view hides the LLM Evaluator agent — it compares against the
   // hidden ground truth and isn't part of the clinical narrative. The
   // evaluator still runs in the pipeline (its verdict gates the treatment
@@ -274,11 +313,30 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
             </span>
           ) : null}
         </div>
+        <button
+          type="button"
+          className={`runtime-shell__past-link${phase === "past-runs" ? " is-active" : ""}`}
+          onClick={() => setPhase(phase === "past-runs" ? "idle" : "past-runs")}
+          title="Past runs you have launched + verified patients to try"
+        >
+          <ClipboardList size={13} strokeWidth={1.8} />
+          Past runs
+        </button>
         <ModeSwitcher mode={mode} onChange={onModeChange} />
       </div>
 
       <main className="runtime-shell__main">
         {phase === "idle" ? <RuntimeHero onRun={handleRun} /> : null}
+
+        {phase === "past-runs" ? (
+          <RuntimePastRuns
+            onView={viewPast}
+            onRun={handleRun}
+            onBack={reset}
+            defaultPreset={defaultPreset}
+            defaultTopK={3}
+          />
+        ) : null}
 
         {phase === "running" ? (
           <RuntimeRunningView

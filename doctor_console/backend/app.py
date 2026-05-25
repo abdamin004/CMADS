@@ -1297,6 +1297,136 @@ def create_app() -> FastAPI:
             )
         return {"cancelled": True}
 
+    # ─── Doctor-runtime past runs + verified-but-unevaluated suggestions ───
+    # The Doctor mode needs a memory of what it has run before (so a run
+    # doesn't "disappear" after the user navigates away) and an easy way
+    # to seed a new run from the verified-not-eval pool — the 110-ish Gold
+    # patients that survived the LLM detectability verifier but aren't in
+    # the principal mas_results / paired-160 evaluation cohort.
+    @app.get("/api/runtime/past-runs")
+    def runtime_past_runs(
+        suggestion_limit: int = Query(80, ge=1, le=400),
+    ) -> dict[str, Any]:
+        import json as _json
+        from datetime import datetime, timezone
+
+        def _lightweight_meta(uuid: str) -> dict[str, Any]:
+            """Read demographics + ground-truth disease from the patient's
+            Gold case files. Best-effort: a missing or malformed file just
+            returns Nones so the row still renders with the UUID."""
+            ehr_path = PATIENT_CASES / uuid / "ehr_case.json"
+            gt_path  = PATIENT_CASES / uuid / "ground_truth.json"
+            age      = gender = race = disease = None
+            if ehr_path.exists():
+                try:
+                    ehr = _json.loads(ehr_path.read_text())
+                    demo = ehr.get("demographics") or {}
+                    age    = demo.get("age")
+                    gender = demo.get("gender") or demo.get("sex")
+                    race   = demo.get("race")
+                except Exception:
+                    pass
+            if gt_path.exists():
+                try:
+                    gt = _json.loads(gt_path.read_text())
+                    disease = (gt.get("target_condition") or {}).get("name")
+                except Exception:
+                    pass
+            return {"age": age, "gender": gender, "race": race, "ground_truth_disease": disease}
+
+        # 1) Past runs — every UUID with a saved run in mas_results_runtime.
+        #    Sorted newest-first by directory mtime so the most recent live
+        #    run is the first thing the doctor sees.
+        runs: list[dict[str, Any]] = []
+        run_uuids: set[str] = set()
+        if RUNTIME_RESULT_DIR.exists():
+            entries = [
+                p for p in RUNTIME_RESULT_DIR.iterdir() if p.is_dir()
+            ]
+            entries.sort(key=lambda p: -p.stat().st_mtime)
+            for d in entries:
+                uuid = d.name
+                run_uuids.add(uuid)
+                # Top diagnosis + confidence from final_diagnosis.json (same
+                # probability-vs-confidence-string handling as the tester
+                # past-runs list — confidence is a band label, probability
+                # is the 0–1 float we actually want).
+                top_dx: str | None = None
+                confidence: float | None = None
+                duration_s: float | None = None
+                ran_at: str | None = None
+                try:
+                    fd_path = d / "final_diagnosis.json"
+                    if fd_path.exists():
+                        fd = _json.loads(fd_path.read_text())
+                        diff = (
+                            fd.get("differential")
+                            or fd.get("output", {}).get("differential")
+                            or []
+                        )
+                        if diff:
+                            top    = diff[0]
+                            top_dx = top.get("name") or top.get("diagnosis")
+                            raw    = top.get("probability")
+                            if not isinstance(raw, (int, float)):
+                                cand = top.get("confidence")
+                                raw  = cand if isinstance(cand, (int, float)) else None
+                            if isinstance(raw, (int, float)):
+                                confidence = (
+                                    float(raw) * 100 if raw <= 1 else float(raw)
+                                )
+                except Exception:
+                    pass
+                try:
+                    tr_path = d / "execution_trace.json"
+                    if tr_path.exists():
+                        tr = _json.loads(tr_path.read_text())
+                        if isinstance(tr, dict):
+                            duration_s = tr.get("total_duration_s") or tr.get("duration_s")
+                            if duration_s is None and isinstance(tr.get("trace"), list):
+                                duration_s = sum(
+                                    (t.get("duration_s") or 0) for t in tr["trace"]
+                                ) or None
+                        elif isinstance(tr, list):
+                            duration_s = sum((t.get("duration_s") or 0) for t in tr) or None
+                except Exception:
+                    pass
+                try:
+                    ran_at = datetime.fromtimestamp(
+                        d.stat().st_mtime, tz=timezone.utc
+                    ).isoformat()
+                except Exception:
+                    pass
+                runs.append({
+                    "patient_uuid":         uuid,
+                    "top_dx":               top_dx,
+                    "confidence":           confidence,
+                    "duration_s":           duration_s,
+                    "ran_at":               ran_at,
+                    **_lightweight_meta(uuid),
+                })
+
+        # 2) Suggestions — verified cohort minus the principal eval cohort
+        #    (mas_results) minus anything the doctor has already run locally.
+        #    Capped at suggestion_limit so the picker stays snappy.
+        verified  = _verified_cohort_uuids()
+        eval_dir  = DATA_GOLD / "mas_results"
+        eval_uuids: set[str] = set()
+        if eval_dir.exists():
+            eval_uuids = {p.name for p in eval_dir.iterdir() if p.is_dir()}
+        unseen: list[str] = sorted(verified - eval_uuids - run_uuids)
+        suggestions: list[dict[str, Any]] = []
+        for uuid in unseen[:suggestion_limit]:
+            suggestions.append({"patient_uuid": uuid, **_lightweight_meta(uuid)})
+
+        return {
+            "runs":             runs,
+            "suggestions":      suggestions,
+            "verified_total":   len(verified),
+            "evaluated_total":  len(eval_uuids),
+            "suggestion_pool":  len(unseen),
+        }
+
     @app.get("/api/tests/vocabulary")
     def tester_vocabulary(
         kind: str = Query(..., regex="^(condition|medication|lab)$"),

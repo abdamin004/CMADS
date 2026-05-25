@@ -1,9 +1,9 @@
 import type {
   Annotation, CohortBrowseRow, CohortComparisonResponse, ComparisonResult,
   DashboardSummary, ExtractResponse, MemoryAbComparison, ModelPreset,
-  PatientListItem, PatientResult, ResultSet, RunTask, SimilarCasesResponse,
-  StatsOverview, TestPatientDoc, TestPatientPayload, TestPatientSummary,
-  VocabularyItem,
+  PatientListItem, PatientResult, ResultSet, RunTask, RuntimePastRunsResponse,
+  SimilarCasesResponse, StatsOverview, TestPatientDoc, TestPatientPayload,
+  TestPatientSummary, VocabularyItem,
 } from "./types";
 
 const jsonHeaders = { "Content-Type": "application/json" };
@@ -171,6 +171,17 @@ export function cancelRun(
   return request<{ cancelled: boolean; reason?: string }>(
     `/api/runs/${encodeURIComponent(taskId)}/cancel`,
     { method: "POST" }
+  );
+}
+
+/* ── Doctor runtime: past runs + suggestions ──────────────────────────── */
+
+export function getRuntimePastRuns(
+  suggestionLimit = 80,
+): Promise<RuntimePastRunsResponse> {
+  const q = new URLSearchParams({ suggestion_limit: String(suggestionLimit) });
+  return request<RuntimePastRunsResponse>(
+    `/api/runtime/past-runs?${q.toString()}`,
   );
 }
 
