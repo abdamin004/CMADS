@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  ArrowRight, ChevronDown, Loader2, Play, Stethoscope,
+  ArrowRight, ChevronDown, FileText, Loader2, Play, Stethoscope,
 } from "lucide-react";
 import { getModelPresets, getPatients, getStatsOverview } from "../api";
 import type { ModelPreset, PatientListItem } from "../types";
 import { AdvancedSettings, buildPrecisionRows } from "./runtime/AdvancedSettings";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
+import { PatientPreviewDrawer } from "./PatientPreviewDrawer";
 import { easeOut } from "../lib/motion";
 
 type Props = {
@@ -31,6 +32,10 @@ export function RuntimeHero({ onRun }: Props) {
   const [suggestions, setSuggestions] = useState<PatientListItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  // Patient-chart preview drawer — opens when the doctor clicks "Preview
+  // chart" next to a typed UUID, so they can inspect the input data
+  // (demographics, conditions, vitals, labs) before committing to a run.
+  const [previewUuid, setPreviewUuid] = useState<string | null>(null);
   const [adv, setAdv] = useState<AdvancedSettingsValue>({
     presetId: "",
     topK: 3,
@@ -55,15 +60,13 @@ export function RuntimeHero({ onRun }: Props) {
   const fetchSuggestions = useCallback(async (q: string) => {
     setLoading(true);
     try {
-      // Doctor runtime only ever picks patients that are:
-      //   • UNSEEN — no run anywhere in ``data/gold/mas_results*``, AND
-      //   • VERIFIED — in the 1000-patient cohort that the LLM
-      //     detectability verifier signed off on
-      //     (``data/gold/cohort_1k_verify_verification_results.json``).
-      // That intersection is the only pool of "fresh + clean" cases the
-      // doctor should ever run live.
+      // Doctor autocomplete shows the full verified pool. The previous
+      // policy added unseen_only=true on top of verified_only, but most
+      // verified patients have a run somewhere (the principal cohort,
+      // memory experiments, etc.), so the dropdown collapsed to ~10 rows.
+      // Re-runs are useful for the doctor — past-runs surface lives in
+      // its own tab so the user can still distinguish reviewed vs new.
       const rows = await getPatients(GOLD_RESULT_SET, q, {
-        unseenOnly: true,
         verifiedOnly: true,
       });
       setSuggestions(rows);
@@ -208,6 +211,16 @@ export function RuntimeHero({ onRun }: Props) {
                 </div>
               ) : null}
             </div>
+            <button
+              type="button"
+              className="runtime-solo__preview"
+              disabled={!value.trim()}
+              onClick={() => { if (value.trim()) setPreviewUuid(value.trim()); }}
+              title="Inspect the patient chart before running"
+            >
+              <FileText size={14} strokeWidth={1.8} />
+              Preview chart
+            </button>
             <button type="submit" className="runtime-solo__cta" disabled={!canRun}>
               <Play size={16} />
               Run pipeline
@@ -236,6 +249,10 @@ export function RuntimeHero({ onRun }: Props) {
         </form>
 
       </div>
+      <PatientPreviewDrawer
+        patientUuid={previewUuid}
+        onClose={() => setPreviewUuid(null)}
+      />
     </motion.section>
   );
 }

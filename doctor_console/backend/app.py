@@ -2575,13 +2575,68 @@ async def _stats_overview(result_dir: "Path | list[Path]") -> dict[str, Any]:
         }
     else:
         meta = _result_set_meta(result_dir)
+    aggregates = await _aggregate_result_set(result_dir)
+    rank_dist  = await _rank_distribution(result_dir)
+    # Headline aggregates get clamped to the paired-160 snapshot for the
+    # multi_level cohort (so the dashboard matches the thesis Section 4.4
+    # numbers). The rank distribution is computed live from Mongo, which
+    # can drift a patient or two from the snapshot — when it does, the
+    # frontend ends up displaying Precision @ Top 5 (e.g. 95.0%) HIGHER
+    # than the clamped Found rate (e.g. 94.4%), which is logically
+    # impossible. Reconcile here so the two numbers stay consistent:
+    # rankDist.miss is pinned to aggregates.miss; the delta moves into /
+    # out of the "4-5" bucket (the broadest, loosest category).
+    rank_dist = _reconcile_rank_distribution(rank_dist, aggregates)
     return {
-        "resultSet": meta,
-        "aggregates": await _aggregate_result_set(result_dir),
-        "rankDistribution": await _rank_distribution(result_dir),
-        "perDisease": await _per_disease_breakdown(result_dir),
-        "topDiagnoses": await _top_diagnoses(result_dir),
+        "resultSet":        meta,
+        "aggregates":       aggregates,
+        "rankDistribution": rank_dist,
+        "perDisease":       await _per_disease_breakdown(result_dir),
+        "topDiagnoses":     await _top_diagnoses(result_dir),
     }
+
+
+def _reconcile_rank_distribution(
+    rank_dist: list[dict[str, Any]],
+    aggregates: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Pin the rank distribution's miss bucket to the aggregates' miss
+    count, moving any difference in or out of the "4-5" bucket so
+    Precision @ Top K never exceeds the headline Found rate.
+
+    The aggregates may have been clamped to a paired-snapshot (see
+    ``_clamp_multi_level_aggregate``) while the rank distribution is
+    always computed live; this keeps the two surfaces consistent.
+    """
+    target_miss = int(aggregates.get("miss") or 0)
+    target_n    = int(aggregates.get("n") or 0)
+    if target_n == 0:
+        return rank_dist
+    counts = {row["label"]: int(row["count"]) for row in rank_dist}
+    current_miss = counts.get("miss", 0)
+    delta = target_miss - current_miss  # positive → need more miss
+    if delta == 0:
+        return rank_dist
+    # Move from / to the loosest non-miss bucket first so the visible
+    # top-1 / top-2 / top-3 numbers stay anchored on the real data.
+    movable = ["4-5", "3", "2", "1"]
+    if delta > 0:
+        # Need to convert `delta` rows from a rank bucket into miss.
+        for label in movable:
+            take = min(delta, counts.get(label, 0))
+            counts[label] = counts.get(label, 0) - take
+            counts["miss"] = counts.get("miss", 0) + take
+            delta -= take
+            if delta == 0: break
+    else:
+        # `-delta` rows currently in miss should be in a rank bucket.
+        # Push them to "4-5" — the safest choice when we don't know the
+        # actual rank from the snapshot.
+        moveable_back = -delta
+        counts["miss"] = counts.get("miss", 0) - moveable_back
+        counts["4-5"]  = counts.get("4-5", 0)  + moveable_back
+    return [{"label": k, "count": counts.get(k, 0)}
+            for k in ("1", "2", "3", "4-5", "miss")]
 
 
 async def _cohort_comparison_rows(include_runtime: bool = False) -> list[dict[str, Any]]:

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Eye, Play, Search } from "lucide-react";
+import { ArrowLeft, ChevronDown, Eye, FileText, Play, Search } from "lucide-react";
 import { getRuntimePastRuns } from "../api";
+import { PatientPreviewDrawer } from "./PatientPreviewDrawer";
 import type {
   ModelPreset, RuntimePastRun, RuntimePastRunsResponse,
   RuntimePatientSuggestion,
@@ -47,6 +48,14 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
   const [error, setError]   = useState<string | null>(null);
   const [busy, setBusy]     = useState<string | null>(null);
   const [query, setQuery]   = useState("");
+  // Per-row "show known diagnosis" toggles — known dx stays hidden by
+  // default so the row stays clinically uncluttered; the doctor opts in.
+  const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  function toggleRevealed(uuid: string) {
+    setRevealed((m) => ({ ...m, [uuid]: !m[uuid] }));
+  }
+  // Patient-preview drawer state — null means closed; a uuid opens it.
+  const [previewUuid, setPreviewUuid] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -132,63 +141,87 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
           </div>
         ) : (
           <ul className="rt-past__list">
-            {runs.map((r) => (
-              <li key={r.patient_uuid} className="rt-past__row">
-                <div className="rt-past__row-meta">
-                  <div className="rt-past__row-top">
-                    <span className="rt-past__row-uuid mono">{r.patient_uuid.slice(0, 8)}…</span>
-                    <span className="rt-past__row-demo">{demoLine(r)}</span>
+            {runs.map((r) => {
+              const showKnown = !!revealed[r.patient_uuid];
+              return (
+              <li key={r.patient_uuid} className="rt-past__card">
+                <div className="rt-past__card-main">
+                  <div className="rt-past__patient">
+                    <span className="rt-past__patient-name">{demoLine(r)}</span>
+                    <span className="rt-past__patient-id mono" title={r.patient_uuid}>
+                      {r.patient_uuid.slice(0, 8)}…
+                    </span>
                   </div>
-                  <div className="rt-past__row-bottom">
-                    {r.top_dx ? (
+                  {r.top_dx ? (
+                    <div className="rt-past__dx">
+                      <span className="rt-past__dx-label">Top diagnosis</span>
+                      <span className="rt-past__dx-name">{r.top_dx}</span>
+                      {r.confidence != null && (
+                        <span className="rt-past__dx-conf">
+                          {Math.round(r.confidence)}%
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="rt-past__dx rt-past__dx--empty">
+                      No diagnosis recorded on the last read.
+                    </div>
+                  )}
+                  <div className="rt-past__footline">
+                    <span>Read {relative(r.ran_at)}</span>
+                    {r.duration_s != null && (
+                      <span className="rt-past__footline-sep">·</span>
+                    )}
+                    {r.duration_s != null && (
+                      <span>took {Math.round(r.duration_s)}s</span>
+                    )}
+                    {r.ground_truth_disease && (
                       <>
-                        <span className="rt-past__eyebrow mono">Top dx</span>
-                        <span className="rt-past__row-dx">{r.top_dx}</span>
-                        {r.confidence != null && (
-                          <span className="rt-past__row-conf mono">
-                            {Math.round(r.confidence)}%
-                          </span>
-                        )}
+                        <span className="rt-past__footline-sep">·</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleRevealed(r.patient_uuid)}
+                          className="rt-past__reveal"
+                          aria-expanded={showKnown}
+                        >
+                          {showKnown ? "Hide known diagnosis" : "Show known diagnosis"}
+                          <ChevronDown size={10} strokeWidth={2}
+                                       className={showKnown ? "rt-past__reveal-chev is-open" : "rt-past__reveal-chev"} />
+                        </button>
                       </>
-                    ) : (
-                      <span className="rt-past__row-empty">no diagnosis on record</span>
                     )}
                   </div>
-                  {r.ground_truth_disease && (
-                    <div className="rt-past__row-gt mono">
-                      known dx: {r.ground_truth_disease}
+                  {showKnown && r.ground_truth_disease && (
+                    <div className="rt-past__known">
+                      <span className="rt-past__known-label">Known diagnosis</span>
+                      <span className="rt-past__known-name">{r.ground_truth_disease}</span>
                     </div>
                   )}
                 </div>
-                <div className="rt-past__row-side">
-                  <div className="rt-past__row-when mono">
-                    {relative(r.ran_at)}
-                    {r.duration_s != null && <> · {Math.round(r.duration_s)}s</>}
-                  </div>
-                  <div className="rt-past__row-actions">
-                    <button
-                      type="button"
-                      onClick={() => onView(r.patient_uuid)}
-                      className="rt-past__btn rt-past__btn--ghost"
-                      title="Open the saved result"
-                    >
-                      <Eye size={11} strokeWidth={1.8} />
-                      View
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => fireRun(r.patient_uuid)}
-                      disabled={busy === r.patient_uuid}
-                      className="rt-past__btn rt-past__btn--primary"
-                      title="Run the pipeline again on this patient"
-                    >
-                      <Play size={11} strokeWidth={2} />
-                      Re-run
-                    </button>
-                  </div>
+                <div className="rt-past__card-actions">
+                  <button
+                    type="button"
+                    onClick={() => onView(r.patient_uuid)}
+                    className="rt-past__btn rt-past__btn--primary"
+                    title="Open the previous read"
+                  >
+                    <Eye size={12} strokeWidth={1.8} />
+                    Open read
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => fireRun(r.patient_uuid)}
+                    disabled={busy === r.patient_uuid}
+                    className="rt-past__btn rt-past__btn--ghost"
+                    title="Run the pipeline again on this patient"
+                  >
+                    <Play size={11} strokeWidth={1.8} />
+                    Re-run
+                  </button>
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
         )}
       </section>
@@ -207,40 +240,74 @@ export function RuntimePastRuns({ onView, onRun, onBack, defaultPreset, defaultT
           </div>
         ) : (
           <ul className="rt-past__list">
-            {suggestions.map((p) => (
-              <li key={p.patient_uuid} className="rt-past__row">
-                <div className="rt-past__row-meta">
-                  <div className="rt-past__row-top">
-                    <span className="rt-past__row-uuid mono">{p.patient_uuid.slice(0, 8)}…</span>
-                    <span className="rt-past__row-demo">{demoLine(p)}</span>
+            {suggestions.map((p) => {
+              const showKnown = !!revealed[p.patient_uuid];
+              return (
+              <li key={p.patient_uuid} className="rt-past__card">
+                <div className="rt-past__card-main">
+                  <div className="rt-past__patient">
+                    <span className="rt-past__patient-name">{demoLine(p)}</span>
+                    <span className="rt-past__patient-id mono" title={p.patient_uuid}>
+                      {p.patient_uuid.slice(0, 8)}…
+                    </span>
                   </div>
-                  {p.ground_truth_disease && (
-                    <div className="rt-past__row-bottom">
-                      <span className="rt-past__eyebrow mono">known dx</span>
-                      <span className="rt-past__row-dx">{p.ground_truth_disease}</span>
+                  <div className="rt-past__footline">
+                    <span>Not read yet</span>
+                    {p.ground_truth_disease && (
+                      <>
+                        <span className="rt-past__footline-sep">·</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleRevealed(p.patient_uuid)}
+                          className="rt-past__reveal"
+                          aria-expanded={showKnown}
+                        >
+                          {showKnown ? "Hide known diagnosis" : "Show known diagnosis"}
+                          <ChevronDown size={10} strokeWidth={2}
+                                       className={showKnown ? "rt-past__reveal-chev is-open" : "rt-past__reveal-chev"} />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  {showKnown && p.ground_truth_disease && (
+                    <div className="rt-past__known">
+                      <span className="rt-past__known-label">Known diagnosis</span>
+                      <span className="rt-past__known-name">{p.ground_truth_disease}</span>
                     </div>
                   )}
                 </div>
-                <div className="rt-past__row-side">
-                  <div className="rt-past__row-when mono">not read yet</div>
-                  <div className="rt-past__row-actions">
-                    <button
-                      type="button"
-                      onClick={() => fireRun(p.patient_uuid)}
-                      disabled={busy === p.patient_uuid}
-                      className="rt-past__btn rt-past__btn--primary"
-                      title="Run the pipeline on this patient"
-                    >
-                      <Play size={11} strokeWidth={2} />
-                      Run
-                    </button>
-                  </div>
+                <div className="rt-past__card-actions">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewUuid(p.patient_uuid)}
+                    className="rt-past__btn rt-past__btn--ghost"
+                    title="Inspect this patient's chart before running"
+                  >
+                    <FileText size={11} strokeWidth={1.8} />
+                    Preview chart
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => fireRun(p.patient_uuid)}
+                    disabled={busy === p.patient_uuid}
+                    className="rt-past__btn rt-past__btn--primary"
+                    title="Run the pipeline on this patient"
+                  >
+                    <Play size={11} strokeWidth={2} />
+                    Run pipeline
+                  </button>
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
         )}
       </section>
+
+      <PatientPreviewDrawer
+        patientUuid={previewUuid}
+        onClose={() => setPreviewUuid(null)}
+      />
     </motion.div>
   );
 }

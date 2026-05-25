@@ -8111,6 +8111,67 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   .prev-read__arrow { display: none; }
 }
 
+/* ── Patient preview drawer (shared between hero + past-runs) ─────── */
+.chart-overlay__backdrop {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(0, 0, 0, 0.45);
+}
+.chart-overlay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  z-index: 51;
+  /* Wide enough to fit a 2-column evidence grid (active problems +
+     recent vitals beside critical flags + latest labs) without the
+     card titles wrapping to four lines. Caps at 95vw so the backdrop
+     still has a visible click-out target. */
+  width: min(960px, 95vw);
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -16px 0 40px rgba(0, 0, 0, 0.35);
+}
+/* PatientEvidence's default evidence-grid is 4-column, tuned for the
+   full-width result view. Inside the chart preview drawer we have
+   ~920px of usable width — force a 2-column grid so each card is
+   ~440px wide and titles read on a single line. */
+.chart-overlay .evidence-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.chart-overlay__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.chart-overlay__title {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 17px;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.chart-overlay__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+.chart-overlay__close:hover { background: var(--surface); color: var(--ink); }
+.chart-overlay__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+}
+
 /* ── Doctor past-runs view ───────────────────────────────────────────── */
 .rt-past {
   width: 100%;
@@ -8391,6 +8452,166 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
     grid-template-rows: auto auto;
   }
   .rt-past__row-side { align-items: flex-start; }
+}
+
+/* ── Refined card layout (replaces .rt-past__row) ──────────────────── */
+.rt-past__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  transition: background var(--dur-hover) var(--ease-out),
+              border-color var(--dur-hover) var(--ease-out);
+}
+.rt-past__card:hover {
+  background: color-mix(in oklab, var(--surface) 50%, transparent);
+  border-color: var(--border-strong);
+}
+.rt-past__card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.rt-past__patient {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.rt-past__patient-name {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.rt-past__patient-id {
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+.rt-past__dx {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.rt-past__dx-label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.rt-past__dx-name {
+  font-size: 13.5px;
+  color: var(--ink);
+}
+.rt-past__dx-conf {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  color: var(--success);
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--success-soft);
+  border: 1px solid color-mix(in oklab, var(--success) 35%, transparent);
+}
+.rt-past__dx--empty {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.rt-past__footline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+.rt-past__footline-sep { color: var(--ink-faint); }
+.rt-past__reveal {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 0;
+  padding: 2px 0;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+.rt-past__reveal:hover { color: color-mix(in oklab, var(--accent) 70%, white 30%); }
+.rt-past__reveal-chev { transition: transform var(--dur-hover) var(--ease-out); }
+.rt-past__reveal-chev.is-open { transform: rotate(180deg); }
+.rt-past__known {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+  border: 1px solid color-mix(in oklab, var(--accent) 28%, transparent);
+}
+.rt-past__known-label {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.rt-past__known-name {
+  font-size: 12.5px;
+  color: var(--ink);
+}
+.rt-past__card-actions {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: stretch;
+  min-width: 150px;
+}
+@media (max-width: 760px) {
+  .rt-past__card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rt-past__card-actions { flex-direction: row; min-width: 0; }
+}
+
+/* ── Hero "Preview chart" button ───────────────────────────────────── */
+.runtime-solo__preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+.runtime-solo__preview:hover:not(:disabled) {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
+.runtime-solo__preview:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 .runtime-shell__error {
   padding: 36px 40px;
