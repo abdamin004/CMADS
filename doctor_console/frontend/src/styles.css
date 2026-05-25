@@ -8361,13 +8361,11 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   border-bottom: 1px solid var(--border);
   margin-bottom: 0;
   gap: 0;
-  /* Pin the narrative + tab strip to the top of the scroll container so
-     scrolling the page doesn't carry the menu out of view — the tabs are
-     the primary navigation, they should stay reachable. The bar's own
-     background covers the content underneath as it scrolls past. */
-  position: sticky;
-  top: 0;
-  z-index: 20;
+  /* Tab strip scrolls with the page — explicit doctor preference. The
+     previous behaviour pinned the bar to the top of the scroll container,
+     which kept the menu reachable but had the side-effect of covering
+     content as the user scrolled. The bar is now part of the normal
+     document flow; users scroll back up to the strip when they need it. */
   background: var(--bg);
 }
 /* Narrative header — the story line that changes based on active tab */
