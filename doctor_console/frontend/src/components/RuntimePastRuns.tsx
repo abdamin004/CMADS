@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronDown, Eye, FileText, Play, Search } from "lucide-react";
 import { getRuntimePastRuns } from "../api";
+import { parseBackendDate, relativeBackend } from "../lib/datetime";
 import { PatientPreviewDrawer } from "./PatientPreviewDrawer";
 import type {
   ModelPreset, RuntimePastRun, RuntimePastRunsResponse,
@@ -25,15 +26,11 @@ interface Props {
   defaultTopK?:   number;
 }
 
-function relative(iso?: string | null): string {
-  if (!iso) return "—";
-  const s = (Date.now() - new Date(iso).getTime()) / 1000;
-  if (s < 60)        return `${Math.round(s)}s ago`;
-  if (s < 3600)      return `${Math.round(s / 60)}m ago`;
-  if (s < 86400)     return `${Math.round(s / 3600)}h ago`;
-  if (s < 86400 * 7) return `${Math.round(s / 86400)}d ago`;
-  return `${Math.round(s / (86400 * 7))}w ago`;
-}
+// Local-clock-correct relative time. The shared parser appends Z to
+// naïve backend ISO strings before parsing so the math doesn't drift
+// by the user's UTC offset. Local-TZ absolute display goes through
+// formatBackendDate from the same module when needed.
+const relative = relativeBackend;
 
 function demoLine(p: { age: number | null; gender: string | null; race: string | null }): string {
   const parts: string[] = [];

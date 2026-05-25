@@ -3,6 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { Eye, FlaskConical, Pencil, Play, Search, Trash2 } from "lucide-react";
 import { deleteTestPatient, listTestPatients } from "../api";
 import { handoffToRuntimeRun } from "../lib/runtimeHandoff";
+import { parseBackendDate, relativeBackend } from "../lib/datetime";
 import { TestRunConfigModal } from "./TestRunConfigModal";
 import type { TestPatientSummary } from "../types";
 
@@ -41,15 +42,12 @@ function deriveStatus(r: TestPatientSummary): Status {
   return r.last_run_at ? "ran" : "draft";
 }
 
-function relative(iso?: string | null): string {
-  if (!iso) return "—";
-  const s = (Date.now() - new Date(iso).getTime()) / 1000;
-  if (s < 60)        return `${Math.round(s)}s ago`;
-  if (s < 3600)      return `${Math.round(s / 60)}m ago`;
-  if (s < 86400)     return `${Math.round(s / 3600)}h ago`;
-  if (s < 86400 * 7) return `${Math.round(s / 86400)}d ago`;
-  return `${Math.round(s / (86400 * 7))}w ago`;
-}
+// Shared parser appends Z to naïve backend ISO strings so the local
+// clock isn't off by the user's UTC offset.
+const relative = relativeBackend;
+const toDateMs = (iso?: string | null): number => {
+  const d = parseBackendDate(iso); return d ? d.getTime() : 0;
+};
 
 export function MyTestPatientsList({ onEdit, onRun, onView, onNew }: Props) {
   const [rows, setRows]     = useState<TestPatientSummary[] | null>(null);
