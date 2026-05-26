@@ -157,9 +157,7 @@ export function RuntimePatientDetail({
             {reads.length === 1 ? "run" : "runs"}
           </span>
           {patient?.ground_truth_disease && (
-            <span className="pd-chip pd-chip--accent">
-              known dx · {patient.ground_truth_disease}
-            </span>
+            <KnownDxChip disease={patient.ground_truth_disease} />
           )}
         </div>
         <div className="pd-hero__cta">
@@ -260,6 +258,38 @@ export function RuntimePatientDetail({
         />
       )}
     </motion.div>
+  );
+}
+
+/* Known-diagnosis chip — hidden until the doctor opts to see it. Avoids
+   anchoring the clinical read to the Synthea ground truth and stays
+   honest about what's a hint vs. what was inferred. */
+function KnownDxChip({ disease }: { disease: string }) {
+  const [open, setOpen] = useState(false);
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="pd-chip pd-chip--reveal"
+        title="Reveal the documented diagnosis on this chart"
+      >
+        Show known diagnosis
+      </button>
+    );
+  }
+  return (
+    <span className="pd-chip pd-chip--accent">
+      known dx · {disease}
+      <button
+        type="button"
+        onClick={() => setOpen(false)}
+        className="pd-chip__close"
+        aria-label="Hide known diagnosis"
+      >
+        <X size={10} strokeWidth={2} />
+      </button>
+    </span>
   );
 }
 

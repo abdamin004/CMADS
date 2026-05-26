@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, ArrowLeft, ClipboardList, Cloud, HardDrive, Home, Loader2, RotateCw } from "lucide-react";
+import { AlertCircle, ArrowLeft, ClipboardList, Home, Loader2, RotateCw } from "lucide-react";
 import { getModelPresets, getPatientCase, getTestPatientAsCase, getResult, getRun, openRunArchive, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
@@ -361,19 +361,11 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
           <Home size={15} strokeWidth={1.7} />
           <strong>Your assistant</strong>
         </button>
-        <div className="mode-ribbon__trust">
-          {task?.modelOverride?.label ? (
-            <span className="runtime-shell__model-pill">
-              {task.modelOverride.location === "local" ? (
-                <HardDrive size={12} strokeWidth={1.8} />
-              ) : (
-                <Cloud size={12} strokeWidth={1.8} />
-              )}
-              {task.modelOverride.label}
-              <span className="mono runtime-shell__model-vendor">· {task.modelOverride.vendor}</span>
-            </span>
-          ) : null}
-        </div>
+        <div className="mode-ribbon__trust" />
+        {/* Model label is no longer surfaced in the top ribbon — the
+            doctor sees it inline on each timeline entry of the
+            patient-detail page (every run is tagged with its model)
+            and in the run-config modal when starting a re-run. */}
         {/* In-flight run pill — visible while the pipeline is queued /
             running / completed-but-unseen. Lets the doctor leave the
             running view (browse past runs, inspect another patient)

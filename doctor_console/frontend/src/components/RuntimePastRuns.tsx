@@ -239,23 +239,6 @@ function PatientCard({ p, onClick }: { p: RuntimePastRun; onClick: () => void })
           <span>{demoLine(p)}</span>
           <span className="pp-card__uuid mono">{shortId(p.patient_uuid)}…</span>
         </div>
-        <div className="pp-card__meta mono">
-          <span>
-            {(p.conditions_count ?? 0)} condition{(p.conditions_count ?? 0) === 1 ? "" : "s"}
-          </span>
-          {p.cutoff_date && (
-            <>
-              <span className="pp-card__meta-dot" />
-              <span>cutoff {p.cutoff_date}</span>
-            </>
-          )}
-          {p.model && (
-            <>
-              <span className="pp-card__meta-dot" />
-              <span>model · {p.model}</span>
-            </>
-          )}
-        </div>
       </div>
 
       <div className="pp-card__dx">
