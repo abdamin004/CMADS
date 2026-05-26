@@ -455,6 +455,27 @@ export interface RuntimeRunHistoryResponse {
   entries: RuntimeRunHistoryEntry[];
 }
 
+/* Full timeline for one patient — live read (archive_id === null) plus
+ * every archived snapshot, sorted newest first. Drives the per-patient
+ * detail page. */
+export interface RuntimeRunTimelineRead {
+  archive_id:  string | null;
+  ran_at:      string | null;
+  top_dx:      string | null;
+  confidence:  number | null;
+  duration_s:  number | null;
+}
+export interface RuntimeRunTimelineResponse {
+  patient: {
+    patient_uuid:         string;
+    age:                  number | null;
+    gender:               string | null;
+    race:                 string | null;
+    ground_truth_disease: string | null;
+  };
+  reads: RuntimeRunTimelineRead[];
+}
+
 export interface ExtractResponse {
   extracted: TestPatientPayload | Record<string, never>;
   warnings: string[];

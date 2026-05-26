@@ -2,8 +2,9 @@ import type {
   Annotation, CohortBrowseRow, CohortComparisonResponse, ComparisonResult,
   DashboardSummary, ExtractResponse, MemoryAbComparison, ModelPreset,
   PatientListItem, PatientResult, ResultSet, RunTask, RuntimePastRunsResponse,
-  RuntimeRunHistoryResponse, SimilarCasesResponse, StatsOverview,
-  TestPatientDoc, TestPatientPayload, TestPatientSummary, VocabularyItem,
+  RuntimeRunHistoryResponse, RuntimeRunTimelineResponse, SimilarCasesResponse,
+  StatsOverview, TestPatientDoc, TestPatientPayload, TestPatientSummary,
+  VocabularyItem,
 } from "./types";
 
 const jsonHeaders = { "Content-Type": "application/json" };
@@ -207,6 +208,15 @@ export function openRunArchive(
   const q = new URLSearchParams({ result_set: resultSet });
   return request<PatientResult>(
     `/api/runtime/runs/${encodeURIComponent(patientUuid)}/history/${encodeURIComponent(archiveId)}?${q}`,
+  );
+}
+export function getRunTimeline(
+  patientUuid: string,
+  resultSet: string = "mas_results_runtime",
+): Promise<RuntimeRunTimelineResponse> {
+  const q = new URLSearchParams({ result_set: resultSet });
+  return request<RuntimeRunTimelineResponse>(
+    `/api/runtime/runs/${encodeURIComponent(patientUuid)}/timeline?${q}`,
   );
 }
 

@@ -1402,6 +1402,114 @@ def create_app() -> FastAPI:
             entries.append(_project_history_summary(d))
         return {"entries": entries}
 
+    @app.get("/api/runtime/runs/{patient_uuid}/timeline")
+    def runtime_run_timeline(
+        patient_uuid: str,
+        result_set: str = Query("mas_results_runtime"),
+    ) -> dict[str, Any]:
+        """All known reads for one patient in chronological order.
+        Combines the live mas_results_runtime/<uuid>/ (the most recent
+        read) with every snapshot under _history/. Returns patient
+        identity + a single sorted list so the detail page renders off
+        one fetch."""
+        import json as _json
+        from datetime import datetime, timezone
+
+        patient_dir = DATA_GOLD / result_set / patient_uuid
+        # Patient demographics + known dx — same lightweight source the
+        # past-runs list uses.
+        ehr_path = PATIENT_CASES / patient_uuid / "ehr_case.json"
+        gt_path  = PATIENT_CASES / patient_uuid / "ground_truth.json"
+        age = gender = race = known_dx = None
+        if ehr_path.exists():
+            try:
+                ehr = _json.loads(ehr_path.read_text())
+                demo = ehr.get("demographics") or {}
+                age    = demo.get("age")
+                gender = demo.get("gender") or demo.get("sex")
+                race   = demo.get("race")
+            except Exception:
+                pass
+        if gt_path.exists():
+            try:
+                gt = _json.loads(gt_path.read_text())
+                known_dx = (gt.get("target_condition") or {}).get("name")
+            except Exception:
+                pass
+
+        def _summary(d: Path, archive_id: str | None) -> dict[str, Any]:
+            top_dx: str | None = None
+            confidence: float | None = None
+            duration_s: float | None = None
+            ran_at: str | None = None
+            try:
+                fd = _json.loads((d / "final_diagnosis.json").read_text())
+                diff = (
+                    fd.get("differential")
+                    or fd.get("output", {}).get("differential")
+                    or []
+                )
+                if diff:
+                    top = diff[0]
+                    top_dx = top.get("name") or top.get("diagnosis")
+                    raw = top.get("probability")
+                    if not isinstance(raw, (int, float)):
+                        cand = top.get("confidence")
+                        raw = cand if isinstance(cand, (int, float)) else None
+                    if isinstance(raw, (int, float)):
+                        confidence = (
+                            float(raw) * 100 if raw <= 1 else float(raw)
+                        )
+            except Exception:
+                pass
+            try:
+                tr = _json.loads((d / "execution_trace.json").read_text())
+                if isinstance(tr, dict):
+                    duration_s = tr.get("total_duration_s") or tr.get("duration_s")
+                    if duration_s is None and isinstance(tr.get("trace"), list):
+                        duration_s = sum(
+                            (t.get("duration_s") or 0) for t in tr["trace"]
+                        ) or None
+                elif isinstance(tr, list):
+                    duration_s = sum((t.get("duration_s") or 0) for t in tr) or None
+            except Exception:
+                pass
+            try:
+                ran_at = datetime.fromtimestamp(
+                    d.stat().st_mtime, tz=timezone.utc
+                ).isoformat()
+            except Exception:
+                pass
+            return {
+                "archive_id": archive_id,  # None = the live / most recent read
+                "ran_at":     ran_at,
+                "top_dx":     top_dx,
+                "confidence": confidence,
+                "duration_s": duration_s,
+            }
+
+        reads: list[dict[str, Any]] = []
+        # Live (most recent) read at the top.
+        if patient_dir.is_dir() and any(p.is_file() for p in patient_dir.iterdir()):
+            reads.append(_summary(patient_dir, archive_id=None))
+        # Then archives, newest first.
+        history_root = patient_dir / "_history"
+        if history_root.exists():
+            for d in sorted(history_root.iterdir(), reverse=True):
+                if d.is_dir():
+                    reads.append(_summary(d, archive_id=d.name))
+
+        return {
+            "patient": {
+                "patient_uuid":         patient_uuid,
+                "age":                  age,
+                "gender":               gender,
+                "race":                 race,
+                "ground_truth_disease": known_dx,
+            },
+            "reads": reads,
+        }
+
     @app.get("/api/runtime/runs/{patient_uuid}/history/{archive_id}")
     def runtime_run_history_open(
         patient_uuid: str,

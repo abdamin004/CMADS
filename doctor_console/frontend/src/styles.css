@@ -8495,64 +8495,300 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   .rt-past__card-actions { flex-direction: row; min-width: 0; }
 }
 
-/* Per-patient run history disclosure ---------------------------------- */
-.rt-past__history {
-  list-style: none;
-  padding: 8px 10px;
-  margin: 8px 0 0;
+/* ── Clickable reviewed-row card ─────────────────────────────────────
+   The past-runs reviewed rows are now whole-card buttons that open the
+   per-patient history page. Override button defaults so they read as
+   cards, plus a right-edge chevron affordance. */
+.rt-past__card--clickable {
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px;
+  gap: 14px;
+}
+.rt-past__card--clickable:hover {
+  background: color-mix(in oklab, var(--surface) 55%, transparent);
+  border-color: color-mix(in oklab, var(--success) 38%, var(--border));
+}
+.rt-past__card--clickable:hover .rt-past__card-go {
+  color: var(--success);
+  transform: translateX(2px);
+}
+.rt-past__card-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Per-patient history page (RuntimePatientHistory).
+   Production-clinical layout: Fraunces for patient name + dates, mono
+   for metadata atoms, calm tonal palette.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.rt-patient {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 22px 80px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  border: 1px dashed var(--border);
-  border-radius: 8px;
-  background: color-mix(in oklab, var(--surface) 35%, transparent);
+  gap: 18px;
 }
-.rt-past__history--meta {
-  display: block;
-  font-size: 12px;
-  color: var(--ink-muted);
-  font-style: italic;
-}
-.rt-past__history-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
+.rt-patient__back {
+  align-self: flex-start;
+  display: inline-flex;
   align-items: center;
-  padding: 6px 8px;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid transparent;
   border-radius: 6px;
-  transition: background var(--dur-hover) var(--ease-out);
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
 }
-.rt-past__history-item:hover {
-  background: color-mix(in oklab, var(--surface) 55%, transparent);
-}
-.rt-past__history-meta { min-width: 0; }
-.rt-past__history-when {
-  font-size: 12px;
+.rt-patient__back:hover {
+  background: var(--surface);
   color: var(--ink);
-  font-weight: 500;
 }
-.rt-past__history-rel {
+.rt-patient__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.rt-patient__id { min-width: 0; }
+.rt-patient__id-mono {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
   color: var(--ink-muted);
-  font-weight: 400;
-  font-size: 11px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
-.rt-past__history-dx {
-  margin-top: 2px;
+.rt-patient__title {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 36;
+  font-weight: 400;
+  font-size: 28px;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.rt-patient__known {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in oklab, var(--accent) 32%, transparent);
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+  border-radius: 6px;
+}
+.rt-patient__known-label {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.rt-patient__known-name { color: var(--ink); font-size: 13px; letter-spacing: -0.005em; }
+.rt-patient__actions {
+  display: inline-flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.rt-patient__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-family: inherit;
   font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+.rt-patient__action--primary {
+  background: var(--success);
+  color: var(--bg);
+  border-color: var(--success);
+}
+.rt-patient__action--primary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--success) 88%, white 12%);
+}
+.rt-patient__action--primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.rt-patient__action--ghost {
+  background: transparent;
+  border-color: var(--border-strong);
   color: var(--ink-soft);
 }
-.rt-past__history-dx--empty {
-  color: var(--ink-faint);
-  font-style: italic;
+.rt-patient__action--ghost:hover {
+  background: var(--surface);
+  color: var(--ink);
 }
-.rt-past__history-conf {
-  margin-left: 6px;
-  padding: 1px 6px;
+.rt-patient__reads {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rt-patient__reads-head { display: flex; flex-direction: column; gap: 4px; }
+.rt-patient__reads-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.rt-patient__reads-title {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.rt-patient__error {
+  padding: 10px 14px;
+  border: 1px solid color-mix(in oklab, var(--critical) 40%, transparent);
+  background: var(--critical-soft);
+  color: var(--critical);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.rt-patient__loading,
+.rt-patient__empty {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 14px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface) 30%, transparent);
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+.rt-patient__loading-spin { animation: loader-spin 0.9s linear infinite; }
+.rt-patient__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rt-read {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.rt-read:hover {
+  background: color-mix(in oklab, var(--surface) 55%, transparent);
+  border-color: color-mix(in oklab, var(--success) 40%, var(--border));
+}
+.rt-read:hover .rt-read__chev {
+  color: var(--success);
+  transform: translateX(2px);
+}
+.rt-read--latest {
+  border-left: 3px solid var(--success);
+  padding-left: 16px;
+}
+.rt-read__when { min-width: 0; }
+.rt-read__date {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 18;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.rt-read__rel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+.rt-read__latest-pill {
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--success-soft);
+  color: var(--success);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in oklab, var(--success) 35%, transparent);
+}
+.rt-read__dx {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.rt-read__dx-name { font-size: 13.5px; color: var(--ink); letter-spacing: -0.003em; }
+.rt-read__dx-conf {
+  padding: 1px 8px;
   border-radius: 999px;
   background: var(--success-soft);
   color: var(--success);
   font-size: 10.5px;
-  border: 1px solid color-mix(in oklab, var(--success) 30%, transparent);
+  border: 1px solid color-mix(in oklab, var(--success) 32%, transparent);
+}
+.rt-read__dx-empty { font-size: 12.5px; color: var(--ink-faint); font-style: italic; }
+.rt-read__chev {
+  color: var(--ink-faint);
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-hover) var(--ease-out);
+}
+@media (max-width: 760px) {
+  .rt-patient__header { flex-direction: column; align-items: stretch; }
+  .rt-patient__actions { justify-content: flex-start; }
+  .rt-read {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "when chev"
+      "dx   dx";
+    row-gap: 8px;
+  }
+  .rt-read__when { grid-area: when; }
+  .rt-read__chev { grid-area: chev; }
+  .rt-read__dx   { grid-area: dx;   }
 }
 
 /* ── Hero "Preview chart" button ───────────────────────────────────── */

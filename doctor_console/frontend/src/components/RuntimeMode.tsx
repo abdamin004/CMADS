@@ -6,6 +6,7 @@ import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
 import { RuntimePastRuns } from "./RuntimePastRuns";
+import { RuntimePatientHistory } from "./RuntimePatientHistory";
 import { RuntimeResultView } from "./RuntimeResultView";
 import { RuntimeRunningView } from "./RuntimeRunningView";
 import {
@@ -20,7 +21,7 @@ type Props = {
   onHome: () => void;
 };
 
-type Phase = "idle" | "past-runs" | "running" | "completed" | "error" | "cancelled";
+type Phase = "idle" | "past-runs" | "patient-history" | "running" | "completed" | "error" | "cancelled";
 
 // Persistence of the active task across mode switches / home navigations
 // lives in lib/runtimeHandoff so other surfaces (the Researcher My-test-
@@ -67,6 +68,9 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   // from the same /api/model-presets endpoint the hero uses; we keep one
   // copy at this level so both surfaces stay in sync.
   const [defaultPreset, setDefaultPreset] = useState<ModelPreset | undefined>(undefined);
+  // Patient whose history page is currently showing. Set by clicking
+  // a reviewed-patient card on the past-runs surface; cleared on Back.
+  const [historyPatientUuid, setHistoryPatientUuid] = useState<string | null>(null);
   useEffect(() => {
     getModelPresets().then((list) => {
       const usable = list.filter((p) => p.available !== false);
@@ -334,8 +338,26 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         {phase === "past-runs" ? (
           <RuntimePastRuns
             onView={viewPast}
+            onOpenPatient={(uuid) => {
+              setHistoryPatientUuid(uuid);
+              setPhase("patient-history");
+            }}
             onRun={handleRun}
             onBack={reset}
+            defaultPreset={defaultPreset}
+            defaultTopK={3}
+          />
+        ) : null}
+
+        {phase === "patient-history" && historyPatientUuid ? (
+          <RuntimePatientHistory
+            patientUuid={historyPatientUuid}
+            onOpenRead={(uuid, archiveId) => viewPast(uuid, archiveId ?? undefined)}
+            onRun={handleRun}
+            onBack={() => {
+              setHistoryPatientUuid(null);
+              setPhase("past-runs");
+            }}
             defaultPreset={defaultPreset}
             defaultTopK={3}
           />
