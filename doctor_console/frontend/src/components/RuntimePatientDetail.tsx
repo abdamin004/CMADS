@@ -1,97 +1,114 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  ArrowLeft, Calendar, Cpu, Eye, FileText,
-  ListChecks, Loader2, Play, RotateCw, Stethoscope, X,
+  AlertTriangle, ArrowLeft, ArrowRight, Calendar, Check, Cpu,
+  Eye, ListChecks, Loader2, Play, RotateCw, Stethoscope, X,
 } from "lucide-react";
 import {
-  getPatientCase, getResult, getRunTimeline, openRunArchive,
+  getPatientCase, getRunTimeline, setRunAgreement,
   type CaseBundle,
 } from "../api";
 import { formatBackendDate, relativeBackend } from "../lib/datetime";
 import { confClass, demoLineLong, initials, shortId } from "../lib/clinical";
+import { TestRunConfigModal } from "./TestRunConfigModal";
 import type {
-  ModelPreset, PatientResult, RuntimeRunTimelineResponse,
-  RuntimeRunTimelineRead,
+  ModelPreset, RuntimeRunTimelineResponse, RuntimeRunTimelineRead,
 } from "../types";
 
 interface Props {
   patientUuid:    string;
   onBack:         () => void;
+  /** Open a specific read in the full RuntimeResultView (5-tab view).
+   *  archiveId === null opens the most recent live read; a string
+   *  opens the snapshot. */
+  onInspectRead:  (uuid: string, archiveId: string | null) => void;
+  /** Fire a new pipeline run with the doctor-chosen preset/top-K. */
   onRun:          (uuid: string, preset: ModelPreset, topK: number) => void;
   defaultPreset?: ModelPreset;
   defaultTopK?:   number;
 }
 
+type Agreement = "agree" | "disagree" | "uncertain" | null;
+
 /* ────────────────────────────────────────────────────────────────────
    Patient Detail — every prior read on this chart.
-   Hero with demographics + Re-run CTA. Below: left timeline of reads
-   (with confidence sparkline), right "Chart at a glance" sidebar.
-   Click any timeline entry → opens an inspect drawer with the verdict,
-   top-3 differential, agent timing, and treatment-plan callout.
+   Hero: identity + chips + Re-run CTA. Inline grid: left timeline of
+   reads (sparkline + per-entry agree/disagree pills + model badge +
+   Inspect/Re-run actions), right "Chart at a glance" sidebar.
+   Inspect (or clicking a timeline entry) now routes to the full
+   RuntimeResultView instead of an inline drawer.
    ──────────────────────────────────────────────────────────────────── */
 export function RuntimePatientDetail({
-  patientUuid, onBack, onRun, defaultPreset, defaultTopK = 3,
+  patientUuid, onBack, onInspectRead, onRun, defaultPreset, defaultTopK = 3,
 }: Props) {
   const [timeline, setTimeline] = useState<RuntimeRunTimelineResponse | null>(null);
   const [chart,    setChart]    = useState<CaseBundle | null>(null);
   const [error,    setError]    = useState<string | null>(null);
-  // Drawer state — which read is being inspected.
-  const [drawerArchiveId, setDrawerArchiveId] = useState<string | null | undefined>(undefined);
-  // PatientResult for the drawer (loaded lazily when a read is opened).
-  const [drawerResult, setDrawerResult] = useState<PatientResult | null>(null);
-  const [drawerBusy,   setDrawerBusy]   = useState(false);
+  // Run-config modal: the patient whose row triggered it (always our
+  // own uuid here, but the modal type expects a TestPatientSummary-
+  // shaped object — see below). null when closed.
+  const [rerunOpen, setRerunOpen] = useState(false);
+  // Optimistic per-read agreement state to keep clicks snappy. The
+  // server is the source of truth; we mirror its writes back.
+  const [agreements, setAgreements] = useState<Record<string, Agreement>>({});
 
   useEffect(() => {
     let cancelled = false;
     setTimeline(null);
     setChart(null);
     setError(null);
+    setAgreements({});
     getRunTimeline(patientUuid)
-      .then((d) => { if (!cancelled) setTimeline(d); })
+      .then((d) => {
+        if (cancelled) return;
+        setTimeline(d);
+        // Seed local agreement state from server values.
+        const seed: Record<string, Agreement> = {};
+        for (const r of d.reads) {
+          const key = r.archive_id ?? "live";
+          seed[key] = (r.agreement ?? null) as Agreement;
+        }
+        setAgreements(seed);
+      })
       .catch((e: Error) => { if (!cancelled) setError(e.message); });
     getPatientCase(patientUuid)
       .then((c) => { if (!cancelled) setChart(c); })
-      .catch(() => { /* chart sidebar degrades gracefully */ });
+      .catch(() => { /* sidebar degrades gracefully */ });
     return () => { cancelled = true; };
   }, [patientUuid]);
 
-  function openInspect(read: RuntimeRunTimelineRead) {
-    setDrawerArchiveId(read.archive_id);
-    setDrawerResult(null);
-    setDrawerBusy(true);
-    const loader = read.archive_id
-      ? openRunArchive(patientUuid, read.archive_id)
-      : getResult("mas_results_runtime", patientUuid);
-    loader
-      .then((r) => setDrawerResult(r))
-      .catch((e: Error) => setError(e.message))
-      .finally(() => setDrawerBusy(false));
-  }
-  function closeDrawer() {
-    setDrawerArchiveId(undefined);
-    setDrawerResult(null);
-  }
-
-  function fireRun() {
-    if (!defaultPreset) {
-      setError("Pick a model preset on the hero first, then come back to Run.");
-      return;
-    }
-    onRun(patientUuid, defaultPreset, defaultTopK);
+  function setAgreementFor(archiveId: string | null, next: Agreement) {
+    const key = archiveId ?? "live";
+    const current = agreements[key] ?? null;
+    const value: Agreement = current === next ? null : next;
+    // Optimistic update + persist; revert on failure.
+    setAgreements((m) => ({ ...m, [key]: value }));
+    setRunAgreement(patientUuid, archiveId, value)
+      .catch((e: Error) => {
+        setError(e.message);
+        setAgreements((m) => ({ ...m, [key]: current }));
+      });
   }
 
   const reads     = timeline?.reads ?? [];
   const patient   = timeline?.patient;
-  const drawerRead = drawerArchiveId !== undefined
-    ? reads.find((r) => r.archive_id === drawerArchiveId) ?? null
-    : null;
 
   /* Sparkline points: confidence trend across reads, oldest → newest. */
   const sparkPoints = useMemo(() => {
     const sorted = [...reads].reverse();
     return sorted.map((r) => Math.max(0, Math.min(100, r.confidence ?? 0)));
   }, [reads]);
+
+  // Synthesise a TestPatientSummary-shaped object for the
+  // TestRunConfigModal. The modal only reads label + test_uuid +
+  // last_run_at, so we map our patient fields accordingly.
+  const rerunModalPatient = useMemo(() => ({
+    test_uuid:   patientUuid,
+    label:       patient ? demoLineLong(patient) : `Patient ${shortId(patientUuid)}…`,
+    created_at:  "",
+    run_count:   reads.length,
+    last_run_at: reads[0]?.ran_at ?? null,
+  }), [patientUuid, patient, reads]);
 
   return (
     <motion.div
@@ -105,7 +122,7 @@ export function RuntimePatientDetail({
         Back to past patients
       </button>
 
-      {/* Hero ──────────────────────────────────────────────────────── */}
+      {/* Hero ───────────────────────────────────────────────────── */}
       <section className="pd-hero">
         <div className="pd-hero__id">
           <div className="pd-hero__avatar">{initials(patientUuid)}</div>
@@ -119,7 +136,6 @@ export function RuntimePatientDetail({
           </div>
         </div>
         <div className="pd-hero__chips">
-          {patient?.race === null && patient?.gender === null ? null : null}
           {chart?.patient?.cutoffDate && (
             <span className="pd-chip">
               <Calendar size={11} strokeWidth={1.8} /> Chart cutoff{" "}
@@ -149,7 +165,7 @@ export function RuntimePatientDetail({
           <button
             type="button"
             className="pd-btn-primary"
-            onClick={fireRun}
+            onClick={() => setRerunOpen(true)}
           >
             <Play size={13} strokeWidth={2.2} />
             {reads.length ? "Re-run analysis" : "Run analysis"}
@@ -157,16 +173,17 @@ export function RuntimePatientDetail({
           <button
             type="button"
             className="pd-btn-ghost"
-            onClick={() => openInspect(reads[0])}
+            onClick={() => onInspectRead(patientUuid, reads[0]?.archive_id ?? null)}
             disabled={reads.length === 0}
             title="Inspect the most recent read in detail"
           >
-            <FileText size={12} strokeWidth={1.8} />
+            <Eye size={12} strokeWidth={1.8} />
             Open latest read
+            <ArrowRight size={11} strokeWidth={1.8} />
           </button>
           {defaultPreset && (
             <span className="pd-cta-meta mono">
-              model · {defaultPreset.label ?? defaultPreset.id}
+              defaults to · {defaultPreset.label ?? defaultPreset.id}
             </span>
           )}
         </div>
@@ -174,7 +191,7 @@ export function RuntimePatientDetail({
 
       {error && <div className="pd-error" role="alert">{error}</div>}
 
-      {/* Detail grid ─────────────────────────────────────────────── */}
+      {/* Detail grid ────────────────────────────────────────────── */}
       <div className="pd-grid">
         {/* Run history / timeline */}
         <section className="pd-panel">
@@ -202,15 +219,20 @@ export function RuntimePatientDetail({
             </div>
           ) : (
             <ol className="pd-timeline">
-              {reads.map((r) => (
-                <TimelineEntry
-                  key={r.archive_id ?? "live"}
-                  read={r}
-                  selected={drawerArchiveId === r.archive_id}
-                  onInspect={() => openInspect(r)}
-                  onRerun={fireRun}
-                />
-              ))}
+              {reads.map((r) => {
+                const key = r.archive_id ?? "live";
+                const ag  = agreements[key] ?? null;
+                return (
+                  <TimelineEntry
+                    key={key}
+                    read={r}
+                    agreement={ag}
+                    onAgree={(v) => setAgreementFor(r.archive_id, v)}
+                    onInspect={() => onInspectRead(patientUuid, r.archive_id)}
+                    onRerun={() => setRerunOpen(true)}
+                  />
+                );
+              })}
             </ol>
           )}
         </section>
@@ -219,32 +241,42 @@ export function RuntimePatientDetail({
         <ChartSidebar chart={chart} />
       </div>
 
-      <InspectDrawer
-        open={drawerArchiveId !== undefined}
-        read={drawerRead}
-        result={drawerResult}
-        loading={drawerBusy}
-        onClose={closeDrawer}
-        onRerun={fireRun}
-      />
+      {rerunOpen && (
+        <TestRunConfigModal
+          patient={rerunModalPatient}
+          onClose={() => setRerunOpen(false)}
+          onStarted={() => setRerunOpen(false)}
+          // The modal's onStarted only handles the task hand-off, but
+          // re-run from this surface needs to fire the runtime handleRun
+          // so RuntimeMode owns the live SSE subscription. We side-step
+          // the modal's startTestRun (Tester) flow by passing through a
+          // patient that has a non-Tester uuid; the modal then becomes
+          // purely a preset+topK picker for us via custom onConfirm.
+          onConfirm={(preset, topK) => {
+            setRerunOpen(false);
+            onRun(patientUuid, preset, topK);
+          }}
+        />
+      )}
     </motion.div>
   );
 }
 
 /* ─── Timeline entry ─────────────────────────────────────────────── */
 function TimelineEntry({
-  read, selected, onInspect, onRerun,
+  read, agreement, onAgree, onInspect, onRerun,
 }: {
-  read:      RuntimeRunTimelineRead;
-  selected:  boolean;
-  onInspect: () => void;
-  onRerun:   () => void;
+  read:       RuntimeRunTimelineRead;
+  agreement:  Agreement;
+  onAgree:    (next: Agreement) => void;
+  onInspect:  () => void;
+  onRerun:    () => void;
 }) {
   const conf = read.confidence;
   return (
     <li>
       <article
-        className={`pd-tl${selected ? " is-selected" : ""}`}
+        className="pd-tl"
         role="button"
         tabIndex={0}
         onClick={onInspect}
@@ -275,9 +307,14 @@ function TimelineEntry({
             )}
           </div>
           <div className="pd-tl__sub mono">
-            {read.model && (
+            {read.model ? (
               <>
                 <span><Cpu size={10} strokeWidth={1.8} /> <strong>{read.model}</strong></span>
+                <span className="pd-tl__sub-sep">·</span>
+              </>
+            ) : (
+              <>
+                <span className="pd-tl__model-empty">model not recorded</span>
                 <span className="pd-tl__sub-sep">·</span>
               </>
             )}
@@ -292,27 +329,76 @@ function TimelineEntry({
             )}
           </div>
           {read.note && <p className="pd-tl__note">{read.note}</p>}
-          <div className="pd-tl__actions">
-            <button
-              type="button"
-              className="pd-btn-mini"
-              onClick={(e) => { e.stopPropagation(); onInspect(); }}
-            >
-              <Eye size={11} strokeWidth={1.8} />
-              Inspect
-            </button>
-            <button
-              type="button"
-              className="pd-btn-mini"
-              onClick={(e) => { e.stopPropagation(); onRerun(); }}
-            >
-              <RotateCw size={11} strokeWidth={1.8} />
-              Re-run on this chart
-            </button>
+          <div className="pd-tl__row">
+            <AgreementCluster value={agreement} onChange={onAgree} />
+            <div className="pd-tl__actions">
+              <button
+                type="button"
+                className="pd-btn-mini"
+                onClick={(e) => { e.stopPropagation(); onInspect(); }}
+              >
+                <Eye size={11} strokeWidth={1.8} />
+                Inspect
+              </button>
+              <button
+                type="button"
+                className="pd-btn-mini"
+                onClick={(e) => { e.stopPropagation(); onRerun(); }}
+              >
+                <RotateCw size={11} strokeWidth={1.8} />
+                Re-run on this chart
+              </button>
+            </div>
           </div>
         </div>
       </article>
     </li>
+  );
+}
+
+/* 3-state pill cluster — same visual family as the past-runs card
+   agreement badge but now interactive and per-read. */
+function AgreementCluster({
+  value, onChange,
+}: {
+  value:    Agreement;
+  onChange: (next: Agreement) => void;
+}) {
+  const opts: Array<{
+    key:  NonNullable<Agreement>;
+    label: string;
+    tone: "success" | "warning" | "critical";
+    Icon: typeof Check;
+  }> = [
+    { key: "agree",     label: "Agree",     tone: "success",  Icon: Check         },
+    { key: "uncertain", label: "Uncertain", tone: "warning",  Icon: AlertTriangle },
+    { key: "disagree",  label: "Disagree",  tone: "critical", Icon: X             },
+  ];
+  return (
+    <div
+      className="pd-agree"
+      role="radiogroup"
+      aria-label="Your agreement with this read"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {opts.map((o) => {
+        const active = value === o.key;
+        return (
+          <button
+            key={o.key}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            onClick={(e) => { e.stopPropagation(); onChange(o.key); }}
+            className={`pd-agree__btn pd-agree__btn--${o.tone}${active ? " is-active" : ""}`}
+            title={`Mark this read as ${o.label.toLowerCase()}`}
+          >
+            <o.Icon size={11} strokeWidth={2.2} />
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -339,22 +425,12 @@ function ConfidenceSpark({ points }: { points: number[] }) {
           </linearGradient>
         </defs>
         <path d={area} fill="url(#pd-spark-fill)" />
-        <path
-          d={path}
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
+        <path d={path} fill="none" stroke="var(--accent)" strokeWidth="1.4"
+              strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
         {points.map((p, i) => (
-          <circle
-            key={i}
-            cx={xs(i)} cy={ys(p)} r="1.6"
-            fill="var(--bg-elevated)" stroke="var(--accent)" strokeWidth="1.2"
-            vectorEffect="non-scaling-stroke"
-          />
+          <circle key={i} cx={xs(i)} cy={ys(p)} r="1.6"
+                  fill="var(--bg-elevated)" stroke="var(--accent)" strokeWidth="1.2"
+                  vectorEffect="non-scaling-stroke" />
         ))}
       </svg>
     </div>
@@ -382,14 +458,12 @@ function ChartSidebar({ chart }: { chart: CaseBundle | null }) {
   const medications  = ((ehr.medications ?? {}).active  ?? []) as Array<Record<string, any>>;
   const vitalsBlock  = (lab.recent_vitals ?? {}) as Record<string, any>;
   const labs         = (lab.latest_labs ?? []) as Array<Record<string, any>>;
-
   const bp = vitalsBlock.bp ??
     (vitalsBlock.bp_systolic && vitalsBlock.bp_diastolic
       ? `${vitalsBlock.bp_systolic}/${vitalsBlock.bp_diastolic}` : null);
   const hr   = vitalsBlock.hr ?? vitalsBlock.heart_rate ?? null;
   const spo2 = vitalsBlock.spo2 ?? vitalsBlock.oxygen_sat ?? null;
   const temp = vitalsBlock.temp_c ?? vitalsBlock.temperature_c ?? null;
-
   return (
     <aside className="pd-panel">
       <header className="pd-panel__head">
@@ -398,7 +472,6 @@ function ChartSidebar({ chart }: { chart: CaseBundle | null }) {
           <div className="pd-panel__sub mono">cutoff {chart.patient.cutoffDate}</div>
         )}
       </header>
-
       {conditions.length > 0 && (
         <section className="pd-section">
           <h4 className="pd-section__head mono">Active conditions</h4>
@@ -412,7 +485,6 @@ function ChartSidebar({ chart }: { chart: CaseBundle | null }) {
           </ul>
         </section>
       )}
-
       {medications.length > 0 && (
         <section className="pd-section">
           <h4 className="pd-section__head mono">Active medications</h4>
@@ -426,7 +498,6 @@ function ChartSidebar({ chart }: { chart: CaseBundle | null }) {
           </ul>
         </section>
       )}
-
       {(bp || hr || spo2 || temp) && (
         <section className="pd-section">
           <h4 className="pd-section__head mono">Vitals · most recent</h4>
@@ -438,7 +509,6 @@ function ChartSidebar({ chart }: { chart: CaseBundle | null }) {
           </div>
         </section>
       )}
-
       {labs.length > 0 && (
         <section className="pd-section">
           <h4 className="pd-section__head mono">Labs · latest panel</h4>
@@ -469,206 +539,3 @@ function Vital({ label, value }: { label: string; value: string | null }) {
     </div>
   );
 }
-
-/* ─── Inspect drawer ─────────────────────────────────────────────── */
-function InspectDrawer({
-  open, read, result, loading, onClose, onRerun,
-}: {
-  open:    boolean;
-  read:    RuntimeRunTimelineRead | null;
-  result:  PatientResult | null;
-  loading: boolean;
-  onClose: () => void;
-  onRerun: () => void;
-}) {
-  // Esc closes.
-  useEffect(() => {
-    if (!open) return;
-    function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-
-  // Top-3 differential extracted from the loaded result.
-  const top3 = useMemo(() => {
-    const fd = (result?.finalDiagnosis ?? {}) as Record<string, unknown>;
-    const diff = Array.isArray(fd.differential)
-      ? (fd.differential as Array<Record<string, unknown>>)
-      : [];
-    return diff.slice(0, 3).map((d) => {
-      const name = String(d.name ?? d.diagnosis ?? "—");
-      const raw  = typeof d.probability === "number" ? d.probability
-                 : typeof d.confidence  === "number" ? d.confidence
-                 : null;
-      const conf = raw == null ? null : Math.round(raw > 1 ? raw : raw * 100);
-      return { name, conf };
-    });
-  }, [result]);
-
-  // Agent timing from result.agents[].executionMs (ms).
-  const timing = useMemo(() => {
-    const agents = result?.agents ?? [];
-    return agents
-      .filter((a) => a.id !== "evaluation" && typeof a.executionMs === "number")
-      .map((a) => ({
-        id: a.id, label: a.label, ms: a.executionMs as number,
-      }));
-  }, [result]);
-  const totalMs = timing.reduce((sum, a) => sum + a.ms, 0);
-
-  // Treatment summary one-liner from result.treatment.treatment_summary.
-  const treatmentSummary = useMemo(() => {
-    const t = result?.treatment as Record<string, unknown> | undefined;
-    return typeof t?.treatment_summary === "string" ? t.treatment_summary : null;
-  }, [result]);
-
-  return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <motion.div
-            key="pd-drawer-bd"
-            className="pd-drawer-bd"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
-            onClick={onClose}
-          />
-          <motion.aside
-            key="pd-drawer"
-            className="pd-drawer"
-            role="dialog"
-            aria-label="Inspect run"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.26, ease: [0.23, 1, 0.32, 1] }}
-          >
-            <header className="pd-drawer__head">
-              <div className="pd-drawer__head-text">
-                <h3 className="pd-drawer__title">
-                  {read?.top_dx ?? "Loading read…"}
-                </h3>
-                <div className="pd-drawer__sub mono">
-                  {read?.ran_at && <>{formatBackendDate(read.ran_at)}</>}
-                  {read?.model && <> · {read.model}</>}
-                  {read?.duration_s != null && <> · {Math.round(read.duration_s)}s</>}
-                </div>
-              </div>
-              <button
-                type="button"
-                className="pd-drawer__close"
-                onClick={onClose}
-                aria-label="Close inspect drawer"
-              >
-                <X size={14} strokeWidth={1.8} />
-              </button>
-            </header>
-
-            <div className="pd-drawer__body">
-              {loading ? (
-                <div className="pd-loading">
-                  <Loader2 size={14} strokeWidth={1.7} className="pd-spin" />
-                  Loading run…
-                </div>
-              ) : (
-                <>
-                  <section className="pd-drawer__section">
-                    <h4 className="pd-drawer__section-title mono">Verdict</h4>
-                    <div className="pd-callout">
-                      {read?.match_type ? (
-                        <>
-                          Match against ground truth —{" "}
-                          <strong className="mono">{read.match_type}</strong>.
-                        </>
-                      ) : (
-                        <>Top diagnosis rendered by the multi-agent system.</>
-                      )}
-                      {read?.confidence != null && (
-                        <>
-                          {" "}Top diagnosis confidence{" "}
-                          <strong>{Math.round(read.confidence)}%</strong>.
-                        </>
-                      )}
-                      {read?.note && (
-                        <> Reviewer note: <em>{read.note}</em></>
-                      )}
-                    </div>
-                  </section>
-
-                  {top3.length > 0 && (
-                    <section className="pd-drawer__section">
-                      <h4 className="pd-drawer__section-title mono">Differential — top 3</h4>
-                      <ul className="pd-diff">
-                        {top3.map((d, i) => (
-                          <li key={`${d.name}-${i}`} className="pd-diff__row">
-                            <span className="pd-diff__rank mono">{i + 1}</span>
-                            <div className="pd-diff__main">
-                              <div className="pd-diff__name">{d.name}</div>
-                              <div className="pd-diff__bar">
-                                <div
-                                  className="pd-diff__bar-fill"
-                                  style={{ width: `${d.conf ?? 0}%` }}
-                                />
-                              </div>
-                            </div>
-                            <span className={`pd-diff__conf mono ${confClass(d.conf)}`}>
-                              {d.conf != null ? `${d.conf}%` : "—"}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </section>
-                  )}
-
-                  {timing.length > 0 && (
-                    <section className="pd-drawer__section">
-                      <h4 className="pd-drawer__section-title mono">Agent timing</h4>
-                      <div className="pd-agent-bars">
-                        {timing.map((a) => (
-                          <div className="pd-agent-bar" key={a.id}>
-                            <span className="pd-agent-bar__name">{a.label}</span>
-                            <div className="pd-agent-bar__track">
-                              <div
-                                className="pd-agent-bar__fill"
-                                style={{ width: totalMs ? `${(a.ms / totalMs) * 100}%` : "0%" }}
-                              />
-                            </div>
-                            <span className="pd-agent-bar__time mono">
-                              {(a.ms / 1000).toFixed(1)}s
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  )}
-
-                  {treatmentSummary && (
-                    <section className="pd-drawer__section">
-                      <h4 className="pd-drawer__section-title mono">Treatment plan</h4>
-                      <div className="pd-callout pd-callout--success">
-                        {treatmentSummary}
-                      </div>
-                    </section>
-                  )}
-
-                  <section className="pd-drawer__section">
-                    <h4 className="pd-drawer__section-title mono">Actions</h4>
-                    <div className="pd-drawer__actions">
-                      <button type="button" className="pd-btn-primary" onClick={onRerun}>
-                        <RotateCw size={12} strokeWidth={1.8} />
-                        Re-run with current model
-                      </button>
-                    </div>
-                  </section>
-                </>
-              )}
-            </div>
-          </motion.aside>
-        </>
-      )}
-    </AnimatePresence>
-  );
-}
-

@@ -219,6 +219,22 @@ export function getRunTimeline(
     `/api/runtime/runs/${encodeURIComponent(patientUuid)}/timeline?${q}`,
   );
 }
+export function setRunAgreement(
+  patientUuid: string,
+  archiveId:   string | null,
+  agreement:   "agree" | "disagree" | "uncertain" | null,
+  resultSet:   string = "mas_results_runtime",
+): Promise<{ archive_id: string; agreement: string | null }> {
+  const q = new URLSearchParams({ result_set: resultSet });
+  return request<{ archive_id: string; agreement: string | null }>(
+    `/api/runtime/runs/${encodeURIComponent(patientUuid)}/agreement?${q}`,
+    {
+      method:  "POST",
+      headers: jsonHeaders,
+      body:    JSON.stringify({ archive_id: archiveId, agreement }),
+    },
+  );
+}
 
 export function getAnnotation(patientUuid: string): Promise<Annotation> {
   return request<Annotation>(`/api/annotations/${patientUuid}`);

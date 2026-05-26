@@ -431,10 +431,15 @@ export interface RuntimePastRun {
   conditions_count?:    number | null;
   /** Total reads on this chart (live + every archived snapshot). */
   run_count?:           number | null;
-  /** Doctor's agreement with the latest read. Backend follow-up. */
+  /** Doctor's agreement with the latest read. Persisted server-side. */
   agreement?:           "agree" | "disagree" | "uncertain" | null;
   /** Flagged for follow-up. Backend follow-up. */
   flagged?:             boolean;
+  /** Model identity from run_meta.json (preset_label, falls back to
+   *  the raw model id). */
+  model?:               string | null;
+  /** Preset id (for re-run defaulting). */
+  model_id?:            string | null;
 }
 
 export interface RuntimePatientSuggestion {
@@ -476,9 +481,14 @@ export interface RuntimeRunTimelineRead {
   duration_s:  number | null;
   /** Optional fields populated when the backend exposes them. */
   match_type?:    "DIRECT" | "INDIRECT" | "MISS" | null;
+  /** Model preset label that produced this read (from run_meta.json). */
   model?:         string | null;
+  model_id?:      string | null;
+  provider?:      string | null;
   triggered_by?:  string | null;
   note?:          string | null;
+  /** Doctor's agreement state for this specific read. */
+  agreement?:     "agree" | "disagree" | "uncertain" | null;
 }
 export interface RuntimeRunTimelineResponse {
   patient: {

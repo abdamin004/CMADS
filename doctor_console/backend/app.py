@@ -184,6 +184,70 @@ RUNTIME_RESULT_SET = "mas_results_runtime"
 RUNTIME_RESULT_DIR = DATA_GOLD / RUNTIME_RESULT_SET
 
 
+_AGREEMENT_VALUES = {"agree", "disagree", "uncertain"}
+
+
+def _agreement_path(patient_dir: Path) -> Path:
+    return patient_dir / "agreements.json"
+
+
+def _read_run_agreement(patient_dir: Path, archive_id: str | None) -> str | None:
+    """Return the doctor's agreement state for one read (or None when
+    unset). archive_id=None resolves to the live read under the key
+    "live"."""
+    import json as _json
+    path = _agreement_path(patient_dir)
+    if not path.exists():
+        return None
+    try:
+        data = _json.loads(path.read_text())
+    except Exception:
+        return None
+    if not isinstance(data, dict):
+        return None
+    val = data.get(archive_id or "live")
+    return val if val in _AGREEMENT_VALUES else None
+
+
+def _save_run_meta(base_dir: Path, patient_uuid: str, task: dict[str, Any]) -> None:
+    """Persist {model, preset, provider, vendor, ran_at, triggered_by}
+    next to the run artifacts. The UI surfaces this in the past-runs
+    card meta line + every timeline entry so the doctor sees which
+    model produced each read."""
+    import json as _json
+    from datetime import datetime, timezone
+    patient_dir = base_dir / patient_uuid
+    patient_dir.mkdir(parents=True, exist_ok=True)
+    mo = task.get("modelOverride") or {}
+    meta = {
+        "model":         mo.get("model")     if mo else None,
+        "preset_label":  mo.get("label")     if mo else None,
+        "preset_id":     mo.get("presetId")  if mo else None,
+        "provider":      mo.get("provider")  if mo else None,
+        "vendor":        mo.get("vendor")    if mo else None,
+        "location":      mo.get("location")  if mo else None,
+        "ran_at":        datetime.now(timezone.utc).isoformat(),
+        "triggered_by":  task.get("triggeredBy") or "doctor",
+    }
+    try:
+        (patient_dir / "run_meta.json").write_text(_json.dumps(meta, indent=2))
+    except OSError:
+        pass
+
+
+def _read_run_meta(run_dir: Path) -> dict[str, Any]:
+    """Best-effort read of run_meta.json. Returns {} when missing or
+    malformed — older runs don't have meta and degrade gracefully."""
+    import json as _json
+    path = run_dir / "run_meta.json"
+    if not path.exists():
+        return {}
+    try:
+        return _json.loads(path.read_text())
+    except Exception:
+        return {}
+
+
 def _archive_existing_run(base_dir: Path, patient_uuid: str) -> Path | None:
     """Snapshot the previous run's files under <uuid>/_history/<iso>/
     before they get overwritten. Returns the archive dir or None when
@@ -1402,6 +1466,41 @@ def create_app() -> FastAPI:
             entries.append(_project_history_summary(d))
         return {"entries": entries}
 
+    @app.post("/api/runtime/runs/{patient_uuid}/agreement")
+    def runtime_set_agreement(
+        patient_uuid: str,
+        body:        dict[str, Any],
+        result_set:  str = Query("mas_results_runtime"),
+    ) -> dict[str, Any]:
+        """Persist the doctor's agreement for one read.
+        body: {archive_id?: string | null, agreement: "agree" | "disagree" |
+        "uncertain" | null}. Pass null to clear. Live read is stored under
+        the key "live"."""
+        import json as _json
+        agreement = body.get("agreement")
+        if agreement not in (None, "", *_AGREEMENT_VALUES):
+            raise HTTPException(400, f"Unknown agreement: {agreement!r}")
+        if agreement == "": agreement = None
+        archive_id = body.get("archive_id")
+        key = archive_id if isinstance(archive_id, str) and archive_id else "live"
+        patient_dir = DATA_GOLD / result_set / patient_uuid
+        if not patient_dir.exists():
+            raise HTTPException(404, f"Unknown patient: {patient_uuid}")
+        path = _agreement_path(patient_dir)
+        data: dict[str, Any] = {}
+        if path.exists():
+            try:
+                data = _json.loads(path.read_text())
+                if not isinstance(data, dict): data = {}
+            except Exception:
+                data = {}
+        if agreement is None:
+            data.pop(key, None)
+        else:
+            data[key] = agreement
+        path.write_text(_json.dumps(data, indent=2))
+        return {"archive_id": key, "agreement": agreement}
+
     @app.get("/api/runtime/runs/{patient_uuid}/timeline")
     def runtime_run_timeline(
         patient_uuid: str,
@@ -1437,7 +1536,15 @@ def create_app() -> FastAPI:
             except Exception:
                 pass
 
+        # Resolve the patient_dir we use for storing per-patient
+        # agreement state. The agreement file lives at
+        # <patient_dir>/agreements.json with keys = archive_id ("live"
+        # for the most recent read) and values ∈ {agree, disagree,
+        # uncertain}.
+        agreement_root = DATA_GOLD / result_set / patient_uuid
+
         def _summary(d: Path, archive_id: str | None) -> dict[str, Any]:
+            meta = _read_run_meta(d)
             top_dx: str | None = None
             confidence: float | None = None
             duration_s: float | None = None
@@ -1481,11 +1588,16 @@ def create_app() -> FastAPI:
             except Exception:
                 pass
             return {
-                "archive_id": archive_id,  # None = the live / most recent read
-                "ran_at":     ran_at,
-                "top_dx":     top_dx,
-                "confidence": confidence,
-                "duration_s": duration_s,
+                "archive_id":   archive_id,  # None = the live / most recent read
+                "ran_at":       meta.get("ran_at") or ran_at,
+                "top_dx":       top_dx,
+                "confidence":   confidence,
+                "duration_s":   duration_s,
+                "model":        meta.get("preset_label") or meta.get("model"),
+                "model_id":     meta.get("preset_id"),
+                "provider":     meta.get("provider"),
+                "triggered_by": meta.get("triggered_by"),
+                "agreement":    _read_run_agreement(agreement_root, archive_id=archive_id),
             }
 
         reads: list[dict[str, Any]] = []
@@ -1693,6 +1805,7 @@ def create_app() -> FastAPI:
                     ).isoformat()
                 except Exception:
                     pass
+                meta = _read_run_meta(d)
                 runs.append({
                     "patient_uuid":         uuid,
                     "top_dx":               top_dx,
@@ -1700,6 +1813,9 @@ def create_app() -> FastAPI:
                     "duration_s":           duration_s,
                     "ran_at":               ran_at,
                     "run_count":            _run_count_for(d),
+                    "model":                meta.get("preset_label") or meta.get("model"),
+                    "model_id":             meta.get("preset_id"),
+                    "agreement":            _read_run_agreement(d, archive_id=None),
                     **_lightweight_meta(uuid),
                 })
 
@@ -4314,6 +4430,10 @@ def _run_patient_task(
                 patient_uuid, result, duration,
                 base_dir=base_dir,
             )
+            # Drop a small meta file so past-runs / timeline can name the
+            # model that produced this read — the existing JSON artifacts
+            # don't carry it. Runs from before this change show "—".
+            _save_run_meta(base_dir, patient_uuid, task)
             # Stamp last_run_at + increment run_count for test patients.
             if result_set == "mas_results_test":
                 from src.db.mongo import stamp_test_run_sync

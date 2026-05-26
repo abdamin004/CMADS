@@ -3,17 +3,25 @@ import { motion } from "framer-motion";
 import { Loader2, Play, Settings2, X } from "lucide-react";
 import { AdvancedSettings, buildPrecisionRows } from "./runtime/AdvancedSettings";
 import type { AdvancedSettingsValue } from "./runtime/AdvancedSettings";
-import { getStatsOverview, startTestRun } from "../api";
-import type { RankBucket, TestPatientSummary } from "../types";
+import { getModelPresets, getStatsOverview, startTestRun } from "../api";
+import type { ModelPreset, RankBucket, TestPatientSummary } from "../types";
 
 interface Props {
-  /** The patient to run. Used for header copy and the API call. */
+  /** The patient to run. Used for header copy and the API call (the
+   *  Tester startTestRun path). When `onConfirm` is provided the modal
+   *  becomes a pure preset+top-K picker and the Tester path is bypassed
+   *  — the parent owns dispatch. */
   patient:  TestPatientSummary;
   /** Closes the modal without running. */
   onClose:  () => void;
-  /** Fires once the run has been dispatched server-side. The parent owns
-   *  the after-effects (navigate to the running view, refresh the list). */
+  /** Fires once the run has been dispatched server-side via the Tester
+   *  path. Not called when `onConfirm` is set. */
   onStarted: (taskId: string) => void;
+  /** When set, the Run button calls this with the chosen preset + top-K
+   *  instead of firing startTestRun. Used by the runtime detail page so
+   *  re-runs go through RuntimeMode.handleRun (which owns the SSE
+   *  subscription, the result view, etc.). */
+  onConfirm?: (preset: ModelPreset, topK: number) => void;
 }
 
 /**
@@ -24,7 +32,20 @@ interface Props {
  * fired the request with default settings and offered no visible feedback
  * before the parent dismissed the journey.
  */
-export function TestRunConfigModal({ patient, onClose, onStarted }: Props) {
+export function TestRunConfigModal({ patient, onClose, onStarted, onConfirm }: Props) {
+  // Local preset list (only needed when onConfirm is set — we need to
+  // resolve the picked preset id back into a ModelPreset object). For
+  // the legacy Tester path we don't need this; startTestRun takes the
+  // preset id directly.
+  const [presets, setPresets] = useState<ModelPreset[]>([]);
+  useEffect(() => {
+    if (!onConfirm) return;
+    let cancelled = false;
+    getModelPresets()
+      .then((list) => { if (!cancelled) setPresets(list); })
+      .catch(() => { /* graceful: error surfaced when user tries to run */ });
+    return () => { cancelled = true; };
+  }, [onConfirm]);
   const [adv, setAdv] = useState<AdvancedSettingsValue>({
     presetId:     "",
     topK:         5,
@@ -62,6 +83,21 @@ export function TestRunConfigModal({ patient, onClose, onStarted }: Props) {
 
   async function run() {
     if (busy) return;
+    // onConfirm path: pure preset+top-K picker. Resolve the selected
+    // preset id (or the configured default) back into a ModelPreset
+    // object and hand off to the parent.
+    if (onConfirm) {
+      const usable = presets.filter((p) => p.available !== false);
+      const chosen = usable.find((p) => p.id === adv.presetId)
+                  ?? usable.find((p) => p.default)
+                  ?? usable[0];
+      if (!chosen) {
+        setError("No usable model presets are available.");
+        return;
+      }
+      onConfirm(chosen, adv.topK);
+      return;
+    }
     setBusy(true);
     setError(null);
     try {

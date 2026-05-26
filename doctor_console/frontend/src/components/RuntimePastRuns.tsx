@@ -249,6 +249,12 @@ function PatientCard({ p, onClick }: { p: RuntimePastRun; onClick: () => void })
               <span>cutoff {p.cutoff_date}</span>
             </>
           )}
+          {p.model && (
+            <>
+              <span className="pp-card__meta-dot" />
+              <span>model · {p.model}</span>
+            </>
+          )}
         </div>
       </div>
 

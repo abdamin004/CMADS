@@ -366,6 +366,9 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
           <RuntimePatientDetail
             patientUuid={detailPatientUuid}
             onBack={closePatient}
+            onInspectRead={(uuid, archiveId) =>
+              viewPast(uuid, archiveId ?? undefined)
+            }
             onRun={handleRun}
             defaultPreset={defaultPreset}
             defaultTopK={3}
