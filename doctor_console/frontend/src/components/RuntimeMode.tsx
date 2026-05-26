@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, ArrowLeft, ClipboardList, Cloud, HardDrive, Home, RotateCw } from "lucide-react";
+import { AlertCircle, ArrowLeft, ClipboardList, Cloud, HardDrive, Home, Loader2, RotateCw } from "lucide-react";
 import { getModelPresets, getPatientCase, getTestPatientAsCase, getResult, getRun, openRunArchive, startRun, subscribeRun, type CaseBundle } from "../api";
 import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
@@ -88,6 +88,24 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   // it should put them back on the patient-detail page they came from.
   // returnPhase remembers that intent; reset() honors it.
   const [returnPhase, setReturnPhase] = useState<Phase>("idle");
+  // Tracks the most recent task the doctor has actually viewed in the
+  // completed result view. Used to hide the "running patient" ribbon
+  // pill once the doctor has seen the result — they can still inspect
+  // it from past-runs afterwards.
+  const [seenTaskId, setSeenTaskId] = useState<string | null>(null);
+  useEffect(() => {
+    // Once the doctor lands on the result view for a completed real
+    // run (not a synthetic view-* task we built for archive viewing),
+    // mark it as seen so the ribbon pill stops nagging them.
+    if (
+      phase === "completed"
+      && task
+      && task.taskId
+      && !task.taskId.startsWith("view-")
+    ) {
+      setSeenTaskId(task.taskId);
+    }
+  }, [phase, task?.taskId]);
   useEffect(() => {
     getModelPresets().then((list) => {
       const usable = list.filter((p) => p.available !== false);
@@ -260,7 +278,12 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
             try {
               const detail = await getResult(incoming.resultSet, incoming.patientUuid);
               setResult(detail);
-              setPhase("completed");
+              // Only auto-flip to the result view if the doctor is
+              // still watching the running pipeline. If they navigated
+              // elsewhere (past-runs, patient-detail, hero) we leave
+              // their phase alone and surface a ribbon pill so they
+              // can hop over when they're ready.
+              setPhase((current) => current === "running" ? "completed" : current);
             } catch (err) {
               setError(err instanceof Error ? err.message : String(err));
               setPhase("error");
@@ -351,6 +374,48 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
             </span>
           ) : null}
         </div>
+        {/* In-flight run pill — visible while the pipeline is queued /
+            running / completed-but-unseen. Lets the doctor leave the
+            running view (browse past runs, inspect another patient)
+            and still get back to the live run with one click. Once
+            the doctor has visited the result view for this task, the
+            pill is dismissed (they can still re-inspect from past
+            runs). */}
+        {task
+         && ["queued", "running", "completed"].includes(task.status)
+         && task.taskId !== seenTaskId
+         && phase !== "running"
+         && phase !== "completed"
+         && (() => {
+           const isRunning = task.status !== "completed";
+           const onClick = () => {
+             setPhase(isRunning ? "running" : "completed");
+           };
+           return (
+             <button
+               type="button"
+               className={`runtime-shell__live-pill${isRunning ? " is-running" : " is-ready"}`}
+               onClick={onClick}
+               title={
+                 isRunning
+                   ? "Pipeline in progress — click to watch the agent flow"
+                   : "New result ready — click to open it"
+               }
+             >
+               {isRunning ? (
+                 <Loader2 size={11} strokeWidth={2} className="runtime-shell__live-spin" />
+               ) : (
+                 <span className="runtime-shell__live-dot" aria-hidden="true" />
+               )}
+               <span className="runtime-shell__live-label">
+                 {isRunning ? "Running pipeline…" : "Result ready"}
+               </span>
+               <span className="runtime-shell__live-uuid mono">
+                 {task.patientUuid.slice(0, 8)}…
+               </span>
+             </button>
+           );
+         })()}
         <button
           type="button"
           className={`runtime-shell__past-link${phase === "past-runs" ? " is-active" : ""}`}

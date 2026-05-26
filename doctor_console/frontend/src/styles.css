@@ -8019,6 +8019,52 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   color: var(--success);
 }
 
+/* In-flight run pill — ribbon CTA that surfaces an active live run
+   while the doctor browses elsewhere in the workspace. */
+.runtime-shell__live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--border));
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11.5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+.runtime-shell__live-pill:hover {
+  background: color-mix(in oklab, var(--accent) 18%, transparent);
+  border-color: var(--accent);
+}
+.runtime-shell__live-pill.is-ready {
+  border-color: color-mix(in oklab, var(--success) 50%, var(--border));
+  background: var(--success-soft);
+  color: var(--success);
+}
+.runtime-shell__live-pill.is-ready:hover {
+  background: color-mix(in oklab, var(--success) 20%, transparent);
+  border-color: var(--success);
+}
+.runtime-shell__live-spin { animation: loader-spin 0.9s linear infinite; }
+.runtime-shell__live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--success);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--success) 25%, transparent);
+}
+.runtime-shell__live-label { font-weight: 500; }
+.runtime-shell__live-uuid {
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  opacity: 0.78;
+}
+
 
 /* ── Patient preview drawer (shared between hero + past-runs) ─────── */
 .chart-overlay__backdrop {
@@ -8505,24 +8551,196 @@ details.arm-collapsible:not([open]) .arm-collapsible__toggle {
   background: var(--critical-soft);
   border-color: color-mix(in oklab, var(--critical) 50%, transparent);
 }
+/* ── Chart-at-a-glance redesign ──────────────────────────────────────
+   Snapshot strip, icon-led section headers with count chips, tonal
+   vital tiles, condition + medication rows, clinical lab table. */
+.pd-panel--chart { gap: 18px; }
+.pd-snapshot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.pd-snap {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.pd-snap__icon { color: var(--ink-soft); flex-shrink: 0; }
+.pd-snap__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pd-snap__value {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 24;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.pd-snap__label {
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.pd-snap--warn     { border-color: color-mix(in oklab, var(--warning)  35%, var(--border)); background: color-mix(in oklab, var(--warning)  6%, var(--surface)); }
+.pd-snap--warn     .pd-snap__icon  { color: var(--warning); }
+.pd-snap--warn     .pd-snap__value { color: var(--warning); }
+.pd-snap--critical { border-color: color-mix(in oklab, var(--critical) 35%, var(--border)); background: color-mix(in oklab, var(--critical) 6%, var(--surface)); }
+.pd-snap--critical .pd-snap__icon  { color: var(--critical); }
+.pd-snap--critical .pd-snap__value { color: var(--critical); }
+
 .pd-section { display: flex; flex-direction: column; gap: 8px; }
-.pd-section__head { margin: 0; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-muted); }
-.pd-chart-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
-.pd-chart-list li { position: relative; padding-left: 14px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.4; }
-.pd-chart-list li::before { content: ""; position: absolute; left: 0; top: 7px; width: 4px; height: 4px; border-radius: 999px; background: var(--ink-faint); }
-.pd-chart-list__more { color: var(--ink-faint); font-style: italic; }
+.pd-section__bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.pd-section__icon { color: var(--ink-soft); }
+.pd-section__title {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.pd-section__count {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-soft);
+  font-size: 10.5px;
+}
+
 .pd-vitals { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.pd-vital { display: flex; flex-direction: column; gap: 2px; padding: 9px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); }
-.pd-vital__label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); }
-.pd-vital__value { font-size: 14px; font-weight: 600; color: var(--ink); }
-.pd-labs { display: flex; flex-direction: column; }
-.pd-lab { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; padding: 7px 0; border-bottom: 1px dashed var(--border); align-items: baseline; }
-.pd-labs > .pd-lab:last-child { border-bottom: 0; }
-.pd-lab__name { font-size: 12.5px; color: var(--ink); }
-.pd-lab__value { font-size: 12px; color: var(--ink-soft); }
-.pd-lab__flag { padding: 1px 6px; border-radius: 4px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
-.pd-lab__flag--h, .pd-lab__flag--high { color: var(--critical); background: var(--critical-soft); border: 1px solid color-mix(in oklab, var(--critical) 30%, transparent); }
-.pd-lab__flag--l, .pd-lab__flag--low { color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent); }
+.pd-vital {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-left-color: color-mix(in oklab, var(--success) 50%, transparent);
+}
+.pd-vital--ok       { border-left-color: color-mix(in oklab, var(--success)  60%, transparent); }
+.pd-vital--warn     { border-left-color: var(--warning);  background: color-mix(in oklab, var(--warning)  6%, var(--surface)); }
+.pd-vital--critical { border-left-color: var(--critical); background: color-mix(in oklab, var(--critical) 7%, var(--surface)); }
+.pd-vital__head {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink-muted);
+}
+.pd-vital--warn     .pd-vital__head { color: var(--warning);  }
+.pd-vital--critical .pd-vital__head { color: var(--critical); }
+.pd-vital__icon { color: inherit; }
+.pd-vital__label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: inherit;
+}
+.pd-vital__value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.pd-vital--warn     .pd-vital__value { color: var(--warning); }
+.pd-vital--critical .pd-vital__value { color: var(--critical); }
+
+.pd-cond-list, .pd-med-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pd-cond, .pd-med {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.pd-cond__name, .pd-med__name {
+  font-size: 12.5px;
+  color: var(--ink);
+  line-height: 1.4;
+  letter-spacing: -0.003em;
+}
+.pd-cond__onset, .pd-med__dose {
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.pd-cond--more, .pd-med--more {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--ink-faint);
+  font-style: italic;
+  justify-content: center;
+}
+
+.pd-lab-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.pd-lab-table tr {
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+}
+.pd-lab-table tr:last-child { border-bottom: 0; }
+.pd-lab-table tr.is-critical { background: color-mix(in oklab, var(--critical) 4%, transparent); }
+.pd-lab-table tr.is-accent   { background: color-mix(in oklab, var(--accent)   4%, transparent); }
+.pd-lab-table td {
+  padding: 7px 0;
+  font-size: 12.5px;
+  color: var(--ink);
+  vertical-align: baseline;
+}
+.pd-lab-table__name  { width: 50%; }
+.pd-lab-table__value {
+  color: var(--ink-soft);
+  white-space: nowrap;
+  padding-right: 8px;
+}
+.pd-lab-table__unit { color: var(--ink-faint); font-size: 10.5px; margin-left: 2px; }
+.pd-lab-table__flag { width: 26px; text-align: right; }
+.pd-lab-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  border: 1px solid transparent;
+}
+.pd-lab-flag--critical { color: var(--critical); background: var(--critical-soft); border-color: color-mix(in oklab, var(--critical) 38%, transparent); }
+.pd-lab-flag--accent   { color: var(--accent);   background: var(--accent-soft);   border-color: color-mix(in oklab, var(--accent)   38%, transparent); }
+.pd-lab-table__more {
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  font-style: italic;
+  text-align: center;
+}
 .pd-drawer-bd { position: fixed; inset: 0; z-index: 50; background: rgba(5, 7, 12, 0.55); backdrop-filter: blur(2px); }
 .pd-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 51; width: min(560px, 92vw); background: var(--bg-elevated); border-left: 1px solid var(--border); display: flex; flex-direction: column; box-shadow: -16px 0 40px rgba(0, 0, 0, 0.4); }
 .pd-drawer__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 22px 26px 16px; border-bottom: 1px solid var(--border); }

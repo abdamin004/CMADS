@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  AlertTriangle, ArrowLeft, ArrowRight, Calendar, Check, Cpu,
-  Eye, ListChecks, Loader2, Play, RotateCw, Stethoscope, X,
+  Activity, AlertTriangle, ArrowLeft, ArrowRight, Calendar, Check, Cpu,
+  Eye, FlaskConical, HeartPulse, ListChecks, Loader2, Pill, Play,
+  RotateCw, Stethoscope, TrendingUp, X,
 } from "lucide-react";
 import {
   getPatientCase, getRunTimeline, setRunAgreement,
@@ -438,10 +439,90 @@ function ConfidenceSpark({ points }: { points: number[] }) {
 }
 
 /* ─── Chart at a glance sidebar ──────────────────────────────────── */
+/* Vital reference ranges → status tone. Conservative bands; only flag
+ * values that warrant attention. */
+type VitalTone = "ok" | "warn" | "critical";
+function vitalTone(name: "BP" | "HR" | "SpO2" | "Temp", value: string | null): VitalTone {
+  if (!value) return "ok";
+  switch (name) {
+    case "BP": {
+      const m = /^(\d{2,3})\/(\d{2,3})/.exec(value);
+      if (!m) return "ok";
+      const sys = +m[1], dia = +m[2];
+      if (sys >= 180 || dia >= 120 || sys < 90 || dia < 60) return "critical";
+      if (sys >= 140 || dia >= 90) return "warn";
+      return "ok";
+    }
+    case "HR":   { const n = parseFloat(value); return (n >= 130 || n <= 40) ? "critical" : (n >= 100 || n <= 55) ? "warn" : "ok"; }
+    case "SpO2": { const n = parseFloat(value); return n < 90 ? "critical" : n < 95 ? "warn" : "ok"; }
+    case "Temp": { const n = parseFloat(value); return (n >= 39.5 || n < 35) ? "critical" : (n >= 38 || n < 36) ? "warn" : "ok"; }
+  }
+}
+
+function SnapshotTile({
+  Icon, label, value, tone,
+}: {
+  Icon: typeof Activity;
+  label: string;
+  value: number | string;
+  tone?: VitalTone;
+}) {
+  return (
+    <div className={`pd-snap pd-snap--${tone ?? "ok"}`}>
+      <Icon size={13} strokeWidth={1.8} className="pd-snap__icon" />
+      <div className="pd-snap__body">
+        <div className="pd-snap__value">{value}</div>
+        <div className="pd-snap__label mono">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+function VitalTile({
+  Icon, label, value, tone,
+}: {
+  Icon:  typeof Activity;
+  label: string;
+  value: string | null;
+  tone:  VitalTone;
+}) {
+  return (
+    <div className={`pd-vital pd-vital--${tone}`}>
+      <div className="pd-vital__head">
+        <Icon size={12} strokeWidth={1.8} className="pd-vital__icon" />
+        <span className="pd-vital__label mono">{label}</span>
+      </div>
+      <div className="pd-vital__value mono">{value ?? "—"}</div>
+    </div>
+  );
+}
+
+function ChartSection({
+  Icon, title, count, children,
+}: {
+  Icon:    typeof Activity;
+  title:   string;
+  count?:  number | null;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="pd-section">
+      <header className="pd-section__bar">
+        <Icon size={12} strokeWidth={1.8} className="pd-section__icon" />
+        <span className="pd-section__title">{title}</span>
+        {count != null && count > 0 && (
+          <span className="pd-section__count mono">{count}</span>
+        )}
+      </header>
+      {children}
+    </section>
+  );
+}
+
 function ChartSidebar({ chart }: { chart: CaseBundle | null }) {
   if (!chart) {
     return (
-      <aside className="pd-panel">
+      <aside className="pd-panel pd-panel--chart">
         <header className="pd-panel__head">
           <h3 className="pd-panel__title">Chart at a glance</h3>
         </header>
@@ -452,90 +533,148 @@ function ChartSidebar({ chart }: { chart: CaseBundle | null }) {
       </aside>
     );
   }
+
   const ehr = (chart.ehrCase ?? {}) as Record<string, any>;
   const lab = (chart.labCase ?? {}) as Record<string, any>;
-  const conditions   = ((ehr.conditions  ?? {}).active  ?? []) as Array<Record<string, any>>;
-  const medications  = ((ehr.medications ?? {}).active  ?? []) as Array<Record<string, any>>;
-  const vitalsBlock  = (lab.recent_vitals ?? {}) as Record<string, any>;
-  const labs         = (lab.latest_labs ?? []) as Array<Record<string, any>>;
+  const conditions:  Array<Record<string, any>> = (ehr.conditions  ?? {}).active  ?? [];
+  const medications: Array<Record<string, any>> = (ehr.medications ?? {}).active ?? [];
+  const vitalsBlock = (lab.recent_vitals ?? {}) as Record<string, any>;
+  const labs:        Array<Record<string, any>> = lab.latest_labs ?? [];
+
   const bp = vitalsBlock.bp ??
     (vitalsBlock.bp_systolic && vitalsBlock.bp_diastolic
       ? `${vitalsBlock.bp_systolic}/${vitalsBlock.bp_diastolic}` : null);
-  const hr   = vitalsBlock.hr ?? vitalsBlock.heart_rate ?? null;
-  const spo2 = vitalsBlock.spo2 ?? vitalsBlock.oxygen_sat ?? null;
+  const hr   = vitalsBlock.hr   ?? vitalsBlock.heart_rate  ?? null;
+  const spo2 = vitalsBlock.spo2 ?? vitalsBlock.oxygen_sat  ?? null;
   const temp = vitalsBlock.temp_c ?? vitalsBlock.temperature_c ?? null;
+  const vitals = [
+    { name: "BP"   as const, label: "BP",   Icon: HeartPulse,
+      value: bp,
+      tone:  vitalTone("BP",   bp) },
+    { name: "HR"   as const, label: "HR",   Icon: Activity,
+      value: hr   != null ? `${hr}`   : null,
+      tone:  vitalTone("HR",   hr   != null ? `${hr}`   : null) },
+    { name: "SpO2" as const, label: "SpO₂", Icon: TrendingUp,
+      value: spo2 != null ? `${spo2}%` : null,
+      tone:  vitalTone("SpO2", spo2 != null ? `${spo2}` : null) },
+    { name: "Temp" as const, label: "Temp", Icon: AlertTriangle,
+      value: temp != null ? `${temp}°C` : null,
+      tone:  vitalTone("Temp", temp != null ? `${temp}` : null) },
+  ];
+  const hasVitals    = vitals.some((v) => v.value);
+  const abnormalLabs = labs.filter((l) =>
+    /^(h|l|high|low|critical)/i.test(String(l.flag ?? ""))
+  ).length;
+
   return (
-    <aside className="pd-panel">
+    <aside className="pd-panel pd-panel--chart">
       <header className="pd-panel__head">
         <h3 className="pd-panel__title">Chart at a glance</h3>
         {chart.patient?.cutoffDate && (
           <div className="pd-panel__sub mono">cutoff {chart.patient.cutoffDate}</div>
         )}
       </header>
+
+      {(conditions.length || medications.length || abnormalLabs) > 0 && (
+        <div className="pd-snapshot">
+          <SnapshotTile Icon={Activity}      label="Active"        value={conditions.length} />
+          <SnapshotTile Icon={Pill}          label="On chart"      value={medications.length} />
+          <SnapshotTile Icon={AlertTriangle} label="Abnormal labs"
+                       value={abnormalLabs}
+                       tone={abnormalLabs > 0 ? "warn" : "ok"} />
+        </div>
+      )}
+
+      {hasVitals && (
+        <ChartSection Icon={HeartPulse} title="Vitals · most recent">
+          <div className="pd-vitals">
+            {vitals.map((v) => (
+              <VitalTile
+                key={v.name}
+                Icon={v.Icon}
+                label={v.label}
+                value={v.value ?? null}
+                tone={v.tone}
+              />
+            ))}
+          </div>
+        </ChartSection>
+      )}
+
       {conditions.length > 0 && (
-        <section className="pd-section">
-          <h4 className="pd-section__head mono">Active conditions</h4>
-          <ul className="pd-chart-list">
+        <ChartSection Icon={Activity} title="Active problems" count={conditions.length}>
+          <ul className="pd-cond-list">
             {conditions.slice(0, 8).map((c, i) => (
-              <li key={i}>{c.condition || c.name || "Condition"}</li>
+              <li key={i} className="pd-cond">
+                <span className="pd-cond__name">
+                  {c.condition || c.name || "Condition"}
+                </span>
+                {c.start_date && (
+                  <span className="pd-cond__onset mono">since {c.start_date}</span>
+                )}
+              </li>
             ))}
             {conditions.length > 8 && (
-              <li className="pd-chart-list__more mono">+{conditions.length - 8} more</li>
+              <li className="pd-cond pd-cond--more mono">+{conditions.length - 8} more</li>
             )}
           </ul>
-        </section>
+        </ChartSection>
       )}
+
       {medications.length > 0 && (
-        <section className="pd-section">
-          <h4 className="pd-section__head mono">Active medications</h4>
-          <ul className="pd-chart-list">
+        <ChartSection Icon={Pill} title="Active medications" count={medications.length}>
+          <ul className="pd-med-list">
             {medications.slice(0, 8).map((m, i) => (
-              <li key={i}>{m.medication || m.name || "Medication"}</li>
+              <li key={i} className="pd-med">
+                <span className="pd-med__name">
+                  {m.medication || m.name || "Medication"}
+                </span>
+                {(m.dose || m.dosage) && (
+                  <span className="pd-med__dose mono">{m.dose || m.dosage}</span>
+                )}
+              </li>
             ))}
             {medications.length > 8 && (
-              <li className="pd-chart-list__more mono">+{medications.length - 8} more</li>
+              <li className="pd-med pd-med--more mono">+{medications.length - 8} more</li>
             )}
           </ul>
-        </section>
+        </ChartSection>
       )}
-      {(bp || hr || spo2 || temp) && (
-        <section className="pd-section">
-          <h4 className="pd-section__head mono">Vitals · most recent</h4>
-          <div className="pd-vitals">
-            <Vital label="BP"   value={bp} />
-            <Vital label="HR"   value={hr != null ? `${hr}` : null} />
-            <Vital label="SpO₂" value={spo2 != null ? `${spo2}%` : null} />
-            <Vital label="Temp" value={temp != null ? `${temp}°C` : null} />
-          </div>
-        </section>
-      )}
+
       {labs.length > 0 && (
-        <section className="pd-section">
-          <h4 className="pd-section__head mono">Labs · latest panel</h4>
-          <div className="pd-labs">
-            {labs.slice(0, 6).map((l, i) => (
-              <div className="pd-lab" key={i}>
-                <span className="pd-lab__name">{l.lab_name || l.test_name || "—"}</span>
-                <span className="pd-lab__value mono">
-                  {l.value ?? ""} {l.units ?? l.unit ?? ""}
-                </span>
-                <span className={`pd-lab__flag pd-lab__flag--${(l.flag ?? "").toLowerCase()}`}>
-                  {l.flag || ""}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
+        <ChartSection Icon={FlaskConical} title="Labs · latest panel" count={labs.length}>
+          <table className="pd-lab-table">
+            <tbody>
+              {labs.slice(0, 8).map((l, i) => {
+                const flag = String(l.flag ?? "").toLowerCase();
+                const flagTone = /^(h|high|critical_high)$/.test(flag) ? "critical"
+                              : /^(l|low|critical_low)$/.test(flag)    ? "accent"
+                              : null;
+                return (
+                  <tr key={i} className={flagTone ? `is-${flagTone}` : ""}>
+                    <td className="pd-lab-table__name">
+                      {l.lab_name || l.test_name || "—"}
+                    </td>
+                    <td className="pd-lab-table__value mono">
+                      {l.value ?? ""} <span className="pd-lab-table__unit">{l.units ?? l.unit ?? ""}</span>
+                    </td>
+                    <td className="pd-lab-table__flag">
+                      {flagTone && (
+                        <span className={`pd-lab-flag pd-lab-flag--${flagTone}`}>
+                          {flagTone === "critical" ? "H" : "L"}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {labs.length > 8 && (
+            <div className="pd-lab-table__more mono">+{labs.length - 8} more</div>
+          )}
+        </ChartSection>
       )}
     </aside>
-  );
-}
-
-function Vital({ label, value }: { label: string; value: string | null }) {
-  return (
-    <div className="pd-vital">
-      <div className="pd-vital__label mono">{label}</div>
-      <div className="pd-vital__value mono">{value ?? "—"}</div>
-    </div>
   );
 }
