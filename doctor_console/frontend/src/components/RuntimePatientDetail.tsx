@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Activity, AlertTriangle, ArrowLeft, ArrowRight, Calendar, Check, Cpu,
+  Activity, AlertTriangle, ArrowLeft, ArrowRight, Check, Cpu,
   Eye, FlaskConical, HeartPulse, ListChecks, Loader2, Pill, Play,
   RotateCw, Stethoscope, TrendingUp, X,
 } from "lucide-react";
@@ -137,12 +137,6 @@ export function RuntimePatientDetail({
           </div>
         </div>
         <div className="pd-hero__chips">
-          {chart?.patient?.cutoffDate && (
-            <span className="pd-chip">
-              <Calendar size={11} strokeWidth={1.8} /> Chart cutoff{" "}
-              <strong>{chart.patient.cutoffDate}</strong>
-            </span>
-          )}
           {chart && (
             <span className="pd-chip">
               <ListChecks size={11} strokeWidth={1.8} />{" "}
