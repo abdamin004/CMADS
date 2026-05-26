@@ -82,6 +82,12 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     setPatientParam("");
     setPhase("past-runs");
   }
+  // When the doctor lands on the result view via Inspect-from-detail
+  // (vs. via the live-run completion path), pressing the result view's
+  // "Run another patient" CTA should NOT drop them back at the hero —
+  // it should put them back on the patient-detail page they came from.
+  // returnPhase remembers that intent; reset() honors it.
+  const [returnPhase, setReturnPhase] = useState<Phase>("idle");
   useEffect(() => {
     getModelPresets().then((list) => {
       const usable = list.filter((p) => p.available !== false);
@@ -89,19 +95,26 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
     }).catch(() => { /* hero still works; Past Runs falls back gracefully */ });
   }, []);
 
-  // Reset to the hero.
+  // Reset / Back from the result view. Defaults to the hero ("idle"),
+  // but Inspect-from-patient-detail flips returnPhase so we go back to
+  // that page instead — the doctor can keep browsing the patient's
+  // history without losing context.
   const reset = useCallback(() => {
-    setPhase("idle");
+    const next = returnPhase;
+    setPhase(next);
     setTask(null);
     setResult(undefined);
     setCaseBundle(undefined);
     setActiveAgentId("ehr_analyst");
     setError(null);
     setRuntimeTask(null);
-    // Also clear any pending view-intent — Back from a past-run view should
-    // land at the hero, not re-load the same result on the next mount.
     setViewIntent(null);
-  }, []);
+    // Returning to idle clears the patient param so the next hero entry
+    // starts clean. Returning to patient-detail leaves it in place.
+    if (next === "idle") setPatientParam("");
+    // One-shot — the next reset goes back to the hero unless overridden.
+    setReturnPhase("idle");
+  }, [returnPhase, setPatientParam]);
 
   // Kick off a run.
   const handleRun = useCallback(async (
@@ -275,8 +288,15 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   // the live mas_results_runtime/<uuid> bundle, or — when archiveId is
   // set — the snapshot under <uuid>/_history/<archiveId>/ that was
   // captured before a previous re-run overwrote the live files. Same
-  // result-view shape either way.
-  const viewPast = useCallback(async (uuid: string, archiveId?: string) => {
+  // result-view shape either way. `returnTo` decides where reset()
+  // lands the user when they press Back from the result view; default
+  // is the hero, but Inspect-from-detail passes "patient-detail".
+  const viewPast = useCallback(async (
+    uuid: string,
+    archiveId?: string,
+    returnTo: Phase = "idle",
+  ) => {
+    setReturnPhase(returnTo);
     setError(null);
     setResult(undefined);
     setCaseBundle(undefined);
@@ -367,7 +387,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
             patientUuid={detailPatientUuid}
             onBack={closePatient}
             onInspectRead={(uuid, archiveId) =>
-              viewPast(uuid, archiveId ?? undefined)
+              viewPast(uuid, archiveId ?? undefined, "patient-detail")
             }
             onRun={handleRun}
             defaultPreset={defaultPreset}
