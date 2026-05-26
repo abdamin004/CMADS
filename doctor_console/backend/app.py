@@ -1583,12 +1583,15 @@ def create_app() -> FastAPI:
         from datetime import datetime, timezone
 
         def _lightweight_meta(uuid: str) -> dict[str, Any]:
-            """Read demographics + ground-truth disease from the patient's
-            Gold case files. Best-effort: a missing or malformed file just
-            returns Nones so the row still renders with the UUID."""
+            """Read demographics + ground-truth disease + chart-summary
+            atoms (cutoff date, number of active conditions) from the
+            patient's Gold case files. Best-effort: a missing or malformed
+            file just leaves the field as None so the row still renders
+            with the UUID."""
             ehr_path = PATIENT_CASES / uuid / "ehr_case.json"
             gt_path  = PATIENT_CASES / uuid / "ground_truth.json"
-            age      = gender = race = disease = None
+            age = gender = race = disease = cutoff = None
+            conditions_count = 0
             if ehr_path.exists():
                 try:
                     ehr = _json.loads(ehr_path.read_text())
@@ -1596,6 +1599,11 @@ def create_app() -> FastAPI:
                     age    = demo.get("age")
                     gender = demo.get("gender") or demo.get("sex")
                     race   = demo.get("race")
+                    cutoff = ehr.get("cutoff_date")
+                    cond_block = ehr.get("conditions") or {}
+                    active = cond_block.get("active") if isinstance(cond_block, dict) else None
+                    if isinstance(active, list):
+                        conditions_count = len(active)
                 except Exception:
                     pass
             if gt_path.exists():
@@ -1604,7 +1612,23 @@ def create_app() -> FastAPI:
                     disease = (gt.get("target_condition") or {}).get("name")
                 except Exception:
                     pass
-            return {"age": age, "gender": gender, "race": race, "ground_truth_disease": disease}
+            return {
+                "age": age, "gender": gender, "race": race,
+                "ground_truth_disease": disease,
+                "cutoff_date":          cutoff,
+                "conditions_count":     conditions_count,
+            }
+
+        def _run_count_for(patient_dir: Path) -> int:
+            """Live read + every archive under _history/."""
+            if not patient_dir.is_dir():
+                return 0
+            live = 1 if any(p.is_file() for p in patient_dir.iterdir()) else 0
+            history_root = patient_dir / "_history"
+            archives = 0
+            if history_root.exists():
+                archives = sum(1 for p in history_root.iterdir() if p.is_dir())
+            return live + archives
 
         # 1) Past runs — every UUID with a saved run in mas_results_runtime.
         #    Sorted newest-first by directory mtime so the most recent live
@@ -1675,6 +1699,7 @@ def create_app() -> FastAPI:
                     "confidence":           confidence,
                     "duration_s":           duration_s,
                     "ran_at":               ran_at,
+                    "run_count":            _run_count_for(d),
                     **_lightweight_meta(uuid),
                 })
 

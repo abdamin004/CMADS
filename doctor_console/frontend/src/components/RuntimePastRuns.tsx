@@ -1,65 +1,49 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ChevronDown, ChevronRight, FileText, Play, Search } from "lucide-react";
+import {
+  AlertTriangle, ArrowRight, Check, Clock, Search, X,
+} from "lucide-react";
 import { getRuntimePastRuns } from "../api";
-import { relativeBackend } from "../lib/datetime";
-import { PatientPreviewDrawer } from "./PatientPreviewDrawer";
+import { parseBackendDate, relativeBackend } from "../lib/datetime";
+import { confClass, demoLine, initials, shortId } from "../lib/clinical";
 import type {
   ModelPreset, RuntimePastRun, RuntimePastRunsResponse,
-  RuntimePatientSuggestion,
 } from "../types";
 
+/* ────────────────────────────────────────────────────────────────────────
+   Past Patients dashboard.
+   The clinician's landing surface for the runtime ribbon's "Past runs"
+   link. Lists every patient they have already read through the
+   multi-agent system as a clickable card; clicking a card opens the
+   per-patient detail page (see RuntimePatientDetail).
+   ──────────────────────────────────────────────────────────────────── */
+
 interface Props {
-  /** Open a saved result of a previous runtime run in place. When
-   *  archiveId is set, the parent loads that specific snapshot from
-   *  <uuid>/_history/<archiveId>/ rather than the latest top-level
-   *  read. The patient-history page calls this with archiveId; the
-   *  past-runs surface itself does not (the card click opens the
-   *  detail page instead). */
-  onView:        (patientUuid: string, archiveId?: string) => void;
-  /** Navigate to the per-patient detail page (timeline of all reads). */
-  onOpenPatient: (patientUuid: string) => void;
-  /** Fires a new pipeline run against the given UUID with the parent's
-   *  current default preset. */
-  onRun:    (patientUuid: string, preset: ModelPreset, topK: number) => void;
-  /** Back to the hero (clean slate). */
-  onBack:   () => void;
-  /** Default preset to use when the user clicks Run on a suggestion. */
+  onOpenPatient: (uuid: string) => void;
+  onRun:         (uuid: string, preset: ModelPreset, topK: number) => void;
+  onBack:        () => void;
   defaultPreset?: ModelPreset;
   defaultTopK?:   number;
 }
 
-// Local-clock-correct relative time. The shared parser appends Z to
-// naïve backend ISO strings before parsing so the math doesn't drift
-// by the user's UTC offset. Local-TZ absolute display goes through
-// formatBackendDate from the same module when needed.
-const relative = relativeBackend;
+type FilterKey = "all" | "recent" | "flagged" | "disagreement";
 
-function demoLine(p: { age: number | null; gender: string | null; race: string | null }): string {
-  const parts: string[] = [];
-  if (p.age != null) parts.push(`${p.age}${p.gender ?? ""}`);
-  else if (p.gender) parts.push(p.gender);
-  if (p.race)        parts.push(p.race);
-  return parts.join(" · ") || "demographics not on file";
-}
+const FILTER_LABELS: Record<FilterKey, string> = {
+  all:          "All",
+  recent:       "Last 4 days",
+  flagged:      "Flagged",
+  disagreement: "You disagreed",
+};
 
-export function RuntimePastRuns({ onView, onOpenPatient, onRun, onBack, defaultPreset, defaultTopK = 3 }: Props) {
-  // `onView` is still used downstream by the patient-history page; the
-  // past-runs list itself only uses `onOpenPatient` for reviewed rows.
-  void onView;
-  const [data, setData]     = useState<RuntimePastRunsResponse | null>(null);
-  const [error, setError]   = useState<string | null>(null);
-  const [busy, setBusy]     = useState<string | null>(null);
-  const [query, setQuery]   = useState("");
-  // Per-row "show known diagnosis" toggles — used only on the
-  // suggestion (not-yet-read) rows below. Reviewed rows route to the
-  // patient-history page instead.
-  const [revealed, setRevealed] = useState<Record<string, boolean>>({});
-  function toggleRevealed(uuid: string) {
-    setRevealed((m) => ({ ...m, [uuid]: !m[uuid] }));
-  }
-  // Patient-preview drawer state — null means closed; a uuid opens it.
-  const [previewUuid, setPreviewUuid] = useState<string | null>(null);
+export function RuntimePastRuns({
+  onOpenPatient, onRun, onBack, defaultPreset, defaultTopK = 3,
+}: Props) {
+  void onBack; void onRun; void defaultPreset; void defaultTopK;
+  const [data,   setData]   = useState<RuntimePastRunsResponse | null>(null);
+  const [error,  setError]  = useState<string | null>(null);
+  const [query,  setQuery]  = useState("");
+  const [filter, setFilter] = useState<FilterKey>("all");
+  const [sort,   setSort]   = useState<"recent" | "runs" | "confidence">("recent");
 
   useEffect(() => {
     let cancelled = false;
@@ -69,214 +53,252 @@ export function RuntimePastRuns({ onView, onOpenPatient, onRun, onBack, defaultP
     return () => { cancelled = true; };
   }, []);
 
-  const q = query.trim().toLowerCase();
-  const runs = useMemo<RuntimePastRun[]>(() => {
-    if (!data) return [];
-    if (!q)    return data.runs;
-    return data.runs.filter((r) =>
-      r.patient_uuid.toLowerCase().includes(q)
-      || (r.top_dx ?? "").toLowerCase().includes(q)
-      || (r.ground_truth_disease ?? "").toLowerCase().includes(q));
-  }, [data, q]);
-  const suggestions = useMemo<RuntimePatientSuggestion[]>(() => {
-    if (!data) return [];
-    if (!q)    return data.suggestions;
-    return data.suggestions.filter((p) =>
-      p.patient_uuid.toLowerCase().includes(q)
-      || (p.ground_truth_disease ?? "").toLowerCase().includes(q));
-  }, [data, q]);
+  const patients = data?.runs ?? [];
 
-  function fireRun(uuid: string) {
-    if (!defaultPreset) {
-      setError("Pick a model preset on the hero first, then come back to Run.");
-      return;
-    }
-    setBusy(uuid);
-    onRun(uuid, defaultPreset, defaultTopK);
-  }
+  /* ── Live filter + sort over the loaded list ──────────────────────── */
+  const q = query.trim().toLowerCase();
+  const filtered: RuntimePastRun[] = useMemo(() => {
+    const rows = patients.filter((p) => {
+      if (filter === "flagged"      && !p.flagged)                  return false;
+      if (filter === "disagreement" && p.agreement !== "disagree")  return false;
+      if (filter === "recent") {
+        const d = parseBackendDate(p.ran_at);
+        if (!d) return false;
+        const days = (Date.now() - d.getTime()) / 86400000;
+        if (days > 4) return false;
+      }
+      if (!q) return true;
+      const hay = [
+        p.patient_uuid,
+        p.top_dx ?? "",
+        p.ground_truth_disease ?? "",
+        p.race ?? "",
+        p.gender ?? "",
+        String(p.age ?? ""),
+      ].join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+    const cmp: Record<typeof sort, (a: RuntimePastRun, b: RuntimePastRun) => number> = {
+      recent: (a, b) =>
+        (parseBackendDate(b.ran_at)?.getTime() ?? 0) -
+        (parseBackendDate(a.ran_at)?.getTime() ?? 0),
+      runs:        (a, b) => (b.run_count   ?? 0) - (a.run_count   ?? 0),
+      confidence:  (a, b) => (b.confidence  ?? 0) - (a.confidence  ?? 0),
+    };
+    return [...rows].sort(cmp[sort]);
+  }, [patients, filter, q, sort]);
+
+  /* ── Live counts for filter pills + stat strip ────────────────────── */
+  const counts = useMemo(() => ({
+    all:          patients.length,
+    recent:       patients.filter((p) => {
+      const d = parseBackendDate(p.ran_at);
+      if (!d) return false;
+      return (Date.now() - d.getTime()) / 86400000 <= 4;
+    }).length,
+    flagged:      patients.filter((p) => p.flagged).length,
+    disagreement: patients.filter((p) => p.agreement === "disagree").length,
+  }), [patients]);
+
+  const stats = useMemo(() => ({
+    patients:  patients.length,
+    totalRuns: patients.reduce((a, p) => a + (p.run_count ?? 1), 0),
+    agreed:    patients.filter((p) => p.agreement === "agree").length,
+    flagged:   patients.filter((p) => p.flagged).length,
+  }), [patients]);
 
   return (
     <motion.div
-      className="rt-past"
+      className="pp-shell"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
     >
-      <header className="rt-past__header">
-        <div>
-          <button type="button" onClick={onBack} className="rt-past__back">
-            <ArrowLeft size={13} strokeWidth={1.8} />
-            Back to hero
-          </button>
-          <h2 className="rt-past__title">Your patients</h2>
-          <p className="rt-past__sub">
-            Patients you have reviewed before stay here so you can re-open a
-            read or run the pipeline again. The list below the runs has new
-            patients waiting for a first review.
+      {/* Page head ─────────────────────────────────────────────────── */}
+      <header className="pp-head">
+        <div className="pp-head__col">
+          <p className="pp-eyebrow mono">Doctor console · review</p>
+          <h1 className="pp-title">
+            Your <em>past patients</em>
+          </h1>
+          <p className="pp-sub">
+            Patients you have read through the multi-agent system. Click any
+            row to see every prior run on that chart, inspect a specific read,
+            or kick off a new one against the current model.
           </p>
         </div>
-        <div className="rt-past__search">
-          <Search size={12} strokeWidth={1.8} className="rt-past__search-icon" />
-          <input
-            type="text"
-            placeholder="Search patient or diagnosis…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="rt-past__search-input"
-          />
+        <div className="pp-strip" aria-label="Cohort summary">
+          <StripCell label="Patients"    value={stats.patients} />
+          <StripCell label="Total runs"  value={stats.totalRuns} />
+          <StripCell label="You agreed"  value={stats.agreed}  tone="success" />
+          <StripCell label="Flagged"     value={stats.flagged} tone="warning" />
         </div>
       </header>
 
-      {error && (
-        <div className="rt-past__error" role="alert">{error}</div>
+      {/* Toolbar ───────────────────────────────────────────────────── */}
+      <div className="pp-toolbar">
+        <div className="pp-search">
+          <Search size={14} strokeWidth={1.8} className="pp-search__icon" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search by patient ID, diagnosis, age…"
+            className="pp-search__input"
+          />
+        </div>
+        <div className="pp-pills" role="tablist">
+          {(["all","recent","flagged","disagreement"] as FilterKey[]).map((id) => {
+            const active = filter === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => setFilter(id)}
+                className={`pp-pill${active ? " is-active" : ""}`}
+              >
+                {FILTER_LABELS[id]}
+                <span className="pp-pill__count mono">{counts[id]}</span>
+              </button>
+            );
+          })}
+        </div>
+        <label className="pp-sort">
+          Sort
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as typeof sort)}
+            className="pp-sort__select"
+          >
+            <option value="recent">Most recent</option>
+            <option value="runs">Most runs</option>
+            <option value="confidence">Highest confidence</option>
+          </select>
+        </label>
+      </div>
+
+      {/* Patient list ──────────────────────────────────────────────── */}
+      {error && <div className="pp-error" role="alert">{error}</div>}
+
+      {!data ? (
+        <div className="pp-empty">Loading…</div>
+      ) : filtered.length === 0 ? (
+        <div className="pp-empty">
+          No patients match that filter. Try clearing the search or switching
+          back to <strong>All</strong>.
+        </div>
+      ) : (
+        <ul className="pp-list">
+          {filtered.map((p) => (
+            <li key={p.patient_uuid}>
+              <PatientCard p={p} onClick={() => onOpenPatient(p.patient_uuid)} />
+            </li>
+          ))}
+        </ul>
       )}
-
-      <section className="rt-past__section">
-        <header className="rt-past__section-head">
-          <div className="rt-past__eyebrow mono">Reviewed</div>
-          <h3 className="rt-past__section-title">Patients you have read</h3>
-        </header>
-        {!data ? (
-          <div className="rt-past__empty">Loading…</div>
-        ) : runs.length === 0 ? (
-          <div className="rt-past__empty">
-            {q ? "No past reads match that search." :
-              "You haven't reviewed any patients yet. Start one from the hero or pick a new patient below."}
-          </div>
-        ) : (
-          <ul className="rt-past__list">
-            {runs.map((r) => (
-              <li key={r.patient_uuid}>
-                <button
-                  type="button"
-                  className="rt-past__card rt-past__card--clickable"
-                  onClick={() => onOpenPatient(r.patient_uuid)}
-                  title="Open this patient's read history"
-                >
-                  <div className="rt-past__card-main">
-                    <div className="rt-past__patient">
-                      <span className="rt-past__patient-name">{demoLine(r)}</span>
-                      <span className="rt-past__patient-id mono" title={r.patient_uuid}>
-                        {r.patient_uuid.slice(0, 8)}…
-                      </span>
-                    </div>
-                    {r.top_dx ? (
-                      <div className="rt-past__dx">
-                        <span className="rt-past__dx-label">Latest diagnosis</span>
-                        <span className="rt-past__dx-name">{r.top_dx}</span>
-                        {r.confidence != null && (
-                          <span className="rt-past__dx-conf">
-                            {Math.round(r.confidence)}%
-                          </span>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="rt-past__dx rt-past__dx--empty">
-                        No diagnosis recorded on the last read.
-                      </div>
-                    )}
-                    <div className="rt-past__footline">
-                      <span>Last read {relative(r.ran_at)}</span>
-                      {r.duration_s != null && (
-                        <>
-                          <span className="rt-past__footline-sep">·</span>
-                          <span>took {Math.round(r.duration_s)}s</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <span className="rt-past__card-go" aria-hidden="true">
-                    <ChevronRight size={16} strokeWidth={1.8} />
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      <section className="rt-past__section">
-        <header className="rt-past__section-head">
-          <div className="rt-past__eyebrow mono">New</div>
-          <h3 className="rt-past__section-title">Patients waiting for a first read</h3>
-        </header>
-        {!data ? (
-          <div className="rt-past__empty">Loading…</div>
-        ) : suggestions.length === 0 ? (
-          <div className="rt-past__empty">
-            {q ? "No new patients match that search."
-               : "No new patients to review right now."}
-          </div>
-        ) : (
-          <ul className="rt-past__list">
-            {suggestions.map((p) => {
-              const showKnown = !!revealed[p.patient_uuid];
-              return (
-              <li key={p.patient_uuid} className="rt-past__card">
-                <div className="rt-past__card-main">
-                  <div className="rt-past__patient">
-                    <span className="rt-past__patient-name">{demoLine(p)}</span>
-                    <span className="rt-past__patient-id mono" title={p.patient_uuid}>
-                      {p.patient_uuid.slice(0, 8)}…
-                    </span>
-                  </div>
-                  <div className="rt-past__footline">
-                    <span>Not read yet</span>
-                    {p.ground_truth_disease && (
-                      <>
-                        <span className="rt-past__footline-sep">·</span>
-                        <button
-                          type="button"
-                          onClick={() => toggleRevealed(p.patient_uuid)}
-                          className="rt-past__reveal"
-                          aria-expanded={showKnown}
-                        >
-                          {showKnown ? "Hide known diagnosis" : "Show known diagnosis"}
-                          <ChevronDown size={10} strokeWidth={2}
-                                       className={showKnown ? "rt-past__reveal-chev is-open" : "rt-past__reveal-chev"} />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                  {showKnown && p.ground_truth_disease && (
-                    <div className="rt-past__known">
-                      <span className="rt-past__known-label">Known diagnosis</span>
-                      <span className="rt-past__known-name">{p.ground_truth_disease}</span>
-                    </div>
-                  )}
-                </div>
-                <div className="rt-past__card-actions">
-                  <button
-                    type="button"
-                    onClick={() => setPreviewUuid(p.patient_uuid)}
-                    className="rt-past__btn rt-past__btn--ghost"
-                    title="Inspect this patient's chart before running"
-                  >
-                    <FileText size={11} strokeWidth={1.8} />
-                    Preview chart
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => fireRun(p.patient_uuid)}
-                    disabled={busy === p.patient_uuid}
-                    className="rt-past__btn rt-past__btn--primary"
-                    title="Run the pipeline on this patient"
-                  >
-                    <Play size={11} strokeWidth={2} />
-                    Run pipeline
-                  </button>
-                </div>
-              </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
-
-      <PatientPreviewDrawer
-        patientUuid={previewUuid}
-        onClose={() => setPreviewUuid(null)}
-      />
     </motion.div>
+  );
+}
+
+/* ─── Sub-components ─────────────────────────────────────────────── */
+
+function StripCell({ label, value, tone }: {
+  label: string;
+  value: number | string;
+  tone?: "success" | "warning";
+}) {
+  return (
+    <div className="pp-strip__cell">
+      <div className={`pp-strip__value${tone ? ` is-${tone}` : ""}`}>{value}</div>
+      <div className="pp-strip__label mono">{label}</div>
+    </div>
+  );
+}
+
+function PatientCard({ p, onClick }: { p: RuntimePastRun; onClick: () => void }) {
+  const conf = p.confidence != null ? Math.round(p.confidence) : null;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`pp-card${p.flagged ? " is-flagged" : ""}`}
+    >
+      <div className="pp-card__avatar">
+        {initials(p.patient_uuid)}
+        {p.flagged && (
+          <span className="pp-card__avatar-flag" title="Flagged for follow-up">
+            <AlertTriangle size={8} strokeWidth={2.2} />
+          </span>
+        )}
+      </div>
+
+      <div className="pp-card__id">
+        <div className="pp-card__demo">
+          <span>{demoLine(p)}</span>
+          <span className="pp-card__uuid mono">{shortId(p.patient_uuid)}…</span>
+        </div>
+        <div className="pp-card__meta mono">
+          <span>
+            {(p.conditions_count ?? 0)} condition{(p.conditions_count ?? 0) === 1 ? "" : "s"}
+          </span>
+          {p.cutoff_date && (
+            <>
+              <span className="pp-card__meta-dot" />
+              <span>cutoff {p.cutoff_date}</span>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="pp-card__dx">
+        <span className="pp-card__dx-label mono">Last read · top diagnosis</span>
+        {p.top_dx ? (
+          <span className="pp-card__dx-name">
+            {p.top_dx}
+            {conf != null && (
+              <span className={`pp-card__dx-conf mono ${confClass(conf)}`}>
+                {conf}%
+              </span>
+            )}
+          </span>
+        ) : (
+          <span className="pp-card__dx-name pp-card__dx-name--empty">
+            No diagnosis recorded on the last read.
+          </span>
+        )}
+      </div>
+
+      <div className="pp-card__right">
+        <AgreementBadge agreement={p.agreement ?? null} />
+        <div className="pp-card__when">
+          <Clock size={11} strokeWidth={1.8} />
+          <span>Read {relativeBackend(p.ran_at)}</span>
+        </div>
+        <div className="pp-card__runs">
+          <strong>{p.run_count ?? 1}</strong>{" "}
+          {(p.run_count ?? 1) === 1 ? "run" : "runs"} on chart
+        </div>
+        <span className="pp-card__open">
+          Open <ArrowRight size={11} strokeWidth={2} />
+        </span>
+      </div>
+    </button>
+  );
+}
+
+function AgreementBadge({ agreement }: { agreement: RuntimePastRun["agreement"] | null }) {
+  if (!agreement) return null;
+  const { label, Icon: Glyph, tone } = {
+    agree:     { label: "Agreed",    Icon: Check,           tone: "success"  },
+    disagree:  { label: "Disagreed", Icon: X,               tone: "critical" },
+    uncertain: { label: "Uncertain", Icon: AlertTriangle,   tone: "warning"  },
+  }[agreement];
+  return (
+    <span className={`pp-agree pp-agree--${tone}`}>
+      <Glyph size={9} strokeWidth={2.5} />
+      {label}
+    </span>
   );
 }

@@ -6,9 +6,10 @@ import type { ModelPreset, PatientResult, RunTask } from "../types";
 import { ModeSwitcher } from "./ModeSwitcher";
 import { RuntimeHero } from "./RuntimeHero";
 import { RuntimePastRuns } from "./RuntimePastRuns";
-import { RuntimePatientHistory } from "./RuntimePatientHistory";
+import { RuntimePatientDetail } from "./RuntimePatientDetail";
 import { RuntimeResultView } from "./RuntimeResultView";
 import { RuntimeRunningView } from "./RuntimeRunningView";
+import { useUrlState } from "../useUrlState";
 import {
   getRuntimeTask, setRuntimeTask,
   getViewIntent,  setViewIntent,
@@ -21,7 +22,7 @@ type Props = {
   onHome: () => void;
 };
 
-type Phase = "idle" | "past-runs" | "patient-history" | "running" | "completed" | "error" | "cancelled";
+type Phase = "idle" | "past-runs" | "patient-detail" | "running" | "completed" | "error" | "cancelled";
 
 // Persistence of the active task across mode switches / home navigations
 // lives in lib/runtimeHandoff so other surfaces (the Researcher My-test-
@@ -68,9 +69,19 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
   // from the same /api/model-presets endpoint the hero uses; we keep one
   // copy at this level so both surfaces stay in sync.
   const [defaultPreset, setDefaultPreset] = useState<ModelPreset | undefined>(undefined);
-  // Patient whose history page is currently showing. Set by clicking
-  // a reviewed-patient card on the past-runs surface; cleared on Back.
-  const [historyPatientUuid, setHistoryPatientUuid] = useState<string | null>(null);
+  // Patient whose detail page is currently showing. Mirrored into the
+  // URL (`?p=<uuid>`) so the page is deep-linkable; useUrlState handles
+  // browser back/forward.
+  const [patientParam, setPatientParam] = useUrlState("p", "");
+  const detailPatientUuid: string | null = patientParam ? patientParam : null;
+  function openPatient(uuid: string) {
+    setPatientParam(uuid);
+    setPhase("patient-detail");
+  }
+  function closePatient() {
+    setPatientParam("");
+    setPhase("past-runs");
+  }
   useEffect(() => {
     getModelPresets().then((list) => {
       const usable = list.filter((p) => p.available !== false);
@@ -323,7 +334,13 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         <button
           type="button"
           className={`runtime-shell__past-link${phase === "past-runs" ? " is-active" : ""}`}
-          onClick={() => setPhase(phase === "past-runs" ? "idle" : "past-runs")}
+          onClick={() => {
+            // Toggling the ribbon button also clears any per-patient
+            // URL state so the user lands on a clean dashboard, not
+            // straight back into a stale detail page.
+            setPatientParam("");
+            setPhase(phase === "past-runs" ? "idle" : "past-runs");
+          }}
           title="Past runs you have launched + verified patients to try"
         >
           <ClipboardList size={13} strokeWidth={1.8} />
@@ -337,11 +354,7 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
 
         {phase === "past-runs" ? (
           <RuntimePastRuns
-            onView={viewPast}
-            onOpenPatient={(uuid) => {
-              setHistoryPatientUuid(uuid);
-              setPhase("patient-history");
-            }}
+            onOpenPatient={openPatient}
             onRun={handleRun}
             onBack={reset}
             defaultPreset={defaultPreset}
@@ -349,15 +362,11 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
           />
         ) : null}
 
-        {phase === "patient-history" && historyPatientUuid ? (
-          <RuntimePatientHistory
-            patientUuid={historyPatientUuid}
-            onOpenRead={(uuid, archiveId) => viewPast(uuid, archiveId ?? undefined)}
+        {phase === "patient-detail" && detailPatientUuid ? (
+          <RuntimePatientDetail
+            patientUuid={detailPatientUuid}
+            onBack={closePatient}
             onRun={handleRun}
-            onBack={() => {
-              setHistoryPatientUuid(null);
-              setPhase("past-runs");
-            }}
             defaultPreset={defaultPreset}
             defaultTopK={3}
           />

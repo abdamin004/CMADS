@@ -425,6 +425,16 @@ export interface RuntimePastRun {
   gender:               string | null;
   race:                 string | null;
   ground_truth_disease: string | null;
+  /** Chart cutoff (Synthea YYYY-MM-DD). */
+  cutoff_date?:         string | null;
+  /** Active-conditions count on the chart. */
+  conditions_count?:    number | null;
+  /** Total reads on this chart (live + every archived snapshot). */
+  run_count?:           number | null;
+  /** Doctor's agreement with the latest read. Backend follow-up. */
+  agreement?:           "agree" | "disagree" | "uncertain" | null;
+  /** Flagged for follow-up. Backend follow-up. */
+  flagged?:             boolean;
 }
 
 export interface RuntimePatientSuggestion {
@@ -464,6 +474,11 @@ export interface RuntimeRunTimelineRead {
   top_dx:      string | null;
   confidence:  number | null;
   duration_s:  number | null;
+  /** Optional fields populated when the backend exposes them. */
+  match_type?:    "DIRECT" | "INDIRECT" | "MISS" | null;
+  model?:         string | null;
+  triggered_by?:  string | null;
+  note?:          string | null;
 }
 export interface RuntimeRunTimelineResponse {
   patient: {
