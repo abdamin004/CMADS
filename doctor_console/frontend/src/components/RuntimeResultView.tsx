@@ -34,6 +34,11 @@ type Props = {
  * clinical narrative the doctor reads.
  */
 export function RuntimeResultView({ result, onReset, showRawData = false }: Props) {
+  // Researcher-built test patients (UUIDs prefixed `ttest-`) always show
+  // the Raw data tab — these are inspected by the same researcher who
+  // built them, not by a clinician on a real chart. Cohort patients
+  // honour the explicit `showRawData` prop only.
+  const effectiveShowRaw = showRawData || result.patient.uuid.startsWith("ttest-");
   const finalDx = result.finalDiagnosis as Record<string, unknown>;
   const primary = String(finalDx.primary_diagnosis ?? "Pending");
   const differential = Array.isArray(finalDx.differential)
@@ -107,7 +112,7 @@ export function RuntimeResultView({ result, onReset, showRawData = false }: Prop
       hint: "Optional · step-by-step narrative for each part of the system's thinking. Useful if you want to verify how it reached the answer.",
       render: () => <ReasoningPanel result={result} doctorAgents={doctorAgents} />,
     },
-    ...(showRawData
+    ...(effectiveShowRaw
       ? [{
           id: "raw",
           label: "Raw data",
