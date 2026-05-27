@@ -2,6 +2,7 @@ import { AlertTriangle, BookOpen, ChevronRight, FlaskConical, HeartPulse, Info, 
 import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { PatientResult } from "../types";
+import { RawDataPanel } from "./RawDataPanel";
 
 type Props = {
   result: PatientResult;
@@ -171,7 +172,33 @@ export function PatientEvidence({ result }: Props) {
         )}
       </AnimatePresence>
     </section>
+    <RawDataDisclosure result={result} />
     </>
+  );
+}
+
+function RawDataDisclosure({ result }: { result: PatientResult }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <section className="panel raw-disclosure">
+      <button
+        type="button"
+        className={`raw-disclosure__toggle${open ? " is-open" : ""}`}
+        onClick={() => setOpen((s) => !s)}
+        aria-expanded={open}
+      >
+        <ChevronRight
+          size={14}
+          strokeWidth={2}
+          className={`raw-disclosure__chev${open ? " is-open" : ""}`}
+        />
+        <span>{open ? "Hide raw data" : "Show raw data"}</span>
+        <span className="raw-disclosure__hint mono">
+          every persisted JSON artifact for this run
+        </span>
+      </button>
+      {open ? <div className="raw-disclosure__body"><RawDataPanel result={result} /></div> : null}
+    </section>
   );
 }
 

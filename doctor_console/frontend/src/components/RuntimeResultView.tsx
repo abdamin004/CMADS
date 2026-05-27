@@ -11,17 +11,12 @@ import { AgentInspector } from "./AgentInspector";
 import { Disclosure } from "./Disclosure";
 import { PatientDetailTabs, type TabDef } from "./PatientDetailTabs";
 import { PatientEvidence } from "./PatientEvidence";
-import { RawDataPanel } from "./RawDataPanel";
 import { SimilarCases } from "./SimilarCases";
 import { TreatmentReview } from "./TreatmentReview";
 
 type Props = {
   result: PatientResult;
   onReset: () => void;
-  /** Researcher-only: append a "Raw data" tab exposing every persisted
-   *  JSON artifact for this run. Off by default so the doctor view stays
-   *  clean. */
-  showRawData?: boolean;
 };
 
 /**
@@ -33,12 +28,7 @@ type Props = {
  * its verdict still gates the treatment plan but it's not part of the
  * clinical narrative the doctor reads.
  */
-export function RuntimeResultView({ result, onReset, showRawData = false }: Props) {
-  // Researcher-built test patients (UUIDs prefixed `ttest-`) always show
-  // the Raw data tab — these are inspected by the same researcher who
-  // built them, not by a clinician on a real chart. Cohort patients
-  // honour the explicit `showRawData` prop only.
-  const effectiveShowRaw = showRawData || result.patient.uuid.startsWith("ttest-");
+export function RuntimeResultView({ result, onReset }: Props) {
   const finalDx = result.finalDiagnosis as Record<string, unknown>;
   const primary = String(finalDx.primary_diagnosis ?? "Pending");
   const differential = Array.isArray(finalDx.differential)
@@ -112,15 +102,6 @@ export function RuntimeResultView({ result, onReset, showRawData = false }: Prop
       hint: "Optional · step-by-step narrative for each part of the system's thinking. Useful if you want to verify how it reached the answer.",
       render: () => <ReasoningPanel result={result} doctorAgents={doctorAgents} />,
     },
-    ...(effectiveShowRaw
-      ? [{
-          id: "raw",
-          label: "Raw data",
-          badge: "RESEARCHER",
-          hint: "Every persisted JSON artifact for this run — inputs, agent outputs, evaluation, trace, memory.",
-          render: () => <RawDataPanel result={result} />,
-        } as TabDef]
-      : []),
   ];
 
   return (

@@ -349,7 +349,6 @@ export function TesterJourney({ onBack, onRunStarted, chrome = "full", initialVi
                 <RuntimeResultView
                   result={viewingResult}
                   onReset={backToMyTests}
-                  showRawData
                 />
               ) : viewingError ? (
                 <div className="empty-state" role="alert">

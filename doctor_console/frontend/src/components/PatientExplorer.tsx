@@ -11,7 +11,6 @@ import { Disclosure } from "./Disclosure";
 import { PatientBrowser } from "./PatientBrowser";
 import { PatientDetailTabs, type TabDef } from "./PatientDetailTabs";
 import { DataStructureExplainer, PatientEvidence } from "./PatientEvidence";
-import { RawDataPanel } from "./RawDataPanel";
 import { ResultsPanel } from "./ResultsPanel";
 import { RunTimeline } from "./RunTimeline";
 import { SimilarCases } from "./SimilarCases";
@@ -471,16 +470,6 @@ function buildPatientTabs(args: {
   // (Match metadata is now surfaced in the Differential tab via ResultsPanel.)
   void matchedDiagnosis; void primaryDiagnosis; void matchRank; void target; void isClickable;
 
-  const rawTab: TabDef | null = mode === "researcher"
-    ? {
-        id: "raw",
-        label: "Raw data",
-        badge: "RESEARCHER",
-        hint: "Every persisted JSON artifact for this run — inputs, agent outputs, evaluation, trace, memory.",
-        render: () => <RawDataPanel result={result} />,
-      }
-    : null;
-
   return [
     // Tab order matches the doctor console's runtime result view:
     //   Patient data → Differential → Treatment → Similar cases → Reasoning.
@@ -549,7 +538,6 @@ function buildPatientTabs(args: {
           <div className="panel"><p>No agent narrative for this patient yet.</p></div>
         ),
     },
-    ...(rawTab ? [rawTab] : []),
   ];
 }
 
