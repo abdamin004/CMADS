@@ -402,6 +402,46 @@ def run_cohort(cohort_file: str, max_patients: int | None = None,
     return results
 
 
+def _normalize_test_lab_case(labs: dict) -> dict:
+    """Rewrite a test-patient lab bundle to match the cohort lab_case shape.
+
+    The editor stores ``latest_labs`` as ``[{test_name, value, unit}, …]``
+    (singular ``unit``). The cohort Gold layer — and every agent that
+    reads it — uses ``[{lab_name, value, units, date}, …]`` (plural
+    ``units``). Without this normalisation the lab_interpreter prompt
+    drops every test name to "Unknown" with a blank unit, leaving the
+    LLM with bare numbers and free rein to confabulate clinically
+    plausible labels (e.g. a Non-HDL value of 207 becomes "WBC 207
+    ×10⁹/L"). Normalising at the test→pipeline boundary keeps the agent
+    code identical for both surfaces.
+    """
+    out = dict(labs or {})
+    items = out.get("latest_labs") or []
+    norm: list = []
+    for l in items:
+        if not isinstance(l, dict):
+            norm.append(l)
+            continue
+        name = (
+            l.get("lab_name")
+            or l.get("name")
+            or l.get("test_name")
+            or l.get("test")
+            or "Unknown"
+        )
+        units = l.get("units") or l.get("unit") or ""
+        norm.append({
+            "lab_name": name,
+            "value":    l.get("value", l.get("value_latest", "?")),
+            "units":    units,
+            "date":     l.get("date", l.get("latest_date", "")),
+        })
+    out["latest_labs"] = norm
+    out.setdefault("lab_count", len(norm))
+    out.setdefault("vital_count", 0)
+    return out
+
+
 def _build_pipeline_state_from_test_doc(test_doc: dict) -> dict:
     """Assemble a PipelineState-shaped dict from a TestPatient Mongo doc.
 
@@ -428,6 +468,6 @@ def _build_pipeline_state_from_test_doc(test_doc: dict) -> dict:
     }
     return {
         "ehr_case":    ehr_case,
-        "lab_case":    test_doc.get("labs", {}),
+        "lab_case":    _normalize_test_lab_case(test_doc.get("labs", {})),
         "ground_truth": test_doc.get("ground_truth", {}),
     }
