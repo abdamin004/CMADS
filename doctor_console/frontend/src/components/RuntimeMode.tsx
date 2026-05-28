@@ -239,19 +239,15 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         } else if (t.status === "cancelled") {
           // Show the cancelled banner inline in the running view.
           setPhase("running");
-        } else if (t.status === "completed") {
-          try {
-            const detail = await getResult(t.resultSet, t.patientUuid);
-            if (!cancelled) {
-              setResult(detail);
-              setPhase("completed");
-            }
-          } catch { /* fall through to idle */ }
-        } else if (t.status === "error") {
-          if (!cancelled) {
-            setError(t.error || "Pipeline failed");
-            setPhase("error");
-          }
+        } else {
+          // The persisted task is no longer in flight (completed /
+          // error / cancelled). Don't auto-jump the doctor into a stale
+          // result on a fresh open — this is exactly how a finished
+          // Researcher test run was bleeding into the Doctor dashboard.
+          // Clear the handoff so the next open starts clean at the hero;
+          // the run is still reachable from Past runs.
+          setTask(null);
+          setRuntimeTask(null);
         }
       } catch {
         // Task expired on the backend (server restarted, etc.) — wipe.
@@ -466,7 +462,11 @@ export function RuntimeMode({ mode, onModeChange, onHome }: Props) {
         ) : null}
 
         {phase === "completed" && result ? (
-          <RuntimeResultView result={result} onReset={reset} />
+          <RuntimeResultView
+            result={result}
+            onReset={reset}
+            backLabel={returnPhase === "patient-detail" ? "Back to patient runs" : undefined}
+          />
         ) : null}
 
         {phase === "error" ? (

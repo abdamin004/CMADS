@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  AlertCircle, BookOpen, Brain, ChevronDown, ClipboardList,
+  AlertCircle, ArrowLeft, BookOpen, Brain, ChevronDown, ClipboardList,
   FlaskConical, Pill, RotateCw, Stethoscope, Users2,
 } from "lucide-react";
 import type { AgentCard, AgentNarrative, PatientResult } from "../types";
@@ -17,6 +17,12 @@ import { TreatmentReview } from "./TreatmentReview";
 type Props = {
   result: PatientResult;
   onReset: () => void;
+  /** Label + icon for the header's reset/back control. Defaults to the
+   *  live-run wording ("Run another patient" with a refresh icon). When
+   *  this view was opened by *inspecting* a past run, the caller passes
+   *  a back label (e.g. "Back to patient") so the control reads as a
+   *  return-to-where-you-came-from action, not a re-run. */
+  backLabel?: string;
 };
 
 /**
@@ -28,7 +34,7 @@ type Props = {
  * its verdict still gates the treatment plan but it's not part of the
  * clinical narrative the doctor reads.
  */
-export function RuntimeResultView({ result, onReset }: Props) {
+export function RuntimeResultView({ result, onReset, backLabel }: Props) {
   const finalDx = result.finalDiagnosis as Record<string, unknown>;
   const primary = String(finalDx.primary_diagnosis ?? "Pending");
   const differential = Array.isArray(finalDx.differential)
@@ -106,18 +112,19 @@ export function RuntimeResultView({ result, onReset }: Props) {
 
   return (
     <div className="runtime-result">
-      <RuntimeResultHeader patient={result.patient} primary={primary} onReset={onReset} />
+      <RuntimeResultHeader patient={result.patient} primary={primary} onReset={onReset} backLabel={backLabel} />
       <PatientDetailTabs defaultActive="input" tabs={tabs} />
     </div>
   );
 }
 
 function RuntimeResultHeader({
-  patient, primary, onReset,
+  patient, primary, onReset, backLabel,
 }: {
   patient: PatientResult["patient"];
   primary: string;
   onReset: () => void;
+  backLabel?: string;
 }) {
   return (
     <section className="panel runtime-result__head">
@@ -133,8 +140,8 @@ function RuntimeResultHeader({
         <p>Data cutoff: {patient.cutoffDate || "not recorded"}</p>
       </div>
       <button type="button" className="ghost-button" onClick={onReset}>
-        <RotateCw size={14} />
-        Run another patient
+        {backLabel ? <ArrowLeft size={14} /> : <RotateCw size={14} />}
+        {backLabel ?? "Run another patient"}
       </button>
     </section>
   );
